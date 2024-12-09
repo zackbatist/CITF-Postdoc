@@ -2,3 +2,6 @@ baseURL = 'https://zackbatist.info/'
 languageCode = 'en-us'
 title = 'CITF-Postdoc'
 publishDir = "docs"
+[taxonomies]
+category = "categories"
+tag = "tags"
