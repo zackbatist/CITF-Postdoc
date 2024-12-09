@@ -17,6 +17,6 @@ We briefly talked about how we will go about selecting cases, and I emphasized t
 
 We discussed timelines and overlap with Aklil's work, which will be more concerned with focus groups with CITF databank users. There is definitely overlap with the emphasis of my own work and we will coordinate data collection to enhance the potential for analytical alignment.
 
-After the meeting I chatted with Tanya and Aklil who helped familiarize me with the bigger-picture theoretical discourse and tensions in epistemology. Much of it seemed familiar since these concerns are common across disciplines, but I still need to read more to concretize my understanding. Tanya recommended I read the "Baby Rothman" which is a condensed version of a very long-lived textbook in this field, among a few other papers she sent me.
+After the meeting I chatted with Tanya and Aklil who helped familiarize me with the bigger-picture theoretical discourse and tensions in epidemiology. Much of it seemed familiar since these concerns are common across disciplines, but I still need to read more to concretize my understanding. Tanya recommended I read the "Baby Rothman" which is a condensed version of a very long-lived textbook in this field, among a few other papers she sent me.
 
 Overall, this meeting got me really excited about this project :)
