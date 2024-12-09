@@ -1,10 +1,10 @@
 ---
-title: "Team"
-weight: 1
+title: "Context"
+weight: 3
 bookFlatSection: false
 bookTOC: false
 ---
 
-# About
+# Context
 Zack's bio and information about the CITF as institutional host.
 

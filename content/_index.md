@@ -1,6 +1,7 @@
 ---
 title: "Project Overview"
 type: docs
+bookTOC: false
 ---
 
 # Project Overview

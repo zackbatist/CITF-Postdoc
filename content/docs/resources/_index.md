@@ -1,5 +1,5 @@
 ---
 title: "Resources"
-weight: 1
+weight: 2
 bookFlatSection: false
 ---
