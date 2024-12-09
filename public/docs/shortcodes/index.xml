@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>My New Hugo Site</title><link>http://localhost:1313/docs/shortcodes/</link><description>Recent content on My New Hugo Site</description><generator>Hugo</generator><language>en-us</language><atom:link href="http://localhost:1313/docs/shortcodes/index.xml" rel="self" type="application/rss+xml"/><item><title/><link>http://localhost:1313/docs/shortcodes/buttons/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/shortcodes/buttons/</guid><description>&lt;h1 id="buttons">
+ Buttons
+ &lt;a class="anchor" href="#buttons">#&lt;/a>
+&lt;/h1>
+&lt;p>Buttons are styled links that can lead to local page or external link.&lt;/p>
+&lt;h2 id="example">
+ Example
+ &lt;a class="anchor" href="#example">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-tpl" data-lang="tpl">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span> &lt;span style="color:#a6e22e">button&lt;/span> &lt;span style="color:#a6e22e">relref&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;/&amp;#34;&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;...&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>Get Home&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span> &lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#a6e22e">button&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span> &lt;span style="color:#a6e22e">button&lt;/span> &lt;span style="color:#a6e22e">href&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;https://github.com/alex-shpak/hugo-book&amp;#34;&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>Contribute&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span> &lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#a6e22e">button&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;a href="http://localhost:1313/" class="book-btn">Get Home&lt;/a>
+
+&lt;a href="https://github.com/alex-shpak/hugo-book" target="_blank" rel="noopener" class="book-btn">Contribute&lt;/a>
+&lt;/p></description></item><item><title/><link>http://localhost:1313/docs/shortcodes/columns/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/shortcodes/columns/</guid><description>&lt;h1 id="columns">
+ Columns
+ &lt;a class="anchor" href="#columns">#&lt;/a>
+&lt;/h1>
+&lt;p>Columns help organize shorter pieces of content horizontally for readability.&lt;/p>
+&lt;h2 id="example">
+ Example
+ &lt;a class="anchor" href="#example">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-html" data-lang="html">&lt;span style="display:flex;">&lt;span>{{% columns [ratio=&amp;#34;1:1&amp;#34;] [class=&amp;#34;...&amp;#34;] %}} &lt;span style="color:#75715e">&amp;lt;!-- begin columns block --&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span># Left Content
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Lorem markdownum insigne...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">---&lt;/span>&amp;gt; &lt;span style="color:#75715e">&amp;lt;!-- magic separator, between columns --&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span># Mid Content
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Lorem markdownum insigne...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;lt;&lt;span style="color:#f92672">---&lt;/span>&amp;gt; &lt;span style="color:#75715e">&amp;lt;!-- magic separator, between columns --&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span># Right Content
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Lorem markdownum insigne...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{{% /columns %}}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;!-- raw HTML omitted -->
+&lt;h3 id="left-content">
+ Left Content
+ &lt;a class="anchor" href="#left-content">#&lt;/a>
+&lt;/h3>
+&lt;p>Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa
+protulit, sed sed aere valvis inhaesuro Pallas animam: qui &lt;em>quid&lt;/em>, ignes.
+Miseratus fonte Ditis conubia.&lt;/p></description></item><item><title/><link>http://localhost:1313/docs/shortcodes/details/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/shortcodes/details/</guid><description>&lt;h1 id="details">
+ Details
+ &lt;a class="anchor" href="#details">#&lt;/a>
+&lt;/h1>
+&lt;p>Details shortcode is a helper for &lt;code>details&lt;/code> html5 element. It is going to replace &lt;code>expand&lt;/code> shortcode.&lt;/p>
+&lt;h2 id="example">
+ Example
+ &lt;a class="anchor" href="#example">#&lt;/a>
+&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-tpl" data-lang="tpl">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Title&amp;#34;&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#a6e22e">open&lt;/span>&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>## Markdown content
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Lorem markdownum insigne...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#a6e22e">details&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-tpl" data-lang="tpl">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#a6e22e">details&lt;/span> &lt;span style="color:#a6e22e">title&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;Title&amp;#34;&lt;/span> &lt;span style="color:#a6e22e">open&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#66d9ef">true&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>## Markdown content
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Lorem markdownum insigne...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#a6e22e">details&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;!-- raw HTML omitted -->
+&lt;h2 id="markdown-content">
+ Markdown content
+ &lt;a class="anchor" href="#markdown-content">#&lt;/a>
+&lt;/h2>
+&lt;p>Lorem markdownum insigne&amp;hellip;&lt;/p>
+&lt;!-- raw HTML omitted --></description></item><item><title/><link>http://localhost:1313/docs/shortcodes/hints/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/shortcodes/hints/</guid><description>&lt;h1 id="hints">
+ Hints
+ &lt;a class="anchor" href="#hints">#&lt;/a>
+&lt;/h1>
+&lt;p>Hint shortcode can be used as hint/alerts/notification block.&lt;br>
+There are 3 colors to choose: &lt;code>info&lt;/code>, &lt;code>warning&lt;/code> and &lt;code>danger&lt;/code>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-tpl" data-lang="tpl">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#a6e22e">hint&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#a6e22e">info&lt;/span>&lt;span style="color:#f92672">|&lt;/span>&lt;span style="color:#a6e22e">warning&lt;/span>&lt;span style="color:#f92672">|&lt;/span>&lt;span style="color:#a6e22e">danger&lt;/span>&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>**Markdown content** 
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#a6e22e">hint&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="example">
+ Example
+ &lt;a class="anchor" href="#example">#&lt;/a>
+&lt;/h2>
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;strong>Markdown content&lt;/strong>&lt;br>
+Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa&lt;/p></description></item><item><title/><link>http://localhost:1313/docs/shortcodes/mermaid/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/shortcodes/mermaid/</guid><description>&lt;h1 id="mermaid-chart">
+ Mermaid Chart
+ &lt;a class="anchor" href="#mermaid-chart">#&lt;/a>
+&lt;/h1>
+&lt;p>&lt;a href="https://mermaid-js.github.io/">MermaidJS&lt;/a> is library for generating svg charts and diagrams from text.&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;p>&lt;strong>Override Mermaid initialization config&lt;/strong>&lt;br>
+To override the &lt;a href="https://mermaid-js.github.io/mermaid/#/Setup">initialization config&lt;/a> for Mermaid,
+create a &lt;code>mermaid.json&lt;/code> file in your &lt;code>assets&lt;/code> folder!&lt;/p>
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="example">
+ Example
+ &lt;a class="anchor" href="#example">#&lt;/a>
+&lt;/h2>
+&lt;!-- raw HTML omitted -->
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-tpl" data-lang="tpl">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span> &lt;span style="color:#a6e22e">mermaid&lt;/span> &lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#a6e22e">class&lt;/span>&lt;span style="color:#f92672">=&lt;/span>&lt;span style="color:#e6db74">&amp;#34;...&amp;#34;&lt;/span>&lt;span style="color:#f92672">]&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>stateDiagram-v2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> State1: The state with a note
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> note right of State1
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Important information! You can write
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> notes.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> end note
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> State1 --&amp;gt; State2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> note left of State2 : This is the note to the left.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">&amp;lt;&lt;/span> &lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#a6e22e">mermaid&lt;/span> &lt;span style="color:#f92672">&amp;gt;&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title/><link>http://localhost:1313/docs/shortcodes/tabs/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/shortcodes/tabs/</guid><description>&lt;h1 id="tabs">
+ Tabs
+ &lt;a class="anchor" href="#tabs">#&lt;/a>
+&lt;/h1>
+&lt;p>Tabs let you organize content by context, for example installation instructions for each supported platform.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-tpl" data-lang="tpl">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#a6e22e">tabs&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#a6e22e">tab&lt;/span> &lt;span style="color:#e6db74">&amp;#34;MacOS&amp;#34;&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span> # MacOS Content &lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#a6e22e">tab&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#a6e22e">tab&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Linux&amp;#34;&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span> # Linux Content &lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#a6e22e">tab&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#a6e22e">tab&lt;/span> &lt;span style="color:#e6db74">&amp;#34;Windows&amp;#34;&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span> # Windows Content &lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#a6e22e">tab&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">{{&lt;/span>&lt;span style="color:#f92672">%&lt;/span> &lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#a6e22e">tabs&lt;/span> &lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#75715e">}}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="example">
+ Example
+ &lt;a class="anchor" href="#example">#&lt;/a>
+&lt;/h2>
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted --></description></item><item><title>KaTeX</title><link>http://localhost:1313/docs/shortcodes/katex/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/shortcodes/katex/</guid><description>&lt;h1 id="katex">
+ KaTeX
+ &lt;a class="anchor" href="#katex">#&lt;/a>
+&lt;/h1>
+&lt;p>KaTeX shortcode let you render math typesetting in markdown document. See &lt;a href="https://katex.org/">KaTeX&lt;/a>&lt;/p>
+&lt;h2 id="example">
+ Example
+ &lt;a class="anchor" href="#example">#&lt;/a>
+&lt;/h2>
+&lt;!-- raw HTML omitted -->
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-latex" data-lang="latex">&lt;span style="display:flex;">&lt;span>{{&amp;lt; katex display=true &amp;gt;}}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>f(x) = &lt;span style="color:#66d9ef">\int&lt;/span>_{-&lt;span style="color:#66d9ef">\infty&lt;/span>}^&lt;span style="color:#66d9ef">\infty\hat&lt;/span> f(&lt;span style="color:#66d9ef">\xi&lt;/span>)&lt;span style="color:#66d9ef">\,&lt;/span>e^{2 &lt;span style="color:#66d9ef">\pi&lt;/span> i &lt;span style="color:#66d9ef">\xi&lt;/span> x}&lt;span style="color:#66d9ef">\,&lt;/span>d&lt;span style="color:#66d9ef">\xi&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{{&amp;lt; /katex &amp;gt;}}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;!-- raw HTML omitted -->
+&lt;h2 id="display-mode-example">
+ Display Mode Example
+ &lt;a class="anchor" href="#display-mode-example">#&lt;/a>
+&lt;/h2>
+&lt;p>Here is some inline example: &lt;span>
+ \(\pi(x)\)
+&lt;/span>
+, rendered in the same line. And below is &lt;code>display&lt;/code> example, having &lt;code>display: block&lt;/code>
+&lt;span>
+ \[
+f(x) = \int_{-\infty}^\infty\hat f(\xi)\,e^{2 \pi i \xi x}\,d\xi
+\]
+&lt;/span>
+
+Text continues here.&lt;/p></description></item></channel></rss>
