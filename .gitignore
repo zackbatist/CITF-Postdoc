@@ -41,4 +41,4 @@ Thumbs.db
 .Rhistory
 .RData
 
-docs/
+docs/*
