@@ -1,7 +1,8 @@
-baseURL = 'https://zackbatist.info/'
+baseURL = 'https://zackbatist.info'
 languageCode = 'en-us'
 title = 'CITF-Postdoc'
 publishDir = "docs"
+theme = ["hugo-book", "hugo-simplecite"]
 [taxonomies]
 category = "categories"
 tag = "tags"

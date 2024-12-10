@@ -1,2 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on CITF-Postdoc</title><link>http://localhost:1313/posts/</link><description>Recent content in Blog on CITF-Postdoc</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 09 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Reflection on first team meeting</title><link>http://localhost:1313/posts/first-team-meeting/</link><pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate><guid>http://localhost:1313/posts/first-team-meeting/</guid><description>&lt;p>Last week (2024/12/04) I finally met David, Tanya and Aklil in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.&lt;/p>
-&lt;p>The gist is that I will be investigating the role of social and cultural factors in data-sharing initiatives such as CITF and other Maelstrom-affiliated projects, and how these relate to, overlap with, or conflict with technical and institutional/administrative factors. To be clear, these are all very important aspects of data-sharing, but we generally recognized that the social and cultural aspects are under-explored relative to their impact.&lt;/p></description></item><item><title>Hello World!</title><link>http://localhost:1313/posts/hello-world/</link><pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate><guid>http://localhost:1313/posts/hello-world/</guid><description>&lt;p>Welcome to the website for my CITF Postdoc! This will serve as a hub for documenting and sharing my work. I decided to do this as a way of managing and sharing always-updated drafts of research protocols with my supervisor and team members, but it is also generally useful for keeping my thoughts organized. I will also use this blog section to write my thoughts as the project progresses.&lt;/p></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on CITF-Postdoc</title>
+    <link>http://localhost:1313/posts/</link>
+    <description>Recent content in Blog on CITF-Postdoc</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 09 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Reflection on first team meeting</title>
+      <link>http://localhost:1313/posts/first-team-meeting/</link>
+      <pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/first-team-meeting/</guid>
+      <description>&lt;p&gt;Last week (2024/12/04) I finally met David, Tanya and Aklil in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.&lt;/p&gt;&#xA;&lt;p&gt;The gist is that I will be investigating the role of social and cultural factors in data-sharing initiatives such as CITF and other Maelstrom-affiliated projects, and how these relate to, overlap with, or conflict with technical and institutional/administrative factors. To be clear, these are all very important aspects of data-sharing, but we generally recognized that the social and cultural aspects are under-explored relative to their impact.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Hello World!</title>
+      <link>http://localhost:1313/posts/hello-world/</link>
+      <pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/hello-world/</guid>
+      <description>&lt;p&gt;Welcome to the website for my CITF Postdoc! This will serve as a hub for documenting and sharing my work. I decided to do this as a way of managing and sharing always-updated drafts of research protocols with my supervisor and team members, but it is also generally useful for keeping my thoughts organized. I will also use this blog section to write my thoughts as the project progresses.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

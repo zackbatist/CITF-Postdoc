@@ -1,1 +1,40 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tags on CITF-Postdoc</title><link>http://localhost:1313/tags/</link><description>Recent content in Tags on CITF-Postdoc</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 09 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml"/><item><title>General Thoughts</title><link>http://localhost:1313/tags/general-thoughts/</link><pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate><guid>http://localhost:1313/tags/general-thoughts/</guid><description/></item><item><title>Introduction</title><link>http://localhost:1313/tags/introduction/</link><pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate><guid>http://localhost:1313/tags/introduction/</guid><description/></item><item><title>Meeting Notes</title><link>http://localhost:1313/tags/meeting-notes/</link><pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate><guid>http://localhost:1313/tags/meeting-notes/</guid><description/></item><item><title>Website</title><link>http://localhost:1313/tags/website/</link><pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate><guid>http://localhost:1313/tags/website/</guid><description/></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on CITF-Postdoc</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on CITF-Postdoc</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 09 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>General Thoughts</title>
+      <link>http://localhost:1313/tags/general-thoughts/</link>
+      <pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/general-thoughts/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Introduction</title>
+      <link>http://localhost:1313/tags/introduction/</link>
+      <pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/introduction/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Meeting Notes</title>
+      <link>http://localhost:1313/tags/meeting-notes/</link>
+      <pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/meeting-notes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Website</title>
+      <link>http://localhost:1313/tags/website/</link>
+      <pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/website/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

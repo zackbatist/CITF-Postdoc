@@ -1,17 +1,61 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Project Overview on CITF-Postdoc</title><link>http://localhost:1313/</link><description>Recent content in Project Overview on CITF-Postdoc</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Mon, 09 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml"/><item><title>Reflection on first team meeting</title><link>http://localhost:1313/posts/first-team-meeting/</link><pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate><guid>http://localhost:1313/posts/first-team-meeting/</guid><description>&lt;p>Last week (2024/12/04) I finally met David, Tanya and Aklil in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.&lt;/p>
-&lt;p>The gist is that I will be investigating the role of social and cultural factors in data-sharing initiatives such as CITF and other Maelstrom-affiliated projects, and how these relate to, overlap with, or conflict with technical and institutional/administrative factors. To be clear, these are all very important aspects of data-sharing, but we generally recognized that the social and cultural aspects are under-explored relative to their impact.&lt;/p></description></item><item><title>Research Protocol</title><link>http://localhost:1313/docs/project-documentation/research-protocol/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/project-documentation/research-protocol/</guid><description>&lt;h1 id="research-protocol">
- Research protocol
- &lt;a class="anchor" href="#research-protocol">#&lt;/a>
-&lt;/h1></description></item><item><title>Hello World!</title><link>http://localhost:1313/posts/hello-world/</link><pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate><guid>http://localhost:1313/posts/hello-world/</guid><description>&lt;p>Welcome to the website for my CITF Postdoc! This will serve as a hub for documenting and sharing my work. I decided to do this as a way of managing and sharing always-updated drafts of research protocols with my supervisor and team members, but it is also generally useful for keeping my thoughts organized. I will also use this blog section to write my thoughts as the project progresses.&lt;/p></description></item><item><title>Ethics Protocol</title><link>http://localhost:1313/docs/project-documentation/ethics-protocol/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/project-documentation/ethics-protocol/</guid><description>&lt;h1 id="ethics-protocol">
- Ethics protocol
- &lt;a class="anchor" href="#ethics-protocol">#&lt;/a>
-&lt;/h1></description></item><item><title>Interview Protocol</title><link>http://localhost:1313/docs/project-documentation/interview-protocol/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/project-documentation/interview-protocol/</guid><description>&lt;h1 id="interview-protocol">
- Interview Protocol
- &lt;a class="anchor" href="#interview-protocol">#&lt;/a>
-&lt;/h1></description></item><item><title>Coding Protocol</title><link>http://localhost:1313/docs/project-documentation/coding-protocol/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/project-documentation/coding-protocol/</guid><description>&lt;h1 id="coding-protocol">
- Coding Protocol
- &lt;a class="anchor" href="#coding-protocol">#&lt;/a>
-&lt;/h1></description></item><item><title>Cases</title><link>http://localhost:1313/docs/project-documentation/cases/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/docs/project-documentation/cases/</guid><description>&lt;h1 id="cases">
- Cases
- &lt;a class="anchor" href="#cases">#&lt;/a>
-&lt;/h1></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Project Overview on CITF-Postdoc</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content in Project Overview on CITF-Postdoc</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 09 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Reflection on first team meeting</title>
+      <link>http://localhost:1313/posts/first-team-meeting/</link>
+      <pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/first-team-meeting/</guid>
+      <description>&lt;p&gt;Last week (2024/12/04) I finally met David, Tanya and Aklil in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.&lt;/p&gt;&#xA;&lt;p&gt;The gist is that I will be investigating the role of social and cultural factors in data-sharing initiatives such as CITF and other Maelstrom-affiliated projects, and how these relate to, overlap with, or conflict with technical and institutional/administrative factors. To be clear, these are all very important aspects of data-sharing, but we generally recognized that the social and cultural aspects are under-explored relative to their impact.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Research Protocol</title>
+      <link>http://localhost:1313/docs/project-documentation/research-protocol/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/project-documentation/research-protocol/</guid>
+      <description>&lt;h1 id=&#34;research-protocol&#34;&gt;&#xA;  Research protocol&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#research-protocol&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;&#xA;&lt;h2 id=&#34;overview&#34;&gt;&#xA;  Overview&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#overview&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h2&gt;&#xA;&lt;p&gt;[&lt;a class=&#34;hugo-simplecite-cite-hyperlink&#34; href=&#34;#bibreference-1&#34; title=&#34;Z. Batist and J. Roe, Open-archaeo: A Resource for Documenting Archaeological Software Development Practices, Journal of Open Archaeology Data, vol. 11, no. 9, pp. 1–7, 2023. doi:10.5334/joad.111&#34;&gt;1&lt;/a&gt;]&#xA;&#xA;&lt;label for=&#34;sidenote-1&#34; class=&#34;margin-toggle sidenote-number&#34;&gt;(1)&lt;/label&gt;&#xA;&lt;input type=&#34;checkbox&#34; id=&#34;sidenote-1&#34; class=&#34;margin-toggle&#34;/&gt;&#xA;&lt;span class=&#34;sidenote&#34;&gt;&#xA;&lt;span class=&#34;sidenote-number&#34;&gt;(1)&lt;/span&gt; some sidenote&#xA;&lt;/span&gt;&#xA;&#xA;&#xA;&lt;label for=&#34;sidenote-2&#34; class=&#34;margin-toggle sidenote-number&#34;&gt;(2)&lt;/label&gt;&#xA;&lt;input type=&#34;checkbox&#34; id=&#34;sidenote-2&#34; class=&#34;margin-toggle&#34;/&gt;&#xA;&lt;span class=&#34;sidenote&#34;&gt;&#xA;&lt;span class=&#34;sidenote-number&#34;&gt;(2)&lt;/span&gt; another sidenote&#xA;&lt;/span&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;This study aims to articulate the social and collaborative experience of data-sharing in epidemiological research.&#xA;It takes to heart the notions that data are media that facilitate communication across different research contexts, that data are created with specific intent, and that data are bounded by the social, practical and material circumstances of their creation.&#xA;In light of these facts, data harmonization is therefore essentially a means of reconciling the differences between primary contexts of data creation and between each primary context and new secondary contexts of reuse.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Hello World!</title>
+      <link>http://localhost:1313/posts/hello-world/</link>
+      <pubDate>Mon, 09 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/hello-world/</guid>
+      <description>&lt;p&gt;Welcome to the website for my CITF Postdoc! This will serve as a hub for documenting and sharing my work. I decided to do this as a way of managing and sharing always-updated drafts of research protocols with my supervisor and team members, but it is also generally useful for keeping my thoughts organized. I will also use this blog section to write my thoughts as the project progresses.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Ethics Protocol</title>
+      <link>http://localhost:1313/docs/project-documentation/ethics-protocol/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/project-documentation/ethics-protocol/</guid>
+      <description>&lt;h1 id=&#34;ethics-protocol&#34;&gt;&#xA;  Ethics protocol&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#ethics-protocol&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;</description>
+    </item>
+    <item>
+      <title>Interview Protocol</title>
+      <link>http://localhost:1313/docs/project-documentation/interview-protocol/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/project-documentation/interview-protocol/</guid>
+      <description>&lt;h1 id=&#34;interview-protocol&#34;&gt;&#xA;  Interview Protocol&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#interview-protocol&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;</description>
+    </item>
+    <item>
+      <title>Coding Protocol</title>
+      <link>http://localhost:1313/docs/project-documentation/coding-protocol/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/project-documentation/coding-protocol/</guid>
+      <description>&lt;h1 id=&#34;coding-protocol&#34;&gt;&#xA;  Coding Protocol&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#coding-protocol&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;</description>
+    </item>
+    <item>
+      <title>Cases</title>
+      <link>http://localhost:1313/docs/project-documentation/cases/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/docs/project-documentation/cases/</guid>
+      <description>&lt;h1 id=&#34;cases&#34;&gt;&#xA;  Cases&#xA;  &lt;a class=&#34;anchor&#34; href=&#34;#cases&#34;&gt;#&lt;/a&gt;&#xA;&lt;/h1&gt;</description>
+    </item>
+  </channel>
+</rss>
