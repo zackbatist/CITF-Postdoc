@@ -6,3 +6,5 @@ theme = ["hugo-book", "hugo-simplecite"]
 [taxonomies]
 category = "categories"
 tag = "tags"
+[params]
+BookTheme = 'auto'
