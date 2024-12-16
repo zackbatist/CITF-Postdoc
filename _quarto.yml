@@ -1,0 +1,58 @@
+project: 
+  type: website
+  
+website: 
+  title: "CITF-Postdoc" 
+  site-url: "https://zackbatist.info" 
+  repo-url: "https://github.com/zackbatist/CITF-Postdoc"
+  repo-actions: [source]
+  bread-crumbs: true
+  page-navigation: false
+  
+  page-footer:
+    right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
+    left:
+      - text: "CC0"
+        href: https://creativecommons.org/publicdomain/zero/1.0/
+
+  sidebar:
+    logo: "images/openscapes_hex.png"
+    pinned: true
+    align: center
+
+    style: "docked"
+    search: true
+    collapse-level: 2
+    contents:
+      - href: index.qmd
+        text: Overview
+      - href: context.qmd
+        text: Context
+      - section: "Project Documentation"
+        contents:
+          - project-documentation/research-protocol.qmd
+          - project-documentation/ethics-protocol.qmd
+          - project-documentation/interview-protocol.qmd
+          - project-documentation/coding-protocol.qmd
+          - project-documentation/cases.qmd
+      - posts.qmd
+      - section: Resources
+        contents:
+          - href: https://github.com/zackbatist/CITF-Postdoc
+            text: GitHub
+          - href: https://zackbatist.info
+            text: Zotero
+          - href: index.xml
+            text: RSS
+
+
+format:
+  html:
+    theme: cosmo
+    code-copy: true
+    code-overflow: wrap
+    toc: true
+
+filters:
+  - include-files.lua
+  - quarto

@@ -1,0 +1,13 @@
+---
+author:
+  - name: "Zack Batist"
+  - orcid: 0000-0003-0435-508X
+  - email: zacharybatist@gmail.com
+date: 2024-12-09
+title: Hello World!
+categories:
+  - introduction
+  - website
+---
+
+Welcome to the website for my CITF Postdoc! This will serve as a hub for documenting and sharing my work. I decided to do this as a way of managing and sharing always-updated drafts of research protocols with my supervisor and team members, but it is also generally useful for keeping my thoughts organized. I will also use this blog section to write my thoughts as the project progresses.

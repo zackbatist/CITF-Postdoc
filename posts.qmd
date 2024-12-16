@@ -1,0 +1,11 @@
+---
+title: "Blog"
+listing: 
+  contents: posts
+  type: table
+  sort: "date desc"
+  categories: false
+  feed: true
+  fields: [date, title, categories]
+repo-actions: false
+---

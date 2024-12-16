@@ -36,10 +36,30 @@
 ehthumbs.db
 Thumbs.db
 
+# R #
+#####
 .Rproj.user
-.gdsheet
+.Rhistory
 .Rhistory
 .RData
 
+# LaTeX #
+######################
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.gz
+
+# Other Environments #
+######################
+.gdsheet
+/.quarto/
+.hugo_build.lock
+
 docs/*
 resources/
+public/
+
+

@@ -1,0 +1,57 @@
+---
+title: "Ethics Protocol"
+author:
+  - name: "Zack Batist"
+  - orcid: 0000-0003-0435-508X
+  - email: zacharybatist@gmail.com
+bibliography: /Users/zackbatist/Library/CloudStorage/Dropbox/zotero/zack.bib
+toc-title: ""
+toc-depth: 3
+toc-expand: 3
+# license: "CC0"
+---
+
+# Ethics Protocol
+This page outlines my responses to questions from McGill University's Institutional Review Board.
+Although my project is covered by the most recent CITF grant and I will not be submitting these responses for review, I still consider it important to address these concerns here in writing as a matter of research integrity.
+
+## Recruitment and consent
+**How are potential study participants identified and/or recruited to the study?**
+Explain how potential participants are identified or introduced to the study, and who will recruit participants. Will the investigator/s require any special permissions or access to the target population (e.g. clinic access, patient registries or records, mailing lists, community access?
+
+**Describe the consent process.**
+If alternate processes for seeking consent are planned (e.g. verbal, online, waiver), please provide a rationale and outline the procedure of obtaining and documenting consent and/or assent, where applicable.
+
+**Is there a relationship between the study participants and the person obtaining consent and/or the principal investigator/s?**
+If yes, please explain the nature of the relationship, and outline the steps that will be taken to avoid the perception of undue influence.
+
+## Risk-benefit assessment
+**Describe the foreseeable risks to study participants.**
+What risks are attributable to the research, including cumulative risks? Which risks are participants normally exposed to in the course of their clinical care or in their daily activities as they relate to the research questions/objectives?
+
+**What procedures are in place to monitor and assess participant safety for the duration of the study?**
+
+**Describe the potential benefits of the study for:**
+(1) the study participants; (2) the population under investigation, and (3) the field of research.
+
+## Privacy and confidentiality
+**Please describe the measures in place for meeting confidentiality obligations.**
+How is information and data safeguarded for the full cycle of the study: i.e. during its collection, use, dissemination, retention, and/or disposal?
+
+**If a contracted cloud/storage service provider or online survey tool is used,** provide information on the service provider's security and privacy policy, location of its servers, data ownership, and what happens to the stored data after the contract is terminated. For more information, please consult the University's directive.
+
+**Please explain any reasonable and foreseeable disclosure requirements**
+(e.g. disclosure to third parties such as government agencies or departments, community partners in research, personnel from an agency that monitors research, research sponsor, the REB/IRB, or regulatory agencies).
+
+**If there are plans for retaining participant and/or study data for future use,** please describe the context for its use, requirements for potentially re-contacting study participants and consent, and how the data will be stored and maintained for the long term.
+
+**Secondary use of data studies:**
+if the study involves data linkage, please describe the data that will be linked and the likelihood that identifiable information will be created through the linkage.
+
+## Managing conflicts of interest
+Conflicts of interest] do not imply wrong-doing. It is the responsibility of the investigator to determine if any conflicts apply to any person/s involved in the design and/or conduct of the research study or any member of their immediate family. Disclose all contracts and any conflicts of interest (real, perceived, or potential) relating to this research project. Conflict of interest may also arise with regard to the disclosure of personal health information.
+
+- [x] Not applicable. There are no conflicts of interest to disclose.
+- [ ] Yes, there are conflicts of interest to disclose.
+
+**If yes, please describe the conflicts of interest (real, potential, and perceived), and the procedures for managing declared conflicts.** Not applicable.

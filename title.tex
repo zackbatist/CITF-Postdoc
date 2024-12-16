@@ -1,0 +1,106 @@
+$if(title)$
+\title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
+$endif$
+$if(subtitle)$
+$if(beamer)$
+$else$
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+$endif$
+\subtitle{$subtitle$}
+$endif$
+\author{$for(authors)$$it.name.literal$$sep$ \and $endfor$}
+\date{$date$}
+$if(beamer)$
+$if(institute)$
+\institute{$for(institute)$$institute$$sep$ \and $endfor$}
+$endif$
+$if(titlegraphic)$
+\titlegraphic{\includegraphics$if(titlegraphicoptions)$[$for(titlegraphicoptions)$$titlegraphicoptions$$sep$, $endfor$]$endif${$titlegraphic$}}$endif$
+$if(logo)$
+\logo{\includegraphics{$logo$}}
+$endif$
+$endif$
+
+$if(biblatex)$
+% ----------
+% BibLaTeX
+% ----------
+$if(biblatex-chicago)$
+\usepackage[$if(biblio-style)$$biblio-style$,$endif$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$]{biblatex-chicago}
+$else$
+\usepackage[$if(biblio-style)$style=$biblio-style$,$endif$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$]{biblatex}
+$endif$
+
+\addbibresource{$bibliography$}
+$endif$
+
+%% reformat DOIs %%
+\DeclareFieldFormat{doi}{
+  \mkbibacro{DOI}\addcolon\space
+  \ifhyperref
+    {\href{https://doi.org/#1}{\nolinkurl{#1}}}
+    {\nolinkurl{#1}}
+}
+
+%% suppress dates pertaining to issue dates %%
+\renewbibmacro*{clear+datefield}[1]{
+  \clearfield{#1year}
+  \clearfield{#1month}
+  \clearfield{#1season}
+  \clearfield{#1endyear}
+  \clearfield{#1endmonth}
+  \clearfield{#1endseason}
+}
+
+%% bold author names %%
+\DeclareNameWrapperFormat{sortname}{\mkbibbold{#1}}
+\DeclareNameWrapperAlias{author}{sortname}
+\DeclareNameWrapperAlias{editor}{sortname}
+\DeclareNameWrapperAlias{translator}{sortname}
+
+%% account for entry type not specified in the biblatex-chicago style %%
+\DeclareBibliographyAlias{software}{online}
+
+%% replace comma with colon as delimiter between year and page %%
+\renewcommand*{\postnotedelim}{\addcolon\space}
+\DeclareFieldFormat{postnote}{#1}
+\DeclareFieldFormat{multipostnote}{#1}
+
+%% suppress accessed date
+\AtEveryBibitem{
+    \clearfield{urlyear}
+    \clearfield{urlmonth}
+    \clearfield{urlday}
+}
+
+%% suppress url
+% \AtEveryBibitem{
+%     \clearfield{url}
+% }
+
+\setlength\parindent{15pt}
+
+\usepackage{titling}
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\Large#1\end{center}
+   }%
+}
+\newcommand{\subsubtitle}[1]{%
+  \preauthor{%
+    \begin{center}
+    \large #1 \vskip0.5em
+    \begin{tabular}[t]{c}
+    }%
+}
+
+\author{Zack Batist}
+\subtitle{CITF-Postdoc}
+\date{\today}
+\subsubtitle{This PDF is automatically generated. Refer to the original version at: \url{https://zackbatist.info/CITF-Postdoc/project-documentation/research-protocol.html}}
