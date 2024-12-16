@@ -52,14 +52,9 @@ Thumbs.db
 *.out
 *.gz
 
-# Other Environments #
+# Other #
 ######################
 .gdsheet
 /.quarto/
 .hugo_build.lock
-
-docs/*
-resources/
-public/
-
-
+/.luarc.json
