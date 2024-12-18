@@ -1,6 +1,9 @@
 ---
 title: Cases
 ---
+::: {.callout-note}
+This document is still a work in progress.
+:::
 
 ## Overview
 In case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it.
