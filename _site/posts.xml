@@ -6,20 +6,20 @@
       version="2.0">
 <channel>
 <title>CITF-Postdoc</title>
-<link>https://zackbatist.info/MEDHI/posts.html</link>
-<atom:link href="https://zackbatist.info/MEDHI/posts.xml" rel="self" type="application/rss+xml"/>
+<link>https://zackbatist.info/CITF-Postdoc/posts.html</link>
+<atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.5.54</generator>
 <lastBuildDate>Mon, 09 Dec 2024 05:00:00 GMT</lastBuildDate>
 <item>
   <title>Reflection on first team meeting</title>
-  <link>https://zackbatist.info/MEDHI/posts/2024-12-09-first-team-meeting/</link>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-first-team-meeting/</link>
   <description><![CDATA[ 
 
 
 
 
-<p>Last week (2024/12/04) I finally met David, Tanya and Aklil in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.</p>
+<p>Last week (2024/12/04) I finally met with David Buckeridge, Tanya Murphy and Aklil Noza in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.</p>
 <p>The gist is that I will be investigating the role of social and cultural factors in data-sharing initiatives such as CITF and other Maelstrom-affiliated projects, and how these relate to, overlap with, or conflict with technical and institutional/administrative factors. To be clear, these are all very important aspects of data-sharing, but we generally recognized that the social and cultural aspects are under-explored relative to their impact.</p>
 <p>We briefly talked about how we will go about selecting cases, and I emphasized the importance of strategic case selection. This also involves carefully articulating the project’s goals so that the cases will complement them. We agreed that the dataset will likely comprise between 12-15 interviews of around 60-90 minutes in length with representatives from 4-5 cases (one of them being CITF), in addition to representatives of the Maelstrom team. Maelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth and ensures that participants have a common frame of reference. It also potentially allows me to “offload” or “consolidate” reference to technical and administrative aspects of data-sharing through targeted interviews with Maelstrom personnel, instead of dealing with those things with the representatives for each case.</p>
 <p>We discussed timelines and overlap with Aklil’s work, which will be more concerned with focus groups with CITF databank users. There is definitely overlap with the emphasis of my own work and we will coordinate data collection to enhance the potential for analytical alignment.</p>
@@ -28,15 +28,15 @@
 
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC0</div></div></section></div> ]]></description>
+ ]]></description>
   <category>meeting notes</category>
   <category>general thoughts</category>
-  <guid>https://zackbatist.info/MEDHI/posts/2024-12-09-first-team-meeting/</guid>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-first-team-meeting/</guid>
   <pubDate>Mon, 09 Dec 2024 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Hello World!</title>
-  <link>https://zackbatist.info/MEDHI/posts/2024-12-09-hello-world/</link>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-hello-world/</link>
   <description><![CDATA[ 
 
 
@@ -46,15 +46,15 @@
 
 
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div>CC0</div></div></section></div> ]]></description>
+ ]]></description>
   <category>introduction</category>
   <category>website</category>
-  <guid>https://zackbatist.info/MEDHI/posts/2024-12-09-hello-world/</guid>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-hello-world/</guid>
   <pubDate>Mon, 09 Dec 2024 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Technical specs for this website</title>
-  <link>https://zackbatist.info/MEDHI/posts/2024-12-11-technical-specs/</link>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/2024-12-11-technical-specs/</link>
   <description><![CDATA[ 
 
 
@@ -95,8 +95,8 @@ Note
 
  ]]></description>
   <category>website</category>
-  <guid>https://zackbatist.info/MEDHI/posts/2024-12-11-technical-specs/</guid>
-  <pubDate>Wed, 18 Dec 2024 16:06:15 GMT</pubDate>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/2024-12-11-technical-specs/</guid>
+  <pubDate>Wed, 18 Dec 2024 16:48:07 GMT</pubDate>
 </item>
 </channel>
 </rss>

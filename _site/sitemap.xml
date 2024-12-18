@@ -1,107 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>zackbatist.info/index.html</loc>
-    <lastmod>2024-12-16T15:59:57.138Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/context.html</loc>
+    <lastmod>2024-12-18T16:31:38.940Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/index.html</loc>
-    <lastmod>2024-12-17T17:18:20.542Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/glossary.html</loc>
+    <lastmod>2024-12-18T16:31:38.940Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/project-documentation/research-protocol.html</loc>
-    <lastmod>2024-12-17T04:07:09.636Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/cases.html</loc>
+    <lastmod>2024-12-18T16:31:38.956Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/posts.html</loc>
-    <lastmod>2024-12-16T18:54:20.844Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/interview-protocol.html</loc>
+    <lastmod>2024-12-18T16:31:38.957Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/posts/2024-12-09-hello-world/index.html</loc>
-    <lastmod>2024-12-16T18:04:50.495Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/coding-protocol.html</loc>
+    <lastmod>2024-12-18T16:31:38.957Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/project-documentation/index.html</loc>
-    <lastmod>2024-12-16T16:53:56.680Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/posts/2024-12-11-technical-specs/index.html</loc>
+    <lastmod>2024-12-18T16:31:38.956Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/posts/2024-12-09-first-team-meeting/index.html</loc>
-    <lastmod>2024-12-16T18:07:08.637Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-first-team-meeting/index.html</loc>
+    <lastmod>2024-12-18T16:31:38.954Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/posts/2023-12-11-technical-specs/index.html</loc>
-    <lastmod>2024-12-17T01:33:16.744Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-hello-world/index.html</loc>
+    <lastmod>2024-12-18T16:31:38.955Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/context.html</loc>
-    <lastmod>2024-12-16T18:11:52.114Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/index.html</loc>
+    <lastmod>2024-12-18T16:31:38.950Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/project-documentation/ethics-protocol.html</loc>
-    <lastmod>2024-12-16T18:13:58.894Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/research-protocol.html</loc>
+    <lastmod>2024-12-18T16:31:38.958Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/project-documentation/cases.html</loc>
-    <lastmod>2024-12-17T16:56:38.594Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/data-management.html</loc>
+    <lastmod>2024-12-18T16:31:38.957Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/project-documentation/interview-protocol.html</loc>
-    <lastmod>2024-12-16T18:15:30.479Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/ethics-protocol.html</loc>
+    <lastmod>2024-12-18T16:31:38.957Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/project-documentation/coding-protocol.html</loc>
-    <lastmod>2024-12-16T18:15:52.295Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/MEDHI/index.html</loc>
-    <lastmod>2024-12-18T15:02:28.787Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/MEDHI/context.html</loc>
-    <lastmod>2024-12-18T16:03:05.355Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/MEDHI/project-documentation/research-protocol.html</loc>
-    <lastmod>2024-12-18T14:34:07.633Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/MEDHI/project-documentation/cases.html</loc>
-    <lastmod>2024-12-18T14:55:23.931Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/MEDHI/posts.html</loc>
-    <lastmod>2024-12-17T18:47:06.739Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/MEDHI/posts/2024-12-11-technical-specs/index.html</loc>
-    <lastmod>2024-12-18T15:02:05.543Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/MEDHI/project-documentation/data-management.html</loc>
-    <lastmod>2024-12-18T14:33:45.122Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/MEDHI/project-documentation/ethics-protocol.html</loc>
-    <lastmod>2024-12-18T14:36:22.518Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/MEDHI/project-documentation/interview-protocol.html</loc>
-    <lastmod>2024-12-18T14:34:00.253Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/MEDHI/project-documentation/coding-protocol.html</loc>
-    <lastmod>2024-12-18T14:33:38.934Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/MEDHI/glossary.html</loc>
-    <lastmod>2024-12-18T16:02:01.835Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/MEDHI/posts/2024-12-09-first-team-meeting/index.html</loc>
-    <lastmod>2024-12-18T16:06:06.517Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/MEDHI/posts/2024-12-09-hello-world/index.html</loc>
-    <lastmod>2024-12-17T18:54:15.800Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/posts.html</loc>
+    <lastmod>2024-12-18T16:31:38.952Z</lastmod>
   </url>
 </urlset>
