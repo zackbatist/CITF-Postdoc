@@ -1,5 +1,9 @@
 project: 
   type: website
+  render:
+    - "*.qmd"
+    - "!admin/"
+    - "!notes/"
 
 website: 
   title: "CITF-Postdoc" 
