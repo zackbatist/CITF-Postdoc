@@ -136,28 +136,28 @@
     "href": "posts/2024-12-11-technical-specs/index.html",
     "title": "Technical specs for this website",
     "section": "",
-    "text": "I am using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.\nThis post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves."
+    "text": "I’m using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.\nThis post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves."
   },
   {
     "objectID": "posts/2024-12-11-technical-specs/index.html#fundamentals",
     "href": "posts/2024-12-11-technical-specs/index.html#fundamentals",
     "title": "Technical specs for this website",
     "section": "Fundamentals",
-    "text": "Fundamentals\nThis website is based on Quarto, a platform for writing and publishing scientific and technical writing. I had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.\nThe site is hosted on GitHub Pages using a CI workflow to automatically generate the site files upon changes being pushed to the repo. The repo is located at https://github.com/zackbatist/CITF-Postdoc, though I’m making an effort to ensure that the site can be ported to another hosting provider if necessary."
+    "text": "Fundamentals\nThis website is based on Quarto, a platform for writing and publishing scientific and technical writing. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.\nI had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. You can find an older version of this post reflecting that setup here: #2346852.\nThe site is hosted on GitHub Pages. The repo is located at https://github.com/zackbatist/CITF-Postdoc."
   },
   {
     "objectID": "posts/2024-12-11-technical-specs/index.html#generating-pdfs",
     "href": "posts/2024-12-11-technical-specs/index.html#generating-pdfs",
     "title": "Technical specs for this website",
     "section": "Generating PDFs",
-    "text": "Generating PDFs\nAs an avid user, I do not really want to abandon PDFs entirely. Thankfully, Quarto allows me to pass the markdown through a rendering engine and generate outputs in different formats with ease. I relied on this guide for assistance with this:\nThese PDFs will be tracked with git and I’ll configure a latex template to generate timestamps and references to their corresponding web versions."
+    "text": "Generating PDFs\nAs an avid user, one thing I really like about Quarto is the ability to generate PDFs alongside html versions served over the web. I started tinkering with includes but I need to review how Quarto passes info from YAML frontmatter. It is not at all straightforward and I will need to experiment a bit more with this to get the hang of it."
   },
   {
     "objectID": "posts/2024-12-11-technical-specs/index.html#archiving-and-version-control",
     "href": "posts/2024-12-11-technical-specs/index.html#archiving-and-version-control",
     "title": "Technical specs for this website",
     "section": "Archiving and Version Control",
-    "text": "Archiving and Version Control\nEvery change is tracked using git. However I would also like to find a way to archive each research protocol in Zenodo so that they can be assigned stable DOIs and detailed metadata, which will make them easier to reference.\nI do not want to rely on Zenodo’s GitHub integration for two reasons: 1) I want this to be as platform-agnostic as possible, and 2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files. I might be able to write a custom CI workflow to archive specific files to Zenodo using their API. However, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway."
+    "text": "Archiving and Version Control\nEvery change is tracked using git. I would also like to archive each research protocol in Zenodo once they reach a point of stability. This would ensure that they ca be aassigned DOIs and detailed metadata, which will make them easier to reference.\nHowever, I do not want to rely on Zenodo’s GitHub integration for two reasons: (1) I want this to be as platform-agnostic as possible, and (2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files.\nI might be able to write a custom CI workflow to archive specific files to Zenodo using their API. But, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway."
   },
   {
     "objectID": "posts/2024-12-09-first-team-meeting/index.html",
@@ -191,7 +191,7 @@
     "href": "posts.html",
     "title": "Blog",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\n \n\n\nTechnical specs for this website\n\n\nwebsite\n\n\n\n\nDec 9, 2024\n\n\nReflection on first team meeting\n\n\nmeeting notes, general thoughts\n\n\n\n\nDec 9, 2024\n\n\nHello World!\n\n\nintroduction, website\n\n\n\n\n\nNo matching items",
+    "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nDec 18, 2024\n\n\nTechnical specs for this website\n\n\nwebsite\n\n\n\n\nDec 9, 2024\n\n\nReflection on first team meeting\n\n\nmeeting notes, general thoughts\n\n\n\n\nDec 9, 2024\n\n\nHello World!\n\n\nintroduction, website\n\n\n\n\n\nNo matching items",
     "crumbs": [
       "Blog"
     ]

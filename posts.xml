@@ -10,7 +10,41 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.5.54</generator>
-<lastBuildDate>Mon, 09 Dec 2024 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 18 Dec 2024 20:38:01 GMT</lastBuildDate>
+<item>
+  <title>Technical specs for this website</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/2024-12-11-technical-specs/</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>I’m using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.</p>
+<p>This post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves.</p>
+<section id="fundamentals" class="level2">
+<h2 class="anchored" data-anchor-id="fundamentals">Fundamentals</h2>
+<p>This website is based on <a href="https://quarto.org/">Quarto</a>, a platform for writing and publishing scientific and technical writing. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.</p>
+<p>I had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. You can find an older version of this post reflecting that setup here: <a href="https://github.com/zackbatist/CITF-Postdoc/commit/2346852df7224ca18eff65c0f34335cc6245a78a">#2346852</a>.</p>
+<p>The site is hosted on GitHub Pages. The repo is located at <a href="https://github.com/zackbatist/CITF-Postdoc">https://github.com/zackbatist/CITF-Postdoc</a>.</p>
+</section>
+<section id="generating-pdfs" class="level2">
+<h2 class="anchored" data-anchor-id="generating-pdfs">Generating PDFs</h2>
+<p>As an avid user, one thing I really like about Quarto is the ability to generate PDFs alongside html versions served over the web. I started tinkering with includes but I need to review how Quarto passes info from YAML frontmatter. It is not at all straightforward and I will need to experiment a bit more with this to get the hang of it.</p>
+</section>
+<section id="archiving-and-version-control" class="level2">
+<h2 class="anchored" data-anchor-id="archiving-and-version-control">Archiving and Version Control</h2>
+<p>Every change is tracked using git. I would also like to archive each research protocol in Zenodo once they reach a point of stability. This would ensure that they ca be aassigned DOIs and detailed metadata, which will make them easier to reference.</p>
+<p>However, I do not want to rely on Zenodo’s GitHub integration for two reasons: (1) I want this to be as platform-agnostic as possible, and (2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files.</p>
+<p>I might be able to write a custom CI workflow to archive specific files to Zenodo using their API. But, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>website</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/2024-12-11-technical-specs/</guid>
+  <pubDate>Wed, 18 Dec 2024 20:38:01 GMT</pubDate>
+</item>
 <item>
   <title>Reflection on first team meeting</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-first-team-meeting/</link>
@@ -51,52 +85,6 @@
   <category>website</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-hello-world/</guid>
   <pubDate>Mon, 09 Dec 2024 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Technical specs for this website</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/2024-12-11-technical-specs/</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>I am using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.</p>
-<p>This post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>I initially created this website using Hugo. You can find an older version of this post reflecting that setup here: <a href="https://github.com/zackbatist/CITF-Postdoc/commit/2346852df7224ca18eff65c0f34335cc6245a78a">#2346852</a>.</p>
-</div>
-</div>
-<section id="fundamentals" class="level2">
-<h2 class="anchored" data-anchor-id="fundamentals">Fundamentals</h2>
-<p>This website is based on Quarto, a platform for writing and publishing scientific and technical writing. I had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.</p>
-<p>The site is hosted on GitHub Pages using a CI workflow to automatically generate the site files upon changes being pushed to the repo. The repo is located at https://github.com/zackbatist/CITF-Postdoc, though I’m making an effort to ensure that the site can be ported to another hosting provider if necessary.</p>
-</section>
-<section id="generating-pdfs" class="level2">
-<h2 class="anchored" data-anchor-id="generating-pdfs">Generating PDFs</h2>
-<p>As an avid user, I do not really want to abandon PDFs entirely. Thankfully, Quarto allows me to pass the markdown through a rendering engine and <a href="https://quarto.org/docs/output-formats/html-multi-format.html">generate outputs in different formats</a> with ease. I relied on this guide for assistance with this:</p>
-<p>These PDFs will be tracked with git and I’ll configure a latex template to generate timestamps and references to their corresponding web versions.</p>
-</section>
-<section id="archiving-and-version-control" class="level2">
-<h2 class="anchored" data-anchor-id="archiving-and-version-control">Archiving and Version Control</h2>
-<p>Every change is tracked using git. However I would also like to find a way to archive each research protocol in Zenodo so that they can be assigned stable DOIs and detailed metadata, which will make them easier to reference.</p>
-<p>I do not want to rely on Zenodo’s GitHub integration for two reasons: 1) I want this to be as platform-agnostic as possible, and 2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files. I might be able to write a custom CI workflow to archive specific files to Zenodo using their API. However, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway.</p>
-
-
-</section>
-
- ]]></description>
-  <category>website</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/2024-12-11-technical-specs/</guid>
-  <pubDate>Wed, 18 Dec 2024 20:20:17 GMT</pubDate>
 </item>
 </channel>
 </rss>
