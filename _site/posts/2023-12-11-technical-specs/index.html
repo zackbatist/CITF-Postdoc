@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2024-12-11">
 
-<title>Technical specs for this website – CITF-Test</title>
+<title>Technical specs for this website – CITF-Postdoc</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -128,7 +128,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../project-documentation/research-protocol.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Research Protocol</span></a>
+ <span class="menu-text">Overview</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -186,7 +186,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../index.xml" class="sidebar-item-text sidebar-link">
+  <a href="../../posts.xml" class="sidebar-item-text sidebar-link">
  <span class="menu-text">RSS</span></a>
   </div>
 </li>
@@ -203,7 +203,6 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#fundamentals" id="toc-fundamentals" class="nav-link active" data-scroll-target="#fundamentals">Fundamentals</a></li>
-  <li><a href="#citations" id="toc-citations" class="nav-link" data-scroll-target="#citations">Citations</a></li>
   <li><a href="#generating-pdfs" id="toc-generating-pdfs" class="nav-link" data-scroll-target="#generating-pdfs">Generating PDFs</a></li>
   <li><a href="#archiving-and-version-control" id="toc-archiving-and-version-control" class="nav-link" data-scroll-target="#archiving-and-version-control">Archiving and Version Control</a></li>
   </ul>
@@ -232,6 +231,12 @@ ul.task-list li input[type="checkbox"] {
     </div>
   </div>
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">December 16, 2024</p>
+    </div>
+  </div>
     
   </div>
   
@@ -242,20 +247,27 @@ ul.task-list li input[type="checkbox"] {
 
 <p>I am using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.</p>
 <p>This post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I initially created this website using Hugo. You can find an older version of this post reflecting that setup here: <a href="https://github.com/zackbatist/CITF-Postdoc/commit/2346852df7224ca18eff65c0f34335cc6245a78a">#2346852</a>.</p>
+</div>
+</div>
 <section id="fundamentals" class="level2">
 <h2 class="anchored" data-anchor-id="fundamentals">Fundamentals</h2>
-<p>This website is based on <a href="https://github.com/gohugoio/hugo">hugo</a>, using the <a href="https://github.com/alex-shpak/hugo-book/">hugo-book</a> theme. I decided on hugo because I already have some passing familiarity with it, and the theme looks nice, simple, expandable and well-supported.</p>
-<p>It is hosted on GitHub Pages using a CI workflow to automatically generate the site upon changes being pushed to the repo, which is located at https://github.com/zackbatist/CITF-Postdoc. I’m making an effort to ensure that the site can be ported to another hosting provider if necessary.</p>
-</section>
-<section id="citations" class="level2">
-<h2 class="anchored" data-anchor-id="citations">Citations</h2>
-<p>Since this site primarily contains academic writing, I need to integrate this with my citation workflow, and I’m using <a href="https://github.com/joksas/hugo-simplecite">hugo-simplecite</a> to help accomplish this. This works by having the <a href="https://github.com/retorquere/zotero-better-bibtex">better-bibtex</a> zotero plugin generate a continually-updated CSL-JSON file containing all relevant bibliographic references, which are referenced by the custom shortcodes provided by simplecite.</p>
-<p>Simplecite currently only supports a single numerical endnote reference style but they have plans to implement additional styles, including an author-date format which I prefer. See <a href="https://github.com/joksas/hugo-simplecite/issues/6">my GitHub Issue</a> inquiring about this.</p>
-<p>I tried using <a href="https://github.com/loup-brun/hugo-cite/">hugo-cite</a>, which simplecite is derived from, but I could not get it to work properly. It also does not seem to be maintained anymore, which prompted me to adopt simplecite instead.</p>
+<p>This website is based on Quarto, a platform for writing and publishing scientific and technical writing. I had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.</p>
+<p>The site is hosted on GitHub Pages using a CI workflow to automatically generate the site files upon changes being pushed to the repo. The repo is located at https://github.com/zackbatist/CITF-Postdoc, though I’m making an effort to ensure that the site can be ported to another hosting provider if necessary.</p>
 </section>
 <section id="generating-pdfs" class="level2">
 <h2 class="anchored" data-anchor-id="generating-pdfs">Generating PDFs</h2>
-<p>As an avid latex user, I do not really want to abandon PDFs entirely, and I’d like to figure out a way to generate PDF versions of the text rendered on the website. This could probably be accomplished using pandoc running through a CI workflow.</p>
+<p>As an avid user, I do not really want to abandon PDFs entirely. Thankfully, Quarto allows me to pass the markdown through a rendering engine and <a href="https://quarto.org/docs/output-formats/html-multi-format.html">generate outputs in different formats</a> with ease. I relied on this guide for assistance with this:</p>
 <p>These PDFs will be tracked with git and I’ll configure a latex template to generate timestamps and references to their corresponding web versions.</p>
 </section>
 <section id="archiving-and-version-control" class="level2">
@@ -693,11 +705,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     <div class="nav-footer-left">
       <ul class="footer-items list-unstyled">
     <li class="nav-item">
- License
-  </li>  
-    <li class="nav-item compact">
-    <a class="nav-link" href="../../LICENSE.md">
-    </a>
+    <a class="nav-link" href="https://creativecommons.org/publicdomain/zero/1.0/">
+<p>CC0</p>
+</a>
   </li>  
 </ul>
     </div>   

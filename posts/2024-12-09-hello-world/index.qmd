@@ -1,10 +1,6 @@
 ---
-author:
-  - name: "Zack Batist"
-  - orcid: 0000-0003-0435-508X
-  - email: zacharybatist@gmail.com
-date: 2024-12-09
 title: Hello World!
+date: 2024-12-09
 categories:
   - introduction
   - website

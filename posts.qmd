@@ -1,5 +1,7 @@
 ---
-title: "Blog"
+title: Blog
+author: ""
+date: ""
 listing: 
   contents: posts
   type: table

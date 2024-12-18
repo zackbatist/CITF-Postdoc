@@ -1,42 +1,56 @@
 ---
-title: "Cases"
-author:
-  - name: "Zack Batist"
-  - orcid: 0000-0003-0435-508X
-  - email: zacharybatist@gmail.com
-bibliography: /Users/zackbatist/Library/CloudStorage/Dropbox/zotero/zack.bib
-toc-title: ""
-toc-depth: 3
-toc-expand: 3
-# license: "CC0"
+title: Cases
 ---
 
 ## Overview
 In case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it.
-Cases are selected based on their relevance to a central topic and their ability to contribute novel insights about it [@ragin1992].
-Cases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on the matter of communal interest.
+The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest.
+They must be selected with care, and in ways that serve the overall project's objective.
+This document outlines the case selection strategy for this research.
+
+## Case Study Research
+Cases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern.
 Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own.
 
-The cases are not the subjects of inquiry.
-Instead, they represent unique sets of circumstances that frame or contextualize the phenomenon of interest.
-Using grounded theory, I will draw out the common and patterned themes that cut across cases, while simultaneously reflecting on the unique circumstances that differentiate them.
 In other words, cases are contexts that ascribe particular local flavours to the activities I trace, and which I must consider to account fully for the range of motivations, circumstances and affordances that back decisions to perform activities and to implement them in specific ways.
 
-This follows the approach advocated that Nicolini (2009) and Maryl et al. (2020: para. 30) advocate. They suggest “zooming
-in to a granular study of particular research activities and operations and zooming out to considering broader socio-technical and cultural factors”.
-This involves “magnifying or blowing up the details of practice, switching theoretical lenses, and selective re-positioning so that certain aspects are fore-grounded and others are temporarily sent to the background” (Nicolini 2009: 1412).
+Moreover, the power of case study research derives from identifying consistencies that relate cases to each other, while simultaneously highlighting how their unique and distinguishing facets contribute to their representativeness of the underlying phenomon.
+Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent.
+
+Grounded theory is commonly employed in research concerned with identifying intersecting and overlapping social values.
+Ggrounded theory makes it possible to draw out the common and patterned themes that cut across cases, while simultaneously reflecting on the unique circumstances that differentiate them.
+Specifically, I follow the approach that Maryl et al. [-@maryl2020: para. 30] and @nicolini2009 advocate, who suggest "zooming in to a granular study of particular research activities and operations and zooming out to considering broader socio-technical and cultural factors".
+This involves "magnifying or blowing up the details of practice, switching theoretical lenses, and selective re-positioning so that certain aspects are fore-grounded and others are temporarily sent to the background" [@nicolini2009: 1412].
+
 This approach is useful for me because data-sharing initiatives all start from different positions but share common practices and tendencies that vary according to those contextual circumstances.
-Thus I can tactfully switch between those lenses to understand the interplay between circumstances and practical implementations.
-
-However, comparison can be facilitated if the basis for comparison is well thought out in advance.
-Here I will identify factors that will enable me to draw comparisons among cases so that I may more effectively meet the project's objectives
-
-## Reiteration of Goals
-The goal of this project is to...
-
-The research questions are...
+Thus, I can tactfully switch between those lenses to understand the interplay between circumstances and practical implementations.
 
 ## Comparative Factors
+Comparison can be greatly facilitated if the bases for comparison are well thought out in advance.
+Here I will identify factors that will enable me to draw comparisons among cases so that I may more effectively meet the project's objectives
+
+To reiterate, this project investigates the social and collaborative apparatus that scaffold data harmonozation initiatives in epidemiology.
+Through analysis of data obtained through interviews with various relevant stakeholders attached to data-sharing initiatives, the project will ascertain the actions taken and challenges experienced to mediate the varied motivations, needs and values of those involved.
+In effect, the project aims to articulate the collaborative commitments that govern the constitution and maintenance of epidemiological information commons, and to relate these to technological, administrative and epistemic factors.
+
+A few strands of thought come to mind:
+
+- How close-knit is the web of projects that are sharing data?
+  - Are they already very familiar with each other?
+  - How were they recruited?
+  - Do any participants seem "forced", or are they all a natural fit?
+
+- How did data-sharing initiatives emerge?
+  - Opportunistic? Problem-solving? Culmination of a long-standing desire? Accidental by-product?
+  - How did these origins influence the social relations that came to shape the initiative?
+
+- How are the commons governed?
+  - What does the leadership look like, in terms of participants and their background, and the reasons for why they are in positions of power?
+  - Is there a tier structure of community participation? What boundaries are being drawn, and why are they being drawn in the ways that they are?
+  - What bounds the project as a whole?
+
+
+## Fixed Cases
 Maelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth, while also ensuring that participants (and myself) have a common frame of reference.
 This will greatly simplify the interviews by reducing the "overhead" of having to learn or be told about administrative or technical systems, which may distract from the core interest.
 
@@ -55,5 +69,5 @@ But it is also so that the data can be compared with research on user experience
 - 12-15 interviews, 60-90 minutes in duration
 
 
-
+@ragin1992
 

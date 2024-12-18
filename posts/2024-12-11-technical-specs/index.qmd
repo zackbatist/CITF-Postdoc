@@ -1,0 +1,39 @@
+---
+title: Technical specs for this website
+categories:
+  - website
+---
+
+I am using this website as a way to help organize and share key documents and resources.
+The research protocols are in flux at this stage in the project's development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.
+
+This post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves.
+
+::: {.callout-note}
+I initially created this website using Hugo. You can find an older version of this post reflecting that setup here: [#2346852](https://github.com/zackbatist/CITF-Postdoc/commit/2346852df7224ca18eff65c0f34335cc6245a78a).
+:::
+
+## Fundamentals
+This website is based on Quarto, a platform for writing and publishing scientific and technical writing.
+I had started off using Hugo, but there were too many limitations that Quarto was able to accomodate.
+I had used quarto before but without fully understanding it, and now I am starting to see its elegance.
+
+The site is hosted on GitHub Pages using a CI workflow to automatically generate the site files upon changes being pushed to the repo.
+The repo is located at https://github.com/zackbatist/CITF-Postdoc, though I'm making an effort to ensure that the site can be ported to another hosting provider if necessary.
+
+## Generating PDFs
+As an avid \LaTeX user, I do not really want to abandon PDFs entirely.
+Thankfully, Quarto allows me to pass the markdown through a \LaTeX rendering engine and [generate outputs in different formats](https://quarto.org/docs/output-formats/html-multi-format.html) with ease.
+I relied on this guide for assistance with this: 
+
+These PDFs will be tracked with git and I'll configure a latex template to generate timestamps and references to their corresponding web versions.
+
+## Archiving and Version Control
+Every change is tracked using git.
+However I would also like to find a way to archive each research protocol in Zenodo so that they can be assigned stable DOIs and detailed metadata, which will make them easier to reference.
+
+I do not want to rely on Zenodo's GitHub integration for two reasons: 1) I want this to be as platform-agnostic as possible, and 2) that system relies on GitHub's release system which operates on the level of the whole repository rather than specific files.
+I might be able to write a custom CI workflow to archive specific files to Zenodo using their API.
+However, I want to be able to toggle this option, rather than have it occur for every single detected change.
+Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on.
+Or it might be easier to simply do this manually, since I'm not sure I will be using it that often anyway.

@@ -1,17 +1,7 @@
 ---
-title: "Ethics Protocol"
-author:
-  - name: "Zack Batist"
-  - orcid: 0000-0003-0435-508X
-  - email: zacharybatist@gmail.com
-bibliography: /Users/zackbatist/Library/CloudStorage/Dropbox/zotero/zack.bib
-toc-title: ""
-toc-depth: 3
-toc-expand: 3
-# license: "CC0"
+title: Ethics Protocol
 ---
 
-# Ethics Protocol
 This page outlines my responses to questions from McGill University's Institutional Review Board.
 Although my project is covered by the most recent CITF grant and I will not be submitting these responses for review, I still consider it important to address these concerns here in writing as a matter of research integrity.
 

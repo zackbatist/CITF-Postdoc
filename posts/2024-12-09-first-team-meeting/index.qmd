@@ -1,16 +1,12 @@
 ---
-author:
-  - name: "Zack Batist"
-  - orcid: 0000-0003-0435-508X
-  - email: zacharybatist@gmail.com
-date: 2024-12-09
 title: Reflection on first team meeting
+date: 2024-12-09
 categories:
   - meeting notes
   - general thoughts
 ---
 
-Last week (2024/12/04) I finally met David, Tanya and Aklil in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.
+Last week (2024/12/04) I finally met with David Buckeridge, Tanya Murphy and Aklil Noza in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.
 
 The gist is that I will be investigating the role of social and cultural factors in data-sharing initiatives such as CITF and other Maelstrom-affiliated projects, and how these relate to, overlap with, or conflict with technical and institutional/administrative factors. To be clear, these are all very important aspects of data-sharing, but we generally recognized that the social and cultural aspects are under-explored relative to their impact.
 
