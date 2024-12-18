@@ -1,25 +1,62 @@
-on:
-  workflow_dispatch:
-  push:
-    branches: main
+project: 
+  type: website
 
-name: Quarto Publish
+website: 
+  title: "CITF-Postdoc" 
+  site-url: "https://zackbatist.info/CITF-Postdoc/" 
+  repo-url: "https://github.com/zackbatist/CITF-Postdoc"
+  repo-actions: [source]
+  bread-crumbs: true
+  page-navigation: false
+  favicon: images/favicon.ico
+  page-footer:
+    right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
+    left:
+      - text: "CC0"
+        href: https://creativecommons.org/publicdomain/zero/1.0/
 
-jobs:
-  build-deploy:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
+  sidebar:
+    logo: "images/logo.png"
+    pinned: true
+    align: center
+    style: "docked"
+    search: true
+    collapse-level: 2
+    contents:
+      - href: index.qmd
+        text: Home
+      - href: context.qmd
+        text: Context
+      - href: glossary.qmd
+        text: Glossary
+      - section: "Project Documentation"
+        contents:
+          - project-documentation/research-protocol.qmd
+          - project-documentation/ethics-protocol.qmd
+          - project-documentation/interview-protocol.qmd
+          - project-documentation/coding-protocol.qmd
+          - project-documentation/data-management.qmd
+          - project-documentation/cases.qmd
+      - posts.qmd
+      - section: Resources
+        contents:
+          - href: https://github.com/zackbatist/CITF-Postdoc
+            text: GitHub
+          - href: https://www.zotero.org/groups/5803066/citf-postdoc/library
+            text: Zotero
+          - href: posts.xml
+            text: RSS
 
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
+format:
+  html:
+    theme: cosmo
+    code-copy: true
+    code-overflow: wrap
+    toc: true
 
-      - name: Render and Publish
-        uses: quarto-dev/quarto-actions/publish@v2
-        with:
-          target: gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+filters:
+  - include-files.lua
+  - quarto
+
+execute:
+  freeze: auto
