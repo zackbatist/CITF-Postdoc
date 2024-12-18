@@ -9,8 +9,8 @@
 <link>https://zackbatist.info/CITF-Postdoc/posts.html</link>
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.6.39</generator>
-<lastBuildDate>Mon, 09 Dec 2024 00:00:00 GMT</lastBuildDate>
+<generator>quarto-1.5.54</generator>
+<lastBuildDate>Mon, 09 Dec 2024 05:00:00 GMT</lastBuildDate>
 <item>
   <title>Reflection on first team meeting</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-first-team-meeting/</link>
@@ -32,7 +32,7 @@
   <category>meeting notes</category>
   <category>general thoughts</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-first-team-meeting/</guid>
-  <pubDate>Mon, 09 Dec 2024 00:00:00 GMT</pubDate>
+  <pubDate>Mon, 09 Dec 2024 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Hello World!</title>
@@ -50,7 +50,7 @@
   <category>introduction</category>
   <category>website</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-hello-world/</guid>
-  <pubDate>Mon, 09 Dec 2024 00:00:00 GMT</pubDate>
+  <pubDate>Mon, 09 Dec 2024 05:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Technical specs for this website</title>
@@ -96,7 +96,7 @@ Note
  ]]></description>
   <category>website</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/2024-12-11-technical-specs/</guid>
-  <pubDate>Wed, 18 Dec 2024 18:32:29 GMT</pubDate>
+  <pubDate>Wed, 18 Dec 2024 18:40:43 GMT</pubDate>
 </item>
 </channel>
 </rss>

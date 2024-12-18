@@ -1,5 +1,186 @@
 [
   {
+    "objectID": "context.html",
+    "href": "context.html",
+    "title": "Context",
+    "section": "",
+    "text": "Zack’s bio and information about the CITF as institutional host.",
+    "crumbs": [
+      "Context"
+    ]
+  },
+  {
+    "objectID": "notes/meetings/Introductory meeting - 2024-12-04.html",
+    "href": "notes/meetings/Introductory meeting - 2024-12-04.html",
+    "title": "CITF-Postdoc",
+    "section": "",
+    "text": "Meeting with David, Tanya and Aklil to introduce the general concept of the research and align perspectives I think it went really well, I was confident and articulate\nI outlined my whole perspective on open data, and we discussed what the project would look like in terms of the questions I would ask, potential cases Also aligning language and perspectives We discussed timelines and overlap with Aklil’s work, which will be more concerned with focus groups with users – there is definitely overlap and we will coordinate but it will definitely relate Largely because she will be dealing with user perspectives for CITF specifically, whereas I will be focusing on discursive practices among data-sharing initiatives’ leaders We agreed that it would likely comprise around 15 interviews, with 4 carefully selected cases, plus Maelstrom personnel\nAfterwards, I sat and chatted with Tanya and Aklil about epidemiological research in general, the state and history of the field, just trying to get a sense about tensions relating to data and the different perspectives involved Tanya is going to send me a few resources to codify some of the knowledge they shared with me\nI also briefly talked with Rosalba about admin onboarding procedure The letter of offer is in the works, at which point we could submit the letter of offer plus the letter of agreement to the postdoc registration portal, which will allow me to get paid I also requested a desk in their amazing office space"
+  },
+  {
+    "objectID": "project-documentation/cases.html",
+    "href": "project-documentation/cases.html",
+    "title": "Cases",
+    "section": "",
+    "text": "Note\n\n\n\nThis document is still a work in progress.",
+    "crumbs": [
+      "Project Documentation",
+      "Cases"
+    ]
+  },
+  {
+    "objectID": "project-documentation/cases.html#overview",
+    "href": "project-documentation/cases.html#overview",
+    "title": "Cases",
+    "section": "Overview",
+    "text": "Overview\nIn case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it. The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest. They must be selected with care, and in ways that serve the overall project’s objective. This document outlines the case selection strategy for this research.",
+    "crumbs": [
+      "Project Documentation",
+      "Cases"
+    ]
+  },
+  {
+    "objectID": "project-documentation/cases.html#case-study-research",
+    "href": "project-documentation/cases.html#case-study-research",
+    "title": "Cases",
+    "section": "Case Study Research",
+    "text": "Case Study Research\nCases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern. Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own.\nIn other words, cases are contexts that ascribe particular local flavours to the activities I trace, and which I must consider to account fully for the range of motivations, circumstances and affordances that back decisions to perform activities and to implement them in specific ways.\nMoreover, the power of case study research derives from identifying consistencies that relate cases to each other, while simultaneously highlighting how their unique and distinguishing facets contribute to their representativeness of the underlying phenomon. Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent.\nGrounded theory is commonly employed in research concerned with identifying intersecting and overlapping social values. Ggrounded theory makes it possible to draw out the common and patterned themes that cut across cases, while simultaneously reflecting on the unique circumstances that differentiate them. Specifically, I follow the approach that Maryl et al. (2020: para. 30) and Nicolini (2009) advocate, who suggest “zooming in to a granular study of particular research activities and operations and zooming out to considering broader socio-technical and cultural factors”. This involves “magnifying or blowing up the details of practice, switching theoretical lenses, and selective re-positioning so that certain aspects are fore-grounded and others are temporarily sent to the background” (Nicolini 2009: 1412).\nThis approach is useful for me because data-sharing initiatives all start from different positions but share common practices and tendencies that vary according to those contextual circumstances. Thus, I can tactfully switch between those lenses to understand the interplay between circumstances and practical implementations.",
+    "crumbs": [
+      "Project Documentation",
+      "Cases"
+    ]
+  },
+  {
+    "objectID": "project-documentation/cases.html#comparative-factors",
+    "href": "project-documentation/cases.html#comparative-factors",
+    "title": "Cases",
+    "section": "Comparative Factors",
+    "text": "Comparative Factors\nComparison can be greatly facilitated if the bases for comparison are well thought out in advance. Here I will identify factors that will enable me to draw comparisons among cases so that I may more effectively meet the project’s objectives\nTo reiterate, this project investigates the social and collaborative apparatus that scaffold data harmonozation initiatives in epidemiology. Through analysis of data obtained through interviews with various relevant stakeholders attached to data-sharing initiatives, the project will ascertain the actions taken and challenges experienced to mediate the varied motivations, needs and values of those involved. In effect, the project aims to articulate the collaborative commitments that govern the constitution and maintenance of epidemiological information commons, and to relate these to technological, administrative and epistemic factors.\nA few strands of thought come to mind:\n\nHow close-knit is the web of projects that are sharing data?\n\nAre they already very familiar with each other?\nHow were they recruited?\nDo any participants seem “forced”, or are they all a natural fit?\n\nHow did data-sharing initiatives emerge?\n\nOpportunistic? Problem-solving? Culmination of a long-standing desire? Accidental by-product?\nHow did these origins influence the social relations that came to shape the initiative?\n\nHow are the commons governed?\n\nWhat does the leadership look like, in terms of participants and their background, and the reasons for why they are in positions of power?\nIs there a tier structure of community participation? What boundaries are being drawn, and why are they being drawn in the ways that they are?\nWhat bounds the project as a whole?",
+    "crumbs": [
+      "Project Documentation",
+      "Cases"
+    ]
+  },
+  {
+    "objectID": "project-documentation/cases.html#fixed-cases",
+    "href": "project-documentation/cases.html#fixed-cases",
+    "title": "Cases",
+    "section": "Fixed Cases",
+    "text": "Fixed Cases\nMaelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth, while also ensuring that participants (and myself) have a common frame of reference. This will greatly simplify the interviews by reducing the “overhead” of having to learn or be told about administrative or technical systems, which may distract from the core interest.\nCITF will also serve as a fixed case. This is for logistical issues, since the grant meant to support the CITF Databank. But it is also so that the data can be compared with research on user experiences pertaining to CITF specifically, which will be performed concurrently with my own work.",
+    "crumbs": [
+      "Project Documentation",
+      "Cases"
+    ]
+  },
+  {
+    "objectID": "project-documentation/cases.html#limitations-and-sources-of-bias",
+    "href": "project-documentation/cases.html#limitations-and-sources-of-bias",
+    "title": "Cases",
+    "section": "Limitations and Sources of Bias",
+    "text": "Limitations and Sources of Bias\n\nIdentifying prospective interview participants, sampling\nWillingness to participate\nPrioritizing local connections and in-person interviews?",
+    "crumbs": [
+      "Project Documentation",
+      "Cases"
+    ]
+  },
+  {
+    "objectID": "project-documentation/cases.html#logistical-constraints",
+    "href": "project-documentation/cases.html#logistical-constraints",
+    "title": "Cases",
+    "section": "Logistical Constraints",
+    "text": "Logistical Constraints\n\n12 month time limit\n12-15 interviews, 60-90 minutes in duration\n\nRagin (1992)",
+    "crumbs": [
+      "Project Documentation",
+      "Cases"
+    ]
+  },
+  {
+    "objectID": "admin/job-application/McGill CITF Job Interview.html",
+    "href": "admin/job-application/McGill CITF Job Interview.html",
+    "title": "CITF-Postdoc",
+    "section": "",
+    "text": "Job interview for an RA position with the Covid Immunity Task Force. October 29, 2024, 3pm via zoom\nThe CITF maintains a databank that “centralizes and harmonizes” data from Canadian Covid-19 studies The primary data collection and assembly phase was completed in March, but the CITF Data Management and Analysis unit continues to operate\nPosition Summary: - Identify Canadian and international stakeholders (public, governmental, private researchers, graduate education departments) - Help develop a Stakeholder Research plan - Help develop and evaluate information materials and workshops promoting and facilitating data access - Conduct focus group research and incorporate user feedback - Report progress and research results to Science Advisory Board and in peer reviewed publications - Work with small team of epidemiologists and data scientists to document, understand, and enhance the curated research data - Maintain data security and participant confidentiality.\nIn summary, the position seems to be about liaising with stakeholders who use the data, and conducting retrospective research on how the data are being used\nSeems very aligned with meta-science hype and trends Unclear how much support they will have for qualitative research\nInterview with Tanya Murphy, who seems to be their primary database manager Specializes in bayesian methods for supporting longitudinal epidemeiological research, especially long term studies of risk factors affecting children My relation to Bayesian modelling (for conversational purposes) is its use in radiocarbon dating by Sturt Manning at Cornell, and other modelling work occurring at the Santa Fe Institute in New Mexico\nI should emphasize my exploratory data analysis research, especially DataPapers-Citations\nShould not overstate my experience with qualitative research, but indicate my preference to incorporate qualitative elements into bibliometric analysis\n\n\nI think it went really well. My experience is really well-aligned with the things they need. However it’s strange how they don’t really consider what I do to be research, which is a bit of a red flag. I like how I would have a creative position, not just a drone RA, though salary is quite low for this kind of work\nI did see a few red flags. Tanya, who is the “point man” who held the interview, had a very guarded demeanor Also the fact that she kept referring to the PI ad “Dr” Buckeridge and insisted that I use Tanya instead of Dr. Murphy implies a weird hierarchy I also was not anticipating the fact that the database is contracted out to a private firm There will be a third collaborator aside from me and Tanya, who does the technical database work – I assume this guy is doing a mitacs or something similar? The very rushed process is also a bit of a red flag – whose time is the priority here? Also the fact that according to Tanya the position has been open for several months – which may work in my favour for getting the job, but also indicates a lack of will to have it filled\nSome positives: Tanya explicitly stated that they are looking for someone who can approach their issues from a position of expertise So looking for experts on scientific infrastructure and data re-use from an information studies perspective"
+  },
+  {
+    "objectID": "admin/job-application/McGill CITF Job Interview.html#first-interview",
+    "href": "admin/job-application/McGill CITF Job Interview.html#first-interview",
+    "title": "CITF-Postdoc",
+    "section": "",
+    "text": "Job interview for an RA position with the Covid Immunity Task Force. October 29, 2024, 3pm via zoom\nThe CITF maintains a databank that “centralizes and harmonizes” data from Canadian Covid-19 studies The primary data collection and assembly phase was completed in March, but the CITF Data Management and Analysis unit continues to operate\nPosition Summary: - Identify Canadian and international stakeholders (public, governmental, private researchers, graduate education departments) - Help develop a Stakeholder Research plan - Help develop and evaluate information materials and workshops promoting and facilitating data access - Conduct focus group research and incorporate user feedback - Report progress and research results to Science Advisory Board and in peer reviewed publications - Work with small team of epidemiologists and data scientists to document, understand, and enhance the curated research data - Maintain data security and participant confidentiality.\nIn summary, the position seems to be about liaising with stakeholders who use the data, and conducting retrospective research on how the data are being used\nSeems very aligned with meta-science hype and trends Unclear how much support they will have for qualitative research\nInterview with Tanya Murphy, who seems to be their primary database manager Specializes in bayesian methods for supporting longitudinal epidemeiological research, especially long term studies of risk factors affecting children My relation to Bayesian modelling (for conversational purposes) is its use in radiocarbon dating by Sturt Manning at Cornell, and other modelling work occurring at the Santa Fe Institute in New Mexico\nI should emphasize my exploratory data analysis research, especially DataPapers-Citations\nShould not overstate my experience with qualitative research, but indicate my preference to incorporate qualitative elements into bibliometric analysis\n\n\nI think it went really well. My experience is really well-aligned with the things they need. However it’s strange how they don’t really consider what I do to be research, which is a bit of a red flag. I like how I would have a creative position, not just a drone RA, though salary is quite low for this kind of work\nI did see a few red flags. Tanya, who is the “point man” who held the interview, had a very guarded demeanor Also the fact that she kept referring to the PI ad “Dr” Buckeridge and insisted that I use Tanya instead of Dr. Murphy implies a weird hierarchy I also was not anticipating the fact that the database is contracted out to a private firm There will be a third collaborator aside from me and Tanya, who does the technical database work – I assume this guy is doing a mitacs or something similar? The very rushed process is also a bit of a red flag – whose time is the priority here? Also the fact that according to Tanya the position has been open for several months – which may work in my favour for getting the job, but also indicates a lack of will to have it filled\nSome positives: Tanya explicitly stated that they are looking for someone who can approach their issues from a position of expertise So looking for experts on scientific infrastructure and data re-use from an information studies perspective"
+  },
+  {
+    "objectID": "admin/job-application/McGill CITF Job Interview.html#second-interview",
+    "href": "admin/job-application/McGill CITF Job Interview.html#second-interview",
+    "title": "CITF-Postdoc",
+    "section": "Second interview",
+    "text": "Second interview\nNovember 1, 2:30pm via zoom With David Buckeridge, the PI I have a feeling it will be similar questions, but for the PI to get a sense of where I’m coming from\nI don’t know much about Buckeridge, but he seems very into metascience trends and tech I have a feeling that he doesn’t want anything too critical, he wants me to work within the parameters that the project has already established, without questioning its underlying issues I worry that it may be a repeat of the Kimmelman/Sullivan debacle\nJust answer his questions, respond to his needs Don’t be defensive about qualitative research But empasize that from a research perspective, qualitative research can open critical perspectives that you may not have anticipated, and has deeper explanatory potential\nI will inquire about whether this can be translated into a postdoc position, rather than an RA position This might require a new posting and search procedure so I won’t push it, but I need to think about career advancement\n\nFollow-up\nWent really well, very casual I basically got the job He proposed to make this into a postdoc, I didn’t even have to ask I did think we were speaking past each other to a certain extent, so I offered to write a brief primer of my background and perspectives to help align our expectations If I remember correctly, the grant was originally for one year, was made into two, and may be extended to three And I will have an opportunity to apply for additional funding He will talk with HR and get back to be my Tuesday regarding whether this can be made into a postdoc, and what the procedure would be\nHe definitely wants to do research about social factors and value propositions regarding data integration initiatives And about collaboration in a broader sense"
+  },
+  {
+    "objectID": "admin/job-application/McGill CITF Job Interview.html#logistical-follow-up",
+    "href": "admin/job-application/McGill CITF Job Interview.html#logistical-follow-up",
+    "title": "CITF-Postdoc",
+    "section": "Logistical follow-up",
+    "text": "Logistical follow-up\nNovember 8, 2024 via zoom With David Buckeridge to discuss next steps ### Financial and admin details Determined in 2024-11-08 meeting Salary will be minimum 50,000 CAD for 12 months Postdoc can only start minumum 8 weeks after submitting this document, so mid-January The funding comes entirely from the PI’s award Still unsure of classification, but I suspect I will fall under Postdoctoral Rsearcher Group C Unionized"
+  },
+  {
+    "objectID": "posts/2024-12-11-technical-specs/index.html",
+    "href": "posts/2024-12-11-technical-specs/index.html",
+    "title": "Technical specs for this website",
+    "section": "",
+    "text": "I am using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.\nThis post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves."
+  },
+  {
+    "objectID": "posts/2024-12-11-technical-specs/index.html#fundamentals",
+    "href": "posts/2024-12-11-technical-specs/index.html#fundamentals",
+    "title": "Technical specs for this website",
+    "section": "Fundamentals",
+    "text": "Fundamentals\nThis website is based on Quarto, a platform for writing and publishing scientific and technical writing. I had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.\nThe site is hosted on GitHub Pages using a CI workflow to automatically generate the site files upon changes being pushed to the repo. The repo is located at https://github.com/zackbatist/CITF-Postdoc, though I’m making an effort to ensure that the site can be ported to another hosting provider if necessary."
+  },
+  {
+    "objectID": "posts/2024-12-11-technical-specs/index.html#generating-pdfs",
+    "href": "posts/2024-12-11-technical-specs/index.html#generating-pdfs",
+    "title": "Technical specs for this website",
+    "section": "Generating PDFs",
+    "text": "Generating PDFs\nAs an avid user, I do not really want to abandon PDFs entirely. Thankfully, Quarto allows me to pass the markdown through a rendering engine and generate outputs in different formats with ease. I relied on this guide for assistance with this:\nThese PDFs will be tracked with git and I’ll configure a latex template to generate timestamps and references to their corresponding web versions."
+  },
+  {
+    "objectID": "posts/2024-12-11-technical-specs/index.html#archiving-and-version-control",
+    "href": "posts/2024-12-11-technical-specs/index.html#archiving-and-version-control",
+    "title": "Technical specs for this website",
+    "section": "Archiving and Version Control",
+    "text": "Archiving and Version Control\nEvery change is tracked using git. However I would also like to find a way to archive each research protocol in Zenodo so that they can be assigned stable DOIs and detailed metadata, which will make them easier to reference.\nI do not want to rely on Zenodo’s GitHub integration for two reasons: 1) I want this to be as platform-agnostic as possible, and 2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files. I might be able to write a custom CI workflow to archive specific files to Zenodo using their API. However, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway."
+  },
+  {
+    "objectID": "posts/2024-12-09-first-team-meeting/index.html",
+    "href": "posts/2024-12-09-first-team-meeting/index.html",
+    "title": "Reflection on first team meeting",
+    "section": "",
+    "text": "Last week (2024/12/04) I finally met with David Buckeridge, Tanya Murphy and Aklil Noza in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.\nThe gist is that I will be investigating the role of social and cultural factors in data-sharing initiatives such as CITF and other Maelstrom-affiliated projects, and how these relate to, overlap with, or conflict with technical and institutional/administrative factors. To be clear, these are all very important aspects of data-sharing, but we generally recognized that the social and cultural aspects are under-explored relative to their impact.\nWe briefly talked about how we will go about selecting cases, and I emphasized the importance of strategic case selection. This also involves carefully articulating the project’s goals so that the cases will complement them. We agreed that the dataset will likely comprise between 12-15 interviews of around 60-90 minutes in length with representatives from 4-5 cases (one of them being CITF), in addition to representatives of the Maelstrom team. Maelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth and ensures that participants have a common frame of reference. It also potentially allows me to “offload” or “consolidate” reference to technical and administrative aspects of data-sharing through targeted interviews with Maelstrom personnel, instead of dealing with those things with the representatives for each case.\nWe discussed timelines and overlap with Aklil’s work, which will be more concerned with focus groups with CITF databank users. There is definitely overlap with the emphasis of my own work and we will coordinate data collection to enhance the potential for analytical alignment.\nAfter the meeting I chatted with Tanya and Aklil who helped familiarize me with the bigger-picture theoretical discourse and tensions in epidemiology. Much of it seemed familiar since these concerns are common across disciplines, but I still need to read more to concretize my understanding. Tanya recommended I read the “Baby Rothman” which is a condensed version of a very long-lived textbook in this field, among a few other papers she sent me.\nOverall, this meeting got me really excited about this project :)"
+  },
+  {
+    "objectID": "posts/2024-12-09-hello-world/index.html",
+    "href": "posts/2024-12-09-hello-world/index.html",
+    "title": "Hello World!",
+    "section": "",
+    "text": "Welcome to the website for my CITF Postdoc! This will serve as a hub for documenting and sharing my work. I decided to do this as a way of managing and sharing always-updated drafts of research protocols with my supervisor and team members, but it is also generally useful for keeping my thoughts organized. I will also use this blog section to write my thoughts as the project progresses."
+  },
+  {
+    "objectID": "admin/job-application/McGill CITF Databank job application.html",
+    "href": "admin/job-application/McGill CITF Databank job application.html",
+    "title": "CITF-Postdoc",
+    "section": "",
+    "text": "The CITF Databank has an open position for a full-time Research Assistant with a focus on stakeholder research. The successful candidate will be instrumental in promoting and expanding the use of COVID-19 research data. We seek an individual with a background in meta-research and epidemiology, or a related discipline, who has demonstrated skills in science community outreach and communication. Creativity, organization, and a collaborative mindset are attributes we value highly.\nThe CITF Databank centralizes and standardizes data from over 50 Canadian COVID-19 studies, providing researchers with a range of standardized pandemic data at no cost. This databank was established to augment the impact of the studies funded by the COVID-19 Immunity Task Force (CITF).\nLaunched by the Government of Canada in April 2020, the CITF’s mandate was to catalyze, support, fund, and harmonize knowledge on SARS-CoV-2 immunity, providing critical pandemic management insights for federal, provincial, and territorial decision-makers. The CITF operated until March 31, 2024. The CITF Databank continues the work of the CITF Data Management and Analysis unit, in partnership with a Science Advisory Board and a Data Access Committee.  Our Governance Framework is aligned with open science and FAIR data principles, and we have a mandate to promote and understand the use of the data for research.\nPosition Summary:\n\nIdentify Canadian and international stakeholders (public, governmental, private researchers, graduate education departments)\nHelp develop a Stakeholder Research plan\nHelp develop and evaluate information materials and workshops promoting and facilitating data access\nConduct focus group research and incorporate user feedback\nReport progress and research results to Science Advisory Board and in peer reviewed publications\nWork with small team of epidemiologists and data scientists to document, understand, and enhance the curated research data\nMaintain data security and participant confidentiality.\n\nQualifications:\n\nRequired\n\nMasters degree or higher in a relevant field such as population science related field (epidemiology, public health, applied economics, sociology), Information Science, Philosophy of Science, Communications\nExcellent written and oral communication skills\nStrong interpersonal and problem-solving skills. Ability to coordinate across teams.\n\nAssets\n\nComplementary experience (3+ years): If education was mainly quantitative and scientific, practical experience in qualitative research, focus groups, or knowledge translation; otherwise, practical experience in population sciences or medicine\nKnowledge of meta-research (research about research), open science, and FAIR data principles and organizations\nUnderstanding of measurement and data quality in human observational research.\nBilingual\nAgile project management skills\n\n\nHourly Salary: $30.75\nHours per Week: 35 (Full time)\nLocation: McGill College 2001\nSupervisor: Professor\nPosition Start Date: 2024-09-16\nPosition End Date: 2025-09-15\nDeadline to Apply: 2024-11-28\n\nWork Experience 1 Job Title: Founder and Maintainer Company: open-archaeo\nRole Description: I undertake research on academic open source software engineering practices using open-archaeo, a comprehensive list of tools and resources developed by and for archaeologists that I have been maintaining as an independent side-project since 2018 (Batist & Roe 2023, https://doi.org/10.5334/joad.111). I leveraged this dataset, supplemented with data pulled from the GitHub API, to perform statistical and network analyses of the collaborative experiences afforded by the open source model (Batist & Roe 2024, https://doi.org/10.11141/ia.67.13). I was able to trace how archaeologists use various languages, forges, licenses and supporting features (e.g. issues, stars, pull requests), and to discern trends regarding projects’ longevity, degree of community participation, and overall structure of collaborative ties. I am currently expanding this work to examine additional aspects of open collaborative experiences, including citation analysis of data papers (with an emphasis on identifying patterns of self-citation), and adherence to opinionated coding paradigms.\nWork Experience 2 Job Title: Research Assistant Company: University of Toronto (E-CURATORS)\nRole Description: I planned and implemented a federally-funded research project about the application of digital methods in archaeological research. I was in charge of collecting and analyzing data, coordinating teams of international collaborators, training and managing research assistants, setting up and maintaining the project’s tech stack and data management workflows, and publishing our primary set of findings (Batist et al. 2021, https://doi.org/10.1515/opar-2020-0217). One significant aspect of my work involved designing and maintaining graph databases based on Neo4j, which served as the cornerstone for our rigorous qualitative and statistical analyses of digital archaeology research practices. I was also responsible for leading cross-institutional research initiatives, training other project participants on the use of graph databases and other critical methods and practices, and ensuring that strong data quality standards were being met.\nWork Experience 3 Job Title: Database Manager Company: McMaster University (Stelida Naxos Archaeology Project)\nRole Description: I was responsible for designing and maintaining relational databases in fieldwork and analytical contexts. This involved developing workflows and interfaces for inputting and accessing data, coordinating with a wide array of interdisciplinary collaborators and specialists, training students and cross-appointed personnel, and maintaining various related aspects of the project’s tech stack. I led the development of QuARI, a database interface designed to facilitate the irregular, iterative and non-linear workflows that are commonly employed in analysis of prehistoric stone tools (Contreras et al. 2021, https://doi.org/10.1017/aap.2021.11). These experiences directly inspired my doctoral research concerning the social and technical infrastructures that scaffold archaeological data work, especially in contexts of reuse.\nWork Experience 4 Job Title: Research Assistant Company: Molecular Pharmacology Laboratory, Lady Davis Institute for Medical Research\nRole Description: I prepared cell samples and reagents, and assisted with biomolecular analysis and imaging."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "CITF-Postdoc",
+    "section": "",
+    "text": "This website serves as a hub for my postdoctoral research at McGill University’s Covid-19 Immunity Task Force Databank.\nThe project is concerned with articulating social, collaborative and discursive aspects of epidemiological data-sharing initiatives, and how they relate to, overlap with or conflict with technical, institutional and epistemic factors.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
     "objectID": "project-documentation/research-protocol.html",
     "href": "project-documentation/research-protocol.html",
     "title": "Research Protocol",
@@ -132,31 +313,18 @@
     ]
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
+    "objectID": "notes/meetings/Introduction with Dr. Fortier.html",
+    "href": "notes/meetings/Introduction with Dr. Fortier.html",
     "title": "CITF-Postdoc",
     "section": "",
-    "text": "This website serves as a hub for my postdoctoral research at McGill University’s Covid-19 Immunity Task Force Databank.\nThe project is concerned with articulating social, collaborative and discursive aspects of epidemiological data-sharing initiatives, and how they relate to, overlap with or conflict with technical, institutional and epistemic factors.",
-    "crumbs": [
-      "Home"
-    ]
+    "text": "December 17, 2024 at 2:30pm, 30 minutes, virtual Meeting with David and Isabel Fortier to convey my interest in Maelstrom and obtain guidance on how to proceed, i.e. who to approach as viable cases Need to prepare by doing a preliminary inquiry about viable cases, figure out which questions to ask Dr. Fortier"
   },
   {
-    "objectID": "posts/2024-12-09-hello-world/index.html",
-    "href": "posts/2024-12-09-hello-world/index.html",
-    "title": "Hello World!",
-    "section": "",
-    "text": "Welcome to the website for my CITF Postdoc! This will serve as a hub for documenting and sharing my work. I decided to do this as a way of managing and sharing always-updated drafts of research protocols with my supervisor and team members, but it is also generally useful for keeping my thoughts organized. I will also use this blog section to write my thoughts as the project progresses."
-  },
-  {
-    "objectID": "context.html",
-    "href": "context.html",
-    "title": "Context",
-    "section": "",
-    "text": "Zack’s bio and information about the CITF as institutional host.",
-    "crumbs": [
-      "Context"
-    ]
+    "objectID": "notes/meetings/Introduction with Dr. Fortier.html#potential-cases",
+    "href": "notes/meetings/Introduction with Dr. Fortier.html#potential-cases",
+    "title": "CITF-Postdoc",
+    "section": "Potential cases",
+    "text": "Potential cases\nhttps://www.maelstrom-research.org/page/current-partnerships\nhttps://maelstrom-research.org/network/ialsa https://maelstrom-research.org/network/cohorts.se https://maelstrom-research.org/network/eucanshare https://maelstrom-research.org/network/eucan-connect https://maelstrom-research.org/network/bioshare-eu https://maelstrom-research.org/network/cptp-1"
   },
   {
     "objectID": "posts.html",
@@ -166,118 +334,6 @@
     "text": "Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\n \n\n\nTechnical specs for this website\n\n\nwebsite\n\n\n\n\nDec 9, 2024\n\n\nReflection on first team meeting\n\n\nmeeting notes, general thoughts\n\n\n\n\nDec 9, 2024\n\n\nHello World!\n\n\nintroduction, website\n\n\n\n\n\nNo matching items",
     "crumbs": [
       "Blog"
-    ]
-  },
-  {
-    "objectID": "posts/2024-12-09-first-team-meeting/index.html",
-    "href": "posts/2024-12-09-first-team-meeting/index.html",
-    "title": "Reflection on first team meeting",
-    "section": "",
-    "text": "Last week (2024/12/04) I finally met with David Buckeridge, Tanya Murphy and Aklil Noza in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.\nThe gist is that I will be investigating the role of social and cultural factors in data-sharing initiatives such as CITF and other Maelstrom-affiliated projects, and how these relate to, overlap with, or conflict with technical and institutional/administrative factors. To be clear, these are all very important aspects of data-sharing, but we generally recognized that the social and cultural aspects are under-explored relative to their impact.\nWe briefly talked about how we will go about selecting cases, and I emphasized the importance of strategic case selection. This also involves carefully articulating the project’s goals so that the cases will complement them. We agreed that the dataset will likely comprise between 12-15 interviews of around 60-90 minutes in length with representatives from 4-5 cases (one of them being CITF), in addition to representatives of the Maelstrom team. Maelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth and ensures that participants have a common frame of reference. It also potentially allows me to “offload” or “consolidate” reference to technical and administrative aspects of data-sharing through targeted interviews with Maelstrom personnel, instead of dealing with those things with the representatives for each case.\nWe discussed timelines and overlap with Aklil’s work, which will be more concerned with focus groups with CITF databank users. There is definitely overlap with the emphasis of my own work and we will coordinate data collection to enhance the potential for analytical alignment.\nAfter the meeting I chatted with Tanya and Aklil who helped familiarize me with the bigger-picture theoretical discourse and tensions in epidemiology. Much of it seemed familiar since these concerns are common across disciplines, but I still need to read more to concretize my understanding. Tanya recommended I read the “Baby Rothman” which is a condensed version of a very long-lived textbook in this field, among a few other papers she sent me.\nOverall, this meeting got me really excited about this project :)"
-  },
-  {
-    "objectID": "posts/2024-12-11-technical-specs/index.html",
-    "href": "posts/2024-12-11-technical-specs/index.html",
-    "title": "Technical specs for this website",
-    "section": "",
-    "text": "I am using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.\nThis post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves."
-  },
-  {
-    "objectID": "posts/2024-12-11-technical-specs/index.html#fundamentals",
-    "href": "posts/2024-12-11-technical-specs/index.html#fundamentals",
-    "title": "Technical specs for this website",
-    "section": "Fundamentals",
-    "text": "Fundamentals\nThis website is based on Quarto, a platform for writing and publishing scientific and technical writing. I had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.\nThe site is hosted on GitHub Pages using a CI workflow to automatically generate the site files upon changes being pushed to the repo. The repo is located at https://github.com/zackbatist/CITF-Postdoc, though I’m making an effort to ensure that the site can be ported to another hosting provider if necessary."
-  },
-  {
-    "objectID": "posts/2024-12-11-technical-specs/index.html#generating-pdfs",
-    "href": "posts/2024-12-11-technical-specs/index.html#generating-pdfs",
-    "title": "Technical specs for this website",
-    "section": "Generating PDFs",
-    "text": "Generating PDFs\nAs an avid user, I do not really want to abandon PDFs entirely. Thankfully, Quarto allows me to pass the markdown through a rendering engine and generate outputs in different formats with ease. I relied on this guide for assistance with this:\nThese PDFs will be tracked with git and I’ll configure a latex template to generate timestamps and references to their corresponding web versions."
-  },
-  {
-    "objectID": "posts/2024-12-11-technical-specs/index.html#archiving-and-version-control",
-    "href": "posts/2024-12-11-technical-specs/index.html#archiving-and-version-control",
-    "title": "Technical specs for this website",
-    "section": "Archiving and Version Control",
-    "text": "Archiving and Version Control\nEvery change is tracked using git. However I would also like to find a way to archive each research protocol in Zenodo so that they can be assigned stable DOIs and detailed metadata, which will make them easier to reference.\nI do not want to rely on Zenodo’s GitHub integration for two reasons: 1) I want this to be as platform-agnostic as possible, and 2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files. I might be able to write a custom CI workflow to archive specific files to Zenodo using their API. However, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway."
-  },
-  {
-    "objectID": "project-documentation/cases.html",
-    "href": "project-documentation/cases.html",
-    "title": "Cases",
-    "section": "",
-    "text": "Note\n\n\n\nThis document is still a work in progress.",
-    "crumbs": [
-      "Project Documentation",
-      "Cases"
-    ]
-  },
-  {
-    "objectID": "project-documentation/cases.html#overview",
-    "href": "project-documentation/cases.html#overview",
-    "title": "Cases",
-    "section": "Overview",
-    "text": "Overview\nIn case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it. The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest. They must be selected with care, and in ways that serve the overall project’s objective. This document outlines the case selection strategy for this research.",
-    "crumbs": [
-      "Project Documentation",
-      "Cases"
-    ]
-  },
-  {
-    "objectID": "project-documentation/cases.html#case-study-research",
-    "href": "project-documentation/cases.html#case-study-research",
-    "title": "Cases",
-    "section": "Case Study Research",
-    "text": "Case Study Research\nCases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern. Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own.\nIn other words, cases are contexts that ascribe particular local flavours to the activities I trace, and which I must consider to account fully for the range of motivations, circumstances and affordances that back decisions to perform activities and to implement them in specific ways.\nMoreover, the power of case study research derives from identifying consistencies that relate cases to each other, while simultaneously highlighting how their unique and distinguishing facets contribute to their representativeness of the underlying phenomon. Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent.\nGrounded theory is commonly employed in research concerned with identifying intersecting and overlapping social values. Ggrounded theory makes it possible to draw out the common and patterned themes that cut across cases, while simultaneously reflecting on the unique circumstances that differentiate them. Specifically, I follow the approach that Maryl et al. (2020: para. 30) and Nicolini (2009) advocate, who suggest “zooming in to a granular study of particular research activities and operations and zooming out to considering broader socio-technical and cultural factors”. This involves “magnifying or blowing up the details of practice, switching theoretical lenses, and selective re-positioning so that certain aspects are fore-grounded and others are temporarily sent to the background” (Nicolini 2009: 1412).\nThis approach is useful for me because data-sharing initiatives all start from different positions but share common practices and tendencies that vary according to those contextual circumstances. Thus, I can tactfully switch between those lenses to understand the interplay between circumstances and practical implementations.",
-    "crumbs": [
-      "Project Documentation",
-      "Cases"
-    ]
-  },
-  {
-    "objectID": "project-documentation/cases.html#comparative-factors",
-    "href": "project-documentation/cases.html#comparative-factors",
-    "title": "Cases",
-    "section": "Comparative Factors",
-    "text": "Comparative Factors\nComparison can be greatly facilitated if the bases for comparison are well thought out in advance. Here I will identify factors that will enable me to draw comparisons among cases so that I may more effectively meet the project’s objectives\nTo reiterate, this project investigates the social and collaborative apparatus that scaffold data harmonozation initiatives in epidemiology. Through analysis of data obtained through interviews with various relevant stakeholders attached to data-sharing initiatives, the project will ascertain the actions taken and challenges experienced to mediate the varied motivations, needs and values of those involved. In effect, the project aims to articulate the collaborative commitments that govern the constitution and maintenance of epidemiological information commons, and to relate these to technological, administrative and epistemic factors.\nA few strands of thought come to mind:\n\nHow close-knit is the web of projects that are sharing data?\n\nAre they already very familiar with each other?\nHow were they recruited?\nDo any participants seem “forced”, or are they all a natural fit?\n\nHow did data-sharing initiatives emerge?\n\nOpportunistic? Problem-solving? Culmination of a long-standing desire? Accidental by-product?\nHow did these origins influence the social relations that came to shape the initiative?\n\nHow are the commons governed?\n\nWhat does the leadership look like, in terms of participants and their background, and the reasons for why they are in positions of power?\nIs there a tier structure of community participation? What boundaries are being drawn, and why are they being drawn in the ways that they are?\nWhat bounds the project as a whole?",
-    "crumbs": [
-      "Project Documentation",
-      "Cases"
-    ]
-  },
-  {
-    "objectID": "project-documentation/cases.html#fixed-cases",
-    "href": "project-documentation/cases.html#fixed-cases",
-    "title": "Cases",
-    "section": "Fixed Cases",
-    "text": "Fixed Cases\nMaelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth, while also ensuring that participants (and myself) have a common frame of reference. This will greatly simplify the interviews by reducing the “overhead” of having to learn or be told about administrative or technical systems, which may distract from the core interest.\nCITF will also serve as a fixed case. This is for logistical issues, since the grant meant to support the CITF Databank. But it is also so that the data can be compared with research on user experiences pertaining to CITF specifically, which will be performed concurrently with my own work.",
-    "crumbs": [
-      "Project Documentation",
-      "Cases"
-    ]
-  },
-  {
-    "objectID": "project-documentation/cases.html#limitations-and-sources-of-bias",
-    "href": "project-documentation/cases.html#limitations-and-sources-of-bias",
-    "title": "Cases",
-    "section": "Limitations and Sources of Bias",
-    "text": "Limitations and Sources of Bias\n\nIdentifying prospective interview participants, sampling\nWillingness to participate\nPrioritizing local connections and in-person interviews?",
-    "crumbs": [
-      "Project Documentation",
-      "Cases"
-    ]
-  },
-  {
-    "objectID": "project-documentation/cases.html#logistical-constraints",
-    "href": "project-documentation/cases.html#logistical-constraints",
-    "title": "Cases",
-    "section": "Logistical Constraints",
-    "text": "Logistical Constraints\n\n12 month time limit\n12-15 interviews, 60-90 minutes in duration\n\nRagin (1992)",
-    "crumbs": [
-      "Project Documentation",
-      "Cases"
     ]
   }
 ]
