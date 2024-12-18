@@ -59,5 +59,6 @@ Thumbs.db
 .hugo_build.lock
 /.luarc.json
 
+_site/
 admin/
 notes/
