@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/context.html</loc>
-    <lastmod>2024-12-18T16:31:38.940Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/glossary.html</loc>
-    <lastmod>2024-12-18T16:31:38.940Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/cases.html</loc>
-    <lastmod>2024-12-18T16:31:38.956Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/interview-protocol.html</loc>
-    <lastmod>2024-12-18T16:31:38.957Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/coding-protocol.html</loc>
-    <lastmod>2024-12-18T16:31:38.957Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/posts/2024-12-11-technical-specs/index.html</loc>
-    <lastmod>2024-12-18T16:31:38.956Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-first-team-meeting/index.html</loc>
-    <lastmod>2024-12-18T16:31:38.954Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-hello-world/index.html</loc>
-    <lastmod>2024-12-18T16:31:38.955Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/index.html</loc>
-    <lastmod>2024-12-18T16:31:38.950Z</lastmod>
-  </url>
-  <url>
     <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/research-protocol.html</loc>
-    <lastmod>2024-12-18T16:31:38.958Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/data-management.html</loc>
-    <lastmod>2024-12-18T16:31:38.957Z</lastmod>
+    <lastmod>2024-12-18T16:55:15.774Z</lastmod>
   </url>
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/ethics-protocol.html</loc>
-    <lastmod>2024-12-18T16:31:38.957Z</lastmod>
+    <lastmod>2024-12-18T16:55:15.774Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/interview-protocol.html</loc>
+    <lastmod>2024-12-18T16:55:15.774Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/index.html</loc>
+    <lastmod>2024-12-18T16:55:15.773Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-hello-world/index.html</loc>
+    <lastmod>2024-12-18T16:55:15.774Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/context.html</loc>
+    <lastmod>2024-12-18T16:55:15.762Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/glossary.html</loc>
+    <lastmod>2024-12-18T16:55:15.762Z</lastmod>
   </url>
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/posts.html</loc>
-    <lastmod>2024-12-18T16:31:38.952Z</lastmod>
+    <lastmod>2024-12-18T16:55:15.773Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-first-team-meeting/index.html</loc>
+    <lastmod>2024-12-18T16:55:15.774Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/posts/2024-12-11-technical-specs/index.html</loc>
+    <lastmod>2024-12-18T16:55:15.774Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/data-management.html</loc>
+    <lastmod>2024-12-18T16:55:15.774Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/coding-protocol.html</loc>
+    <lastmod>2024-12-18T16:55:15.774Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/project-documentation/cases.html</loc>
+    <lastmod>2024-12-18T16:55:15.774Z</lastmod>
   </url>
 </urlset>
