@@ -4,6 +4,9 @@ project:
     - "*.qmd"
     - "!admin/"
     - "!notes/"
+  preview:
+    port: 7777
+    browser: false
 
 website: 
   title: "CITF-Postdoc" 
@@ -33,14 +36,20 @@ website:
         text: Context
       - href: glossary.qmd
         text: Glossary
-      - section: "Project Documentation"
-        contents:
-          - project-documentation/research-protocol.qmd
-          - project-documentation/ethics-protocol.qmd
-          - project-documentation/interview-protocol.qmd
-          - project-documentation/coding-protocol.qmd
-          - project-documentation/data-management.qmd
-          - project-documentation/cases.qmd
+      - href: research-protocol.qmd
+        text: Research Protocol
+      - href: ethics-protocol.qmd
+        text: Ethics Protocol
+      - href: interview-protocol.qmd
+        text: Interview Protocol
+      - href: coding-protocol.qmd
+        text: Coding Protocol
+      - href: data-management.qmd
+        text: Data Management
+      - href: cases.qmd
+        text: Cases
+
+
       - posts.qmd
       - section: Resources
         contents:

@@ -1,10 +1,13 @@
 bibliography: CITF-Postdoc.bib
 csl: chicago-author-date.csl
 citations-hover: true
-toc-title: ""
 toc-depth: 3
 toc-expand: 3
 freeze: auto
 title-block-banner: false
+reference-location: margin
 format: 
-  html: default
+  html: 
+    grid: 
+      content-mode: standard
+      

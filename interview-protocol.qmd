@@ -1,0 +1,15 @@
+---
+title: Interview Protocol
+---
+
+
+In person and online
+
+I will record all interviews using a SONY ICD-UX560 audio recorder to capture audio in the lossless 16 bit 44.1 kHz Linear PCM wav format, with additional audio filters to enhance playback during transcription, if necessary.
+I will also record interview sessions using a GoPro Hero 4 Silver action camera, pending interviewees' informed consent.
+Based on prior interviews with scientists about their research experiences, I found that interviewees like to show me, rather than merely tell me, about what they are working on and the means through which they engage with information systems.
+The action cameras may be leveraged to record spontaneous video records of these demonstrations and provide me with an additional rich data source for further analysis.
+Moreover, the action cameras provide an additional backup audio recording in case of data loss on the primary recording device.
+
+
+I will also record handwritten notes comprising descriptive accounts of activities and interactions when recording devices are switched off, as well as preliminary interpretations of observed behaviours and notes on things I plan to follow up on at a later time.

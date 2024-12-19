@@ -6,42 +6,35 @@ This document is still a work in progress.
 :::
 
 ## Overview
-This study investigates the social, technical, administrative and epistemic factors that mediate data harmonization initiatives in epidemiological research.
+This study investigates the social, technical, administrative and epistemic factors that mediate data-sharing initiatives in epidemiological research.
 It takes to heart the notions that data are media that facilitate communication across different research contexts, that data are created with specific intent, and that data are bounded by the social, practical and material circumstances of their creation.
-In light of these facts, I approach data harmonization as means of reconciling the varied circumstances of datasets' creation --- both among themselves, and in relation to contexts of reuse.
+In light of these facts, I approach data-sharing as means of reconciling the varied circumstances of datasets' creation --- both among themselves, and in relation to contexts of reuse.
+I therefore frame data-sharing as efforts to foster a series of collaborative ties beyond a project's original indended scope.
 
-I therefore frame data-sharing as initiatices to foster a series of collaborative ties beyond a project's original indended scope.
-Data harmonization is a means of drawing the observations that constitute data into a formal schema, whose structure is driven by specific objectives and more general underlying suppositions and values.
-Moreover, schemas are arrived at through discussion, compromise and consensus-building, with an eye toward practical outcomes afforded by the data model.
+Data harmonization is one means of drawing the observations that constitute data into a formal schema, whose structure is driven by specific objectives and more general underlying suppositions and values.
+Although schemas are arrived at through discussion, compromise and consensus-building, with an eye toward practical outcomes afforded by the data model, these socially-mediated interactions are generally under-recognized as important factors contributing to data-sharing initiatives' success relative to their potential impact.
 
-While data harmonization certainly benefit from discursive interactions, these are generally under-valued as important factors contributing to data-sharing initiatives' success.
-My goal is to survey what factors are being priorized at various data harmonization initiatives, the rationales behind these decisions, and the relative efficacy of these variable approaches.
+My goal is to survey what factors are being priorized within various data harmonization initiatives, the rationales behind these decisions, and the relative efficacy of these variable approaches.
+More specifically, the project seeks to adress the following research questions:
 
-To be clear, my intent is not to pit various approaches against each other, but rather to ascertain what actions entail, the circumstances in which each is adopted, the value that they bring, and the trade-offs involved.
-In other words, I want to reveal the diverse ways in which data-sharing occurs, and how different approaches impact the outcomes in different ways.
+- What are the objectives of data-sharing initiatives, how were they established, and what progress has been made to achieve them?
+- What strategies do data-sharing initiatives employ to ensure they are able to meet their objectives, and how effective are they?
+- What values underlie these strategies, and can they be linked with effective outcomes?
 
-The Maelstrom Project, which is a leading firm supporting data-sharing initiatives in epidemiology research, presents a great opportunity to explore how social and material factors are being accounted for in data harmonization efforts.
-Maelstrom operates by partering with research projects through initial consultations, which may then evolve into more comprehensive data harmonization work.
-This is contingent on the value proposition that Maelstrom and partner projects ascertain will derive from harmonization, and evaluation of the feasibility of achieving these outcomes.
-Already, this approach differentiates itself from "raw"[^raw] open data-sharing in that it is directed by specific objectives, recognizes limitations of practical circumstances surrounding data's creation and the data harmonization efforts, and maintains the option to not proceed if it is deemed prudent to do so.
-Maelstrom's partners represent a pool of potential cases that already grapple with issues concerning mediation of situated experiences in data-sharing, and which may be receptive to investigation of their research practices.
+To be clear, my intent is not to pit various approaches against each other, but rather to ascertain what actions specific strategies entail, the circumstances in which each is adopted, the value that they bring, and the trade-offs involved.
+In other words, my goal is to reveal the diverse ways in which data-sharing occurs, and how different approaches impact the outcomes in different ways.
 
-[^raw]: I tentatively use the term "raw" data-sharing to mean acts of uploading and downloading spreadsheets among strangers via the web, which I tend to characterize as transactional (rather than commensal), as oriented toward compliance with the emerging bureaucratization of open science, and as relatively asocial in nature. See my [blog post](https://blog.zackbatist.info/2022/11/28/open-science-and-its-weird-conception-of-data/) where I rant about this in greater depth.
+## Background
 
-### Relevance
-This project is directly relevant to ongoing developments in the open data landscape.
-As the open data movement begins to mature, cracks are beginning to reveal themselves in the infrastructures we have built thus far.
-Critical inspection is therefore necessary to help improve these systems and ensure that they may continue to support research activities.
-
-Moreover, as a case study on community-oriented data-sharing initiatives, this project is well equipped to draw attention to the support structures (or lack thereof) for these efforts.
-Specifically, the project will contribute to a better understanding of what resources are necessary to improve data-sharing at large and small scales.
-
-This is especially relevant in the Canadian context, where open science policy has been undergoing major revisions for several years now, and which inspires little confidence in researchers concerning expected outcomes.
-Researchers have therefore taken it upon themselves to develop data-sharing initiatives on their own terms.
-This entrepreneurialism has been a boon for community-driven data-sharing, but is also plagued by difficulties, which this project will be the first of its kind to explore.
-
-### Research Questions
-Still in progress...
+```
+- About open data infrastructures in general
+  - Discrepancies between aspirations and effective outcomes
+  - Based on models of science that diverge from practical experience
+- About open data in epidemiology
+  - What is driving it?
+  - Introduce Maelstrom as a key player
+- Challenges and opportunities in the Canadian context
+```
 
 ## Methodology
 ### Approach
@@ -50,7 +43,7 @@ In practical terms, I will document the social and collaborative experiences inv
 
 I will specifically focus on how people contribute to and extract from information commons, which comprise both formal documents and mutually-held and information-laden situated experiences.
 This involves examining the ways in which participation in disciplinary or even more specialized communities of practice fosters mutual understanding about the potential and limitations pertaining to other people's data; and how this communally-held knowledge is accessed and re-produced.
-This approach aligns with the situated cognition methodological framework for examining the improvised, contingent and embodied experiences of human activity, including science [cf. @suchman2007; @haraway1988].
+This approach aligns with the situated cognition methodological framework for examining the improvised, contingent and embodied experiences of human activity, including science [cf. @suchman2007; @knorrcetina2001].
 
 The situated cognition framework prioritizes subjects' outlooks, which are contextualized by their prior experiences, and enables scholars to trace how people make sense of their environments and work with the physical and conceptual tools available to them to resolve immediate challenges.
 Situated cognition therefore lends itself to investigating rather fluid, open-ended and affect-oriented actions, and is geared towards understanding how actors draw from their prior experiences to navigate unique situations.
@@ -68,54 +61,34 @@ As such, in constructing the arguments of this study and in carrying out the fie
 In one sense, I rely on documenting how people actually act, including the longer-term and collaborative implications that their actions may have on other work occurring throughout the continuum of practice.
 To accomplish this, I identify research activities from the perspective of an outside observer.
 I also ascribe meanings to things (such as physical or conceptual tools, or objects that captivate subjects' interests) in ways that conform to my own perspective as an investigator of scientific research practices.
-
 On the other hand, a constructionist perspective enables me to consider how individual agents make components of information systems suit their needs to facilitate communication or interoperability among actors who hold different situated perspectives.
 By listening to participants' views about the systems with which they engage, including explanations as to why they act in the ways that they do, I am able to trace the assumptions and taken-for-granted behaviours that frame their perspectives.
 Moreover, these insights are useful for developing a better understanding of how participants identify with particular disciplinary communities and their perception of their roles within broader collective efforts.
 
 Ultimately, this study is about the social order of scientific research, i.e. the frameworks, mindsets or sets of values that humans adopt to carry out their work in specific ways.
-Human beings rely upon physical and conceptual apparatus to do this work but, in order to understand how they do science *in ways that conform to the epistemic mandates of the scientific enterprise*, it is necessary to prioritize attention to human intention, drivers and pressures.
-I am emphasizing the agency of human drivers -- as opposed to tools and procedures[^2] -- since humans are the ones who (a) identify problems that need to be resolved; (b) imagine, project or predict potential outcomes of various kinds of actions that they may select to resolve the challenges; and (c) learn from prior experiences and change their behaviours accordingly.
+Human beings rely upon physical and conceptual apparatus to do this work but, in order to understand how they do science _in ways that conform to the epistemic mandates of the scientific enterprise,_ it is necessary to prioritize attention to human intention, drivers and pressures.
+I am emphasizing the agency of human drivers --- as opposed to tools and procedures[^2] --- since humans are the ones who (a) identify problems that need to be resolved; (b) imagine, project or predict potential outcomes of various kinds of actions that they may select to resolve the challenges; and (c) learn from prior experiences and change their behaviours accordingly.
 By highlighting how pragmatic actions are conducted in relation to broader social and discursive trends and tendencies, I consider scholarly practices in terms of potential, certainty and desire from the perspectives of practitioners themselves.
 
-[^2]: Human and non-human agents are considered on equal footing under the Actor-Network Theory (ANT) framework, which has gained some traction since its origins in the late 1980s, but which may not be suitable for this approach. See the appendix for further commentary on ANT and its alternatives.
-
+[^2]: Human and non-human agents are considered on equal footing under the Actor-Network Theory (ANT) framework, which has gained some traction since its origins in the late 1980s, but which may not be suitable for this approach. See my extended note on this for further details.
 
 ### Data
-This paper will draw from interviews with epidemiological researchers and those who support epidemiological data integration.
-Interviews will be driven by an emphasis on documenting the process of reconciling different stakeholders' interests as they converge in the formation of a common data stream.
-Specifically, interviews will focus on motivations for their data harmonization work, the challenges they experience, how they envision success and failure, their perceptions of their own roles and the roles of other stakeholders, the values that inform their decisions, how the technological apparatus they set up enables them to realize their goals and values, and things they consider to be missing from data-sharing initiatives they have experienced thus far.
-
-I will hold around 12-15 interviews and analyze participants elicitations using qualitative data analysis methods.
+This project will draw from around 12-15 interviews with epidemiological researchers who lead and carry out initiatives to share and harmonize data.
 Interviewees will comprise members of several projects that partner with the Maelstrom research group, a service that supports data harmonization efforts in the field of epidemiology.
-My selection of cases reflects a need to account for a wide range of decisions and values accounted for in data harmonization efforts.
+See the [case selection strategy document](cases.qmd) for further information on how cases are decided upon.
 
-Data collection will be facilitated by the fact that many of the projects are based in Canada, and specifically in Montreal -- where the principal researcher currently resides.
-This may introduce some bias toward prioritizing local connections (as opposed to Maelstrom's work with European- and American-led projects) and increased visibility toward collaborative benefits that accompany local cooperation.
-However, this seems to be intrinsic to Maelstrom's roots, and may not really be an aberration.
+Interviews will be oriented by my goal to document processes of reconciling different stakeholders' interests as they converge in the formation of a common data stream.
+Specifically, interviews will focus on motivations for their initiatives, the challenges they experience, how they envision success and failure, their perceptions of their own roles and the roles of other team members and stakeholders, the values that inform their decisions, how the technological apparatus they set up enables them to realize their goals and values, and ways in which they believe data-sharing could be improved.
+See the [interview protocol](interview-protocol.qmd) for further details on the questions I will ask and how their responses will contribute to the project's findings, as well as logistical considerations.
 
-I will record all interviews using a SONY ICD-UX560 audio recorder to capture audio in the lossless 16 bit 44.1 kHz Linear PCM wav format.
-I may apply additional audio filters to enhance audio playback while transcribing selected sections of interview records, depending on the degree of noise interference present during the interviews.
-I will also record interview sessions using a GoPro Hero 4 Silver action camera, pending interviewees' informed consent.
-Based on prior interviews with scientists about their research experiences, I found that interviewees like to show me, rather than merely tell me, about what they are working on and the means through which they engage with information systems.
-The action cameras may be leveraged to record spontaneous video records of these demonstrations and provide me with an additional rich data source for further analysis.
-Moreover, the action cameras provide an additional backup audio recording in case of data loss on the primary recording device.
-
-I will record handwritten notes in bound notebooks.
-They will largely comprise descriptive documentation of activities and interactions when recording devices are not operating, as well as preliminary interpretations of observed behaviours and notes on things I plan to follow up on at a later time.
-I will scan these notebooks and transcribe the text so that these additional data sources could be included in the analytical corpus.
-
-I will transcribing the interviews and edit the transcripts so that they conform with transcript notation standards [e.g. GAT-2, see @selting2011] and so they are optimally formatted for my analytical intent.
+I will transcribing the interviews and edit the transcripts so that they conform with transcript notation standards [e.g. GAT-2, see @selting2011] and so they are optimally formatted for application in qualitative data analysis software.
 I will use automated speech recognition and natural language processing to create preliminary transcripts, which I will then manual edit.
-I may leverage support from a research assistant for these tasks.
 
-I will collect and handle all data in full compliance with an ethics protocol to be approved by McGill University's research ethics board.
-I will present an overview of the research to all participants and obtain verbal consent prior to each interview before proceeding.
-I will opt to not render confidential the identities of study participants, but I will provide them with the option if they desire.
-This will include the ability to retroactively select this option up to one week after the interview has been completed.
-I will prompt interviewees about this option immediately after the termination of the interview and via email the day before the end of the one week period following the interview.
+I will collect and handle all data in full compliance with the [ethics protocol](ethics-protocol.qmd).
+I will present an overview of the research objectives to all participants and obtain verbal consent prior to each interview before proceeding.
+Interviewees will be given the option to obfuscate any identifying information in processed records, and I will reiterate this option immediately after the interview and in a follow-up email one week following the interview.
 
-Something about data management plan \[in progress\]...
+Data will be curated according the [data management plan](data-management.qmd).
 
 ### Methods
 I will qualitatively analyze transcribed interviews to highlight the collaborative nature of work involved in harmonization of epidemiological data, which participants may struggle to identify or articulate.
@@ -170,7 +143,7 @@ Still in progress...
 ### Comments on Actor-Network Theory
 Previous work examining the apparatus of science relies heavily on Actor-Network Theory (ANT) or similar approaches that highlight the agency and impacts of tools on research practice.
 These draw attention to how non-human objects not only frame how human beings inhabit the world, but "push back" upon human actions with significant effects [@latour1992].
-In the context of early studies of scientific research, ANT was used to understand the physical and communicative mechanisms -- made up of non-human agents and information objects -- upon which scientists rely to capture, document and ascribe meaning to particular facets of the world [cf. @latour1986].
+In the context of early studies of scientific research, ANT was used to understand the physical and communicative mechanisms --- made up of non-human agents and information objects --- upon which scientists rely to capture, document and ascribe meaning to particular facets of the world [cf. @latour1986].
 ANT posits that scientists can only identify, characterize and understand objects of interest by co-creating their conceptions of reality alongside non-human agents.
 
 For instance, [@latour1986] initially applied ANT to investigate how knowledge is produced by molecular biologists in a laboratory setting.
@@ -237,7 +210,7 @@ By highlighting the complex textures of work contributed by various members of a
 
 Paying close attention to the minute and pragmatic aspects of practice, is, according to Latour and Woolgar [-@latour1999 24], what those in the fields of 'science studies' do best.
 By studying the particularities of what scientists actually do, and the ways in which they relate to things through series of coordinated social and technological mechanisms, we may be able to understand flows of knowledge across a continuum of understanding.
-By observing how professionals communicate and connect with each other and with the phenomena that captivate their interests, we can come to better understand the epistemic culture -- the mindsets that drive curiosity and foster growth -- which shapes the ways that they understand the world [@knorrcetina1999].
+By observing how professionals communicate and connect with each other and with the phenomena that captivate their interests, we can come to better understand the epistemic culture --- the mindsets that drive curiosity and foster growth --- which shapes the ways that they understand the world [@knorrcetina1999].
 As a result, scientific research, framed as a wide variety of active and cooperative engagements among people and objects, become situated alongside other ways of knowing.
 This is particularly important in a world where Mertonian notions of scholarly tribalism between the sciences, social sciences and humanities remain pervasive, despite many years of critique demonstrating that all scholarship actually occurs along an open continuum.
 In addition to helping foster more genuine cross-disciplinary encounters, recognition of the cultural situatedness of scholarship will enable scholars to more effectively operate in public and contribute towards the potential resolution of wicked problems.
