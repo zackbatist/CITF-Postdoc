@@ -25,6 +25,7 @@ To be clear, my intent is not to pit various approaches against each other, but 
 In other words, my goal is to reveal the diverse ways in which data-sharing occurs, and how different approaches impact the outcomes in different ways.
 
 ## Background
+Still in progress...
 
 ```
 - About open data infrastructures in general
@@ -36,7 +37,7 @@ In other words, my goal is to reveal the diverse ways in which data-sharing occu
 - Challenges and opportunities in the Canadian context
 ```
 
-This project is directly relevant to ongoing developments in the open data landscape.
+<!-- This project is directly relevant to ongoing developments in the open data landscape.
 As the open data movement begins to mature, cracks are beginning to reveal themselves in the infrastructures we have built thus far.
 Critical inspection is therefore necessary to help improve these systems and ensure that they may continue to support research activities.
 
@@ -53,7 +54,7 @@ Maelstrom's partners represent a pool of potential cases that already grapple wi
 
 This is especially relevant in the Canadian context, where open science policy has been undergoing major revisions for several years now, and which inspires little confidence in researchers concerning expected outcomes.
 Researchers have therefore taken it upon themselves to develop data-sharing initiatives on their own terms.
-This entrepreneurialism has been a boon for community-driven data-sharing, but is also plagued by difficulties, which this project will be the first of its kind to explore.
+This entrepreneurialism has been a boon for community-driven data-sharing, but is also plagued by difficulties, which this project will be the first of its kind to explore. -->
 
 ## Methodology
 ### Approach
@@ -110,50 +111,57 @@ Interviewees will be given the option to obfuscate any identifying information i
 Data will be curated according the [data management plan](data-management.qmd).
 
 ### Methods
-I will qualitatively analyze transcribed interviews to highlight the collaborative nature of work involved in harmonization of epidemiological data, which participants may struggle to identify or articulate.
-My analysis will involves an abductive qualitative data analysis methodology to articulate theories based on empirical evidence.
-This approach draws from what Charmaz [-@charmaz2014 14-15] calls the "constellation of methods" associated with grounded theory that are helpful for making sense of qualitative data, namely coding and memoing.
+I will perform qualitative data analysis (QDA) methods to highlight collaborative aspects of data harmonization work, as elicited in the interviews.
+QDA involves encoding the primary sources of evidence in ways that enable a researcher to draw cohesive theoretical accounts or explanations.
+This is done by tagging segments of a document (such as an interview transcript) using codes, and by embedding open-ended interpretive memos directlly alongside the data.
+Through these methods, I am able to articulate theories based on empirical evidence that reflect my informants' diverse experiences.
 
-Coding, which involves defining what data are about in terms that are relevant to the theoretical frameworks that inform my research, entails rendering instances within a text as interpreted abstractions called codes [@charmaz2014 43].
+Coding --- which involves defining what specific elicitations are about in terms that are relevant to the theoretical frameworks that inform my research --- entails rendering instances within a text as interpreted abstractions called codes [@charmaz2014 43].
 Codes can exist at various levels of abstraction.
 For instance, I may apply descriptive codes to characterize literal facets of an instance within a text, and theoretical codes to represent more interpretive concepts that correspond with aspects of particular theoretical frameworks.
-I may create many of my codes on the fly as "open codes" when prompted by encounters with demonstrative instances in the text.
-As I create new codes, I will situate them within a code system that provides me with a rough taxonomic structure to help organize my work and to enable me to more effectively query the data.
+I tend to create codes on the fly as "open codes" when prompted by encounters with demonstrative instances in the text.
+However, as I create new codes, I situate them within a hierarchical code system that provides me with a rough taxonomic structure to help organize my work and to enable me to more effectively query the data.
 Coding in this manner involves synthesis of concepts that speak to my understanding of the phenomena of interest, while forcing me to remain receptive to limits imposed by what is actually contained in the text.
-In other words, coding involves applying a precise language to segments of transcribed interviews that serve to bridge the gap between what participants said and the theoretical frameworks I applied to explore them as epistemic activities, interfaces and values [cf. @charmaz2014; @saldana2011 95-98].
+In other words, coding involves applying a precise language to segments of transcribed interviews that serve to bridge the gap between what participants said and the theoretical frameworks I apply to explore them as epistemic activities, interfaces and values [cf. @charmaz2014; @saldana2011 95-98].
 
 Memoing entails more open-ended exploration and reflection upon latent ideas in order to crystallize them into new avenues to pursue [@charmaz2014 72].
-Constructing memos is a relatively flexible way of engaging with data and serves as fertile ground for honing new ideas. Memoing is especially crucial while articulating sensitizing concepts, which Charmaz [-@charmaz2003 259] refers to as the "points of departure from which to study the data".
+Constructing memos is a relatively flexible way of engaging with data and serves as fertile ground for honing new ideas.
+Memoing is especially crucial while articulating sensitizing concepts, which Charmaz [-@charmaz2003 259] refers to as the "points of departure from which to study the data".
 Memoing allows me to take initial notions that lack specification of well-defined attributes, and gradually refine them into more cohesive, definitive concepts [@blumer1954 7; @bowen2006].
 Exploring the main features, relationships or arrangements that underlie a superficial view of a sensitizing concept through memoing helps me to identify what kinds of things I need to locate in the data in order to gain a full understanding of the phenomena of interest.
 Memoing is also very important in the process of drawing out more coherent meaning from coded data [cf. @charmaz2014 181, 290-293].
 By creating memos pertaining to the intersections of various codes and drawing comparisons across similarly coded instances, I am able to form more robust and generalizable arguments about the phenomena of interest and relate them to alternative perspectives expressed by others.
 
-Throughout my analysis, I will follow the approach that @nicolini2009 and Maryl et al. [-@maryl2020 para. 30] advocate, who suggest "zooming in to a granular study of particular research activities and operations and zooming out to considering broader sociotechnical and cultural factors".
+Throughout my analysis, I will follow the approach that @nicolini2009 and Maryl et al. [-@maryl2020 para. 30] advocate, who suggest "zooming in to a granular study of particular research activities and operations and zooming out to considering broader sociotechnical and cultural factors."
 This involves "magnifying or blowing up the details of practice, switching theoretical lenses, and selective re-positioning so that certain aspects are fore-grounded and others are temporarily sent to the background" [@nicolini2009 1412].
 This approach is useful for me because research projects all start from different positions but share common practices and tendencies that vary according to those contextual circumstances.
 I am therefore able to tactfully switch between those lenses to understand the interplay between circumstances and practical implementations, which vary across cases, which have their own histories, memberships, sets of tools, methods, and social or political circumstances.ships, sets of tools, methods, and social or political circumstances.
 
-I will perform all of this work using MaxQDA, a proprietary qualitative data analysis software suite that stores all of these connections within a centralized database [@verbisoftware2021].[^3]
+I will perform all of this work using MaxQDA, a QDA software suite that stores all of these connections within a centralized database [@verbisoftware2021].[^3]
 This allows me to retrieve segments of text from across various documents that have been assigned the same sets of codes, and perform more complex queries that search along different parameters of overlap, intersection, and exclusion.
-I will then able to query the integrated dataset to produce elaborated accounts of specific kinds of activities, decisions, values and sentiments.
+I will then be able to query the integrated dataset to produce elaborated accounts of specific kinds of activities, decisions, values and sentiments.
 
-[^3]: I am most familiar with MaxQDA but I may explore other software. NVivo is another popular proprietary software suite with overlapping functionality. QualCoder, OpenQDA and QCoder are open source but they are under ongoing development, and may not be as feature-rich as proprietary systems once analysis commences.
+[^3]: I am most familiar with MaxQDA from my doctoral research. NVivo is another popular proprietary software suite with overlapping functionality, and QualCoder, OpenQDA and QCoder are open source implementations. In my experience, MaxQDA is the most feature-rich option and has a well-crafted interface that suits my needs well.
+
+See the [QDA protocol](qda-protocol.qmd) for further details on the code system and memoing guidelines, as well as specific QDA procedures.
 
 ## Limitations
-It should be noted that case study research limits my ability to derive generalized findings across the whole field of epidemiology.
-As such, my intent is instead to articulate some significant aspects of data harmonization as they are represented at the cases accessible through this study.
-In other words, I aim to make certain under-appreciated social and collaborative commitments that underlie data-sharing initiatives more visible and to draw greater attention to certain sensibilities, attitudes, and apprehensions that are relevant to contemporary discourse on the nature of epidemiological data and ongoing development of information infrastructures designed to support data integration and re-use.
-
 Still in progress...
 
-- Potential difficulties entering the community
+```
+- Entering the community, identifying cases and approaching potential participants
+- Demarcating scope in relation to the range of selected cases
+```
 
 ## Expected Outcomes and Impact
 Still in progress...
 
--  Support efforts to enhance data reuse potential of the CITF Databank
-- Devise and publish practical protocols for developing community-centred open data-sharing initiatives (maybe a "10 simple rules" style article?)
-- Submit comments to CIHR with regards to their ongoing revisions to federal open access policy
-- Publishing in STS/meta-science and epidemiology journals (specific venues TBD)
+```
+- Support efforts to enhance data reuse potential of the CITF Databank
+- Devise and publish practical protocols for developing community-centred open data-sharing initiatives
+  - Maybe a "10 simple rules" style article?
+- Publish in STS/meta-science and epidemiology journals (specific venues TBD)
+  - Maybe present at 4S/EASST or CSCW?
+- Submit comments to CIHR with regards to their ongoing revisions to federal open science policies
+```
 

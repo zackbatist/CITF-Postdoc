@@ -20,13 +20,9 @@ In other words, cases are contexts that ascribe particular local flavours to the
 Moreover, the power of case study research derives from identifying consistencies that relate cases to each other, while simultaneously highlighting how their unique and distinguishing facets contribute to their representativeness of the underlying phenomon.
 Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent.
 
-Grounded theory is commonly employed in research concerned with identifying intersecting and overlapping social values.
-Ggrounded theory makes it possible to draw out the common and patterned themes that cut across cases, while simultaneously reflecting on the unique circumstances that differentiate them.
-Specifically, I follow the approach that Maryl et al. [-@maryl2020: para. 30] and @nicolini2009 advocate, who suggest "zooming in to a granular study of particular research activities and operations and zooming out to considering broader socio-technical and cultural factors".
-This involves "magnifying or blowing up the details of practice, switching theoretical lenses, and selective re-positioning so that certain aspects are fore-grounded and others are temporarily sent to the background" [@nicolini2009: 1412].
-
-This approach is useful for me because data-sharing initiatives all start from different positions but share common practices and tendencies that vary according to those contextual circumstances.
-Thus, I can tactfully switch between those lenses to understand the interplay between circumstances and practical implementations.
+It should be noted that case study research limits my ability to derive generalized findings across the whole field of epidemiology.
+As such, my intent is instead to articulate some significant aspects of data harmonization as they are represented at the cases accessible through this study.
+In other words, I aim to make certain under-appreciated social and collaborative commitments that underlie data-sharing initiatives more visible and to draw greater attention to certain sensibilities, attitudes, and apprehensions that are relevant to contemporary discourse on the nature of epidemiological data and ongoing development of information infrastructures designed to support data integration and re-use.
 
 ## Comparative Factors
 Comparison can be greatly facilitated if the bases for comparison are well thought out in advance.

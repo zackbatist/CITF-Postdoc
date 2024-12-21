@@ -42,8 +42,8 @@ website:
         text: Ethics Protocol
       - href: interview-protocol.qmd
         text: Interview Protocol
-      - href: coding-protocol.qmd
-        text: Coding Protocol
+      - href: qda-protocol.qmd
+        text: QDA Protocol
       - href: data-management.qmd
         text: Data Management
       - href: cases.qmd
