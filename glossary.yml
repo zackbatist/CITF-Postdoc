@@ -1,0 +1,9 @@
+glossary:
+  API:
+    url: https://de.wikipedia.org/wiki/Programmierschnittstelle
+    definition: Application Programming Interface
+
+  APC:
+    url: https://en.wikipedia.org/wiki/Article_processing_charge
+    definition: Article processing charge
+

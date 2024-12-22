@@ -6,6 +6,8 @@ toc-expand: 3
 freeze: auto
 title-block-banner: false
 reference-location: margin
+link-external-icon: true
+link-external-filter: ^(?:http:|https:)\/\/zackbatist\.info\/
 format: 
   html: 
     grid: 
