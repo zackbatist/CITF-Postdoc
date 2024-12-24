@@ -11,6 +11,8 @@ The cases are not the subjects of inquiry, and instead represent unique sets of 
 They must be selected with care, and in ways that serve the overall project's objective.
 This document outlines the case selection strategy for this research.
 
+Case selection is crucial for delimiting the project's overall scope, and will significantly impact the extent to which the research questions may be adequately addressed.
+
 ## Case Study Research
 Cases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern.
 Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own.
@@ -32,6 +34,9 @@ To reiterate, this project investigates the social and collaborative apparatus t
 Through analysis of data obtained through interviews with various relevant stakeholders attached to data-sharing initiatives, the project will ascertain the actions taken and challenges experienced to mediate the varied motivations, needs and values of those involved.
 In effect, the project aims to articulate the collaborative commitments that govern the constitution and maintenance of epidemiological information commons, and to relate these to technological, administrative and epistemic factors.
 
+Still in progress...
+
+```
 A few strands of thought come to mind:
 
 - How close-knit is the web of projects that are sharing data?
@@ -47,26 +52,45 @@ A few strands of thought come to mind:
   - What does the leadership look like, in terms of participants and their background, and the reasons for why they are in positions of power?
   - Is there a tier structure of community participation? What boundaries are being drawn, and why are they being drawn in the ways that they are?
   - What bounds the project as a whole?
+```
+
+## Selecting Cases
+
+Since a significant aspect of this work is to compare different approaches to data-sharing that have not yet been systematically articulated, it will be necessary to loosely define the parameters through which each case will be initially characterized.
+I will rely on structured consultations with the research community to make sense of the data-sharing landscape and select cases accordingly.
+By consult with key stakeholders, I will arrive at a consensus about which cases are worth approaching while documenting the rationale behind these selections.
+
+The consultation process is meant to ensure that case selection adheres to community will and reasoning, while also ensuring that cases are logistically feasible.
+I will therefore ask for input from leading members of epidemioligical data-sharing initiatives who are familiar with the goals of the this project, and who are involved with the Maelstrom Project which establishes logistical boundaries around the scope of the project.
+The consultation will be guided by a few concerns:
+
+1. Longevity: initiatives that have existed for different durations of time will have different capacity to reflect on their practices, especially with regards to outcomes of their work
+2. Community membership: the size and composition of the community, degree of separation of its members, and the mechanisms through which connections are managed must be balanced to facilitate comparison
+3. Support structures: the ways in which the initiatives are supported (i.e. funding models, reliance on specific tech platforms) influence how a data-sharing initiative operates, and must be accounted for
+4. Disciplinary trends: reflections on whether an initiative is emblematic of specific paradigms or value regimes that permeate the discipline
+5. Historical or contextual factors: whether initiatives are meaningful in relation to broader trends, i.e. brexit's impact on trans-European funding
 
 
 ## Fixed Cases
-Maelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth, while also ensuring that participants (and myself) have a common frame of reference.
+Maelstrom will serve as a "fixed point" that limits the scope of the cases' breadth, while also ensuring that participants (and myself) have a common frame of reference.
 This will greatly simplify the interviews by reducing the "overhead" of having to learn or be told about administrative or technical systems, which may distract from the core interest.
 
 CITF will also serve as a fixed case.
-This is for logistical issues, since the grant meant to support the CITF Databank.
-But it is also so that the data can be compared with research on user experiences pertaining to CITF specifically, which will be performed concurrently with my own work.
+This is partly for logistical reqasons, since the grant is meant to support the CITF Databank, and this project will align with concurrent research on user experiences pertaining to CITF specifically.
 
 ## Limitations and Sources of Bias
+
+Still in progress...
+```
 - Identifying prospective interview participants, sampling
 - Willingness to participate
 - Prioritizing local connections and in-person interviews?
-
+```
 
 ## Logistical Constraints
+
+Still in progress...
+```
 - 12 month time limit
 - 12-15 interviews, 60-90 minutes in duration
-
-
-@ragin1992
-
+```
