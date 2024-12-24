@@ -95,7 +95,7 @@ By highlighting how pragmatic actions are conducted in relation to broader socia
 ### Data
 This project will draw from around 12-15 interviews with epidemiological researchers who lead and carry out initiatives to share and harmonize data.
 Interviewees will comprise members of several projects that partner with the Maelstrom research group, a service that supports data harmonization efforts in the field of epidemiology.
-See the [case selection strategy document](cases.qmd) for further information on how cases are decided upon.
+See the [case selection strategy document](case-selection.qmd) for further information on how cases are decided upon.
 
 Interviews will be oriented by my goal to document processes of reconciling different stakeholders' interests as they converge in the formation of a common data stream.
 Specifically, interviews will focus on motivations for their initiatives, the challenges they experience, how they envision success and failure, their perceptions of their own roles and the roles of other team members and stakeholders, the values that inform their decisions, how the technological apparatus they set up enables them to realize their goals and values, and ways in which they believe data-sharing could be improved.
@@ -145,23 +145,34 @@ I will then be able to query the integrated dataset to produce elaborated accoun
 
 See the [QDA protocol](qda-protocol.qmd) for further details on the code system and memoing guidelines, as well as specific QDA procedures.
 
-## Limitations
-Still in progress...
-
-```
-- Entering the community, identifying cases and approaching potential participants
-- Demarcating scope in relation to the range of selected cases
-```
-
 ## Expected Outcomes and Impact
+### Scholarly outputs
+This project will produce three articles.
+One of these will be published in a journal concerned with scientific practice or research data management (e.g. [Computer Supported Cooperative Work](https://link.springer.com/journal/10606)).
+Another will be published in a journal dedicated to advancing research practices in epidemiology (e.g. [Epidemiologic Methods](https://www.degruyter.com/journal/key/em/html?lang=en))
+Finally, I will publish a more practically-oriented set of guidelines deriving from the findings, as either an editorial or as a ["10 simple rules" style article](https://collections.plos.org/collection/ten-simple-rules/).
+
+I will also present this work at conferences and workshops, but specifics have yet to be determined.
+
+### Practical outcomes
+While this research is critical, it is intended to be constructive.
+It is therefore necessary to ensure that the findings may be put to practical use so as to enhance and improve data-sharing initiatives.
+While a "10 simple rules" article will be a handy brief of my findings, I would also like to contribute to the development of data-sharing infrastructures and policies in a more active manner.
+Specifically, I will reach out to leading stakeholders directly by highlighting our common interest in developing more effective data-sharing infrastructures and presenting a series of practical ideas for improving their services.
+I will ensure that these meetings conclude with a series of action items which will enable us to foster an outcome-oriented and productive relationship directed toward achieving tangible goals.
+
 Still in progress...
 
 ```
-- Support efforts to enhance data reuse potential of the CITF Databank
-- Devise and publish practical protocols for developing community-centred open data-sharing initiatives
-  - Maybe a "10 simple rules" style article?
-- Publish in STS/meta-science and epidemiology journals (specific venues TBD)
-  - Maybe present at 4S/EASST or CSCW?
+- Support efforts to enhance data reuse potential of the CITF Databank specifically
 - Submit comments to CIHR with regards to their ongoing revisions to federal open science policies
+```
+
+### Broader outreach
+Still in progress...
+
+```
+- Submit something to [The Conversation](https://theconversation.com/ca)
+- Collaboration with the [School of Information Studies](https://www.mcgill.ca/sis/)
 ```
 
