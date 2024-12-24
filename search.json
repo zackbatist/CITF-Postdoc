@@ -40,21 +40,11 @@
     ]
   },
   {
-    "objectID": "research-protocol.html#limitations",
-    "href": "research-protocol.html#limitations",
-    "title": "Research Protocol",
-    "section": "Limitations",
-    "text": "Limitations\nStill in progress…\n- Entering the community, identifying cases and approaching potential participants\n- Demarcating scope in relation to the range of selected cases",
-    "crumbs": [
-      "Research Protocol"
-    ]
-  },
-  {
     "objectID": "research-protocol.html#expected-outcomes-and-impact",
     "href": "research-protocol.html#expected-outcomes-and-impact",
     "title": "Research Protocol",
     "section": "Expected Outcomes and Impact",
-    "text": "Expected Outcomes and Impact\nStill in progress…\n- Support efforts to enhance data reuse potential of the CITF Databank\n- Devise and publish practical protocols for developing community-centred open data-sharing initiatives\n  - Maybe a \"10 simple rules\" style article?\n- Publish in STS/meta-science and epidemiology journals (specific venues TBD)\n  - Maybe present at 4S/EASST or CSCW?\n- Submit comments to CIHR with regards to their ongoing revisions to federal open science policies",
+    "text": "Expected Outcomes and Impact\n\nScholarly outputs\nThis project will produce three articles. One of these will be published in a journal concerned with scientific practice or research data management (e.g. Computer Supported Cooperative Work). Another will be published in a journal dedicated to advancing research practices in epidemiology (e.g. Epidemiologic Methods) Finally, I will publish a more practically-oriented set of guidelines deriving from the findings, as either an editorial or as a “10 simple rules” style article.\nI will also present this work at conferences and workshops, but specifics have yet to be determined.\n\n\nPractical outcomes\nWhile this research is critical, it is intended to be constructive. It is therefore necessary to ensure that the findings may be put to practical use so as to enhance and improve data-sharing initiatives. While a “10 simple rules” article will be a handy brief of my findings, I would also like to contribute to the development of data-sharing infrastructures and policies in a more active manner. Specifically, I will reach out to leading stakeholders directly by highlighting our common interest in developing more effective data-sharing infrastructures and presenting a series of practical ideas for improving their services. I will ensure that these meetings conclude with a series of action items which will enable us to foster an outcome-oriented and productive relationship directed toward achieving tangible goals.\nStill in progress…\n- Support efforts to enhance data reuse potential of the CITF Databank specifically\n- Submit comments to CIHR with regards to their ongoing revisions to federal open science policies\n\n\nBroader outreach\nStill in progress…\n- Submit something to [The Conversation](https://theconversation.com/ca)\n- Collaboration with the [School of Information Studies](https://www.mcgill.ca/sis/)",
     "crumbs": [
       "Research Protocol"
     ]
@@ -105,73 +95,93 @@
     ]
   },
   {
-    "objectID": "cases.html",
-    "href": "cases.html",
+    "objectID": "glossary.html",
+    "href": "glossary.html",
+    "title": "Glossary",
+    "section": "",
+    "text": "APC\n\nArticle processing charge\n\nAPI\n\nApplication Programming Interface",
+    "crumbs": [
+      "Glossary"
+    ]
+  },
+  {
+    "objectID": "case-selection.html",
+    "href": "case-selection.html",
     "title": "Cases",
     "section": "",
     "text": "Note\n\n\n\nThis document is still a work in progress.",
     "crumbs": [
-      "Cases"
+      "Case Selection"
     ]
   },
   {
-    "objectID": "cases.html#overview",
-    "href": "cases.html#overview",
+    "objectID": "case-selection.html#overview",
+    "href": "case-selection.html#overview",
     "title": "Cases",
     "section": "Overview",
-    "text": "Overview\nIn case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it. The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest. They must be selected with care, and in ways that serve the overall project’s objective. This document outlines the case selection strategy for this research.",
+    "text": "Overview\nIn case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it. The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest. They must be selected with care, and in ways that serve the overall project’s objective. This document outlines the case selection strategy for this research.\nCase selection is crucial for delimiting the project’s overall scope, and will significantly impact the extent to which the research questions may be adequately addressed.",
     "crumbs": [
-      "Cases"
+      "Case Selection"
     ]
   },
   {
-    "objectID": "cases.html#case-study-research",
-    "href": "cases.html#case-study-research",
+    "objectID": "case-selection.html#case-study-research",
+    "href": "case-selection.html#case-study-research",
     "title": "Cases",
     "section": "Case Study Research",
     "text": "Case Study Research\nCases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern. Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own.\nIn other words, cases are contexts that ascribe particular local flavours to the activities I trace, and which I must consider to account fully for the range of motivations, circumstances and affordances that back decisions to perform activities and to implement them in specific ways.\nMoreover, the power of case study research derives from identifying consistencies that relate cases to each other, while simultaneously highlighting how their unique and distinguishing facets contribute to their representativeness of the underlying phenomon. Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent.\nIt should be noted that case study research limits my ability to derive generalized findings across the whole field of epidemiology. As such, my intent is instead to articulate some significant aspects of data harmonization as they are represented at the cases accessible through this study. In other words, I aim to make certain under-appreciated social and collaborative commitments that underlie data-sharing initiatives more visible and to draw greater attention to certain sensibilities, attitudes, and apprehensions that are relevant to contemporary discourse on the nature of epidemiological data and ongoing development of information infrastructures designed to support data integration and re-use.",
     "crumbs": [
-      "Cases"
+      "Case Selection"
     ]
   },
   {
-    "objectID": "cases.html#comparative-factors",
-    "href": "cases.html#comparative-factors",
+    "objectID": "case-selection.html#comparative-factors",
+    "href": "case-selection.html#comparative-factors",
     "title": "Cases",
     "section": "Comparative Factors",
-    "text": "Comparative Factors\nComparison can be greatly facilitated if the bases for comparison are well thought out in advance. Here I will identify factors that will enable me to draw comparisons among cases so that I may more effectively meet the project’s objectives\nTo reiterate, this project investigates the social and collaborative apparatus that scaffold data harmonozation initiatives in epidemiology. Through analysis of data obtained through interviews with various relevant stakeholders attached to data-sharing initiatives, the project will ascertain the actions taken and challenges experienced to mediate the varied motivations, needs and values of those involved. In effect, the project aims to articulate the collaborative commitments that govern the constitution and maintenance of epidemiological information commons, and to relate these to technological, administrative and epistemic factors.\nA few strands of thought come to mind:\n\nHow close-knit is the web of projects that are sharing data?\n\nAre they already very familiar with each other?\nHow were they recruited?\nDo any participants seem “forced”, or are they all a natural fit?\n\nHow did data-sharing initiatives emerge?\n\nOpportunistic? Problem-solving? Culmination of a long-standing desire? Accidental by-product?\nHow did these origins influence the social relations that came to shape the initiative?\n\nHow are the commons governed?\n\nWhat does the leadership look like, in terms of participants and their background, and the reasons for why they are in positions of power?\nIs there a tier structure of community participation? What boundaries are being drawn, and why are they being drawn in the ways that they are?\nWhat bounds the project as a whole?",
+    "text": "Comparative Factors\nComparison can be greatly facilitated if the bases for comparison are well thought out in advance. Here I will identify factors that will enable me to draw comparisons among cases so that I may more effectively meet the project’s objectives\nTo reiterate, this project investigates the social and collaborative apparatus that scaffold data harmonozation initiatives in epidemiology. Through analysis of data obtained through interviews with various relevant stakeholders attached to data-sharing initiatives, the project will ascertain the actions taken and challenges experienced to mediate the varied motivations, needs and values of those involved. In effect, the project aims to articulate the collaborative commitments that govern the constitution and maintenance of epidemiological information commons, and to relate these to technological, administrative and epistemic factors.\nStill in progress…\nA few strands of thought come to mind:\n\n- How close-knit is the web of projects that are sharing data?\n  - Are they already very familiar with each other?\n  - How were they recruited?\n  - Do any participants seem \"forced\", or are they all a natural fit?\n\n- How did data-sharing initiatives emerge?\n  - Opportunistic? Problem-solving? Culmination of a long-standing desire? Accidental by-product?\n  - How did these origins influence the social relations that came to shape the initiative?\n\n- How are the commons governed?\n  - What does the leadership look like, in terms of participants and their background, and the reasons for why they are in positions of power?\n  - Is there a tier structure of community participation? What boundaries are being drawn, and why are they being drawn in the ways that they are?\n  - What bounds the project as a whole?",
     "crumbs": [
-      "Cases"
+      "Case Selection"
     ]
   },
   {
-    "objectID": "cases.html#fixed-cases",
-    "href": "cases.html#fixed-cases",
+    "objectID": "case-selection.html#selecting-cases",
+    "href": "case-selection.html#selecting-cases",
+    "title": "Cases",
+    "section": "Selecting Cases",
+    "text": "Selecting Cases\nSince a significant aspect of this work is to compare different approaches to data-sharing that have not yet been systematically articulated, it will be necessary to loosely define the parameters through which each case will be initially characterized. I will rely on structured consultations with the research community to make sense of the data-sharing landscape and select cases accordingly. By consult with key stakeholders, I will arrive at a consensus about which cases are worth approaching while documenting the rationale behind these selections.\nThe consultation process is meant to ensure that case selection adheres to community will and reasoning, while also ensuring that cases are logistically feasible. I will therefore ask for input from leading members of epidemioligical data-sharing initiatives who are familiar with the goals of the this project, and who are involved with the Maelstrom Project which establishes logistical boundaries around the scope of the project. The consultation will be guided by a few concerns:\n\nLongevity: initiatives that have existed for different durations of time will have different capacity to reflect on their practices, especially with regards to outcomes of their work\nCommunity membership: the size and composition of the community, degree of separation of its members, and the mechanisms through which connections are managed must be balanced to facilitate comparison\nSupport structures: the ways in which the initiatives are supported (i.e. funding models, reliance on specific tech platforms) influence how a data-sharing initiative operates, and must be accounted for\nDisciplinary trends: reflections on whether an initiative is emblematic of specific paradigms or value regimes that permeate the discipline\nHistorical or contextual factors: whether initiatives are meaningful in relation to broader trends, i.e. brexit’s impact on trans-European funding",
+    "crumbs": [
+      "Case Selection"
+    ]
+  },
+  {
+    "objectID": "case-selection.html#fixed-cases",
+    "href": "case-selection.html#fixed-cases",
     "title": "Cases",
     "section": "Fixed Cases",
-    "text": "Fixed Cases\nMaelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth, while also ensuring that participants (and myself) have a common frame of reference. This will greatly simplify the interviews by reducing the “overhead” of having to learn or be told about administrative or technical systems, which may distract from the core interest.\nCITF will also serve as a fixed case. This is for logistical issues, since the grant meant to support the CITF Databank. But it is also so that the data can be compared with research on user experiences pertaining to CITF specifically, which will be performed concurrently with my own work.",
+    "text": "Fixed Cases\nMaelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth, while also ensuring that participants (and myself) have a common frame of reference. This will greatly simplify the interviews by reducing the “overhead” of having to learn or be told about administrative or technical systems, which may distract from the core interest.\nCITF will also serve as a fixed case. This is partly for logistical reqasons, since the grant is meant to support the CITF Databank, and this project will align with concurrent research on user experiences pertaining to CITF specifically.",
     "crumbs": [
-      "Cases"
+      "Case Selection"
     ]
   },
   {
-    "objectID": "cases.html#limitations-and-sources-of-bias",
-    "href": "cases.html#limitations-and-sources-of-bias",
+    "objectID": "case-selection.html#limitations-and-sources-of-bias",
+    "href": "case-selection.html#limitations-and-sources-of-bias",
     "title": "Cases",
     "section": "Limitations and Sources of Bias",
-    "text": "Limitations and Sources of Bias\n\nIdentifying prospective interview participants, sampling\nWillingness to participate\nPrioritizing local connections and in-person interviews?",
+    "text": "Limitations and Sources of Bias\nStill in progress…\n- Identifying prospective interview participants, sampling\n- Willingness to participate\n- Prioritizing local connections and in-person interviews?",
     "crumbs": [
-      "Cases"
+      "Case Selection"
     ]
   },
   {
-    "objectID": "cases.html#logistical-constraints",
-    "href": "cases.html#logistical-constraints",
+    "objectID": "case-selection.html#logistical-constraints",
+    "href": "case-selection.html#logistical-constraints",
     "title": "Cases",
     "section": "Logistical Constraints",
-    "text": "Logistical Constraints\n\n12 month time limit\n12-15 interviews, 60-90 minutes in duration\n\nRagin (1992)",
+    "text": "Logistical Constraints\nStill in progress…\n- 12 month time limit\n- 12-15 interviews, 60-90 minutes in duration",
     "crumbs": [
-      "Cases"
+      "Case Selection"
     ]
   },
   {
@@ -239,7 +249,7 @@
     "href": "index.html",
     "title": "CITF-Postdoc",
     "section": "",
-    "text": "This website serves as a hub for my postdoctoral research at McGill University’s Covid-19 Immunity Task Force Databank.\nThe project is concerned with articulating social, collaborative and discursive aspects of epidemiological data-sharing initiatives, and how they relate to, overlap with or conflict with technical, institutional and epistemic factors.",
+    "text": "This website serves as a hub for my postdoctoral research at McGill University’s Covid-19 Immunity Task Force Databank.\nThe project is concerned with articulating social, collaborative and discursive aspects of epidemiological data-sharing initiatives, and how they relate to, overlap with or conflict with technical, institutional and epistemic factors.\nThis website hosts a series of preparatory protocols that structure the project, as well as notes about key concepts and reflections on the progress of work. All content is hosted and tracked at github.com/zackbatist/CITF-Postdoc.\nResearch Protocol: Outlines the project’s overall vision and contextualizes it in relation to specific objectives.\nEthics Protocol: Specifies ethical considerations, including risks of harm and strategies for mitigating them.\nInterview Protocol: The questions I will be asking research participants, including the rationale for asking them.\nQDA Protocol: The code system, memoing guidelines, and specific QDA procedures.\nData Management: Procedures that circumscribe collection, management and curation of research data.\nCases: Articulates the parameters that inform how cases are selected.\nContext: My motivations for doing this work and the circumstances that surround the establishment of the project.\nGlossary: A series of key terms and their definitions, with reference to the literature and expanded notes about their meanings.\nBlog: Updates and reflections on key events, or general thoughts I wish to share.\nBib: A biblatex file containing a continually-updated list of sources cited in all documents hosted on this website.",
     "crumbs": [
       "Home"
     ]
