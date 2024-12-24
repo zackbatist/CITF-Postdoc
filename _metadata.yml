@@ -7,9 +7,13 @@ freeze: auto
 title-block-banner: false
 reference-location: margin
 link-external-icon: true
-link-external-filter: ^(?:http:|https:)\/\/zackbatist\.info\/
+link-external-filter: |
+  ^(?:http:|https:)\/\/zackbatist\.info\/
+  ^(?:http:|https:)\/\/github\.com\/zackbatist\/
 format: 
   html: 
     grid: 
-      content-mode: standard
-      
+      content-mode: full
+      body-width: 1000px
+      sidebar-width: 200px
+  # pdf: default

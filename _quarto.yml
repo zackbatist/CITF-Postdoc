@@ -35,10 +35,6 @@ website:
     contents:
       - href: index.qmd
         text: Home
-      - href: context.qmd
-        text: Context
-      - href: glossary.qmd
-        text: Glossary
       - href: research-protocol.qmd
         text: Research Protocol
       - href: ethics-protocol.qmd
@@ -49,19 +45,20 @@ website:
         text: QDA Protocol
       - href: data-management.qmd
         text: Data Management
-      - href: cases.qmd
-        text: Cases
-
-
-      - posts.qmd
-      - section: Resources
-        contents:
-          - href: https://github.com/zackbatist/CITF-Postdoc
-            text: GitHub
-          - href: https://www.zotero.org/groups/5803066/citf-postdoc/library
-            text: Zotero
-          - href: posts.xml
-            text: RSS
+      - href: case-selection.qmd
+        text: Case Selection
+      - href: context.qmd
+        text: Context
+      - href: glossary.qmd
+        text: Glossary
+      - href: posts.qmd
+        text: Blog
+      - href: https://github.com/zackbatist/CITF-Postdoc
+        text: GitHub
+      - href: https://www.zotero.org/groups/5803066/citf-postdoc/library
+        text: Zotero
+      - href: posts.xml
+        text: RSS
 
 format:
   html:
@@ -71,9 +68,11 @@ format:
     toc: true
 
 filters:
+  - quarto
   - include-files.lua
   - glossary.lua
-  - quarto
+  # - collect-citekeys.lua
+
 
 execute:
   freeze: auto
