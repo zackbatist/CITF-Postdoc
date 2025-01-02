@@ -176,3 +176,18 @@ Still in progress...
 - Collaboration with the [School of Information Studies](https://www.mcgill.ca/sis/)
 ```
 
+## Timelime
+
+| Date                      | Milestone                                                 |
+| ------------------------- | --------------------------------------------------------- |
+| 2025/01/14                | Finalize ethics protocol                                  |
+| 2025/01/31                | Finalize case selection and invite members to participate |
+| 2025/02/28                | Finalize interview protocol                               |
+| 2025/03/01 --- 2025/04/30 | Conduct interviews                                        |
+| 2025/05/01 --- 2025/05/30 | Prepare interview transcripts for analysis                |
+| 2025/06/01 --- 2025/06/30 | Prepare code system and develop sensitizing concepts      |
+| 2025/07/01 --- 2025/09/30 | Qualitative coding and memoing                            |
+| 2025/10/01 --- 2025/11/30 | Draft manuscripts and submit for publication              |
+| 2025/11/01 --- 2025/12/31 | Write accessible and constructive reports                 |
+
+
