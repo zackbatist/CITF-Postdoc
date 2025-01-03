@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -192,8 +212,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#case-study-research" id="toc-case-study-research" class="nav-link" data-scroll-target="#case-study-research">Case Study Research</a></li>
+  <li><a href="#case-study-research" id="toc-case-study-research" class="nav-link active" data-scroll-target="#case-study-research">Case Study Research</a></li>
   <li><a href="#key-factors" id="toc-key-factors" class="nav-link" data-scroll-target="#key-factors">Key Factors</a></li>
   <li><a href="#selecting-cases" id="toc-selecting-cases" class="nav-link" data-scroll-target="#selecting-cases">Selecting Cases</a>
   <ul class="collapse">
@@ -238,21 +257,16 @@ Note
 <p>This document is still a work in progress.</p>
 </div>
 </div>
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>In case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it. The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest. They must be selected with care, and in ways that serve the overall project’s objective. This document outlines the case selection strategy for this research.</p>
-<p>Case selection is crucial for delimiting the project’s overall scope, and will significantly impact the extent to which the research questions may be adequately addressed.</p>
-</section>
 <section id="case-study-research" class="level2">
 <h2 class="anchored" data-anchor-id="case-study-research">Case Study Research</h2>
-<p>Cases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern. Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own.</p>
-<p>In other words, cases are contexts that ascribe particular local flavours to the activities I trace, and which I must consider to account fully for the range of motivations, circumstances and affordances that back decisions to perform activities and to implement them in specific ways.</p>
-<p>Moreover, the power of case study research derives from identifying consistencies that relate cases to each other, while simultaneously highlighting how their unique and distinguishing facets contribute to their representativeness of the underlying phenomon. Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent.</p>
+<p>In case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it. The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">Stake 2006</a>: 2)</span>.</p>
+<p>Cases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern. Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">Stake 2006</a>: 23)</span>. In other words, cases are contexts that ascribe particular local flavours to the activities I trace, and which I must consider to account fully for the range of motivations, circumstances and affordances that back decisions to perform activities and to implement them in specific ways.</p>
+<p>Moreover, the power of case study research derives from identifying consistencies that relate cases to each other, while simultaneously highlighting how their unique and distinguishing facets contribute to their representativeness of the underlying phenomon. Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent <span class="citation" data-cites="ragin1999">(<a href="#ref-ragin1999" role="doc-biblioref">Ragin 1999</a>: 1139-1140)</span>.</p>
 <p>It should be noted that case study research limits my ability to derive generalized findings across the whole field of epidemiology. As such, my intent is instead to articulate some significant aspects of data harmonization as they are represented at the cases accessible through this study. In other words, I aim to make certain under-appreciated social and collaborative commitments that underlie data-sharing initiatives more visible and to draw greater attention to certain sensibilities, attitudes, and apprehensions that are relevant to contemporary discourse on the nature of epidemiological data and ongoing development of information infrastructures designed to support data integration and re-use.</p>
 </section>
 <section id="key-factors" class="level2">
 <h2 class="anchored" data-anchor-id="key-factors">Key Factors</h2>
-<p>To reiterate, this project investigates the social and collaborative apparatus that scaffold data harmonozation initiatives in epidemiology. Through analysis of data obtained through interviews with various relevant stakeholders attached to data-sharing initiatives, the project will ascertain the actions taken and challenges experienced to mediate the varied motivations, needs and values of those involved. In effect, the project aims to articulate the collaborative commitments that govern the constitution and maintenance of epidemiological information commons, and to relate these to technological, administrative and epistemic factors.</p>
+<p>To reiterate, this project investigates the social and collaborative apparatus that scaffold data-sharing initiatives in epidemiology. Through analysis of data obtained through interviews with various relevant stakeholders attached to data-sharing initiatives, the project will ascertain the actions taken and challenges experienced to mediate the varied motivations, needs and values of those involved. In effect, the project aims to articulate the collaborative commitments that govern the constitution and maintenance of epidemiological information commons, and to relate these to technological, administrative and epistemic factors.</p>
 <p>Here I outline some key factors that will guide the selection of cases so as to ensure that the project meaningfully addressses its goals.</p>
 <section id="longevity" class="level4">
 <h4 class="anchored" data-anchor-id="longevity">1. Longevity</h4>
@@ -288,8 +302,9 @@ Note
 <p>The consultation process is meant to ensure that case selection adheres to community will and reasoning, while also ensuring that cases are logistically feasible. I will therefore ask for input from leading members of epidemioligical data-sharing initiatives who are familiar with the goals of the this project, and who are involved with the Maelstrom Project which establishes logistical boundaries around the scope of the project.</p>
 <section id="fixed-cases" class="level3">
 <h3 class="anchored" data-anchor-id="fixed-cases">Fixed cases</h3>
-<p>Maelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth, while also ensuring that participants (and myself) have a common frame of reference. This will greatly simplify the interviews by reducing the “overhead” of having to learn or be told about administrative or technical systems, which may distract from the primary themes I seek to address during interviews.</p>
-<p>CITF will also serve as a fixed case. This is partly for logistical reqasons, since the grant is meant to support the CITF Databank, and this project will align with concurrent research on user experiences pertaining to CITF specifically. At the same time, CITF is interesting in its own right and will contribute meaningful insight in comparison with other cases.</p>
+<p>Maelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth, while also ensuring that participants (and myself) have a common frame of reference. Moreover, the practices and values that support Maelstrom’s operations have already been documented to a certain extent by its leaders <span class="citation" data-cites="doiron2017 fortier2017 fortier2023 bergeron2018">(cf. <a href="#ref-doiron2017" role="doc-biblioref">Doiron et al. 2017</a>; <a href="#ref-fortier2017" role="doc-biblioref">Fortier et al. 2017</a>; <a href="#ref-fortier2023" role="doc-biblioref">Fortier et al. 2023</a>; <a href="#ref-bergeron2018" role="doc-biblioref">Bergeron et al. 2018</a>)</span>, by its partners <span class="citation" data-cites="doiron2013 wey2021 bergeron2021">(cf. <a href="#ref-doiron2013" role="doc-biblioref">Doiron et al. 2013</a>; <a href="#ref-wey2021" role="doc-biblioref">Wey et al. 2021</a>; <a href="#ref-bergeron2021" role="doc-biblioref">Bergeron et al. 2021</a>)</span> and by scholars of scientific practice <span class="citation" data-cites="murtagh2012 demir2013 murtagh2016 tacconelli2022 gedeborg2023">(cf. <a href="#ref-murtagh2012" role="doc-biblioref">M. J. Murtagh et al. 2012</a>; <a href="#ref-demir2013" role="doc-biblioref">Demir and Murtagh 2013</a>; <a href="#ref-murtagh2016" role="doc-biblioref">Madeleine J. Murtagh et al. 2016</a>; <a href="#ref-tacconelli2022" role="doc-biblioref">Tacconelli et al. 2022</a>; <a href="#ref-gedeborg2023" role="doc-biblioref">Gedeborg et al. 2023</a>)</span>. This prior work will serve as valuable resources supporting this project.</p>
+<p>Additionally, the fact that all cases interact with Maelstrom for their technical infrastructure will greatly simplify the interviews by reducing the “overhead” of having to learn or be told about the technical systems, which may distract from the primary themes I seek to address during interviews.</p>
+<p>CITF will also serve as a fixed case. This is partly for logistical reqasons, since the grant is meant to support the CITF Databank, and this project will align with concurrent research on user experiences pertaining to CITF specifically. At the same time, CITF is relevant to the project’s objectives in its own right, and will contribute meaningful insight in comparison with other cases.</p>
 </section>
 </section>
 <section id="logistical-constraints-and-sources-of-bias" class="level2">
@@ -298,9 +313,53 @@ Note
 <p>I may prioritize local connections, which provide favourable conditions for holding interviews (i.e., people are more willing to show things that can not be conveyed through a screen, and the pre- and post-interview phases provide meaningful insight). This may introduce bias in that I may obtain more in-depth and nuanced information from local initiatives than those occurring abroad. This can be mitigated by travelling to conduct interviews in person, however the costs of travel may introduce their own biases favouring cases that are easier to reach.</p>
 
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-bergeron2018" class="csl-entry" role="listitem">
+Bergeron, Julie, Dany Doiron, Yannick Marcon, Vincent Ferretti, and Isabel Fortier. 2018. <span>“Fostering Population-Based Cohort Data Discovery: <span>The Maelstrom Research</span> Cataloguing Toolkit.”</span> <em>PLOS ONE</em> 13 (7): e0200926. <a href="https://doi.org/10.1371/journal.pone.0200926">https://doi.org/10.1371/journal.pone.0200926</a>.
+</div>
+<div id="ref-bergeron2021" class="csl-entry" role="listitem">
+Bergeron, Julie, Rachel Massicotte, Stephanie Atkinson, Alan Bocking, William Fraser, Isabel Fortier, and the ReACH member cohorts’ principal investigators. 2021. <span>“Cohort <span>Profile</span>: <span>Research Advancement</span> Through <span>Cohort Cataloguing</span> and <span>Harmonization</span> (<span>ReACH</span>).”</span> <em>International Journal of Epidemiology</em> 50 (2): 396–97. <a href="https://doi.org/10.1093/ije/dyaa207">https://doi.org/10.1093/ije/dyaa207</a>.
+</div>
+<div id="ref-demir2013" class="csl-entry" role="listitem">
+Demir, Ipek, and Madeleine J. Murtagh. 2013. <span>“Data Sharing Across Biobanks: Epistemic Values, Data Mutability and Data Incommensurability.”</span> <em>New Genetics and Society</em> 32 (4): 350–65. <a href="https://doi.org/10.1080/14636778.2013.846582">https://doi.org/10.1080/14636778.2013.846582</a>.
+</div>
+<div id="ref-doiron2013" class="csl-entry" role="listitem">
+Doiron, Dany, Paul Burton, Yannick Marcon, Amadou Gaye, Bruce H. R. Wolffenbuttel, Markus Perola, Ronald P. Stolk, et al. 2013. <span>“Data Harmonization and Federated Analysis of Population-Based Studies: The <span>BioSHaRE</span> Project.”</span> <em>Emerging Themes in Epidemiology</em> 10 (1): 12. <a href="https://doi.org/10.1186/1742-7622-10-12">https://doi.org/10.1186/1742-7622-10-12</a>.
+</div>
+<div id="ref-doiron2017" class="csl-entry" role="listitem">
+Doiron, Dany, Yannick Marcon, Isabel Fortier, Paul Burton, and Vincent Ferretti. 2017. <span>“Software <span>Application Profile</span>: <span>Opal</span> and <span>Mica</span>: Open-Source Software Solutions for Epidemiological Data Management, Harmonization and Dissemination.”</span> <em>International Journal of Epidemiology</em> 46 (5): 1372–78. <a href="https://academic.oup.com/ije/article-pdf/doi/10.1093/ije/dyx180/24172864/dyx180.pdf">https://academic.oup.com/ije/article-pdf/doi/10.1093/ije/dyx180/24172864/dyx180.pdf</a>.
+</div>
+<div id="ref-fortier2017" class="csl-entry" role="listitem">
+Fortier, Isabel, Parminder Raina, Edwin R Van den Heuvel, Lauren E Griffith, Camille Craig, Matilda Saliba, Dany Doiron, et al. 2017. <span>“Maelstrom <span>Research</span> Guidelines for Rigorous Retrospective Data Harmonization.”</span> <em>International Journal of Epidemiology</em> 46 (1): 103–5. <a href="https://doi.org/10.1093/ije/dyw075">https://doi.org/10.1093/ije/dyw075</a>.
+</div>
+<div id="ref-fortier2023" class="csl-entry" role="listitem">
+Fortier, Isabel, Tina W. Wey, Julie Bergeron, Angela Pinot de Moira, Anne-Marie Nybo-Andersen, Tom Bishop, Madeleine J. Murtagh, et al. 2023. <span>“Life Course of Retrospective Harmonization Initiatives: Key Elements to Consider.”</span> <em>Journal of Developmental Origins of Health and Disease</em> 14 (2): 190–98. <a href="https://doi.org/10.1017/S2040174422000460">https://doi.org/10.1017/S2040174422000460</a>.
+</div>
+<div id="ref-gedeborg2023" class="csl-entry" role="listitem">
+Gedeborg, Rolf, Wilmar Igl, Bodil Svennblad, Peter Wilén, Bénédicte Delcoigne, Karl Michaëlsson, Rickard Ljung, and Nils Feltelius. 2023. <span>“Federated Analyses of Multiple Data Sources in Drug Safety Studies.”</span> <em>Pharmacoepidemiology and Drug Safety</em> 32 (3): 279–86. <a href="https://doi.org/10.1002/pds.5587">https://doi.org/10.1002/pds.5587</a>.
+</div>
+<div id="ref-murtagh2012" class="csl-entry" role="listitem">
+Murtagh, M. J., I. Demir, K. N. Jenkings, S. E. Wallace, B. Murtagh, M. Boniol, M. Bota, et al. 2012. <span>“Securing the <span>Data Economy</span>: <span>Translating Privacy</span> and <span>Enacting Security</span> in the <span>Development</span> of <span>DataSHIELD</span>.”</span> <em>Public Health Genomics</em> 15 (5): 243–53. <a href="https://doi.org/10.1159/000336673">https://doi.org/10.1159/000336673</a>.
+</div>
+<div id="ref-murtagh2016" class="csl-entry" role="listitem">
+Murtagh, Madeleine J., Andrew Turner, Joel T. Minion, Michaela Fay, and Paul R. Burton. 2016. <span>“International <span>Data Sharing</span> in <span>Practice</span>: <span>New Technologies Meet Old Governance</span>.”</span> <em>Biopreservation and Biobanking</em> 14 (3): 231–40. <a href="https://doi.org/10.1089/bio.2016.0002">https://doi.org/10.1089/bio.2016.0002</a>.
+</div>
+<div id="ref-ragin1999" class="csl-entry" role="listitem">
+Ragin, C C. 1999. <span>“The Distinctiveness of Case-Oriented Research.”</span> <em>Health Services Research</em> 34 (December):1137–51. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1089057/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1089057/</a>.
+</div>
+<div id="ref-stake2006" class="csl-entry" role="listitem">
+Stake, Robert E. 2006. <em>Multiple Case Study Analysis</em>. New York: Guilford Press.
+</div>
+<div id="ref-tacconelli2022" class="csl-entry" role="listitem">
+Tacconelli, Evelina, Anna Gorska, Elena Carrara, Ruth Joanna Davis, Marc Bonten, Alex W. Friedrich, Corinna Glasner, et al. 2022. <span>“Challenges of Data Sharing in <span>European Covid-19</span> Projects: <span>A</span> Learning Opportunity for Advancing Pandemic Preparedness and Response.”</span> <em>The Lancet Regional Health – Europe</em> 21 (October). <a href="https://doi.org/10.1016/j.lanepe.2022.100467">https://doi.org/10.1016/j.lanepe.2022.100467</a>.
+</div>
+<div id="ref-wey2021" class="csl-entry" role="listitem">
+Wey, Tina W., Dany Doiron, Rita Wissa, Guillaume Fabre, Irina Motoc, J. Mark Noordzij, Milagros Ruiz, et al. 2021. <span>“Overview of Retrospective Data Harmonisation in the <span>MINDMAP</span> Project: Process and Results.”</span> <em>J Epidemiol Community Health</em> 75 (5): 433–41. <a href="https://doi.org/10.1136/jech-2020-214259">https://doi.org/10.1136/jech-2020-214259</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
