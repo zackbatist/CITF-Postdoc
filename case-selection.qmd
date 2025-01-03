@@ -5,29 +5,23 @@ title: Cases
 This document is still a work in progress.
 :::
 
-## Overview
-In case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it.
-The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest.
-They must be selected with care, and in ways that serve the overall project's objective.
-This document outlines the case selection strategy for this research.
-
-Case selection is crucial for delimiting the project's overall scope, and will significantly impact the extent to which the research questions may be adequately addressed.
-
 ## Case Study Research
-Cases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern.
-Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own.
+In case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it.
+The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest [@stake2006: 2].
 
+Cases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern.
+Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own [@stake2006: 23].
 In other words, cases are contexts that ascribe particular local flavours to the activities I trace, and which I must consider to account fully for the range of motivations, circumstances and affordances that back decisions to perform activities and to implement them in specific ways.
 
 Moreover, the power of case study research derives from identifying consistencies that relate cases to each other, while simultaneously highlighting how their unique and distinguishing facets contribute to their representativeness of the underlying phenomon.
-Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent.
+Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent [@ragin1999: 1139-1140].
 
 It should be noted that case study research limits my ability to derive generalized findings across the whole field of epidemiology.
 As such, my intent is instead to articulate some significant aspects of data harmonization as they are represented at the cases accessible through this study.
 In other words, I aim to make certain under-appreciated social and collaborative commitments that underlie data-sharing initiatives more visible and to draw greater attention to certain sensibilities, attitudes, and apprehensions that are relevant to contemporary discourse on the nature of epidemiological data and ongoing development of information infrastructures designed to support data integration and re-use.
 
 ## Key Factors
-To reiterate, this project investigates the social and collaborative apparatus that scaffold data harmonozation initiatives in epidemiology.
+To reiterate, this project investigates the social and collaborative apparatus that scaffold data-sharing initiatives in epidemiology.
 Through analysis of data obtained through interviews with various relevant stakeholders attached to data-sharing initiatives, the project will ascertain the actions taken and challenges experienced to mediate the varied motivations, needs and values of those involved.
 In effect, the project aims to articulate the collaborative commitments that govern the constitution and maintenance of epidemiological information commons, and to relate these to technological, administrative and epistemic factors.
 
@@ -82,11 +76,14 @@ I will therefore ask for input from leading members of epidemioligical data-shar
 
 ### Fixed cases
 Maelstrom will serve as a "fixed point" that limits the scope of the cases' breadth, while also ensuring that participants (and myself) have a common frame of reference.
-This will greatly simplify the interviews by reducing the "overhead" of having to learn or be told about administrative or technical systems, which may distract from the primary themes I seek to address during interviews.
+Moreover, the practices and values that support Maelstrom's operations have already been documented to a certain extent by its leaders [cf. @doiron2017; @fortier2017; @fortier2023; @bergeron2018], by its partners [cf. @doiron2013; @wey2021; @bergeron2021] and by scholars of scientific practice [cf. @murtagh2012; @demir2013; @murtagh2016; @tacconelli2022; @gedeborg2023].
+This prior work will serve as valuable resources supporting this project.
+
+Additionally, the fact that all cases interact with Maelstrom for their technical infrastructure will greatly simplify the interviews by reducing the "overhead" of having to learn or be told about the technical systems, which may distract from the primary themes I seek to address during interviews.
 
 CITF will also serve as a fixed case.
 This is partly for logistical reqasons, since the grant is meant to support the CITF Databank, and this project will align with concurrent research on user experiences pertaining to CITF specifically.
-At the same time, CITF is interesting in its own right and will contribute meaningful insight in comparison with other cases.
+At the same time, CITF is relevant to the project's objectives in its own right, and will contribute meaningful insight in comparison with other cases.
 
 ## Logistical Constraints and Sources of Bias
 After identifying potential cases, I will reach out to project leaders to invite them to participate.
