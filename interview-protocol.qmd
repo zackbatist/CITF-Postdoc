@@ -20,7 +20,7 @@ Moreover, the action cameras provide an additional backup audio recording in cas
 I will also record handwritten notes comprising descriptive accounts of activities and interactions when recording devices are switched off, as well as preliminary interpretations of observed behaviours and notes on things I plan to follow up on at a later time.
 
 ## Interview guide
-### Goals and perspectives
+### Participants' goals and perspectives
 Follow a life-history method to better understand participants' professional backgrounds and their roles within their projects.
 The goal is to obtain information about their paths, not the rehearsed origin story.
 
@@ -30,7 +30,7 @@ The goal is to obtain information about their paths, not the rehearsed origin st
 - How did you find yourself in this role?
 - How has your previous experience prepared you for your role
 
-## Mission, purpose, motivation
+### Projects' missions, purposes, motivations
 Keep in mind that this section is about the project in general.
 Specific practices and procedures will be addressed in a subsequent phase of the interview.
 
@@ -65,8 +65,7 @@ Specific practices and procedures will be addressed in a subsequent phase of the
 - Do you remember a specific time when you did this?
 
 
-### The project community
-
+#### Maintaining the project community
 **For those in charge of recruiting new partners and maintaining community support:**
 
 - Please briefly describe the process through which you obtain new partners or users.
@@ -97,8 +96,10 @@ Specific practices and procedures will be addressed in a subsequent phase of the
 - How do you foster the community's development and growth?
 - Do you consider these efforts to be effective?
 
+#### Curating data
 **For those who actually handle the data in a preparatory or curatorial way:**
 
+#### Using the data
 **For those who actually use the data:**
 
 ### About the technical infrastructures
