@@ -2,6 +2,7 @@
 title: CITF-Postdoc
 repo-actions: false
 toc: false
+format-links: false
 ---
 
 This website serves as a hub for my postdoctoral research at McGill University's Covid-19 Immunity Task Force Databank.

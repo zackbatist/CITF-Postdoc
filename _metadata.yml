@@ -16,4 +16,9 @@ format:
       content-mode: full
       body-width: 1000px
       sidebar-width: 200px
-  # pdf: default
+  pdf: 
+    keep-tex: false
+    author: Zack Batist
+    subtitle: CITF-Postdoc
+    date: last-modified
+    thanks: This is an automatically generated PDF. Refer to the project website for continuous updates at \url{https://zackbatist.info/CITF-Postdoc}.
