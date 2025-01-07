@@ -1,15 +1,109 @@
 ---
 title: Interview Protocol
 ---
+::: {.callout-note}
+This document is still a work in progress.
+:::
 
+## Interview conditions
+Interviews may be held either in-person or through online vide-conference.
+Interviews will be held in quiet and comfortable environments, such as office spaces or conference rooms.
 
-In person and online
+## Interview records
+I will record all in-person interviews using a SONY ICD-UX560 audio recorder to capture audio in the lossless 16 bit 44.1 kHz Linear PCM wav format, with additional audio filters to enhance playback during transcription, if necessary.
 
-I will record all interviews using a SONY ICD-UX560 audio recorder to capture audio in the lossless 16 bit 44.1 kHz Linear PCM wav format, with additional audio filters to enhance playback during transcription, if necessary.
-I will also record interview sessions using a GoPro Hero 4 Silver action camera, pending interviewees' informed consent.
+I will also record in-person interview sessions using a GoPro Hero 4 Silver action camera, pending interviewees' informed consent to be video recorded.
 Based on prior interviews with scientists about their research experiences, I found that interviewees like to show me, rather than merely tell me, about what they are working on and the means through which they engage with information systems.
 The action cameras may be leveraged to record spontaneous video records of these demonstrations and provide me with an additional rich data source for further analysis.
 Moreover, the action cameras provide an additional backup audio recording in case of data loss on the primary recording device.
 
-
 I will also record handwritten notes comprising descriptive accounts of activities and interactions when recording devices are switched off, as well as preliminary interpretations of observed behaviours and notes on things I plan to follow up on at a later time.
+
+## Interview guide
+### Goals and perspectives
+Follow a life-history method to better understand participants' professional backgrounds and their roles within their projects.
+The goal is to obtain information about their paths, not the rehearsed origin story.
+
+- To start, can you please tell me a little bit about your background?
+- What is the project?
+- What is your role?
+- How did you find yourself in this role?
+- How has your previous experience prepared you for your role
+
+## Mission, purpose, motivation
+Keep in mind that this section is about the project in general.
+Specific practices and procedures will be addressed in a subsequent phase of the interview.
+
+- What are the project's primary challenges?
+- How are you working to overcome them?
+
+[]()
+
+- What makes thos project unique?
+- What is the project doing that no other similar project is doing?
+
+**Prompts:**
+
+- What happened next?
+- Who was that person?
+- Tell me more about that development or event.
+
+
+### Practices, procedures, relationships
+
+- What does your role entail?
+- Can you provide a couple examples of things that you recently did in this capacity?
+
+[]()
+
+- Who else do you frequently rely on, and what are their roles?
+- Can you describe what they do, and perhaps give a few examples drawn from their recent work?
+
+**Prompts:**
+
+- Please give me an example.
+- Do you remember a specific time when you did this?
+
+
+### The project community
+
+**For those in charge of recruiting new partners and maintaining community support:**
+
+- Please briefly describe the process through which you obtain new partners or users.
+- Can you please recall a recent example?
+
+[]()
+
+- How well do you know each partner?
+- Did you know them before their involvement?
+
+[]()
+
+- Would you describe the project as a tight knit community, or more open-ended?
+
+[]()
+
+- How do you communicate with partners and contributors?
+- What kinds of media or platforms do you use, and are they targeted for specific purposes? i.e. email, newsletters, social media, skype, personal communication at conferences
+
+[]()
+
+- Are there particular people in each project who you communicate with more frequently than others?
+- Who are they, and why are these the people who you connect with?
+
+[]()
+
+- What do you consider your role or responsibility vis-a-vis the development/growth of this community?
+- How do you foster the community's development and growth?
+- Do you consider these efforts to be effective?
+
+**For those who actually handle the data in a preparatory or curatorial way:**
+
+**For those who actually use the data:**
+
+### About the technical infrastructures
+
+### About the administrative infrastructures
+
+### Relationships with Maelstrom
+
