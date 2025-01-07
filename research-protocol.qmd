@@ -24,6 +24,24 @@ More specifically, the project seeks to adress the following research questions:
 To be clear, my intent is not to pit various approaches against each other, but rather to ascertain what actions specific strategies entail, the circumstances in which each is adopted, the value that they bring, and the trade-offs involved.
 In other words, my goal is to reveal the diverse ways in which data-sharing occurs, and how different approaches impact the outcomes in different ways.
 
+<!-- 
+A few more specfic strands of thought come to mind:
+
+- How close-knit is the web of projects that are sharing data?
+  - Are they already very familiar with each other?
+  - How were they recruited?
+  - Do any participants seem "forced", or are they all a natural fit?
+
+- How did data-sharing initiatives emerge?
+  - Opportunistic? Problem-solving? Culmination of a long-standing desire? Accidental by-product?
+  - How did these origins influence the social relations that came to shape the initiative?
+
+- How are the commons governed?
+  - What does the leadership look like, in terms of participants and their background, and the reasons for why they are in positions of power?
+  - Is there a tier structure of community participation? What boundaries are being drawn, and why are they being drawn in the ways that they are?
+  - What bounds the project as a whole?
+-->
+
 ## Background
 Still in progress...
 
