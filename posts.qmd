@@ -10,4 +10,5 @@ listing:
   feed: true
   fields: [date, title, categories]
 repo-actions: false
+format-links: false
 ---
