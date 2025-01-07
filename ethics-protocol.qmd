@@ -10,13 +10,33 @@ Although my project is covered by the most recent CITF grant and I will not be s
 
 ## Recruitment and consent
 **How are potential study participants identified and/or recruited to the study?**
-Explain how potential participants are identified or introduced to the study, and who will recruit participants. Will the investigator/s require any special permissions or access to the target population (e.g. clinic access, patient registries or records, mailing lists, community access?
+Explain how potential participants are identified or introduced to the study, and who will recruit participants. Will the investigator/s require any special permissions or access to the target population e.g. clinic access, patient registries or records, mailing lists, community access?
+
+Through consultation with key community stakeholders, I will devise a list of prospective projects to serve as cases (see the [case selection protocol](case-selection.qmd) for further details).
+I will then write to the leaders of these projects inviting them to participate in my research.
+These letters explain who I am, what the study is about, and why I am doing it, and invites the reader to follow up with me if they have any questions or concerns.
+I will then work with project leaders to determine a list of individuals who may serve as valubale interview candidates based on their roles in the project, pending their willingness to participate.
+I will be clear with project leaders that they should not pressure those who work for them to participate in my research, and that individuals' participation should be treated as separate from their regular duties; if they can not or will not abide by this condition, their project will be rejected as a prospective case.
+
+I will write to the individuals that project leaders refer to me to explain who I am, what the study is about, and why I am doing it, and to invite them to follow up with me if they have any questions or concerns.
 
 **Describe the consent process.**
 If alternate processes for seeking consent are planned (e.g. verbal, online, waiver), please provide a rationale and outline the procedure of obtaining and documenting consent and/or assent, where applicable.
 
+Once individuals express their interest in participating, they will be given an informed consent document that outlines in more detail the goals of the study, the roles of the participant, how they will be recorded, how data pertaining to them will be retained, and the potential risks and benefits pertaining to their involvement.
+This document will also describe how their personally identifiable information will be managed and used.
+Participants will be asked to read and sign the document in order to obtain written informed consent.
+
+Confirmation of participants' consent will be reaffirmed at the start of interviews.
+This will entail me reiterating participants' rights.
+
 **Is there a relationship between the study participants and the person obtaining consent and/or the principal investigator/s?**
 If yes, please explain the nature of the relationship, and outline the steps that will be taken to avoid the perception of undue influence.
+
+One project that serves as a case in this research is the Covid-19 Immunity Task Force (CITF), which I currently serve as postdoctoral fellow.
+Some of the participants will therefore be colleagues; the interviews will remain structured and limited in scope, and will not touch on matters relating to other aspects of our work.
+
+I will consult with Dr. David Buckeridge, who leads the CITF, as a key community stakeholder to help devise a shortlist of projects that may serve as prospective cases.
 
 ## Risk-benefit assessment
 **Describe the foreseeable risks to study participants.**
@@ -42,7 +62,7 @@ How is information and data safeguarded for the full cycle of the study: i.e. du
 if the study involves data linkage, please describe the data that will be linked and the likelihood that identifiable information will be created through the linkage.
 
 ## Managing conflicts of interest
-Conflicts of interest] do not imply wrong-doing. It is the responsibility of the investigator to determine if any conflicts apply to any person/s involved in the design and/or conduct of the research study or any member of their immediate family. Disclose all contracts and any conflicts of interest (real, perceived, or potential) relating to this research project. Conflict of interest may also arise with regard to the disclosure of personal health information.
+Conflicts of interest do not imply wrong-doing. It is the responsibility of the investigator to determine if any conflicts apply to any person/s involved in the design and/or conduct of the research study or any member of their immediate family. Disclose all contracts and any conflicts of interest (real, perceived, or potential) relating to this research project. Conflict of interest may also arise with regard to the disclosure of personal health information.
 
 - [x] Not applicable. There are no conflicts of interest to disclose.
 - [ ] Yes, there are conflicts of interest to disclose.
