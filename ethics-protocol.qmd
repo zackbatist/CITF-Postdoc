@@ -42,24 +42,73 @@ I will consult with Dr. David Buckeridge, who leads the CITF, as a key community
 **Describe the foreseeable risks to study participants.**
 What risks are attributable to the research, including cumulative risks? Which risks are participants normally exposed to in the course of their clinical care or in their daily activities as they relate to the research questions/objectives?
 
+Participation in this research project does not involve any physical, psychological or legal risks.
+However, I will be asking participants to share detailed information about their work practices and work relationships, and public association with their responses may potentially disrupt or complicate their professional reputations.
+To mitigate against this potential harm, I will give participants the option to render their responses confidential.
+
 **What procedures are in place to monitor and assess participant safety for the duration of the study?**
+
+Prior to each interview, and as part of the procedure for obtaining informed consent, I will ask participants about whether they want to render their responses confidential.
+Immediately after each interview, I will give participants an opportunity to reflect on their responses and reiterate the option to render their prior responses confidential.
+Furthermore, for participants who have not requested that their responses be treated as confidential immediately before and after the interview, I will follow up one week after the interview to reiterate the option; I will wait one additional week for them to inform me if they decide to keep their responses confidential before continuing to process, transcribe and analyze their interviews.
 
 **Describe the potential benefits of the study for:**
 (1) the study participants; (2) the population under investigation, and (3) the field of research.
+
+This study contributes to the development of better epidemiological data-sharing infrastructures by articulating social, collaborative and discursive aspects of data-sharing, and how these factors relate to, overlap with or conflict with technical, institutional and epistemic factors.
+By explicitly framing data-sharing as a social and collaborative activity, epidemiological datasets shared through open data infrastructures can be more effectively contextualized and rendered more usable for research.
+This work therefore poses new ways to document how epidemiologists mobilize distributed records in the constitution of synthetic knowledge, and helps develop practical solutions that enable greater reflexivity.
+
+This work will enable participants to improve professional practice by being more aware and reflexive of their research practices as a result of the questions that are raised during interviews and observations, which frame their work in ways that they may not have otherwise considered.
 
 ## Privacy and confidentiality
 **Please describe the measures in place for meeting confidentiality obligations.**
 How is information and data safeguarded for the full cycle of the study: i.e. during its collection, use, dissemination, retention, and/or disposal?
 
+I provide participants with the option to render their interview responses confidential.
+Alternatively, they may choose to publicly associate their identities with their responses.
+The specific circumstances that frame each case play a significant role in the analysis, it will be much easier to account for these factors in situations where participants opt to not render their responses confidential.
+
+I acknowledge that I am engaging with a relatively small research community and that there is minimal social risk that others may be able to determine the identities of those whose research practices and professional relationships are being documented, even if I render their responses confidential.
+To address this issue, I will ensure that if any single participant from a case decides to render their responses confidential, I will render the responses of all participants pertaining to that case, as well as the identifty of the project itself, confidential too.
+
+I will adhere to fundamental data security practices throughout the whole project.
+This will include storing all data, including backups, in encrypted drives, and storing all physical records and digital storage drives in locked drawers when not in use or when left unsupervised.
+
 **If a contracted cloud/storage service provider or online survey tool is used,** provide information on the service provider's security and privacy policy, location of its servers, data ownership, and what happens to the stored data after the contract is terminated. For more information, please consult the University's directive.
+
+I will use McGill University's OneDrive service to backup all files, as per my [data management plan](data-management.qmd).
+These backups will include files containing information that might reveal participants' identities.
+This service is managed by McGill University and has been approved for storing sensitive research data.
+
+I may use MaxQDA's TeamCloud service which facilitates collaborative use of their software.
+I may also use MaxQDA's AI Assist service, which maintains [strict data retention and security policies](https://help.maxqda.com/en/support/solutions/articles/80001135288-what-about-data-security-and-data-privacy-of-ai-assist-); it relies on GDPR-compliant Amazon Bedrock servers, which are widely regarded as the most data-secure cloud instrastructure for use of large language models (LLM).
+I am currently drafting a request for institutional approval of these services under McGill University's Cloud Directive.
+
+I maintain a website where I share documentation that supports this project and reflect on the work as it progresses.
+This is hosted using GitHub Pages and is backed up using Dropbox.
+The website exists to document my research practices, and no sensitive research data will pass through these services.
 
 **Please explain any reasonable and foreseeable disclosure requirements**
 (e.g. disclosure to third parties such as government agencies or departments, community partners in research, personnel from an agency that monitors research, research sponsor, the REB/IRB, or regulatory agencies).
 
 **If there are plans for retaining participant and/or study data for future use,** please describe the context for its use, requirements for potentially re-contacting study participants and consent, and how the data will be stored and maintained for the long term.
 
+I will publish research data in compliance with ethical standards for sharing open social science research data.
+I will not share audio and video recordings of interviews, nor will I share unedited transcripts that retain personally-identifying information pertaining to participants who have requested that their responses be rendered confidential.
+I will share the database containing codings, memos and trends deriving from qualitative data analysis, which will be scrubbed of all personally-identifying information pertaining to participants who have requested that their responses be rendered confidential.
+
+I may follow up with study participants after their initial interview in case there is insufficient time to gather the information I set out to obtain from them.
+I will reiterate my request for informed consent prior to each interview.
+
+I may follow up with the leaders of the data-sharing initiatives that serve as cases for this project to share my findings with them and to present them with constructive feedback deriving from my findings.
+I may also invite them to collaborate on a position paper promoting the project's findings and advocating for reforms based upon them.
+
 **Secondary use of data studies:**
 if the study involves data linkage, please describe the data that will be linked and the likelihood that identifiable information will be created through the linkage.
+
+This project does not rely on data deriving from other studies.
+The data may be reused in related work being undertaken under the same grant.
 
 ## Managing conflicts of interest
 Conflicts of interest do not imply wrong-doing. It is the responsibility of the investigator to determine if any conflicts apply to any person/s involved in the design and/or conduct of the research study or any member of their immediate family. Disclose all contracts and any conflicts of interest (real, perceived, or potential) relating to this research project. Conflict of interest may also arise with regard to the disclosure of personal health information.
