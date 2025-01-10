@@ -35,20 +35,22 @@ website:
     contents:
       - href: index.qmd
         text: Home
+      - href: context.qmd
+        text: Context
       - href: research-protocol.qmd
         text: Research Protocol
+      - href: case-selection.qmd
+        text: Case Selection
       - href: ethics-protocol.qmd
         text: Ethics Protocol
       - href: interview-protocol.qmd
         text: Interview Protocol
-      - href: qda-protocol.qmd
-        text: QDA Protocol
+      - href: transcription-protocol.qmd
+        text: Transcription Protocol
       - href: data-management.qmd
         text: Data Management
-      - href: case-selection.qmd
-        text: Case Selection
-      - href: context.qmd
-        text: Context
+      - href: qda-protocol.qmd
+        text: QDA Protocol
       - href: glossary.qmd
         text: Glossary
       - href: posts.qmd

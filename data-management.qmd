@@ -1,3 +1,17 @@
 ---
 title: Data Management Plan
 ---
+::: {.callout-note}
+This document is still a work in progress.
+:::
+
+This document describes data management procedures implemented throughout the project.
+
+## Data Collection
+
+## Processing and Analysis
+
+## Storage and Backups
+
+## Publishing Data
+

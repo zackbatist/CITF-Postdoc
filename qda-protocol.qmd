@@ -1,3 +1,5 @@
 ---
-title: Coding Protocol
+title: Qualitaive Data Analysis Protocol
 ---
+
+This document outlines the analytical tools, methods and techniques.

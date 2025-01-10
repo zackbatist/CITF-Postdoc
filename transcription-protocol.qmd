@@ -1,0 +1,7 @@
+---
+title: Transcription Protocol
+---
+
+This document explains the procedures for transcribing spoken dialog into textual formats, including the notation applied to encode idiosyncratic elements of conversationa speech.
+
+Derived from the [transcription protocol applied for the E-CURATORS project](https://zackbatist.info/notes/E-CURATORS/#transcription).
