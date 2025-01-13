@@ -4,4 +4,19 @@ toc: false
 format-links: false
 ---
 
-||glossary||
+**data-sharing**\
+XXXX.\
+
+**data-harmonization**\
+XXXX.\
+
+**data-integration**\
+XXXX.\
+
+**collaboration**\
+XXXX.\
+
+**data-sharing initiative**\
+XXXX.\
+Corresponds with the term "harmonization initiative" in @fortier2017.
+

@@ -72,7 +72,6 @@ format:
 filters:
   - quarto
   - include-files.lua
-  - glossary.lua
   # - collect-citekeys.lua
 
 
