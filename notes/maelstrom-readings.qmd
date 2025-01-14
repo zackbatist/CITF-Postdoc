@@ -1,0 +1,171 @@
+---
+title: Maelstrom reading notes
+description: Notes perpainting to works published about Maelstrom and harmonization initiatives it has supported.
+date: 2025-01-07
+date-modified: last-modified
+categories: 
+  - reading
+---
+
+## @doiron2013
+- Initial overview of data harmonization procedures, using the Health Obesity Project (HOP) as an illustrative case.
+- Outlines the technical apparatus, especially for DataShield, but also broadly describes the discursive process of arriving at a DataSchema that is both functional and flexible.
+  - This description is quite broad and abstracy, seems somewhat ideal and aspirational.
+- Describes reliance on international standards, such as the International Labour Organization's International Standard Classification of Occupations.
+  - It seems like these are used as black boxes that encapsulate a series of tensions which epidemiologists are unconcerned with; in effect, they simplify the need for stretching the collaborative ties even further than they are already extended, they represent matters out of scope for deeper discursive engagement.
+- It is notable that they emphasize that it's easy to set up and use DataShield and Maelstorm toolkits independently of university IT and that it can be run using RStudio installed on a basic laptop.
+  - Maybe look into the historical context (2013) and the evolving role of university IT in software selection.
+- The conclusion states that the HOP project was successful in its harmonization efforts, but does not go as far as to state that it produced meaningful findings as a result of harmonization.
+  - I may take some time to find and read studies that used these data to see what's what.
+  - This seems like the main one: <https://doi.org/10.1186/1472-6823-14-9>, but these other papers may or not not also be relevant:
+    - <https://doi.org/10.1016/j.smhl.2021.100263>
+    - <https://doi.org/10.1007/s10654-014-9977-1>
+    - <https://doi.org/10.1530/EJE-14-0540>
+    - <https://doi.org/10.1007/S13679-020-00375-0>
+    - <https://doi.org/10.1093/eurpub/ckac061>
+
+## @doiron2017
+- An overview of the key software that facilitates data harmonization practices under Maelstrom, also briefly touched upon in @doiron2013.
+- Page 1373 refers to graphical and programmatic interfaces and assumes certain roles and tasks associated with each.
+- Briefly describes its use by the Canadian Longitudinal Study on Aging (CLSA), the Canadian Partnership for Tomorrow Project (CPTP) and InterConnect, primarily by describing the range and quantity of data that these systems manage in each case.
+
+> Opal provides a centralized web-based data management system allowing study coordinators and data managers to securely import/export a variety of data types (e.g. text, nu merical, geolocation, images, videos) and formats (e.g. SPSS, CSV) using a point-and-click interface. Opal then converts, stores and displays these data under a standar dized model.
+
+> Mica is used to create websites and metadata portals for individual epidemiological studies or multi-study consor tia, with a specific focus on supporting observational co hort studies. The Mica application helps data custodians and study or network coordinators to efficiently organize and disseminate information about their studies and net works without significant technical effort.
+
+## @fortier2010
+- A very grandiose paper presenting the grand vision for DataSHaPER, which would eventually become Maelstrom.
+  - Lots of co-authors!
+- Invokes the pan-European EPIC project (European Prospective Investigation into Cancer and Nutrition), which faced numerous data synthesis challenges despite its proactive effort to coordinate work across numerous research centres.
+
+> Two complementary approaches may be adopted to support effective data synthesis. The first one principally targets 'what' is to be synthesized, whereas the other one focuses on 'how' to collect the required information. Thus: (i) core sets of information may be identified to serve as the foundation for a flexible approach to harmonization; or (ii) standard collection devices (questionnaires and stand ard operating procedures) may be suggested as a required basis for collection of information.
+
+- DataSHaPER is an acronym for DataSchema and Harmonization Platform for Epidemiological Research.
+
+> In an ideal world, information would be 'prospectively harmonized': emerging studies would make use, where possible, of harmonized questionnaires and standard operating procedures. This enhances the potential for future pooling but entails significant challenges —- ahead of time -— in developing and agree ing to common assessment protocols. However, at the same time, it is important to increase the utility of existing studies by 'retrospectively harmonizing' data that have already been collected, to optimize the subset of information that may legitimately be pooled. Here, the quantity and quality of infor mation that can be pooled is limited by the heterogeneity intrinsic to the pre-existing differences in study design and conduct.
+
+Compares prospective and retrospective harmonizatiom, with the former being presented as ideal, and the latter being a pragmatic reconciliation in acknowledgement that the former is essentially impossible to achieve.
+
+- DataSHaPER is strikingly similar to OCHRE:
+  - XML-based data structures
+  - Genesis of a generic and ultimately optional base-level schema that illustrates the kind of data that the data structure may hold in ways that are immediately recognizable to all practitioners (at OCHRE it was associations between contexts and finds)
+  - Separate harmonization platform where users can edit and manipulate records and associations between them
+
+> The question 'What would constitute the ultimate proof of success or failure of the DataSHaPER approach' needs to be addressed. Such proof will necessarily accumulate over time, and will involve two fundamental elements: (i) ratification of the basic DataSHaPER approach; and (ii) confirmation of the quality of each individual DataSHaPER as they are developed and/or extended. An important indication of the former would be provided by the widespread use of our tools.
+> However, the ultimate proof of principle will necessarily be based on the generation of replicable scientific findings by researchers using the approach. But, for such evidence to accumulate it will be essential to assure the quality of each individual DataSHaPER. Even if the fundamental approach is sound, its success will depend critically on how individual DataSHaPERs are constructed and used. It seems likely that if consistency and quality are to be assured in the global development of the approach, it will be necessary for new DataSHaPERs to be formally endorsed by a central advisory team.
+
+## @fortier2011
+This paper responds to @hamilton2011, which presents an effort to devise a standardized nomenclature.
+The response is basically to advocate for a more flexible approach, rather than a stringent one promoted by @hamilton2011.
+It draws extensively from concepts published in the foundational paper by @fortier2010.
+
+> Two complementary approaches to harmonization may be adopted to support effective data synthesis or comparison across studies. The first approach makes use of identical data collection tools and procedures as a basis for harmoni zation and synthesis. Here we refer to this as the ‘‘stringent’’ approach to harmonization. The second approach is con sidered ‘‘flexible’’ harmonization. Critically, the second ap proach does not demand the use of identical data collection tools and procedures for harmonization and synthesis. Rather, it has to be based on sound methodology to ensure inferential equivalence of the information to be harmonized. Here, standardization is considered equivalent to stringent harmonization. It should, however, be noted that the term standard is occasionally employed to refer to common con cepts or comparable classification schemes but does not necessarily involve the use of identical data collection tools and procedures (12, 13).
+
+This directly parallels the distinction made in @fortier2010 between "ideal" prospective and more pragmatic retrospective approaches to data harmonization.
+
+> Synthesis of data using a flexible harmonization approach may be either prospective or retrospective. To achieve flexible prospective harmonization, investigators from several studies will agree on a core set of variables (or measures), compatible sets of data collection tools, and standard operating procedures but will allow a certain level of flexibilit in the specific tools and procedures used in each study (16, 17). Retrospective harmonization targets synthesis of information already collected by existing legacy studies (15, 18, 19). As an illustrative example, using retrospective harmonization, researchers will define a core set of variables (e.g., body mass index, global level of physical activity) and, making use of formal pairing rules, assess the potential for each participating study to create each variable (15). The ability to retrospectively harmonize data from existing studies facilitates the rapid generation of new scientifi knowledge.
+
+I wonder why there is no example provided for prospective data harmonization.
+Is it because it is ideal and not realistic?
+I'd argue that it is simply what occurs _within_ projects.
+
+## @fortier2017
+Explicit statement regarding the rationale and presumed benefits of harmonization right in the first paragraph:
+
+> The rationales underpinning such an approach include ensuring: sufficient statistical power; more refined subgroup analysis; increased exposure hetero geneity; enhanced generalizability and a capacity to under take comparison, cross validation or replication across datasets.
+> Integrative agendas also help maximizing the use of available data resources and increase cost-efficiency of research programmes.
+
+- ensuring sufficient statistical power
+- more refined subgroup analysis
+- increased exposure heterogeneity
+- enhanced generalizability
+- a capacity to undertake comparison, cross validation or replication across datasets.
+- maximizing the use of available data resources
+- increase cost-efficiency of research programmes
+
+Clearly defines harmonization and its benefits:
+
+> Essentially, data harmonization achieves or improves comparability (inferential equivalence) of similar measures collected by separate studies.
+
+Adds an additional argument for retrospective harmonization on top of prior discussion of retrospective/prospective approaches (cf. @fortier2010; @fortier2011):
+
+> Repeating identical protocols is not necessarily viewed as providing evidence as strong as that obtained by exploring the same topic but using different designs and measures.
+
+Also relates retrospective harmonization from systematic meta reviews.
+In fact, the paper basically responds to calls for more structured guidelines for data harmonization, similar to those that had been produced to support structured metareviews in the years prior to this publication.
+The authors identify several papers that have done similar guidelines or reports on harmonization practices, which they claim are too broad.
+Those papers include:
+
+- @rolland2015
+  - <https://doi.org/10.1093/aje/kwv133>
+- @schaap2011
+  - <https://doi.org/10.1186/1471-2474-12-272>
+- @bennett2011
+  - <https://doi.org/10.1002/gepi.20564>
+- @hohmann2012
+
+The paper applied a questionnaire among data harmonization initiatives.
+The findings indicate that procedures were more attentively follows during earlier stages, such as when matching and aligning available data with the project's designated scope.
+However, procedures were less sound with regards to documenting procedures, validating the results of data processing, and dissemination strategy.
+There is a notable division between work that occurs before and after people actually begin handling the data, which indicates a tension between aspirational idealism and a reckoning with the practical challenges of reconciling data deriving from multiple sources.
+
+> Respondents were asked to delineate the specific procedures or steps undertaken to generate the harmonized data requested.
+> Sound procedures were generally described; however, the terminologies, sequence and technical and methodological approaches to these procedures varied considerably.
+> Most of the procedures mentioned were related to defining the research questions, identifying and selecting the participating studies (generally not through a systematic approach), identifying the targeted variables to be generated and processing data into the harmonized variables.
+> These procedures were reported by at least 75% of the respondents.
+> On the other hand, few reported steps related to validation of the harmonized data (N=4; 11.8%), documentation of the harmonization process (N=5; 14.7%) and dissemination of the harmonized data outputs (N=2; 5.9%).
+
+The paper summarizes some specific "potential pitfalls" reported by respondents to their survey:
+
+- ensuring timely access to data;
+- handling dissimilar restrictions and procedures related to individual participant data access;
+- managing diversity across the rules for authorship and recognition of input from study-specific investigators;
+- mobilizing sufficient time and resources to conduct the harmonization project;
+- gathering information and guidance on harmonization approaches, resources and techniques;
+- obtaining comprehensive and coherent information on study-specific designs, standard operating procedures, data collection devices, data format and data content;
+- understanding content and quality of study-specific data;
+- defining the realistic, but scientifically acceptable, level of heterogeneity (or content equivalence) to be obtained;
+- generating effective study-specific and harmonized datasets, infrastructures and computing capacities;
+- processing data under a harmonized format taking into account diversity of: study designs and content, study population, synchronicity of measures (events measured at different point in time or at different intervals when repeated) etc;
+- ensuring proper documentation of the process and decisions undertaken throughout harmonization to ensure transparency and reproducibility of the harmonized datasets;
+- maintaining long-term capacities supporting dissemination of the harmonized datasets to users.
+
+It's not made clear how these responses were distributed among respondents.
+
+The authors then identify several absolute essential requirements needed to achieve success:
+
+- **Collaborative framework:** a collaborative environment needs to be implemented to ensure the success of any harmonization project. Investigators involved should be open to sharing information and knowledge, and investing time and resources to ensure the successful implementation of a data-sharing infrastructure and achievement of the harmonization process.
+- **Expert input:** adequate input and oversight by experts should be ensured. Expertise is often necessary in: the scientific domain of interest (to ensure harmonized variables permit addressing the scientific question with minimal bias); data harmonization methods (to support achievement of the harmonization procedures); and ethics and law (to address data access and integration issues).
+- **Valid data input:** study-specific data should only be harmonized and integrated if the original data items collected by each study are of acceptable quality.
+- **Valid data output:** transparency and rigour should be maintained throughout the harmonization process to ensure validity and reproducibility of the harmonization results and to guarantee quality of data output. The common variables generated necessarily need to be of acceptable quality.
+- **Rigorous documentation:** publication of results generated making use of harmonized data must provide the information required to estimate the quality of the process and presence of potential bias. This includes a description of the: criteria used to select studies; process achieved to select and define variables to be harmonized; procedures used to process data; and characteristics of the study-specific and harmonized dataset(s) (e.g. attribute of the populations).
+- **Respect for stakeholders:** all study-specific as well as network-specific ethical and legal components need to be respected. This includes respect of the rights, intellectual property interests and integrity of study participants, investigators and stakeholders.
+
+The authors describe how they arrived at guidelines following the results of this study:
+
+> A consensus approach was used to assemble information about pitfalls faced during the harmonization process, establish guiding principles and develop the guidelines.
+> The iterative process (informed by workshops and case studies) permitted to refine and formalize the guide lines.
+> The only substantive structural change to the initial version proposed was the addition of specific steps relating to the validation, and dissemination and archiving of harmonized outputs.
+> These steps were felt essential to em phasize the critical nature of these particular issues.
+
+The paper outlines a checklist of stages that data harmonization initiatives need to go through to produce ideal outcomes.
+For each task, they describe a scenario in which the task can be said to be complete, whhich resembles an ideal outcome.
+This is described in the paper, summarized in a table, and more comprehensively documented in the supplementary materials.
+
+Also worth noting, this paper includes a list of harmonization initiatives that I may consult when selecting cases.
+I'm not quite sure how useful it will be since the findings don't really break down the distribution of responses in any detail, but maybe the authors have done this analysis and not published it.
+
+## @bergeron2018
+x
+
+## @bergeron2021
+x
+
+## @wey2021
+x
+
+## @gaye2014
+x
+
+## @doiron2013a
+x

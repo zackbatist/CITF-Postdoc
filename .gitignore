@@ -61,4 +61,5 @@ Thumbs.db
 _site/
 
 admin/
-notes/
+notes/private/
+notes/meetings/

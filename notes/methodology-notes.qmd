@@ -1,0 +1,15 @@
+---
+title: Methodology notes
+description: Notes perpainting to the methodological approach for this project.
+date: 2025-01-13
+date-modified: last-modified
+categories: 
+  - reading
+  - general thoughts
+---
+
+## Case studies
+x
+
+## Grounded theory
+x
