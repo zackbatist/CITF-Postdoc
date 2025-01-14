@@ -1,13 +1,13 @@
 ---
-title: Blog
+title: Notes
 author: ""
 date: ""
 listing: 
-  contents: posts
+  contents: notes
   type: table
   sort: "date desc"
   categories: false
-  feed: true
+  feed: false
   fields: [date, title, categories]
   filter-ui: false
   sort-ui: false

@@ -3,7 +3,8 @@ project:
   render:
     - "*.qmd"
     - "!admin/"
-    - "!notes/"
+    - "!notes/private/"
+    - "!notes/meetings/"
   preview:
     port: 7777
     browser: false
@@ -53,12 +54,14 @@ website:
         text: QDA Protocol
       - href: glossary.qmd
         text: Glossary
+      - href: notes.qmd
+        text: Notes
       - href: posts.qmd
         text: Blog
       - href: https://github.com/zackbatist/CITF-Postdoc
         text: GitHub
-      - href: https://www.zotero.org/groups/5803066/citf-postdoc/library
-        text: Zotero
+      - href: CITF-Postdoc.bib
+        text: Bib
       - href: posts.xml
         text: RSS
 
