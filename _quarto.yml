@@ -2,7 +2,6 @@ project:
   type: website
   render:
     - "*.qmd"
-    - "!admin/"
     - "!notes/private/"
     - "!notes/meetings/"
   preview:
