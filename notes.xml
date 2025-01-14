@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>CITF-Postdoc</title>
+<link>https://zackbatist.info/CITF-Postdoc/notes.html</link>
+<atom:link href="https://zackbatist.info/CITF-Postdoc/notes.xml" rel="self" type="application/rss+xml"/>
+<description></description>
+<generator>quarto-1.6.39</generator>
+<lastBuildDate>Thu, 09 Jan 2025 05:00:00 GMT</lastBuildDate>
+<item>
+  <title>Brief meeting with David</title>
+  <link>https://zackbatist.info/CITF-Postdoc/notes/2025-01-09-brief-meeting-with-David.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>This morning I encountered David in the office and we briefly touched base. It was just an opportinity for a quick chat, to align some lingering questions in my mind, and to check in during my first week. He will provide more in-depth feedback on the research protocols later, and we also discussed an email I sent him yesterday asking about how to proceed with case selection (basically, consult with Isabel Fortier).</p>
+<p>We also discussed the potential need to get independent IRB approval, since this was not fully decided upon the last time it came up. We finally decided that it is not necessary to apply for a new protocol or further amend the existing one since the scope of this project is generally covered <a href="CITF-Databank_Proposal_final_core.pdf">under the existing grant</a>, and that any slight variatons may be easily accounted for. The things that may potentially raise eyebrows include the fact that I will be conducting interviews instead of focus groups, that it is less user-centred and more researcher/contributor-oriented than specified in the grant, and that I will be interviewing people who work outside of CITF’s membership. However the general purpose of the work remains the same, and the same ethics considertations, including the risks, benefits and data protection strategies, remain the same as those that were already approved.</p>
+<p>One other thing we briefly touched on is my plans regarding maintaining confidentiality. I don’t think it is necessary to maintain confidentiality unless it is requested, and he seems to agree, but I will write out my specific plans for this for him to review in greater depth.</p>
+<p>Finally, we established a recurring meeting to touch base every two weeks, Thursdays at 10AM.</p>
+
+
+
+ ]]></description>
+  <guid>https://zackbatist.info/CITF-Postdoc/notes/2025-01-09-brief-meeting-with-David.html</guid>
+  <pubDate>Thu, 09 Jan 2025 05:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Maelstrom reading notes</title>
+  <link>https://zackbatist.info/CITF-Postdoc/notes/2025-01-09-maelstrom-readings.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="doiron2013" class="level2">
+<h2 class="anchored" data-anchor-id="doiron2013"><span class="citation" data-cites="doiron2013">Doiron, Burton, et al. (2013)</span></h2>
+<ul>
+<li>Initial overview of data harmonization procedures, using the Health Obesity Project (HOP) as an illustrative case.</li>
+<li>Outlines the technical apparatus, especially for DataShield, but also broadly describes the discursive process of arriving at a DataSchema that is both functional and flexible.
+<ul>
+<li>This description is quite broad and abstracy, seems somewhat ideal and aspirational.</li>
+</ul></li>
+<li>Describes reliance on international standards, such as the International Labour Organization’s International Standard Classification of Occupations.
+<ul>
+<li>It seems like these are used as black boxes that encapsulate a series of tensions which epidemiologists are unconcerned with; in effect, they simplify the need for stretching the collaborative ties even further than they are already extended, they represent matters out of scope for deeper discursive engagement.</li>
+</ul></li>
+<li>It is notable that they emphasize that it’s easy to set up and use DataShield and Maelstorm toolkits independently of university IT and that it can be run using RStudio installed on a basic laptop.
+<ul>
+<li>Maybe look into the historical context (2013) and the evolving role of university IT in software selection.</li>
+</ul></li>
+<li>The conclusion states that the HOP project was successful in its harmonization efforts, but does not go as far as to state that it produced meaningful findings as a result of harmonization.
+<ul>
+<li>I may take some time to find and read studies that used these data to see what’s what.</li>
+<li>This seems like the main one: <a href="https://doi.org/10.1186/1472-6823-14-9" class="uri">https://doi.org/10.1186/1472-6823-14-9</a>, but these other papers may or not not also be relevant:
+<ul>
+<li><a href="https://doi.org/10.1016/j.smhl.2021.100263" class="uri">https://doi.org/10.1016/j.smhl.2021.100263</a></li>
+<li><a href="https://doi.org/10.1007/s10654-014-9977-1" class="uri">https://doi.org/10.1007/s10654-014-9977-1</a></li>
+<li><a href="https://doi.org/10.1530/EJE-14-0540" class="uri">https://doi.org/10.1530/EJE-14-0540</a></li>
+<li><a href="https://doi.org/10.1007/S13679-020-00375-0" class="uri">https://doi.org/10.1007/S13679-020-00375-0</a></li>
+<li><a href="https://doi.org/10.1093/eurpub/ckac061" class="uri">https://doi.org/10.1093/eurpub/ckac061</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="doiron2017" class="level2">
+<h2 class="anchored" data-anchor-id="doiron2017"><span class="citation" data-cites="doiron2017">Doiron et al. (2017)</span></h2>
+<ul>
+<li>An overview of the key software that facilitates data harmonization practices under Maelstrom, also briefly touched upon in <span class="citation" data-cites="doiron2013">Doiron, Burton, et al. (2013)</span>.</li>
+<li>Page 1373 refers to graphical and programmatic interfaces and assumes certain roles and tasks associated with each.</li>
+<li>Briefly describes its use by the Canadian Longitudinal Study on Aging (CLSA), the Canadian Partnership for Tomorrow Project (CPTP) and InterConnect, primarily by describing the range and quantity of data that these systems manage in each case.</li>
+</ul>
+<blockquote class="blockquote">
+<p>Opal provides a centralized web-based data management system allowing study coordinators and data managers to securely import/export a variety of data types (e.g.&nbsp;text, nu merical, geolocation, images, videos) and formats (e.g.&nbsp;SPSS, CSV) using a point-and-click interface. Opal then converts, stores and displays these data under a standar dized model.</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Mica is used to create websites and metadata portals for individual epidemiological studies or multi-study consor tia, with a specific focus on supporting observational co hort studies. The Mica application helps data custodians and study or network coordinators to efficiently organize and disseminate information about their studies and net works without significant technical effort.</p>
+</blockquote>
+</section>
+<section id="fortier2010" class="level2">
+<h2 class="anchored" data-anchor-id="fortier2010"><span class="citation" data-cites="fortier2010">Fortier et al. (2010)</span></h2>
+<ul>
+<li>A very grandiose paper presenting the grand vision for DataSHaPER, which would eventually become Maelstrom.
+<ul>
+<li>Lots of co-authors!</li>
+</ul></li>
+<li>Invokes the pan-European EPIC project (European Prospective Investigation into Cancer and Nutrition), which faced numerous data synthesis challenges despite its proactive effort to coordinate work across numerous research centres.</li>
+</ul>
+<blockquote class="blockquote">
+<p>Two complementary approaches may be adopted to support effective data synthesis. The first one principally targets ‘what’ is to be synthesized, whereas the other one focuses on ‘how’ to collect the required information. Thus: (i) core sets of information may be identified to serve as the foundation for a flexible approach to harmonization; or (ii) standard collection devices (questionnaires and stand ard operating procedures) may be suggested as a required basis for collection of information.</p>
+</blockquote>
+<ul>
+<li>DataSHaPER is an acronym for DataSchema and Harmonization Platform for Epidemiological Research.</li>
+</ul>
+<blockquote class="blockquote">
+<p>In an ideal world, information would be ‘prospectively harmonized’: emerging studies would make use, where possible, of harmonized questionnaires and standard operating procedures. This enhances the potential for future pooling but entails significant challenges —- ahead of time -— in developing and agree ing to common assessment protocols. However, at the same time, it is important to increase the utility of existing studies by ‘retrospectively harmonizing’ data that have already been collected, to optimize the subset of information that may legitimately be pooled. Here, the quantity and quality of infor mation that can be pooled is limited by the heterogeneity intrinsic to the pre-existing differences in study design and conduct.</p>
+</blockquote>
+<p>Compares prospective and retrospective harmonizatiom, with the former being presented as ideal, and the latter being a pragmatic reconciliation in acknowledgement that the former is essentially impossible to achieve.</p>
+<ul>
+<li>DataSHaPER is strikingly similar to OCHRE:
+<ul>
+<li>XML-based data structures</li>
+<li>Genesis of a generic and ultimately optional base-level schema that illustrates the kind of data that the data structure may hold in ways that are immediately recognizable to all practitioners (at OCHRE it was associations between contexts and finds)</li>
+<li>Separate harmonization platform where users can edit and manipulate records and associations between them</li>
+</ul></li>
+</ul>
+<blockquote class="blockquote">
+<p>The question ‘What would constitute the ultimate proof of success or failure of the DataSHaPER approach’ needs to be addressed. Such proof will necessarily accumulate over time, and will involve two fundamental elements: (i) ratification of the basic DataSHaPER approach; and (ii) confirmation of the quality of each individual DataSHaPER as they are developed and/or extended. An important indication of the former would be provided by the widespread use of our tools. However, the ultimate proof of principle will necessarily be based on the generation of replicable scientific findings by researchers using the approach. But, for such evidence to accumulate it will be essential to assure the quality of each individual DataSHaPER. Even if the fundamental approach is sound, its success will depend critically on how individual DataSHaPERs are constructed and used. It seems likely that if consistency and quality are to be assured in the global development of the approach, it will be necessary for new DataSHaPERs to be formally endorsed by a central advisory team.</p>
+</blockquote>
+</section>
+<section id="fortier2011" class="level2">
+<h2 class="anchored" data-anchor-id="fortier2011"><span class="citation" data-cites="fortier2011">Fortier et al. (2011)</span></h2>
+<p>This paper responds to <span class="citation" data-cites="hamilton2011">Hamilton et al. (2011)</span>, which presents an effort to devise a standardized nomenclature. The response is basically to advocate for a more flexible approach, rather than a stringent one promoted by <span class="citation" data-cites="hamilton2011">Hamilton et al. (2011)</span>. It draws extensively from concepts published in the foundational paper by <span class="citation" data-cites="fortier2010">Fortier et al. (2010)</span>.</p>
+<blockquote class="blockquote">
+<p>Two complementary approaches to harmonization may be adopted to support effective data synthesis or comparison across studies. The first approach makes use of identical data collection tools and procedures as a basis for harmoni zation and synthesis. Here we refer to this as the ‘‘stringent’’ approach to harmonization. The second approach is con sidered ‘‘flexible’’ harmonization. Critically, the second ap proach does not demand the use of identical data collection tools and procedures for harmonization and synthesis. Rather, it has to be based on sound methodology to ensure inferential equivalence of the information to be harmonized. Here, standardization is considered equivalent to stringent harmonization. It should, however, be noted that the term standard is occasionally employed to refer to common con cepts or comparable classification schemes but does not necessarily involve the use of identical data collection tools and procedures (12, 13).</p>
+</blockquote>
+<p>This directly parallels the distinction made in <span class="citation" data-cites="fortier2010">Fortier et al. (2010)</span> between “ideal” prospective and more pragmatic retrospective approaches to data harmonization.</p>
+<blockquote class="blockquote">
+<p>Synthesis of data using a flexible harmonization approach may be either prospective or retrospective. To achieve flexible prospective harmonization, investigators from several studies will agree on a core set of variables (or measures), compatible sets of data collection tools, and standard operating procedures but will allow a certain level of flexibilit in the specific tools and procedures used in each study (16, 17). Retrospective harmonization targets synthesis of information already collected by existing legacy studies (15, 18, 19). As an illustrative example, using retrospective harmonization, researchers will define a core set of variables (e.g., body mass index, global level of physical activity) and, making use of formal pairing rules, assess the potential for each participating study to create each variable (15). The ability to retrospectively harmonize data from existing studies facilitates the rapid generation of new scientifi knowledge.</p>
+</blockquote>
+<p>I wonder why there is no example provided for prospective data harmonization. Is it because it is ideal and not realistic? I’d argue that it is simply what occurs <em>within</em> projects.</p>
+</section>
+<section id="fortier2017" class="level2">
+<h2 class="anchored" data-anchor-id="fortier2017"><span class="citation" data-cites="fortier2017">Fortier et al. (2017)</span></h2>
+<p>Explicit statement regarding the rationale and presumed benefits of harmonization right in the first paragraph:</p>
+<blockquote class="blockquote">
+<p>The rationales underpinning such an approach include ensuring: sufficient statistical power; more refined subgroup analysis; increased exposure hetero geneity; enhanced generalizability and a capacity to under take comparison, cross validation or replication across datasets. Integrative agendas also help maximizing the use of available data resources and increase cost-efficiency of research programmes.</p>
+</blockquote>
+<ul>
+<li>ensuring sufficient statistical power</li>
+<li>more refined subgroup analysis</li>
+<li>increased exposure heterogeneity</li>
+<li>enhanced generalizability</li>
+<li>a capacity to undertake comparison, cross validation or replication across datasets.</li>
+<li>maximizing the use of available data resources</li>
+<li>increase cost-efficiency of research programmes</li>
+</ul>
+<p>Clearly defines harmonization and its benefits:</p>
+<blockquote class="blockquote">
+<p>Essentially, data harmonization achieves or improves comparability (inferential equivalence) of similar measures collected by separate studies.</p>
+</blockquote>
+<p>Adds an additional argument for retrospective harmonization on top of prior discussion of retrospective/prospective approaches (cf. <span class="citation" data-cites="fortier2010">Fortier et al. (2010)</span>; <span class="citation" data-cites="fortier2011">Fortier et al. (2011)</span>):</p>
+<blockquote class="blockquote">
+<p>Repeating identical protocols is not necessarily viewed as providing evidence as strong as that obtained by exploring the same topic but using different designs and measures.</p>
+</blockquote>
+<p>Also relates retrospective harmonization from systematic meta reviews. In fact, the paper basically responds to calls for more structured guidelines for data harmonization, similar to those that had been produced to support structured metareviews in the years prior to this publication. The authors identify several papers that have done similar guidelines or reports on harmonization practices, which they claim are too broad. Those papers include:</p>
+<ul>
+<li><span class="citation" data-cites="rolland2015">Rolland et al. (2015)</span>
+<ul>
+<li><a href="https://doi.org/10.1093/aje/kwv133" class="uri">https://doi.org/10.1093/aje/kwv133</a></li>
+</ul></li>
+<li><span class="citation" data-cites="schaap2011">Schaap et al. (2011)</span>
+<ul>
+<li><a href="https://doi.org/10.1186/1471-2474-12-272" class="uri">https://doi.org/10.1186/1471-2474-12-272</a></li>
+</ul></li>
+<li><span class="citation" data-cites="bennett2011">Bennett et al. (2011)</span>
+<ul>
+<li><a href="https://doi.org/10.1002/gepi.20564" class="uri">https://doi.org/10.1002/gepi.20564</a></li>
+</ul></li>
+<li><span class="citation" data-cites="hohmann2012">Hohmann et al. (2012)</span></li>
+</ul>
+<p>The paper applied a questionnaire among data harmonization initiatives. The findings indicate that procedures were more attentively follows during earlier stages, such as when matching and aligning available data with the project’s designated scope. However, procedures were less sound with regards to documenting procedures, validating the results of data processing, and dissemination strategy. There is a notable division between work that occurs before and after people actually begin handling the data, which indicates a tension between aspirational idealism and a reckoning with the practical challenges of reconciling data deriving from multiple sources.</p>
+<blockquote class="blockquote">
+<p>Respondents were asked to delineate the specific procedures or steps undertaken to generate the harmonized data requested. Sound procedures were generally described; however, the terminologies, sequence and technical and methodological approaches to these procedures varied considerably. Most of the procedures mentioned were related to defining the research questions, identifying and selecting the participating studies (generally not through a systematic approach), identifying the targeted variables to be generated and processing data into the harmonized variables. These procedures were reported by at least 75% of the respondents. On the other hand, few reported steps related to validation of the harmonized data (N=4; 11.8%), documentation of the harmonization process (N=5; 14.7%) and dissemination of the harmonized data outputs (N=2; 5.9%).</p>
+</blockquote>
+<p>The paper summarizes some specific “potential pitfalls” reported by respondents to their survey:</p>
+<ul>
+<li>ensuring timely access to data;</li>
+<li>handling dissimilar restrictions and procedures related to individual participant data access;</li>
+<li>managing diversity across the rules for authorship and recognition of input from study-specific investigators;</li>
+<li>mobilizing sufficient time and resources to conduct the harmonization project;</li>
+<li>gathering information and guidance on harmonization approaches, resources and techniques;</li>
+<li>obtaining comprehensive and coherent information on study-specific designs, standard operating procedures, data collection devices, data format and data content;</li>
+<li>understanding content and quality of study-specific data;</li>
+<li>defining the realistic, but scientifically acceptable, level of heterogeneity (or content equivalence) to be obtained;</li>
+<li>generating effective study-specific and harmonized datasets, infrastructures and computing capacities;</li>
+<li>processing data under a harmonized format taking into account diversity of: study designs and content, study population, synchronicity of measures (events measured at different point in time or at different intervals when repeated) etc;</li>
+<li>ensuring proper documentation of the process and decisions undertaken throughout harmonization to ensure transparency and reproducibility of the harmonized datasets;</li>
+<li>maintaining long-term capacities supporting dissemination of the harmonized datasets to users.</li>
+</ul>
+<p>It’s not made clear how these responses were distributed among respondents.</p>
+<p>The authors then identify several absolute essential requirements needed to achieve success:</p>
+<ul>
+<li><strong>Collaborative framework:</strong> a collaborative environment needs to be implemented to ensure the success of any harmonization project. Investigators involved should be open to sharing information and knowledge, and investing time and resources to ensure the successful implementation of a data-sharing infrastructure and achievement of the harmonization process.</li>
+<li><strong>Expert input:</strong> adequate input and oversight by experts should be ensured. Expertise is often necessary in: the scientific domain of interest (to ensure harmonized variables permit addressing the scientific question with minimal bias); data harmonization methods (to support achievement of the harmonization procedures); and ethics and law (to address data access and integration issues).</li>
+<li><strong>Valid data input:</strong> study-specific data should only be harmonized and integrated if the original data items collected by each study are of acceptable quality.</li>
+<li><strong>Valid data output:</strong> transparency and rigour should be maintained throughout the harmonization process to ensure validity and reproducibility of the harmonization results and to guarantee quality of data output. The common variables generated necessarily need to be of acceptable quality.</li>
+<li><strong>Rigorous documentation:</strong> publication of results generated making use of harmonized data must provide the information required to estimate the quality of the process and presence of potential bias. This includes a description of the: criteria used to select studies; process achieved to select and define variables to be harmonized; procedures used to process data; and characteristics of the study-specific and harmonized dataset(s) (e.g.&nbsp;attribute of the populations).</li>
+<li><strong>Respect for stakeholders:</strong> all study-specific as well as network-specific ethical and legal components need to be respected. This includes respect of the rights, intellectual property interests and integrity of study participants, investigators and stakeholders.</li>
+</ul>
+<p>The authors describe how they arrived at guidelines following the results of this study:</p>
+<blockquote class="blockquote">
+<p>A consensus approach was used to assemble information about pitfalls faced during the harmonization process, establish guiding principles and develop the guidelines. The iterative process (informed by workshops and case studies) permitted to refine and formalize the guide lines. The only substantive structural change to the initial version proposed was the addition of specific steps relating to the validation, and dissemination and archiving of harmonized outputs. These steps were felt essential to em phasize the critical nature of these particular issues.</p>
+</blockquote>
+<p>The paper outlines a checklist of stages that data harmonization initiatives need to go through to produce ideal outcomes. For each task, they describe a scenario in which the task can be said to be complete, whhich resembles an ideal outcome. This is described in the paper, summarized in a table, and more comprehensively documented in the supplementary materials.</p>
+<p>Also worth noting, this paper includes a list of harmonization initiatives that I may consult when selecting cases. I’m not quite sure how useful it will be since the findings don’t really break down the distribution of responses in any detail, but maybe the authors have done this analysis and not published it.</p>
+</section>
+<section id="bergeron2018" class="level2">
+<h2 class="anchored" data-anchor-id="bergeron2018"><span class="citation" data-cites="bergeron2018">Bergeron et al. (2018)</span></h2>
+<p>x</p>
+</section>
+<section id="bergeron2021" class="level2">
+<h2 class="anchored" data-anchor-id="bergeron2021"><span class="citation" data-cites="bergeron2021">Bergeron et al. (2021)</span></h2>
+<p>x</p>
+</section>
+<section id="wey2021" class="level2">
+<h2 class="anchored" data-anchor-id="wey2021"><span class="citation" data-cites="wey2021">Wey et al. (2021)</span></h2>
+<p>x</p>
+</section>
+<section id="gaye2014" class="level2">
+<h2 class="anchored" data-anchor-id="gaye2014"><span class="citation" data-cites="gaye2014">Gaye et al. (2014)</span></h2>
+<p>x</p>
+</section>
+<section id="doiron2013a" class="level2">
+<h2 class="anchored" data-anchor-id="doiron2013a"><span class="citation" data-cites="doiron2013a">Doiron, Raina, et al. (2013)</span></h2>
+<p>x</p>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="ref-bennett2011" class="csl-entry">
+Bennett, Siiri N., Neil Caporaso, Annette L. Fitzpatrick, Arpana Agrawal, Kathleen Barnes, Heather A. Boyd, Marilyn C. Cornelis, et al. 2011. <span>“Phenotype Harmonization and Cross-Study Collaboration in <span>GWAS</span> Consortia: The <span>GENEVA</span> Experience.”</span> <em>Genetic Epidemiology</em> 35 (3): 159–73. <a href="https://doi.org/10.1002/gepi.20564">https://doi.org/10.1002/gepi.20564</a>.
+</div>
+<div id="ref-bergeron2018" class="csl-entry">
+Bergeron, Julie, Dany Doiron, Yannick Marcon, Vincent Ferretti, and Isabel Fortier. 2018. <span>“Fostering Population-Based Cohort Data Discovery: <span>The Maelstrom Research</span> Cataloguing Toolkit.”</span> <em>PLOS ONE</em> 13 (7): e0200926. <a href="https://doi.org/10.1371/journal.pone.0200926">https://doi.org/10.1371/journal.pone.0200926</a>.
+</div>
+<div id="ref-bergeron2021" class="csl-entry">
+Bergeron, Julie, Rachel Massicotte, Stephanie Atkinson, Alan Bocking, William Fraser, Isabel Fortier, and the ReACH member cohorts’ principal investigators. 2021. <span>“Cohort <span>Profile</span>: <span>Research Advancement</span> Through <span>Cohort Cataloguing</span> and <span>Harmonization</span> (<span>ReACH</span>).”</span> <em>International Journal of Epidemiology</em> 50 (2): 396–97. <a href="https://doi.org/10.1093/ije/dyaa207">https://doi.org/10.1093/ije/dyaa207</a>.
+</div>
+<div id="ref-doiron2013" class="csl-entry">
+Doiron, Dany, Paul Burton, Yannick Marcon, Amadou Gaye, Bruce H. R. Wolffenbuttel, Markus Perola, Ronald P. Stolk, et al. 2013. <span>“Data Harmonization and Federated Analysis of Population-Based Studies: The <span>BioSHaRE</span> Project.”</span> <em>Emerging Themes in Epidemiology</em> 10 (1): 12. <a href="https://doi.org/10.1186/1742-7622-10-12">https://doi.org/10.1186/1742-7622-10-12</a>.
+</div>
+<div id="ref-doiron2017" class="csl-entry">
+Doiron, Dany, Yannick Marcon, Isabel Fortier, Paul Burton, and Vincent Ferretti. 2017. <span>“Software <span>Application Profile</span>: <span>Opal</span> and <span>Mica</span>: Open-Source Software Solutions for Epidemiological Data Management, Harmonization and Dissemination.”</span> <em>International Journal of Epidemiology</em> 46 (5): 1372–78. <a href="https://doi.org/10.1093/ije/dyx180">https://doi.org/10.1093/ije/dyx180</a>.
+</div>
+<div id="ref-doiron2013a" class="csl-entry">
+Doiron, Dany, Parminder Raina, Isabel Fortier, and Linkage Between Cohorts and Health Care Utilization Data: Meeting of Canadian Stakeholders workshop participants. 2013. <span>“Linking <span>Canadian Population Health Data</span>: <span>Maximizing</span> the <span>Potential</span> of <span>Cohort</span> and <span>Administrative Data</span>.”</span> <em>Canadian Journal of Public Health</em> 104 (3): e258–61. <a href="https://doi.org/10.17269/cjph.104.3775">https://doi.org/10.17269/cjph.104.3775</a>.
+</div>
+<div id="ref-fortier2010" class="csl-entry">
+Fortier, Isabel, Paul R Burton, Paula J Robson, Vincent Ferretti, Julian Little, Francois L’Heureux, Mylène Deschênes, et al. 2010. <span>“Quality, Quantity and Harmony: The <span>DataSHaPER</span> Approach to Integrating Data Across Bioclinical Studies.”</span> <em>International Journal of Epidemiology</em> 39 (5): 1383–93. <a href="https://doi.org/10.1093/ije/dyq139">https://doi.org/10.1093/ije/dyq139</a>.
+</div>
+<div id="ref-fortier2011" class="csl-entry">
+Fortier, Isabel, Dany Doiron, Paul Burton, and Parminder Raina. 2011. <span>“Invited <span>Commentary</span>: <span>Consolidating Data Harmonization</span>—<span>How</span> to <span>Obtain Quality</span> and <span>Applicability</span>?”</span> <em>American Journal of Epidemiology</em> 174 (3): 261–64. <a href="https://doi.org/10.1093/aje/kwr194">https://doi.org/10.1093/aje/kwr194</a>.
+</div>
+<div id="ref-fortier2017" class="csl-entry">
+Fortier, Isabel, Parminder Raina, Edwin R Van den Heuvel, Lauren E Griffith, Camille Craig, Matilda Saliba, Dany Doiron, et al. 2017. <span>“Maelstrom <span>Research</span> Guidelines for Rigorous Retrospective Data Harmonization.”</span> <em>International Journal of Epidemiology</em> 46 (1): 103–5. <a href="https://doi.org/10.1093/ije/dyw075">https://doi.org/10.1093/ije/dyw075</a>.
+</div>
+<div id="ref-gaye2014" class="csl-entry">
+Gaye, Amadou, Yannick Marcon, Julia Isaeva, Philippe LaFlamme, Andrew Turner, Elinor M Jones, Joel Minion, et al. 2014. <span>“<span>DataSHIELD</span>: Taking the Analysis to the Data, Not the Data to the Analysis.”</span> <em>International Journal of Epidemiology</em> 43 (6): 1929–44. <a href="https://doi.org/10.1093/ije/dyu188">https://doi.org/10.1093/ije/dyu188</a>.
+</div>
+<div id="ref-hamilton2011" class="csl-entry">
+Hamilton, Carol M., Lisa C. Strader, Joseph G. Pratt, Deborah Maiese, Tabitha Hendershot, Richard K. Kwok, Jane A. Hammond, et al. 2011. <span>“The <span>PhenX Toolkit</span>: <span>Get</span> the <span>Most From Your Measures</span>.”</span> <em>American Journal of Epidemiology</em> 174 (3): 253–60. <a href="https://doi.org/10.1093/aje/kwr193">https://doi.org/10.1093/aje/kwr193</a>.
+</div>
+<div id="ref-hohmann2012" class="csl-entry">
+Hohmann, Cynthia, E Govarts, A Bergström, S Cordier, M Eggesbo, M Guxens, J Heinrich, et al. 2012. <span>“Joint <span>Data Analyses</span> of <span>European Birth Cohorts</span>: <span>Two Different Approaches</span>.”</span> <em>WebmedCentral EPIDEMIOLOGY</em> 3 (12): WMC003869.
+</div>
+<div id="ref-rolland2015" class="csl-entry">
+Rolland, Betsy, Suzanna Reid, Deanna Stelling, Greg Warnick, Mark Thornquist, Ziding Feng, and John D. Potter. 2015. <span>“Toward <span>Rigorous Data Harmonization</span> in <span>Cancer Epidemiology Research</span>: <span>One Approach</span>.”</span> <em>American Journal of Epidemiology</em> 182 (12): 1033–38. <a href="https://doi.org/10.1093/aje/kwv133">https://doi.org/10.1093/aje/kwv133</a>.
+</div>
+<div id="ref-schaap2011" class="csl-entry">
+Schaap, Laura A., Geeske MEE Peeters, Elaine M. Dennison, Sabina Zambon, Thorsten Nikolaus, Mercedes Sanchez-Martinez, Estella Musacchio, Natasja M. van Schoor, Dorly JH Deeg, and The EPOSA research group. 2011. <span>“European <span>Project</span> on <span>Osteoarthritis</span> (<span>EPOSA</span>): Methodological Challenges in Harmonization of Existing Data from Five <span>European</span> Population-Based Cohorts on Aging.”</span> <em>BMC Musculoskeletal Disorders</em> 12 (1): 272. <a href="https://doi.org/10.1186/1471-2474-12-272">https://doi.org/10.1186/1471-2474-12-272</a>.
+</div>
+<div id="ref-wey2021" class="csl-entry">
+Wey, Tina W., Dany Doiron, Rita Wissa, Guillaume Fabre, Irina Motoc, J. Mark Noordzij, Milagros Ruiz, et al. 2021. <span>“Overview of Retrospective Data Harmonisation in the <span>MINDMAP</span> Project: Process and Results.”</span> <em>J Epidemiol Community Health</em> 75 (5): 433–41. <a href="https://doi.org/10.1136/jech-2020-214259">https://doi.org/10.1136/jech-2020-214259</a>.
+</div>
+</div></section></div> ]]></description>
+  <category>reading</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/notes/2025-01-09-maelstrom-readings.html</guid>
+  <pubDate>Tue, 07 Jan 2025 05:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Introduction with Dr. Fortier</title>
+  <link>https://zackbatist.info/CITF-Postdoc/notes/2024-12-17-introduction-with-Dr-Fortier.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>Meeting with David and Isabel Fortier to convey my interest in Maelstrom and obtain guidance on how to proceed, i.e.&nbsp;who to approach as viable cases.</p>
+<p>Dr.&nbsp;Fortier expressed interest in the project and invited me to get in touch with any questions or concerns. She would be happy to introduce me to representatives from partner projects that could serve as potential cases.</p>
+<p>I told her that I will have the research protocol completed by the new year, including the case selection strategy document.</p>
+<p>Dr.&nbsp;Fortier also sent me a couple relevant papers. One of these <span class="citation" data-cites="fortier2017">(Fortier et al. 2017)</span> establishes Maelstrom’s research guidelines. The other <span class="citation" data-cites="fortier2023">(Fortier et al. 2023)</span> is about similar considerations with regards to processes underlying harmonization efforts. I still need to review these papers in great depth before producing more genuine summaries.</p>
+<p>Dr.&nbsp;Fortier also mentioned that she had worked with another scholar of scientific practice, Madeleine Murtagh, with regards to Maelsltrom’s participation in the DataShield initiative. We talked about DataShield for a bit, and it’s really fascinating, but we didn’t really have much time to get into the weeds.</p>
+
+
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0">
+<div id="ref-fortier2017" class="csl-entry">
+Fortier, Isabel, Parminder Raina, Edwin R Van den Heuvel, Lauren E Griffith, Camille Craig, Matilda Saliba, Dany Doiron, et al. 2017. <span>“Maelstrom <span>Research</span> Guidelines for Rigorous Retrospective Data Harmonization.”</span> <em>International Journal of Epidemiology</em> 46 (1): 103–5. <a href="https://doi.org/10.1093/ije/dyw075">https://doi.org/10.1093/ije/dyw075</a>.
+</div>
+<div id="ref-fortier2023" class="csl-entry">
+Fortier, Isabel, Tina W. Wey, Julie Bergeron, Angela Pinot de Moira, Anne-Marie Nybo-Andersen, Tom Bishop, Madeleine J. Murtagh, et al. 2023. <span>“Life Course of Retrospective Harmonization Initiatives: Key Elements to Consider.”</span> <em>Journal of Developmental Origins of Health and Disease</em> 14 (2): 190–98. <a href="https://doi.org/10.1017/S2040174422000460">https://doi.org/10.1017/S2040174422000460</a>.
+</div>
+</div></section></div> ]]></description>
+  <guid>https://zackbatist.info/CITF-Postdoc/notes/2024-12-17-introduction-with-Dr-Fortier.html</guid>
+  <pubDate>Tue, 17 Dec 2024 05:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>First introductory meeting</title>
+  <link>https://zackbatist.info/CITF-Postdoc/notes/2024-12-04-first-introductory-meeting.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>Meeting with David Buckeridge, Tanya Murphy and Aklil Noza to introduce the general concept of the research and align perspectives. I think it went really well, I was confident and articulate.</p>
+<p>I outlined my whole perspective on open data, and we discussed what the project would look like in terms of the questions I would ask, potential cases. Also aligning language and perspectives. We discussed timelines and overlap with Aklil’s work, which will be more concerned with focus groups with users – there is definitely overlap and we will coordinate but it will definitely relate. Largely because she will be dealing with user perspectives for CITF specifically, whereas I will be focusing on discursive practices among data-sharing initiatives’ leaders. We agreed that it would likely comprise around 15 interviews, with 4 carefully selected cases, plus Maelstrom personnel.</p>
+<p>Afterwards, I sat and chatted with Tanya and Aklil about epidemiological research in general, the state and history of the field, just trying to get a sense about tensions relating to data and the different perspectives involved. Tanya is going to send me a few resources to codify some of the knowledge they shared with me.</p>
+<p>I also briefly talked with Rosalba about admin onboarding procedure. The letter of offer is in the works, at which point we could submit the letter of offer plus the letter of agreement to the postdoc registration portal, which will allow me to get paid. I also requested a desk in their amazing office space.</p>
+
+
+
+ ]]></description>
+  <guid>https://zackbatist.info/CITF-Postdoc/notes/2024-12-04-first-introductory-meeting.html</guid>
+  <pubDate>Wed, 04 Dec 2024 05:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
