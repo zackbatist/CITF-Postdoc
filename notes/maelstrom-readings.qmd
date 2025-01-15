@@ -8,7 +8,7 @@ categories:
 ---
 
 ## @doiron2013
-- Initial overview of data harmonization procedures, using the Health Obesity Project (HOP) as an illustrative case.
+- Initial overview of data harmonization procedures, using the Healthy Obesity Project (HOP) as an illustrative case.
 - Outlines the technical apparatus, especially for DataShield, but also broadly describes the discursive process of arriving at a DataSchema that is both functional and flexible.
   - This description is quite broad and abstracy, seems somewhat ideal and aspirational.
 - Describes reliance on international standards, such as the International Labour Organization's International Standard Classification of Occupations.
@@ -156,16 +156,145 @@ Also worth noting, this paper includes a list of harmonization initiatives that 
 I'm not quite sure how useful it will be since the findings don't really break down the distribution of responses in any detail, but maybe the authors have done this analysis and not published it.
 
 ## @bergeron2018
-x
+The authors reference the drive for efficiency as a motivating factor that drives open data:
+
+> However, many cohort databases remain under-exploited. To address this issue and speed up discovery, it is essential to offer timely access to cohort data and samples.
+
+However the paper is actually about the need for better and more publicly accessible documentation _about_ data.
+
+The authors state that catalogues exist to promote discoverability of data and samples and to answer the data documentation needs of individual studies.
+
+They draw attention to the importance of catalogues in research networks (analyzing data across studies), which establish portals that document "summary statistics on study subjects, such as the number of participants presenting specific characteristics (e.g. diseases or exposures)".
+
+The authors outline several challenges that inhibit or limit the potential value of catalogues:
+
+> The quality of a catalogue directly depends on the quality and comprehensiveness of the study-specific information documented.
+> But, maintaining and providing access to understandable and comprehensive documentation to external users can be challenging for cohort investigators, and require resources not always available, particularly for the very small or long-established studies.
+> In addition, the technical work required to build and maintain a catalogue is particularly demanding.
+> For example, gathering comprehensive±and comparable –information on study designs necessitates the implementation of rigorous procedures and working in close collaboration with study investigators.
+> Manual classification of variables is also a long and a tedious process prone to human error. Moreover, the information collected needs to be regularly revised to update metadata with new data collections.
+> These challenges, among others, can lead to the creation of catalogues with partial or disparate information across studies, documenting limited subsets of variables (e.g. only information collected at baseline) or including only studies with data dictionaries available in a specific language or format.
+
+They then state that implementing "rigorous standard operating procedures" as a way to resolve these concerns:
+
+> However, to truly optimize usage of available data and leverage scientific discovery, implementation of high quality metadata catalogues is essential.
+> It is thus important to establish rigorous standard operating procedures when developing a catalogue, obtain sufficient financial support to implement and maintain it overtime, and where possible, ensure compatibility with other existing catalogues.
 
 ## @bergeron2021
-x
+Identifies several registries of relevant cohorts, but notes that they face challenges getting the data together.
+Namely, issues concerning institutional policies concerning data-sharing, lack of open access to cohort data and to documentation about the data, the data's complexity which makes it difficult to harmonize across studies, and lack of access to funding, secure data environments, and specialized expertise and resources.
+
+The Research Advancement through Cohort Cataloguing and Harmonization (ReACH) initiative was establihed in collaboration with Maelstrom to overcome some of these barriers in the context of Developmental Origins of Health and Disease (DOHaD) research.
+
+The authors briefly summarize some projects that rely on ReACH data, and provide a more comprehensive table of ongoing and unpublished work.
+
+In the supplementary materials, the authors also include an illustrative example specific tasks, decisisions and actions that one might got through when using ReACH data.
+It is a broad-level but fairly sober account of how one would navigate the catalogue and engage with collaborators.
+
 
 ## @wey2021
 x
 
+## @wey2024
+x
+
 ## @gaye2014
+Introduces DataShield.
+
+Frames DataShield as a technical fix to administrative problems:
+
+> Many technical and policy measures can be enacted to render data sharing more secure from a governance per spective and less likely to result in loss of intellectual prop erty. For example, data owners might restrict data release to aggregate statistics alone, or may limit the number of variables that individual researchers might access for speci fied purposes. Alternatively, secure analysis centres, such ,10 ,11 as the ESRC Secure Data Service and SAIL represent major informatics infrastructures that can provide a safe haven for remote or local analysis/linkage of data from selected sources while preventing researchers from down loading the original data themselves. However, to comple ment pre-existing solutions to the important challenges now faced, the DataSHIELD consortium has developed a flexible new way to comprehensively analyse individual level data collected across several studies or sources while keeping the original data strictly secure.
+> As a technology, DataSHIELD uses distributed computing and parallelized analysis to enable full joint analysis of individual-level data from several sources—e.g. research projects or health or administrative data—without the need for those data to move, or even be seen, outside the study where they usually .12 reside Crucially, because it does not require underpin ning by a major informatics infrastructure and because it is based on non-commercial open source software, it is both locally implementable and very cost effective.
+
+Adds a social/collaborative element to earlier arguments about the challenges inherent of prospective harmonization, highlighting a need for engagement with individual studies (either through direct or peripheral participation) to conduct research that was not initially planned for:
+
+> Unfortunately, both [study-level metadata] SLMA and [individual-level metadata] ILMA present significant problems Because SLMA com bines analytical results (e.g. means, odds ratios, regression coefficients) produced ahead of time by the contributing studies, it can be very inflexible: only the pre-planned analyses undertaken by all the studies can be converted into joint results across all studies combined. Any additional analyses must be requested post hoc. This hinders exploratory analysis for example the investigation of sub-groups, or interactions between key variables.
+
+Provides a detailed overview of how DataShield was implemented for HOP (Healthy Obesity Project), including the code used to generate specific figures and analyses.
+Hoever it does not really describe or reflect upon the processes through which the code was developed.
+
+The authors highlight the fact that certain analytical approaches are not possible using DataShield, especially analysis that visualize individual data points.
+It's unclear how they enforce this, or whether it's an implicit limitation based on the data that DataShield participants provide.
+
+> Because in DataSHIELD potentially disclosive com mands are not allowed, some analyses that are possible in standard R are not enabled.
+> In essence, there are two classes of limitation on potential DataSHIELD functional ity:
+> (i) absolute limitations which require an analysis that can only be undertaken by enabling one of the functional ities (e.g. visualizing individual data points) that is explicitly blocked as a fundamental element of the DataSHIELD philosophy.
+> For example, this would be the case for a standard scatter plot.
+> Such limitations can never be circumvented and so alternatives (e.g. contour and heat map plots) are enabled which convey similar information but without disclosing individual data points;
+> (ii) current limitations which are functions or models that we believe are implementable but we have not, as yet, under taken or completed the development work required.
+> As examples, these latter include generalized linear mixed model (including multi-level modelling) and Cox regression.
+
+The authors list numerous other limitations and challenges.
+Some have to do with what kinds of data DataShield can handle (something about horizontal and vertical that I do not yet fully understand).
+Other challenges include the need for data to be harmonized, and having to deal with governance concerns.
+
+Notably, the first challenge mentioned seems to contradict the statement earlier on (and made by @doiron2013) that this is relatively easy to set up. The authors acknowledge the fact that coding for analysis using DataShield has a steep learning curve and requires some pre-planning to enable results from satellite computers to be properly combined.
+Their mitigation is to black-box these concerns by implementing simpler client-side functions that mask the more complex behaviours (and presumably translate error messages in ways that users can understand and act to resolve!).
+
+> Despite its potential utility, implementation of DataSHIELD involves significant challenges. First, although set-up is fundamentally straightforward, application involves a relatively steep learning curve because the command structure is complex: it demands specification of the analysis to be undertaken, the studies to use and how to combine the results. In mitigation, most complex serverside functions are now called using simpler client-side functions and we are working on a menu-driven implementation.
+
+Also interesting that they note how there may be unanticipated problems, either accidental or malicious, and their way of mitigating against this is to log all commands:
+
+> Fifth, despite the care taken to set up DataSHIELD so that it works properly and is non-disclosive, it is possible that unanticipated prob lems (accidental or malicious) may arise. In order to iden tify, describe and rectify any errors or loopholes that emerge and in order to identify deliberate miscreants, all commands issued on the client server and enacted on each data server are permanently logged.
+
+This is even more interesting in light of their continuous reference to "data.care", which they do not address in depth, but which seems to have been a scandal involving unauthorized release of personal health data used in research.
+
+The authors add an additional caveat concerning the need to ensure that the data are cleaned in advance.
+
+> But, to be pragmatic, many of the routinely collected healthcare and administra tive databases will have to undergo substantial evolution before their quality and consistency are such that they can directly be used in high-quality research without exten sive preparatory work. By its very nature, such preparation—which typically includes data cleaning and data harmonization—cannot usually be undertaken in DataSHIELD, because it involves investigating discrepan cies and/or extreme results in individual data subjects: the precise functionality that DataSHIELD is designed to block. Such work must therefore be undertaken ahead of time by the data generators themselves—and this is de manding of time, resources and expertise that—at present - many administrative data providers may well be unwilling and/or unable to provide. That said, if the widespread us ability of such data is viewed as being of high priority, the required resources could be forthcoming.
+
+This corresponds with another limitation identified earlier, namely with regards to identifying duplicate individual records across jurisdictional boundaries (which involves assumptions regarding nationality and identify -- one of [those weird myths that programmers can't seem to let go!](https://github.com/kdeldycke/awesome-falsehood)):
+
+> So far DataSHIELD has been applied in settings where individual participants in different studies are from different countries or from different regions so it is unlikely that any one person will appear in more than one source. However, going forward, that cannot al ways be assumed. We have therefore been consider ing approaches to identify and correct this problem based on probabilistic record linkage. In the genetic setting 48 the BioPIN provides an alternative solution. Ongoing work is required.
+
+Note the last line of the prior block quote regarding data cleaning:
+
+> That said, if the widespread us ability of such data is viewed as being of high priority, the required resources could be forthcoming.
+
+This seems like a thread worth tugging at!
+
+## @wolfson2010
 x
 
 ## @doiron2013a
-x
+This paper summarizes what was discussed at a workshop bringing together stakeholders who would contribute to two large data harmonization initiatives: the Canadian Longitudinal Study on Aging (CLSA) and the Canadian Partnership for Tomorrow Project (CPTP).
+It is therefore representative of plans and challenges that were held at an early stage when collaborations were being established.
+
+The authors identify series of reasons for linking data, which I summarize here:
+
+1. Maximizing potential of disparate information resources
+  - enriching study datasets with additional data not being collected directly from study par ticipants
+  - offer vital information on health outcomes of participants
+  - validate self-reported information
+2. Drawing maximum value from data produced from public expenditure
+  - offers a cost-effective means to maximize the use of existing publicly funded data collections
+3. Develop interdisciplinary collaborative networks
+  - by combining a wide range of risk factors, disease endpoints, and relevant socio-economic and biological measurements at a population level, linkage lays the groundwork for multidisciplinary health-research initiatives, which allow the exploration of new hypotheses not foreseeable using independent datasets
+4. Establish long-lasting infrastructure and instill a collaborative culture
+  - Last, a coordinated pan-Canadian cohort-to-administrative linked database would establish legacy research infrastructures that will better equip the next generation of researchers across the country
+
+The authors use the term "data linkage":
+
+> Data linkage is "the bringing together from two or more different sources, data that relates to the same individual, family, place or event".
+> When linking data at the individual level, a common identifier (or a combination of identifiers) such as a personal health number, date of birth, place of residence, or sex, is used to combine data related to the same person but found in separate databases.
+> Data linkage has been used in a number of research fields but is an especially valuable tool for health research given the large amount of relevant information collected by institutions such as governments, hospitals, clinics, health authorities, and research groups that can then be matched to data collected directly from consenting individuals participating in health research.
+
+This is distinct from harmonization in that it is not meant to combine data with similar scope and schematic structure, but rather to relate information collected under various domains so that they could be more easily queried in tandem.
+I imagine this as reminiscient of establishing links between tables in a relational database.
+
+The authors identify the open-endedness of the linked data as a unique challenge, without elaborating on this point:
+
+> CLSA/CPTP-to-AHD linkage also poses unique challenges in that, in contrast to more traditional requests to link data to answer one-off research questions, it aims to establish a rich data repository that will allow investigators to answer a multitude of research questions over time.
+
+The workshop participants established a 5-point plan:
+
+1. build strong collaborative relationships between stakeholders involved in data sharing (e.g., researchers, data custodians, and privacy commissioners);
+2. identify an entity which could provide overall leadership as well as individual "champions" within each province;
+3. find adequate and long-term resources and funding;
+4. clarify data linkage and data-sharing models and develop a common framework within which the data linkage process takes place; and
+5. develop a pilot project making use of a limited number of linked variables from participating provinces
+
+The second point, about identifying "champions", is kind of interesting, and I'd like to know more about what qualities these people were expcted to have, their domains of expertise, their collaborative/soft or technical skills, and how this plays into access to funds and general governance structures
+
+Need to look at @roos2004, which they cite in the conclusion, specifically with reference to the aspiration to develop "information rich environments".
+Seems like it is a primary source for the background on linked data in Manitoba and Australia.
