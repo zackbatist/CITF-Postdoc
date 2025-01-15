@@ -236,7 +236,6 @@ div.csl-indent {
   <li><a href="#wey2021" id="toc-wey2021" class="nav-link" data-scroll-target="#wey2021"><span class="citation" data-cites="wey2021">Wey et al. (2021)</span></a></li>
   <li><a href="#wey2024" id="toc-wey2024" class="nav-link" data-scroll-target="#wey2024"><span class="citation" data-cites="wey2024">Wey and Fortier (2024)</span></a></li>
   <li><a href="#gaye2014" id="toc-gaye2014" class="nav-link" data-scroll-target="#gaye2014"><span class="citation" data-cites="gaye2014">Gaye et al. (2014)</span></a></li>
-  <li><a href="#wolfson2010" id="toc-wolfson2010" class="nav-link" data-scroll-target="#wolfson2010"><span class="citation" data-cites="wolfson2010">Wolfson et al. (2010)</span></a></li>
   <li><a href="#doiron2013a" id="toc-doiron2013a" class="nav-link" data-scroll-target="#doiron2013a"><span class="citation" data-cites="doiron2013a">Doiron, Raina, and Fortier (2013)</span></a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/notes/maelstrom-readings.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
@@ -480,46 +479,6 @@ div.csl-indent {
 </section>
 <section id="gaye2014" class="level2">
 <h2 class="anchored" data-anchor-id="gaye2014"><span class="citation" data-cites="gaye2014">Gaye et al. (<a href="#ref-gaye2014" role="doc-biblioref">2014</a>)</span></h2>
-<p>Introduces DataShield.</p>
-<p>Frames DataShield as a technical fix to administrative problems:</p>
-<blockquote class="blockquote">
-<p>Many technical and policy measures can be enacted to render data sharing more secure from a governance per spective and less likely to result in loss of intellectual prop erty. For example, data owners might restrict data release to aggregate statistics alone, or may limit the number of variables that individual researchers might access for speci fied purposes. Alternatively, secure analysis centres, such ,10 ,11 as the ESRC Secure Data Service and SAIL represent major informatics infrastructures that can provide a safe haven for remote or local analysis/linkage of data from selected sources while preventing researchers from down loading the original data themselves. However, to comple ment pre-existing solutions to the important challenges now faced, the DataSHIELD consortium has developed a flexible new way to comprehensively analyse individual level data collected across several studies or sources while keeping the original data strictly secure. As a technology, DataSHIELD uses distributed computing and parallelized analysis to enable full joint analysis of individual-level data from several sources—e.g.&nbsp;research projects or health or administrative data—without the need for those data to move, or even be seen, outside the study where they usually .12 reside Crucially, because it does not require underpin ning by a major informatics infrastructure and because it is based on non-commercial open source software, it is both locally implementable and very cost effective.</p>
-</blockquote>
-<p>Adds a social/collaborative element to earlier arguments about the challenges inherent of prospective harmonization, highlighting a need for engagement with individual studies (either through direct or peripheral participation) to conduct research that was not initially planned for:</p>
-<blockquote class="blockquote">
-<p>Unfortunately, both [study-level metadata] SLMA and [individual-level metadata] ILMA present significant problems Because SLMA com bines analytical results (e.g.&nbsp;means, odds ratios, regression coefficients) produced ahead of time by the contributing studies, it can be very inflexible: only the pre-planned analyses undertaken by all the studies can be converted into joint results across all studies combined. Any additional analyses must be requested post hoc. This hinders exploratory analysis for example the investigation of sub-groups, or interactions between key variables.</p>
-</blockquote>
-<p>Provides a detailed overview of how DataShield was implemented for HOP (Healthy Obesity Project), including the code used to generate specific figures and analyses. Hoever it does not really describe or reflect upon the processes through which the code was developed.</p>
-<p>The authors highlight the fact that certain analytical approaches are not possible using DataShield, especially analysis that visualize individual data points. It’s unclear how they enforce this, or whether it’s an implicit limitation based on the data that DataShield participants provide.</p>
-<blockquote class="blockquote">
-<p>Because in DataSHIELD potentially disclosive com mands are not allowed, some analyses that are possible in standard R are not enabled. In essence, there are two classes of limitation on potential DataSHIELD functional ity: (i) absolute limitations which require an analysis that can only be undertaken by enabling one of the functional ities (e.g.&nbsp;visualizing individual data points) that is explicitly blocked as a fundamental element of the DataSHIELD philosophy. For example, this would be the case for a standard scatter plot. Such limitations can never be circumvented and so alternatives (e.g.&nbsp;contour and heat map plots) are enabled which convey similar information but without disclosing individual data points; (ii) current limitations which are functions or models that we believe are implementable but we have not, as yet, under taken or completed the development work required. As examples, these latter include generalized linear mixed model (including multi-level modelling) and Cox regression.</p>
-</blockquote>
-<p>The authors list numerous other limitations and challenges. Some have to do with what kinds of data DataShield can handle (something about horizontal and vertical that I do not yet fully understand). Other challenges include the need for data to be harmonized, and having to deal with governance concerns.</p>
-<p>Notably, the first challenge mentioned seems to contradict the statement earlier on (and made by <span class="citation" data-cites="doiron2013">Doiron et al. (<a href="#ref-doiron2013" role="doc-biblioref">2013</a>)</span>) that this is relatively easy to set up. The authors acknowledge the fact that coding for analysis using DataShield has a steep learning curve and requires some pre-planning to enable results from satellite computers to be properly combined. Their mitigation is to black-box these concerns by implementing simpler client-side functions that mask the more complex behaviours (and presumably translate error messages in ways that users can understand and act to resolve!).</p>
-<blockquote class="blockquote">
-<p>Despite its potential utility, implementation of DataSHIELD involves significant challenges. First, although set-up is fundamentally straightforward, application involves a relatively steep learning curve because the command structure is complex: it demands specification of the analysis to be undertaken, the studies to use and how to combine the results. In mitigation, most complex serverside functions are now called using simpler client-side functions and we are working on a menu-driven implementation.</p>
-</blockquote>
-<p>Also interesting that they note how there may be unanticipated problems, either accidental or malicious, and their way of mitigating against this is to log all commands:</p>
-<blockquote class="blockquote">
-<p>Fifth, despite the care taken to set up DataSHIELD so that it works properly and is non-disclosive, it is possible that unanticipated prob lems (accidental or malicious) may arise. In order to iden tify, describe and rectify any errors or loopholes that emerge and in order to identify deliberate miscreants, all commands issued on the client server and enacted on each data server are permanently logged.</p>
-</blockquote>
-<p>This is even more interesting in light of their continuous reference to “data.care”, which they do not address in depth, but which seems to have been a scandal involving unauthorized release of personal health data used in research.</p>
-<p>The authors add an additional caveat concerning the need to ensure that the data are cleaned in advance.</p>
-<blockquote class="blockquote">
-<p>But, to be pragmatic, many of the routinely collected healthcare and administra tive databases will have to undergo substantial evolution before their quality and consistency are such that they can directly be used in high-quality research without exten sive preparatory work. By its very nature, such preparation—which typically includes data cleaning and data harmonization—cannot usually be undertaken in DataSHIELD, because it involves investigating discrepan cies and/or extreme results in individual data subjects: the precise functionality that DataSHIELD is designed to block. Such work must therefore be undertaken ahead of time by the data generators themselves—and this is de manding of time, resources and expertise that—at present - many administrative data providers may well be unwilling and/or unable to provide. That said, if the widespread us ability of such data is viewed as being of high priority, the required resources could be forthcoming.</p>
-</blockquote>
-<p>This corresponds with another limitation identified earlier, namely with regards to identifying duplicate individual records across jurisdictional boundaries (which involves assumptions regarding nationality and identify – one of <a href="https://github.com/kdeldycke/awesome-falsehood">those weird myths that programmers can’t seem to let go!</a>):</p>
-<blockquote class="blockquote">
-<p>So far DataSHIELD has been applied in settings where individual participants in different studies are from different countries or from different regions so it is unlikely that any one person will appear in more than one source. However, going forward, that cannot al ways be assumed. We have therefore been consider ing approaches to identify and correct this problem based on probabilistic record linkage. In the genetic setting 48 the BioPIN provides an alternative solution. Ongoing work is required.</p>
-</blockquote>
-<p>Note the last line of the prior block quote regarding data cleaning:</p>
-<blockquote class="blockquote">
-<p>That said, if the widespread us ability of such data is viewed as being of high priority, the required resources could be forthcoming.</p>
-</blockquote>
-<p>This seems like a thread worth tugging at!</p>
-</section>
-<section id="wolfson2010" class="level2">
-<h2 class="anchored" data-anchor-id="wolfson2010"><span class="citation" data-cites="wolfson2010">Wolfson et al. (<a href="#ref-wolfson2010" role="doc-biblioref">2010</a>)</span></h2>
 <p>x</p>
 </section>
 <section id="doiron2013a" class="level2">
@@ -627,9 +586,6 @@ Wey, Tina W., Dany Doiron, Rita Wissa, Guillaume Fabre, Irina Motoc, J. Mark Noo
 </div>
 <div id="ref-wey2024" class="csl-entry" role="listitem">
 Wey, Tina W., and Isabel Fortier. 2024. <span>“Maelstrom <span>Research Approaches</span> to <span>Retrospective Harmonization</span> of <span>Cohort Data</span> for <span>Epidemiological Research</span>.”</span> In <em>Survey <span>Data Harmonization</span> in the <span>Social Sciences</span></em>, 227–47. John Wiley &amp; Sons, Ltd. <a href="https://doi.org/10.1002/9781119712206.ch13">https://doi.org/10.1002/9781119712206.ch13</a>.
-</div>
-<div id="ref-wolfson2010" class="csl-entry" role="listitem">
-Wolfson, Michael, Susan E. Wallace, Nicholas Masca, Geoff Rowe, Nuala A. Sheehan, Vincent Ferretti, Philippe LaFlamme, et al. 2010. <span>“<span>DataSHIELD</span>: Resolving a Conflict in Contemporary Bioscience–Performing a Pooled Analysis of Individual-Level Data Without Sharing the Data.”</span> <em>International Journal of Epidemiology</em> 39 (5): 1372–82. <a href="https://doi.org/10.1093/ije/dyq111">https://doi.org/10.1093/ije/dyq111</a>.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

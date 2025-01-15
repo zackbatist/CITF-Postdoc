@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="">
+<meta name="dcterms.date" content="2025-01-14">
+<meta name="description" content="Notes helping me to think through data-sharing initiatives that may serve as prospective cases.">
 
-<title>Notes – CITF-Postdoc</title>
+<title>Potential cases – CITF-Postdoc</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,27 +22,45 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./images/favicon.ico" rel="icon">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b6cc9bb6fcb6d8b77cec24a8d661402f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-01bf821d34ede30856b0c0e7e2988940.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -69,69 +88,11 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
-<body class="nav-sidebar docked fullcontent">
+<body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -140,7 +101,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./notes.html">Notes</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Potential cases</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -154,8 +115,8 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -167,73 +128,73 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./context.html" class="sidebar-item-text sidebar-link">
+  <a href="../context.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Context</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./research-protocol.html" class="sidebar-item-text sidebar-link">
+  <a href="../research-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Research Protocol</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./case-selection.html" class="sidebar-item-text sidebar-link">
+  <a href="../case-selection.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Case Selection</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ethics-protocol.html" class="sidebar-item-text sidebar-link">
+  <a href="../ethics-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ethics Protocol</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./interview-protocol.html" class="sidebar-item-text sidebar-link">
+  <a href="../interview-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interview Protocol</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./transcription-protocol.html" class="sidebar-item-text sidebar-link">
+  <a href="../transcription-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Transcription Protocol</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data-management.html" class="sidebar-item-text sidebar-link">
+  <a href="../data-management.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Management</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./qda-protocol.html" class="sidebar-item-text sidebar-link">
+  <a href="../qda-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">QDA Protocol</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./glossary.html" class="sidebar-item-text sidebar-link">
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Glossary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./notes.html" class="sidebar-item-text sidebar-link active">
+  <a href="../notes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Notes</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts.html" class="sidebar-item-text sidebar-link">
+  <a href="../posts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Blog</span></a>
   </div>
 </li>
@@ -245,13 +206,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./CITF-Postdoc.bib" class="sidebar-item-text sidebar-link">
+  <a href="../CITF-Postdoc.bib" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bib</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts.xml" class="sidebar-item-text sidebar-link">
+  <a href="../posts.xml" class="sidebar-item-text sidebar-link">
  <span class="menu-text">RSS</span></a>
   </div>
 </li>
@@ -260,23 +221,57 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#canadian-longitudinal-study-on-aging-clsa" id="toc-canadian-longitudinal-study-on-aging-clsa" class="nav-link active" data-scroll-target="#canadian-longitudinal-study-on-aging-clsa">Canadian Longitudinal Study on Aging (CLSA)</a></li>
+  <li><a href="#canadian-partnership-for-tomorrow-cptp" id="toc-canadian-partnership-for-tomorrow-cptp" class="nav-link" data-scroll-target="#canadian-partnership-for-tomorrow-cptp">Canadian Partnership for Tomorrow (CPTP)</a></li>
+  <li><a href="#cartagene" id="toc-cartagene" class="nav-link" data-scroll-target="#cartagene">CARTaGENE</a></li>
+  <li><a href="#eucanshare" id="toc-eucanshare" class="nav-link" data-scroll-target="#eucanshare">euCanSHare</a></li>
+  <li><a href="#healthy-obesity-project-hop" id="toc-healthy-obesity-project-hop" class="nav-link" data-scroll-target="#healthy-obesity-project-hop">Healthy Obesity Project (HOP)</a></li>
+  <li><a href="#interconnect" id="toc-interconnect" class="nav-link" data-scroll-target="#interconnect">InterConnect</a></li>
+  <li><a href="#unnamed-project" id="toc-unnamed-project" class="nav-link" data-scroll-target="#unnamed-project">Unnamed project</a></li>
+  <li><a href="#capacity" id="toc-capacity" class="nav-link" data-scroll-target="#capacity">CAPACIty</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/notes/potential-cases.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Notes</h1>
-</div>
+<h1 class="title">Potential cases</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">cases</div>
+    <div class="quarto-category">brainstorming</div>
+  </div>
+  </div>
 
+<div>
+  <div class="description">
+    Notes helping me to think through data-sharing initiatives that may serve as prospective cases.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 14, 2025</p>
+    </div>
+  </div>
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">January 14, 2025</p>
+    </div>
+  </div>
     
   </div>
   
@@ -285,54 +280,73 @@ window.Quarto = {
 </header>
 
 
+<section id="canadian-longitudinal-study-on-aging-clsa" class="level2">
+<h2 class="anchored" data-anchor-id="canadian-longitudinal-study-on-aging-clsa">Canadian Longitudinal Study on Aging (CLSA)</h2>
+<p>https://www.clsa-elcv.ca/</p>
+<p>One of the projects that would be supported by the workshop that was summarized in <span class="citation" data-cites="doiron2013a">Doiron, Raina, and Fortier (<a href="#ref-doiron2013a" role="doc-biblioref">2013</a>)</span>. Also mentioned in <span class="citation" data-cites="doiron2017">Doiron et al. (<a href="#ref-doiron2017" role="doc-biblioref">2017</a>)</span>.</p>
+<p>Began as a Maelstrom partner in 2017. https://maelstrom-research.org/study/clsa https://doi.org/10.1017/s0714980809990055 https://doi.org/10.1093/ije/dyz173</p>
+<p>Seems less concerned with data-drivenness, more focused on the areas that the work will address, as well as participant and community engagement.</p>
+</section>
+<section id="canadian-partnership-for-tomorrow-cptp" class="level2">
+<h2 class="anchored" data-anchor-id="canadian-partnership-for-tomorrow-cptp">Canadian Partnership for Tomorrow (CPTP)</h2>
+<p>Renamed the Canadian Partnership for Tomorrow’s Health (CanPath); https://canpath.ca/ Canada’s largest population health study.</p>
+<p>One of the projects that would be supported by the workshop that was summarized in <span class="citation" data-cites="doiron2013a">Doiron, Raina, and Fortier (<a href="#ref-doiron2013a" role="doc-biblioref">2013</a>)</span>. Also mentioned in <span class="citation" data-cites="doiron2017">Doiron et al. (<a href="#ref-doiron2017" role="doc-biblioref">2017</a>)</span>.</p>
+<p>Current Maelstrom partner, began in 2014. https://maelstrom-research.org/network/cptp-1 https://doi.org/10.1503/cmaj.170292</p>
+<p>Leadership seems to have many members from <a href="../notes/potential-cases.html#cartagene">CARTaGENE</a>.</p>
+</section>
+<section id="cartagene" class="level2">
+<h2 class="anchored" data-anchor-id="cartagene">CARTaGENE</h2>
+<p>https://cartagene.qc.ca/en/ https://en.wikipedia.org/wiki/CARTaGENE_biobank CARTaGENE is a long-term cohort study for the investigation of modifiable environmental and lifestyle factors and the genomic determinants of chronic diseases in Quebec, Canada.</p>
+<p>Initially founded by Dr.&nbsp;Claude Laberge and Prof.&nbsp;Bartha Maria Knoppers, CARTaGENE is today under the scientific direction of Dr.&nbsp;Guillaume Lettre, Dr.&nbsp;Simon Gravel and Dr.&nbsp;Vikki Ho.</p>
+<p>a regional cohort member of the Canadian Partnership for Tomorrow’s Health (CanPath)</p>
+<p>Current Maelstrom partner, began in 2018. https://maelstrom-research.org/study/cag https://doi.org/10.1093/ije/dys160</p>
+</section>
+<section id="eucanshare" class="level2">
+<h2 class="anchored" data-anchor-id="eucanshare">euCanSHare</h2>
+<p>An EU-Canada Joint Infrastructure for Next-Generation Multi-Study Heart Research</p>
+<p>euCanSHare is an Europe-Canada joint infrastructure and network for enhancing multi-cohort studies in cardiovascular research. The mission of euCanSHare is to develop the first integrated data platform for cross-border data sharing and personalized medicine research in cardiology, integrating cohorts from Europe, Canada and beyond. The key objectives are the following:</p>
+<pre><code>To build a centralized platform for cardiovascular data across Europe, Canada and beyond
+To facilitate big data research in personalized cardiovascular medicine
+To apply new legal framework for Open Science across continents
+To establish the largest international research community in cardiology</code></pre>
+<p>Studies described on the Maelstrom catalogue may differ from the ones on the EuCanShare website.</p>
+<p>Started partership with Maelstrom in 2018 https://maelstrom-research.org/network/eucanshare http://www.eucanshare.eu/</p>
+</section>
+<section id="healthy-obesity-project-hop" class="level2">
+<h2 class="anchored" data-anchor-id="healthy-obesity-project-hop">Healthy Obesity Project (HOP)</h2>
+<p>The ilustrative case from <span class="citation" data-cites="doiron2013">Doiron et al. (<a href="#ref-doiron2013" role="doc-biblioref">2013</a>)</span></p>
+<p>Primary paper is <span class="citation" data-cites="vanvliet-ostaptchouk2014">van Vliet-Ostaptchouk et al. (<a href="#ref-vanvliet-ostaptchouk2014" role="doc-biblioref">2014</a>)</span></p>
+</section>
+<section id="interconnect" class="level2">
+<h2 class="anchored" data-anchor-id="interconnect">InterConnect</h2>
+<p>Optimising existing data for new research into diabetes and obesity EU + UKRI Started partership with Maelstrom in 2014</p>
+</section>
+<section id="unnamed-project" class="level2">
+<h2 class="anchored" data-anchor-id="unnamed-project">Unnamed project</h2>
+<p>Length of storage of red blood cell units as a risk factor for hospital-acquired infections: an individual patient data meta-analysis Started partership with Maelstrom in 2029</p>
+</section>
+<section id="capacity" class="level2">
+<h2 class="anchored" data-anchor-id="capacity">CAPACIty</h2>
+<p>CAnadian PediAtric diabetes ConsortIum (CAPACIty) is a network of 15 childhood diabetes centers from across Canada. We are partnering with patients/families and health care professionals to jointly design and develop a Canadawide childhood diabetes registry and research platform. The registry will enable us to improve diabetes care and health outcomes for Canadian youth through comparison of diabetes care quality and outcomes between Canadian diabetes centers, quality improvement initiatives, patient-informed research initiatives across Canada, and successful advocacy work.</p>
 
 
 
+</section>
 
-<div class="quarto-listing quarto-listing-container-table" id="listing-listing">
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-<th>
-Date
-</th>
-<th>
-Title
-</th>
-<th>
-Categories
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-categories="cmVhZGluZyUyQ2dlbmVyYWwlMjB0aG91Z2h0cw==" data-listing-date-sort="1736744400000" data-listing-file-modified-sort="1736826658511" data-listing-date-modified-sort="1736826658000" data-listing-reading-time-sort="1" data-listing-word-count-sort="3" data-listing-title-sort="Methodology notes" data-listing-filename-sort="methodology-notes.qmd">
-<td>
-<span class="listing-date">Jan 13, 2025</span>
-</td>
-<td>
-<a href="./notes/methodology-notes.html" class="title listing-title">Methodology notes</a>
-</td>
-<td>
-<span class="listing-categories">reading, general thoughts</span>
-</td>
-</tr>
-<tr data-index="1" data-categories="cmVhZGluZw==" data-listing-date-sort="1736226000000" data-listing-file-modified-sort="1736971697434" data-listing-date-modified-sort="1736971697000" data-listing-reading-time-sort="24" data-listing-word-count-sort="4795" data-listing-title-sort="Maelstrom reading notes" data-listing-filename-sort="maelstrom-readings.qmd">
-<td>
-<span class="listing-date">Jan 7, 2025</span>
-</td>
-<td>
-<a href="./notes/maelstrom-readings.html" class="title listing-title">Maelstrom reading notes</a>
-</td>
-<td>
-<span class="listing-categories">reading</span>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">
-No matching items
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-doiron2013" class="csl-entry" role="listitem">
+Doiron, Dany, Paul Burton, Yannick Marcon, Amadou Gaye, Bruce H. R. Wolffenbuttel, Markus Perola, Ronald P. Stolk, et al. 2013. <span>“Data Harmonization and Federated Analysis of Population-Based Studies: The <span>BioSHaRE</span> Project.”</span> <em>Emerging Themes in Epidemiology</em> 10 (1): 12. <a href="https://doi.org/10.1186/1742-7622-10-12">https://doi.org/10.1186/1742-7622-10-12</a>.
 </div>
-</div></main> <!-- /main -->
+<div id="ref-doiron2017" class="csl-entry" role="listitem">
+Doiron, Dany, Yannick Marcon, Isabel Fortier, Paul Burton, and Vincent Ferretti. 2017. <span>“Software <span>Application Profile</span>: <span>Opal</span> and <span>Mica</span>: Open-Source Software Solutions for Epidemiological Data Management, Harmonization and Dissemination.”</span> <em>International Journal of Epidemiology</em> 46 (5): 1372–78. <a href="https://doi.org/10.1093/ije/dyx180">https://doi.org/10.1093/ije/dyx180</a>.
+</div>
+<div id="ref-doiron2013a" class="csl-entry" role="listitem">
+Doiron, Dany, Parminder Raina, and Isabel Fortier. 2013. <span>“Linking <span>Canadian Population Health Data</span>: <span>Maximizing</span> the <span>Potential</span> of <span>Cohort</span> and <span>Administrative Data</span>.”</span> <em>Canadian Journal of Public Health</em> 104 (3): e258–61. <a href="https://doi.org/10.17269/cjph.104.3775">https://doi.org/10.17269/cjph.104.3775</a>.
+</div>
+<div id="ref-vanvliet-ostaptchouk2014" class="csl-entry" role="listitem">
+Vliet-Ostaptchouk, Jana V. van, Marja-Liisa Nuotio, Sandra N. Slagter, Dany Doiron, Krista Fischer, Luisa Foco, Amadou Gaye, et al. 2014. <span>“The Prevalence of Metabolic Syndrome and Metabolically Healthy Obesity in <span>Europe</span>: A Collaborative Analysis of Ten Large Cohort Studies.”</span> <em>BMC Endocrine Disorders</em> 14 (1): 9. <a href="https://doi.org/10.1186/1472-6823-14-9">https://doi.org/10.1186/1472-6823-14-9</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -423,9 +437,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("^(?:http:|https:)\/\/zackbatist\.info\/
-^(?:http:|https:)\/\/github\.com\/zackbatist\/
-");
+      var filterRegex = new RegExp("https:\/\/zackbatist\.info\/CITF-Postdoc\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -439,8 +451,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         if (link.dataset.originalHref !== undefined) {
           link.href = link.dataset.originalHref;
         }
-          // default icon
-          link.classList.add("external");
       }
     }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
@@ -768,7 +778,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    </div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/notes/potential-cases.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

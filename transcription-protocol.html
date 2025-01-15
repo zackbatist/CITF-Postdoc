@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -200,8 +234,14 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="transcription-protocol.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#cleaning-audio" id="toc-cleaning-audio" class="nav-link active" data-scroll-target="#cleaning-audio">Cleaning audio</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/transcription-protocol.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="transcription-protocol.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -226,8 +266,21 @@ ul.task-list li input[type="checkbox"] {
 
 <p>This document explains the procedures for transcribing spoken dialog into textual formats, including the notation applied to encode idiosyncratic elements of conversationa speech.</p>
 <p>Derived from the <a href="https://zackbatist.info/notes/E-CURATORS/#transcription">transcription protocol applied for the E-CURATORS project</a>.</p>
+<section id="cleaning-audio" class="level2">
+<h2 class="anchored" data-anchor-id="cleaning-audio">Cleaning audio</h2>
+<p>To clean the audio:</p>
+<ol type="1">
+<li>I select a clip that is representative of a single source of background noise, and then filter that wavelength throughout the entire audio file.</li>
+<li>After selecting the clip, go to <code>Effect &gt;&gt; Noise Reduction</code> and select <code>Get Noise Profile</code>, then press <code>OK</code>.</li>
+<li>Close the noise reduction menu, select the entire range of audio using the keyboard shortcut <code>Command + A</code>.</li>
+<li>Then go back to the noise reduction window (<code>Effect &gt;&gt; Noise Reduction</code>) to apply the filter based on the noise profile identified for the noisy clip.</li>
+<li>Export the modified audio file to the working directory (<code>File &gt;&gt; Export &gt;&gt; Export as .WAV</code>).</li>
+<li>Use <code>ffmpeg</code> to replace the dirty audio track with the clean one:</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="ex">ffmpeg</span> <span class="at">-i</span> dirty.mp4 <span class="at">-i</span> clean.wav <span class="at">-c:v</span> copy <span class="at">-map</span> 0:v:0 <span class="at">-map</span> 1:a:0 clean.mp4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -665,7 +718,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/transcription-protocol.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/transcription-protocol.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>

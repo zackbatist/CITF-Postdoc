@@ -204,15 +204,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#data-collection" id="toc-data-collection" class="nav-link active" data-scroll-target="#data-collection">Data Collection</a></li>
-  <li><a href="#processing-and-analysis" id="toc-processing-and-analysis" class="nav-link" data-scroll-target="#processing-and-analysis">Processing and Analysis</a></li>
-  <li><a href="#storage-and-backups" id="toc-storage-and-backups" class="nav-link" data-scroll-target="#storage-and-backups">Storage and Backups</a></li>
-  <li><a href="#publishing-data" id="toc-publishing-data" class="nav-link" data-scroll-target="#publishing-data">Publishing Data</a></li>
+  <li><a href="#kinds-of-data" id="toc-kinds-of-data" class="nav-link active" data-scroll-target="#kinds-of-data">Kinds of data</a></li>
+  <li><a href="#activities-processes-and-workfflows" id="toc-activities-processes-and-workfflows" class="nav-link" data-scroll-target="#activities-processes-and-workfflows">Activities, processes and workfflows</a>
+  <ul class="collapse">
+  <li><a href="#data-collection" id="toc-data-collection" class="nav-link" data-scroll-target="#data-collection">Data collection</a></li>
+  <li><a href="#processing-data" id="toc-processing-data" class="nav-link" data-scroll-target="#processing-data">Processing data</a></li>
+  <li><a href="#storage-and-backups" id="toc-storage-and-backups" class="nav-link" data-scroll-target="#storage-and-backups">Storage and backups</a></li>
+  <li><a href="#publishing-and-archiving" id="toc-publishing-and-archiving" class="nav-link" data-scroll-target="#publishing-and-archiving">Publishing and archiving</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/data-management.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="data-management.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -246,21 +250,43 @@ Note
 <p>This document is still a work in progress.</p>
 </div>
 </div>
-<p>This document describes data management procedures implemented throughout the project.</p>
-<section id="data-collection" class="level2">
-<h2 class="anchored" data-anchor-id="data-collection">Data Collection</h2>
+<p>This document describes the data that this research will produce and the procedures for curating data throughout the project.</p>
+<section id="kinds-of-data" class="level1">
+<h1>Kinds of data</h1>
+<p>This project relies on various data sources, including interviews, bibliographic resources and structured datasets.</p>
+<p>Interviews generate audio, video and textual resources, formatted according to the WAV, MP4 and markdown specifications, respectively.</p>
+<p>While reviewing extant literature, I compile numerous published PDF and HTML documents. I maintain a bibliographic database using <a href="https://www.zotero.org/">Zotero</a> and continually export core information to <a href="https://www.overleaf.com/learn/latex/Bibliography_management_with_biblatex">BibLaTeX</a> format using the <a href="https://retorque.re/zotero-better-bibtex/">Better BibTeX</a> add-on.</p>
+<p>I prioritize writing all documents using plaintext file formats. I rely on <a href="https://quarto.org/">Quarto</a>, an open-source scientific and technical publishing system, to generate HTML, PDF and DOCX files from singular markdown files via the <a href="https://pandoc.org/">pandoc</a> conversion egnine and the <a href="https://www.latex-project.org/">LaTeX</a> typesetting system.</p>
+<p>When collecting structured data, I opt to use open text formats including CSV, JSON and XML, however I may also use XLSX format to maintain interoperability with collaborators.</p>
+<p>I embed all original code, including database retrieval queries and API requests, in or alongside quarto documents, where I annotate code with detailed and contextualizing comments.</p>
+<p>I am still exploring my options for QDA tooling. If I decide to use <a href="https://www.maxqda.com/">MaxQDA</a>, the data will be stored in a project file comprising a proprietary SQLite Database schema. Alternatively, I may use <a href="https://github.com/cproctor/qualitative-coding">qc</a> which stores data across a series of text files and a barebones SQLite database.</p>
 </section>
-<section id="processing-and-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="processing-and-analysis">Processing and Analysis</h2>
+<section id="activities-processes-and-workfflows" class="level1 page-columns page-full">
+<h1>Activities, processes and workfflows</h1>
+<section id="data-collection" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="data-collection">Data collection</h2>
+<p>Interviews generate audio, video and textual records. I primarily rely on a SONY ICD-UX560 audio recorder, which contains 4GB of internal storage supplemented with a 32GB microSD card.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> I record using the lossless 16bit 44.1 kHz Linear PCM wav format.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;See <a href="https://weloty.com/sony-icd-ux560-review" class="uri">https://weloty.com/sony-icd-ux560-review</a> and <a href="https://weloty.com/using-the-sony-icd-ux560-the-4-how-tos" class="uri">https://weloty.com/using-the-sony-icd-ux560-the-4-how-tos</a> for more information on this audio recording device.</p></div></div><p>With participants’ consent, I also record video using a GoPro Hero 4 Silver action camera equipped with a 64GB microSD card.</p>
+<p>I maintain typed notes before, during and after each interview, which I may edit and re-organize to enhance clarity.</p>
+<p>Immediately after each interview, I copy the data off the recording devices and onto a dedicated project drive. I organize and rename files using a semantic naming scheme and then mirror all files onto physical and a cloud-based backup drives.</p>
+</section>
+<section id="processing-data" class="level2">
+<h2 class="anchored" data-anchor-id="processing-data">Processing data</h2>
+<p>I use <a href="https://www.ffmpeg.org/">FFmpeg</a> and <a href="https://www.audacityteam.org/">Audacity</a> to cut, concatenate, and clean the audio and video files if necessary. I generate transcripts of audio recordings following the <a href="./transcription-protocol.html">transcription protocol</a>.</p>
 </section>
 <section id="storage-and-backups" class="level2">
-<h2 class="anchored" data-anchor-id="storage-and-backups">Storage and Backups</h2>
+<h2 class="anchored" data-anchor-id="storage-and-backups">Storage and backups</h2>
+<p>I keep all data on a dedicated portable solid state drive which serves as a working directory for all research activities. I mirror the contents of this drive onto an identical secondary backup drive and onto cloud storage administered by the CITF using <a href="https://rsync.samba.org/">rsync</a>.</p>
+<p>I maintain this website where I share documentation that supports this project and reflect on the work as it progresses. It is hosted using GitHub Pages and is backed up using Dropbox, however no sensitive research data will pass through these services.</p>
 </section>
-<section id="publishing-data" class="level2">
-<h2 class="anchored" data-anchor-id="publishing-data">Publishing Data</h2>
+<section id="publishing-and-archiving" class="level2">
+<h2 class="anchored" data-anchor-id="publishing-and-archiving">Publishing and archiving</h2>
+<p>After my research is complete, I will make a concerted effort to document all the data I will have collected and generated and deposit them in a digital repository operated by a dedicated team of digital archivists certified to curate and preserve research data in perpetuity.</p>
 
 
 </section>
+</section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
