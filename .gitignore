@@ -60,5 +60,4 @@ Thumbs.db
 /.luarc.json
 _site/
 
-notes/private/
-notes/meetings/
+private/

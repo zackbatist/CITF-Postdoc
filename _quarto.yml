@@ -2,8 +2,7 @@ project:
   type: website
   render:
     - "*.qmd"
-    - "!notes/private/"
-    - "!notes/meetings/"
+    - "!private/"
   preview:
     port: 7777
     browser: false
