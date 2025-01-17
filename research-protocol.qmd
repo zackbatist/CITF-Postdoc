@@ -5,7 +5,7 @@ title: Research Protocol
 This document is still a work in progress.
 :::
 
-## Study purpose and rationale
+## Overview
 This study investigates the social, technical, administrative and epistemic factors that mediate data-sharing initiatives in epidemiological research.
 It takes to heart the notions that data are media that facilitate communication across different research contexts, that data are created with specific intent, and that data are bounded by the social, practical and material circumstances of their creation.
 In light of these facts, I approach data-sharing as means of reconciling the varied circumstances of datasets' creation --- both among themselves, and in relation to contexts of reuse.
@@ -42,11 +42,39 @@ A few more specfic strands of thought come to mind:
   - What bounds the project as a whole?
 -->
 
-## Description of study population, inclusion and exclusion criteria
+## Background
+Still in progress...
 
-## Sample size and how it was determined
+```
+- About open data infrastructures in general
+  - Discrepancies between aspirations and effective outcomes
+  - Based on models of science that diverge from practical experience
+- About open data in epidemiology
+  - What is driving it?
+  - Introduce Maelstrom as a key player
+- Challenges and opportunities in the Canadian context
+```
 
-## Design and description of methodology
+<!-- This project is directly relevant to ongoing developments in the open data landscape.
+As the open data movement begins to mature, cracks are beginning to reveal themselves in the infrastructures we have built thus far.
+Critical inspection is therefore necessary to help improve these systems and ensure that they may continue to support research activities.
+
+Moreover, as a case study on community-oriented data-sharing initiatives, this project is well equipped to draw attention to the support structures (or lack thereof) for these efforts.
+Specifically, the project will contribute to a better understanding of what resources are necessary to improve data-sharing at large and small scales.
+
+The Maelstrom Project, which is a leading firm supporting data harmonization in epidemiology research, presents a great opportunity to explore how social and material factors are being accounted for in data-sharing initiatives.
+Maelstrom operates by partering with research projects through initial consultations, which may then evolve into more comprehensive data harmonization work.
+This is contingent on the value proposition that Maelstrom and partner projects ascertain will derive from harmonization, and evaluation of the feasibility of achieving these outcomes.
+Already, this approach differentiates itself from "raw"[^1] open data-sharing in that it is directed by specific objectives, recognizes limitations of practical circumstances surrounding data's creation and the data harmonization efforts, and maintains the option to not proceed if it is deemed prudent to do so.
+Maelstrom's partners represent a pool of potential cases that already grapple with issues concerning mediation of situated experiences in data-sharing, and which may be receptive to investigation of their research practices.
+
+[^1]: I tentatively use the term "raw" data-sharing to mean acts of uploading and downloading spreadsheets among strangers via the web, which I tend to characterize as transactional (rather than commensal), as oriented toward compliance with the emerging bureaucratization of open science, and as relatively asocial in nature. See my [blog post](https://blog.zackbatist.info/2022/11/28/open-science-and-its-weird-conception-of-data/) where I rant about this in greater depth.
+
+This is especially relevant in the Canadian context, where open science policy has been undergoing major revisions for several years now, and which inspires little confidence in researchers concerning expected outcomes.
+Researchers have therefore taken it upon themselves to develop data-sharing initiatives on their own terms.
+This entrepreneurialism has been a boon for community-driven data-sharing, but is also plagued by difficulties, which this project will be the first of its kind to explore. -->
+
+## Methodology
 ### Approach
 This study is informed by a set of theoretical and methodological frameworks formed within a more interdisciplinary "science studies" tradition, which contribute to a more sociological outlook on science as cultural practice [cf. @pickering1992].
 In practical terms, I will document the social and collaborative experiences involved in various research practices, which ultimately bind the many ways in which scientists do science.
@@ -135,8 +163,7 @@ I will then be able to query the integrated dataset to produce elaborated accoun
 
 See the [QDA protocol](qda-protocol.qmd) for further details on the code system and memoing guidelines, as well as specific QDA procedures.
 
-
-## Definition of end-points
+## Expected Outcomes and Impact
 ### Scholarly outputs
 This project will produce three articles.
 One of these will be published in a journal concerned with scientific practice or research data management (e.g. [Computer Supported Cooperative Work](https://link.springer.com/journal/10606)).
@@ -167,20 +194,18 @@ Still in progress...
 - Collaboration with the [School of Information Studies](https://www.mcgill.ca/sis/)
 ```
 
-## Measurements and study instruments (including questionnaires, data collection forms, etc)
+## Timelime
 
-
-## Data analysis plan
-
-
-## Recruitment procedures including copies of advertisements
-
-
-## Details on confidentiality (ex. Is there a link to data and participant, where will data be maintained, who has access, for how long will the information be kept, etc.)
-
-
-## Statement on ethical considerations
-(ex. Study will be conducted according to ethical principles stated in the Declaration of Helsinki (2013), ethics approval will be obtained before initiating study, consent forms will take into consideration the well-being, free-will and respect of the participants, including respect of privacy, etc);
-
-## References
+| Date                      | Milestone                                                 |
+| ------------------------- | --------------------------------------------------------- |
+| 2025/01/14                | Finalize ethics protocol                                  |
+| 2025/01/31                | Finalize case selection and invite members to participate |
+| 2025/01/21                | Finalize data managemenrt plan                            |
+| 2025/02/14                | Finalize interview protocol                               |
+| 2025/02/14 --- 2025/03/31 | Conduct interviews                                        |
+| 2025/04/01 --- 2025/04/30 | Prepare interview transcripts for analysis                |
+| 2025/05/01 --- 2025/05/31 | Prepare code system and develop sensitizing concepts      |
+| 2025/06/01 --- 2025/09/30 | Qualitative coding and memoing                            |
+| 2025/10/01 --- 2025/11/30 | Draft manuscripts and submit for publication              |
+| 2025/11/01 --- 2025/12/31 | Write accessible and constructive reports                 |
 
