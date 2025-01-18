@@ -30,20 +30,289 @@
     ]
   },
   {
-    "objectID": "posts/2024-12-09-hello-world/index.html",
-    "href": "posts/2024-12-09-hello-world/index.html",
-    "title": "Hello World!",
+    "objectID": "posts/2024-12-11-technical-specs/index.html",
+    "href": "posts/2024-12-11-technical-specs/index.html",
+    "title": "Technical specs for this website",
     "section": "",
-    "text": "Welcome to the website for my CITF Postdoc! This will serve as a hub for documenting and sharing my work. I decided to do this as a way of managing and sharing always-updated drafts of research protocols with my supervisor and team members, but it is also generally useful for keeping my thoughts organized. I will also use this blog section to write my thoughts as the project progresses."
+    "text": "I’m using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.\nThis post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves."
   },
   {
-    "objectID": "posts.html",
-    "href": "posts.html",
-    "title": "Blog",
+    "objectID": "posts/2024-12-11-technical-specs/index.html#fundamentals",
+    "href": "posts/2024-12-11-technical-specs/index.html#fundamentals",
+    "title": "Technical specs for this website",
+    "section": "Fundamentals",
+    "text": "Fundamentals\nThis website is based on Quarto, a platform for writing and publishing scientific and technical writing. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.\nI had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. You can find an older version of this post reflecting that setup here: #2346852.\nThe site is hosted on GitHub Pages. The repo is located at https://github.com/zackbatist/CITF-Postdoc."
+  },
+  {
+    "objectID": "posts/2024-12-11-technical-specs/index.html#generating-pdfs",
+    "href": "posts/2024-12-11-technical-specs/index.html#generating-pdfs",
+    "title": "Technical specs for this website",
+    "section": "Generating PDFs",
+    "text": "Generating PDFs\nAs an avid user, one thing I really like about Quarto is the ability to generate PDFs alongside html versions served over the web. I started tinkering with includes but I need to review how Quarto passes info from YAML frontmatter. It is not at all straightforward and I will need to experiment a bit more with this to get the hang of it."
+  },
+  {
+    "objectID": "posts/2024-12-11-technical-specs/index.html#archiving-and-version-control",
+    "href": "posts/2024-12-11-technical-specs/index.html#archiving-and-version-control",
+    "title": "Technical specs for this website",
+    "section": "Archiving and Version Control",
+    "text": "Archiving and Version Control\nEvery change is tracked using git. I would also like to archive each research protocol in Zenodo once they reach a point of stability. This would ensure that they ca be aassigned DOIs and detailed metadata, which will make them easier to reference.\nHowever, I do not want to rely on Zenodo’s GitHub integration for two reasons: (1) I want this to be as platform-agnostic as possible, and (2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files.\nI might be able to write a custom CI workflow to archive specific files to Zenodo using their API. But, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway."
+  },
+  {
+    "objectID": "posts/2024-12-09-first-team-meeting/index.html",
+    "href": "posts/2024-12-09-first-team-meeting/index.html",
+    "title": "Reflection on first team meeting",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nDec 18, 2024\n\n\nTechnical specs for this website\n\n\nwebsite\n\n\n\n\nDec 9, 2024\n\n\nReflection on first team meeting\n\n\nmeeting notes, general thoughts\n\n\n\n\nDec 9, 2024\n\n\nHello World!\n\n\nintroduction, website\n\n\n\n\n\nNo matching items",
+    "text": "Last week (2024/12/04) I finally met with David Buckeridge, Tanya Murphy and Aklil Noza in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.\nThe gist is that I will be investigating the role of social and cultural factors in data-sharing initiatives such as CITF and other Maelstrom-affiliated projects, and how these relate to, overlap with, or conflict with technical and institutional/administrative factors. To be clear, these are all very important aspects of data-sharing, but we generally recognized that the social and cultural aspects are under-explored relative to their impact.\nWe briefly talked about how we will go about selecting cases, and I emphasized the importance of strategic case selection. This also involves carefully articulating the project’s goals so that the cases will complement them. We agreed that the dataset will likely comprise between 12-15 interviews of around 60-90 minutes in length with representatives from 4-5 cases (one of them being CITF), in addition to representatives of the Maelstrom team. Maelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth and ensures that participants have a common frame of reference. It also potentially allows me to “offload” or “consolidate” reference to technical and administrative aspects of data-sharing through targeted interviews with Maelstrom personnel, instead of dealing with those things with the representatives for each case.\nWe discussed timelines and overlap with Aklil’s work, which will be more concerned with focus groups with CITF databank users. There is definitely overlap with the emphasis of my own work and we will coordinate data collection to enhance the potential for analytical alignment.\nAfter the meeting I chatted with Tanya and Aklil who helped familiarize me with the bigger-picture theoretical discourse and tensions in epidemiology. Much of it seemed familiar since these concerns are common across disciplines, but I still need to read more to concretize my understanding. Tanya recommended I read the “Baby Rothman” which is a condensed version of a very long-lived textbook in this field, among a few other papers she sent me.\nOverall, this meeting got me really excited about this project :)"
+  },
+  {
+    "objectID": "notes/methodology-notes.html",
+    "href": "notes/methodology-notes.html",
+    "title": "Methodology notes",
+    "section": "",
+    "text": "x"
+  },
+  {
+    "objectID": "notes/methodology-notes.html#case-studies",
+    "href": "notes/methodology-notes.html#case-studies",
+    "title": "Methodology notes",
+    "section": "",
+    "text": "x"
+  },
+  {
+    "objectID": "notes/methodology-notes.html#grounded-theory",
+    "href": "notes/methodology-notes.html#grounded-theory",
+    "title": "Methodology notes",
+    "section": "Grounded theory",
+    "text": "Grounded theory\nx"
+  },
+  {
+    "objectID": "notes.html",
+    "href": "notes.html",
+    "title": "Notes",
+    "section": "",
+    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nJan 13, 2025\n\n\nMethodology notes\n\n\nreading, general thoughts\n\n\n\n\nJan 7, 2025\n\n\nMaelstrom reading notes\n\n\nreading\n\n\n\n\n\nNo matching items",
     "crumbs": [
-      "Blog"
+      "Notes"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "CITF-Postdoc",
+    "section": "",
+    "text": "This website serves as a hub for my postdoctoral research at McGill University’s Covid-19 Immunity Task Force Databank.\nThe project is concerned with articulating social, collaborative and discursive aspects of epidemiological data-sharing initiatives, and how they relate to, overlap with or conflict with technical, institutional and epistemic factors.\nThis website hosts a series of preparatory protocols that structure the project, as well as notes about key concepts and reflections on the progress of work. All content is hosted and tracked at github.com/zackbatist/CITF-Postdoc.\nResearch Protocol: Outlines the project’s overall vision and contextualizes it in relation to specific objectives.\nEthics Protocol: Specifies ethical considerations, including risks of harm and strategies for mitigating them.\nInterview Protocol: The questions I will be asking research participants, including the rationale for asking them.\nQDA Protocol: The code system, memoing guidelines, and specific QDA procedures.\nData Management: Procedures that circumscribe collection, management and curation of research data.\nCases: Articulates the parameters that inform how cases are selected.\nContext: My motivations for doing this work and the circumstances that surround the establishment of the project.\nGlossary: A series of key terms and their definitions, with reference to the literature and expanded notes about their meanings.\nBlog: Updates and reflections on key events, or general thoughts I wish to share.\nBib: A biblatex file containing a continually-updated list of sources cited in all documents hosted on this website.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "ethics-protocol.html",
+    "href": "ethics-protocol.html",
+    "title": "Ethics Protocol",
+    "section": "",
+    "text": "Note\n\n\n\nThis document is still a work in progress.\nProject Title: Articulating epidemiological data harmonization initiatives as practical and collaborative experiences\nPrincipal Investigator: Zachary Batist\nProtocol Number: 25-01-057\nSubmitted:\nApproved:",
+    "crumbs": [
+      "Ethics Protocol"
+    ]
+  },
+  {
+    "objectID": "ethics-protocol.html#recruitment-and-consent",
+    "href": "ethics-protocol.html#recruitment-and-consent",
+    "title": "Ethics Protocol",
+    "section": "Recruitment and consent",
+    "text": "Recruitment and consent\nWill this study involve recruitment of human study participants?\n\nYes\nNo\n\nHow are potential study participants identified and/or recruited to the study? Explain how potential participants are identified or introduced to the study, and who will recruit participants. Will the investigator/s require any special permissions or access to the target population e.g. clinic access, patient registries or records, mailing lists, community access?\nThrough consultation with key community stakeholders, the principal investigator will devise a list of prospective projects to serve as cases.1 The principal investigator will then write to the leaders of these projects inviting them to participate in the study. These invitations to project leaders will explain the project’s purpose and scope, and will encourage the recipient to reply with any questions or concerns they may have. If they accept the invitation, the principal investigator will then work with project leaders to devise a list of individuals who may serve as interview candidates based on their roles in the project. The principal investigator will be clear with project leaders that they should not pressure those who work for them to participate in the study, and that individuals’ participation should be treated as separate from their regular duties; if project leaders cannot or will not abide by this condition, their project will be rejected as a prospective case. The principal investigator will then write to the recommended individuals to introduce the study and its objectives and to invite them to participate as research subjects.\n1 See the case selection protocol for further details.Describe the consent process. If alternate processes for seeking consent are planned (e.g. verbal, online, waiver), please provide a rationale and outline the procedure of obtaining and documenting consent and/or assent, where applicable.\nOnce individuals express their interest in participating, participants will provided with an informed consent document that outlines in more detail the goals of the study, the roles of the participant, how they will be recorded, how data pertaining to them will be retained, and the potential risks and benefits pertaining to their involvement. This document will also describe how participants’ personally identifiable information will be managed and used. Participants will be asked to read and sign the document in order to obtain written informed consent. At the start of each interview the researcher will reiterate participants’ rights and ask them to orally reaffirm their consent before proceeding.\nIs there a relationship between the study participants and the person obtaining consent and/or the principal investigator/s?\n\nYes\nNo\n\nIf yes, please explain the nature of the relationship, and outline the steps that will be taken to avoid the perception of undue influence.\nOne project that serves as a case in this research is the Covid-19 Immunity Task Force (CITF), which the principal investigator currently serve as postdoctoral researcher. Some of the participants will therefore be his colleagues; the interviews will remain structured and limited in scope, and will not touch on matters relating to other aspects of their work.\nThe principal investigator will consult with David Buckeridge, who leads the CITF, as one key community stakeholder to help devise a shortlist of projects that may serve as prospective cases.",
+    "crumbs": [
+      "Ethics Protocol"
+    ]
+  },
+  {
+    "objectID": "ethics-protocol.html#risk-benefit-assessment",
+    "href": "ethics-protocol.html#risk-benefit-assessment",
+    "title": "Ethics Protocol",
+    "section": "Risk-benefit assessment",
+    "text": "Risk-benefit assessment\nDescribe the foreseeable risks to study participants. What risks are attributable to the research, including cumulative risks? Which risks are participants normally exposed to in the course of their clinical care or in their daily activities as they relate to the research questions/objectives?\nParticipation in this study does not involve any physical, psychological or legal risks. However, the principal investigator will be asking participants to share detailed information about their work practices and work relationships, and public association with their responses may potentially disrupt or complicate their professional reputations. To mitigate against this potential harm, the principal investigator will give participants the option to render their responses confidential.\nWhat procedures are in place to monitor and assess participant safety for the duration of the study?\nPrior to each interview, and as part of the procedure for obtaining informed consent, participants will be asked about whether they want to render their responses confidential. Immediately after each interview, participants will be given an additional opportunity to reflect on their responses, and will be prompted to either confirm or alter their decision regarding whether or not to maintain confidentiality. Furthermore, for participants who have not requested that their responses be treated as confidential immediately before and after the interview, a follow-up email will be sent one week after the interview to reiterate the option to render their responses confidential.\nDescribe the potential benefits of the study for: (1) the study participants; (2) the population under investigation, and (3) the field of research.\nThis study contributes to the development of better epidemiological data-sharing infrastructures by articulating social, collaborative and discursive aspects of data harmonization, and how these factors relate to, overlap with or conflict with technical, institutional and epistemic factors. By explicitly framing data harmonization as a social and collaborative activity, we may devise more effective data-sharing infrastructures that better support the contextualization of data and enhance their value in contexts of data reuse. This work therefore poses new ways to document how epidemiologists mobilize distributed records in the constitution of synthetic knowledge and helps develop practical solutions that enable greater reflexivity. Additionally, this study may directly benefit participants by framing the experiences they address during interviews in ways that they might not have otherwise considered, thereby encouraging greater reflexivity in their own work.",
+    "crumbs": [
+      "Ethics Protocol"
+    ]
+  },
+  {
+    "objectID": "ethics-protocol.html#privacy-and-confidentiality",
+    "href": "ethics-protocol.html#privacy-and-confidentiality",
+    "title": "Ethics Protocol",
+    "section": "Privacy and confidentiality",
+    "text": "Privacy and confidentiality\nPlease describe the measures in place for meeting confidentiality obligations. How is information and data safeguarded for the full cycle of the study: i.e. during its collection, use, dissemination, retention, and/or disposal?\nThe specific circumstances that frame each case are significant factors that will shape the findings, and the study will benefit from participants’ consent to associate their identities with their interview responses. However, they may choose to render their interview responses confidential while maintaining their role a research participant. Participants may change their decision regarding whether or not to associate their identities with their interview responses up to one week after the interview, at which point the principal investigator will begin transcribing and analyzing the records pertaining to the interview. Participants will be reminded about this option immediately after the interview and one week following the interview via email.\nThe study engages with a relatively small community, and there is minimal social risk that others may be able to determine the identities of those whose research practices and professional relationships are being documented, even if their responses are rendered confidential. To address this issue, if any single participant from a case decides to render their responses confidential, the responses of all participants pertaining to that case will be rendered confidential as well, and the identify of the project that serves as the case will be obfuscated too.\nIn situations whereby a participant decides to render their responses confidential, or has their responses rendered confidential due to another member of their case deciding to do so, only the principal investigator will have access to records containing un-obfuscated information that may identify them. These un-obfuscated records, which may include audio and video records of interview sessions, as well as unedited transcripts and textual notes containing information that may reveal the participants’ identities, will be kept in secure and encrypted media, and destroyed within five years of concluding the study, which provides sufficient time to revisit the data and produce additional research outputs. However, edited transcripts scrubbed of all information that may identify research participants may be kept, published and archived. If participants consent to maintaining association between their responses and their identities, un-obfuscated records and transcripts may be kept, published and archived.\nThe study is committed to adhering to fundamental data security practices, including those specified in McGill University’s Cloud Directive which regulates the curation of sensitive research data. Physical records will be kept in a locked drawer in secure workspaces, either at McGill University’s School of Public and Global Health or at the principal researcher’s home office. Digital records will be stored on encrypted and password-protected drives.2\n2 Refer to the data management plan for further details on how information pertaining to this project will be collected, curated and shared.If a contracted cloud/storage service provider or online survey tool is used, provide information on the service provider’s security and privacy policy, location of its servers, data ownership, and what happens to the stored data after the contract is terminated. For more information, please consult the University’s directive.\nThe study uses file-sharing software hosted by the Covid-19 Immunity Task Force at McGill University’s School of Public and Global Health to backup all files maintained for this study. These backups will include files containing information that might reveal participants’ identities. The software used to manage these backups is managed by McGill University and has been approved for storing sensitive research data by the Cloud Directive.\nThe study maintains a website where the principal investigator shares documentation that supports the study and reflects on the work as it progresses. This is hosted using GitHub Pages and is backed up using Dropbox. The website exists to document the research practices, and no sensitive research data will pass through these services.\nPlease explain any reasonable and foreseeable disclosure requirements (e.g. disclosure to third parties such as government agencies or departments, community partners in research, personnel from an agency that monitors research, research sponsor, the REB/IRB, or regulatory agencies).\nNo disclosure requirements are foreseen.\nIf there are plans for retaining participant and/or study data for future use, please describe the context for its use, requirements for potentially re-contacting study participants and consent, and how the data will be stored and maintained for the long term.\nResearch data will be published in compliance with ethical standards for sharing open social science research data. Records that contain personally-identifying information pertaining to participants who have requested that their responses be rendered confidential and to those who have had their responses rendered confidential due to another member of their case deciding to do so will not be published.\nThe database containing codings, memos and trends deriving from qualitative data analysis will be published only after being scrubbed of all personally-identifying information pertaining to participants who have requested that their responses be rendered confidential and to those who have had their responses rendered confidential due to another member of their case deciding to do so.\nThe principal investigator may follow up with the leaders of the data-sharing initiatives that serve as cases for this project to share the results with them and to present them with constructive feedback deriving from the study’s findings. The principal investigator may also invite select participants to collaborate on a position paper advocating for reforms based on the project’s findings.\nSecondary use of data studies: if the study involves data linkage, please describe the data that will be linked and the likelihood that identifiable information will be created through the linkage.\nThis project does not rely on data deriving from other studies. The data may be reused in related work being undertaken under the same grant and by those who access the openly accessible data after they are published.",
+    "crumbs": [
+      "Ethics Protocol"
+    ]
+  },
+  {
+    "objectID": "ethics-protocol.html#managing-conflicts-of-interest",
+    "href": "ethics-protocol.html#managing-conflicts-of-interest",
+    "title": "Ethics Protocol",
+    "section": "Managing conflicts of interest",
+    "text": "Managing conflicts of interest\nConflicts of interest do not imply wrong-doing. It is the responsibility of the investigator to determine if any conflicts apply to any person/s involved in the design and/or conduct of the research study or any member of their immediate family. Disclose all contracts and any conflicts of interest (real, perceived, or potential) relating to this research project. Conflict of interest may also arise with regard to the disclosure of personal health information.\n\nNot applicable. There are no conflicts of interest to disclose.\nYes, there are conflicts of interest to disclose.\n\nIf yes, please describe the conflicts of interest (real, potential, and perceived), and the procedures for managing declared conflicts. Not applicable.",
+    "crumbs": [
+      "Ethics Protocol"
+    ]
+  },
+  {
+    "objectID": "context.html",
+    "href": "context.html",
+    "title": "Context",
+    "section": "",
+    "text": "Zack’s bio and information about the CITF as institutional host.",
+    "crumbs": [
+      "Context"
+    ]
+  },
+  {
+    "objectID": "case-selection.html",
+    "href": "case-selection.html",
+    "title": "Case Selection",
+    "section": "",
+    "text": "Note\n\n\n\nThis document is still a work in progress.",
+    "crumbs": [
+      "Case Selection"
+    ]
+  },
+  {
+    "objectID": "case-selection.html#case-study-research",
+    "href": "case-selection.html#case-study-research",
+    "title": "Case Selection",
+    "section": "Case Study Research",
+    "text": "Case Study Research\nIn case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it. The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest (Stake 2006: 4-7).\nCases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern. Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own (Stake 2006: 23). In other words, cases are contexts that ascribe particular local flavours to the activities I trace, and which I must consider to account fully for the range of motivations, circumstances and affordances that back decisions to perform activities and to implement them in specific ways.\nMoreover, the power of case study research derives from identifying consistencies that relate cases to each other, while simultaneously highlighting how their unique and distinguishing facets contribute to their representativeness of the underlying phenomon. Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent (Ragin 1999: 1139-1140).\nIt should be noted that case study research limits my ability to define causal relationships or to derive findings that may be generalized across the whole field of epidemiology. This being said, case study research allows me to articulate the series of inter-woven factors that impact how epidedemiological researchers coordinate and participate in data-sharing initiatives, while explicitly accounting for and drawing from the unique and situational contexts that frame each case.",
+    "crumbs": [
+      "Case Selection"
+    ]
+  },
+  {
+    "objectID": "case-selection.html#key-factors",
+    "href": "case-selection.html#key-factors",
+    "title": "Case Selection",
+    "section": "Key Factors",
+    "text": "Key Factors\nTo reiterate, this project investigates the social and collaborative apparatus that scaffold data-sharing initiatives in epidemiology. Through analysis of data obtained through interviews with various relevant stakeholders attached to data-sharing initiatives, the project will ascertain the actions taken and challenges experienced to mediate the varied motivations, needs and values of those involved. In effect, the project aims to articulate the collaborative commitments that govern the constitution and maintenance of epidemiological information commons, and to relate these to technological, administrative and epistemic factors.\nIn other words, I aim to make certain under-appreciated social and collaborative commitments that underlie data-sharing initiatives more visible and to draw greater attention to certain sensibilities, attitudes, and apprehensions that are relevant to contemporary discourse on the nature of epidemiological data and ongoing development of information infrastructures designed to support data integration and re-use.\nHere I outline some key factors that will guide the selection of cases so as to ensure that the project meaningfully addressses its goals.\n\n1. Longevity\nInitiatives that have existed for different durations of time will have different capacity to reflect on their practices. Younger projects will not have had as much of a chance to produce any research outcomes, but may be valuable sources for insight on expectations. More established projects will be able to reflect on unexpected challenges they may have experienced.\nIt will be good to have at least one younger project representing an initiative still “in flux”, one or two “legacy” projects (no longer active), and one or two at intermediate stages (extracting data for meaningful analysis, expanding the initiative’s scope, etc).\n\n\n2. Community composition\nThe size and composition of the community, degree of familiarity among its members, and the mechanisms through which connections are managed constitute additional important factors to consider. Communication and decision-making may take different forms when teams are either smaller and locally-concentrated or larger and dispersed. Decision-making may also be significantly impacted by diffferent governance models and degrees of community participation. It would be interesting to identify how leaders are differentiated from other participants, norms and expectations for getting involved in leadership positions, and considerations that are made when making decisions that impact the community.\n\n\n3. Support structures\nData-sharing may be supported by diverse funding models or tech stacks to support the work, which may significantly impact how the work progresses. Comparing sources of support for data-sharing will help me to explore how data-sharing is either integrated into or supplemented as a distinct outgrowth of “normal” science.\nSpecifically, it will be interesting to compare the extent to which projects are left to cobble together their own data-sharing infrastucture, and how this impacts attitudes and norms regarding the curation and nature of research data. I wonder whether lack of government support fosters creative, entrepeneurial, experimental or community-led models, how funding is provided to supporting the development of collaborative research networks, and how these feed back into norms and attitudes regarding the independence of individual research projects and the formation of collectively-maintained information commons.1\n1 There is some precedent for this in the social sciences and humanities, which are fields that open science policies and infrastructures are not really designed to handle. This marginizaliation had contributed to experimentation with community-based governance models (as per the Radical Open Access Collective) and broader community involvement in policy decisions concerning how the rich diversity of social science and humanities data should be curated.I expect a tendency for cases to be supported by limited-term, federally-funded grants, though it might be worth exploring how supplementary funding provided by non-government agencies, including private firms (through MITACS, for instance) and philanthropic organizations (such as the Gates Foundation) impact the work. I would therefore like to included cases funded through these kinds of initiatives in this project.\n\n\n4. Disciplinary trends\nData-sharing is undoubtably impacted by attitudes concerning the nature of data and their roles in scientific knowledge production, and it is therefore necessary to account for different perspectives. Although I am still somewhat unfamiliar with the diversity of thought on such matters in epidemiology, I intuit that much of the open science movement is driven by rather positivist attitude. I would like to include cases that take on alternative approaches to science.\n\n\n5. Historical or contextual factors\nScience is beholden to political trends, which impact ability to obtain funding and collaborate accross borders (e.g. Brexit’s impact on trans-European funding, including initiatives to attract and retain talent). Moreover, certain events, such as the Covid-19 pandemic, trigger responses in the scientific community. Even if these events are not the focus of the research, they must still be accounted for due to their presumed impacts.\n\n\n6. Kinds of data\nThe nature of the data will surely impact how they are shared. In epidemiology specifically, there are ethical limitations on sharing precise patient records. This may be especially salient in studies focusing in health in Indiginous populations, which may involve additional consideration in contexts of data-sharing.2 Moreover, controls on data collection procedures, including limited or controlled scope or decisions to account for specific factors (such as race, which is prevalent in American datasets but largely ignored elsewhere) may significantly impact what can be done with them when integrated at scale.\n2 The Data Governance and Management Toolkit for Self-Governing Indigenous Governments https://indigenousdatatoolkit.ca may be helpful for exploring these concerns, but I am still looking for epidemiologically-oriented resources on such matters.",
+    "crumbs": [
+      "Case Selection"
+    ]
+  },
+  {
+    "objectID": "case-selection.html#selecting-cases",
+    "href": "case-selection.html#selecting-cases",
+    "title": "Case Selection",
+    "section": "Selecting Cases",
+    "text": "Selecting Cases\nSince a significant aspect of this work is to compare different approaches to data-sharing that have not yet been systematically articulated, it will be necessary to loosely define the parameters through which each case will be initially characterized. I will rely on structured consultations with the research community to make sense of the data-sharing landscape and select cases accordingly. By consulting with key stakeholders, I will arrive at a consensus about which cases are worth approaching while documenting the rationale behind these selections.\nThe consultation process is meant to ensure that case selection adheres to community will and reasoning, while also ensuring that cases are logistically feasible. I will therefore ask for input from leading members of epidemioligical data-sharing initiatives who are familiar with the goals of the this project, and who are involved with the Maelstrom Project which establishes logistical boundaries around the scope of the project.\n\nFixed cases\nMaelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth, while also ensuring that participants (and myself) have a common frame of reference. Moreover, the practices and values that support Maelstrom’s operations have already been documented to a certain extent by its leaders (cf. Doiron et al. 2017; Fortier et al. 2017; Fortier et al. 2023; Bergeron et al. 2018), by its partners (cf. Doiron et al. 2013; Wey et al. 2021; Bergeron et al. 2021) and by scholars of scientific practice (cf. M. J. Murtagh et al. 2012; Demir and Murtagh 2013; Madeleine J. Murtagh et al. 2016; Tacconelli et al. 2022; Gedeborg et al. 2023). This prior work will serve as valuable resources supporting this project.\nAdditionally, the fact that all cases interact with Maelstrom for their technical infrastructure will greatly simplify the interviews by reducing the “overhead” of having to learn or be told about the technical systems, which may distract from the primary themes I seek to address during interviews.\nCITF will also serve as a fixed case. This is partly for logistical reqasons, since the grant is meant to support the CITF Databank, and this project will align with concurrent research on user experiences pertaining to CITF specifically. At the same time, CITF is relevant to the project’s objectives in its own right, and will contribute meaningful insight in comparison with other cases.",
+    "crumbs": [
+      "Case Selection"
+    ]
+  },
+  {
+    "objectID": "case-selection.html#logistical-constraints-and-sources-of-bias",
+    "href": "case-selection.html#logistical-constraints-and-sources-of-bias",
+    "title": "Case Selection",
+    "section": "Logistical Constraints and Sources of Bias",
+    "text": "Logistical Constraints and Sources of Bias\nAfter identifying potential cases, I will reach out to project leaders to invite them to participate. I will prepare a document outlining this project’s objectives and the roles that cases will play in the work. I will also set up a meeting prior to them deciding whether they would like to participate so I can ascertain whether they understand the project and to help determine who may serve as people who can sit for interviews (I expect to hold 12-15 interviews ranging between 60-90 minutes in duration).\nI may prioritize local connections, which provide favourable conditions for holding interviews (i.e., people are more willing to show things that can not be conveyed through a screen, and the pre- and post-interview phases provide meaningful insight). This may introduce bias in that I may obtain more in-depth and nuanced information from local initiatives than those occurring abroad. This can be mitigated by travelling to conduct interviews in person, however the costs of travel may introduce their own biases favouring cases that are easier to reach.",
+    "crumbs": [
+      "Case Selection"
+    ]
+  },
+  {
+    "objectID": "data-management.html",
+    "href": "data-management.html",
+    "title": "Data Management Plan",
+    "section": "",
+    "text": "Note\n\n\n\nThis document is still a work in progress.\nThis document describes the data that this research will produce and the procedures for curating data throughout the project.",
+    "crumbs": [
+      "Data Management"
+    ]
+  },
+  {
+    "objectID": "data-management.html#data-collection",
+    "href": "data-management.html#data-collection",
+    "title": "Data Management Plan",
+    "section": "Data collection",
+    "text": "Data collection\nInterviews generate audio, video and textual records. I primarily rely on a SONY ICD-UX560 audio recorder, which contains 4GB of internal storage supplemented with a 32GB microSD card.1 I record using the lossless 16bit 44.1 kHz Linear PCM wav format.\n1 See https://weloty.com/sony-icd-ux560-review and https://weloty.com/using-the-sony-icd-ux560-the-4-how-tos for more information on this audio recording device.With participants’ consent, I also record video using a GoPro Hero 4 Silver action camera equipped with a 64GB microSD card.\nI maintain typed notes before, during and after each interview, which I may edit and re-organize to enhance clarity.\nImmediately after each interview, I copy the data off the recording devices and onto a dedicated project drive. I organize and rename files using a semantic naming scheme and then mirror all files onto physical and a cloud-based backup drives.",
+    "crumbs": [
+      "Data Management"
+    ]
+  },
+  {
+    "objectID": "data-management.html#processing-data",
+    "href": "data-management.html#processing-data",
+    "title": "Data Management Plan",
+    "section": "Processing data",
+    "text": "Processing data\nI use FFmpeg and Audacity to cut, concatenate, and clean the audio and video files if necessary. I generate transcripts of audio recordings following the transcription protocol.",
+    "crumbs": [
+      "Data Management"
+    ]
+  },
+  {
+    "objectID": "data-management.html#storage-and-backups",
+    "href": "data-management.html#storage-and-backups",
+    "title": "Data Management Plan",
+    "section": "Storage and backups",
+    "text": "Storage and backups\nI keep all data on a dedicated portable solid state drive which serves as a working directory for all research activities. I mirror the contents of this drive onto an identical secondary backup drive and onto cloud storage administered by the CITF using rsync.\nI maintain this website where I share documentation that supports this project and reflect on the work as it progresses. It is hosted using GitHub Pages and is backed up using Dropbox, however no sensitive research data will pass through these services.",
+    "crumbs": [
+      "Data Management"
+    ]
+  },
+  {
+    "objectID": "data-management.html#publishing-and-archiving",
+    "href": "data-management.html#publishing-and-archiving",
+    "title": "Data Management Plan",
+    "section": "Publishing and archiving",
+    "text": "Publishing and archiving\nAfter my research is complete, I will make a concerted effort to document all the data I will have collected and generated and deposit them in a digital repository operated by a dedicated team of digital archivists certified to curate and preserve research data in perpetuity.",
+    "crumbs": [
+      "Data Management"
+    ]
+  },
+  {
+    "objectID": "glossary.html",
+    "href": "glossary.html",
+    "title": "Glossary",
+    "section": "",
+    "text": "data-sharing\nXXXX.\n\ndata-harmonization\nXXXX.\n\ndata-integration\nXXXX.\n\ncollaboration\nXXXX.\n\ndata-sharing initiative\nXXXX.\nCorresponds with the term “harmonization initiative” in Fortier et al. (2017).\ncatalogue\nXXXX.\nBergeron et al. (2018), Bergeron et al. (2021)\n\n\n\n\nReferences\n\nBergeron, Julie, Dany Doiron, Yannick Marcon, Vincent Ferretti, and Isabel Fortier. 2018. “Fostering Population-Based Cohort Data Discovery: The Maelstrom Research Cataloguing Toolkit.” PLOS ONE 13 (7): e0200926. https://doi.org/10.1371/journal.pone.0200926.\n\n\nBergeron, Julie, Rachel Massicotte, Stephanie Atkinson, Alan Bocking, William Fraser, Isabel Fortier, and the ReACH member cohorts’ principal investigators. 2021. “Cohort Profile: Research Advancement Through Cohort Cataloguing and Harmonization (ReACH).” International Journal of Epidemiology 50 (2): 396–97. https://doi.org/10.1093/ije/dyaa207.\n\n\nFortier, Isabel, Parminder Raina, Edwin R Van den Heuvel, Lauren E Griffith, Camille Craig, Matilda Saliba, Dany Doiron, et al. 2017. “Maelstrom Research Guidelines for Rigorous Retrospective Data Harmonization.” International Journal of Epidemiology 46 (1): 103–5. https://doi.org/10.1093/ije/dyw075.",
+    "crumbs": [
+      "Glossary"
+    ]
+  },
+  {
+    "objectID": "interview-protocol.html",
+    "href": "interview-protocol.html",
+    "title": "Interview Protocol",
+    "section": "",
+    "text": "Note\n\n\n\nThis document is still a work in progress.",
+    "crumbs": [
+      "Interview Protocol"
+    ]
+  },
+  {
+    "objectID": "interview-protocol.html#interview-conditions",
+    "href": "interview-protocol.html#interview-conditions",
+    "title": "Interview Protocol",
+    "section": "Interview conditions",
+    "text": "Interview conditions\nInterviews may be held either in-person or through online vide-conference. Interviews will be held in quiet and comfortable environments, such as office spaces or conference rooms.",
+    "crumbs": [
+      "Interview Protocol"
+    ]
+  },
+  {
+    "objectID": "interview-protocol.html#interview-records",
+    "href": "interview-protocol.html#interview-records",
+    "title": "Interview Protocol",
+    "section": "Interview records",
+    "text": "Interview records\nI will record all in-person interviews using a SONY ICD-UX560 audio recorder to capture audio in the lossless 16 bit 44.1 kHz Linear PCM wav format, with additional audio filters to enhance playback during transcription, if necessary.\nI will also record in-person interview sessions using a GoPro Hero 4 Silver action camera, pending interviewees’ informed consent to be video recorded. Based on prior interviews with scientists about their research experiences, I found that interviewees like to show me, rather than merely tell me, about what they are working on and the means through which they engage with information systems. The action cameras may be leveraged to record spontaneous video records of these demonstrations and provide me with an additional rich data source for further analysis. Moreover, the action cameras provide an additional backup audio recording in case of data loss on the primary recording device.\nI will also record handwritten notes comprising descriptive accounts of activities and interactions when recording devices are switched off, as well as preliminary interpretations of observed behaviours and notes on things I plan to follow up on at a later time.",
+    "crumbs": [
+      "Interview Protocol"
+    ]
+  },
+  {
+    "objectID": "interview-protocol.html#interview-guide",
+    "href": "interview-protocol.html#interview-guide",
+    "title": "Interview Protocol",
+    "section": "Interview guide",
+    "text": "Interview guide\n\nParticipants’ goals and perspectives\nFollow a life-history method to better understand participants’ professional backgrounds and their roles within their projects. The goal is to obtain information about their paths, not the rehearsed origin story.\n\nTo start, can you please tell me a little bit about your background?\nWhat is the project?\nWhat is your role?\nHow did you find yourself in this role?\nHow has your previous experience prepared you for your role\n\n\n\nProjects’ missions, purposes, motivations\nKeep in mind that this section is about the project in general. Specific practices and procedures will be addressed in a subsequent phase of the interview.\n\nWhat are the project’s primary challenges?\nHow are you working to overcome them?\n\n\n\nWhat makes thos project unique?\nWhat is the project doing that no other similar project is doing?\n\nPrompts:\n\nWhat happened next?\nWho was that person?\nTell me more about that development or event.\n\n\n\nPractices, procedures, relationships\n\nWhat does your role entail?\nCan you provide a couple examples of things that you recently did in this capacity?\n\n\n\nWho else do you frequently rely on, and what are their roles?\nCan you describe what they do, and perhaps give a few examples drawn from their recent work?\n\nPrompts:\n\nPlease give me an example.\nDo you remember a specific time when you did this?\n\n\nMaintaining the project community\nFor those in charge of recruiting new partners and maintaining community support:\n\nPlease briefly describe the process through which you obtain new partners or users.\nCan you please recall a recent example?\n\n\n\nHow well do you know each partner?\nDid you know them before their involvement?\n\n\n\nWould you describe the project as a tight knit community, or more open-ended?\n\n\n\nHow do you communicate with partners and contributors?\nWhat kinds of media or platforms do you use, and are they targeted for specific purposes? i.e. email, newsletters, social media, skype, personal communication at conferences\n\n\n\nAre there particular people in each project who you communicate with more frequently than others?\nWho are they, and why are these the people who you connect with?\n\n\n\nWhat do you consider your role or responsibility vis-a-vis the development/growth of this community?\nHow do you foster the community’s development and growth?\nDo you consider these efforts to be effective?\n\n\n\nCurating data\nFor those who actually handle the data in a preparatory or curatorial way:\n\n\nUsing the data\nFor those who actually use the data:\n\n\n\nAbout the technical infrastructures\n\n\nAbout the administrative infrastructures\n\n\nRelationships with Maelstrom",
+    "crumbs": [
+      "Interview Protocol"
     ]
   },
   {
@@ -138,290 +407,28 @@
     "text": "Doiron, Raina, and Fortier (2013)\nThis paper summarizes what was discussed at a workshop bringing together stakeholders who would contribute to two large data harmonization initiatives: the Canadian Longitudinal Study on Aging (CLSA) and the Canadian Partnership for Tomorrow Project (CPTP). It is therefore representative of plans and challenges that were held at an early stage when collaborations were being established.\nThe authors identify series of reasons for linking data, which I summarize here:\n\nMaximizing potential of disparate information resources\n\n\nenriching study datasets with additional data not being collected directly from study par ticipants\noffer vital information on health outcomes of participants\nvalidate self-reported information\n\n\nDrawing maximum value from data produced from public expenditure\n\n\noffers a cost-effective means to maximize the use of existing publicly funded data collections\n\n\nDevelop interdisciplinary collaborative networks\n\n\nby combining a wide range of risk factors, disease endpoints, and relevant socio-economic and biological measurements at a population level, linkage lays the groundwork for multidisciplinary health-research initiatives, which allow the exploration of new hypotheses not foreseeable using independent datasets\n\n\nEstablish long-lasting infrastructure and instill a collaborative culture\n\n\nLast, a coordinated pan-Canadian cohort-to-administrative linked database would establish legacy research infrastructures that will better equip the next generation of researchers across the country\n\nThe authors use the term “data linkage”:\n\nData linkage is “the bringing together from two or more different sources, data that relates to the same individual, family, place or event”. When linking data at the individual level, a common identifier (or a combination of identifiers) such as a personal health number, date of birth, place of residence, or sex, is used to combine data related to the same person but found in separate databases. Data linkage has been used in a number of research fields but is an especially valuable tool for health research given the large amount of relevant information collected by institutions such as governments, hospitals, clinics, health authorities, and research groups that can then be matched to data collected directly from consenting individuals participating in health research.\n\nThis is distinct from harmonization in that it is not meant to combine data with similar scope and schematic structure, but rather to relate information collected under various domains so that they could be more easily queried in tandem. I imagine this as reminiscient of establishing links between tables in a relational database.\nThe authors identify the open-endedness of the linked data as a unique challenge, without elaborating on this point:\n\nCLSA/CPTP-to-AHD linkage also poses unique challenges in that, in contrast to more traditional requests to link data to answer one-off research questions, it aims to establish a rich data repository that will allow investigators to answer a multitude of research questions over time.\n\nThe workshop participants established a 5-point plan:\n\nbuild strong collaborative relationships between stakeholders involved in data sharing (e.g., researchers, data custodians, and privacy commissioners);\nidentify an entity which could provide overall leadership as well as individual “champions” within each province;\nfind adequate and long-term resources and funding;\nclarify data linkage and data-sharing models and develop a common framework within which the data linkage process takes place; and\ndevelop a pilot project making use of a limited number of linked variables from participating provinces\n\nThe second point, about identifying “champions”, is kind of interesting, and I’d like to know more about what qualities these people were expcted to have, their domains of expertise, their collaborative/soft or technical skills, and how this plays into access to funds and general governance structures\nNeed to look at Roos, Menec, and Currie (2004), which they cite in the conclusion, specifically with reference to the aspiration to develop “information rich environments”. Seems like it is a primary source for the background on linked data in Manitoba and Australia."
   },
   {
-    "objectID": "interview-protocol.html",
-    "href": "interview-protocol.html",
-    "title": "Interview Protocol",
+    "objectID": "posts.html",
+    "href": "posts.html",
+    "title": "Blog",
     "section": "",
-    "text": "Note\n\n\n\nThis document is still a work in progress.",
+    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nJan 18, 2025\n\n\nWeek notes (2025-W03)\n\n\nweek notes\n\n\n\n\nDec 18, 2024\n\n\nTechnical specs for this website\n\n\nwebsite\n\n\n\n\nDec 9, 2024\n\n\nReflection on first team meeting\n\n\nmeeting notes, general thoughts\n\n\n\n\nDec 9, 2024\n\n\nHello World!\n\n\nintroduction, website\n\n\n\n\n\nNo matching items",
     "crumbs": [
-      "Interview Protocol"
+      "Blog"
     ]
   },
   {
-    "objectID": "interview-protocol.html#interview-conditions",
-    "href": "interview-protocol.html#interview-conditions",
-    "title": "Interview Protocol",
-    "section": "Interview conditions",
-    "text": "Interview conditions\nInterviews may be held either in-person or through online vide-conference. Interviews will be held in quiet and comfortable environments, such as office spaces or conference rooms.",
-    "crumbs": [
-      "Interview Protocol"
-    ]
-  },
-  {
-    "objectID": "interview-protocol.html#interview-records",
-    "href": "interview-protocol.html#interview-records",
-    "title": "Interview Protocol",
-    "section": "Interview records",
-    "text": "Interview records\nI will record all in-person interviews using a SONY ICD-UX560 audio recorder to capture audio in the lossless 16 bit 44.1 kHz Linear PCM wav format, with additional audio filters to enhance playback during transcription, if necessary.\nI will also record in-person interview sessions using a GoPro Hero 4 Silver action camera, pending interviewees’ informed consent to be video recorded. Based on prior interviews with scientists about their research experiences, I found that interviewees like to show me, rather than merely tell me, about what they are working on and the means through which they engage with information systems. The action cameras may be leveraged to record spontaneous video records of these demonstrations and provide me with an additional rich data source for further analysis. Moreover, the action cameras provide an additional backup audio recording in case of data loss on the primary recording device.\nI will also record handwritten notes comprising descriptive accounts of activities and interactions when recording devices are switched off, as well as preliminary interpretations of observed behaviours and notes on things I plan to follow up on at a later time.",
-    "crumbs": [
-      "Interview Protocol"
-    ]
-  },
-  {
-    "objectID": "interview-protocol.html#interview-guide",
-    "href": "interview-protocol.html#interview-guide",
-    "title": "Interview Protocol",
-    "section": "Interview guide",
-    "text": "Interview guide\n\nParticipants’ goals and perspectives\nFollow a life-history method to better understand participants’ professional backgrounds and their roles within their projects. The goal is to obtain information about their paths, not the rehearsed origin story.\n\nTo start, can you please tell me a little bit about your background?\nWhat is the project?\nWhat is your role?\nHow did you find yourself in this role?\nHow has your previous experience prepared you for your role\n\n\n\nProjects’ missions, purposes, motivations\nKeep in mind that this section is about the project in general. Specific practices and procedures will be addressed in a subsequent phase of the interview.\n\nWhat are the project’s primary challenges?\nHow are you working to overcome them?\n\n\n\nWhat makes thos project unique?\nWhat is the project doing that no other similar project is doing?\n\nPrompts:\n\nWhat happened next?\nWho was that person?\nTell me more about that development or event.\n\n\n\nPractices, procedures, relationships\n\nWhat does your role entail?\nCan you provide a couple examples of things that you recently did in this capacity?\n\n\n\nWho else do you frequently rely on, and what are their roles?\nCan you describe what they do, and perhaps give a few examples drawn from their recent work?\n\nPrompts:\n\nPlease give me an example.\nDo you remember a specific time when you did this?\n\n\nMaintaining the project community\nFor those in charge of recruiting new partners and maintaining community support:\n\nPlease briefly describe the process through which you obtain new partners or users.\nCan you please recall a recent example?\n\n\n\nHow well do you know each partner?\nDid you know them before their involvement?\n\n\n\nWould you describe the project as a tight knit community, or more open-ended?\n\n\n\nHow do you communicate with partners and contributors?\nWhat kinds of media or platforms do you use, and are they targeted for specific purposes? i.e. email, newsletters, social media, skype, personal communication at conferences\n\n\n\nAre there particular people in each project who you communicate with more frequently than others?\nWho are they, and why are these the people who you connect with?\n\n\n\nWhat do you consider your role or responsibility vis-a-vis the development/growth of this community?\nHow do you foster the community’s development and growth?\nDo you consider these efforts to be effective?\n\n\n\nCurating data\nFor those who actually handle the data in a preparatory or curatorial way:\n\n\nUsing the data\nFor those who actually use the data:\n\n\n\nAbout the technical infrastructures\n\n\nAbout the administrative infrastructures\n\n\nRelationships with Maelstrom",
-    "crumbs": [
-      "Interview Protocol"
-    ]
-  },
-  {
-    "objectID": "glossary.html",
-    "href": "glossary.html",
-    "title": "Glossary",
+    "objectID": "posts/2024-12-09-hello-world/index.html",
+    "href": "posts/2024-12-09-hello-world/index.html",
+    "title": "Hello World!",
     "section": "",
-    "text": "data-sharing\nXXXX.\n\ndata-harmonization\nXXXX.\n\ndata-integration\nXXXX.\n\ncollaboration\nXXXX.\n\ndata-sharing initiative\nXXXX.\nCorresponds with the term “harmonization initiative” in Fortier et al. (2017).\ncatalogue\nXXXX.\nBergeron et al. (2018), Bergeron et al. (2021)\n\n\n\n\nReferences\n\nBergeron, Julie, Dany Doiron, Yannick Marcon, Vincent Ferretti, and Isabel Fortier. 2018. “Fostering Population-Based Cohort Data Discovery: The Maelstrom Research Cataloguing Toolkit.” PLOS ONE 13 (7): e0200926. https://doi.org/10.1371/journal.pone.0200926.\n\n\nBergeron, Julie, Rachel Massicotte, Stephanie Atkinson, Alan Bocking, William Fraser, Isabel Fortier, and the ReACH member cohorts’ principal investigators. 2021. “Cohort Profile: Research Advancement Through Cohort Cataloguing and Harmonization (ReACH).” International Journal of Epidemiology 50 (2): 396–97. https://doi.org/10.1093/ije/dyaa207.\n\n\nFortier, Isabel, Parminder Raina, Edwin R Van den Heuvel, Lauren E Griffith, Camille Craig, Matilda Saliba, Dany Doiron, et al. 2017. “Maelstrom Research Guidelines for Rigorous Retrospective Data Harmonization.” International Journal of Epidemiology 46 (1): 103–5. https://doi.org/10.1093/ije/dyw075.",
-    "crumbs": [
-      "Glossary"
-    ]
+    "text": "Welcome to the website for my CITF Postdoc! This will serve as a hub for documenting and sharing my work. I decided to do this as a way of managing and sharing always-updated drafts of research protocols with my supervisor and team members, but it is also generally useful for keeping my thoughts organized. I will also use this blog section to write my thoughts as the project progresses."
   },
   {
-    "objectID": "data-management.html",
-    "href": "data-management.html",
-    "title": "Data Management Plan",
+    "objectID": "posts/2025-01-18-week-notes-2025-W03/index.html",
+    "href": "posts/2025-01-18-week-notes-2025-W03/index.html",
+    "title": "Week notes (2025-W03)",
     "section": "",
-    "text": "Note\n\n\n\nThis document is still a work in progress.\nThis document describes the data that this research will produce and the procedures for curating data throughout the project.",
-    "crumbs": [
-      "Data Management"
-    ]
-  },
-  {
-    "objectID": "data-management.html#data-collection",
-    "href": "data-management.html#data-collection",
-    "title": "Data Management Plan",
-    "section": "Data collection",
-    "text": "Data collection\nInterviews generate audio, video and textual records. I primarily rely on a SONY ICD-UX560 audio recorder, which contains 4GB of internal storage supplemented with a 32GB microSD card.1 I record using the lossless 16bit 44.1 kHz Linear PCM wav format.\n1 See https://weloty.com/sony-icd-ux560-review and https://weloty.com/using-the-sony-icd-ux560-the-4-how-tos for more information on this audio recording device.With participants’ consent, I also record video using a GoPro Hero 4 Silver action camera equipped with a 64GB microSD card.\nI maintain typed notes before, during and after each interview, which I may edit and re-organize to enhance clarity.\nImmediately after each interview, I copy the data off the recording devices and onto a dedicated project drive. I organize and rename files using a semantic naming scheme and then mirror all files onto physical and a cloud-based backup drives.",
-    "crumbs": [
-      "Data Management"
-    ]
-  },
-  {
-    "objectID": "data-management.html#processing-data",
-    "href": "data-management.html#processing-data",
-    "title": "Data Management Plan",
-    "section": "Processing data",
-    "text": "Processing data\nI use FFmpeg and Audacity to cut, concatenate, and clean the audio and video files if necessary. I generate transcripts of audio recordings following the transcription protocol.",
-    "crumbs": [
-      "Data Management"
-    ]
-  },
-  {
-    "objectID": "data-management.html#storage-and-backups",
-    "href": "data-management.html#storage-and-backups",
-    "title": "Data Management Plan",
-    "section": "Storage and backups",
-    "text": "Storage and backups\nI keep all data on a dedicated portable solid state drive which serves as a working directory for all research activities. I mirror the contents of this drive onto an identical secondary backup drive and onto cloud storage administered by the CITF using rsync.\nI maintain this website where I share documentation that supports this project and reflect on the work as it progresses. It is hosted using GitHub Pages and is backed up using Dropbox, however no sensitive research data will pass through these services.",
-    "crumbs": [
-      "Data Management"
-    ]
-  },
-  {
-    "objectID": "data-management.html#publishing-and-archiving",
-    "href": "data-management.html#publishing-and-archiving",
-    "title": "Data Management Plan",
-    "section": "Publishing and archiving",
-    "text": "Publishing and archiving\nAfter my research is complete, I will make a concerted effort to document all the data I will have collected and generated and deposit them in a digital repository operated by a dedicated team of digital archivists certified to curate and preserve research data in perpetuity.",
-    "crumbs": [
-      "Data Management"
-    ]
-  },
-  {
-    "objectID": "case-selection.html",
-    "href": "case-selection.html",
-    "title": "Case Selection",
-    "section": "",
-    "text": "Note\n\n\n\nThis document is still a work in progress.",
-    "crumbs": [
-      "Case Selection"
-    ]
-  },
-  {
-    "objectID": "case-selection.html#case-study-research",
-    "href": "case-selection.html#case-study-research",
-    "title": "Case Selection",
-    "section": "Case Study Research",
-    "text": "Case Study Research\nIn case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it. The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest (Stake 2006: 4-7).\nCases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern. Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own (Stake 2006: 23). In other words, cases are contexts that ascribe particular local flavours to the activities I trace, and which I must consider to account fully for the range of motivations, circumstances and affordances that back decisions to perform activities and to implement them in specific ways.\nMoreover, the power of case study research derives from identifying consistencies that relate cases to each other, while simultaneously highlighting how their unique and distinguishing facets contribute to their representativeness of the underlying phenomon. Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent (Ragin 1999: 1139-1140).\nIt should be noted that case study research limits my ability to define causal relationships or to derive findings that may be generalized across the whole field of epidemiology. This being said, case study research allows me to articulate the series of inter-woven factors that impact how epidedemiological researchers coordinate and participate in data-sharing initiatives, while explicitly accounting for and drawing from the unique and situational contexts that frame each case.",
-    "crumbs": [
-      "Case Selection"
-    ]
-  },
-  {
-    "objectID": "case-selection.html#key-factors",
-    "href": "case-selection.html#key-factors",
-    "title": "Case Selection",
-    "section": "Key Factors",
-    "text": "Key Factors\nTo reiterate, this project investigates the social and collaborative apparatus that scaffold data-sharing initiatives in epidemiology. Through analysis of data obtained through interviews with various relevant stakeholders attached to data-sharing initiatives, the project will ascertain the actions taken and challenges experienced to mediate the varied motivations, needs and values of those involved. In effect, the project aims to articulate the collaborative commitments that govern the constitution and maintenance of epidemiological information commons, and to relate these to technological, administrative and epistemic factors.\nIn other words, I aim to make certain under-appreciated social and collaborative commitments that underlie data-sharing initiatives more visible and to draw greater attention to certain sensibilities, attitudes, and apprehensions that are relevant to contemporary discourse on the nature of epidemiological data and ongoing development of information infrastructures designed to support data integration and re-use.\nHere I outline some key factors that will guide the selection of cases so as to ensure that the project meaningfully addressses its goals.\n\n1. Longevity\nInitiatives that have existed for different durations of time will have different capacity to reflect on their practices. Younger projects will not have had as much of a chance to produce any research outcomes, but may be valuable sources for insight on expectations. More established projects will be able to reflect on unexpected challenges they may have experienced.\nIt will be good to have at least one younger project representing an initiative still “in flux”, one or two “legacy” projects (no longer active), and one or two at intermediate stages (extracting data for meaningful analysis, expanding the initiative’s scope, etc).\n\n\n2. Community composition\nThe size and composition of the community, degree of familiarity among its members, and the mechanisms through which connections are managed constitute additional important factors to consider. Communication and decision-making may take different forms when teams are either smaller and locally-concentrated or larger and dispersed. Decision-making may also be significantly impacted by diffferent governance models and degrees of community participation. It would be interesting to identify how leaders are differentiated from other participants, norms and expectations for getting involved in leadership positions, and considerations that are made when making decisions that impact the community.\n\n\n3. Support structures\nData-sharing may be supported by diverse funding models or tech stacks to support the work, which may significantly impact how the work progresses. Comparing sources of support for data-sharing will help me to explore how data-sharing is either integrated into or supplemented as a distinct outgrowth of “normal” science.\nSpecifically, it will be interesting to compare the extent to which projects are left to cobble together their own data-sharing infrastucture, and how this impacts attitudes and norms regarding the curation and nature of research data. I wonder whether lack of government support fosters creative, entrepeneurial, experimental or community-led models, how funding is provided to supporting the development of collaborative research networks, and how these feed back into norms and attitudes regarding the independence of individual research projects and the formation of collectively-maintained information commons.1\n1 There is some precedent for this in the social sciences and humanities, which are fields that open science policies and infrastructures are not really designed to handle. This marginizaliation had contributed to experimentation with community-based governance models (as per the Radical Open Access Collective) and broader community involvement in policy decisions concerning how the rich diversity of social science and humanities data should be curated.I expect a tendency for cases to be supported by limited-term, federally-funded grants, though it might be worth exploring how supplementary funding provided by non-government agencies, including private firms (through MITACS, for instance) and philanthropic organizations (such as the Gates Foundation) impact the work. I would therefore like to included cases funded through these kinds of initiatives in this project.\n\n\n4. Disciplinary trends\nData-sharing is undoubtably impacted by attitudes concerning the nature of data and their roles in scientific knowledge production, and it is therefore necessary to account for different perspectives. Although I am still somewhat unfamiliar with the diversity of thought on such matters in epidemiology, I intuit that much of the open science movement is driven by rather positivist attitude. I would like to include cases that take on alternative approaches to science.\n\n\n5. Historical or contextual factors\nScience is beholden to political trends, which impact ability to obtain funding and collaborate accross borders (e.g. Brexit’s impact on trans-European funding, including initiatives to attract and retain talent). Moreover, certain events, such as the Covid-19 pandemic, trigger responses in the scientific community. Even if these events are not the focus of the research, they must still be accounted for due to their presumed impacts.\n\n\n6. Kinds of data\nThe nature of the data will surely impact how they are shared. In epidemiology specifically, there are ethical limitations on sharing precise patient records. This may be especially salient in studies focusing in health in Indiginous populations, which may involve additional consideration in contexts of data-sharing.2 Moreover, controls on data collection procedures, including limited or controlled scope or decisions to account for specific factors (such as race, which is prevalent in American datasets but largely ignored elsewhere) may significantly impact what can be done with them when integrated at scale.\n2 The Data Governance and Management Toolkit for Self-Governing Indigenous Governments https://indigenousdatatoolkit.ca may be helpful for exploring these concerns, but I am still looking for epidemiologically-oriented resources on such matters.",
-    "crumbs": [
-      "Case Selection"
-    ]
-  },
-  {
-    "objectID": "case-selection.html#selecting-cases",
-    "href": "case-selection.html#selecting-cases",
-    "title": "Case Selection",
-    "section": "Selecting Cases",
-    "text": "Selecting Cases\nSince a significant aspect of this work is to compare different approaches to data-sharing that have not yet been systematically articulated, it will be necessary to loosely define the parameters through which each case will be initially characterized. I will rely on structured consultations with the research community to make sense of the data-sharing landscape and select cases accordingly. By consulting with key stakeholders, I will arrive at a consensus about which cases are worth approaching while documenting the rationale behind these selections.\nThe consultation process is meant to ensure that case selection adheres to community will and reasoning, while also ensuring that cases are logistically feasible. I will therefore ask for input from leading members of epidemioligical data-sharing initiatives who are familiar with the goals of the this project, and who are involved with the Maelstrom Project which establishes logistical boundaries around the scope of the project.\n\nFixed cases\nMaelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth, while also ensuring that participants (and myself) have a common frame of reference. Moreover, the practices and values that support Maelstrom’s operations have already been documented to a certain extent by its leaders (cf. Doiron et al. 2017; Fortier et al. 2017; Fortier et al. 2023; Bergeron et al. 2018), by its partners (cf. Doiron et al. 2013; Wey et al. 2021; Bergeron et al. 2021) and by scholars of scientific practice (cf. M. J. Murtagh et al. 2012; Demir and Murtagh 2013; Madeleine J. Murtagh et al. 2016; Tacconelli et al. 2022; Gedeborg et al. 2023). This prior work will serve as valuable resources supporting this project.\nAdditionally, the fact that all cases interact with Maelstrom for their technical infrastructure will greatly simplify the interviews by reducing the “overhead” of having to learn or be told about the technical systems, which may distract from the primary themes I seek to address during interviews.\nCITF will also serve as a fixed case. This is partly for logistical reqasons, since the grant is meant to support the CITF Databank, and this project will align with concurrent research on user experiences pertaining to CITF specifically. At the same time, CITF is relevant to the project’s objectives in its own right, and will contribute meaningful insight in comparison with other cases.",
-    "crumbs": [
-      "Case Selection"
-    ]
-  },
-  {
-    "objectID": "case-selection.html#logistical-constraints-and-sources-of-bias",
-    "href": "case-selection.html#logistical-constraints-and-sources-of-bias",
-    "title": "Case Selection",
-    "section": "Logistical Constraints and Sources of Bias",
-    "text": "Logistical Constraints and Sources of Bias\nAfter identifying potential cases, I will reach out to project leaders to invite them to participate. I will prepare a document outlining this project’s objectives and the roles that cases will play in the work. I will also set up a meeting prior to them deciding whether they would like to participate so I can ascertain whether they understand the project and to help determine who may serve as people who can sit for interviews (I expect to hold 12-15 interviews ranging between 60-90 minutes in duration).\nI may prioritize local connections, which provide favourable conditions for holding interviews (i.e., people are more willing to show things that can not be conveyed through a screen, and the pre- and post-interview phases provide meaningful insight). This may introduce bias in that I may obtain more in-depth and nuanced information from local initiatives than those occurring abroad. This can be mitigated by travelling to conduct interviews in person, however the costs of travel may introduce their own biases favouring cases that are easier to reach.",
-    "crumbs": [
-      "Case Selection"
-    ]
-  },
-  {
-    "objectID": "context.html",
-    "href": "context.html",
-    "title": "Context",
-    "section": "",
-    "text": "Zack’s bio and information about the CITF as institutional host.",
-    "crumbs": [
-      "Context"
-    ]
-  },
-  {
-    "objectID": "ethics-protocol.html",
-    "href": "ethics-protocol.html",
-    "title": "Ethics Protocol",
-    "section": "",
-    "text": "Note\n\n\n\nThis document is still a work in progress.\nProject Title: Articulating epidemiological data harmonization initiatives as practical and collaborative experiences\nPrincipal Investigator: Zachary Batist\nProtocol Number: 25-01-057\nSubmitted:\nApproved:",
-    "crumbs": [
-      "Ethics Protocol"
-    ]
-  },
-  {
-    "objectID": "ethics-protocol.html#recruitment-and-consent",
-    "href": "ethics-protocol.html#recruitment-and-consent",
-    "title": "Ethics Protocol",
-    "section": "Recruitment and consent",
-    "text": "Recruitment and consent\nWill this study involve recruitment of human study participants?\n\nYes\nNo\n\nHow are potential study participants identified and/or recruited to the study? Explain how potential participants are identified or introduced to the study, and who will recruit participants. Will the investigator/s require any special permissions or access to the target population e.g. clinic access, patient registries or records, mailing lists, community access?\nThrough consultation with key community stakeholders, the principal investigator will devise a list of prospective projects to serve as cases.1 The principal investigator will then write to the leaders of these projects inviting them to participate in the study. These invitations to project leaders will explain the project’s purpose and scope, and will encourage the recipient to reply with any questions or concerns they may have. If they accept the invitation, the principal investigator will then work with project leaders to devise a list of individuals who may serve as interview candidates based on their roles in the project. The principal investigator will be clear with project leaders that they should not pressure those who work for them to participate in the study, and that individuals’ participation should be treated as separate from their regular duties; if project leaders cannot or will not abide by this condition, their project will be rejected as a prospective case. The principal investigator will then write to the recommended individuals to introduce the study and its objectives and to invite them to participate as research subjects.\n1 See the case selection protocol for further details.Describe the consent process. If alternate processes for seeking consent are planned (e.g. verbal, online, waiver), please provide a rationale and outline the procedure of obtaining and documenting consent and/or assent, where applicable.\nOnce individuals express their interest in participating, participants will provided with an informed consent document that outlines in more detail the goals of the study, the roles of the participant, how they will be recorded, how data pertaining to them will be retained, and the potential risks and benefits pertaining to their involvement. This document will also describe how participants’ personally identifiable information will be managed and used. Participants will be asked to read and sign the document in order to obtain written informed consent. At the start of each interview the researcher will reiterate participants’ rights and ask them to orally reaffirm their consent before proceeding.\nIs there a relationship between the study participants and the person obtaining consent and/or the principal investigator/s?\n\nYes\nNo\n\nIf yes, please explain the nature of the relationship, and outline the steps that will be taken to avoid the perception of undue influence.\nOne project that serves as a case in this research is the Covid-19 Immunity Task Force (CITF), which the principal investigator currently serve as postdoctoral researcher. Some of the participants will therefore be his colleagues; the interviews will remain structured and limited in scope, and will not touch on matters relating to other aspects of their work.\nThe principal investigator will consult with David Buckeridge, who leads the CITF, as one key community stakeholder to help devise a shortlist of projects that may serve as prospective cases.",
-    "crumbs": [
-      "Ethics Protocol"
-    ]
-  },
-  {
-    "objectID": "ethics-protocol.html#risk-benefit-assessment",
-    "href": "ethics-protocol.html#risk-benefit-assessment",
-    "title": "Ethics Protocol",
-    "section": "Risk-benefit assessment",
-    "text": "Risk-benefit assessment\nDescribe the foreseeable risks to study participants. What risks are attributable to the research, including cumulative risks? Which risks are participants normally exposed to in the course of their clinical care or in their daily activities as they relate to the research questions/objectives?\nParticipation in this study does not involve any physical, psychological or legal risks. However, the principal investigator will be asking participants to share detailed information about their work practices and work relationships, and public association with their responses may potentially disrupt or complicate their professional reputations. To mitigate against this potential harm, the principal investigator will give participants the option to render their responses confidential.\nWhat procedures are in place to monitor and assess participant safety for the duration of the study?\nPrior to each interview, and as part of the procedure for obtaining informed consent, participants will be asked about whether they want to render their responses confidential. Immediately after each interview, participants will be given an additional opportunity to reflect on their responses, and will be prompted to either confirm or alter their decision regarding whether or not to maintain confidentiality. Furthermore, for participants who have not requested that their responses be treated as confidential immediately before and after the interview, a follow-up email will be sent one week after the interview to reiterate the option to render their responses confidential.\nDescribe the potential benefits of the study for: (1) the study participants; (2) the population under investigation, and (3) the field of research.\nThis study contributes to the development of better epidemiological data-sharing infrastructures by articulating social, collaborative and discursive aspects of data harmonization, and how these factors relate to, overlap with or conflict with technical, institutional and epistemic factors. By explicitly framing data harmonization as a social and collaborative activity, we may devise more effective data-sharing infrastructures that better support the contextualization of data and enhance their value in contexts of data reuse. This work therefore poses new ways to document how epidemiologists mobilize distributed records in the constitution of synthetic knowledge and helps develop practical solutions that enable greater reflexivity. Additionally, this study may directly benefit participants by framing the experiences they address during interviews in ways that they might not have otherwise considered, thereby encouraging greater reflexivity in their own work.",
-    "crumbs": [
-      "Ethics Protocol"
-    ]
-  },
-  {
-    "objectID": "ethics-protocol.html#privacy-and-confidentiality",
-    "href": "ethics-protocol.html#privacy-and-confidentiality",
-    "title": "Ethics Protocol",
-    "section": "Privacy and confidentiality",
-    "text": "Privacy and confidentiality\nPlease describe the measures in place for meeting confidentiality obligations. How is information and data safeguarded for the full cycle of the study: i.e. during its collection, use, dissemination, retention, and/or disposal?\nThe specific circumstances that frame each case are significant factors that will shape the findings, and the study will benefit from participants’ consent to associate their identities with their interview responses. However, they may choose to render their interview responses confidential while maintaining their role a research participant. Participants may change their decision regarding whether or not to associate their identities with their interview responses up to one week after the interview, at which point the principal investigator will begin transcribing and analyzing the records pertaining to the interview. Participants will be reminded about this option immediately after the interview and one week following the interview via email.\nThe study engages with a relatively small community, and there is minimal social risk that others may be able to determine the identities of those whose research practices and professional relationships are being documented, even if their responses are rendered confidential. To address this issue, if any single participant from a case decides to render their responses confidential, the responses of all participants pertaining to that case will be rendered confidential as well, and the identify of the project that serves as the case will be obfuscated too.\nIn situations whereby a participant decides to render their responses confidential, or has their responses rendered confidential due to another member of their case deciding to do so, only the principal investigator will have access to records containing un-obfuscated information that may identify them. These un-obfuscated records, which may include audio and video records of interview sessions, as well as unedited transcripts and textual notes containing information that may reveal the participants’ identities, will be kept in secure and encrypted media, and destroyed within five years of concluding the study, which provides sufficient time to revisit the data and produce additional research outputs. However, edited transcripts scrubbed of all information that may identify research participants may be kept, published and archived. If participants consent to maintaining association between their responses and their identities, un-obfuscated records and transcripts may be kept, published and archived.\nThe study is committed to adhering to fundamental data security practices, including those specified in McGill University’s Cloud Directive which regulates the curation of sensitive research data. Physical records will be kept in a locked drawer in secure workspaces, either at McGill University’s School of Public and Global Health or at the principal researcher’s home office. Digital records will be stored on encrypted and password-protected drives.2\n2 Refer to the data management plan for further details on how information pertaining to this project will be collected, curated and shared.If a contracted cloud/storage service provider or online survey tool is used, provide information on the service provider’s security and privacy policy, location of its servers, data ownership, and what happens to the stored data after the contract is terminated. For more information, please consult the University’s directive.\nThe study uses file-sharing software hosted by the Covid-19 Immunity Task Force at McGill University’s School of Public and Global Health to backup all files maintained for this study. These backups will include files containing information that might reveal participants’ identities. The software used to manage these backups is managed by McGill University and has been approved for storing sensitive research data by the Cloud Directive.\nThe study maintains a website where the principal investigator shares documentation that supports the study and reflects on the work as it progresses. This is hosted using GitHub Pages and is backed up using Dropbox. The website exists to document the research practices, and no sensitive research data will pass through these services.\nPlease explain any reasonable and foreseeable disclosure requirements (e.g. disclosure to third parties such as government agencies or departments, community partners in research, personnel from an agency that monitors research, research sponsor, the REB/IRB, or regulatory agencies).\nNo disclosure requirements are foreseen.\nIf there are plans for retaining participant and/or study data for future use, please describe the context for its use, requirements for potentially re-contacting study participants and consent, and how the data will be stored and maintained for the long term.\nResearch data will be published in compliance with ethical standards for sharing open social science research data. Records that contain personally-identifying information pertaining to participants who have requested that their responses be rendered confidential and to those who have had their responses rendered confidential due to another member of their case deciding to do so will not be published.\nThe database containing codings, memos and trends deriving from qualitative data analysis will be published only after being scrubbed of all personally-identifying information pertaining to participants who have requested that their responses be rendered confidential and to those who have had their responses rendered confidential due to another member of their case deciding to do so.\nThe principal investigator may follow up with the leaders of the data-sharing initiatives that serve as cases for this project to share the results with them and to present them with constructive feedback deriving from the study’s findings. The principal investigator may also invite select participants to collaborate on a position paper advocating for reforms based on the project’s findings.\nSecondary use of data studies: if the study involves data linkage, please describe the data that will be linked and the likelihood that identifiable information will be created through the linkage.\nThis project does not rely on data deriving from other studies. The data may be reused in related work being undertaken under the same grant and by those who access the openly accessible data after they are published.",
-    "crumbs": [
-      "Ethics Protocol"
-    ]
-  },
-  {
-    "objectID": "ethics-protocol.html#managing-conflicts-of-interest",
-    "href": "ethics-protocol.html#managing-conflicts-of-interest",
-    "title": "Ethics Protocol",
-    "section": "Managing conflicts of interest",
-    "text": "Managing conflicts of interest\nConflicts of interest do not imply wrong-doing. It is the responsibility of the investigator to determine if any conflicts apply to any person/s involved in the design and/or conduct of the research study or any member of their immediate family. Disclose all contracts and any conflicts of interest (real, perceived, or potential) relating to this research project. Conflict of interest may also arise with regard to the disclosure of personal health information.\n\nNot applicable. There are no conflicts of interest to disclose.\nYes, there are conflicts of interest to disclose.\n\nIf yes, please describe the conflicts of interest (real, potential, and perceived), and the procedures for managing declared conflicts. Not applicable.",
-    "crumbs": [
-      "Ethics Protocol"
-    ]
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "CITF-Postdoc",
-    "section": "",
-    "text": "This website serves as a hub for my postdoctoral research at McGill University’s Covid-19 Immunity Task Force Databank.\nThe project is concerned with articulating social, collaborative and discursive aspects of epidemiological data-sharing initiatives, and how they relate to, overlap with or conflict with technical, institutional and epistemic factors.\nThis website hosts a series of preparatory protocols that structure the project, as well as notes about key concepts and reflections on the progress of work. All content is hosted and tracked at github.com/zackbatist/CITF-Postdoc.\nResearch Protocol: Outlines the project’s overall vision and contextualizes it in relation to specific objectives.\nEthics Protocol: Specifies ethical considerations, including risks of harm and strategies for mitigating them.\nInterview Protocol: The questions I will be asking research participants, including the rationale for asking them.\nQDA Protocol: The code system, memoing guidelines, and specific QDA procedures.\nData Management: Procedures that circumscribe collection, management and curation of research data.\nCases: Articulates the parameters that inform how cases are selected.\nContext: My motivations for doing this work and the circumstances that surround the establishment of the project.\nGlossary: A series of key terms and their definitions, with reference to the literature and expanded notes about their meanings.\nBlog: Updates and reflections on key events, or general thoughts I wish to share.\nBib: A biblatex file containing a continually-updated list of sources cited in all documents hosted on this website.",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "notes.html",
-    "href": "notes.html",
-    "title": "Notes",
-    "section": "",
-    "text": "Date\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nJan 13, 2025\n\n\nMethodology notes\n\n\nreading, general thoughts\n\n\n\n\nJan 7, 2025\n\n\nMaelstrom reading notes\n\n\nreading\n\n\n\n\n\nNo matching items",
-    "crumbs": [
-      "Notes"
-    ]
-  },
-  {
-    "objectID": "notes/methodology-notes.html",
-    "href": "notes/methodology-notes.html",
-    "title": "Methodology notes",
-    "section": "",
-    "text": "x"
-  },
-  {
-    "objectID": "notes/methodology-notes.html#case-studies",
-    "href": "notes/methodology-notes.html#case-studies",
-    "title": "Methodology notes",
-    "section": "",
-    "text": "x"
-  },
-  {
-    "objectID": "notes/methodology-notes.html#grounded-theory",
-    "href": "notes/methodology-notes.html#grounded-theory",
-    "title": "Methodology notes",
-    "section": "Grounded theory",
-    "text": "Grounded theory\nx"
-  },
-  {
-    "objectID": "posts/2024-12-09-first-team-meeting/index.html",
-    "href": "posts/2024-12-09-first-team-meeting/index.html",
-    "title": "Reflection on first team meeting",
-    "section": "",
-    "text": "Last week (2024/12/04) I finally met with David Buckeridge, Tanya Murphy and Aklil Noza in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.\nThe gist is that I will be investigating the role of social and cultural factors in data-sharing initiatives such as CITF and other Maelstrom-affiliated projects, and how these relate to, overlap with, or conflict with technical and institutional/administrative factors. To be clear, these are all very important aspects of data-sharing, but we generally recognized that the social and cultural aspects are under-explored relative to their impact.\nWe briefly talked about how we will go about selecting cases, and I emphasized the importance of strategic case selection. This also involves carefully articulating the project’s goals so that the cases will complement them. We agreed that the dataset will likely comprise between 12-15 interviews of around 60-90 minutes in length with representatives from 4-5 cases (one of them being CITF), in addition to representatives of the Maelstrom team. Maelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth and ensures that participants have a common frame of reference. It also potentially allows me to “offload” or “consolidate” reference to technical and administrative aspects of data-sharing through targeted interviews with Maelstrom personnel, instead of dealing with those things with the representatives for each case.\nWe discussed timelines and overlap with Aklil’s work, which will be more concerned with focus groups with CITF databank users. There is definitely overlap with the emphasis of my own work and we will coordinate data collection to enhance the potential for analytical alignment.\nAfter the meeting I chatted with Tanya and Aklil who helped familiarize me with the bigger-picture theoretical discourse and tensions in epidemiology. Much of it seemed familiar since these concerns are common across disciplines, but I still need to read more to concretize my understanding. Tanya recommended I read the “Baby Rothman” which is a condensed version of a very long-lived textbook in this field, among a few other papers she sent me.\nOverall, this meeting got me really excited about this project :)"
-  },
-  {
-    "objectID": "posts/2024-12-11-technical-specs/index.html",
-    "href": "posts/2024-12-11-technical-specs/index.html",
-    "title": "Technical specs for this website",
-    "section": "",
-    "text": "I’m using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.\nThis post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves."
-  },
-  {
-    "objectID": "posts/2024-12-11-technical-specs/index.html#fundamentals",
-    "href": "posts/2024-12-11-technical-specs/index.html#fundamentals",
-    "title": "Technical specs for this website",
-    "section": "Fundamentals",
-    "text": "Fundamentals\nThis website is based on Quarto, a platform for writing and publishing scientific and technical writing. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.\nI had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. You can find an older version of this post reflecting that setup here: #2346852.\nThe site is hosted on GitHub Pages. The repo is located at https://github.com/zackbatist/CITF-Postdoc."
-  },
-  {
-    "objectID": "posts/2024-12-11-technical-specs/index.html#generating-pdfs",
-    "href": "posts/2024-12-11-technical-specs/index.html#generating-pdfs",
-    "title": "Technical specs for this website",
-    "section": "Generating PDFs",
-    "text": "Generating PDFs\nAs an avid user, one thing I really like about Quarto is the ability to generate PDFs alongside html versions served over the web. I started tinkering with includes but I need to review how Quarto passes info from YAML frontmatter. It is not at all straightforward and I will need to experiment a bit more with this to get the hang of it."
-  },
-  {
-    "objectID": "posts/2024-12-11-technical-specs/index.html#archiving-and-version-control",
-    "href": "posts/2024-12-11-technical-specs/index.html#archiving-and-version-control",
-    "title": "Technical specs for this website",
-    "section": "Archiving and Version Control",
-    "text": "Archiving and Version Control\nEvery change is tracked using git. I would also like to archive each research protocol in Zenodo once they reach a point of stability. This would ensure that they ca be aassigned DOIs and detailed metadata, which will make them easier to reference.\nHowever, I do not want to rely on Zenodo’s GitHub integration for two reasons: (1) I want this to be as platform-agnostic as possible, and (2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files.\nI might be able to write a custom CI workflow to archive specific files to Zenodo using their API. But, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway."
+    "text": "I’m trying out a new way to track and communicate my progress on this project. Every week I’ll write a post to track the work I’ve been doing and reflect on my activities. I’ll try to maintain this document throughout the week, tidy it up and post it here on Friday afternoons. However the specific process will probably vary as it grows into the rest of my workflow.\nI’m purposefully trying to not tie this into the personal knowledge management trend. It’s for me and my own purposes, and I don’t want to get bogged down with the unabashed managerial phoniness that belies the PKM phenomenon.\nAnyway, I didn’t take notes on my work this past week, but here’s an overview of what I’ve done from memory:\nContinued to take notes on readings produced by the Maelstrom Project and its partners.\nContinued to investigate and maintain notes on potential cases.\nSet up a placeholder document for notes on methodological concerns.\nMet with David for our bi-weekly check-in (meeting notes are private, at least for now). I was also given access to the lab’s private git server but haven’t really had much of a chance to explore what it’s being used for or devise my own plans to make use of it.\nWorked extensively on the ethics protocol. David and I went back and forth deciding on whether this was necessary, given how the project is based on his grant which already has IRB approval. But it’s better to play it safe than sorry, especially when it’s necessary to obtain informed consent. So to this end, I revised the research protocol and responses to the ethics form, and I also drafted an informed consent document. I’ll share all these things once the whole package is put together (probably in a week or two), but my responses to the ethics form already appears on the ethics protocol page.\nI simplified the way private documents are handled in the quarto project and git respository. May still need to so some fiddling, especially for draft blog posts and notes.\nI started drafting a blog post about the potential use of AI/LLMs in my research. Stay tuned.\nOn a related note, I watched this recent video about the use of LLMs in qualitative data analysis, which did not prompt me to draft the post but which is well-timed, nevertheless.\nI worked a bit more on the data management plan, which prompted me to think more about which QDA software I’ll use. I started filling in a university form to use cloud services provided by MaxQDA, but stumbled upon qualitative-coding (abbreviated as qc), an open source CLI-based QDA system. It represents a very innovative approach to QDA rooted in computational thinking and plain text social science, while also remaining true to the core tenets and purpose of QDA, which make it unique and difficult to design software for. If this is the sort of thing that appeals to you, I highly recommend you read the docs.\nI had a bit of trouble installing it and getting it running, but I met remotely with Chris Proctor, who develops the tool through his work at the Computational Literacies Lab, based in the Department of Learning and Instruction at University at Buffalo (SUNY). He helped me resolve some issues, gave me a guided tour of the system and we just talked about the overall state of qualitative data analysis and its tooling. I don’t really have the capacity right now to post everything he showed me but I will definitely be posting about my experiences tinkering around with qc in the coming weeks.\nSimilarly, I asked on Mastodon about whether there are any tools that might support automatic generation of transcripts that include support for specialized notation. A few linguists and conversation analysis scholars responded with recommendations to use GailBot, and with discussion about the tool’s capabilities and limitations. I requested access to the software but haven’t heard back from the dev team yet. I also created a thread on the whisper github repo, which I now realize it a bit of a naive place to put it, and it hasn’t yet gotten any responses.\nI attended a talk from the epidemiology seminar series, which went wayyyy over my head.\nDid my usual amount of engagement on masotodon, I suppose. And I continued to make new friends in the department too :)"
   },
   {
     "objectID": "research-protocol.html",
