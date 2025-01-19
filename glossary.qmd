@@ -1,7 +1,6 @@
 ---
 title: Glossary
 toc: false
-format-links: false
 ---
 
 **data-sharing**\

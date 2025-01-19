@@ -16,9 +16,4 @@ format:
       content-mode: full
       body-width: 1000px
       sidebar-width: 200px
-  pdf: 
-    keep-tex: false
-    author: Zack Batist
-    subtitle: Articulating epidemiological data harmonization initiatives as practical and collaborative experiences
-    date: last-modified
-    thanks: This is an automatically generated PDF. Refer to the project website for continuous updates at \url{https://zackbatist.info/CITF-Postdoc}.
+

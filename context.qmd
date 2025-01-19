@@ -1,6 +1,5 @@
 ---
 title: Context
-format-links: false
 ---
 
 Zack's bio and information about the CITF as institutional host.

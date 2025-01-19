@@ -12,5 +12,4 @@ listing:
   filter-ui: false
   sort-ui: false
 repo-actions: false
-format-links: false
 ---
