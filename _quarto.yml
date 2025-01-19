@@ -7,9 +7,6 @@ project:
     port: 7777
     browser: false
 
-metadata-files:
-  - glossary.yml
-
 website: 
   title: "CITF-Postdoc" 
   site-url: "https://zackbatist.info/CITF-Postdoc/" 
@@ -23,7 +20,6 @@ website:
     left:
       - text: "CC0"
         href: https://creativecommons.org/publicdomain/zero/1.0/
-
   sidebar:
     logo: "images/logo.png"
     pinned: true
@@ -74,7 +70,6 @@ filters:
   - quarto
   - include-files.lua
   # - collect-citekeys.lua
-
 
 execute:
   freeze: auto
