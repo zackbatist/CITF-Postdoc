@@ -30,36 +30,36 @@
     ]
   },
   {
-    "objectID": "posts/2024-12-11-technical-specs/index.html",
-    "href": "posts/2024-12-11-technical-specs/index.html",
+    "objectID": "posts/2024-12-11-technical-specs.html",
+    "href": "posts/2024-12-11-technical-specs.html",
     "title": "Technical specs for this website",
     "section": "",
     "text": "I’m using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.\nThis post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves."
   },
   {
-    "objectID": "posts/2024-12-11-technical-specs/index.html#fundamentals",
-    "href": "posts/2024-12-11-technical-specs/index.html#fundamentals",
+    "objectID": "posts/2024-12-11-technical-specs.html#fundamentals",
+    "href": "posts/2024-12-11-technical-specs.html#fundamentals",
     "title": "Technical specs for this website",
     "section": "Fundamentals",
     "text": "Fundamentals\nThis website is based on Quarto, a platform for writing and publishing scientific and technical writing. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.\nI had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. You can find an older version of this post reflecting that setup here: #2346852.\nThe site is hosted on GitHub Pages. The repo is located at https://github.com/zackbatist/CITF-Postdoc."
   },
   {
-    "objectID": "posts/2024-12-11-technical-specs/index.html#generating-pdfs",
-    "href": "posts/2024-12-11-technical-specs/index.html#generating-pdfs",
+    "objectID": "posts/2024-12-11-technical-specs.html#generating-pdfs",
+    "href": "posts/2024-12-11-technical-specs.html#generating-pdfs",
     "title": "Technical specs for this website",
     "section": "Generating PDFs",
     "text": "Generating PDFs\nAs an avid user, one thing I really like about Quarto is the ability to generate PDFs alongside html versions served over the web. I started tinkering with includes but I need to review how Quarto passes info from YAML frontmatter. It is not at all straightforward and I will need to experiment a bit more with this to get the hang of it."
   },
   {
-    "objectID": "posts/2024-12-11-technical-specs/index.html#archiving-and-version-control",
-    "href": "posts/2024-12-11-technical-specs/index.html#archiving-and-version-control",
+    "objectID": "posts/2024-12-11-technical-specs.html#archiving-and-version-control",
+    "href": "posts/2024-12-11-technical-specs.html#archiving-and-version-control",
     "title": "Technical specs for this website",
     "section": "Archiving and Version Control",
     "text": "Archiving and Version Control\nEvery change is tracked using git. I would also like to archive each research protocol in Zenodo once they reach a point of stability. This would ensure that they ca be aassigned DOIs and detailed metadata, which will make them easier to reference.\nHowever, I do not want to rely on Zenodo’s GitHub integration for two reasons: (1) I want this to be as platform-agnostic as possible, and (2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files.\nI might be able to write a custom CI workflow to archive specific files to Zenodo using their API. But, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway."
   },
   {
-    "objectID": "posts/2024-12-09-first-team-meeting/index.html",
-    "href": "posts/2024-12-09-first-team-meeting/index.html",
+    "objectID": "posts/2024-12-09-first-team-meeting.html",
+    "href": "posts/2024-12-09-first-team-meeting.html",
     "title": "Reflection on first team meeting",
     "section": "",
     "text": "Last week (2024/12/04) I finally met with David Buckeridge, Tanya Murphy and Aklil Noza in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.\nThe gist is that I will be investigating the role of social and cultural factors in data-sharing initiatives such as CITF and other Maelstrom-affiliated projects, and how these relate to, overlap with, or conflict with technical and institutional/administrative factors. To be clear, these are all very important aspects of data-sharing, but we generally recognized that the social and cultural aspects are under-explored relative to their impact.\nWe briefly talked about how we will go about selecting cases, and I emphasized the importance of strategic case selection. This also involves carefully articulating the project’s goals so that the cases will complement them. We agreed that the dataset will likely comprise between 12-15 interviews of around 60-90 minutes in length with representatives from 4-5 cases (one of them being CITF), in addition to representatives of the Maelstrom team. Maelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth and ensures that participants have a common frame of reference. It also potentially allows me to “offload” or “consolidate” reference to technical and administrative aspects of data-sharing through targeted interviews with Maelstrom personnel, instead of dealing with those things with the representatives for each case.\nWe discussed timelines and overlap with Aklil’s work, which will be more concerned with focus groups with CITF databank users. There is definitely overlap with the emphasis of my own work and we will coordinate data collection to enhance the potential for analytical alignment.\nAfter the meeting I chatted with Tanya and Aklil who helped familiarize me with the bigger-picture theoretical discourse and tensions in epidemiology. Much of it seemed familiar since these concerns are common across disciplines, but I still need to read more to concretize my understanding. Tanya recommended I read the “Baby Rothman” which is a condensed version of a very long-lived textbook in this field, among a few other papers she sent me.\nOverall, this meeting got me really excited about this project :)"
@@ -417,15 +417,15 @@
     ]
   },
   {
-    "objectID": "posts/2024-12-09-hello-world/index.html",
-    "href": "posts/2024-12-09-hello-world/index.html",
+    "objectID": "posts/2024-12-09-hello-world.html",
+    "href": "posts/2024-12-09-hello-world.html",
     "title": "Hello World!",
     "section": "",
     "text": "Welcome to the website for my CITF Postdoc! This will serve as a hub for documenting and sharing my work. I decided to do this as a way of managing and sharing always-updated drafts of research protocols with my supervisor and team members, but it is also generally useful for keeping my thoughts organized. I will also use this blog section to write my thoughts as the project progresses."
   },
   {
-    "objectID": "posts/2025-01-18-week-notes-2025-W03/index.html",
-    "href": "posts/2025-01-18-week-notes-2025-W03/index.html",
+    "objectID": "posts/2025-01-18-week-notes-2025-W03.html",
+    "href": "posts/2025-01-18-week-notes-2025-W03.html",
     "title": "Week notes (2025-W03)",
     "section": "",
     "text": "I’m trying out a new way to track and communicate my progress on this project. Every week I’ll write a post to track the work I’ve been doing and reflect on my activities. I’ll try to maintain this document throughout the week, tidy it up and post it here on Friday afternoons. However the specific process will probably vary as it grows into the rest of my workflow.\nI’m purposefully trying to not tie this into the personal knowledge management trend. It’s for me and my own purposes, and I don’t want to get bogged down with the unabashed managerial phoniness that belies the PKM phenomenon.\nAnyway, I didn’t take notes on my work this past week, but here’s an overview of what I’ve done from memory:\nContinued to take notes on readings produced by the Maelstrom Project and its partners.\nContinued to investigate and maintain notes on potential cases.\nSet up a placeholder document for notes on methodological concerns.\nMet with David for our bi-weekly check-in (meeting notes are private, at least for now). I was also given access to the lab’s private git server but haven’t really had much of a chance to explore what it’s being used for or devise my own plans to make use of it.\nWorked extensively on the ethics protocol. David and I went back and forth deciding on whether this was necessary, given how the project is based on his grant which already has IRB approval. But it’s better to play it safe than sorry, especially when it’s necessary to obtain informed consent. So to this end, I revised the research protocol and responses to the ethics form, and I also drafted an informed consent document. I’ll share all these things once the whole package is put together (probably in a week or two), but my responses to the ethics form already appears on the ethics protocol page.\nI simplified the way private documents are handled in the quarto project and git respository. May still need to so some fiddling, especially for draft blog posts and notes.\nI started drafting a blog post about the potential use of AI/LLMs in my research. Stay tuned.\nOn a related note, I watched this recent video about the use of LLMs in qualitative data analysis, which did not prompt me to draft the post but which is well-timed, nevertheless.\nI worked a bit more on the data management plan, which prompted me to think more about which QDA software I’ll use. I started filling in a university form to use cloud services provided by MaxQDA, but stumbled upon qualitative-coding (abbreviated as qc), an open source CLI-based QDA system. It represents a very innovative approach to QDA rooted in computational thinking and plain text social science, while also remaining true to the core tenets and purpose of QDA, which make it unique and difficult to design software for. If this is the sort of thing that appeals to you, I highly recommend you read the docs.\nI had a bit of trouble installing it and getting it running, but I met remotely with Chris Proctor, who develops the tool through his work at the Computational Literacies Lab, based in the Department of Learning and Instruction at University at Buffalo (SUNY). He helped me resolve some issues, gave me a guided tour of the system and we just talked about the overall state of qualitative data analysis and its tooling. I don’t really have the capacity right now to post everything he showed me but I will definitely be posting about my experiences tinkering around with qc in the coming weeks.\nSimilarly, I asked on Mastodon about whether there are any tools that might support automatic generation of transcripts that include support for specialized notation. A few linguists and conversation analysis scholars responded with recommendations to use GailBot, and with discussion about the tool’s capabilities and limitations. I requested access to the software but haven’t heard back from the dev team yet. I also created a thread on the whisper github repo, which I now realize it a bit of a naive place to put it, and it hasn’t yet gotten any responses.\nI attended a talk from the epidemiology seminar series, which went wayyyy over my head.\nDid my usual amount of engagement on masotodon, I suppose. And I continued to make new friends in the department too :)"
