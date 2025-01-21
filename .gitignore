@@ -61,3 +61,5 @@ Thumbs.db
 _site/
 
 private/
+_extensions/
+qc
