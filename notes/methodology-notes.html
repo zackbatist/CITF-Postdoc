@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -144,12 +178,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../transcription-protocol.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Transcription Protocol</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../data-management.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Management</span></a>
   </div>
@@ -208,6 +236,13 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#case-studies" id="toc-case-studies" class="nav-link active" data-scroll-target="#case-studies">Case studies</a></li>
   <li><a href="#grounded-theory" id="toc-grounded-theory" class="nav-link" data-scroll-target="#grounded-theory">Grounded theory</a></li>
+  <li><a href="#interviews" id="toc-interviews" class="nav-link" data-scroll-target="#interviews">Interviews</a>
+  <ul class="collapse">
+  <li><a href="#transcribing" id="toc-transcribing" class="nav-link" data-scroll-target="#transcribing">Transcribing</a></li>
+  </ul></li>
+  <li><a href="#field-notes" id="toc-field-notes" class="nav-link" data-scroll-target="#field-notes">Field notes</a></li>
+  <li><a href="#recording-video" id="toc-recording-video" class="nav-link" data-scroll-target="#recording-video">Recording video</a></li>
+  <li><a href="#statistical-methods" id="toc-statistical-methods" class="nav-link" data-scroll-target="#statistical-methods">Statistical methods</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/notes/methodology-notes.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
@@ -243,7 +278,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">January 13, 2025</p>
+      <p class="date-modified">January 20, 2025</p>
     </div>
   </div>
     
@@ -254,6 +289,36 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>This document is an overview of methodological topics and concerns. It is a place where I think through and justify my methodological decisions, and identify the methods and procedures through which I implement them.</p>
+<p>Before proceeding, it’s necessary to clarify a few key terms and concepts:</p>
+<p><strong>Methodology:</strong></p>
+<p><strong>Method:</strong> The series of tools, techniques and procedures that structure coordinated action.</p>
+<p><strong>Task:</strong> Goals that are constrained by specific conditions, which need to be achieved in concert or in tandem to achieve an overarching objective. In order to realize these goals, actors conduct <strong>actions</strong>, which are dictated by these practical conditions.</p>
+<p><strong>Procedure:</strong> The formal, official or pre-defined series of actions that inform how actors should complete a task. Documented through <strong>protocols</strong>.</p>
+<p>Here’s a little glossary summarizing some key terms and concepts:</p>
+<ul>
+<li>methodology
+<ul>
+<li>the principles of methods, rules, and postulates employed by a discipline</li>
+<li>uncovering assumptions and practices associated with the different methods and a detailed description of research designs and hypothesis testing</li>
+<li>Methodology can be understood as the middle ground between concrete particular methods and the abstract and general issues discussed by the philosophy of science</li>
+<li>In this regard, methodology comes after formulating a research question and helps the researchers decide what methods to use in the process. For example, methodology should assist the researcher in deciding why one method of sampling is preferable to another in a particular case or which form of data analysis is likely to bring the best results. Methodology achieves this by explaining, evaluating and justifying methods.</li>
+<li>According to Aleksandr Georgievich Spirkin, “[a] methodology is a system of principles and general ways of organising and structuring theoretical and practical activity, and also the theory of this system”.[16][17] Helen Kara defines methodology as “a contextual framework for research, a coherent and logical scheme based on views, beliefs, and values, that guides the choices researchers make”.[18] Ginny E. Garcia and Dudley L. Poston understand methodology either as a complex body of rules and postulates guiding research or as the analysis of such rules and procedures. As a body of rules and postulates, a methodology defines the subject of analysis as well as the conceptual tools used by the analysis and the limits of the analysis.</li>
+<li>John Law: Against Method</li>
+</ul></li>
+<li>method
+<ul>
+<li>A method is a way of reaching some predefined goal.</li>
+<li>It is a planned and structured procedure for solving a theoretical or practical problem.</li>
+<li>They give structure to action.</li>
+</ul></li>
+<li>procedure
+<ul>
+<li>May be interchangeable with “technique”</li>
+</ul></li>
+<li>protocol</li>
+<li></li>
+</ul>
 <section id="case-studies" class="level2">
 <h2 class="anchored" data-anchor-id="case-studies">Case studies</h2>
 <p>x</p>
@@ -261,6 +326,51 @@ ul.task-list li input[type="checkbox"] {
 <section id="grounded-theory" class="level2">
 <h2 class="anchored" data-anchor-id="grounded-theory">Grounded theory</h2>
 <p>x</p>
+</section>
+<section id="interviews" class="level2">
+<h2 class="anchored" data-anchor-id="interviews">Interviews</h2>
+<ul>
+<li>structured, semi-structured</li>
+<li>lunk to more detailed transcription protocol</li>
+</ul>
+<section id="transcribing" class="level3">
+<h3 class="anchored" data-anchor-id="transcribing">Transcribing</h3>
+<p>This section describes how I transcibe interviews and accounts for the decisions to encode certain things and not others. It goes on to explains the procedures for transcribing spoken dialog into textual formats, including the notation applied to encode idiosyncratic elements of conversational speech.</p>
+<section id="transcript-notation" class="level4">
+<h4 class="anchored" data-anchor-id="transcript-notation">Transcript notation</h4>
+<p>Derived from the <a href="https://zackbatist.info/notes/E-CURATORS/#transcription">transcription protocol applied for the E-CURATORS project</a>.</p>
+</section>
+<section id="cleaning-audio" class="level4">
+<h4 class="anchored" data-anchor-id="cleaning-audio">Cleaning audio</h4>
+<p>To clean the audio:</p>
+<ol type="1">
+<li>I select a clip that is representative of a single source of background noise, and then filter that wavelength throughout the entire audio file.</li>
+<li>After selecting the clip, go to <code>Effect &gt;&gt; Noise Reduction</code> and select <code>Get Noise Profile</code>, then press <code>OK</code>.</li>
+<li>Close the noise reduction menu, select the entire range of audio using the keyboard shortcut <code>Command + A</code>.</li>
+<li>Then go back to the noise reduction window (<code>Effect &gt;&gt; Noise Reduction</code>) to apply the filter based on the noise profile identified for the noisy clip.</li>
+<li>Export the modified audio file to the working directory (<code>File &gt;&gt; Export &gt;&gt; Export as .WAV</code>).</li>
+<li>Use <code>ffmpeg</code> to replace the dirty audio track with the clean one:</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>  <span class="ex">ffmpeg</span> <span class="at">-i</span> dirty.mp4 <span class="at">-i</span> clean.wav <span class="at">-c:v</span> copy <span class="at">-map</span> 0:v:0 <span class="at">-map</span> 1:a:0 clean.mp4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="field-notes" class="level2">
+<h2 class="anchored" data-anchor-id="field-notes">Field notes</h2>
+<p>x</p>
+</section>
+<section id="recording-video" class="level2">
+<h2 class="anchored" data-anchor-id="recording-video">Recording video</h2>
+<ul>
+<li>affordances</li>
+</ul>
+</section>
+<section id="statistical-methods" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-methods">Statistical methods</h2>
+<ul>
+<li>crosstab</li>
+<li></li>
+</ul>
 
 
 </section>
