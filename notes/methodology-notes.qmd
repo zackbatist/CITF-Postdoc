@@ -8,8 +8,83 @@ categories:
   - general thoughts
 ---
 
+This document is an overview of methodological topics and concerns.
+It is a place where I think through and justify my methodological decisions, and identify the methods and procedures through which I implement them.
+
+Before proceeding, it's necessary to clarify a few key terms and concepts:
+
+**Methodology:**
+
+
+**Method:**
+The series of tools, techniques and procedures that structure coordinated action.
+
+**Task:**
+Goals that are constrained by specific conditions, which need to be achieved in concert or in tandem to achieve an overarching objective.
+In order to realize these goals, actors conduct **actions**, which are dictated by these practical conditions.
+
+**Procedure:**
+The formal, official or pre-defined series of actions that inform how actors should complete a task.
+Documented through **protocols**.
+
+
+Here's a little glossary summarizing some key terms and concepts:
+
+- methodology
+  - the principles of methods, rules, and postulates employed by a discipline
+  - uncovering assumptions and practices associated with the different methods and a detailed description of research designs and hypothesis testing
+  - Methodology can be understood as the middle ground between concrete particular methods and the abstract and general issues discussed by the philosophy of science
+  - In this regard, methodology comes after formulating a research question and helps the researchers decide what methods to use in the process. For example, methodology should assist the researcher in deciding why one method of sampling is preferable to another in a particular case or which form of data analysis is likely to bring the best results. Methodology achieves this by explaining, evaluating and justifying methods.
+  - According to Aleksandr Georgievich Spirkin, "[a] methodology is a system of principles and general ways of organising and structuring theoretical and practical activity, and also the theory of this system".[16][17] Helen Kara defines methodology as "a contextual framework for research, a coherent and logical scheme based on views, beliefs, and values, that guides the choices researchers make".[18] Ginny E. Garcia and Dudley L. Poston understand methodology either as a complex body of rules and postulates guiding research or as the analysis of such rules and procedures. As a body of rules and postulates, a methodology defines the subject of analysis as well as the conceptual tools used by the analysis and the limits of the analysis.
+  - John Law: Against Method
+- method
+  - A method is a way of reaching some predefined goal.
+  - It is a planned and structured procedure for solving a theoretical or practical problem.
+  - They give structure to action.
+- procedure
+  - May be interchangeable with "technique"
+- protocol
+- 
+
 ## Case studies
 x
 
 ## Grounded theory
 x
+
+## Interviews
+- structured, semi-structured
+- lunk to more detailed transcription protocol
+
+### Transcribing
+This section describes how I transcibe interviews and accounts for the decisions to encode certain things and not others.
+It goes on to explains the procedures for transcribing spoken dialog into textual formats, including the notation applied to encode idiosyncratic elements of conversational speech.
+
+#### Transcript notation
+Derived from the [transcription protocol applied for the E-CURATORS project](https://zackbatist.info/notes/E-CURATORS/#transcription).
+
+#### Cleaning audio
+To clean the audio:
+
+1. I select a clip that is representative of a single source of background noise, and then filter that wavelength throughout the entire audio file.
+2. After selecting the clip, go to `Effect >> Noise Reduction` and select `Get Noise Profile`, then press `OK`.
+3. Close the noise reduction menu, select the entire range of audio using the keyboard shortcut `Command + A`.
+4. Then go back to the noise reduction window (`Effect >> Noise Reduction`) to apply the filter based on the noise profile identified for the noisy clip.
+5. Export the modified audio file to the working directory (`File >> Export >> Export as .WAV`).
+6. Use `ffmpeg` to replace the dirty audio track with the clean one:
+
+```bash
+  ffmpeg -i dirty.mp4 -i clean.wav -c:v copy -map 0:v:0 -map 1:a:0 clean.mp4
+```
+
+## Field notes
+x
+
+## Recording video
+- affordances
+
+
+## Statistical methods
+- crosstab
+- 
+

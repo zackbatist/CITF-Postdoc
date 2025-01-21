@@ -40,8 +40,6 @@ website:
         text: Ethics Protocol
       - href: interview-protocol.qmd
         text: Interview Protocol
-      - href: transcription-protocol.qmd
-        text: Transcription Protocol
       - href: data-management.qmd
         text: Data Management
       - href: qda-protocol.qmd

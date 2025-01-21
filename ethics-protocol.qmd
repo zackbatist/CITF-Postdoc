@@ -39,6 +39,8 @@ These invitations to project leaders will explain the project's purpose and scop
 If they accept the invitation, the principal investigator will then work with project leaders to devise a list of individuals who may serve as interview candidates based on their roles in the project.
 The principal investigator will be clear with project leaders that they should not pressure those who work for them to participate in the study, and that individuals' participation should be treated as separate from their regular duties; if project leaders cannot or will not abide by this condition, their project will be rejected as a prospective case.
 The principal investigator will then write to the recommended individuals to introduce the study and its objectives and to invite them to participate as research subjects.
+If these individuals express interest in participating in the study, the principal investigator will schedule a time to sit for an interview.
+Some interviews may be conducted remotely using internet-based video conferencing software, depending on participants' availability.
 
 **Describe the consent process.**
 If alternate processes for seeking consent are planned (e.g. verbal, online, waiver), please provide a rationale and outline the procedure of obtaining and documenting consent and/or assent, where applicable.
@@ -46,6 +48,7 @@ If alternate processes for seeking consent are planned (e.g. verbal, online, wai
 Once individuals express their interest in participating, participants will provided with an [informed consent document]() that outlines in more detail the goals of the study, the roles of the participant, how they will be recorded, how data pertaining to them will be retained, and the potential risks and benefits pertaining to their involvement.
 This document will also describe how participants' personally identifiable information will be managed and used.
 Participants will be asked to read and sign the document in order to obtain written informed consent.
+For interviews that will be held remotely using internet-based video conferencing software, participants will asked to send their signed informed consent documents in PDF format to the principal investigator.
 At the start of each interview the researcher will reiterate participants' rights and ask them to orally reaffirm their consent before proceeding.
 
 **Is there a relationship between the study participants and the person obtaining consent and/or the principal investigator/s?**
@@ -56,7 +59,9 @@ At the start of each interview the researcher will reiterate participants' right
 **If yes, please explain the nature of the relationship, and outline the steps that will be taken to avoid the perception of undue influence.**
 
 One project that serves as a case in this research is the Covid-19 Immunity Task Force (CITF), which the principal investigator currently serve as postdoctoral researcher.
-Some of the participants will therefore be his colleagues; the interviews will remain structured and limited in scope, and will not touch on matters relating to other aspects of their work.
+Some of the participants will therefore be his colleagues.
+The interviews will remain structured and limited in scope, and will not touch on matters relating to other aspects of their work.
+Moreover, prior to and throughout their involvement as research participants, frank and open discussion will be encouraged regarding collective expectations and to articulate the boundaries between participants' relationships with the principal investigator as colleagues and as research subjects.
 
 The principal investigator will consult with David Buckeridge, who leads the CITF, as one key community stakeholder to help devise a shortlist of projects that may serve as prospective cases.
 
@@ -67,7 +72,6 @@ What risks are attributable to the research, including cumulative risks? Which r
 Participation in this study does not involve any physical, psychological or legal risks.
 However, the principal investigator will be asking participants to share detailed information about their work practices and work relationships, and public association with their responses may potentially disrupt or complicate their professional reputations.
 To mitigate against this potential harm, the principal investigator will give participants the option to render their responses confidential.
-
 
 **What procedures are in place to monitor and assess participant safety for the duration of the study?**
 
@@ -102,13 +106,29 @@ If participants consent to maintaining association between their responses and t
 
 The study is committed to adhering to fundamental data security practices, including those specified in [McGill University's Cloud Directive](https://www.mcgill.ca/cloud-directive) which regulates the curation of sensitive research data.
 Physical records will be kept in a locked drawer in secure workspaces, either at McGill University's School of Public and Global Health or at the principal researcher's home office.
-Digital records will be stored on encrypted and password-protected drives.^[Refer to the [data management plan](data-management.qmd) for further details on how information pertaining to this project will be collected, curated and shared.]
+Digital records will be stored on encrypted and password-protected drives and on secure servers approved or managed by McGill University under the Cloud Directive.^[Refer to the [data management plan](data-management.qmd) for further details on how information pertaining to this project will be collected, curated and shared.]
+
+Recordings of remote interviews conducted using internet-based video conferencing software will be made using the software's built-in recording tools.
+Only video conferencing software approved by the Cloud Directive will be used.
+Participants will be instructed to disable their microphones or video cameras prior to initiating recording if they have opted to not be recorded through these media.
+The researcher will record all media locally and refrain from using any cloud services to store or modify the records which the video conference software may provide.
 
 **If a contracted cloud/storage service provider or online survey tool is used,** provide information on the service provider's security and privacy policy, location of its servers, data ownership, and what happens to the stored data after the contract is terminated. For more information, please consult the University's directive.
 
-The study uses file-sharing software hosted by the Covid-19 Immunity Task Force at McGill University's School of Public and Global Health to backup all files maintained for this study. These backups will include files containing information that might reveal participants' identities. The software used to manage these backups is managed by McGill University and has been approved for storing sensitive research data by the [Cloud Directive](https://www.mcgill.ca/cloud-directive).
+The study uses file-sharing software hosted by the Covid-19 Immunity Task Force at McGill University's School of Public and Global Health to backup all files maintained for this study.
+These backups will include files containing information that might reveal participants' identities.
+The software used to manage these backups is managed by McGill University and has been approved for storing sensitive research data by the [Cloud Directive](https://www.mcgill.ca/cloud-directive).
 
-The study maintains a website where the principal investigator shares documentation that supports the study and reflects on the work as it progresses. This is hosted using GitHub Pages and is backed up using Dropbox. The website exists to document the research practices, and no sensitive research data will pass through these services.
+The study may use the secure GitLab instance hosted by the surveillance lab within the Clinical and Health Informatics Research Group at McGill University to store and track changes to sensitive research data.
+This software is managed by McGill University and has been approved for storing sensitive research data by the [Cloud Directive](https://www.mcgill.ca/cloud-directive).
+
+The study maintains a website where the principal investigator shares documentation that supports the study and reflects on the work as it progresses.
+This is hosted using GitHub Pages and is backed up using Dropbox. No sensitive research data will pass through these services.
+
+Recordings of remote interviews conducted using internet-based video conferencing software will be made using the software's built-in recording tools.
+Only video confering software approved by the Cloud Directive will be used.
+Participants will be instructed to disable their microphones or video cameras prior to initiating recording if they have opted to not be recorded through these media.
+The researcher will record all media locally and refrain from using any cloud services to store or modify the records which the video conference software may provide.
 
 **Please explain any reasonable and foreseeable disclosure requirements**
 (e.g. disclosure to third parties such as government agencies or departments, community partners in research, personnel from an agency that monitors research, research sponsor, the REB/IRB, or regulatory agencies).

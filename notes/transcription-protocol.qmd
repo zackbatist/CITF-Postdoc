@@ -1,0 +1,23 @@
+---
+title: Transcription Protocol
+---
+
+This document explains the procedures for transcribing spoken dialog into textual formats, including the notation applied to encode idiosyncratic elements of conversationa speech.
+It also accounts for decisions to encode certain things and not others.
+
+Derived from the [transcription protocol applied for the E-CURATORS project](https://zackbatist.info/notes/E-CURATORS/#transcription).
+
+
+## Cleaning audio
+To clean the audio:
+
+1. I select a clip that is representative of a single source of background noise, and then filter that wavelength throughout the entire audio file.
+2. After selecting the clip, go to `Effect >> Noise Reduction` and select `Get Noise Profile`, then press `OK`.
+3. Close the noise reduction menu, select the entire range of audio using the keyboard shortcut `Command + A`.
+4. Then go back to the noise reduction window (`Effect >> Noise Reduction`) to apply the filter based on the noise profile identified for the noisy clip.
+5. Export the modified audio file to the working directory (`File >> Export >> Export as .WAV`).
+6. Use `ffmpeg` to replace the dirty audio track with the clean one:
+
+```bash
+  ffmpeg -i dirty.mp4 -i clean.wav -c:v copy -map 0:v:0 -map 1:a:0 clean.mp4
+```
