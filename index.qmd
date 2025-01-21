@@ -10,10 +10,18 @@ This website serves as a hub for my postdoctoral research at McGill University's
 The project is concerned with articulating social, collaborative and discursive aspects of epidemiological data-sharing initiatives, and how they relate to, overlap with or conflict with technical, institutional and epistemic factors.
 
 This website hosts a series of preparatory protocols that structure the project, as well as notes about key concepts and reflections on the progress of work.
-All content is hosted and tracked at [github.com/zackbatist/CITF-Postdoc](https://github.com/zackbatist/CITF-Postdoc).
+All content is hosted and tracked at [github.com/zackbatist/CITF-Postdoc](https://github.com/zackbatist/CITF-Postdoc). Please keep in mind that this is a continually evolving site and its contents may change as the project goes on.
+
+Here's an overview of what's on this site:
+
+**Context:**
+My motivations for doing this work and the circumstances that surround the establishment of the project.
 
 **Research Protocol:**
 Outlines the project's overall vision and contextualizes it in relation to specific objectives.
+
+**Case Selection:**
+Articulates the parameters that inform how cases are selected.
 
 **Ethics Protocol:**
 Specifies ethical considerations, including risks of harm and strategies for mitigating them.
@@ -21,26 +29,26 @@ Specifies ethical considerations, including risks of harm and strategies for mit
 **Interview Protocol:**
 The questions I will be asking research participants, including the rationale for asking them.
 
-**QDA Protocol:**
-The code system, memoing guidelines, and specific QDA procedures.
-
 **Data Management:**
 Procedures that circumscribe collection, management and curation of research data.
 
-**Cases:**
-Articulates the parameters that inform how cases are selected.
-
-**Context:**
-My motivations for doing this work and the circumstances that surround the establishment of the project.
+**QDA Protocol:**
+The code system, memoing guidelines, and specific QDA procedures.
 
 **Glossary:**
 A series of key terms and their definitions, with reference to the literature and expanded notes about their meanings.
 
+**Notes:**
+Some semi-structured ideas that situate my work in relation to extant literature.
+
 **Blog:**
 Updates and reflections on key events, or general thoughts I wish to share.
+
+**GitHub:**
+A link to the GitHub repository where this website's files are hosted.
 
 **Bib:**
 A biblatex file containing a continually-updated list of sources cited in all documents hosted on this website.
 
-
-
+**RSS:**
+RSS feed you can use to subscribe to the blog.
