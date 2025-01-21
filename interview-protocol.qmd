@@ -1,15 +1,26 @@
 ---
 title: Interview Protocol
 ---
-::: {.callout-note}
-This document is still a work in progress.
-:::
 
-## Interview conditions
+<!-- 
+## Interview methods
+
+- semi-structured
+- primary focus and objectives
+
+Here are some potentially helpful prompts to keep the conversation flowing:
+
+- What happened next?
+- Who was that person?
+- Tell me more about that development or event.
+- Please give me an example.
+- Do you remember a specific time when you did this?
+-->
+
+## Interview records
 Interviews may be held either in-person or through online video conference.
 All interviews will be held in quiet and comfortable environments, such as office spaces or conference rooms.
 
-## Interview records
 I will record all in-person interviews using a SONY ICD-UX560 audio recorder to capture audio in the lossless 16 bit 44.1 kHz Linear PCM wav format, with additional audio filters to enhance playback during transcription, if necessary.
 
 I will also record in-person interview sessions using a GoPro Hero 4 Silver action camera, depending on participants willingness to be video recorded.
@@ -63,18 +74,10 @@ Information about practices and procedures will be sought in a subsequent phase 
 - If not Are you on track to achieving them?
 - What are some challenges that the project experienced, and how have you worked to overcome them?
 
-**Prompts:**
-
-- What happened next?
-- Who was that person?
-- Tell me more about that development or event.
-
-
 ### 3. Practices, procedures, relationships
 This section asks about specific actions and interactions that the participant engages in.
 
 #### Roles and relationships
-
 - What does your role entail?
 - Can you provide a couple examples of things that you recently did in this capacity?
 
@@ -83,16 +86,10 @@ This section asks about specific actions and interactions that the participant e
 - Who else do you frequently rely on, and what are their roles?
 - Can you describe what they do, and perhaps give a few examples drawn from their recent work?
 
-**Prompts:**
-
-- Please give me an example.
-- Do you remember a specific time when you did this?
-
 The interview might proceed in different ways depending on their initial responses.
+Here are some questions I might ask, corresponding with the participants' role and area of expertise.
 
 #### Maintaining the project community
-**For those in charge of recruiting new partners and maintaining community support:**
-
 - Please briefly describe the process through which you obtain new partners or users.
 - Can you please recall a recent example?
 
@@ -121,20 +118,126 @@ The interview might proceed in different ways depending on their initial respons
 - How do you foster the community's development and growth?
 - Do you consider these efforts to be effective?
 
+[]()
+
+- Does your role as someone who leads a data harmonization initiative differentiate you from other epidemiologists?
+- How has your relationship with other epidemiologists changed after initiating this project and taking on this role?
+
+#### Reflections on data's value
+- How has the data been used or analyzed?
+- Do you track how the data is used?
+- Is this tracking formal or informal?
+
+[]()
+
+- What patterns or trends are apparent based on this tracking?
+- In your view, has the data been used in productive ways?
+- In what ways are people either maximizing or not fully utilizing the data's full potential?
+
+[]()
+
+- Can you tell me about any unexpected or alternative uses of the data?
+- What made them significant to you?
+
+[]()
+
+- Which skills and competencies do you think researchers need to possess in order to be able to make proper use of the data in their work?
+
+[]()
+
+- Based on your experience, what are the main obstacles for the effective and widespread adoption of these skills?
+- What are some positive factors, or drivers, that can make that prospect more tangible?
+
+#### Data ownership
+- Who has rights (in the legal sense or informally) over the information contained in the system, or in related documents and datasets?
+- Can you tell me about any conflicts or tensions that emerged relating to expressions of propriety or ownership over data?
+
+#### Collecting data
+- Do projects collect data with future harmonization in mind?
+- If so, how does this affect data collection procedures, and does this play a role in subsequent decision-making?
+
 #### Curating data
-**For those who actually handle the data in a preparatory or curatorial manner:**
+- Please describe the overall process of getting data into the system and then working with the data.
 
-#### Using the data
-**For those who actually use the data:**
+[]()
 
+- Please tell me about any unexpected or problematic cases that made working with data particularly challenging.
+- What made these cases unique or challenging?
+- How did you resolve them or work towards a solution or viable outcome?
 
-### Tangential probes
-Certain lines of inquiry may cut across different phases of the interview.
-Here I articulate some probing questions that touch on these factors.
+#### Accessing data
+- Do you consider the system easy to access?
+- Can you identify some challenges that pose as barriers to access?
 
-#### Technical infrastructures
+[]()
 
-#### Administrative apparatus
+- Who has access to data?
+- How are decisions regarding access rights made?
+- Can you tell me about any unnaceptable practices regarding accessing and sharing data?
+
+#### Using data
+- If you engage with the data with specific questions in mind, how do these questions emerge?
+- What role does the data play in shaping the questions and analytical approach?
+
+[]()
+
+- Is the system amenable to exploratory or serendipitous modes of discovery?
+- Please tell me about specific examples where you engaged with the data in this way.
+
+[]()
+
+- What features does the system have to view or export data?
+- How easy is it to view, export or visualize data the data?
+- Do you use the tools that are designed to export of visualize data, or do you prefer to use your own tooling?
+- What are the reasons behind this preference?
+
+#### Documentation
+- How is the system documented?
+- Who is responsible for creating documentation?
+- Can you please tell me about a great example of documentation in your project?
+
+[]()
+
+- Overall, do you consider your project's documentation to be helpful?
+- Why or why not?
+
+[]()
+
+- In your opinion, does the documentation accurately reflect the true nature of the documented data or work practices?
+- Are specific things more accurately documented than others?
+- Please tell me why you think some things are more accurately or less accurately documented.
+
+[]()
+
+- Can you recall any instances when documentation was updated?
+- What prompted these updates?
+
+[]()
+
+- Do people ever get in touch to ask questions about specific aspects of the data or data curation procedures?
+- What kinds of questions do they ask?
+- What kinds of responses are given?
 
 #### Relationships with Maelstrom
+- Can you please concisely describe the role of Maelstrom as part of your project's overall initiative?
 
+[]()
+
+- What are the origins of your project's relationship with Maelstrom?
+- How has this relationship changed over time?
+
+[]()
+
+- Does your project present any unique challenges or require any special attention?
+- If so, please tell me about some unique cases or examples that demonstrate this unique relationship.
+
+[]()
+
+- Do you believe that Maelstrom is meeting your project's needs and enabling it to achieve its goals?
+- In what ways is Maelstrom either satisfying or failing to meet your project's expectations or needs?
+- How would you change the current system to better suit your project's needs more effectively?
+
+[]()
+
+- Do you engage with Maelstrom's other partners?
+- If so, what is the nature of these relationships?
