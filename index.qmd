@@ -10,7 +10,8 @@ This website serves as a hub for my postdoctoral research at McGill University's
 The project is concerned with articulating social, collaborative and discursive aspects of epidemiological data-sharing initiatives, and how they relate to, overlap with or conflict with technical, institutional and epistemic factors.
 
 This website hosts a series of preparatory protocols that structure the project, as well as notes about key concepts and reflections on the progress of work.
-All content is hosted and tracked at [github.com/zackbatist/CITF-Postdoc](https://github.com/zackbatist/CITF-Postdoc). Please keep in mind that this is a continually evolving site and its contents may change as the project goes on.
+Please keep in mind that this is a continually evolving site and its contents may change as the project goes on.
+All content is hosted and tracked at [github.com/zackbatist/CITF-Postdoc](https://github.com/zackbatist/CITF-Postdoc).
 
 Here's an overview of what's on this site:
 
