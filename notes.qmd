@@ -8,7 +8,7 @@ listing:
   sort: "date desc"
   categories: false
   feed: false
-  fields: [date, title, categories]
+  fields: [date-modified, title, categories]
   filter-ui: false
   sort-ui: false
 repo-actions: false
