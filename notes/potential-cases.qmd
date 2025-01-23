@@ -25,9 +25,9 @@ categories:
 - Started partership with Maelstrom in 2018
 - Listed on the Maelstrom website as a current partnership, but the project site is more ambiguous about current activities.
 - The github organization also seems stagnant since 2023 but seems to have producing lots of meaningful software, largely in relation to data transformation and access interfaces.
-- https://maelstrom-research.org/network/eucanshare
-- http://www.eucanshare.eu/
-- https://github.com/euCanSHare
+- <https://maelstrom-research.org/network/eucanshare>
+- <http://www.eucanshare.eu/>
+- <https://github.com/euCanSHare>
 
 []()
 
@@ -46,7 +46,7 @@ categories:
 []()
 
 - Past partership, initiated in 2016
-- https://www.maelstrom-research.org/network/reach
+- <https://www.maelstrom-research.org/network/reach>
 - @bergeron2021
 - I wonder what its current status is.
 
@@ -58,11 +58,11 @@ categories:
 - Canadian Urban Environmental Health Research Consortium
 - More interdisciplinary, includes environmental data
 - Based at Dalla Lana School of Public Health at UofT
-- https://healthydesign.city/ seems like a spinoff service to make the CANUE work more accessible to planners and community stakeholders
+- <https://healthydesign.city/> seems like a spinoff service to make the CANUE work more accessible to planners and community stakeholders
 
 []()
 
-- https://canue.ca
+- <https://canue.ca>
 - Past Maelstrom partner, started in 2017
 
 ## Possibly suitable
@@ -97,12 +97,12 @@ categories:
 []()
 
 - Current Maelstrom partner, began in 2014.
-- https://maelstrom-research.org/network/cptp-1
-- https://doi.org/10.1503/cmaj.170292
+- <https://maelstrom-research.org/network/cptp-1>
+- <https://doi.org/10.1503/cmaj.170292>
 
 []()
 
-- https://canpath.ca/
+- <https://canpath.ca/>
 - The website seem less concerned with data-drivenness, more focused on the areas that the work will address, as well as participant and community engagement.
 
 ### Canadian Longitudinal Study on Aging (CLSA)
@@ -113,21 +113,21 @@ categories:
 []()
 
 - Began as a Maelstrom partner in 2017.
-- https://maelstrom-research.org/study/clsa
-- https://doi.org/10.1017/s0714980809990055
-- https://doi.org/10.1093/ije/dyz173
+- <https://maelstrom-research.org/study/clsa>
+- <https://doi.org/10.1017/s0714980809990055>
+- <https://doi.org/10.1093/ije/dyz173>
 
 []()
 
-- https://www.clsa-elcv.ca/
+- <https://www.clsa-elcv.ca/>
 
 []()
 
 Combines data from multiple cohors, including [CARTaGENE](potential-cases.qmd#cartagene).
 
 ### CARTaGENE
-- https://cartagene.qc.ca/en/
-- https://en.wikipedia.org/wiki/CARTaGENE_biobank
+- <https://cartagene.qc.ca/en/>
+- <https://en.wikipedia.org/wiki/CARTaGENE_biobank>
 
 []()
 
@@ -140,8 +140,8 @@ Combines data from multiple cohors, including [CARTaGENE](potential-cases.qmd#ca
 []()
 
 - Current Maelstrom partner, began in 2018.
-- https://maelstrom-research.org/study/cag
-- https://doi.org/10.1093/ije/dys160
+- <https://maelstrom-research.org/study/cag>
+- <https://doi.org/10.1093/ije/dys160>
 
 ### Healthy Obesity Project (HOP)
 - The ilustrative case from @doiron2013
