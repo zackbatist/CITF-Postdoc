@@ -196,7 +196,47 @@ It is a broad-level but fairly sober account of how one would navigate the catal
 x
 
 ## @wey2024
-x
+An overview of the harmonization procedires applied in CanPath and MINDMAP.
+Authored by two members of the Maelstrom team, but no one from these initiatives.
+
+At first, comes across as another broad-level overview of processes.
+But, as is elicited in the conslusion, the paper highlights some subtle divergent approaches, some of which are relevant to my project and I picked up here.
+
+Interesting bit about use of centralized systems or systems that are more conducive to end-users' individual workflows.
+
+> In both illustrative projects, information about participating studies and data collected was gathered and made available on the central data server.
+> In the CanPath BL-HRFQ, harmonization documentation and processing scripts were held centrally and only updated by Maelstrom Research.
+> In MINDMAP, because multiple groups simultaneously worked on generating harmonization processing scripts for different areas of information, working versions of the DataSchema and processing scripts were held on a GitHub, allowing for better version control and dynamic updating of scripts by multiple remote data harmonizers.
+
+More about the balance being struck at MINDMAP between institutional and popular tech and documentation platforms:
+
+> In the MINDMAP project, R markdown documents with applied harmonization scripts (Figure 13.1b) and any comments were preserved in the GitHub repository, which is also publicly accessible.
+> Furthermore, summary statistics for MINDMAP variables are only available to approved data users through the secure server, as harmonized datasets are only intended for use within the MINDMAP network.
+> Overviews of the harmonization process and outputs have also been published as open-access, peer-reviewed articles for both projects (Fortier et al. 2019; Wey et al. 2021).
+
+Bit about existing collaborative ties making things much easier:
+
+> the prospective coordination and unu sually high ability for the harmonization team (Maelstrom Research) to work directly with study data managers on recently collected and documented study data resulted in high standardization and ability to resolve questions.
+
+Data curation as an explicitly creative task, involving impactful decisions.
+Interesting that this was unexpected enough to warrant inclusion as a key challenge.
+
+> In MINDMAP, these differences were clearly documented in comments about harmonization for each source dataset to allow researchers to decide how to use the harmonized variable.
+> In-depth exploration of the best statistical methods to harmonize these types of measures to maintain integrity of content while minimizing loss of information and methodological bias are important and active areas of research (Griffith et al. 2016; Van den Heuvel and Griffith 2016).
+> The approach taken in this case was to apply simpler harmonization meth ods (i.e. rescaling) and document the transformation, leaving investigators the flexibility to further explore and analyze the harmonized datasets as appropriate for their research questions.
+
+As with the above excerpt, documentation was considered as a viable mode of resolving or accounting for significant discrepancies, à la marketplace-of-ideas:
+
+> The papers describ ing the harmonization projects attempt to highlight these considerations, for example, providing some comparison of demographics of the harmonized populations against the general populations from which they were drawn (Dummer et al. 2018; Fortier et al. 2019; Wey et al. 2021), listing sources of study- specific heterogeneity in the harmonized datasets to consider (Fortier et al. 2019), and pointing users to individual study documentation where more information on weights to use for analysis should be con sidered (e.g. Wey et al. 2021).
+
+The bit about use of github was rationalized as a way of facilitating collaboration across insitutional boundaries.
+They refer to R and RMarkdown being open standards as the main reason, but I wonder if a part of it is that GitHub, being a non-institutional platform, was easier to use from an oboarding perspective.
+Perhaps ironically, the private company and platform may have been used due to the strength of pan-european collaborative ties that institutions may not be able to keep up with:
+
+> In MINDMAP, due to the need for multiple international groups to work simultaneously and flexibly on the harmonization processing and frequently evolving versions of study-specific harmonization scripts, scripts for harmonization processing were written and applied entirely through R markdown in an RStudio interface, and the DataSchema and R markdown versions were maintained and frequently updated in a GitHub repository.
+
+Whereas in Canada, with centralized project-oriented work, it may be much easier to enforce adoption of centralized tooling.
+
 
 ## @gaye2014
 Introduces DataShield.
