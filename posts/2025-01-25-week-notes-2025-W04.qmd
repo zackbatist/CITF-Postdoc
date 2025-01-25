@@ -1,0 +1,32 @@
+---
+title: Week notes (2025-W04)
+date: 2025-01-25
+categories:
+  - week notes
+---
+
+This week was a bit slower than last.
+I spent much of it finalizing the content for my IRB application, and the rest preparing for a meeting with a key stakeholder relating to my research.
+
+The IRB application is more or less done, just waiting on David and the department head to sign off.
+It was a major opportunity to re-organize my research protocol and related documents.
+I shuffled some things over into various placeholder sections in my [methodology notes](../notes/methodology-notes.qmd), and pushed a revised [research protocol](../research-protocol.qmd) to the website.
+
+Yesterday I posted about [on the role of AI in my research](https://zackbatist.info/CITF-Postdoc/posts/2025-01-24-ai-in-my-work.html).
+It's mainly meant to lay out my current state of thinking on AI.
+I'm not fixed to those ideas, and I think there is much more nuance than I do justice to in that post, but putting it on the page helped me consolidate and put aside some scrambled opinions.
+
+After playing around with [qc](https://qualitative-coding.readthedocs.io/) on Sunday, I started to assemble some feedback.
+I may post a github issue later this week, once I've had a chance to consolidate and edit my thoughts.
+
+I participated in the weekly CITF logistics update, after which I met with Aklil to discuss the overall strategy for her project and strategize on how we might form the focus groups for that work.
+We're gonna meet more regularly, just to share some updates on our respective projects which have a lot in common.
+
+On Thursday I met with Isabel Fortier, with the intention of discussing data harmonozation initiatives that might serve as potential cases.
+It was a bit of a tough meeting.
+During the first 45 minutes I struggled to communicate the purpose of my work, but I think by the end we reached a greater understanding of what this work will entail and the unique perspective it will bring.
+One surprising outcome that I still need to think through is Isabel's suggestion that I slow down a bit, immerse myself more in the world of data harmonization.
+While she is absolutely right that I've been rushing through this first month, I do feel pressure to get the project going and to start accumulating data --- I felt a similar pressure when starting my PhD, too.
+So I need to put my eagerness aside so that the data are relevant and of good enough quality.
+Isabel offered to schedule regular meetings with me, and even to have me work in the Maelstrom office once a week, and I'm extremely grateful for her support!
+Plus, I'll get to have lunch with my mom who works in the same hospital complex, one building over :)
