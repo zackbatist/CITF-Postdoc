@@ -1,6 +1,7 @@
 ---
 title: On the role of AI in my research
 date: 2025-01-24
+date-modified: last-modified
 categories:
   - AI / LLM
   - Methods
@@ -159,7 +160,8 @@ I also see that rhetoric, including anxieties about AI, differs in the various c
   Outside of this space I'm encountering way more diversity of thought on AI, and I'm not quite sure how to group these viewpoints to structure a proper reaction.
   I think this in fact contributes to the multitude of perspectives, since no one really cares that much one way or the other to really have a strong opinion (though I sense an overwhelming dissatisfaction when it comes to AI in consumer contexts; this post is largely about productive uses of AI in research and pedagogy).
 
-  I was also told about students learning RStats by just having AI generate their code, which ties into the growing misconception that to learn stats you first need to learn how to code.
+  I was also told about students learning RStats by just having AI generate their code.
+  The person who pointed this out to me related this to the growing misconception that to learn stats you first need to learn how to code.
   This in turn relates to the sense that to learn how to do RStats, you just need to memorize a series of steps and copy the text from the slides into the IDE.
   So, in the end, AI reveals the inadequacy of the teaching mechanisms for programming and stats classes, similarly to how AI has revealed the inadequacy of essay-writing as a pedagogical technique.
 
@@ -168,6 +170,7 @@ I also see that rhetoric, including anxieties about AI, differs in the various c
   This makes me wonder how students are determining what skills they think they need to know how to do on their own and what is worth running through an LLM.
   Does it basically operate as a bullshit sensor, where you can smell from a distance that the work is just gonna be tedium and irrelevant?
   Or is it more out of practical necessity, where you're stretched so thin that you simply have to rely on these tools to achieve anything meaningful, almost as a mechanism for salvaging one's work from the claws of austerity?
+  In either case, this points to PhD programs' inadequacy to match students' needs and desires, and overwhelming amount of administravia or (seemingly) irrelevant work that students are made to do, which get in the way of their true interests.
 
 Maybe I'll have more to share some other time.
 
