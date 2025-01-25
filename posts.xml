@@ -10,7 +10,29 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 24 Jan 2025 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 25 Jan 2025 05:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W04)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/2025-01-25-week-notes-2025-W04.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>This week was a bit slower than last. I spent much of it finalizing the content for my IRB application, and the rest preparing for a meeting with a key stakeholder relating to my research.</p>
+<p>The IRB application is more or less done, just waiting on David and the department head to sign off. It was a major opportunity to re-organize my research protocol and related documents. I shuffled some things over into various placeholder sections in my <a href="../notes/methodology-notes.html">methodology notes</a>, and pushed a revised <a href="../research-protocol.html">research protocol</a> to the website.</p>
+<p>Yesterday I posted about <a href="https://zackbatist.info/CITF-Postdoc/posts/2025-01-24-ai-in-my-work.html">on the role of AI in my research</a>. It’s mainly meant to lay out my current state of thinking on AI. I’m not fixed to those ideas, and I think there is much more nuance than I do justice to in that post, but putting it on the page helped me consolidate and put aside some scrambled opinions.</p>
+<p>After playing around with <a href="https://qualitative-coding.readthedocs.io/">qc</a> on Sunday, I started to assemble some feedback. I may post a github issue later this week, once I’ve had a chance to consolidate and edit my thoughts.</p>
+<p>I participated in the weekly CITF logistics update, after which I met with Aklil to discuss the overall strategy for her project and strategize on how we might form the focus groups for that work. We’re gonna meet more regularly, just to share some updates on our respective projects which have a lot in common.</p>
+<p>On Thursday I met with Isabel Fortier, with the intention of discussing data harmonozation initiatives that might serve as potential cases. It was a bit of a tough meeting. During the first 45 minutes I struggled to communicate the purpose of my work, but I think by the end we reached a greater understanding of what this work will entail and the unique perspective it will bring. One surprising outcome that I still need to think through is Isabel’s suggestion that I slow down a bit, immerse myself more in the world of data harmonization. While she is absolutely right that I’ve been rushing through this first month, I do feel pressure to get the project going and to start accumulating data — I felt a similar pressure when starting my PhD, too. So I need to put my eagerness aside so that the data are relevant and of good enough quality. Isabel offered to schedule regular meetings with me, and even to have me work in the Maelstrom office once a week, and I’m extremely grateful for her support! Plus, I’ll get to have lunch with my mom who works in the same hospital complex, one building over :)</p>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/2025-01-25-week-notes-2025-W04.html</guid>
+  <pubDate>Sat, 25 Jan 2025 05:00:00 GMT</pubDate>
+</item>
 <item>
   <title>On the role of AI in my research</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/2025-01-24-ai-in-my-work.html</link>
@@ -66,8 +88,8 @@
 <p>Probably the most ambivalent of all communities are senior faculty, who want AI to be useful and will test the waters without fully committing. Which is fine and very prudent, and honestly I identify most with this perspective, despite my position as a lowly postdoc.</p></li>
 <li><p>Grad students</p>
 <p>I engage with many grad students. I share my workspace with grad students and encounter them constantly in my day to day neighbourhood forays, where I overhear and sometimes participate in conversations about AI. In my new work environment (Epidemiology, Biostatistics and Occupational Health), the grad students who I engage with have a relatively positive perception of AI. They seem to find greater value in the ability to automate complex processes, using it as a black box of sorts, with predictable and abstracted inputs and outputs, which they see as especially helpful for coding. Outside of this space I’m encountering way more diversity of thought on AI, and I’m not quite sure how to group these viewpoints to structure a proper reaction. I think this in fact contributes to the multitude of perspectives, since no one really cares that much one way or the other to really have a strong opinion (though I sense an overwhelming dissatisfaction when it comes to AI in consumer contexts; this post is largely about productive uses of AI in research and pedagogy).</p>
-<p>I was also told about students learning RStats by just having AI generate their code, which ties into the growing misconception that to learn stats you first need to learn how to code. This in turn relates to the sense that to learn how to do RStats, you just need to memorize a series of steps and copy the text from the slides into the IDE. So, in the end, AI reveals the inadequacy of the teaching mechanisms for programming and stats classes, similarly to how AI has revealed the inadequacy of essay-writing as a pedagogical technique.</p>
-<p>On the other hand, some students are concerned about dulling their skills, or even not being able to take advantage of opportunities to learn new skills, due to the temptation to automate these tasks. Some upper-year PhD students are glad that they were trained in the fundamentals prior to the AI hype wave. This makes me wonder how students are determining what skills they think they need to know how to do on their own and what is worth running through an LLM. Does it basically operate as a bullshit sensor, where you can smell from a distance that the work is just gonna be tedium and irrelevant? Or is it more out of practical necessity, where you’re stretched so thin that you simply have to rely on these tools to achieve anything meaningful, almost as a mechanism for salvaging one’s work from the claws of austerity?</p></li>
+<p>I was also told about students learning RStats by just having AI generate their code. The person who pointed this out to me related this to the growing misconception that to learn stats you first need to learn how to code. This in turn relates to the sense that to learn how to do RStats, you just need to memorize a series of steps and copy the text from the slides into the IDE. So, in the end, AI reveals the inadequacy of the teaching mechanisms for programming and stats classes, similarly to how AI has revealed the inadequacy of essay-writing as a pedagogical technique.</p>
+<p>On the other hand, some students are concerned about dulling their skills, or even not being able to take advantage of opportunities to learn new skills, due to the temptation to automate these tasks. Some upper-year PhD students are glad that they were trained in the fundamentals prior to the AI hype wave. This makes me wonder how students are determining what skills they think they need to know how to do on their own and what is worth running through an LLM. Does it basically operate as a bullshit sensor, where you can smell from a distance that the work is just gonna be tedium and irrelevant? Or is it more out of practical necessity, where you’re stretched so thin that you simply have to rely on these tools to achieve anything meaningful, almost as a mechanism for salvaging one’s work from the claws of austerity? In either case, this points to PhD programs’ inadequacy to match students’ needs and desires, and overwhelming amount of administravia or (seemingly) irrelevant work that students are made to do, which get in the way of their true interests.</p></li>
 </ul>
 <p>Maybe I’ll have more to share some other time.</p>
 
