@@ -5,20 +5,6 @@ title: Case Selection
 This document is still a work in progress.
 :::
 
-## Case Study Research
-In case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it.
-The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest [@stake2006: 4-7].
-
-Cases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern.
-Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own [@stake2006: 23].
-In other words, cases are contexts that ascribe particular local flavours to the activities I trace, and which I must consider to account fully for the range of motivations, circumstances and affordances that back decisions to perform activities and to implement them in specific ways.
-
-Moreover, the power of case study research derives from identifying consistencies that relate cases to each other, while simultaneously highlighting how their unique and distinguishing facets contribute to their representativeness of the underlying phenomon.
-Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent [@ragin1999: 1139-1140].
-
-It should be noted that case study research limits my ability to define causal relationships or to derive findings that may be generalized across the whole field of epidemiology.
-This being said, case study research allows me to articulate the series of inter-woven factors that impact how epidedemiological researchers coordinate and participate in data-sharing initiatives, while explicitly accounting for and drawing from the unique and situational contexts that frame each case.
-
 ## Key Factors
 To reiterate, this project investigates the social and collaborative apparatus that scaffold data-sharing initiatives in epidemiology.
 Through analysis of data obtained through interviews with various relevant stakeholders attached to data-sharing initiatives, the project will ascertain the actions taken and challenges experienced to mediate the varied motivations, needs and values of those involved.
