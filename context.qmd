@@ -2,7 +2,33 @@
 title: Context
 ---
 
-Zack's bio and information about the CITF as institutional host.
+I am [Zack Batist](https://zackbatist.info) --- a postdoctoral researcher at McGill University, in the School of Global and Public Health's Department of Epidemiology, Biostatistics and Occupuational Health.
+I'm working with [David Buckeridge](https://www.mcgill.ca/epi-biostat-occh/david-buckeridge), who leads the [Covid-19 Immunity Task Force (CITF) Databank](https://databank.citf.mcgill.ca/), to investigate data sharing in epidemiological research --- with an emphasis on the practical and situated experiences involved in data-sharing.
+
+The CITF is a "data harmonization" initiative, which entails coordinating a systematic effort to align the information contained in datasets collected by distributed teams of epidemiologists.
+Such efforts to integrate the records collected during various discrete studies are motivated by a desire to establish larger integrated datasets bearing greater statistical power.
+This is especially important in epidemiological research, which is driven by a strong tradition of statistical methods based on independent cohort studies.
+At the same time, efforts to relate cohort studies are hampered by the diversity of minor variations in data collection procedures, as well as ethico-legal concerns relating to the sharing of individual health records pertaining to human research subjects across numerous institutional and regional jurisdictions.
+
+As a scholar of scientific practice, with a primary interest in data-sharing and the formation of information commons, data harmonization represents a fascinating mechanism through which scientists derive technical, administrative, social and epistemic frameworks to derive greater value from their respective endeavours.
+In other words, as an initiative that is largely led by and responsive to disciplinary needs, warrants, desires, values and expectations, data harmonization represents a prime situation of data curation "in the wild".
+
+
+
+<!-- This study therefore articulates the motivations for doing data harmonization, identifies how value is ascertained, and describes the strategies employed to achieve the desired goals --- including perceived and actual challenges, setbacks, opportunities, realizations, and lessons learned.
+
+This relates to my previous work that looked at how the open science movement has attempted to shape data management practices without much tangible success, due to its inability or unwillingness to reckon with the situated nature of data, i.e. the fact that data bear traces of the circumstances of their creation.
+Emphasis on the word "attempt", since in either case the focus is not on the outcomes, but on the ways scientists go about doing this work _in ways that conform to the pratical, social and epistemic mandates of the scientific enterprise_.
+
+So in other words, my research explores tensions that arise when attempting to integrate data, specifically relating to the perceived stability of data and the understanding that datasets are derived from specific circumstances.
+How do epidemiologists cope with this, and somehow manage to produce knowledge of greater value in spite of these challenges?
+That’s the core question here. -->
+
+
+<!-- 
+One of my key findings is that purpose-driven consortia based on common cause and familiar forms of collaborative commitments have greater chance of success, even if their "openness" is mitigated by membership in a research or project community.
+Data harmonization as it is performed under the Maelstrom guidelines represents a potentially great example of this, but obviously there is still a lot of diversity in approaches and degrees of success that are worth exploring, and that I seek to investigate.
+-->
 
 
 <!--
