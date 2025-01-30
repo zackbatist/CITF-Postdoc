@@ -56,7 +56,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -234,15 +254,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#case-studies" id="toc-case-studies" class="nav-link active" data-scroll-target="#case-studies">Case studies</a></li>
-  <li><a href="#grounded-theory" id="toc-grounded-theory" class="nav-link" data-scroll-target="#grounded-theory">Grounded theory</a></li>
-  <li><a href="#interviews" id="toc-interviews" class="nav-link" data-scroll-target="#interviews">Interviews</a>
+  <li><a href="#significant-concepts-and-frameworks" id="toc-significant-concepts-and-frameworks" class="nav-link active" data-scroll-target="#significant-concepts-and-frameworks">Significant Concepts and Frameworks</a>
   <ul class="collapse">
-  <li><a href="#transcribing" id="toc-transcribing" class="nav-link" data-scroll-target="#transcribing">Transcribing</a></li>
+  <li><a href="#case-studies" id="toc-case-studies" class="nav-link" data-scroll-target="#case-studies">Case studies</a></li>
+  <li><a href="#grounded-theory" id="toc-grounded-theory" class="nav-link" data-scroll-target="#grounded-theory">Grounded theory</a></li>
   </ul></li>
+  <li><a href="#data-collection" id="toc-data-collection" class="nav-link" data-scroll-target="#data-collection">Data Collection</a>
+  <ul class="collapse">
+  <li><a href="#interviews" id="toc-interviews" class="nav-link" data-scroll-target="#interviews">Interviews</a></li>
   <li><a href="#field-notes" id="toc-field-notes" class="nav-link" data-scroll-target="#field-notes">Field notes</a></li>
   <li><a href="#recording-video" id="toc-recording-video" class="nav-link" data-scroll-target="#recording-video">Recording video</a></li>
+  </ul></li>
+  <li><a href="#qda" id="toc-qda" class="nav-link" data-scroll-target="#qda">QDA</a>
+  <ul class="collapse">
+  <li><a href="#coding" id="toc-coding" class="nav-link" data-scroll-target="#coding">Coding</a></li>
+  </ul></li>
+  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis">Analysis</a>
+  <ul class="collapse">
   <li><a href="#statistical-methods" id="toc-statistical-methods" class="nav-link" data-scroll-target="#statistical-methods">Statistical methods</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/notes/methodology-notes.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
@@ -278,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date-modified">January 20, 2025</p>
+      <p class="date-modified">January 29, 2025</p>
     </div>
   </div>
     
@@ -290,58 +320,171 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This document is an overview of methodological topics and concerns. It is a place where I think through and justify my methodological decisions, and identify the methods and procedures through which I implement them.</p>
-<p>Before proceeding, it’s necessary to clarify a few key terms and concepts:</p>
-<p><strong>Methodology:</strong></p>
-<p><strong>Method:</strong> The series of tools, techniques and procedures that structure coordinated action.</p>
-<p><strong>Task:</strong> Goals that are constrained by specific conditions, which need to be achieved in concert or in tandem to achieve an overarching objective. In order to realize these goals, actors conduct <strong>actions</strong>, which are dictated by these practical conditions.</p>
-<p><strong>Procedure:</strong> The formal, official or pre-defined series of actions that inform how actors should complete a task. Documented through <strong>protocols</strong>.</p>
-<p>Here’s a little glossary summarizing some key terms and concepts:</p>
+<!--
+## Some nomenclature
+Before proceeding, it's necessary to clarify a few key terms and concepts:
+
+**Methodology:**
+
+
+**Method:**
+The series of tools, techniques and procedures that structure coordinated action.
+
+**Task:**
+Goals that are constrained by specific conditions, which need to be achieved in concert or in tandem to achieve an overarching objective.
+In order to realize these goals, actors conduct **actions**, which are dictated by these practical conditions.
+
+**Procedure:**
+The formal, official or pre-defined series of actions that inform how actors should complete a task.
+Documented through **protocols**.
+
+
+Here's a little glossary summarizing some key terms and concepts:
+
+- methodology
+  - the principles of methods, rules, and postulates employed by a discipline
+  - uncovering assumptions and practices associated with the different methods and a detailed description of research designs and hypothesis testing
+  - Methodology can be understood as the middle ground between concrete particular methods and the abstract and general issues discussed by the philosophy of science
+  - In this regard, methodology comes after formulating a research question and helps the researchers decide what methods to use in the process. For example, methodology should assist the researcher in deciding why one method of sampling is preferable to another in a particular case or which form of data analysis is likely to bring the best results. Methodology achieves this by explaining, evaluating and justifying methods.
+  - According to Aleksandr Georgievich Spirkin, "[a] methodology is a system of principles and general ways of organising and structuring theoretical and practical activity, and also the theory of this system".[16][17] Helen Kara defines methodology as "a contextual framework for research, a coherent and logical scheme based on views, beliefs, and values, that guides the choices researchers make".[18] Ginny E. Garcia and Dudley L. Poston understand methodology either as a complex body of rules and postulates guiding research or as the analysis of such rules and procedures. As a body of rules and postulates, a methodology defines the subject of analysis as well as the conceptual tools used by the analysis and the limits of the analysis.
+  - John Law: Against Method
+- method
+  - A method is a way of reaching some predefined goal.
+  - It is a planned and structured procedure for solving a theoretical or practical problem.
+  - They give structure to action.
+- procedure
+  - May be interchangeable with "technique"
+- protocol
+- 
+-->
+<section id="significant-concepts-and-frameworks" class="level2">
+<h2 class="anchored" data-anchor-id="significant-concepts-and-frameworks">Significant Concepts and Frameworks</h2>
+<section id="case-studies" class="level3">
+<h3 class="anchored" data-anchor-id="case-studies">Case studies</h3>
+<p>These notes describe the features, affordances and limitations of case study research, and articules factors correspoding with variable kinds of case studies. Much of these notes derive from my readings of <span class="citation" data-cites="stake2006">Stake (<a href="#ref-stake2006" role="doc-biblioref">2006</a>)</span>, which is a more practical guide, and additional theoretical concerns compiled by <span class="citation" data-cites="ragin1992a">Charles C. Ragin and Becker (<a href="#ref-ragin1992a" role="doc-biblioref">1992</a>)</span> provide additional insight.</p>
+<p>In case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it. The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">Stake 2006</a>: 4-7)</span>.</p>
+<p>Cases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern. Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">Stake 2006</a>: 23)</span>. In other words, cases are contexts that ascribe particular local flavours to the activities I trace, and which I must consider to account fully for the range of motivations, circumstances and affordances that back decisions to perform activities and to implement them in specific ways.</p>
+<p>Moreover, the power of case study research derives from identifying consistencies that relate cases to each other, while simultaneously highlighting how their unique and distinguishing facets contribute to their representativeness of the underlying phenomon. Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent <span class="citation" data-cites="ragin1999">(<a href="#ref-ragin1999" role="doc-biblioref">C. C. Ragin 1999</a>: 1139-1140)</span>.</p>
+<p>Stake <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">2006</a>: 4-6)</span> uses the term “quintain” to describe the group, category or phenomenon that bind together a collection of cases. A quintain is an object, phenomenon or condition to be studied – “a target, not a bull’s eye” <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">Stake 2006</a>: 6)</span>. “The quintain is the arena or holding company or umbrella for the cases we will study” <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">Stake 2006</a>: 6)</span>. The quintain is the starting point for multi-case research.</p>
+<p>Draws from the term for a jousting target: <a href="https://en.wikipedia.org/wiki/Quintain_(jousting)" class="uri">https://en.wikipedia.org/wiki/Quintain_(jousting)</a></p>
+<blockquote class="blockquote">
+<p>Multicase research starts with the quintain. To understand it better, we study some of its single cases — its sites or manifestations. But it is the quintain we seek to understand. We study what is similar and different about the cases in order to understand the quintain better. <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">Stake 2006</a>: 6)</span></p>
+</blockquote>
+<blockquote class="blockquote">
+<p>When the purpose of a case is to go beyond the case, we call it an “instrumental” case study When the main and enduring interest is in the case itself, we call it “intrinsic” case study <span class="citation" data-cites="stake1988">(<a href="#ref-stake1988" role="doc-biblioref">Stake 1988</a>)</span>. With multicase study and its strong interest in the quintain, the interest in the cases will be primarily instrumental. <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">Stake 2006</a>: 8)</span></p>
+</blockquote>
+<p>It should be noted that case study research limits my ability to define causal relationships or to derive findings that may be generalized across the whole field of epidemiology. This being said, case study research allows me to articulate the series of inter-woven factors that impact how epidedemiological researchers coordinate and participate in data-sharing initiatives, while explicitly accounting for and drawing from the unique and situational contexts that frame each case.</p>
+<p>According to Yin <span class="citation" data-cites="yin2014">(<a href="#ref-yin2014" role="doc-biblioref">2014</a>: 16)</span>, “a case study is an empirical inquiry that investigates a contemporary phenomenon (the”case”) in depth and within its real-world context, especially when the boundaries between phenomenon and context may not be clearly evident.”</p>
+<p>He goes on to document some features of a case study: “A casr study inquiry copes with the technically distinctive situation in which there will be many more variables of interest than data points, and as one result relies on multiple sources of evidence, with data needing to converge in a triangulating fashion, and as another result benefits from the prior development of theoretical propositions to guide data collection and analysis.” <span class="citation" data-cites="yin2014">(<a href="#ref-yin2014" role="doc-biblioref">Yin 2014</a>: 17)</span></p>
+<p><span class="citation" data-cites="yin2014">Yin (<a href="#ref-yin2014" role="doc-biblioref">2014</a>)</span> is more oriented toward what he refers to as a <em>realist</em> perspective, which he pits against <em>relativist</em> and <em>interpretivist</em> perspectives (used interchangably, it seems), and which I might refer to as <em>constructivist</em>. He characterizes relativist perspectives as “acknowledging multiple realities having multiple meanings, with findings that are observer dependent”. His prioriting of a realist approach corresponds with the analysis by <span class="citation" data-cites="yazan2015">Yazan (<a href="#ref-yazan2015" role="doc-biblioref">2015</a>)</span>, who compared Yin with Stake and Merriam. According to Yazan <span class="citation" data-cites="yazan2015">(<a href="#ref-yazan2015" role="doc-biblioref">2015</a>: 137)</span>, Yin evades making statements about his epistemic commitments, and is characterized as post-positivist.</p>
+<p>Abbott’s <span class="citation" data-cites="abbott2004">(<a href="#ref-abbott2004" role="doc-biblioref">2004</a>: 22)</span> characaterization of Small-N comparison is very reminiscient of Stake’s <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">2006</a>)</span> account of the case-quintain dialectic:</p>
+<blockquote class="blockquote">
+<p>Small-N comparison attempts to combine the advantages of single-case analysis with those of multicase analysis, at the same time trying to avoid the disadantages of each. On the one hand, it retains much information about each case. On the other, it compares the different cases to test arguments in ways that are impossible with a single case. By making these detailed comparisons, it tries to avoid the standard critcism of single-case analysis — that one can’t generalize from a single case — as well as the standard criticism of multicase analysis — that it oversimplifies and changes the meaning of variables by removing them from their context.</p>
+</blockquote>
+<section id="research-design-in-case-study-research" class="level4">
+<h4 class="anchored" data-anchor-id="research-design-in-case-study-research">Research Design in case study research</h4>
+<p><span class="citation" data-cites="yin2014">Yin (<a href="#ref-yin2014" role="doc-biblioref">2014</a>)</span> is very concerned with <em>research design</em> in case study research He posits that, in a colloquial sense, “a research design is a logical plan for getting from here to there, where here may be defined as the initial set of questions to be answered, and there is some set of conclusions (answers) about these questions.” <span class="citation" data-cites="yin2014">(<a href="#ref-yin2014" role="doc-biblioref">Yin 2014</a>: 28)</span></p>
+<p>Yin distinguishes between a research design and a work plan. A research design deals with a logical problem, whereas a work plan deals with a logistical problem. Seems reminiscient of Brian Cantwell Smith’s distinction between skeletons and outlines.</p>
+<p>Yin lists five components of a research design:</p>
+<ol type="1">
+<li>A case study’s questions;</li>
+<li>its propositions, if any;</li>
+<li>its unit(s) of analysis;</li>
+<li>the logic linking the data to the propositions; and</li>
+<li>the criteria for interpreting the findings.</li>
+</ol>
+<p>Interestingly, I have been instinctively following these steps, and am currently hovering somewhere between components 3 and 4, while dipping back to 2 once in a while too.</p>
+<p>The problem of defining the unit of analysis os salient to me right now. According to Yin <span class="citation" data-cites="yin2014">(<a href="#ref-yin2014" role="doc-biblioref">2014</a>: 32)</span>, the unit of analysis may change as the project progresses, depending on initial misconceptions (he uses the example of a unit of analysis changing from neighbourhoods to small groups, as contextualized by the socio-geographical entity of the neighbourhood, which is laden with issues of class, race, etc). In my own situation, the unit of analysis may hover between the harmonization initiative, the people, activities or infrastructures that make it work.</p>
+<p>In the section on criteria for interpreting the findings, Yin emphasizes the role of rival theories, which is akin to a concern with falsifiability as a means of validating truth claims, and which betrays his positivist leanings. This may be compared with Stake’s emphasis on triangulation, which is more concerned with internal cohesiveness. Similarly, Yin cites Corbin and Strauss regarding the role of theory or theoretical propositions in research design, which similarly reveals a concern with rigorous upfront planning and strict adherence to research design as a key aspect of deriving valid findings.</p>
+<p>Regarding generalizability, Yin <span class="citation" data-cites="yin2014">(<a href="#ref-yin2014" role="doc-biblioref">2014</a>: 40-41)</span> states that “Rather than thinking about your case as a sample, you should think of it as the opportunity to shed empirical light about some theoretical concepts or principles, not unlike the motive of a laboratory investigator in conceiving of and then conducting a new experiment.” He goes on to state that case studies tend to strive for analytic generalizations that go beyond the specific case that has been studied, and which apply to other concrete situations rather than just abstract theory building.</p>
+</section>
+<section id="case-selection" class="level4">
+<h4 class="anchored" data-anchor-id="case-selection">Case selection</h4>
+<p>Stake recommends between 4-10 cases.</p>
+<p>There are three main criteria for selecting cases, according to <span class="citation" data-cites="stake2006">Stake (<a href="#ref-stake2006" role="doc-biblioref">2006</a>)</span>: 23:</p>
 <ul>
-<li>methodology
-<ul>
-<li>the principles of methods, rules, and postulates employed by a discipline</li>
-<li>uncovering assumptions and practices associated with the different methods and a detailed description of research designs and hypothesis testing</li>
-<li>Methodology can be understood as the middle ground between concrete particular methods and the abstract and general issues discussed by the philosophy of science</li>
-<li>In this regard, methodology comes after formulating a research question and helps the researchers decide what methods to use in the process. For example, methodology should assist the researcher in deciding why one method of sampling is preferable to another in a particular case or which form of data analysis is likely to bring the best results. Methodology achieves this by explaining, evaluating and justifying methods.</li>
-<li>According to Aleksandr Georgievich Spirkin, “[a] methodology is a system of principles and general ways of organising and structuring theoretical and practical activity, and also the theory of this system”.[16][17] Helen Kara defines methodology as “a contextual framework for research, a coherent and logical scheme based on views, beliefs, and values, that guides the choices researchers make”.[18] Ginny E. Garcia and Dudley L. Poston understand methodology either as a complex body of rules and postulates guiding research or as the analysis of such rules and procedures. As a body of rules and postulates, a methodology defines the subject of analysis as well as the conceptual tools used by the analysis and the limits of the analysis.</li>
-<li>John Law: Against Method</li>
-</ul></li>
-<li>method
-<ul>
-<li>A method is a way of reaching some predefined goal.</li>
-<li>It is a planned and structured procedure for solving a theoretical or practical problem.</li>
-<li>They give structure to action.</li>
-</ul></li>
-<li>procedure
-<ul>
-<li>May be interchangeable with “technique”</li>
-</ul></li>
-<li>protocol</li>
-<li></li>
+<li>Is the case relevant to the quintain?</li>
+<li>Do the cases provide diversity across contexts?</li>
+<li>Do the cases provide good opportunities to learn about complexity and contexts?</li>
 </ul>
-<section id="case-studies" class="level2">
-<h2 class="anchored" data-anchor-id="case-studies">Case studies</h2>
-<p>x</p>
+<blockquote class="blockquote">
+<p>For qualitative fieldwork, we will usually draw a purposeive sample of cases. a sample tailored to our study; this will build in variety and create opportunities for intensive study. <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">Stake 2006</a>: 24)</span></p>
+</blockquote>
 </section>
-<section id="grounded-theory" class="level2">
-<h2 class="anchored" data-anchor-id="grounded-theory">Grounded theory</h2>
-<p>x</p>
+<section id="some-practical-guidance" class="level4">
+<h4 class="anchored" data-anchor-id="some-practical-guidance">Some practical guidance</h4>
+<p>Stake <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">2006</a>: 18-22)</span> provides a detailed and realistic overview of common challenges involved in collaborative qualitative research. This could be handy in future work when planning a multicase project involving multiple researchers.</p>
+<p>Stake <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">2006</a>: 29-33)</span> provides guidance on how to plan and conduct interviews in multicase research, including a series of helpful prompts and questions to ask yourself while designing the interview. One thing that stands out is his recommendation that an interview should be more about the interviewee than about the case. It’s necessary to find out about the interviewee to understand their interpretations, but what they reveal about the quintain is more important.</p>
+<p>On page 34, <span class="citation" data-cites="stake2006">Stake (<a href="#ref-stake2006" role="doc-biblioref">2006</a>)</span> also provides some practical tips for documenting and storing data, after <span class="citation" data-cites="huberman1994">Huberman et al. (<a href="#ref-huberman1994" role="doc-biblioref">1994</a>)</span>.</p>
+<p>See <span class="citation" data-cites="stake2006">Stake (<a href="#ref-stake2006" role="doc-biblioref">2006</a>)</span> Chapter 5 for a step-by-step overview of a multicase study analysis. The rest of the volume after that includes three very detailed examples from his own work.</p>
 </section>
-<section id="interviews" class="level2">
-<h2 class="anchored" data-anchor-id="interviews">Interviews</h2>
+<section id="triangulation" class="level4">
+<h4 class="anchored" data-anchor-id="triangulation">Triangulation</h4>
+<p>Triangulation is a process of gaining assurance. Also sometimes called crystallization.</p>
+<p>“Each important finding needs to have at least three (often more) confirmations and assurances that key meanings are not being overlooked.” <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">Stake 2006</a>: 33)</span> Triangulation is a process of repetitous data gathering and critical review of what is being said. <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">Stake 2006</a>: 34)</span></p>
+<p>What needs triangulation? <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">Stake 2006</a>: 35-36)</span></p>
+<ul>
+<li>If the description is trivial or beyond question, there is no need to triangulate.</li>
+<li>If the description is relevant and debatable, there is much need to triangulate.</li>
+<li>If the data are critical to a main assertion, there is much need to triangulate.</li>
+<li>If the data are evidence for a controversial finding, there is much need to triangulate.</li>
+<li>If a statement is clearly a speaker’s interpretation, there is little need to triangulate the quotation but not its content.</li>
+</ul>
+<p>Stake <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">2006</a>: 37)</span> cites <span class="citation" data-cites="denzin1989">Denzin (<a href="#ref-denzin1989" role="doc-biblioref">1989</a>)</span> who highlighted several kinds of triangulation, leading to a few advisories:</p>
+<ul>
+<li>Find ways to use multiple rather than single observers of the same thing.</li>
+<li>Use second and third perspectives, i.e.&nbsp;the views of teachers, student and parents.</li>
+<li>Use more than one research method on the same thing, i.e.&nbsp;document review and interview.</li>
+<li>Check carefully to decide how much the total description warrants generalization.
+<ul>
+<li>Do your conclusions generalize across other times or places?</li>
+<li>Do your conclusions about the aggregate generalize to individuals?</li>
+<li>Do findings of the interaction among individuals in one group pertain to other groups?</li>
+<li>Do findings of the aggregate of these people generalized to a population?</li>
+</ul></li>
+</ul>
+</section>
+<section id="cross-case-analysis-procedure" class="level4">
+<h4 class="anchored" data-anchor-id="cross-case-analysis-procedure">Cross-Case Analysis Procedure</h4>
+<p>Stake <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">2006</a>: Chapter 3)</span> lays out a procedure for deriving synthetic findings from data collected across cases. He frames this in terms of a dialectic between cases and quintains. He identifies three tracks <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">Stake 2006</a>: 46)</span>:</p>
+<ul>
+<li>Track 1: Maintains the case findings and the situationality.</li>
+<li>Track 2: Merges similar findings, maintaining a little of the situationality.</li>
+<li>Track 3: The most quanitative track, shifts the focus from findings to factors.</li>
+</ul>
+<p>According to Stake, case reports should be created independently and then brought together by a single individual when working in a collaborative project. In keeping with the case-quintain dialectic, this integration must involve strategically putting the cases aside and bringing them back in to identify convergences and divergences, similarities and differences, normalitities and discrepancies among them.</p>
+<p>There is some detailed discussion about different kinds of statements, i.e.&nbsp;themes, findings, factors and assertions, but I find this a bit too much detail for me to get at at this point in mymethodological planning. In general though, Stake documents a process whereby an analyst navigates back and forth between the general and the situational, presenting tentativr statements that are shored up, modified or discarded through testing compatability of the evidence across cases.</p>
+</section>
+<section id="reporting-the-findings" class="level4">
+<h4 class="anchored" data-anchor-id="reporting-the-findings">Reporting the findings</h4>
+<p>Stake <span class="citation" data-cites="stake2006">(<a href="#ref-stake2006" role="doc-biblioref">2006</a>: Chapter 4)</span> includes a chapter on procedures for reporting the findings, and I may return to this later on once I need to initiative this phase of work. It addresses concerns about how to articulate comparisons, concerns about generalization, and how to handle advocacy based on findings.</p>
+</section>
+</section>
+<section id="grounded-theory" class="level3">
+<h3 class="anchored" data-anchor-id="grounded-theory">Grounded theory</h3>
+<p>This study follows an abductive qualitative data analysis framework to construct theories founded upon empirical evidence, which relates to, but is distinct from, grounded theory. Grounded theory consists of a series of systematic yet flexible guidelines for deriving theory from data through continuous and reiterative engagement with evidence <span class="citation" data-cites="charmaz2014">(<a href="#ref-charmaz2014" role="doc-biblioref">Charmaz 2014</a>)</span>. My approach draws from what Charmaz <span class="citation" data-cites="charmaz2014">(<a href="#ref-charmaz2014" role="doc-biblioref">2014</a>: 14-15)</span> calls the “constellation of methods” associated with grounded theory that are helpful for making sense of qualitative data. However, it differs from grounded theory as it is traditionally conceived in that I come to the project with well-defined theoretical goals and did not make a concerted effort to allow the theory to emerge through the analytical process.</p>
+<p>Proponents of a more open-ended or improvised approach, as grounded theory was originally applied, argue that researchers should be free to generate theories in accordance with their own creative insights and their intimate engagements with the evidence. We can evaluate the quality of such work in terms of the dialogical commitments between researchers and their subjects, and between researchers and those who read their work <span class="citation" data-cites="glaser1967">(<a href="#ref-glaser1967" role="doc-biblioref">Glaser and Strauss 1967</a>: 230-233)</span>.</p>
+<p>Others view grounded theory more as a means of clarifying and articulating phenomena that lie below the surface of observable social experiences <span class="citation" data-cites="strauss1990 kelle2005">(<a href="#ref-strauss1990" role="doc-biblioref">Strauss and Corbin 1990</a>; <a href="#ref-kelle2005" role="doc-biblioref">Kelle 2005</a>)</span>. Proponents of this approach are very concerned with ensuring that concepts, themes and theories are truly represented in and limited by the data, and therefore prioritize adherence to systematic validation criteria to ensure the soundness of their claims.</p>
+<p>Another view, known as constructivist grounded theory, most resembles my own approach. It recognizes that it is impossible to initiate a project without already holding ideas regarding the phenomena of interest, and that the ways that one ascribes meanings to the data represent already established mindsets or conceptual frameworks <span class="citation" data-cites="charmaz2014">(<a href="#ref-charmaz2014" role="doc-biblioref">Charmaz 2014</a>)</span>. It encourages reflection on the researcher’s standpoint as they pursue an abductive approach rooted in their own preconceptions <span class="citation" data-cites="mills2006">(<a href="#ref-mills2006" role="doc-biblioref">Mills, Bonner, and Francis 2006</a>)</span>.</p>
+</section>
+</section>
+<section id="data-collection" class="level2">
+<h2 class="anchored" data-anchor-id="data-collection">Data Collection</h2>
+<section id="interviews" class="level3">
+<h3 class="anchored" data-anchor-id="interviews">Interviews</h3>
 <ul>
 <li>structured, semi-structured</li>
 <li>lunk to more detailed transcription protocol</li>
 </ul>
-<section id="transcribing" class="level3">
-<h3 class="anchored" data-anchor-id="transcribing">Transcribing</h3>
+<section id="transcribing" class="level4">
+<h4 class="anchored" data-anchor-id="transcribing">Transcribing</h4>
 <p>This section describes how I transcibe interviews and accounts for the decisions to encode certain things and not others. It goes on to explains the procedures for transcribing spoken dialog into textual formats, including the notation applied to encode idiosyncratic elements of conversational speech.</p>
-<section id="transcript-notation" class="level4">
-<h4 class="anchored" data-anchor-id="transcript-notation">Transcript notation</h4>
+<section id="transcript-notation" class="level5">
+<h5 class="anchored" data-anchor-id="transcript-notation">Transcript notation</h5>
 <p>Derived from the <a href="https://zackbatist.info/notes/E-CURATORS/#transcription">transcription protocol applied for the E-CURATORS project</a>.</p>
 </section>
-<section id="cleaning-audio" class="level4">
-<h4 class="anchored" data-anchor-id="cleaning-audio">Cleaning audio</h4>
+<section id="cleaning-audio" class="level5">
+<h5 class="anchored" data-anchor-id="cleaning-audio">Cleaning audio</h5>
 <p>To clean the audio:</p>
 <ol type="1">
 <li>I select a clip that is representative of a single source of background noise, and then filter that wavelength throughout the entire audio file.</li>
@@ -355,27 +498,114 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="field-notes" class="level2">
-<h2 class="anchored" data-anchor-id="field-notes">Field notes</h2>
+<section id="field-notes" class="level3">
+<h3 class="anchored" data-anchor-id="field-notes">Field notes</h3>
 <p>x</p>
 </section>
-<section id="recording-video" class="level2">
-<h2 class="anchored" data-anchor-id="recording-video">Recording video</h2>
+<section id="recording-video" class="level3">
+<h3 class="anchored" data-anchor-id="recording-video">Recording video</h3>
 <ul>
 <li>affordances</li>
 </ul>
 </section>
-<section id="statistical-methods" class="level2">
-<h2 class="anchored" data-anchor-id="statistical-methods">Statistical methods</h2>
+</section>
+<section id="qda" class="level2">
+<h2 class="anchored" data-anchor-id="qda">QDA</h2>
+<p>My QDA processes are most influenced by Kathy Charmaz and Johnny Saldaña, as well as the practical experiences instilled during my PhD and while working on E-CURATORS.</p>
+<section id="coding" class="level3">
+<h3 class="anchored" data-anchor-id="coding">Coding</h3>
+<p>These notes are largely derived from my reading of <span class="citation" data-cites="saldana2016">Saldaña (<a href="#ref-saldana2016" role="doc-biblioref">2016</a>)</span>, provides a practical overview of what coding entails and specific methods and techniques.</p>
+<p>Coding as component of knowledge construction:</p>
+<ul>
+<li>Coding is an intermediate step, “the”critical link” between data collection and their explanation or meaning” (<span class="citation" data-cites="charmaz2001">Charmaz (<a href="#ref-charmaz2001" role="doc-biblioref">2001</a>)</span>, as quoted in <span class="citation" data-cites="saldana2016">Saldaña (<a href="#ref-saldana2016" role="doc-biblioref">2016</a>)</span>: 4)</li>
+<li>“coding is usually a mixture of data [summation] and data complication … breaking the data apart in analytically relevant ways in order to ead toward further questions about the data” (<span class="citation" data-cites="coffey1996">Coffey and Atkinson (<a href="#ref-coffey1996" role="doc-biblioref">1996</a>)</span>: 29-31, as quoted and edited by <span class="citation" data-cites="saldana2016">Saldaña (<a href="#ref-saldana2016" role="doc-biblioref">2016</a>)</span>: 9)
+<ul>
+<li>This relates to the paired notions of decodng when we reflect on a passage to decipher its core meaning, and encoding when we determine its appropriate code and label it <span class="citation" data-cites="saldana2016">(<a href="#ref-saldana2016" role="doc-biblioref">Saldaña 2016</a>: 5)</span>.</li>
+</ul></li>
+<li>Coding “generates the bones of your analysis. … [I]ntegration will assemble those bones into a working skeleton” (<span class="citation" data-cites="charmaz2014">Charmaz (<a href="#ref-charmaz2014" role="doc-biblioref">2014</a>)</span>: 113, quoted in <span class="citation" data-cites="saldana2016">Saldaña (<a href="#ref-saldana2016" role="doc-biblioref">2016</a>)</span>: 9)</li>
+<li>To codify is to arrange things in a systematic order, to make something part of a system or classification, to categorize
+<ul>
+<li>What I sometimes refer to as arranging the code tree</li>
+<li>What <span class="citation" data-cites="saldana2016">Saldaña (<a href="#ref-saldana2016" role="doc-biblioref">2016</a>)</span> refers to as categories, I tend to refer to as stubs</li>
+</ul></li>
+<li>Categories are arranged into themes or concepts, which in turn lead to assertions or theories</li>
+</ul>
+<p>Pre-coding techniques: - Data layout - Separation between lines or paragraphs may hold significant meaning - Putting interviewer words in square brackets or capital letters - Semantic markup - Bold, italics, underline, highlight - Meant to identify “codable moments” worthy of attention (<span class="citation" data-cites="boyatzis1998">Boyatzis (<a href="#ref-boyatzis1998" role="doc-biblioref">1998</a>)</span>, as referenced in <span class="citation" data-cites="saldana2016">Saldaña (<a href="#ref-saldana2016" role="doc-biblioref">2016</a>)</span>: 20) - Relates to <span class="citation" data-cites="saldana2016">Saldaña (<a href="#ref-saldana2016" role="doc-biblioref">2016</a>)</span>: 22’s prompt: “what strikes you?” - Preliminary jottings - Tri-column exercise with the text on the left, first impression or preliminary code in the middle, and code on the right, after <span class="citation" data-cites="liamputtong2005">Liamputtong and Ezzy (<a href="#ref-liamputtong2005" role="doc-biblioref">2005</a>)</span>: 270-273.</p>
+</section>
+</section>
+<section id="analysis" class="level2">
+<h2 class="anchored" data-anchor-id="analysis">Analysis</h2>
+<section id="statistical-methods" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-methods">Statistical methods</h3>
 <ul>
 <li>crosstab</li>
 <li></li>
 </ul>
 
 
+
+</section>
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-abbott2004" class="csl-entry" role="listitem">
+Abbott, Andrew Delano. 2004. <em>Methods of Discovery: Heuristics for the Social Sciences</em>. 1. ed. Contemporary Societies. New York, NY: Norton.
+</div>
+<div id="ref-boyatzis1998" class="csl-entry" role="listitem">
+Boyatzis, Richard E. 1998. <em>Transforming Qualitative Information: Thematic Analysis and Code Development</em>. Thousand Oaks, CA: Sage Publications.
+</div>
+<div id="ref-charmaz2001" class="csl-entry" role="listitem">
+Charmaz, Kathy. 2001. <span>“Grounded <span>Theory</span>.”</span> In <em>Contemporary <span>Field Research</span>: <span>Perspectives</span> and <span>Formulations</span></em>, edited by R. M. Emerson, 2nd ed., 335–52. Prospect Heights, IL: Waveland Press.
+</div>
+<div id="ref-charmaz2014" class="csl-entry" role="listitem">
+———. 2014. <em>Constructing <span>Grounded Theory</span></em>. 2nd ed. SAGE.
+</div>
+<div id="ref-coffey1996" class="csl-entry" role="listitem">
+Coffey, Amanda, and Paul Atkinson. 1996. <em>Making Sense of Qualitative Data: Complementary Research Strategies</em>. Thousand Oaks, CA: Sage.
+</div>
+<div id="ref-denzin1989" class="csl-entry" role="listitem">
+Denzin, Norman K. 1989. <em>The <span>Research Act</span>: <span>A Theoretical Introduction</span> to <span>Sociological Methods</span></em>. Prentice Hall. <a href="https://books.google.com?id=7AslAQAAIAAJ">https://books.google.com?id=7AslAQAAIAAJ</a>.
+</div>
+<div id="ref-glaser1967" class="csl-entry" role="listitem">
+Glaser, Barney G., and Anselm L. Strauss. 1967. <em>The Discovery of Grounded Theory: <span>Strategies</span> for Qualitative Research</em>. <a href="https://doi.org/10.4324/9780203793206-1">https://doi.org/10.4324/9780203793206-1</a>.
+</div>
+<div id="ref-huberman1994" class="csl-entry" role="listitem">
+Huberman, A. Michael, Matthew B. Miles, Norman K. Denzin, and Yvonna S. Lincoln. 1994. <span>“Data <span>Management</span> and <span>Analysis Methods</span>.”</span> In <em>Handbook of <span>Qualitative Research</span></em>, 1st ed., 428–44. Thousand Oaks, CA: SAGE. <a href="https://psycnet.apa.org/record/1994-98625-026">https://psycnet.apa.org/record/1994-98625-026</a>.
+</div>
+<div id="ref-kelle2005" class="csl-entry" role="listitem">
+Kelle, Udo. 2005. <span>“"<span>Emergence</span>" Vs. "<span>Forcing</span>" of <span>Empirical Data</span>? <span>A Crucial Problem</span> of "<span>Grounded Theory</span>" <span>Reconsidered</span>.”</span> <em>Forum: Qualitative Social Research</em> 6 (2): 133–56. <a href="https://doi.org/10.17169/FQS-6.2.467">https://doi.org/10.17169/FQS-6.2.467</a>.
+</div>
+<div id="ref-liamputtong2005" class="csl-entry" role="listitem">
+Liamputtong, Pranee, and Douglas Ezzy. 2005. <em>Qualitative Research Methods</em>. 2. ed. South Melbourne: Oxford Univ. Press.
+</div>
+<div id="ref-mills2006" class="csl-entry" role="listitem">
+Mills, Jane, Ann Bonner, and Karen Francis. 2006. <span>“The <span>Development</span> of <span>Constructivist Grounded Theory</span>.”</span> <em>International Journal of Qualitative Methods</em> 5 (1): 25–35. <a href="https://doi.org/10.1177/160940690600500103">https://doi.org/10.1177/160940690600500103</a>.
+</div>
+<div id="ref-ragin1999" class="csl-entry" role="listitem">
+Ragin, C C. 1999. <span>“The Distinctiveness of Case-Oriented Research.”</span> <em>Health Services Research</em> 34 (December):1137–51. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1089057/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1089057/</a>.
+</div>
+<div id="ref-ragin1992a" class="csl-entry" role="listitem">
+Ragin, Charles C., and Howard Saul Becker, eds. 1992. <em>What Is a Case? Exploring the Foundations of Social Inquiry</em>. Cambridge [England] ; New York, NY, USA: Cambridge University Press.
+</div>
+<div id="ref-saldana2016" class="csl-entry" role="listitem">
+Saldaña, Johnny. 2016. <em>The Coding Manual for Qualitative Researchers</em>. 3rd ed. SAGE.
+</div>
+<div id="ref-stake1988" class="csl-entry" role="listitem">
+Stake, Robert E. 1988. <span>“Case <span>Study Methods</span> in <span>Educational Research</span>: <span>Seeking Sweet Water</span>.”</span> In <em>Complementary Methods for Research in Education</em>, edited by Richard M. Jaeger, Tom Barone, and American Educational Research Association, 253–300. Washington, DC: American Educational Research Association.
+</div>
+<div id="ref-stake2006" class="csl-entry" role="listitem">
+———. 2006. <em>Multiple Case Study Analysis</em>. New York: Guilford Press.
+</div>
+<div id="ref-strauss1990" class="csl-entry" role="listitem">
+Strauss, Anselm, and Juliet Corbin. 1990. <em>Basics of Qualitative Research</em>. Sage Publications.
+</div>
+<div id="ref-yazan2015" class="csl-entry" role="listitem">
+Yazan, Bedrettin. 2015. <span>“Three Approaches to Case Study Methods in Education: <span>Yin</span>, <span>Merriam</span>, and <span>Stake</span>.”</span> <a href="https://biblioteca.unisced.edu.mz/bitstream/123456789/3279/1/Three%20Approaches%20to%20Case%20Study%20Methods%20in%20Education_%20Yin%20Merriam.pdf">https://biblioteca.unisced.edu.mz/bitstream/123456789/3279/1/Three%20Approaches%20to%20Case%20Study%20Methods%20in%20Education_%20Yin%20Merriam.pdf</a>.
+</div>
+<div id="ref-yin2014" class="csl-entry" role="listitem">
+Yin, Robert K. 2014. <em>Case <span>Study Research</span>: <span>Design</span> and <span>Methods</span></em>. 5th ed. Los Angeles, CA: SAGE.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
