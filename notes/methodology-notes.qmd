@@ -83,6 +83,52 @@ Draws from the term for a jousting target: <https://en.wikipedia.org/wiki/Quinta
 It should be noted that case study research limits my ability to define causal relationships or to derive findings that may be generalized across the whole field of epidemiology.
 This being said, case study research allows me to articulate the series of inter-woven factors that impact how epidedemiological researchers coordinate and participate in data-sharing initiatives, while explicitly accounting for and drawing from the unique and situational contexts that frame each case.
 
+According to Yin [-@yin2014: 16], "a case study is an empirical inquiry that investigates a contemporary phenomenon (the "case") in depth and within its real-world context, especially when the boundaries between phenomenon and context may not be clearly evident."
+
+He goes on to document some features of a case study: "A casr study inquiry copes with the technically distinctive situation in which there will be many more variables of interest than data points, and as one result relies on multiple sources of evidence, with data needing to converge in a triangulating fashion, and as another result benefits from the prior development of theoretical propositions to guide data collection and analysis." [@yin2014: 17]
+
+@yin2014 is more oriented toward what he refers to as a _realist_ perspective, which he pits against _relativist_ and _interpretivist_ perspectives (used interchangably, it seems), and which I might refer to as _constructivist_.
+He characterizes relativist perspectives as "acknowledging multiple realities having multiple meanings, with findings that are observer dependent".
+His prioriting of a realist approach corresponds with the analysis by @yazan2015, who compared Yin with Stake and Merriam.
+According to  Yazan [-@yazan2015: 137], Yin evades making statements about his epistemic commitments, and is characterized as post-positivist.
+
+Abbott's [-@abbott2004: 22] characaterization of Small-N  comparison is very reminiscient of Stake's -@stake2006 account of the case-quintain dialectic:
+
+> Small-N comparison attempts to combine the advantages of single-case analysis with those of multicase analysis, at the same time trying to avoid the disadantages of each.
+> On the one hand, it retains much information about each case.
+> On the other, it compares the different cases to test arguments in ways that are impossible with a single case.
+> By making these detailed comparisons, it tries to avoid the standard critcism of single-case analysis --- that one can't generalize from a single case --- as well as the standard criticism of multicase analysis --- that it oversimplifies and changes the meaning of variables by removing them from their context.
+
+#### Research Design in case study research
+@yin2014 is very concerned with _research design_ in case study research
+He posits that, in a colloquial sense, "a research design is a logical plan for getting from here to there, where here may be defined as the initial set of questions to be answered, and there is some set of conclusions (answers) about these questions." [@yin2014: 28]
+
+Yin distinguishes between a research design and a work plan.
+A research design deals with a logical problem, whereas a work plan deals with a logistical problem.
+Seems reminiscient of Brian Cantwell Smith's distinction between skeletons and outlines.
+
+Yin lists five components of a research design:
+
+1. A case study's questions;
+2. its propositions, if any;
+3. its unit(s) of analysis;
+4. the logic linking the data to the propositions; and
+5. the criteria for interpreting the findings.
+
+Interestingly, I have been instinctively following these steps, and am currently hovering somewhere between components 3 and 4, while dipping back to 2 once in a while too.
+
+The problem of defining the unit of analysis os salient to me right now.
+According to Yin [-@yin2014: 32], the unit of analysis may change as the project progresses, depending on initial misconceptions (he uses the example of a unit of analysis changing from neighbourhoods to small groups, as contextualized by the socio-geographical entity of the neighbourhood, which is laden with issues of class, race, etc).
+In my own situation, the unit of analysis may hover between the harmonization initiative, the people, activities or infrastructures that make it work.
+
+In the section on criteria for interpreting the findings, Yin emphasizes the role of rival theories, which is akin to a concern with falsifiability as a means of validating truth claims, and which betrays his positivist leanings.
+This may be compared with Stake's emphasis on triangulation, which is more concerned with internal cohesiveness.
+Similarly, Yin cites Corbin and Strauss regarding the role of theory or theoretical propositions in research design, which similarly reveals a concern with rigorous upfront planning and strict adherence to research design as a key aspect of deriving valid findings.
+
+Regarding generalizability, Yin [-@yin2014: 40-41] states that "Rather than thinking about your case as a sample, you should think of it as the opportunity to shed empirical light about some theoretical concepts or principles, not unlike the motive of a laboratory investigator in conceiving of and then conducting a new experiment."
+He goes on to state that case studies tend to strive for analytic generalizations that go beyond the specific case that has been studied, and which apply to other concrete situations rather than just abstract theory building.
+
+
 #### Case selection
 Stake recommends between 4-10 cases.
 
@@ -104,6 +150,8 @@ It's necessary to find out about the interviewee to understand their interpretat
 
 On page 34, @stake2006 also provides some practical tips for documenting and storing data, after @huberman1994.
 
+See @stake2006 Chapter 5 for a step-by-step overview of a multicase study analysis.
+The rest of the volume after that includes three very detailed examples from his own work.
 
 #### Triangulation
 Triangulation is a process of gaining assurance.
@@ -131,7 +179,24 @@ Stake [-@stake2006: 37] cites @denzin1989 who highlighted several kinds of trian
   - Do findings of the interaction among individuals in one group pertain to other groups?
   - Do findings of the aggregate of these people generalized to a population?
 
+#### Cross-Case Analysis Procedure
+Stake [-@stake2006: Chapter 3] lays out a procedure for deriving synthetic findings from data collected across cases.
+He frames this in terms of a dialectic between cases and quintains.
+He identifies three tracks [@stake2006: 46]:
 
+- Track 1: Maintains the case findings and the situationality.
+- Track 2: Merges similar findings, maintaining a little of the situationality.
+- Track 3: The most quanitative track, shifts the focus from findings to factors.
+
+According to Stake, case reports should be created independently and then brought together by a single individual when working in a collaborative project.
+In keeping with the case-quintain dialectic, this integration must involve strategically putting the cases aside and bringing them back in to identify convergences and divergences, similarities and differences, normalitities and discrepancies among them.
+
+There is some detailed discussion about different kinds of statements, i.e. themes, findings, factors and assertions, but I find this a bit too much detail for me to get at at this point in mymethodological planning.
+In general though, Stake documents a process whereby an analyst navigates back and forth between the general and the situational, presenting tentativr statements that are shored up, modified or discarded through testing compatability of the evidence across cases.
+
+#### Reporting the findings
+Stake [-@stake2006: Chapter 4] includes a chapter on procedures for reporting the findings, and I may return to this later on once I need to initiative this phase of work.
+It addresses concerns about how to articulate comparisons, concerns about generalization, and how to handle advocacy based on findings.
 
 ### Grounded theory
 This study follows an abductive qualitative data analysis framework to construct theories founded upon empirical evidence, which relates to, but is distinct from, grounded theory.
