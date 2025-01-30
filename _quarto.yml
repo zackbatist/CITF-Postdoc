@@ -71,3 +71,6 @@ filters:
 
 execute:
   freeze: auto
+
+resources:
+  - irb-docs.pdf

@@ -8,21 +8,13 @@ format:
     date: last-modified
     thanks: This is an automatically generated PDF. Refer to the project website for continuous updates at \url{https://zackbatist.info/CITF-Postdoc}.
 ---
-::: {.callout-note}
-This document is still a work in progress.
-:::
 
 **Project Title:** Articulating epidemiological data harmonization initiatives as practical and collaborative experiences\
+**Submitted Materials:** [zackbatist.info/CITF-Postdoc/irb-docs.pdf](irb-docs.pdf){.external target="_blank"}\
 **Principal Investigator:** Zachary Batist\
 **Protocol Number:** 25-01-057\
-**Submitted:** \
+**Submitted:** 2025-01-30\
 **Approved:** 
-
-<!-- # Cover Letter
-State that I've done the training.
-
-# Questionnaire
-These are the responses I provided on the file I submitted using McGill University's Electronic Research Administration Portal (eRAP). -->
 
 ## Recruitment and consent
 **Will this study involve recruitment of human study participants?**
@@ -159,23 +151,3 @@ Conflicts of interest do not imply wrong-doing. It is the responsibility of the 
 - [ ] Yes, there are conflicts of interest to disclose.
 
 **If yes, please describe the conflicts of interest (real, potential, and perceived), and the procedures for managing declared conflicts.** Not applicable.
-
-<!-- # Recruitment Materials
-The following email template will be used when recruiting projects to serve as cases in the study:
-```
-
-
-```
-
-
-The following email template will be used when recruiting individuals to serve as participants in the study:
-```
-
-
-``` -->
-
-<!-- 
-# Summary of the budget
-- Backup drive
-- MaxQDA license (tentative)
-- Article processing charges and conference registration fees -->
