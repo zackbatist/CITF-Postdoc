@@ -3,53 +3,14 @@ title: Context
 ---
 
 I am [Zack Batist](https://zackbatist.info) --- a postdoctoral researcher at McGill University, in the School of Global and Public Health's Department of Epidemiology, Biostatistics and Occupuational Health.
-I'm working with [David Buckeridge](https://www.mcgill.ca/epi-biostat-occh/david-buckeridge), who leads the [Covid-19 Immunity Task Force (CITF) Databank](https://databank.citf.mcgill.ca/), to investigate data sharing in epidemiological research --- with an emphasis on the practical and situated experiences involved in data-sharing.
+I'm working with [David Buckeridge](https://www.mcgill.ca/epi-biostat-occh/david-buckeridge), who leads the [Covid-19 Immunity Task Force (CITF) Databank](https://databank.citf.mcgill.ca/), to investigate data sharing in epidemiological research --- with an emphasis on the practical and situated experiences involved in data sharing.
 
 The CITF is a "data harmonization" initiative, which entails coordinating a systematic effort to align the information contained in datasets collected by distributed teams of epidemiologists.
-Such efforts to integrate the records collected during various discrete studies are motivated by a desire to establish larger integrated datasets bearing greater statistical power.
-This is especially important in epidemiological research, which is driven by a strong tradition of statistical methods based on independent cohort studies.
-At the same time, efforts to relate cohort studies are hampered by the diversity of minor variations in data collection procedures, as well as ethico-legal concerns relating to the sharing of individual health records pertaining to human research subjects across numerous institutional and regional jurisdictions.
+These efforts to integrate the records collected during various discrete studies are motivated by a desire to establish larger integrated datasets bearing greater statistical power and that facilitate comparison across cohorts.
+However, epidemiologists must reckon with the diversity of minor variations in data collection procedures, as well as ethico-legal concerns relating to the sharing of individual health records pertaining to human research subjects across numerous institutional and regional jurisdictions.
 
-As a scholar of scientific practice, with a primary interest in data-sharing and the formation of information commons, data harmonization represents a fascinating mechanism through which scientists derive technical, administrative, social and epistemic frameworks to derive greater value from their respective endeavours.
-In other words, as an initiative that is largely led by and responsive to disciplinary needs, warrants, desires, values and expectations, data harmonization represents a prime situation of data curation "in the wild".
+As a scholar of scientific practice, with a primary interest in data-sharing and the formation of information commons, data harmonization represents a fascinating mechanism through which scientists derive technical, administrative, social and epistemic frameworks to enhance the value of their collective endeavours in response to disciplinary needs, warrants, desires and expectations.
+This study therefore articulates the motivations for doing data harmonization, identifies how value is ascertained, and describes the strategies employed to achieve the desired goals --- including perceived and actual challenges, setbacks, opportunities, realizations, and lessons learned.
 
-
-
-<!-- This study therefore articulates the motivations for doing data harmonization, identifies how value is ascertained, and describes the strategies employed to achieve the desired goals --- including perceived and actual challenges, setbacks, opportunities, realizations, and lessons learned.
-
-This relates to my previous work that looked at how the open science movement has attempted to shape data management practices without much tangible success, due to its inability or unwillingness to reckon with the situated nature of data, i.e. the fact that data bear traces of the circumstances of their creation.
-Emphasis on the word "attempt", since in either case the focus is not on the outcomes, but on the ways scientists go about doing this work _in ways that conform to the pratical, social and epistemic mandates of the scientific enterprise_.
-
-So in other words, my research explores tensions that arise when attempting to integrate data, specifically relating to the perceived stability of data and the understanding that datasets are derived from specific circumstances.
-How do epidemiologists cope with this, and somehow manage to produce knowledge of greater value in spite of these challenges?
-That’s the core question here. -->
-
-
-<!-- 
-One of my key findings is that purpose-driven consortia based on common cause and familiar forms of collaborative commitments have greater chance of success, even if their "openness" is mitigated by membership in a research or project community.
-Data harmonization as it is performed under the Maelstrom guidelines represents a potentially great example of this, but obviously there is still a lot of diversity in approaches and degrees of success that are worth exploring, and that I seek to investigate.
--->
-
-
-<!--
-
-This project is directly relevant to ongoing developments in the open data landscape.
-As the open data movement begins to mature, cracks are beginning to reveal themselves in the infrastructures we have built thus far.
-Critical inspection is therefore necessary to help improve these systems and ensure that they may continue to support research activities.
-
-Moreover, as a case study on community-oriented data-sharing initiatives, this project is well equipped to draw attention to the support structures (or lack thereof) for these efforts.
-Specifically, the project will contribute to a better understanding of what resources are necessary to improve data-sharing at large and small scales.
-
-The Maelstrom Project, which is a leading firm supporting data harmonization in epidemiology research, presents a great opportunity to explore how social and material factors are being accounted for in data-sharing initiatives.
-Maelstrom operates by partering with research projects through initial consultations, which may then evolve into more comprehensive data harmonization work.
-This is contingent on the value proposition that Maelstrom and partner projects ascertain will derive from harmonization, and evaluation of the feasibility of achieving these outcomes.
-Already, this approach differentiates itself from "raw"[^1] open data-sharing in that it is directed by specific objectives, recognizes limitations of practical circumstances surrounding data's creation and the data harmonization efforts, and maintains the option to not proceed if it is deemed prudent to do so.
-Maelstrom's partners represent a pool of potential cases that already grapple with issues concerning mediation of situated experiences in data-sharing, and which may be receptive to investigation of their research practices.
-
-[^1]: I tentatively use the term "raw" data-sharing to mean acts of uploading and downloading spreadsheets among strangers via the web, which I tend to characterize as transactional (rather than commensal), as oriented toward compliance with the emerging bureaucratization of open science, and as relatively asocial in nature. See my [blog post](https://blog.zackbatist.info/2022/11/28/open-science-and-its-weird-conception-of-data/) where I rant about this in greater depth.
-
-This is especially relevant in the Canadian context, where open science policy has been undergoing major revisions for several years now, and which inspires little confidence in researchers concerning expected outcomes.
-Researchers have therefore taken it upon themselves to develop data-sharing initiatives on their own terms.
-This entrepreneurialism has been a boon for community-driven data-sharing, but is also plagued by difficulties, which this project will be the first of its kind to explore.
-
--->
+This relates to my previous work that (a) explores tensions that arise when attempting to establish information commons in archaeology, specifically relating to inability to cope with a superficial perception of data's stability an intuitive understanding of their situated nature; and that (b) investigates how the open science movement attempts (and fails) to reshape practices relating to data sharing, integration and reuse.
+I continue in my approach that frames data-sharing --- whether it occurs in relatively "closed" curcumstances between close colleagues, or as mediated by open data platforms among strangers --- as comprising a series of collaborative commitments that govern who may contribute to and obtain value from the information commons, and in what ways.
