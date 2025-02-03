@@ -1,21 +1,22 @@
 [
   {
-    "listing": "/posts.html",
-    "items": [
-      "/posts/2025-01-25-week-notes-2025-W04.html",
-      "/posts/2025-01-24-ai-in-my-work.html",
-      "/posts/2025-01-18-week-notes-2025-W03.html",
-      "/posts/2024-12-11-technical-specs.html",
-      "/posts/2024-12-09-first-team-meeting.html",
-      "/posts/2024-12-09-hello-world.html"
-    ]
-  },
-  {
     "listing": "/notes.html",
     "items": [
       "/notes/potential-cases.html",
       "/notes/methodology-notes.html",
       "/notes/maelstrom-readings.html"
+    ]
+  },
+  {
+    "listing": "/posts.html",
+    "items": [
+      "/posts/weeknotes-2025-W05.html",
+      "/posts/weeknotes-2025-W04.html",
+      "/posts/2025-01-24-ai-in-my-work.html",
+      "/posts/weeknotes-2025-W03.html",
+      "/posts/2024-12-11-technical-specs.html",
+      "/posts/2024-12-09-first-team-meeting.html",
+      "/posts/2024-12-09-hello-world.html"
     ]
   }
 ]
