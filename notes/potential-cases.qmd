@@ -8,152 +8,114 @@ categories:
   - brainstorming
 ---
 
-## Top Candidates
+## General Notes
+Isabel Fortier came up with a shortlist based on consultations to help determine which Maelstrom partner projects may serve as potential cases.
+We then met on 2025-02-04, when, among other topics, we discussed the shortlist.
+
+See the [case selection protocol](../case-selection.qmd) for further details on the parameters that guide how cases are to be determined.
+
+## Possible candidates
 ### CITF
 
-### euCanSHare
-- A Europe-Canada joint infrastructure and network for enhancing multi-cohort studies in cardiovascular research.
-- The mission is to develop the first integrated data platform for cross-border data sharing and personalized medicine research in cardiology, integrating cohorts from Europe, Canada and beyond. 
-- The key objectives are the following:
-  - To build a centralized platform for cardiovascular data across Europe, Canada and beyond
-  - To facilitate big data research in personalized cardiovascular medicine
-  - To apply new legal framework for Open Science across continents
-  - To establish the largest international research community in cardiology
-
-[]()
-
-- Started partership with Maelstrom in 2018
-- Listed on the Maelstrom website as a current partnership, but the project site is more ambiguous about current activities.
-- The github organization also seems stagnant since 2023 but seems to have producing lots of meaningful software, largely in relation to data transformation and access interfaces.
-- <https://maelstrom-research.org/network/eucanshare>
-- <http://www.eucanshare.eu/>
-- <https://github.com/euCanSHare>
-
-[]()
-
-- Could be really useful for understanding how people manage cross-jurisdiction logistics and administration.
-- Not so much focusing on the actual logistics, but perceptions of the challenges and the way people going about resolving perceived challenges.
-
-[]()
-
-- Led by Karim Lekadir at the University of Barcelona, with 17 partner institutions across the EU and Canada
-- Canadian centres seem to actually be omited to NcMaster, plus the RI-MUHC for access to Maelstrom and McGill's Centre of Genomics and Policy.
-- McMaster seems to be contributing via their lead on the Canadian Alliance for Healthy Hearts and Minds (CAHMM), which is a very large and ongoing cohort study.
-
 ### ReACH
-- Integrating pregnancy and birth cohort studies
+**Title:** Stress and Anxiety During Pregnancy and Length of Gestation Harmonization Initiative + ReACH\
+**Contact:** Julie Bergeron <!-- (jbergeron@maelstrom-research.org) -->
 
-[]()
+**Reason:**
+A small project and a very complex infrastructure-oriented network coordinated by Julie Bergeron.
+Both projects are finalized.
 
-- Past partership, initiated in 2016
+**Notes:**
+Julie Bergeron was a PhD student at Maelstrom, and Isabel says that she is probably the most knowledgeable person regarding data harmonization who I will encounter during my research.
+She worked on her dissertation project (Stress and Anxiety During Pregnancy and Length of Gestation Harmonization Initiative) while also leading work on ReACH, and her dissertation essentially served as one of a few pilot projects under the aegis of ReACH.
+ReACH was led by Isabel as its PI.
+
+Both projects are complete, but Isabel thinks that Julie Bergeron will be able to share some significant insights on this past work.
+My instinct is that this presents an opportunity to explore how/whether harmonization is suited for doctoral training, the role of pilot projects within broader initiatives, and impact that closeness to the method of data harmonization might have.
+
+**Links:**
+
 - <https://www.maelstrom-research.org/network/reach>
-- @bergeron2021
-- I wonder what its current status is.
 
-[]()
-
-- Papers demonstrated major concern with cataloging infrastructure
-
-### CANUE
-- Canadian Urban Environmental Health Research Consortium
-- More interdisciplinary, includes environmental data
-- Based at Dalla Lana School of Public Health at UofT
-- <https://healthydesign.city/> seems like a spinoff service to make the CANUE work more accessible to planners and community stakeholders
-
-[]()
-
-- <https://canue.ca>
-- Past Maelstrom partner, started in 2017
-
-## Possibly suitable
-### InterConnect
-- Optimising existing data for new research into diabetes and obesity
-- EU + UKRI funded
-- Started partership with Maelstrom in 2014
 
 ### CAPACIty
-- CAnadian PediAtric diabetes ConsortIum (CAPACIty) is a network of 15 childhood diabetes centers from across Canada.
-- Partnering with patients/families and health care professionals to jointly design and develop a Canadawide childhood diabetes registry and research platform.
-- The registry will enable us to improve diabetes care and health outcomes for Canadian youth through comparison of diabetes care quality and outcomes between Canadian diabetes centers, quality improvement initiatives, patient-informed research initiatives across Canada, and successful advocacy work.
+**Ttle:** Capacity: Building CAPACIty for pediatric diabetes research and quality improvement across Canada\
+**Acronym:** CAnadian PediAtric diabetes ConsortIum (CAPACIty)\
+**Contact:** Shazhan Amed <!-- (samed@cw.bc.ca) -->
 
-### Unnamed project
-- Length of storage of red blood cell units as a risk factor for hospital-acquired infections: an individual patient data meta-analysis
-- Started partership with Maelstrom in 2020
+**Reason:**
+Across Canada, focus on clinical data.
+A lot of work already achieved, and harmonization will start soon.
+Will use a federated approach for statistical analysis.
 
-[]()
+**Notes:**
+A network of 15 childhood diabetes centers from across Canada.
+Went through four years of administrative work, and is now just starting harmonization after finally going through all theose hurldes, despite being very eager to get into the data work early on.
+Despite these challenges, Isabel thinks they will be very receptive to participating in the study.
 
-- Could be interesting as a relatively low-scale initiative
+### SHAIRE:
+**Title:** SHAIRE: Scientific & Health Data Assets In Respiratory Research\
+**Contact:** Sanja Stanojevic <!-- (sanja.stanojevic@dal.ca) -->
 
-## Not suitable
+**Reason:**
+New project just starting, very interesting and dynamic.
+
+**Notes:**
+Extremely new, just got funding very recently.
+I don't know that much, to be honest.
+Could potentially provide redundant value to my study as Capacity, but need to find out more.
+
+### Respiratory study
+**Title:** High-dose docosahexaenoic acid for bronchopulmonary dysplasia severity in very preterm infants: A collaborative individual participant data meta-analysis\
+**Contact:** Isabelle Marc <!-- (isabelle.marc@crchudequebec.ulaval.ca) -->
+
+**Reason:** Very specific and small project, very clinical.
+
+**Notes:**
+A very small project, harmonizing two datasets.
+I asked if this scale of work is common and Isabel says that it is, so it's not an outlier.
+
+**Links:**
+
+- <https://maelstrom-research.org/study/n3pi-hi>
+
+### MORGAM
+**Title:** MOnica Risk, Genetics, Archiving and Monograph\
+**Contact:** Kari Kuulasmaa <!-- (kari.kuulasmaa@thl.fi) -->
+
+**Reason:** European, started several years ago.
+
+**Notes:**
+Older project, ended around 10 years ago, the PI is retired.
+Might be valuable for looking at broader impact and potential offshoots after the work has been completed.
+
+**Links:**
+
+- <https://www.maelstrom-research.org/network/morgam>
+
+### Lifecycle
+Very improvized approach to data harmonization, did a lot of "manual" work.
+According to Isabel, Julie Bergeron will be able to tell me more.
+
+**Links:**
+
+- <https://pmc.ncbi.nlm.nih.gov/articles/PMC7387322>
+
+## Recommended but no longer considered
 ### CanPath
-- Formerly called Canadian Partnership for Tomorrow’s Health
-- Canada’s largest population health study
+**Title:** CanPath, formerly called the Canadian Partnership for Tomorrow’s Health\
+**Contact:** Noah Frank <!-- (noah.frank@utoronto.ca) -->
 
-[]()
+**Reason:**
+One of the most important harmonization initiative, infrastructure oriented, long-term started more than 10 years ago.
 
-- One of the projects that would be supported by the workshop that was summarized in @doiron2013a.
-- Also mentioned in @doiron2017.
+**Notes:**
+Other contacts include John Mclaughlin and Paula Robson.
 
-[]()
+My instinct is to look at how things change over the course of a very long and institutional initiative, especially across discrete phases marked by leadership transitions.
+But the history here is so vast and I will probably not get much of it through a series of interviews.
 
-- Current Maelstrom partner, began in 2014.
-- <https://maelstrom-research.org/network/cptp-1>
-- <https://doi.org/10.1503/cmaj.170292>
-
-[]()
-
-- <https://canpath.ca/>
-- The website seem less concerned with data-drivenness, more focused on the areas that the work will address, as well as participant and community engagement.
-
-### Canadian Longitudinal Study on Aging (CLSA)
-- One of the projects that would be supported by the workshop that was summarized in @doiron2013a.
-- Also mentioned in @doiron2017.
-- Seems related with CanPath
-
-[]()
-
-- Began as a Maelstrom partner in 2017.
-- <https://maelstrom-research.org/study/clsa>
-- <https://doi.org/10.1017/s0714980809990055>
-- <https://doi.org/10.1093/ije/dyz173>
-
-[]()
-
-- <https://www.clsa-elcv.ca/>
-
-[]()
-
-Combines data from multiple cohors, including [CARTaGENE](potential-cases.qmd#cartagene).
-
-### CARTaGENE
-- <https://cartagene.qc.ca/en/>
-- <https://en.wikipedia.org/wiki/CARTaGENE_biobank>
-
-[]()
-
-- A long-term cohort study for the investigation of modifiable environmental and lifestyle factors and the genomic determinants of chronic diseases in Quebec, Canada.
-
-- Initially founded by Dr. Claude Laberge and Prof. Bartha Maria Knoppers, CARTaGENE is today under the scientific direction of Dr. Guillaume Lettre, Dr. Simon Gravel and Dr. Vikki Ho.
-
-- A regional cohort member of the Canadian Partnership for Tomorrow's Health (CanPath)
-
-[]()
-
-- Current Maelstrom partner, began in 2018.
-- <https://maelstrom-research.org/study/cag>
-- <https://doi.org/10.1093/ije/dys160>
-
-### Healthy Obesity Project (HOP)
-- The ilustrative case from @doiron2013
-- Primary paper is @vanvliet-ostaptchouk2014
-
-### Avon Longitudinal Study of Parents and Children
-  - Based in the UK
-
-### Athlos: Ageing Trajectories of Health: Longitudinal Opportunities and Synergies
-  - Pan-European, but lead is based in Spain
-
-### Mindmap: Promoting mental well-being and healthy ageing in cities
-  - Pan-European
-  - Seems very similar to CanPath in terms of scope and governance
+### Mindmap
+Promoting mental well-being and healthy ageing in cities.
+Seems very similar to CanPath in terms of scope and governance, and I would likely face similar challenges.
 
