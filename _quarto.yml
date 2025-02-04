@@ -25,7 +25,7 @@ website:
     pinned: true
     align: center
     style: "docked"
-    search: true
+    search: false
     collapse-level: 2
     contents:
       - href: index.qmd
@@ -59,7 +59,9 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: 
+      light: cosmo
+      dark: [cosmo, theme-dark.scss]
     code-copy: true
     code-overflow: wrap
     toc: true
