@@ -53,7 +53,7 @@ A network of 15 childhood diabetes centers from across Canada.
 Went through four years of administrative work, and is now just starting harmonization after finally going through all theose hurldes, despite being very eager to get into the data work early on.
 Despite these challenges, Isabel thinks they will be very receptive to participating in the study.
 
-### SHAIRE:
+### SHAIRE
 **Title:** SHAIRE: Scientific & Health Data Assets In Respiratory Research\
 **Contact:** Sanja Stanojevic <!-- (sanja.stanojevic@dal.ca) -->
 
