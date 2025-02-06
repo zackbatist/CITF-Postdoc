@@ -328,6 +328,23 @@ Pre-coding techniques:
   - Tri-column exercise with the text on the left, first impression or preliminary code in the middle, and code on the right, after @liamputtong2005: 270-273.
 
 
+Asking questions back to the interviewer, or participating in an imagined dialogue.
+I imagine this might be useful in situations where the time to hold an interview is quite limited and I have to work with limited responses that don't touch on everything I want to cover.
+The form of questions maintains my tentativity, my unwillingness to commit or assume their responses, and opens the door for their own responses in rebuttal.
+
+Magnitude coding can be applied to tag positive/negative attitudes, but also other gradients like hard/soft, technical/social skills.
+May be useful to apply symbols using my little 12-button keypad.
+
+Can also use colons to identify a magnitude associated with a code's usage, as per 88-89.
+
+Note: create a qc issue for sub-documents, for identifying sections of a document that are especially relevant and hiding less relevant sections.
+I don't necessarily want to delete these lines, but I may want to hide them from view.
+Maybe this is possible using vscode, outside of qc (see https://stackoverflow.com/a/72954133).
+
+
+### Memos
+Saldana chapter 2 on "analytic memos"
+
 ## Analysis
 ### Preliminary analyses
 Yin [-@yin2014: 135-136 5] identifies various strategies for analyzing case study evidence.
