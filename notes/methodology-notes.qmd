@@ -342,6 +342,15 @@ I don't necessarily want to delete these lines, but I may want to hide them from
 Maybe this is possible using vscode, outside of qc (see https://stackoverflow.com/a/72954133).
 
 
+In lieu of initial/open coding, I think I will opt to devise sensitizing concepts, which may amalgamate as memos.
+I could use the prefix "SC:" to denote sensitizing concepts.
+
+What saldana refers to as "concept coding" is what I have previously referred to as "theoretical coding" to a certain extent.
+It's a form of lumping, identifying specific instances under the label of cohesive concepts.
+
+
+
+
 ### Memos
 Saldana chapter 2 on "analytic memos"
 
