@@ -3,6 +3,7 @@ title: Methodology notes
 description: Notes perpainting to the methodological approach for this project.
 date: 2025-01-13
 date-modified: last-modified
+toc-depth: 5
 categories: 
   - reading
   - general thoughts
@@ -103,6 +104,9 @@ Stake [-@stake2006: 23] recommends selecting between 4-10 cases and identifies t
 
 > For qualitative fieldwork, we will usually draw a purposive sample of cases, a sample tailored to our study; this will build in variety and create opportunities for intensive study [@stake2006: 24].^[Though Yin [-@yin2014: 40-444] is dismissive of such use of the term "sample" since he sees case study research as only generalizable to similar situations, and not to a general population from which a sample is typically said to be drawn. I agree with this focus on concrete situations over Stake's prioritization of theory-building as an end unto itself.]
 
+
+Stake's [-@stake2010: 122] prioritizes doing research to understand something or to improve something, and I generally agree with his rationalization; research helps reframe problems and establish different decision options.
+
 #### Yin's Approach
 According to Yin [-@yin2014: 16], "a case study is an empirical inquiry that investigates a contemporary phenomenon (the "case") in depth and within its real-world context, especially when the boundaries between phenomenon and context may not be clearly evident."
 
@@ -141,6 +145,7 @@ Similarly, Yin cites Corbin and Strauss regarding the role of theory or theoreti
 Regarding generalizability, Yin [-@yin2014: 40-41] states that "Rather than thinking about your case as a sample, you should think of it as the opportunity to shed empirical light about some theoretical concepts or principles, not unlike the motive of a laboratory investigator in conceiving of and then conducting a new experiment."
 He goes on to state that case studies tend to strive for analytic generalizations that go beyond the specific case that has been studied, and which apply to other concrete situations rather than just abstract theory building.
 
+#### Logistics of case study design
 ##### Preparing to select case study data
 Yin [-@yin2014: 72-23] identifies five desired attributes for collecting case studt data:
 
@@ -166,8 +171,7 @@ He provides an example of a table of contents for case study protocols, which ge
 3. Data collection questions
 4. Guide for the case study report
 
-
-#### Triangulation
+##### Triangulation
 Triangulation is a process of gaining assurance.
 Also sometimes called crystallization.
 
@@ -193,7 +197,7 @@ Stake [-@stake2006: 37] cites @denzin1989 who highlighted several kinds of trian
   - Do findings of the interaction among individuals in one group pertain to other groups?
   - Do findings of the aggregate of these people generalized to a population?
 
-#### Cross-Case Analysis Procedure
+##### Cross-Case Analysis Procedure
 Stake [-@stake2006: Chapter 3] lays out a procedure for deriving synthetic findings from data collected across cases.
 He frames this in terms of a dialectic between cases and quintains.
 He identifies three tracks [@stake2006: 46]:
@@ -208,7 +212,17 @@ In keeping with the case-quintain dialectic, this integration must involve strat
 There is some detailed discussion about different kinds of statements, i.e. themes, findings, factors and assertions, but I find this a bit too much detail for me to get at at this point in mymethodological planning.
 In general though, Stake documents a process whereby an analyst navigates back and forth between the general and the situational, presenting tentativr statements that are shored up, modified or discarded through testing compatability of the evidence across cases.
 
-#### Some practical guidance
+##### Single cases
+@stake2000 is concerned with identifying what can be learned from a single case.
+He [-@stake2000: 437] identifies three kinds of cases:
+
+- **Intrinsic case studies** as being driven by a desire to understand the particular case.
+- **Instrumental case studies** are examined "mainly to provide insight into an issue or to redraw a generalization."
+- **Collective case studies** "investigate a phenomenon, population or general condition".
+
+@stake2000 frames case research around a tension between the particular and the general, which echoes the case-quintain dilemma he described in [@stake2006: 4-6].
+
+##### Some scattered practical guidance
 Stake [-@stake2006: 18-22] provides a detailed and realistic overview of common challenges involved in collaborative qualitative research.
 This could be handy in future work when planning a multicase project involving multiple researchers.
 
@@ -223,19 +237,6 @@ It addresses concerns about how to articulate comparisons, concerns about genera
 
 See @stake2006 Chapter 5 for a step-by-step overview of a multicase study analysis.
 The rest of the volume after that includes three very detailed examples from his own work.
-
-#### Enacting the findings
-Stake's [-@stake2010: 122] prioritizes doing research to understand something or to improve something, and I generally agree with his rationalization; research helps reframe problems and establish different decision options.
-
-#### Single case studies
-@stake2000 is concerned with identifying what can be learned from a single case.
-He [-@stake2000: 437] identifies three kinds of cases:
-
-- **Intrinsic case studies** as being driven by a desire to understand the particular case.
-- **Instrumental case studies** are examined "mainly to provide insight into an issue or to redraw a generalization."
-- **Collective case studies** "investigate a phenomenon, population or general condition".
-
-@stake2000 frames case research around a tension between the particular and the general, which echoes the case-quintain dilemma he described in [@stake2006: 4-6].
 
 ### Grounded theory
 This study follows an abductive qualitative data analysis framework to construct theories founded upon empirical evidence, which relates to, but is distinct from, grounded theory.
@@ -405,6 +406,88 @@ Charmaz [-@charmaz2000: 524] on the concretization of procedures from what were 
 > Guidelines turn into procedures and are reified into immutable rules, unlike Glaser and Strauss's [-@glaser1967] original flexible strategies.
 > By taking grounded theory methods as prescriptive scientific rules, proponents further the positivist cast to obiectivist grounded theory.
 
+##### On the modes of reasoning behind grounded theory
+
+@kelle2005 is an overview of the Glaser / Strauss and Corbin split.
+References to @kelle2005 have no page numbers since it is published in an online-only journal and does not specify paragraph numbers.
+
+Highlights a primary impetus behind @glaser1967, which used political analogies to distinguish between "theoretical capitalists" and "proletariat testers", and unify the field of sociology by de-centering emphasis on theories developed by "great men".
+
+A common thread in this paper is sensitivity to the practical challenges of actually doing grounded theory according to Glaser's approach:
+
+> The infeasibility of an inductivist research strategy which demands an empty head (instead of an "open mind") cannot only be shown by epistemological arguments, it can also be seen in research practice.
+> Especially novices in qualitative research with the strong desire to adhere to what they see as a basic principle and hallmark of Grounded Theory --- the "emergence" of categories from the data --- often experience a certain difficulty: in open coding the search for adequate coding categories can become extremely tedious and a subject of sometimes numerous and endless team sessions, especially if one hesitates to explicitly introduce theoretical knowledge.
+> The declared purpose to let codes emerge from the data then leads to an enduring proliferation of the number of coding categories which makes the whole process insurmountable.
+
+@kelle2005 basically takes down the original @glaser1967 and subsequent reflection on theoretecal sensitivity [@glaser1978].
+He highlights fundamental contraditions and oversights with regards to the role of theory in grounded theory, specifically with regards to the notion that such research can be accomplished with inductive purity:
+
+> Consequently, in the most early version of Grounded Theory the advice to employ theoretical sensitivity to identify theoretical relevant phenomena coexists with the idea that theoretical concepts "emerge" from the data if researchers approach the empirical field with no preconceived theories or hypotheses.
+> Both ideas which have conflicting implications are not integrated with each other in the Discovery book.
+> Furthermore, the concept of theoretical sensitivity is not converted into clear cut methodological rules: it remains unclear how a theoretically sensitive researcher can use previous theoretical knowledge to avoid drowning in the data.
+> If one takes into account the frequent warnings not to force theoretical concepts on the data one gets the impression that a grounded theorist is advised to introduce suitable theoretical concepts ad hoc drawing on implicit theoretical knowledge but should abstain from approaching the empirical data with ex ante formulated hypotheses.
+
+@kelle2005 recognizes that Glaser identified a series of "theoretical families" to help assist with the practical experience of coding.
+I find it somewhat interesting that many of the terms in these first families are very reminiscient of so-called "natural language", as used in the wave of cybernets that was contemporary with @glaser1978 and which largely dealt with "expert systems".
+
+
+> In the book "Theoretical Sensitivity" (1978) GLASER presents an extended list of terms which can be used for the purpose of theoretical coding loosely structured in the form of so called theoretical "coding families".
+> Thereby various theoretical concepts stemming from different (sociological, philosophical or everyday) contexts are lumped together, as for example:
+> 
+> - terms, which relate to the degree of an attribute or property ("degree family"), like "limit", "range", "extent", "amount" etc.,
+> - terms, which refer to the relation between a whole and its elements ("dimension family"), like "element", "part", "facet", "slice", "sector", "aspect", "segment" etc.,
+> - terms, which refer to cultural phenomena ("cultural family") like "social norms", "social values", "social beliefs" etc.
+
+This is substantiated by other observations by @kelle2005 that ad hoc coding actually follows _implicit_ theoretical knowledge:
+
+> One of the most crucial differences between GLASER's and STRAUSS' approaches of Grounded Theory lies in the fact that STRAUSS and CORBIN propose the utilization of a specified theoretical framework based on a certain understanding of human action, whereas GLASER emphasises that coding as a process of combining "the analyst's scholarly knowledge and his research knowledge of the substantive field" (1978, p.70) has to be realised ad hoc, which means that it has often to be conducted on the basis of a more or less implicit theoretical background knowledge.
+
+and that the Glaserian approach is better suited for more experienced, rather than novice sociologists, who will have internalized the theory that they then apply in their coding.
+
+
+Kelle then goes on to address how grounded theory can or can not be applied in alignment with inductivist or hypothetic-deductivist reasoning, and raises abductive reasoning an an alternative means of arriving at legitimate and verifiable conclusions.
+There is too much detail in the paper to copy here.
+
+But here is another  nice conclusive gem from the end:
+
+> Whereas STRAUSS and CORBIN pay a lot of attention to the question how grounded categories and propositions can be further validated, GLASER's concept shows at least a gleam of epistemological fundamentalism (or "certism", LAKATOS 1978) especially in his defence of the inductivism of early Grounded Theory.
+> "Grounded theory looks for what is, not what might be, and therefore needs no test" (GLASER 1992, p.67).
+> Such sentences carry the outmoded idea that empirical research can lead to final certainties and truths and that by using an inductive method the researcher may gain the ability to conceive "facts as they are" making any attempt of further corroboration futile.
+
+
+##### Rebuttals by Glaser
+@glaser2002 constitutes a rebuttal to @charmaz2000.
+As @bryant2003 points out in his response to @glaser2002, it is very angry, polemical and irrational.
+I don't want to go too in depth with the fundamental problems with Glaser's response (see Bryant's paper for the details), but the gist is that Glaser never really got the message about data being inherently constructed by researchers decisions, actions and circumstances.
+Glaser seems to continue believing in the inherent neutrality of data as a matter of faith.
+
+This being said, @glaser2002 did highlight the large emphasis on descriptive rather than explanatory potential in Charmaz's approach.
+This aligns with my own apprehensions when I try to address the relevance of my work.
+I tend to use the term "articulate" as a way to frame my work as descriptive, but in a way that lends value, and this very fuzzy distinction between the power of identying the shapes and relationships among things and explaining their causes and effects in a generalizable way (i.e., theories, or explanations), still somehow troubles me.
+I wonder if Glaser is drawing a false distinction here, and through that, a false prioritization of explanation over description as a desired outcome.
+This would put my mind at ease, as would dismissing Glaser's dismissal of people who simply don't know how to do the "real" grounded theory (which, in his mind, include all feminist and critical researchers).
+
+##### On the _utility_ of grounded theory
+I completely agree with this statement from Clarke [-@clarke2003: 555]:
+
+> To address the needs and desires for empirical understandings of the complex and heterogeneous worlds emerging through new world orderings, new methods are requisite (Haraway 1999).
+> I believe some such methods should be epistemologically/ ontologically based in the pragmatist soil that has historically nurtured symbolic interactionism and grounded theory.
+> Through Mead, an interactionist grounded theory has always had the capacity to be distinctly perspectival in ways fully com patible with what are now understood as situated knowledges.
+> This fundamental and always already postmodern edge of a grounded theory founded in symbolic interactionism makes it worth renovating.
+
+This is super interesting, and really contextualizes how Strauss imagined grounded theory to be _useful_ for him:
+
+> Some years ago, Katovich and Reese (1993:400–405) interestingly argued that Strauss’s negotiated order and related work recuperatively pulled the social around the postmodern turn through its methodological [grounded theoretical] recognition of the partial, tenuous, shifting, and unstable nature of the empirical world and its constructedness.
+> I strongly agree and would argue that **Strauss also furthered this "postmodernization of the social" through his conceptualizations of social worlds and arenas as modes of understanding the deeply situated yet always also fluid orga nizational elements of negotiations.**
+> He foreshadowed what later came to be known as postmodern assumptions: the instability of situations; characteristic changing, porous boundaries of both social worlds and arenas; social worlds seen as mutually constitutive/coproduced through negotiations taking place in arenas; negotiations as central social processes hailing that "things can always be otherwise"; and so on.
+> Significantly, negotiations constitute discourses that also signal micropolitics of power as well as "the usual" meso/macrostructural elements—power in its more fluid forms (e.g., Foucault 1979, 1980).
+> Through integrating the social worlds/arenas/ negotiations framework with grounded theory as a new conceptual infrastructure, I hope to sustain and extend the methodological contribution of grounded theory to understanding and elaborating what has been meant by "the social" in social life --- before, during, and after the postmodern turn.
+
+It also echoes Charmaz's vision of grounded theory as a powerful too, and Bryant's [-@bryant2003] call to "look at what Glaser and Strauss actually did, rather than what they claimed --- and continued to claim --- they were doing" to uncover "the basis for a powerful research approach".
+@bryant2003 further cites @baszanger1997, who characterize grounded theory as a method "consisting of accumulating a series of individual cases, of analyzing them as a combination between different logics of action that coexist not only in the field under consideration, but even within these individuals or during their encounters".
+@bryant2003 summarizes this by stating that "[t]he aim of such methods is generalization rather than totalization, with the objective of producing "a combinative inventory of possible situations".
+
+
 
 ## Data Collection
 ### Interviews
@@ -511,6 +594,17 @@ I could use the prefix "SC:" to denote sensitizing concepts.
 What saldana refers to as "concept coding" is what I have previously referred to as "theoretical coding" to a certain extent.
 It's a form of lumping, identifying specific instances under the label of cohesive concepts.
 
+
+From Clarke [-@clarke2003: 558] on process coding:
+
+> In a traditional grounded theory study, the key or basic social process is typically articulated in gerund form connoting ongoing action at an abstract level. Around this basic process are then constellated the particular and distinctive conditions, strategies, actions, and practices engaged in by human and nonhuman actors in volved with/in the process and their consequences. For example, subprocesses of disciplining the scientific study of reproduction include formalizing a scientific disci pline, gleaning fiscal support for research, producing contraceptives and other techno scientific products, and handling any social controversies the science provokes (such as cloning and stem cell research).
+
+#### sensitizing concepts
+
+From @kelle2005:
+
+> Herbert BLUMER invented the term "sensitizing concepts" to describe theoretical terms which "lack precise reference and have no bench marks which allow a clean cut identification of a specific instance" (1954, p.7). Sensitizing concepts are useful tools for descriptions but not for predictions, since their lack of empirical content permits researchers to apply them to a wide array of phenomena. Regardless how empirically contentless and vague they are, they may serve as heuristic tools for the construction of empirically grounded theories.
+
 ### Memos
 Saldana chapter 2 on "analytic memos"
 
@@ -579,6 +673,25 @@ It also seems very well suited for analysis of situational meaning-making, as pe
 
 #### Theoretical sampling
 See @charmaz2000: 519-520.
+
+From Clarke [-@clarke2003: 557]:
+
+> Unique to this approach has been, first, its requiring that analysis begin as soon as there are data. Coding begins immediately, and theorizing based on that coding does as well, however provisionally (Glaser 1978). Second, “sampling” is driven not necessarily (or not only) by attempts to be “representative” of some social body or population (or its heterogeneities) but especially and explicitly by theoretical con cerns that have emerged in the provisional analysis. Such “theoretical sampling” focuses on finding new data sources (persons or things) that can best explicitly ad dress specific theoretically interesting facets of the emergent analysis. Theoretical sampling has been integral to grounded theory from the outset, remains a fundamen tal strength of this analytic approach, and is crucial for the new situational analyses.
+
+### Situational Analysis
+Situational analysis originates from Strauss's social worlds/arenas/negotiations framework.
+From Clarke [-@clarke2003: 554]:
+
+> Building on and extending Strauss’s work, situational analyses offer three main cartographic approaches:
+> 
+> 1. situational maps that lay out the major human, nonhuman, discursive, and other elements in the research situation of concern and provoke analyses of relations among them;
+> 2. social worlds/arenas maps that lay out the collective actors, key nonhuman elements, and the arena(s) of commitment within which they are engaged in ongoing negotiations, or mesolevel interpretations of the situation; and
+> 3. positional maps that lay out the major positions taken, and not taken, in the data vis-à-vis particular discursive axes of variation and difference, con cern, and controversy surrounding complicated issues in the situation.
+
+Refer to highlighted sections in @clarke2003, bring those over at some point.
+
+@clarke2003 refers to @shim2000 as an exemplary case of situational analysis in action.
+
 
 ### Statistical methods
 - crosstab
