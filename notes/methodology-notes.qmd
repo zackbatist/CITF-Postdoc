@@ -478,15 +478,8 @@ From Clarke [-@clarke2003: 557]:
 
 ## Data Collection
 ### Interviews
-- structured, semi-structured
-- lunk to more detailed transcription protocol
-
-- See [@yin2014: 110-113]
-- See @becker1998
-
-See @fontana2000
-
----
+See [@yin2014: 110-113]
+See @becker1998
 
 From Charmaz [-@charmaz2000: 525]:
 
@@ -498,12 +491,56 @@ From Charmaz [-@charmaz2000: 525]:
 > Such a structure reinforces whatever proclivities a respondent has to tell only the public version of the story.
 > Researchers' sustained involvement with research participants lessens these problems.
 
+@fontana2000 spend some time writing about the emergence of an "interview society", whereby interviews are commonly used to seek various forms of biographical information.
+They cite @holstein1998, who noted that "the interview has become a means of contemporary storytelling, where persons divulge life accounts in response to interview inquiries".
+They then go over a brief history of interviewing in the context of sociological research, which largely tracks the values underlying positivist and postmodernist transitions as you might expect.
+
+#### Structured interviewing
+From Fontana and Frey [-@fontana2000: 649-651]:
+
+Interviewers ask respondents a series of preestablished questions with a limited set of response categories.
+The interview records responses according to a preestablished coding scheme.
+
+Instructions to interviewers often follow these guidelines:
+
+- Never get involved in long explanations of the study; use the standard explanation provided by the supervisor.
+- Never deviate from the study introduction, sequence of questions, or question wording.
+- Never let another person interrupt the interview; do not let another person answer for the respondent or offer his or her opinions on the question.
+- Never suggest an answer or agree or disagree with an answer. Do not give the respondent any idea of your personal views on the topic of the question or the survey.
+- Never interpret the meaning of a question; just repeat the question and give instructions or clarifications that are provided in training or by the supervisors.
+- Never improvise, such as by assing answer categories or making wording changes.
+
+The interviewer must establish a "balanced rapport", being casual and friendly while also directive and impersonal.
+Interviewers must also perfect a style of "interested listening" that rewards respondents' participation but does not evaluate their responses.
+
+From Fontana and Frey [-@fontana2000: 651]:
+
+> This kind of interview often elicits rational responses, but it overlooks or inadequately assesses the emotional dimension.
+
+#### Group interviews
+From Fontana and Frey [-@fontana2000: 651-652]:
+
+Can be used to test a methodological technique, try out a definition of a research problem or to identify key informants.
+Pre-testing a questionnaire or survey design.
+
+Can be used to aid respondents' recall of specific events or to stimulate embellished descriptions of events, or experiences shared by members of a group.
+
+In formal group interviews, participants share views through the coordinator.
+
+Less formal group interviews are meant to establish the widest range of meaning and interpretation on a topic, and the objective is "to tap intersubjective meaning with depth and diversity".
+
+#### Unstructured interviewing
+From Fontana and Frey [-@fontana2000: 652-657]:
+
+The essence of an unstructured interview is establishing a human-to-human relation with the respondent and a desire to _understand_ rather than to _explain_.
+
+@fontana then goes on with some practical guidance on how to engage in unstructured interviews, largely concerned with how to access a community and relate with respondents.
+
 #### Transcribing
 This section describes how I transcibe interviews and accounts for the decisions to encode certain things and not others.
 It goes on to explains the procedures for transcribing spoken dialog into textual formats, including the notation applied to encode idiosyncratic elements of conversational speech.
 
 Check out @silverman2000, who writes about the nuanced challenges of working with and between verbal and textual media, and what this means for transcription.
-
 
 ##### Transcript notation
 Derived from the [transcription protocol applied for the E-CURATORS project](https://zackbatist.info/notes/E-CURATORS/#transcription).
