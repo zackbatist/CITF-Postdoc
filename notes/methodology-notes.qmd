@@ -468,7 +468,7 @@ It also echoes Charmaz's vision of grounded theory as a powerful too, and Bryant
 @bryant2003 further cites @baszanger1997, who characterize grounded theory as a method "consisting of accumulating a series of individual cases, of analyzing them as a combination between different logics of action that coexist not only in the field under consideration, but even within these individuals or during their encounters".
 @bryant2003 summarizes this by stating that "[t]he aim of such methods is generalization rather than totalization, with the objective of producing "a combinative inventory of possible situations".
 
-#### Theoretical sampling
+### Theoretical sampling
 See @charmaz2000: 519-520.
 
 From Clarke [-@clarke2003: 557]:
@@ -492,7 +492,7 @@ From Charmaz [-@charmaz2000: 525]:
 > Researchers' sustained involvement with research participants lessens these problems.
 
 @fontana2000 spend some time writing about the emergence of an "interview society", whereby interviews are commonly used to seek various forms of biographical information.
-They cite @holstein1998, who noted that "the interview has become a means of contemporary storytelling, where persons divulge life accounts in response to interview inquiries".
+They cite @gubrium1998, who noted that "the interview has become a means of contemporary storytelling, where persons divulge life accounts in response to interview inquiries".
 They then go over a brief history of interviewing in the context of sociological research, which largely tracks the values underlying positivist and postmodernist transitions as you might expect.
 
 #### Structured interviewing
@@ -534,7 +534,7 @@ From Fontana and Frey [-@fontana2000: 652-657]:
 
 The essence of an unstructured interview is establishing a human-to-human relation with the respondent and a desire to _understand_ rather than to _explain_.
 
-@fontana000 then goes on with some practical guidance on how to engage in unstructured interviews, largely concerned with how to access a community and relate with respondents.
+@fontana2000 then goes on with some practical guidance on how to engage in unstructured interviews, largely concerned with how to access a community and relate with respondents.
 
 #### "New" takes on interviewing
 @fontana2000 address some "new" takes on interviewing emerging from the postmodern turn.
@@ -549,7 +549,8 @@ Moreover, there is additional reference to the culturally-embedded assumption th
 This section describes how I transcibe interviews and accounts for the decisions to encode certain things and not others.
 It goes on to explains the procedures for transcribing spoken dialog into textual formats, including the notation applied to encode idiosyncratic elements of conversational speech.
 
-Check out @silverman2000, who writes about the nuanced challenges of working with and between verbal and textual media, and what this means for transcription.
+@silverman2000 writes about the nuanced challenges of using various kinds of media (i.e. live interviews and transcripts) as evidence contributing to analysis in a research setting.
+Honestly, I'm not getting much out of this text, it's very theoretical and abstract and I don't really know how to take notes on it, in a practical sense.
 
 ##### Transcript notation
 Derived from the [transcription protocol applied for the E-CURATORS project](https://zackbatist.info/notes/E-CURATORS/#transcription).
@@ -568,14 +569,8 @@ To clean the audio:
   ffmpeg -i dirty.mp4 -i clean.wav -c:v copy -map 0:v:0 -map 1:a:0 clean.mp4
 ```
 
-
-### Observations
-See @angrosino2000
-
 ### Field notes
 See [@yin2014: 124-125]
-
-### Recording video
 
 ### Focus groups
 From @kitzinger1994; @wilkinson1998; @parker2006; @morgan2018b.
@@ -910,7 +905,14 @@ This history if followed by a sober account of what software can and can not do 
 Very reminiscient of @huggett2018.
 
 ## Writing
-See @richardson2000, who frames writing as a method of inquiry.
+@richardson2000, who frames writing as a method of inquiry.
+While much of it deals with the history of social science writing and the impact of postmodernism (which I'm honestly not really that interested in, at this point at least), there are some excellent creative writing tips scatttered throughout the latter section.
+One notable technique is her distinction between four kinds of notes:
+
+- Observation notes: Concrete and detailed, accurate renditions of things I see, hear, feel and taste, and so on. Remain close to the scene as experienced through the senses.
+- Methodological notes: Messages to self about how to collect data --- who to talk to, what to wear, when to get in touch.
+- Theoretical notes: Hunches, hypotheses, poststructuralist connections, critiques of what I'm doing/thinking/seeing, keeping me from getting hooked on one view of reality.
+- Personal notes: Uncensored feeling statements about the research, the people I'm talking to, my doubts, anxieties, pleasures. These can also be great sources of hypotheses (for example, if I am feeling anxious, others I'm speaking with might feel the same way, which provides a string to tug on).
 
 See @mitchell1996
 
