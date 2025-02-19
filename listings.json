@@ -2,8 +2,8 @@
   {
     "listing": "/notes.html",
     "items": [
-      "/notes/potential-cases.html",
       "/notes/methodology-notes.html",
+      "/notes/potential-cases.html",
       "/notes/maelstrom-readings.html"
     ]
   },
