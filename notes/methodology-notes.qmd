@@ -549,9 +549,6 @@ Moreover, there is additional reference to the culturally-embedded assumption th
 This section describes how I transcibe interviews and accounts for the decisions to encode certain things and not others.
 It goes on to explains the procedures for transcribing spoken dialog into textual formats, including the notation applied to encode idiosyncratic elements of conversational speech.
 
-@silverman2000 writes about the nuanced challenges of using various kinds of media (i.e. live interviews and transcripts) as evidence contributing to analysis in a research setting.
-Honestly, I'm not getting much out of this text, it's very theoretical and abstract and I don't really know how to take notes on it, in a practical sense.
-
 ##### Transcript notation
 Derived from the [transcription protocol applied for the E-CURATORS project](https://zackbatist.info/notes/E-CURATORS/#transcription).
 
@@ -765,7 +762,8 @@ From Clarke [-@clarke2003: 558] on process coding:
 ### Memos
 Saldana chapter 2 on "analytic memos"
 
-### Preliminary analyses
+### Analysis
+#### Preliminary analyses
 Yin [-@yin2014: 135-136 5] identifies various strategies for analyzing case study evidence.
 
 > A helpful starting point is to "play" with your data.
@@ -784,7 +782,7 @@ Yin [-@yin2014: 135] also emphasizes memo-writing as a core strategy at this sta
 These memos should include hints, clues and suggestions that simply put into writing any preliminary interpretation, essentially conceptualizing your data.
 He uses the specific example of shower thoughts.
 
-### Analytical strategies and techniques
+#### Analytical strategies and techniques
 Yin [-@yin2014: 136-142] then goes on to describe four general strategies:
 
 1. Relying on theoretical propositions
@@ -800,10 +798,9 @@ Yin [-@yin2014: 142-168] then goes on to describe five analytical techniques:^[I
 4. Logic models
 5. Cross-case synthesis
 
-
 @ryan2000 describe various analysis techniques for analyzing textual elicitations in structured and codified ways.
 
-### The constant comparative method
+#### The constant comparative method
 The constant comparative method is based on action codes, similar to what @saldana2016 refers to as process codes.
 According to Charmaz [-@charmaz2000: 515]:
 > The constant comparative method of grounded theory means (a) comparing different people (such as their views, situations, actions, accounts, and experiences), (b) comparing data from the same individuals with themselves at different points in time, (c) comparing incident with incident, (d) comparing data with categori, and (e) comparing categories with other categories.
@@ -811,7 +808,7 @@ According to Charmaz [-@charmaz2000: 515]:
 My initial impression is that this is very well suited for Stake's [-@stake2006] multicase study framework, specifically with regards to his notion of the case-quintain dilemma.
 It also seems very well suited for analysis of situational meaning-making, as per @suchman1987, @lave1991, @knorrcetina2001 and symbolic interactionism at large.
 
-### Situational analysis
+#### Situational analysis
 Situational analysis originates from Strauss's social worlds/arenas/negotiations framework.
 From Clarke [-@clarke2003: 554]:
 
@@ -888,10 +885,7 @@ Interesting that the mention of "freshness" is brought up in the context of Glas
 
 @clarke2003 refers to @shim2000 as an exemplary case of situational analysis in action.
 
-### Statistical methods
-crosstab
-
-### On software
+### QDA software and tooling
 @weitzman2000 provides an overview of software and qualitative research, including a minihistory up to the year 2000 when the chapter was published.
 
 Describing the first programs specifically designed for analysis of qualitative data, Weitzman [-@weitzman2000: 804] writes:
