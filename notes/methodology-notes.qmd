@@ -702,11 +702,53 @@ However it should still be read from top to bottom to get a sense of practical c
 My QDA processes are most influenced by Kathy Charmaz and Johnny Saldaña, as well as the practical experiences instilled during my PhD and while working on E-CURATORS.
 
 #### Sensitizing concepts
+According to Bowen [-@bowen2006: 13-14], [@blumer1954; @blumer1969] first established the term "senstizing concepts" to differentiate them with "definitive concepts".
+
+According to Blumer [-@blumer1954: 7]:
+
+> A definitive concept refers precisely to what is common to a class of objects, by the aid of a clear definition in terms of attributes or fixed bench marks.
+> ...
+> A sensitizing concept lacks such specification of attributes or bench marks and consequently it does not enable the user to move directly to the instance and its relevant content.
+> Instead, it gives the user a general sense of reference and guidance in approaching empirical instances.
+> Whereas definitive concepts provide prescriptions of what to see, sensitizing concepts merely suggest directions along which to look.
+
 From @kelle2005:
 
-> Herbert BLUMER invented the term "sensitizing concepts" to describe theoretical terms which "lack precise reference and have no bench marks which allow a clean cut identification of a specific instance" (1954, p.7). Sensitizing concepts are useful tools for descriptions but not for predictions, since their lack of empirical content permits researchers to apply them to a wide array of phenomena. Regardless how empirically contentless and vague they are, they may serve as heuristic tools for the construction of empirically grounded theories.
+> Herbert Blumer invented the term "sensitizing concepts" to describe theoretical terms which "lack precise reference and have no bench marks which allow a clean cut identification of a specific instance" (1954, p.7).
+> Sensitizing concepts are useful tools for descriptions but not for predictions, since their lack of empirical content permits researchers to apply them to a wide array of phenomena.
+> Regardless how empirically contentless and vague they are, they may serve as heuristic tools for the construction of empirically grounded theories.
 
-See @bowen2006
+According to Charmaz [-@charmaz2003: 259], sensitizing concepts are "those background ideas that inform the overall research problem". Charmaz goes onto to state that:
+
+> Sensitizing concepts offer ways of seeing, organizing, and understanding experience; they are embedded in our disciplinary emphases and perspectival proclivities.
+> Although sensitizing concepts may deepen perception, they provide starting points for building analysis, not ending points for evading it.
+> We may use sensitizing concepts only as points of departure from which to study the data.
+
+In her textbook on constructivist grounded theory, Charmaz [-@charmaz2014: 30-31]
+
+> A sensitizing concept is a broad term without definitive characteristics; it sparks your thinking about a topic [@vandenhoonaard1997].
+> Sensitizing concepts give researchers initial but tentative ideas to pursue and questions to raise about their topics.
+> Grounded theorists use sensitizing concepts as tentative tools for developing their ideas about processes that they define in their data.
+> If particular sensitizing concepts prove to be irrelevant, then we dispense with them.
+> 
+> Thus, sensitizing concepts may guide but do not command inquiry, much less commandeer it (Charmaz, 2008e).
+> Treat these concepts as points of departure for studying the empirical world while retaining the openness for exploring it.
+> In short, sensitizing concepts can provide a place to start inquiry, not to end it.
+
+Bowen [-@bowen2006: 15] indicates that sensitizing concepts may emerge from reading the prior literature.
+In the example he provides, he treated them as variables against which he would read the text, and they thereby combined to served as an analytical frame, or a point of reference and guide in data analysis.^[This seems reminiscient of procedures planned for WP1 and WP2 from my FWO grant application.]
+
+@patton2015 quotes Denzin [-@denzin1978: 9], who he claims captured the essence of how sensitizing concepts guide fieldwork:^[This is also very reminiscient of @nicolini2009.]
+
+> The observer moves from sensitizing concepts to the immediate world of social experience and permits that world to shape and modify his conceptual framework.
+> In this way he moves continually between the realm of more general social theory and the worlds of native people.
+> Such an approach recognizes that social phenomena, while displaying regularities, vary by time, space, and circumstance.
+> The observer, then, looks for repeatable regularities.
+> He uses ritual patterns of dress and body-spacing as indicators of self-image.
+> He takes special languages, codes and dialects as indicators of group boundaries.
+> He studies his subject's prized social objects as indicators of prestige, dignity and esteem hierarchies.
+> He studies moments of interrogation and derogation as indicators of socialization strategies.
+> He attempts to enter his subject's closed world of interaction so as to examine the character of private versus public acts and attitudes.
 
 ### Coding
 These notes are largely derived from my reading of @saldana2016, provides a practical overview of what coding entails and specific methods and techniques.
@@ -722,7 +764,9 @@ Coding as component of knowledge construction:
   - What @saldana2016 refers to as categories, I tend to refer to as stubs
 - Categories are arranged into themes or concepts, which in turn lead to assertions or theories
 
-Pre-coding techniques:
+#### Pre-coding techniques
+@saldana2016 identifies several techniques for formatting the data to make them easier to code, but also to imbue meaning in the text.
+
 - Data layout
   - Separation between lines or paragraphs may hold significant meaning
   - Putting interviewer words in square brackets or capital letters
@@ -732,35 +776,110 @@ Pre-coding techniques:
   - Relates to @saldana2016: 22's prompt: "what strikes you?"
 - Preliminary jottings
   - Tri-column exercise with the text on the left, first impression or preliminary code in the middle, and code on the right, after @liamputtong2005: 270-273.
+- Asking questions back to the interviewer, or participating in an imagined dialogue
+  - I imagine this might be useful in situations where the time to hold an interview is quite limited and I have to work with limited responses that don't touch on everything I want to cover
+  - The form of questions maintains my tentativity, my unwillingness to commit or assume their responses, and opens the door for their own responses in rebuttal
 
+Following Emerson et al. [-@emerson2011: 177], Saldaña [-@saldana2016:22] identifies a few key questions to keep in mind while coding:
 
-Asking questions back to the interviewer, or participating in an imagined dialogue.
-I imagine this might be useful in situations where the time to hold an interview is quite limited and I have to work with limited responses that don't touch on everything I want to cover.
-The form of questions maintains my tentativity, my unwillingness to commit or assume their responses, and opens the door for their own responses in rebuttal.
+- What are people doing? What are they trying to accomplish?
+- How, exactly, do they do this? What specific means and/or strategies do they use?
+- How do members talk about, characterize, and understand what is going on?
+- What assumptions are they making?
+- What do I see going on here?
+- What did I learn from these notes?
+- Why did I include them?
+- How is what is going on here similar to, or different from, other incidents or events recorded elsewhere in the fieldnotes?
+- What is the broader import or significance of this incident or event? What is it a case of?
 
-Magnitude coding can be applied to tag positive/negative attitudes, but also other gradients like hard/soft, technical/social skills.
-May be useful to apply symbols using my little 12-button keypad.
-
-Can also use colons to identify a magnitude associated with a code's usage, as per 88-89.
-
-Note: create a qc issue for sub-documents, for identifying sections of a document that are especially relevant and hiding less relevant sections.
+::: {.callout-note}
+Create a qc issue for sub-documents, for identifying sections of a document that are especially relevant and hiding less relevant sections.
 I don't necessarily want to delete these lines, but I may want to hide them from view.
 Maybe this is possible using vscode, outside of qc (see https://stackoverflow.com/a/72954133).
-
-
-In lieu of initial/open coding, I think I will opt to devise sensitizing concepts, which may amalgamate as memos.
-I could use the prefix "SC:" to denote sensitizing concepts.
-
-What saldana refers to as "concept coding" is what I have previously referred to as "theoretical coding" to a certain extent.
-It's a form of lumping, identifying specific instances under the label of cohesive concepts.
-
+:::
 
 From Clarke [-@clarke2003: 558] on process coding:
 
 > In a traditional grounded theory study, the key or basic social process is typically articulated in gerund form connoting ongoing action at an abstract level. Around this basic process are then constellated the particular and distinctive conditions, strategies, actions, and practices engaged in by human and nonhuman actors in volved with/in the process and their consequences. For example, subprocesses of disciplining the scientific study of reproduction include formalizing a scientific disci pline, gleaning fiscal support for research, producing contraceptives and other techno scientific products, and handling any social controversies the science provokes (such as cloning and stem cell research).
 
 ### Memos
-Saldana chapter 2 on "analytic memos"
+Charmaz [-@charmaz2014: 162] dedicates Chapter 7 to memo-writing, which she frames as "the pivotal intermediate step between data collection and writing drafts of papers."
+She locates the power of memo-writing as the prompt to analyze the data and codes early in the research process, which requires the researcher to pause and reflect.
+
+Charmaz [-@charmaz2014: 162]:
+> Memos catch your thoughts, capture the comparisons and connections you make, and crystallize questions and directions for you to pursue.
+
+Charmaz [-@charmaz2014: 162]:
+> Memo-writing creates an interactive space for conversing with yourself about your data, codes, ideas, and hunches.
+> Questions arise.
+> New ideas occur to you during the act of writing.
+> Your standpoints and assumptions can become visible.
+> You will make discoveries about your data, emerging categories, the developing frame of your analysis --- and perhaps about yourself.
+
+Charmaz [-@charmaz2014: 164]:
+
+> Memo-writing encourages you to stop, focus, take your codes and data apart, compare them, and define links between them.
+> Stop and catch meanings and actions.
+> Get them down on paper and into your computer files.
+
+Charmaz [-@charmaz2014: 164]:
+> Memos are your path to theory constriction.
+> They chronicle what you grappled with and learned along the way.
+
+Charmaz [-@charmaz2014: 165-168] distinguishes between memo-writing and journaling.
+The former is meant to be more analytical, whereas the latter is more of an account of a direct experience, including significant memories or recollections of moments that stood out (and reflection on why they stood out).
+
+Charmaz [-@charmaz2014: 171] indicates that "[n]o single mechanical procedure defines a useful memo. Do what is possible with the material you have."
+She then lists a few possible approaches to memo-writing:
+
+- Define each code or category by its analytic properties
+- Spell out and detail processes subsumed by the codes or categories
+- Make comparisons between data and data, data and codes, codes and codes, codes and categories, categories and categories
+- Bring raw data into the memo
+- Provide sufficient empirical evidence to support your definitions of the category and analytic claims about it
+- Offer conjectures to check in the field setting(s)
+- Sort and order codes and categories
+- Identify gaps in the analysis
+- Interrogate a code or category by asking questions of it.
+
+Charmaz [-@charmaz2014: 171] draws special attention on bringing data into the memo as a way to more concretely "ground" the abstract analysis in the data and lay the foundation for making claims about them:
+
+> Including verbatim material from different sources permits you to make precise comparisons right in the memo.
+> These comparisons enable you to define patterns in the empirical world.
+> Thus, memo-writing moves your work beyond individual cases.
+
+Through a detailed example over the prior several pages, Charmaz [-@charmaz2014: 178] reflects on how memos may "[hint] at how sensitizing concepts, long left silent, may murmur during coding and analysus".
+She recalls how writing a memo encouraged her to look back at ideas presented in pivotal texts that she had read earlier in her career, and thereby committed her to a new strand of thought.
+
+Charmaz [-@charmaz2014: 180] describes how she developed memos from in vivo codes that recurred throughout across the cases.
+She asked how the saying was applied in different contexts, its overlapping and varied meaning.
+
+Charmaz [-@charmaz2014: 183-?] encourages adoption of various writing strategies.
+She notes that "memo-writing requires us to tolerate ambiguity", which is inherent in the "discovery phase" of research, in which she considers memo-writing to be a part.
+She encourages adotion of _clustering_ and _freewriting_ techniques to help get the ball rolling (she refers to these as "pre-writing techniques").
+
+@saldana2016 dedicates Chapter 2 to "writing analytic memos".
+Saldaña [-@saldana2016: 44] notes that codes are nothing more than labels until they are analyzed, and remarks that memo-writing is a stage in the process of getting beyond the data.
+He refers to Stake [-@stake1995: 19], who mused that "Good research is not about good methods as much as it is about good thinking", and in keeping with Charmaz's [-@charmaz2014] account of memo-writing, memos are tools for doing good thinking.
+
+Saldaña [-@saldana2016: 44-45] channels Charmaz in saying that _all_ memos are analytic memos.
+I identify with his discomfort in writing according to a pre-defined category of memos, and his preference to categorizing them _after_ writing the memo.
+He also suggests writing a title or brief description to help with sorting.
+
+However, like Charmaz, Saldaña does differentiate between memos and "field notes", which are synonymous with Charmaz's journal entries.
+According to Saldaña [-@saldana2016: 45], Field notes are the researcher's personal and subjective responses to social actions encountered during data collection.
+
+Saldaña [-@saldana2016: 53-54] reports on O'Connor's [-@oconnor2007: 8] conceptualization of contemplation of qualitative data as _refraction_.
+
+> This perspective acknowledes the mirrored reality and the researcher's lens as
+  > dimpled and broken, obscured in places, operating as a concave or at other times a convex lens.
+  > As such, it throws unexpected and distorted images back.
+  > It does not imitate what looks into the mirror but deliberately highlights some things and obscures others.
+  > It is deliciously ... unpredictable in terms of what might be revealed and what might remain hidden.
+
+Other analogies include that by Stern [-@stern2007: 119]: If data are the building blocks of the developing theory, memos are the mortar", and by Birks and Mills [-@birks2015: 40] who consider memos as the "lubricant" of the analytic machine, and "a series of snapshots that chronicle your study experience".
+
+See @montgomery2007 and @mcgrath2021 for more on the distinction between memos and field notes, including detailed examples of these kinds of writing in action.
 
 ### Analysis
 #### Preliminary analyses
@@ -911,5 +1030,5 @@ One notable technique is her distinction between four kinds of notes:
 See @mitchell1996
 
 See Charmaz [-@charmaz2000: 526-528]
-
+See Charmaz [-@charmaz2014: 183-188] on "pre-writing" techniques, including clustering and freewriting, especially in context of memo-writing.
 
