@@ -147,7 +147,7 @@ He goes on to state that case studies tend to strive for analytic generalization
 
 #### Logistics of case study design
 ##### Preparing to select case study data
-Yin [-@yin2014: 72-23] identifies five desired attributes for collecting case studt data:
+Yin [-@yin2014: 72-73] identifies five desired attributes for collecting case studt data:
 
 1. Ask good questions --- and interpret answers fairly.
   - "As you collect case study evidence, you must quickly review the evidence and continually ask yourself why events or perceptions appear as they do." (73)
@@ -534,7 +534,16 @@ From Fontana and Frey [-@fontana2000: 652-657]:
 
 The essence of an unstructured interview is establishing a human-to-human relation with the respondent and a desire to _understand_ rather than to _explain_.
 
-@fontana then goes on with some practical guidance on how to engage in unstructured interviews, largely concerned with how to access a community and relate with respondents.
+@fontana000 then goes on with some practical guidance on how to engage in unstructured interviews, largely concerned with how to access a community and relate with respondents.
+
+#### "New" takes on interviewing
+@fontana2000 address some "new" takes on interviewing emerging from the postmodern turn.
+I kinda think there is some potential behind approaches that emphasize interviews as negotiated accomplishment, or product of communal sensemaking between interviewer and respondent.
+I think it could be really helpful in the context of my research, which is very concerned with drawing out tensions that respondents have in mind but are not really able to articulate in a systematic way.
+
+However, @fontana2000 also draws attention to crticism of highly engaged interviewing approaches, which seem to equate closeness with the respondent as getting closer to their "true self", and which may not actually be fixed (especially in the context of the artificial environment of the interview setting).
+Critiques of such "closeness" use the term "romantic" or "crusading" as epithets.
+Moreover, there is additional reference to the culturally-embedded assumption that interviews are necessarily valuable sources of information, as if speaking ones mind can adequately convey one's thoughts and experiences --- this is criticized as a particularly western approach to information extraction surrounding internalized and externalized thoughts and behaviour, as instilled through participation in the "interview society" addressed earlier in the text.
 
 #### Transcribing
 This section describes how I transcibe interviews and accounts for the decisions to encode certain things and not others.
@@ -817,7 +826,70 @@ From Clarke [-@clarke2003: 554]:
 > 2. social worlds/arenas maps that lay out the collective actors, key nonhuman elements, and the arena(s) of commitment within which they are engaged in ongoing negotiations, or mesolevel interpretations of the situation; and
 > 3. positional maps that lay out the major positions taken, and not taken, in the data vis-à-vis particular discursive axes of variation and difference, con cern, and controversy surrounding complicated issues in the situation.
 
-Refer to highlighted sections in @clarke2003, bring those over at some point.
+
+Clarke [-@clarke2003: 560] identifies the main purpose of situational data as a way of "opening up" the data, figuing out where and how to enter:
+
+> Although they may do so, a major and perhaps the major use for them is "opening up" the data --— interrogating them in fresh ways.
+> As researchers, we constantly confront the problem of "where and how to enter."
+> Doing situational analyses offers new paths into the full array of data sources and lays out in various ways what you have to date.
+> These approaches should be considered analytic exercises --- constituting an ongoing research "work out" of sorts—well into the research trajectory.
+> Their most important outcome is provoking the researcher to analyze more deeply.
+
+She emphasizes that this is meant to stimulate thinking, and should always be paired with comprehensive memoing before, during and after situation mapping excercises.
+
+A key feature that I think is invaluable is the ability to uncover the _sites of silence_, or the things that I as a researcher suspect are there but are not readily visible in my evidence.
+Situational analysis is useful for drawing out the thousand pound gorillas in the room that no one wants to talk about, and is therefore important for identifying things to address during continual data collection, as is one of the (often ignored) central pillars of grounded theory:
+
+> The fourth and last caveat is perhaps the most radical.
+> As trained scholars in our varied fields, usually with some theoretical background, we may also suspect that certain things may be going on that have not yet explicitly appeared in our data.
+> As ethically accountable researchers, I believe we need to attempt to articulate what we see as the *sites of silence* in our data.
+> What seems present but unarticulated?
+> What thousand-pound gorillas are sitting around in our situations of concern that nobody has bothered to mention as yet (Zerubavel 2002)?
+> Why not?
+> How might we pursue these sites of silence and ask about the gorillas without putting words in the mouths of our participants?
+> These are very important directions for theoretical sampling.
+> That is, the usefulness of the approaches elucidated here consists partly in helping the researcher think systematically through the design of research, espe cially decisions regarding future data to collect.
+
+The process is remarkably similar to [the brainstorming excercise](https://wiki.zackbatist.info/index.php/February_5,_2020_brainstorm) I did with Costis one time.
+Starts by articulating the actors involved, their roles and relationships, the things they do, the things they make.
+
+> The goal here is to lay out as best one can all the human and nonhuman elements in the situation of concern of the research broadly conceived.
+> In the Meadian sense, the questions are: Who and what are in this situation?
+> Who and what matters in this situation?
+> What elements "make a difference" in this situation?
+
+After jotting these down on a canvas or whiteboard, arrange them into more concrete categories.
+In each category, refer to examples or specific instances.
+Concepts can occur in multiple categories.
+By arranging these concepts, grouping them thematically, spatially, and through relationships and associations with arrows or lines (presumably, with labels indicating the nature of these relationships), this provides the researcher with a viable way of unlocking new pathways to think through their data.
+I imagine this will be especially helpful when arranging or re-arranging the coding tree.
+
+Clarke [-@clarke2003: 569-570] also dedicates a few paragraphs to relational forms of analysis using this technique:
+
+> Relations among the various elements are key.
+> You might not think to ask about certain relations, but if you do what I think of as quick and dirty relational analyses with the situational map, they can be revealing.
+> The procedure here is to take each element in turn and think about it in relation to each other element on the map.
+> One does this by circling one element and mentally or literally drawing lines, one at a time, between it and every other ele ment on the map and specifying the nature of the relationship by describing the nature of that line.
+
+> You could highlight (in blue perhaps) that organization's perspectives on all the other actors to see which actors are attended to *and which are not*, as well as the actual contents of the organization's discourses on its "others."
+> Silences can thus be made to speak.
+
+Clarke [-@clarke2003: 569] On how to generate memos from situational analysis:
+
+> Each map in turn should lead to a memo about the relations diagrammed.
+> At early stages of analysis, such memos should be partial and tentative, full of questions to be answered about the nature and range of particular sets of social relations, rather than being answers in and of themselves.
+
+Clarke [-@clarke2003: 570] addresses the energy or mood required to do this kind of work, which is reminiscient of Yin's [-@yin2014: 73-74] description of the "mental and emotional exhaustion at the end of each fieldwork day, due to the depletion of 'analytic energy' associated with being attention on your toes."
+Interesting that the mention of "freshness" is brought up in the context of Glaser's *tabla rasa* approach to grounded theory.
+
+> As a practical matter, doing the situational map and then the relational analyses it organizes can be tiring and/or anxiety producing and/or elating.
+> Work on it until you feel stale and then take a break.
+> This is not the same order of work as entering bibliographic citations.
+> The fresher you are, the more you can usually see.
+> Glaser [-@glaser1978: 18-35] cautions against prematurely discussing emergent ideas --— that we might not necessarily benefit from talking about everything right away but rather from reflection --- and memoing.
+> I strongly agree, especially about early even if quick and dirty memoing.
+> But we all must find our own ways of working best.
+> For most, the work of this map occurs over time and through multiple efforts and multiple memos.
 
 @clarke2003 refers to @shim2000 as an exemplary case of situational analysis in action.
 
