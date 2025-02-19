@@ -5,7 +5,7 @@ date: ""
 listing: 
   contents: notes
   type: table
-  sort: "date desc"
+  sort: "date-modified desc"
   categories: false
   feed: false
   fields: [date-modified, title, categories]

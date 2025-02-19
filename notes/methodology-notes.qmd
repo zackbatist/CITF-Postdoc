@@ -3,7 +3,8 @@ title: Methodology notes
 description: Notes perpainting to the methodological approach for this project.
 date: 2025-01-13
 date-modified: last-modified
-toc-depth: 5
+toc-depth: 6
+toc-expand: true
 categories: 
   - reading
   - general thoughts
