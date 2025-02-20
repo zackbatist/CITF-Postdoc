@@ -4,7 +4,8 @@ description: Notes perpainting to the methodological approach for this project.
 date: 2025-01-13
 date-modified: last-modified
 toc-depth: 6
-toc-expand: true
+toc-expand: 3
+reference-location: document
 categories: 
   - reading
   - general thoughts
@@ -51,14 +52,14 @@ Here's a little glossary summarizing some key terms and concepts:
 - 
 -->
 
-## Significant Concepts and Frameworks
-### Multicase Studies
+# Significant Concepts and Frameworks
+## Multicase Studies
 These notes describe the features, affordances and limitations of case study research, and articules factors correspoding with variable kinds of case studies.
 
 I do notice a distinction between two schools of thought, which seem to be spearheaded by Stake and Yin.
 I generally favour Stake's flexible approach, and it seems well aligned with other methodological works I've been reading [e.g. @abbott2004; @ragin1992a].
 
-#### Stake's Approach
+### Stake's Approach
 In case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it.
 The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest [@stake2006: 4-7].
 
@@ -108,8 +109,8 @@ Stake [-@stake2006: 23] recommends selecting between 4-10 cases and identifies t
 
 Stake's [-@stake2010: 122] prioritizes doing research to understand something or to improve something, and I generally agree with his rationalization; research helps reframe problems and establish different decision options.
 
-#### Yin's Approach
-According to Yin [-@yin2014: 16], "a case study is an empirical inquiry that investigates a contemporary phenomenon (the "case") in depth and within its real-world context, especially when the boundaries between phenomenon and context may not be clearly evident."
+### Yin's Approach
+According to Yin [-@yin2014: 16], "a case study is an empirical inquiry that investigates a contemporary phenomenon (the 'case') in depth and within its real-world context, especially when the boundaries between phenomenon and context may not be clearly evident."
 
 He goes on to document some features of a case study: "A case study inquiry copes with the technically distinctive situation in which there will be many more variables of interest than data points, and as one result relies on multiple sources of evidence, with data needing to converge in a triangulating fashion, and as another result benefits from the prior development of theoretical propositions to guide data collection and analysis." [@yin2014: 17]
 
@@ -146,9 +147,9 @@ Similarly, Yin cites Corbin and Strauss regarding the role of theory or theoreti
 Regarding generalizability, Yin [-@yin2014: 40-41] states that "Rather than thinking about your case as a sample, you should think of it as the opportunity to shed empirical light about some theoretical concepts or principles, not unlike the motive of a laboratory investigator in conceiving of and then conducting a new experiment."
 He goes on to state that case studies tend to strive for analytic generalizations that go beyond the specific case that has been studied, and which apply to other concrete situations rather than just abstract theory building.
 
-#### Logistics of case study design
-##### Preparing to select case study data
-Yin [-@yin2014: 72-73] identifies five desired attributes for collecting case studt data:
+### Logistics of case study design
+#### Preparing to select case study data
+Yin [-@yin2014: 72-73] identifies five desired attributes for collecting case study data:
 
 1. Ask good questions --- and interpret answers fairly.
   - "As you collect case study evidence, you must quickly review the evidence and continually ask yourself why events or perceptions appear as they do." (73)
@@ -172,7 +173,7 @@ He provides an example of a table of contents for case study protocols, which ge
 3. Data collection questions
 4. Guide for the case study report
 
-##### Triangulation
+#### Triangulation
 Triangulation is a process of gaining assurance.
 Also sometimes called crystallization.
 
@@ -198,7 +199,7 @@ Stake [-@stake2006: 37] cites @denzin1989 who highlighted several kinds of trian
   - Do findings of the interaction among individuals in one group pertain to other groups?
   - Do findings of the aggregate of these people generalized to a population?
 
-##### Cross-Case Analysis Procedure
+#### Cross-Case Analysis Procedure
 Stake [-@stake2006: Chapter 3] lays out a procedure for deriving synthetic findings from data collected across cases.
 He frames this in terms of a dialectic between cases and quintains.
 He identifies three tracks [@stake2006: 46]:
@@ -213,7 +214,7 @@ In keeping with the case-quintain dialectic, this integration must involve strat
 There is some detailed discussion about different kinds of statements, i.e. themes, findings, factors and assertions, but I find this a bit too much detail for me to get at at this point in mymethodological planning.
 In general though, Stake documents a process whereby an analyst navigates back and forth between the general and the situational, presenting tentativr statements that are shored up, modified or discarded through testing compatability of the evidence across cases.
 
-##### Single cases
+#### Single cases
 @stake2000 is concerned with identifying what can be learned from a single case.
 He [-@stake2000: 437] identifies three kinds of cases:
 
@@ -223,7 +224,7 @@ He [-@stake2000: 437] identifies three kinds of cases:
 
 @stake2000 frames case research around a tension between the particular and the general, which echoes the case-quintain dilemma he described in [@stake2006: 4-6].
 
-##### Some scattered practical guidance
+#### Some scattered practical guidance
 Stake [-@stake2006: 18-22] provides a detailed and realistic overview of common challenges involved in collaborative qualitative research.
 This could be handy in future work when planning a multicase project involving multiple researchers.
 
@@ -239,7 +240,7 @@ It addresses concerns about how to articulate comparisons, concerns about genera
 See @stake2006 Chapter 5 for a step-by-step overview of a multicase study analysis.
 The rest of the volume after that includes three very detailed examples from his own work.
 
-### Grounded theory
+## Grounded theory
 These notes are largely drawn from @charmaz2000, which I understand to be a fairly balanced and comprehensive overview of the Glaser / Strauss and Corbin debate, and of the situation of specific methods and techniques in relation to these different stances.
 I also value Charmaz's position as someone who subscribes to her constructivist approach.
 
@@ -255,7 +256,7 @@ Prior to @glaser1967, qualitative analysis was taught rather informally --- they
 
 Glaser brought his very positivist assumptions from his work at Columbia, and Strauss' work in Chicago with Herbert Blumer and Robert Park infused a pragmatic philosophical approach to the study of process, action and meaning that reflects symbolic interactionism.
 
-#### Glaser
+### Glaser
 Glaser's position comes close to traditional positivism, with assumptions of an objective, external reality and a neutral observer who discovers data. and a reductionist form of inquiry of manageable research problems.
 According to Charmaz [-@charmaz2000: 511], regarding Glaser's approach:
 
@@ -267,7 +268,7 @@ According to Charmaz [-@charmaz2000: 511], regarding Glaser's approach:
 > A grounded theory is durable because researchers can modify their emerging or established analyses as conditions change or further data are collected.
 
 
-#### Corbin and Strauss
+### Corbin and Strauss
 Strauss and Corbin assume an objective reality, aim toward unbiased data collection, propose a series of technical procedures, and espouses verification.
 However, they are postpositivism because they propose giving voice to their respondents,^[Charmaz uses the term "giving voice" in this specific context. I'm not sure if this is meant to represent Strauss and Corbin's attitude, and whether this is an accurate representation on their views, but in my mind this should be framed as elevating, amplifying or re-articulating respondents' voices (and this is a tenet of constructivist grounded theory in general, which derives from Charmaz). My take diverges from the position that we "give voice" to respondents in that it acknowledges (1) that the voices are already there, (2) that respondents are in fact _giving us_ their voices, and (3) that the researcher plays an active editorial role, transforming the respondents' elicitations into a format that is more amenable to analysis.] representing them as accurately as possible, discovering and reckoning with how their respodents' views on reality differ from their own, and reflecting on the research process as one way of knowing.
 
@@ -281,7 +282,7 @@ Glaser considered it better to allow theory to "emerge" from the data, i.e. to l
 Charmaz identifies these two approaches as having a lot in common: hey both advocate for mitigating factors that would hinder objectivity and minimize intrusion of the researcher's subjectivity, and they are both embedded in positivist attitudes, with a researcher sitting outside the observed reality; Glaser exemplifies these through discovering and coding data, and using systematic comparative methods, whereas Strauss and Corbin maintain a similar distance through their analytical questions, hypotheses and methodological applications.
 They both engage in "silent authorship" and usually write about their data as distant experts [@charmaz1996].
 
-#### Constuctivist Grounded Theory
+### Constuctivist Grounded Theory
 > Constructivist grounded celebrates firsthand knowledge of empirical worlds, takes a middle ground between postmodernsm and positivism, and offers accessible methods for taking qualitative research into the 21st century. (510)
 
 > The power of grounded theory lies in its tools for understanding empirical worlds.
@@ -388,7 +389,7 @@ Charmaz [-@charmaz2000: 524] on the concretization of procedures from what were 
 > Guidelines turn into procedures and are reified into immutable rules, unlike Glaser and Strauss's [-@glaser1967] original flexible strategies.
 > By taking grounded theory methods as prescriptive scientific rules, proponents further the positivist cast to obiectivist grounded theory.
 
-##### On the modes of reasoning behind grounded theory
+#### On the modes of reasoning behind grounded theory
 
 @kelle2005 is an overview of the Glaser / Strauss and Corbin split.
 References to @kelle2005 have no page numbers since it is published in an online-only journal and does not specify paragraph numbers.
@@ -437,7 +438,7 @@ But here is another  nice conclusive gem from the end:
 > Such sentences carry the outmoded idea that empirical research can lead to final certainties and truths and that by using an inductive method the researcher may gain the ability to conceive "facts as they are" making any attempt of further corroboration futile.
 
 
-##### Rebuttals by Glaser
+#### Rebuttals by Glaser
 @glaser2002 constitutes a rebuttal to @charmaz2000.
 As @bryant2003 points out in his response to @glaser2002, it is very angry, polemical and irrational.
 I don't want to go too in depth with the fundamental problems with Glaser's response (see Bryant's paper for the details), but the gist is that Glaser never really got the message about data being inherently constructed by researchers decisions, actions and circumstances.
@@ -449,7 +450,7 @@ I tend to use the term "articulate" as a way to frame my work as descriptive, bu
 I wonder if Glaser is drawing a false distinction here, and through that, a false prioritization of explanation over description as a desired outcome.
 This would put my mind at ease, as would dismissing Glaser's dismissal of people who simply don't know how to do the "real" grounded theory (which, in his mind, include all feminist and critical researchers).
 
-##### On the _utility_ of grounded theory
+#### On the _utility_ of grounded theory
 I completely agree with this statement from Clarke [-@clarke2003: 555]:
 
 > To address the needs and desires for empirical understandings of the complex and heterogeneous worlds emerging through new world orderings, new methods are requisite (Haraway 1999).
@@ -469,7 +470,7 @@ It also echoes Charmaz's vision of grounded theory as a powerful too, and Bryant
 @bryant2003 further cites @baszanger1997, who characterize grounded theory as a method "consisting of accumulating a series of individual cases, of analyzing them as a combination between different logics of action that coexist not only in the field under consideration, but even within these individuals or during their encounters".
 @bryant2003 summarizes this by stating that "[t]he aim of such methods is generalization rather than totalization, with the objective of producing "a combinative inventory of possible situations".
 
-### Theoretical sampling
+## Theoretical sampling
 See @charmaz2000: 519-520.
 
 From Clarke [-@clarke2003: 557]:
@@ -477,8 +478,8 @@ From Clarke [-@clarke2003: 557]:
 > Unique to this approach has been, first, its requiring that analysis begin as soon as there are data. Coding begins immediately, and theorizing based on that coding does as well, however provisionally (Glaser 1978). Second, “sampling” is driven not necessarily (or not only) by attempts to be “representative” of some social body or population (or its heterogeneities) but especially and explicitly by theoretical con cerns that have emerged in the provisional analysis. Such “theoretical sampling” focuses on finding new data sources (persons or things) that can best explicitly ad dress specific theoretically interesting facets of the emergent analysis. Theoretical sampling has been integral to grounded theory from the outset, remains a fundamen tal strength of this analytic approach, and is crucial for the new situational analyses.
 
 
-## Data Collection
-### Interviews
+# Data Collection
+## Interviews
 See [@yin2014: 110-113]
 See @becker1998
 
@@ -496,7 +497,7 @@ From Charmaz [-@charmaz2000: 525]:
 They cite @gubrium1998, who noted that "the interview has become a means of contemporary storytelling, where persons divulge life accounts in response to interview inquiries".
 They then go over a brief history of interviewing in the context of sociological research, which largely tracks the values underlying positivist and postmodernist transitions as you might expect.
 
-#### Structured interviewing
+### Structured interviewing
 From Fontana and Frey [-@fontana2000: 649-651]:
 
 Interviewers ask respondents a series of preestablished questions with a limited set of response categories.
@@ -518,7 +519,7 @@ From Fontana and Frey [-@fontana2000: 651]:
 
 > This kind of interview often elicits rational responses, but it overlooks or inadequately assesses the emotional dimension.
 
-#### Group interviews
+### Group interviews
 From Fontana and Frey [-@fontana2000: 651-652]:
 
 Can be used to test a methodological technique, try out a definition of a research problem or to identify key informants.
@@ -530,14 +531,14 @@ In formal group interviews, participants share views through the coordinator.
 
 Less formal group interviews are meant to establish the widest range of meaning and interpretation on a topic, and the objective is "to tap intersubjective meaning with depth and diversity".
 
-#### Unstructured interviewing
+### Unstructured interviewing
 From Fontana and Frey [-@fontana2000: 652-657]:
 
 The essence of an unstructured interview is establishing a human-to-human relation with the respondent and a desire to _understand_ rather than to _explain_.
 
 @fontana2000 then goes on with some practical guidance on how to engage in unstructured interviews, largely concerned with how to access a community and relate with respondents.
 
-#### "New" takes on interviewing
+### Postmodern takes on interviewing
 @fontana2000 address some "new" takes on interviewing emerging from the postmodern turn.
 I kinda think there is some potential behind approaches that emphasize interviews as negotiated accomplishment, or product of communal sensemaking between interviewer and respondent.
 I think it could be really helpful in the context of my research, which is very concerned with drawing out tensions that respondents have in mind but are not really able to articulate in a systematic way.
@@ -546,17 +547,17 @@ However, @fontana2000 also draws attention to crticism of highly engaged intervi
 Critiques of such "closeness" use the term "romantic" or "crusading" as epithets.
 Moreover, there is additional reference to the culturally-embedded assumption that interviews are necessarily valuable sources of information, as if speaking ones mind can adequately convey one's thoughts and experiences --- this is criticized as a particularly western approach to information extraction surrounding internalized and externalized thoughts and behaviour, as instilled through participation in the "interview society" addressed earlier in the text.
 
-#### Transcribing
+### Transcribing
 This section describes how I transcibe interviews and accounts for the decisions to encode certain things and not others.
 It goes on to explains the procedures for transcribing spoken dialog into textual formats, including the notation applied to encode idiosyncratic elements of conversational speech.
 
-##### Transcript notation
+#### Transcript notation
 Derived from the [transcription protocol applied for the E-CURATORS project](https://zackbatist.info/notes/E-CURATORS/#transcription).
 
-##### Cleaning audio
+#### Cleaning audio
 To clean the audio:
 
-1. I select a clip that is representative of a single source of background noise, and then filter that wavelength throughout the entire audio file.
+1. Select a clip that is representative of a single source of background noise, and then filter that wavelength throughout the entire audio file.
 2. After selecting the clip, go to `Effect >> Noise Reduction` and select `Get Noise Profile`, then press `OK`.
 3. Close the noise reduction menu, select the entire range of audio using the keyboard shortcut `Command + A`.
 4. Then go back to the noise reduction window (`Effect >> Noise Reduction`) to apply the filter based on the noise profile identified for the noisy clip.
@@ -567,10 +568,10 @@ To clean the audio:
   ffmpeg -i dirty.mp4 -i clean.wav -c:v copy -map 0:v:0 -map 1:a:0 clean.mp4
 ```
 
-### Field notes
+## Field notes
 See [@yin2014: 124-125]
 
-### Focus groups
+## Focus groups
 From @kitzinger1994; @wilkinson1998; @parker2006; @morgan2018b.
 
 > Crucially, focus groups involve the interaction of group participants with each other as well as with the moderator, and it is the collection of this kind of interactive data which distinguishes the focus group from the one-to-one interview (c.f. Morgan 1988), as well as from procedures which use multiple participants but do not permit interactive discussion (c.f. Stewart and Shamdasani 1990). The 'hallmark' of focus groups, then, is the 'explicit use of group interaction to produce data and insights that would be less accessible without the interaction found in a group' (Morgan 1997: 2).
@@ -699,10 +700,10 @@ However it should still be read from top to bottom to get a sense of practical c
 
 @morgan2018b
 
-## QDA
+# Analysis
 My QDA processes are most influenced by Kathy Charmaz and Johnny Saldaña, as well as the practical experiences instilled during my PhD and while working on E-CURATORS.
 
-#### Sensitizing concepts
+### Sensitizing concepts
 According to Bowen [-@bowen2006: 13-14], [@blumer1954; @blumer1969] first established the term "senstizing concepts" to differentiate them with "definitive concepts".
 
 According to Blumer [-@blumer1954: 7]:
@@ -739,7 +740,7 @@ In her textbook on constructivist grounded theory, Charmaz [-@charmaz2014: 30-31
 Bowen [-@bowen2006: 15] indicates that sensitizing concepts may emerge from reading the prior literature.
 In the example he provides, he treated them as variables against which he would read the text, and they thereby combined to served as an analytical frame, or a point of reference and guide in data analysis.^[This seems reminiscient of procedures planned for WP1 and WP2 from my FWO grant application.]
 
-@patton2015 quotes Denzin [-@denzin1978: 9], who he claims captured the essence of how sensitizing concepts guide fieldwork:^[This is also very reminiscient of @nicolini2009.]
+@patton2014a quotes Denzin [-@denzin1978: 9], who he claims captured the essence of how sensitizing concepts guide fieldwork:^[This is also very reminiscient of @nicolini2009.]
 
 > The observer moves from sensitizing concepts to the immediate world of social experience and permits that world to shape and modify his conceptual framework.
 > In this way he moves continually between the realm of more general social theory and the worlds of native people.
@@ -751,7 +752,7 @@ In the example he provides, he treated them as variables against which he would 
 > He studies moments of interrogation and derogation as indicators of socialization strategies.
 > He attempts to enter his subject's closed world of interaction so as to examine the character of private versus public acts and attitudes.
 
-### Coding
+## Coding
 These notes are largely derived from my reading of @saldana2016, provides a practical overview of what coding entails and specific methods and techniques.
 
 Coding as component of knowledge construction:
@@ -765,7 +766,7 @@ Coding as component of knowledge construction:
   - What @saldana2016 refers to as categories, I tend to refer to as stubs
 - Categories are arranged into themes or concepts, which in turn lead to assertions or theories
 
-#### Pre-coding techniques
+### Pre-coding techniques
 @saldana2016 identifies several techniques for formatting the data to make them easier to code, but also to imbue meaning in the text.
 
 - Data layout
@@ -781,7 +782,7 @@ Coding as component of knowledge construction:
   - I imagine this might be useful in situations where the time to hold an interview is quite limited and I have to work with limited responses that don't touch on everything I want to cover
   - The form of questions maintains my tentativity, my unwillingness to commit or assume their responses, and opens the door for their own responses in rebuttal
 
-Following Emerson et al. [-@emerson2011: 177], Saldaña [-@saldana2016:22] identifies a few key questions to keep in mind while coding:
+Following Emerson et al. [-@emerson2011: 177], Saldaña [-@saldana2016: 22] identifies a few key questions to keep in mind while coding:
 
 - What are people doing? What are they trying to accomplish?
 - How, exactly, do they do this? What specific means and/or strategies do they use?
@@ -803,14 +804,16 @@ From Clarke [-@clarke2003: 558] on process coding:
 
 > In a traditional grounded theory study, the key or basic social process is typically articulated in gerund form connoting ongoing action at an abstract level. Around this basic process are then constellated the particular and distinctive conditions, strategies, actions, and practices engaged in by human and nonhuman actors in volved with/in the process and their consequences. For example, subprocesses of disciplining the scientific study of reproduction include formalizing a scientific disci pline, gleaning fiscal support for research, producing contraceptives and other techno scientific products, and handling any social controversies the science provokes (such as cloning and stem cell research).
 
-### Memos
+## Memos
 Charmaz [-@charmaz2014: 162] dedicates Chapter 7 to memo-writing, which she frames as "the pivotal intermediate step between data collection and writing drafts of papers."
 She locates the power of memo-writing as the prompt to analyze the data and codes early in the research process, which requires the researcher to pause and reflect.
 
 Charmaz [-@charmaz2014: 162]:
+
 > Memos catch your thoughts, capture the comparisons and connections you make, and crystallize questions and directions for you to pursue.
 
 Charmaz [-@charmaz2014: 162]:
+
 > Memo-writing creates an interactive space for conversing with yourself about your data, codes, ideas, and hunches.
 > Questions arise.
 > New ideas occur to you during the act of writing.
@@ -824,6 +827,7 @@ Charmaz [-@charmaz2014: 164]:
 > Get them down on paper and into your computer files.
 
 Charmaz [-@charmaz2014: 164]:
+
 > Memos are your path to theory constriction.
 > They chronicle what you grappled with and learned along the way.
 
@@ -882,8 +886,7 @@ Other analogies include that by Stern [-@stern2007: 119]: If data are the buildi
 
 See @montgomery2007 and @mcgrath2021 for more on the distinction between memos and field notes, including detailed examples of these kinds of writing in action.
 
-### Analysis
-#### Preliminary analyses
+## Preliminary analyses
 Yin [-@yin2014: 135-136 5] identifies various strategies for analyzing case study evidence.
 
 > A helpful starting point is to "play" with your data.
@@ -902,33 +905,16 @@ Yin [-@yin2014: 135] also emphasizes memo-writing as a core strategy at this sta
 These memos should include hints, clues and suggestions that simply put into writing any preliminary interpretation, essentially conceptualizing your data.
 He uses the specific example of shower thoughts.
 
-#### Analytical strategies and techniques
-Yin [-@yin2014: 136-142] then goes on to describe four general strategies:
-
-1. Relying on theoretical propositions
-2. Working your data from the "ground up"
-3. Developing a case description
-4. Examining plausible rival explanations
-
-Yin [-@yin2014: 142-168] then goes on to describe five analytical techniques:^[I wonder: would @abbott2004 call these heuristics?]
-
-1. Pattern matching
-2. Explanation building
-3. Time-series analysis
-4. Logic models
-5. Cross-case synthesis
-
-@ryan2000 describe various analysis techniques for analyzing textual elicitations in structured and codified ways.
-
-#### The constant comparative method
+## The constant comparative method
 The constant comparative method is based on action codes, similar to what @saldana2016 refers to as process codes.
 According to Charmaz [-@charmaz2000: 515]:
+
 > The constant comparative method of grounded theory means (a) comparing different people (such as their views, situations, actions, accounts, and experiences), (b) comparing data from the same individuals with themselves at different points in time, (c) comparing incident with incident, (d) comparing data with categori, and (e) comparing categories with other categories.
 
 My initial impression is that this is very well suited for Stake's [-@stake2006] multicase study framework, specifically with regards to his notion of the case-quintain dilemma.
 It also seems very well suited for analysis of situational meaning-making, as per @suchman1987, @lave1991, @knorrcetina2001 and symbolic interactionism at large.
 
-#### Situational analysis
+## Situational analysis
 Situational analysis originates from Strauss's social worlds/arenas/negotiations framework.
 From Clarke [-@clarke2003: 554]:
 
@@ -1005,7 +991,26 @@ Interesting that the mention of "freshness" is brought up in the context of Glas
 
 @clarke2003 refers to @shim2000 as an exemplary case of situational analysis in action.
 
-### QDA software and tooling
+## Various other analytical strategies and techniques
+Yin [-@yin2014: 136-142] describes four general analytical strategies:
+
+1. Relying on theoretical propositions
+2. Working your data from the "ground up"
+3. Developing a case description
+4. Examining plausible rival explanations
+
+Yin [-@yin2014: 142-168] then goes on to describe five analytical techniques:^[I wonder: would @abbott2004 call these heuristics?]
+
+1. Pattern matching
+2. Explanation building
+3. Time-series analysis
+4. Logic models
+5. Cross-case synthesis
+
+@ryan2000 describe various analysis techniques for analyzing textual elicitations in structured and codified ways.
+
+
+## QDA software and tooling
 @weitzman2000 provides an overview of software and qualitative research, including a minihistory up to the year 2000 when the chapter was published.
 
 Describing the first programs specifically designed for analysis of qualitative data, Weitzman [-@weitzman2000: 804] writes:
@@ -1018,7 +1023,7 @@ Describing the first programs specifically designed for analysis of qualitative 
 This history if followed by a sober account of what software can and can not do in qualitative research, as well as affirmation and dismissed of hopes and fears.
 Very reminiscient of @huggett2018.
 
-## Writing
+# Writing
 @richardson2000, who frames writing as a method of inquiry.
 While much of it deals with the history of social science writing and the impact of postmodernism (which I'm honestly not really that interested in, at this point at least), there are some excellent creative writing tips scatttered throughout the latter section.
 One notable technique is her distinction between four kinds of notes:
