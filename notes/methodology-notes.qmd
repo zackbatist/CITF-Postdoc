@@ -152,18 +152,18 @@ He goes on to state that case studies tend to strive for analytic generalization
 Yin [-@yin2014: 72-73] identifies five desired attributes for collecting case study data:
 
 1. Ask good questions --- and interpret answers fairly.
-  - "As you collect case study evidence, you must quickly review the evidence and continually ask yourself why events or perceptions appear as they do." (73)
-  - A good indicator of having asked good questions is mental and emotional exhaustion at the end of each fieldwork day, due to the depletion of "analytic energy" associated with being attention on your toes. (73-74)
+    - "As you collect case study evidence, you must quickly review the evidence and continually ask yourself why events or perceptions appear as they do." (73)
+    - A good indicator of having asked good questions is mental and emotional exhaustion at the end of each fieldwork day, due to the depletion of "analytic energy" associated with being attention on your toes. (73-74)
 2. Be a good "listener" not trapped by existing ideologies or preconceptions.
-  - Sensing through multiple modalities, not just spoken words.
-  - Also subtext, as elicited through choices of terms used, mood and affective components. (74)
+    - Sensing through multiple modalities, not just spoken words.
+    - Also subtext, as elicited through choices of terms used, mood and affective components. (74)
 3. Stay adaptive, so that newly encountered situations can be seen as opportunities, not threats.
-  - Remember the original purpose but willing to adapt to unanticipated circumnstances. (74)
-  - Emphasize balancing adaptability with rigour, but not with rigidity. (75)
+    - Remember the original purpose but willing to adapt to unanticipated circumnstances. (74)
+    - Emphasize balancing adaptability with rigour, but not with rigidity. (75)
 4. Have a firm grasp of what is being studied, even when in an exploratory mode.
-  - Need to do more than merely record data, but interpret information as they are being collected and to know immedately whether there are contradictions or complementary statements to follow-up on. (75-76)
+    - Need to do more than merely record data, but interpret information as they are being collected and to know immedately whether there are contradictions or complementary statements to follow-up on. (75-76)
 5. Avoid biases of being sensitive to contrary evidence, also knowing how to conduct research ethically.
-  - Maintain strong professional competence, including keeping up with related research, ensuring accuracy, striving for credibility, and knowledging and mitigating against bias.
+    - Maintain strong professional competence, including keeping up with related research, ensuring accuracy, striving for credibility, and knowledging and mitigating against bias.
 
 Yin advocates for adoption of case study protocols.
 He provides an example of a table of contents for case study protocols, which generally comprise four sections:
@@ -450,7 +450,7 @@ I tend to use the term "articulate" as a way to frame my work as descriptive, bu
 I wonder if Glaser is drawing a false distinction here, and through that, a false prioritization of explanation over description as a desired outcome.
 This would put my mind at ease, as would dismissing Glaser's dismissal of people who simply don't know how to do the "real" grounded theory (which, in his mind, include all feminist and critical researchers).
 
-#### On the _utility_ of grounded theory
+#### On the functional and pragmatic roots of grounded theory
 I completely agree with this statement from Clarke [-@clarke2003: 555]:
 
 > To address the needs and desires for empirical understandings of the complex and heterogeneous worlds emerging through new world orderings, new methods are requisite (Haraway 1999).
@@ -480,8 +480,7 @@ From Clarke [-@clarke2003: 557]:
 
 # Data Collection
 ## Interviews
-See [@yin2014: 110-113]
-See @becker1998
+See [@yin2014: 110-113], @becker1998
 
 From Charmaz [-@charmaz2000: 525]:
 
@@ -757,10 +756,10 @@ These notes are largely derived from my reading of @saldana2016, provides a prac
 
 Coding as component of knowledge construction:
 
-- Coding is an intermediate step, "the "critical link" between data collection and their explanation or meaning" (@charmaz2001, as quoted in @saldana2016: 4)
-- "coding is usually a mixture of data [summation] and data complication ... breaking the data apart in analytically relevant ways in order to ead toward further questions about the data" (@coffey1996: 29-31, as quoted and edited by @saldana2016: 9)
+- Coding is an intermediate step, "the "critical link" between data collection and their explanation or meaning" [from @charmaz2001; as quoted in @saldana2016: 4].
+- "coding is usually a mixture of data [summation] and data complication ... breaking the data apart in analytically relevant ways in order to ead toward further questions about the data" [from @coffey1996: 29-31; as quoted and edited in @saldana2016: 9].
   - This relates to the paired notions of decodng when we reflect on a passage to decipher its core meaning, and encoding when we determine its appropriate code and label it [@saldana2016: 5].
-- Coding "generates the bones of your analysis. ... [I]ntegration will assemble those bones into a working skeleton" (@charmaz2014: 113, quoted in @saldana2016: 9)
+- Coding "generates the bones of your analysis. ... [I]ntegration will assemble those bones into a working skeleton" [from @charmaz2014: 113; as quoted in @saldana2016: 9].
 - To codify is to arrange things in a systematic order, to make something part of a system or classification, to categorize
   - What I sometimes refer to as arranging the code tree
   - What @saldana2016 refers to as categories, I tend to refer to as stubs
@@ -774,8 +773,8 @@ Coding as component of knowledge construction:
   - Putting interviewer words in square brackets or capital letters
 - Semantic markup
   - Bold, italics, underline, highlight
-  - Meant to identify "codable moments" worthy of attention (@boyatzis1998, as referenced in @saldana2016: 20)
-  - Relates to @saldana2016: 22's prompt: "what strikes you?"
+  - Meant to identify "codable moments" worthy of attention [@boyatzis1998; as referenced in @saldana2016: 20]
+  - Relates to Saldaña's [-@saldana2016: 22] prompt: "what strikes you?"
 - Preliminary jottings
   - Tri-column exercise with the text on the left, first impression or preliminary code in the middle, and code on the right, after @liamputtong2005: 270-273.
 - Asking questions back to the interviewer, or participating in an imagined dialogue
