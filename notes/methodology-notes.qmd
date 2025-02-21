@@ -884,7 +884,15 @@ She encourages adotion of _clustering_ and _freewriting_ techniques to help get 
 Saldaña [-@saldana2016: 44] notes that codes are nothing more than labels until they are analyzed, and remarks that memo-writing is a stage in the process of getting beyond the data.
 He refers to Stake [-@stake1995: 19], who mused that "Good research is not about good methods as much as it is about good thinking", and in keeping with Charmaz's [-@charmaz2014] account of memo-writing, memos are tools for doing good thinking.
 
-Saldaña [-@saldana2016: 44-45] channels Charmaz in saying that _all_ memos are analytic memos.
+Saldaña [-@saldana2016: 44-45] channels Charmaz in saying that _all_ memos are analytic memos.[^longnote1]
+
+[^longnote1]: Contrast this with @richardson2000, who identified several kinds of notes:
+
+    - **Observation notes:** Concrete and detailed, accurate renditions of things I see, hear, feel and taste, and so on. Remain close to the scene as experienced through the senses.
+    - **Methodological notes:** Messages to self about how to collect data --- who to talk to, what to wear, when to get in touch.
+    - **Theoretical notes:** Hunches, hypotheses, poststructuralist connections, critiques of what I'm doing/thinking/seeing, keeping me from getting hooked on one view of reality.
+    - **Personal notes:** Uncensored feeling statements about the research, the people I'm talking to, my doubts, anxieties, pleasures. These can also be great sources of hypotheses (for example, if I am feeling anxious, others I'm speaking with might feel the same way, which provides a string to tug on).
+
 I identify with his discomfort in writing according to a pre-defined category of memos, and his preference to categorizing them _after_ writing the memo.
 He also suggests writing a title or brief description to help with sorting.
 
@@ -904,27 +912,7 @@ Other analogies include that by Stern [-@stern2007: 119]: If data are the buildi
 See @montgomery2007 and @mcgrath2021 for more on the distinction between memos and field notes, including detailed examples of these kinds of writing in action.
 
 ## Preliminary analyses
-Yin [-@yin2014: 135-136 5] identifies various strategies for analyzing case study evidence.
-
-> A helpful starting point is to "play" with your data.
-> You are searching for patterns, insights, or concepts that seem promising.
-> [@yin2014: 135]
-
-Citing @miles1994, @yin2014 lists a few strategies at this playful stage:
-
-- Juxtaposing data from different interviews
-- Putting information into different arrays
-- Making a matrix of categories and placing the evidence within them
-- Tabulating the frequency of different events
-- Putting information in chronological order or using some other temporal scheme
-
-Yin [-@yin2014: 135] also emphasizes memo-writing as a core strategy at this stage, citing @corbin2014.
-These memos should include hints, clues and suggestions that simply put into writing any preliminary interpretation, essentially conceptualizing your data.
-He uses the specific example of shower thoughts.
-
----
-
-@saldana2016 dedicates chapter 6 to "post-coding and pre-writing transitions".
+@saldana2016 dedicates Chapter 6 to "post-coding and pre-writing transitions".
 He frames these as a series of strategies to help crystallize the analytical work and springboard into written documents and reports.
 
 ### Top-10 lists
@@ -997,7 +985,6 @@ This will help get a better sense of process and action between catagories.
 ### Findings "at a glance"
 Following @henwood2003, Saldaña [-@saldana2016: 283] suggests creating a tri-column chart that outlines the findings and the sources of evidence and reasoning that underlie them.
 See the specific page for a good example.
-
 
 ## The constant comparative method
 The constant comparative method is based on action codes, similar to what @saldana2016 refers to as process codes.
@@ -1085,25 +1072,6 @@ Interesting that the mention of "freshness" is brought up in the context of Glas
 
 @clarke2003 refers to @shim2000 as an exemplary case of situational analysis in action.
 
-## Various other analytical strategies and techniques
-Yin [-@yin2014: 136-142] describes four general analytical strategies:
-
-1. Relying on theoretical propositions
-2. Working your data from the "ground up"
-3. Developing a case description
-4. Examining plausible rival explanations
-
-Yin [-@yin2014: 142-168] then goes on to describe five analytical techniques:^[I wonder: would @abbott2004 call these heuristics?]
-
-1. Pattern matching
-2. Explanation building
-3. Time-series analysis
-4. Logic models
-5. Cross-case synthesis
-
-@ryan2000 describe various analysis techniques for analyzing textual elicitations in structured and codified ways.
-
-
 ## QDA software and tooling
 @weitzman2000 provides an overview of software and qualitative research, including a minihistory up to the year 2000 when the chapter was published.
 
@@ -1119,13 +1087,8 @@ Very reminiscient of @huggett2018.
 
 # Writing
 @richardson2000, who frames writing as a method of inquiry.
-While much of it deals with the history of social science writing and the impact of postmodernism (which I'm honestly not really that interested in, at this point at least), there are some excellent creative writing tips scatttered throughout the latter section.
-One notable technique is her distinction between four kinds of notes:
-
-- Observation notes: Concrete and detailed, accurate renditions of things I see, hear, feel and taste, and so on. Remain close to the scene as experienced through the senses.
-- Methodological notes: Messages to self about how to collect data --- who to talk to, what to wear, when to get in touch.
-- Theoretical notes: Hunches, hypotheses, poststructuralist connections, critiques of what I'm doing/thinking/seeing, keeping me from getting hooked on one view of reality.
-- Personal notes: Uncensored feeling statements about the research, the people I'm talking to, my doubts, anxieties, pleasures. These can also be great sources of hypotheses (for example, if I am feeling anxious, others I'm speaking with might feel the same way, which provides a string to tug on).
+Much of this text deals with the history of social science writing and the impact of postmodernism, which I'm honestly not really that interested in, at this point at least.
+She does list a series of very broad and somewhat obvious techniques, which I do not really find that helpful.
 
 From Charmaz and Mitchell [-@charmaz1996: 286]:
 
@@ -1135,8 +1098,8 @@ From Charmaz and Mitchell [-@charmaz1996: 286]:
 > It lacks objectivity and value neutrality in the positivist idiom; it expresses racist, Eurocentric, and phallocentric oppression in the postmodern view.
 > Our point is this: There is merit in humility and deference to subjects' views, and there is merit in systematic and reasoned discourse. But there is also merit in audible authorship.
 
-See Charmaz [-@charmaz2000: 526-528]
-See Charmaz [-@charmaz2014: 183-188] on "pre-writing" techniques, including clustering and freewriting, especially in context of memo-writing.
+- See Charmaz [-@charmaz2000: 526-528]
+- See Charmaz [-@charmaz2014: 183-188] on "pre-writing" techniques, including clustering and freewriting, especially in context of memo-writing.
 
 ## Writing techniques
 ### Analytical storylining
