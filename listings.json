@@ -1,15 +1,8 @@
 [
   {
-    "listing": "/notes.html",
-    "items": [
-      "/notes/methodology-notes.html",
-      "/notes/potential-cases.html",
-      "/notes/maelstrom-readings.html"
-    ]
-  },
-  {
     "listing": "/posts.html",
     "items": [
+      "/posts/weeknotes-2025-W08.html",
       "/posts/weeknotes-2025-W07.html",
       "/posts/weeknotes-2025-W06.html",
       "/posts/weeknotes-2025-W05.html",
@@ -19,6 +12,14 @@
       "/posts/2024-12-11-technical-specs.html",
       "/posts/2024-12-09-first-team-meeting.html",
       "/posts/2024-12-09-hello-world.html"
+    ]
+  },
+  {
+    "listing": "/notes.html",
+    "items": [
+      "/notes/methodology-notes.html",
+      "/notes/potential-cases.html",
+      "/notes/maelstrom-readings.html"
     ]
   }
 ]
