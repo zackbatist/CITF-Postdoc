@@ -460,7 +460,7 @@ I completely agree with this statement from Clarke [-@clarke2003: 555]:
 
 This is super interesting, and really contextualizes how Strauss imagined grounded theory to be _useful_ for him:
 
-> Some years ago, Katovich and Reese (1993:400–405) interestingly argued that Strauss’s negotiated order and related work recuperatively pulled the social around the postmodern turn through its methodological [grounded theoretical] recognition of the partial, tenuous, shifting, and unstable nature of the empirical world and its constructedness.
+> Some years ago, Katovich and Reese (1993:400–405) interestingly argued that Strauss's negotiated order and related work recuperatively pulled the social around the postmodern turn through its methodological [grounded theoretical] recognition of the partial, tenuous, shifting, and unstable nature of the empirical world and its constructedness.
 > I strongly agree and would argue that **Strauss also furthered this "postmodernization of the social" through his conceptualizations of social worlds and arenas as modes of understanding the deeply situated yet always also fluid orga nizational elements of negotiations.**
 > He foreshadowed what later came to be known as postmodern assumptions: the instability of situations; characteristic changing, porous boundaries of both social worlds and arenas; social worlds seen as mutually constitutive/coproduced through negotiations taking place in arenas; negotiations as central social processes hailing that "things can always be otherwise"; and so on.
 > Significantly, negotiations constitute discourses that also signal micropolitics of power as well as "the usual" meso/macrostructural elements—power in its more fluid forms (e.g., Foucault 1979, 1980).
@@ -480,7 +480,7 @@ From Clarke [-@clarke2003: 557]:
 
 # Data Collection
 ## Interviews
-See [@yin2014: 110-113], @becker1998
+See 
 
 From Charmaz [-@charmaz2000: 525]:
 
@@ -495,6 +495,28 @@ From Charmaz [-@charmaz2000: 525]:
 @fontana2000 spend some time writing about the emergence of an "interview society", whereby interviews are commonly used to seek various forms of biographical information.
 They cite @gubrium1998, who noted that "the interview has become a means of contemporary storytelling, where persons divulge life accounts in response to interview inquiries".
 They then go over a brief history of interviewing in the context of sociological research, which largely tracks the values underlying positivist and postmodernist transitions as you might expect.
+
+Yin [-@yin2014: 110-113] differentiates between three kinds of interviews:
+
+- **Prolonged interviews:** Usually over two hours long, or over an extended period of time covering multiple sittings.
+
+  > You can ask interviewees about their interpretations and opinions about people and events or their insights, explanations, and meanings related to certain occurrences.
+  > You can then use such propositions as the basis for further inquiry, and the interviewee can suggest other persons for you to interview, as well as other sources of evidence.
+  > The more that an interviewee assists in this manner, the more that the role may be considered one of an "informant" rather than a participant.
+  > Key informants are often critical to the success of a case study.
+  > Such persons can provide you with insights into a matter and also give you access to other interviewees who may have corroboratory or contrary evidence.
+
+- **Shorter interviews:** More focused, around one hour, open-ended and conversational but largely following the protocol.
+
+  > A major purpose of such an interview might simply be to corroborate certain findings that you already think have been established, but not to ask about other topics of a broader, open-ended nature.
+  > In this situation, the specific questions must be carefully worded, so that you appear genuinely naive about the topic and allow the interviewee to provide a fresh commentary about it; in contrast, if you ask leading questions, the corroboratory purpose of the interview will not have been served.
+  > ...
+  > As an entirely different kind of example, your case study protocol might have called for you to pay specific attention to an interviewee's personal rendition of an event.
+  > In this case, the interviewee's perceptions and own sense of meaning are the material to be understood.
+  > ...
+  > In both [situations], you need to minimize a methodological threat created by the conversational nature of the interview.
+
+- **Survey interviews:** A more structured questionnaire. Usually works best as one component of multiple sources of evidence.
 
 ### Structured interviewing
 From Fontana and Frey [-@fontana2000: 649-651]:
@@ -678,7 +700,7 @@ Calls out the conflation between focus groups and group interviews:
 > In keeping with the views of a number of other writers in this field, we are of the opinion that there is a fundamental difference between these two research techniques and that the critical point of distinction surrounds the role of the researcher and her/ his relationship to the researched (Smithson, 2000).
 > In group interviews the researcher adopts an 'investigative' role: asking questions, controlling the dynamics of group discussion, often engaging in dialogue with specific participants.
 > This is premised on the mechanics of one-to-one, qualitative, in-depth interviews being replicated on a broader (collective) scale.
-> A relatively straightforward scenario ensues: the researcher asks questions, the respondents relay their ‘answers’ back to the researcher.
+> A relatively straightforward scenario ensues: the researcher asks questions, the respondents relay their ‘answers' back to the researcher.
 > In focus groups the dynamics are different.
 > Here, the researcher plays the role of 'facilitator' or 'moderator';
 > that is, facilitator/moderator of group discussion between participants, not between her/himself and the participants.
@@ -793,11 +815,7 @@ Following Emerson et al. [-@emerson2011: 177], Saldaña [-@saldana2016: 22] iden
 - How is what is going on here similar to, or different from, other incidents or events recorded elsewhere in the fieldnotes?
 - What is the broader import or significance of this incident or event? What is it a case of?
 
-::: {.callout-note}
-Create a qc issue for sub-documents, for identifying sections of a document that are especially relevant and hiding less relevant sections.
-I don't necessarily want to delete these lines, but I may want to hide them from view.
-Maybe this is possible using vscode, outside of qc (see https://stackoverflow.com/a/72954133).
-:::
+### Coding frameworks
 
 From Clarke [-@clarke2003: 558] on process coding:
 
@@ -904,6 +922,83 @@ Yin [-@yin2014: 135] also emphasizes memo-writing as a core strategy at this sta
 These memos should include hints, clues and suggestions that simply put into writing any preliminary interpretation, essentially conceptualizing your data.
 He uses the specific example of shower thoughts.
 
+---
+
+@saldana2016 dedicates chapter 6 to "post-coding and pre-writing transitions".
+He frames these as a series of strategies to help crystallize the analytical work and springboard into written documents and reports.
+
+### Top-10 lists
+Saldaña [-@saldana2016: 274-275] suggests coming up with a list of the ten top quotes or passages as a potentially useful "focusing strategy".
+Identify the passages (no longer than half a page each) that strike me as the most vivid and/or representational of my study.
+He suggests reflecting on the content of these items and arranging them in various orders to discover different ways of structuring or outlining the write-up of the research story.
+He provides some examples of orders to consider:
+
+- chronologically
+- hierarchically
+- telescopically
+- episodically
+- narratively
+- from the expository to the dramatic
+- from the mundane to the insightful
+- from the smallest detail to the bigger picture
+
+### The study's "trinity"
+Saldaña [-@saldana2016: 275-276] suggests identifying the three (and only three) major codes, categories, themes and/or concepts generated thus far that strike me or stand out in my study.
+He suggests identifying which one is dominant, how does this status relate to or impact the other codes or concepts, and generally trace the relationships between these ideas.
+He suggests plotting them as a venn diagram to identify what aspects overlap across items, and to label those areas of overlap --- although he does not mention this explicitly, I imagine these points of overlap represent the synthesis of new emergent ideas.
+
+### Codeweaving
+Saldaña [-@saldana2016: 276] addresses codeweaving as a viable strategy, but I don't actually think of it as that useful for my purposes.
+Seems a but contrived and has lots of potential to be over-engineered.
+
+### From coding to theorizing
+For Saldaña [-@saldana2016: 278], the stage at which he finds theories emerging in his mind is when he starts coming up with _categories of categories_.
+At this point, a level of abstraction occurs that transcends the particulars of a study, enabling generalizable transfer to other comparable contexts.
+
+Saldaña [-@saldana2016: 278-279] identifies a few structures through which these categories of categories might emerge:
+
+- **Superordindate and Subordinate Arrangements:** Arrange categories as an outline, which suggests discrete linearity and classification. Supercategories and subcategories are "ranked" with numbers or capital letters.
+- **Taxonomy:** Categories and their subcategories are grouped but without any inferred hierarchy; each category seems to have equal weight.
+- **Hierarchy:** Categories are ordered from most to least in some manner, i.e. frequency, importance, impact, etc.
+- **Overlap:** Some categories share particular features with others while retaining their unique properties.
+- **Sequential Order:** The action suggested by categories progresses in a linear manner.
+- **Concurrency:** Two or more categories operate simultaneously to influence and affect a third.
+- **Domino Effects:** Categories cascade forward in multiple pathways.
+- **Networks:** Categories interact and interplay in complex pathways to suggest interrelationship.
+
+The arrows connecting categories are meaningful in their own right.
+Saldaña [-@saldana2016: 280] references @urquhart2013 who states that category relationships are necessary to develop assertions, propositions, hypotheses and theories.
+He suggests inserting words or phrases between categories that plausibly establishes their connections, as suggested by the data and analytical memos.
+Saldaña [-@saldana2016: 280-281] lists several possible connectors:
+
+- accelerates
+- contributes toward
+- depends on the types of
+- drives
+- facilitates
+- harnesses
+- increases
+- increases the difficulty of
+- is affected by
+- is essential for
+- is necessary for
+- provides
+- reconciles
+- reduces
+- results in
+- results in achieving
+- triggers
+- varies according to
+- will help to
+
+Moreover, Saldaña [-@saldana2016: 281] suggests that if you end up with categories as nouns or noun phrases, it could be helpful to transform them into gerund phrases.
+This will help get a better sense of process and action between catagories.
+
+### Findings "at a glance"
+Following @henwood2003, Saldaña [-@saldana2016: 283] suggests creating a tri-column chart that outlines the findings and the sources of evidence and reasoning that underlie them.
+See the specific page for a good example.
+
+
 ## The constant comparative method
 The constant comparative method is based on action codes, similar to what @saldana2016 refers to as process codes.
 According to Charmaz [-@charmaz2000: 515]:
@@ -917,7 +1012,7 @@ It also seems very well suited for analysis of situational meaning-making, as pe
 Situational analysis originates from Strauss's social worlds/arenas/negotiations framework.
 From Clarke [-@clarke2003: 554]:
 
-> Building on and extending Strauss’s work, situational analyses offer three main cartographic approaches:
+> Building on and extending Strauss's work, situational analyses offer three main cartographic approaches:
 > 
 > 1. situational maps that lay out the major human, nonhuman, discursive, and other elements in the research situation of concern and provoke analyses of relations among them;
 > 2. social worlds/arenas maps that lay out the collective actors, key nonhuman elements, and the arena(s) of commitment within which they are engaged in ongoing negotiations, or mesolevel interpretations of the situation; and
@@ -1032,8 +1127,38 @@ One notable technique is her distinction between four kinds of notes:
 - Theoretical notes: Hunches, hypotheses, poststructuralist connections, critiques of what I'm doing/thinking/seeing, keeping me from getting hooked on one view of reality.
 - Personal notes: Uncensored feeling statements about the research, the people I'm talking to, my doubts, anxieties, pleasures. These can also be great sources of hypotheses (for example, if I am feeling anxious, others I'm speaking with might feel the same way, which provides a string to tug on).
 
-See @mitchell1996
+From Charmaz and Mitchell [-@charmaz1996: 286]:
+
+> For the most part, social science researchers are not expected to speak, and if they do, we need not listen.
+> While positivism and postmodernism claim to offer open forums, both are suspicious of authors' voices outside of prescribed forms.
+> Extremists in both camps find corruption in speech.
+> It lacks objectivity and value neutrality in the positivist idiom; it expresses racist, Eurocentric, and phallocentric oppression in the postmodern view.
+> Our point is this: There is merit in humility and deference to subjects' views, and there is merit in systematic and reasoned discourse. But there is also merit in audible authorship.
 
 See Charmaz [-@charmaz2000: 526-528]
 See Charmaz [-@charmaz2014: 183-188] on "pre-writing" techniques, including clustering and freewriting, especially in context of memo-writing.
 
+## Writing techniques
+### Analytical storylining
+Following Charmaz [-@charmaz2010: 201], Saldaña [-@saldana2016: 287] suggests using processual words that suggest the unfolding of events through time that "reproduce the tempo and mood of the [researched] experience".
+However, he cautions that this is not suitable for every situation, and to be aware of how this framing differs from positivist notions of cause and effect.
+
+### One thing at a time
+Saldaña [-@saldana2016: 287] suggests documenting each category, theme or concept one at a time as a wat of disentangling very interrelated ideas.
+This helps maintain focused as a writer, and may help maintain a more focused reading experience too.
+
+### Writing about methods
+Saldaña [-@saldana2016: 284-286] addresses some common tendencies and challenges with regards to writing about qualitative coding practices:
+
+> Researchers provide brief storied accounts of what happened "backstage" at computer terminals and during intensive work sessions.
+> After a description of the participants and the particular data collected for a study, descriptions of coding and analysis procedures generally include: references to the literature that guided the analytic work; qualitative data organization and management strategies for the project; the particular coding and data analytic methods employed and their general outcomes; and the types of CAQDAS programs and functions used.
+> Some authors may include accompanying tables or figures that illustrate the codes or major categories constructed.
+> Collaborative projects usually explain team coding processes and procedures for reaching intercoder agreement or con-sensus.
+> Some authors may also provide brief confessional anecdotes that highlight any analytic dilemmas they may have encountered.
+
+Saldaña [-@saldana2016: 286] then suggests emphasizing for readers through introductory phrases and italicized text the major outcomes of the analysis to help provide guidance for readers to grasp the headlines of your research story.
+For example:
+
+- "The three major categories constructed from transcript analysis are ..."
+- "The core category that led to the groundedtheory is ..," "The key assertion of this study is ..."
+- "A theory I propose is ..."
