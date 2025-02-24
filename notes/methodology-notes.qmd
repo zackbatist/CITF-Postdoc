@@ -471,17 +471,40 @@ It also echoes Charmaz's vision of grounded theory as a powerful too, and Bryant
 @bryant2003 summarizes this by stating that "[t]he aim of such methods is generalization rather than totalization, with the objective of producing "a combinative inventory of possible situations".
 
 ## Theoretical sampling
-See @charmaz2000: 519-520.
+From Charmaz [-@charmaz2000: 519]:
+
+> We use theoretical sampling to develop our emerging categories and to make them more definitive and useful.
+> Thus the aim of this sampling is to refine ideas, not to increase the size of the original sample.
+> Theoretical sampling helps us to identify conceptual boundaries and pinpoint the fit and relevance of our categories.
+
+From Charmaz [-@charmaz2000: 519] on the role of theoretical sampling in re-iterative data collection:
+
+> The necessity of engaging in theoretical sampling means that we researchers cannot produce a solid grounded theory through one-shot interviewing in a single data collection phase.
+> Instead, theoretical sampling demands that we have completed the work of comparing data with data and have developed a provisional set of relevant categories for explaining our data.
+> In turn, our categories take us back to the field to gain more insight about when, how, and to what extent they are pertinent and useful.
+
+From Charmaz [-@charmaz2000: 520] on the notion of "saturation":
+
+> Grounded theory researchers take the usual criteria of "saturation" (i.e., new data fit into the categories already devised) of their categories for ending the research [@morse1995].
+> But what does saturation mean?
+> In practice, saturation seems elastic [see also @flick1998; @morse1995].
+> Grounded theory approaches are seductive because they allow us to gain a handle on our material quickly.
+> Is the handle we gain the best or most complete one?
+> Does it encourage us to look deeply enough?
+> The data in works claiming to be grounded theory pieces range from a handful of cases to sustained field research.
+> The latter more likely fulfills the criterion of saturation and, moreover, has the resonance of intimate familiarity with the studied world.
+> As we define our categories as saturated (and some of us never do), we rewrite our memos in expanded, more analytic form. We put these memos to work for lectures, presentations, pa-pers, and chapters. The analytic work continues as we sort and order memos, for we may discover gaps or new relationships.
 
 From Clarke [-@clarke2003: 557]:
 
-> Unique to this approach has been, first, its requiring that analysis begin as soon as there are data. Coding begins immediately, and theorizing based on that coding does as well, however provisionally (Glaser 1978). Second, “sampling” is driven not necessarily (or not only) by attempts to be “representative” of some social body or population (or its heterogeneities) but especially and explicitly by theoretical con cerns that have emerged in the provisional analysis. Such “theoretical sampling” focuses on finding new data sources (persons or things) that can best explicitly ad dress specific theoretically interesting facets of the emergent analysis. Theoretical sampling has been integral to grounded theory from the outset, remains a fundamen tal strength of this analytic approach, and is crucial for the new situational analyses.
-
+> Unique to this approach has been, first, its requiring that analysis begin as soon as there are data.
+> Coding begins immediately, and theorizing based on that coding does as well, however provisionally [@glaser1978].
+> Second, "sampling" is driven not necessarily (or not only) by attempts to be "representative" of some social body or population (or its heterogeneities) but especially and explicitly by theoretical con cerns that have emerged in the provisional analysis.
+> Such "theoretical sampling" focuses on finding new data sources (persons or things) that can best explicitly address specific theoretically interesting facets of the emergent analysis.
+> Theoretical sampling has been integral to grounded theory from the outset, remains a fundamental strength of this analytic approach, and is crucial for the new situational analyses.
 
 # Data Collection
 ## Interviews
-See 
-
 From Charmaz [-@charmaz2000: 525]:
 
 > A constructivist approach necessitates a relationship with respondents in which they can cast their stories in their terms.
@@ -719,7 +742,122 @@ However it should still be read from top to bottom to get a sense of practical c
 
 ---
 
-@morgan2018b
+From Morgan and Hoffman [-@morgan2018b: 251], who define the key strengths and benefits of focus groups:
+
+> The strength of focus groups in this regard is the variety of different perspectives and experiences that participants reveal during theirinterac tive discussion.
+> This is especially important in the twin processes of sharing and comparing, which create dynamics that are not available in individual interviews.
+> This means that focus groups are especially useful for investigating the extent of both consensus and diversity among the participants, as they engage in sharing and comparing among themselves with the moderator in a facilitating role.
+> By comparison, individual interviews provide a degree of depth and detail on each participant that is not available in focus groups.
+
+From Morgan and Hoffman [-@morgan2018b: 251-252] on complementary aspects of focus groups and individual interviews:
+
+> Often, they are best seen as complementary rather than competing methods.
+> For example, individual key inform ant interviews can be a good starting point for planning a future set of focus groups.
+> Alternatively, individual interviews can be a useful follow-up to focus groups, giving more opportunities to hear from participants whose thoughts and experiences are worth pursuing further.
+> Finally, either individual interviews or focus groups can be used as 'member checks', where one method is used to get feedback after the researcher has done preliminary analyses on the data from another method.
+
+From Morgan and Hoffman [-@morgan2018b: 252] on combining focus groups with quantitative research methods:
+
+> One common role for focus groups in mixed methods is to provide preliminary inputs to the development of either survey instruments or program interventions.
+> In this case, the success of the quantitative portion of the project depends on having materials that work well for the participants, and focus groups can provide participants' voices during this development phase.
+> Focus groups can also be equally use ful for following-up on surveys and experimental studies.
+> In this case, the typical goal is to extend what was learned with the quantitative data by gaining a better sense of how and why those quantitative results came about.
+
+From Morgan and Hoffman [-@morgan2018b: 252] on comparing data deriving from focus groups and individual interviews:
+
+> One trap to avoid in this regard is the assumption that individual interviews repre sent a kind of 'gold standard' where the focus group introduces an element of bias due to the influences of the group on the individual [see @morrison1998 for an example of this argument].
+> This assumes that each person has one 'true' set of attitudes that will be revealed only in the presence of a researcher in a one-to-one interview, rather than in a group setting with peers.
+> Instead of arguing about whether one of these data collection formats is better than the other, it is more useful to treat them as different contexts –-- which may well produce different kinds of data.
+
+From Morgan and Hoffman [-@morgan2018b: 255] on group size:
+
+> Size is a crucial consideration in decisions about group composition.
+> Typically, focus groups range in size from 5 to 10 people.
+> Smaller sizes are particularly appropriate for sensitive topics and/or situations where the participants have a high level of engage ment with the topic.
+
+From Morgan and Hoffman [-@morgan2018b: 255] on dyadic interviews:
+
+> Dyadic interviews are similar to focus groups in that they seek to accomplish the 'sharing and comparing' dimension in inter action, but they limit the dynamic to a conversation between two people, rather than the complexity that can arise when multiple participants engage in a lively discussion.
+> Similar to standard focus groups, the mod erator is there primarily to help the respondents establish rapport and produce rich data.
+> Dyadic interviews are especially well suited to interviewing spouses, and, are thus frequently used in the family studies literature.
+
+From Morgan and Hoffman [-@morgan2018b: 255-256] on open-ended or restricted styles:
+
+> One alternative is to use less-structured interviews which create a 'bubbling up' of a wide range of potentially unanticipated responses.
+> This approach necessarily uses fewer questions, with each lasting around 15 to 20 minutes.
+> These interviews work best when the goal is to hear the participants' wide-ranging thoughts about the topic, with less emphasis on the specific types of questions that the researcher feels are important about a particular topic.
+> A disadvantage is that the participants may take the interview in a direction that is not necessarily productive for the overall project.
+> Alternatively, more structured interviews –-- with more targeted questions –-- reduce this problem, but at the cost of restricting the participants’ frame of reference.
+
+From Morgan and Hoffman [-@morgan2018b: 256] on the "funnel" approach:
+
+> a third option is a 'funnel' approach to interviewing, that includes both open-ended and highly targeted questions.
+> Funnels work systematically from less-structured, open-ended questions to more structured, targeted questions.
+> After introductions, the moderator begins the focus group with a broad question that is intended to engage the participants, by asking about the topic from their point of view.
+> Subsequent questions successively narrow in on the research questions the researcher has in mind.
+> For example, a funnel-oriented series of questions may begin with a question like 'What do you think are the most pressing issues around gun safety in the United States?'
+> This could be followed by, 'Of those you have mentioned, which do you think should receive the highest priority from our policymakers?' and then more targeted questions such as 'If you were going to contact your legislators about your concerns, what kinds of things would you say?'
+
+From Morgan and Hoffman [-@morgan2018b: 256] on the "inverted funnel" approach:
+
+> Another alternative is the 'inverted funnel approach', where the questions begin with narrower topics and then broaden to the more open-ended.
+> This approach can be helpful in cases where the participants themselves may not have an immediately available set of thoughts about the topic.
+> This approach often begins by asking about examples of concrete experiences, and then moves to more abstract issues.
+> For example, if you were interested in how the culture of a particular neighborhood was affected by gentrification over a specific period of time, it might be helpful to begin with a very targeted question of the appropriate
+
+
+From Morgan and Hoffman [-@morgan2018b: 256] on establishing rapport among participants:
+
+> ... there are two aspects of rapport in focus groups: between the moderator and the participants, and among the participants themselves.
+> To foster both kinds of rapport, the initial introduction and first question(s) can help set a tone that is conducive to the goal of getting the participants to share and compare their thoughts and experiences.
+> In focus groups, this often means a trade-off between asking questions that will get the participants talking with each other, versus concentrating on the things that are most directly important to the research.
+> The key point is that the interaction among the participants is the source of the data, so the interview questions need to begin by generating discussions, which may mean delaying the most relevant questions until a good rapport has been established.
+
+
+From Morgan and Hoffman [-@morgan2018b: 257] on the division of labour in focus groups, from a logistical perspective:
+
+> A common approach would be for the main moderator to manage the questions/discussion while an assistant observes, takes notes, and is available to help the moderator with any unanticipated needs.
+> An especially important role for the assistant moderator is to ensure the recording equipment is functioning properly throughout the entire interview.
+> This approach can also be advantageous to the research process if the two moderators debrief together afterward to co-create field notes as both moderators may have important –-- but different --– observations.
+
+From Morgan and Hoffman [-@morgan2018b: 257] on dual moderators:
+
+> Additionally, a 'dual moderator' approach can be taken wherein both interviewers facilitate the group discussion.
+> In the latter approach, it is important that the modera tors each have a clear understanding of their respective roles so that the overall experience is enhanced.
+> One common division of labor for this strategy involves one moderator who is more familiar with technical aspects of the topics and another who is more familiar with the group dynamics of facilitation.
+> In addition, working as either an assistant moderator or half of a dual moderating team can be a useful technique for training new moderators.
+
+
+From Morgan and Hoffman [-@morgan2018b: 258] on summary-based reporting:
+
+> The goal in Summary-Based Reporting is to determine which topics were most important to the participants through a descriptive account of the primary topics in the interviews.
+> A simple standard for judging importance is whether a topic arose in nearly every focus group, as well as the extent to which it engaged the participants when it did arise.
+> What matters is not just the frequency with which a topic is mentioned but also the level of interest and significance the participants attached to the topic.
+> This requires a degree of judgment on the part of the analyst, but participants are usually clear about indicating which topics they find particularly important.
+
+> To examine these summaries, it is often helpful to create a group-by-question grid where each group is a row and each question is a column.
+> The cells in this grid contain a summary of what a specific group said in response to a particular question.
+> The most effective strategy for using this grid is to make comparisons across what each group said in response to each question.
+> In essence, this moves from column to column, comparing what the different groups said in response to question number one, then question number two, and so on.
+> The goal is to create an overall summary of what the full set of groups said about each question.
+
+From Morgan and Hoffman [-@morgan2018b: 259] on content analysis:
+
+> Various forms of qualitative Content Analysis can be applied to focus groups regardless of whether the analysis is driven by counting or by more qualitative approaches.
+> The analytic system can be derived deductively, inductively, or alterna tively through a combination of the two;
+
+From Morgan and Hoffman [-@morgan2018b: 259] on thematic analysis:
+
+> The most widely cited version of Thematic Analysis was developed by Braun and Clarke [-@braun2006; -@braun2012], who proposed a six-step process:
+> (1) immersion in the data through repeated reading of the transcripts;
+> (2) systematic coding of the data;
+> (3) development of preliminary themes;
+> (4) revision of those themes;
+> (5) selection of a final set of themes;
+> (6) organization of the final written product around those themes.
+> This approach can also be applied in both a more deductive format, where codes are based on pre-existing theory, or a more inductive fashion, where codes are derived from the interviews themselves.
+
+Morgan and Hoffman [-@morgan2018b: 259-261] also address the potential benefits and limitations of online focus groups.
 
 # Analysis
 My QDA processes are most influenced by Kathy Charmaz and Johnny Saldaña, as well as the practical experiences instilled during my PhD and while working on E-CURATORS.
@@ -1098,10 +1236,18 @@ From Charmaz and Mitchell [-@charmaz1996: 286]:
 > It lacks objectivity and value neutrality in the positivist idiom; it expresses racist, Eurocentric, and phallocentric oppression in the postmodern view.
 > Our point is this: There is merit in humility and deference to subjects' views, and there is merit in systematic and reasoned discourse. But there is also merit in audible authorship.
 
-- See Charmaz [-@charmaz2000: 526-528]
-- See Charmaz [-@charmaz2014: 183-188] on "pre-writing" techniques, including clustering and freewriting, especially in context of memo-writing.
+Charmaz [-@charmaz2000: 526-528] illustrates the impact of various writing techniques on conveying the findings.
+Specifically, she emphasizes techniques that draw the reader into the story, and which acknowledge the role of the researcher in forming the narrative.
+
+Although not explicitly about writing Charmaz's [-@charmaz2000] perspective, this relates to @ellis2000, which is one of the best pieces of academic work I've ever read.
+In this book section, the authors illustrate the importance of capturing and representing perspective in addition to the plain facts, which helps to inform the reader about the real impacts and implications of a topic to those who actually experience it.
+I am able to do this work justice in these notes.
 
 ## Writing techniques
+These are some writing strategies to get ideas flowing.
+Both @saldana2016 and @charmaz2014 actually refer to these as "pre-writing" techniques that occur as a researcher is trying to extend their observations and their notes into broader forms.
+However, I tend to consider writing as a more open-ended aspect of research, whose borders are less defined, so I am referring to these as writing techniques in a general sense.
+
 ### Analytical storylining
 Following Charmaz [-@charmaz2010: 201], Saldaña [-@saldana2016: 287] suggests using processual words that suggest the unfolding of events through time that "reproduce the tempo and mood of the [researched] experience".
 However, he cautions that this is not suitable for every situation, and to be aware of how this framing differs from positivist notions of cause and effect.
@@ -1125,3 +1271,30 @@ For example:
 - "The three major categories constructed from transcript analysis are ..."
 - "The core category that led to the groundedtheory is ..," "The key assertion of this study is ..."
 - "A theory I propose is ..."
+
+### Clustering
+From Charmaz [-@charmaz2014: 184-187]
+Essentially comprises visually mapping the core and peripheral ideas, similarly to Saldaña's "big three" technique and Clarke's situational analysis.
+@charmaz2014 encourages experimentation, free from commitment to a specific arrangement.
+
+Charmaz [-@charmaz2014: 185] provides a series of directions that may help effectively implement this technique:
+
+- Start with the main topic or idea at the center
+- Work quickly
+- Move out from the nucleus into smaller subclusters
+- Keep all related material in the same subcluster
+- Make the connections clear between each idea, code, and/or category
+- Try several different clusters on the same topic
+- Use clustering to play with your material
+
+Clustering enables you to define essentials.
+It allows for chaos and prompts you to create paths through it.
+
+### Freewriting
+From Charmaz [-@charmaz2014: 186-188].
+Simply putting fingers to keeboard and writing for 8-10 minutes straight.
+Write to and for yourself.
+Permit yourself to write badly.
+Don't attend to grammar, organization, logic, evidence or audience.
+Write as though you are talking.
+
