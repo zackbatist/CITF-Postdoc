@@ -17,6 +17,7 @@
   {
     "listing": "/notes.html",
     "items": [
+      "/notes/coding-methods.html",
       "/notes/methodology-notes.html",
       "/notes/potential-cases.html",
       "/notes/maelstrom-readings.html"
