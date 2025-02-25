@@ -499,9 +499,47 @@ From Clarke [-@clarke2003: 557]:
 
 > Unique to this approach has been, first, its requiring that analysis begin as soon as there are data.
 > Coding begins immediately, and theorizing based on that coding does as well, however provisionally [@glaser1978].
-> Second, "sampling" is driven not necessarily (or not only) by attempts to be "representative" of some social body or population (or its heterogeneities) but especially and explicitly by theoretical con cerns that have emerged in the provisional analysis.
+> Second, "sampling" is driven not necessarily (or not only) by attempts to be "representative" of some social body or population (or its heterogeneities) but especially and explicitly by theoretical concerns that have emerged in the provisional analysis.
 > Such "theoretical sampling" focuses on finding new data sources (persons or things) that can best explicitly address specific theoretically interesting facets of the emergent analysis.
 > Theoretical sampling has been integral to grounded theory from the outset, remains a fundamental strength of this analytic approach, and is crucial for the new situational analyses.
+
+---
+
+@butler2018 provide concrete examples of theoretical sampling in practice.
+They point out that many studies that claim to follow grounded theory do not adequately document their implementation of theoretical sampling, providing no evidence of how it was used or failing to link theoretical sampling to stages of theory development.
+
+@butler2018 on the difference between "purposeful" sampling which occurs at the start of a project, and theoretical sampling whichn occurs after you get the ball rolling:
+
+> In constructivist grounded theory studies, data collection begins with purposeful sampling.
+> Initial participants or sources of data are chosen based on their experiences of the area under study or abil- ity to inform the early research questions [@charmaz2014; @currie2009].
+> However, according to @charmaz2014, this early sampling strategy offers only a starting point: somewhere to launch the data collection process rather than a definitive strategy to develop the overall theory.
+> The criteria used in early purposeful sampling are not the same as those used during the theoretical sampling process.
+> Instead, the criteria which guide theoretical sampling decisions change throughout a study, as ideas and insights into the data develop and change.
+
+@butler2018 on identifying when to switch from purposeful to theoretical sampling:
+
+> Though some grounded theorists believe that theoretical sampling can start after a single interview, suggesting that all that is required are beginning concepts that warrant further exploration [@corbin2014], @charmaz2014 asserts that theoretical sampling cannot begin until tentative categories have developed, which is unlikely to occur after a single interview.
+> This is because, from a constructivist standpoint, the purpose of theoretical sampling is to narrow the researcher's focus towards the developing categories in order to refine them, explore their boundaries, identify their properties, and discover relationships between them [@charmaz2014].
+
+@butler2018 on identifying when saturation occurs (the point at which no category properties are gleaned when new data are added, and the categories are robust enough to encompass the variations present in the study):
+
+> Theoretical sampling contin-ues until data saturation occurs.
+> It is often difficult to determineexactly when this occurs, but for most grounded theorists, saturation marks the point at which no new properties of the categoriesare gleaned when new data is added, and the categories are robustenough to encompass the variations present in the study [@charmaz2014; @maz2013].
+
+The examples provided by @butler2018 focus on how theoretical sampling helped introduce new research sites, adapt the interview questions, and seeking new participant characteristics.
+
+---
+
+Morse and Clark [-@morse2019: 146] on the purpose of sampling in qualitative research: "In qualitative inquiry, sampling enables access to new dimensions of the topic that arise during reflexive inquiry."
+
+They go on:
+
+> In qualitative inquiry, first sampling is based on the researcher's need to understand the phenomenon.
+> The researcher's understanding builds incrementally as the study pro gresses: who is invited to participate in the study (i.e., the sample) is determined by what they know about the topic: that is, what they may contribute –-- their experience, role, and so forth.
+> As this requisite knowledge changes throughout the study, so does the type of par ticipant who is invited to participate change.
+
+The rest of @morse2019 identifies various factors with regards to sample coverage that are important to consider as the project evolves, and suggests ways to refine the sample as the work progresses.
+I think I may return to this if/when I hit any roadblocks, but at this point I'm not getting much out of this text.
 
 # Data Collection
 ## Interviews
@@ -562,6 +600,12 @@ Interviewers must also perfect a style of "interested listening" that rewards re
 From Fontana and Frey [-@fontana2000: 651]:
 
 > This kind of interview often elicits rational responses, but it overlooks or inadequately assesses the emotional dimension.
+
+---
+
+Morse and Clark [-@morse2019: 150] describe various interview strategies in relation to their reflexive potential vis-a-vis theoretical sampling.
+With regards to semi-structured interviews,^[open-ended questions, asked of all participants in the same order.] which is my favoured approach for this project, they note that this technique is often used in grounded theory, "because data are analyzed all at once at the end of data collection, much of the reflexivity required for the sampling strategies necessary for excellent grounded theory ... is lost".
+
 
 ### Group interviews
 From Fontana and Frey [-@fontana2000: 651-652]:
