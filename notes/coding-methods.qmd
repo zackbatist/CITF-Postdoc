@@ -1,0 +1,148 @@
+---
+title: Coding methods
+description: Notes perpainting to coding methods that may be useful for this project.
+date: 2025-02-25
+date-modified: last-modified
+toc-depth: 6
+toc-expand: 3
+reference-location: document
+categories: 
+  - QDA methods
+  - coding
+  - reading
+---
+
+Some notes on coding methods that stand out as relevant to my work.
+Largely drawn from Saldaña's [-@saldana2016] excellent coding manual.
+
+These notes should be treated as relating to my research specifically, and should not be considered generalizable.
+They are more like my impressions of their practical value for my own purposes.
+I therefore priorize notes on methods that I deem especially relevant to my research.
+
+# First cycle coding methods
+## Grammatical methods
+### Attribute coding
+- Could be useful for identifying affiliations or former affiliations, including who is or was their doctoral supervisor, whether they are a student, research associate or faculty member, etc.
+- But I imagine this might be better represented in a memo outlining a "cast of characters" rather than as codings.
+
+### Magnitude coding
+- Can be applied to tag positive/negative attitudes, but also other gradients like hard/soft, technical/social skills.
+- Can use colons to identify a magnitude facet for specific codes corresponding with the code's usage in the specific context.
+  - For example: using `programming: 1` or `programming: 5` to identify different instances of programming and the degree of difficulty elicited regarding each instance.
+  - See additional examples at Saldaña [-@saldana2016: 88-19].
+
+### Subcoding
+
+### Simultaneous coding
+
+## Elemental methods
+### Structural coding
+- Useful for identifying components of an interview transcript that may not matter as much, such as interviewer questions, long pauses or interuptions, or standardized preambles.
+
+### Descriptive coding
+- I should minimize this kind of coding, and replace with "initial / open" coding, use of sensitizing concepts, or in vivo coding instead.
+- Speaking of sensitizing concepts, I could use the prefix `SC:` to denote these as a distinct kind of code.
+- Saldaña likens them to hashtags on social media.
+
+### In vivo coding
+- I imagine creating in vivo codes in an opportunistic way, whenever I see something that really stands out, and therefore is best applied during an initial or open pass through the document.
+- For this reason, I should distinguish these codes with a prefix `IV:`.
+- I imagime this could be especially useful to articulate the improvised adoption of certain terms or imagery, which can be somewhat haphazard (as per my observation that the curatorial lens reifies and perpetuates certain notions of data based on common and/or authoritative use of specific terms across contexts).
+
+### Process coding
+- This one will be very important, I think.
+- Essentially entails framing ordinary things in terms of broader improvised actions, as attempts, as interactions between people and between agents.
+- Saldaña suggests embodying these codes through gestures, even while coding, as an arts-based heuristic.
+
+From Clarke [-@clarke2003: 558] on process coding:
+
+> In a traditional grounded theory study, the key or basic social process is typically articulated in gerund form connoting ongoing action at an abstract level.
+> Around this basic process are then constellated the particular and distinctive conditions, strategies, actions, and practices engaged in by human and nonhuman actors in volved with/in the process and their consequences.
+> For example, subprocesses of disciplining the scientific study of reproduction include formalizing a scientific discipline, gleaning fiscal support for research, producing contraceptives and other techno scientific products, and handling any social controversies the science provokes (such as cloning and stem cell research).
+
+### Initial coding
+- Also referred to as "open coding".
+- Breaks down data into discrete parts, closely examines the, and compares for similarities and differences.
+- Important to remain open to all possible theoretical directions suggested by your interpretations of the data.
+- An opportunity to reflect deeply on the contents and nuances of the data and to begin taking ownership over them.
+- @charmaz2014 suggests doing this line-by-line over each document as they are ingested into the dataset.
+
+### Concept coding
+- What Saldaña refers to as "concept coding" is what I have previously referred to as "theoretical coding", to a certain extent.
+- It's a form of lumping, identifying specific instances under the label of cohesive concepts.
+
+## Affective methods
+### Emotion coding
+- Distinguishes between emotions and moods:
+  - **Emotion:** a feeling and its distinctive thoughts, psychological and biological states, and range of propensities to act.
+  - **Mood:** a general aura, sustained quality, or the perception of another's emotional tone.
+- Mood may be more relevant to me, especially when identifying aspects of phases or contexts of work.
+
+### Values coding
+- Actually entails coding values, attitudes and bliefs:
+  - A **value** is the importance we attribute to ourselves, another person, thing, or idea; the principles, moral codes, and situational norms people live by.
+  - An **attitude** is the way we think and feel about ourselves, another person, thing or idea, and are part of a relatively enduring system of evaluative, affective reactions.
+  - A **belief** is part of a system that includes our values and attitudes, plus our personal knowledge, experiences, opinions, prejudices, morals, and other perceptions of the social world; they can be considered as "rules for action".
+- Use prefixes `V:`, `A:` and `B:` to distinguish these things.
+- Some key phrases that signpost values, attitudes and beliefs include:
+  - It's important that...
+  - I like...
+  - I love...
+  - I need...
+  - I think...
+  - I feel...
+  - I want...
+
+### Versus coding
+- Identifies in dichotomous or binary terms the individuals, groups, social systems, organizations, phenomena, processes, concepts, etc in direct conflict with each other.
+- These moities generally exhibit power imbalances.
+- Saldaña does not specify this, but the framing of a duality also draws an association as things that may be compared along opposite ends of the same spectrum; this gives them something in common, and figuring out that commonality that exists alongside the differences could be really insightful, perhaps.
+- Saldaña advises against getting too caught up in the hero/villain, protagonist/antogist dichotomy, and reminds us that these dualities are context-specific and should be treated as such.
+
+### Evaluation coding
+- Commonly used in situations where participants are asked to assign judgements to the merit, worth, or significance of programs or policy.
+- Evaluation data may describe, compare or predict:
+  - **Description** focuses on patterned observations or participant responses of attributes that assess their quality.
+  - **Comparison** explores how the program measures up to a standard or ideal.
+  - **Prediction** provides recommendations for change, if needed, and how those changes^[Saldaña [-@saldana2016: 144] notes that "change" is a slippery and contested term, and suggests using more precise terms like "impact", "shift", "transformation" andn"evolution" instead. This is just solid advice that applies in other contexts too.] might be implemented.
+
+
+## Literary and language methods
+### Dramaturgical coding
+
+
+### Motif coding
+
+
+### Narrative coding
+
+
+### Verbal exchange coding
+
+
+## Exploratory methods
+### Holistic coding
+
+
+### Provisional coding
+
+
+### Hypothesis coding
+
+
+## Procedural methods
+### Protocol coding
+
+
+### Outline of cultural materials coding
+
+
+### Domain and taxonomic coding
+
+
+### Causation coding
+
+
+# Second cycle coding methods
+
+# References

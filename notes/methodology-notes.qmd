@@ -997,12 +997,6 @@ Following Emerson et al. [-@emerson2011: 177], Saldaña [-@saldana2016: 22] iden
 - How is what is going on here similar to, or different from, other incidents or events recorded elsewhere in the fieldnotes?
 - What is the broader import or significance of this incident or event? What is it a case of?
 
-### Coding frameworks
-
-From Clarke [-@clarke2003: 558] on process coding:
-
-> In a traditional grounded theory study, the key or basic social process is typically articulated in gerund form connoting ongoing action at an abstract level. Around this basic process are then constellated the particular and distinctive conditions, strategies, actions, and practices engaged in by human and nonhuman actors in volved with/in the process and their consequences. For example, subprocesses of disciplining the scientific study of reproduction include formalizing a scientific disci pline, gleaning fiscal support for research, producing contraceptives and other techno scientific products, and handling any social controversies the science provokes (such as cloning and stem cell research).
-
 ## Memos
 Charmaz [-@charmaz2014: 162] dedicates Chapter 7 to memo-writing, which she frames as "the pivotal intermediate step between data collection and writing drafts of papers."
 She locates the power of memo-writing as the prompt to analyze the data and codes early in the research process, which requires the researcher to pause and reflect.
