@@ -21,6 +21,8 @@ I therefore priorize notes on methods that I deem especially relevant to my rese
 
 # First cycle coding methods
 ## Grammatical methods
+Refer to the basic grammatical principles of a technique, by articulating the forms and combinations of codes and encoded elements in a dataset.
+
 ### Attribute coding
 - Could be useful for identifying affiliations or former affiliations, including who is or was their doctoral supervisor, whether they are a student, research associate or faculty member, etc.
 - But I imagine this might be better represented in a memo outlining a "cast of characters" rather than as codings.
@@ -36,6 +38,8 @@ I therefore priorize notes on methods that I deem especially relevant to my rese
 ### Simultaneous coding
 
 ## Elemental methods
+Basic but focused filters for reviewing the corpus, which build a foundation for future coding cycles.
+
 ### Structural coding
 - Useful for identifying components of an interview transcript that may not matter as much, such as interviewer questions, long pauses or interuptions, or standardized preambles.
 
@@ -72,6 +76,9 @@ From Clarke [-@clarke2003: 558] on process coding:
 - It's a form of lumping, identifying specific instances under the label of cohesive concepts.
 
 ## Affective methods
+Investigate the subjective qualities of human experience (including emotions, values, conflicts and judgements) by directly acknowledging and naming those experiences.
+These affective qualities are core motives for human action, reaction and interaction.
+
 ### Emotion coding
 - Distinguishes between emotions and moods:
   - **Emotion:** a feeling and its distinctive thoughts, psychological and biological states, and range of propensities to act.
@@ -106,29 +113,70 @@ From Clarke [-@clarke2003: 558] on process coding:
   - **Comparison** explores how the program measures up to a standard or ideal.
   - **Prediction** provides recommendations for change, if needed, and how those changes^[Saldaña [-@saldana2016: 144] notes that "change" is a slippery and contested term, and suggests using more precise terms like "impact", "shift", "transformation" andn"evolution" instead. This is just solid advice that applies in other contexts too.] might be implemented.
 
-
 ## Literary and language methods
-### Dramaturgical coding
+Borrow from established approaches in the analysis of literature and oral communication to explore underlying sociological, psychological and cultural constructs.
 
+### Dramaturgical coding
+- Approaches naturalistic observations and interview narratives as "social drama".
+- Life is perceived as performance, with humans cast as characters in conflict.
+- Interview transcripts are framed as dialogue, soliloquy and dialogue; field notes and naturalistic videos are framed as improvized scenarious with stage direction.
+- Environments, dress and artefacts are viewed as scenery, costumes and props.
+- This is enacted by applying terms and conventions from scriptwriting as code prefixes:
+  - `OBJ`: participant-actor objectives
+  - `CON`: conflicts or obstacles
+  - `TAC`: tactics or strategies to deal with conflucts
+  - `ATT`: attitudes toward setting, others, or conflicts
+  - `EMO`: emotions experiences by actors
+  - `SUB`: subtexts, or the actors' unspoken thought or impression management
+- Useful in projects leading to narrative or arts-based presentational forms.
+- Also useful to trace daily routines or regular interactions among participants.
+- Best applied to self-standing, inclusive vignettes, episodes or stories in the data record, which may even be divided into stanzas or scenes connected  by plotting devies like curtain-raising or prologues.
 
 ### Motif coding
-
+- Used to classify types and elements of folk tales, myths and legends.
+- A motif as a literary device is an element that sometimes appears several times within a narrative work.
+- A _type_ refers to the complete tale, whereas a _motif_ refers to the smallest element in a tale that has something unique about it, such as kinds of characters, significant objects, and/or incidents of action.
+- Appropriate for exploring identity studies and oral histories.
 
 ### Narrative coding
-
+- Identifies elements of narrative and story-telling, such as conflict, flashback/flashforward, vignette, resolution, aside, subtext, etc.
+- Suitable for inquiries on identity development, psychological, social and cultural meanings and values, critical/feminist studies, and documentation of the life course.
 
 ### Verbal exchange coding
-
+- Entails verbatim transcript analysis and interpretation of the types of conversation and personal meanings of key moments in the exchanges.
+- Coding determines the "generic type" of conversation, and reflection examines the meaning of the conversation.
+- Some generic types of conversation include: phatic communication or ritual interaction; ordinary conversation; skilled conversation; personal narratives; and dialogue.
+- After classifying conversations, the analyst explores personal meanings and key moments by examining speech mannerisms, non-verbal communication habits and rich points of cultural knowledge (slang, jargon, etc).
+- This them proceeds to examine the practices or cultural performances evident in these interactions, which are situated on a continuum:
+  1. routines and rituals of structured, symbolically meaningful actions during our day
+  2. surprise-and-sense0making episodes of the unanticipated or unexpected
+  3. rosl-taking episodes and face-saving episodes of conflict-laden exchanges
+  4. crises in a verbal exchange or as an overarching pattern of lived experience
+  5. rites of passage, or what is done that significantly alters or changes our personal sense of self or out social or professional status or identity
+- Useul for examining dialogical interaction.
 
 ## Exploratory methods
-### Holistic coding
+Exploratory and preliminary assignments of coces to the data before more refined coding systems are developed and applied.
 
+### Holistic coding
+- Attempts to grasp basic themes or issues in the data by absorbing them as a whole (by lumping them) rather than by analyzing them line by line (by splitting).
+- This is a preparatory approach to a unit of data before a more detailed coding or categorization process occurs.
+- I imagine this as being somewhat similar to open/initial coding, but operating at a coarser grain.
+- Useful for "chunking" the data into broader topics as a preliminary step for more detailed analysis.
+- Could also be a time-saving method if there is a massive amount of data.
 
 ### Provisional coding
-
+- Establishes a predetermined list of codes prior to fieldwork, developed from anticipated categories or types of responses or actions that may arise in the data yet to be collected.
+- The provisional list is generated through literature reviews, the study's conceptual framework and research questions, previous findings, pilot study fieldwork, the researcher's prior knowledge and experiences, and researcher-formulated hypotheses or hunches.
+- As data are collected, coded and analyzed, provisional codes can be revised, modified, deleted or expanded.
+- Useful in research that builds on or seeks to corroborate previous investigations.
+- May make use of keyword searches to locate terms and phrases that may correspond with the provisional codes.
 
 ### Hypothesis coding
-
+- The application of a researcher-generated, predetermined list of codes specifically to assess a researcher's hypothesis.
+- The codes are developed from a theory or prediction about what will be found in the data before they have been collected or analyzed.
+- Particularly useful if seeking to identify rules, causes and explanations.
+- Can also be applied midway or later in the analysis process to confirm or disconfirm any assertions or theories made thus far.
 
 ## Procedural methods
 ### Protocol coding
