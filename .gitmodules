@@ -1,3 +1,6 @@
 [submodule "test"]
 	path = test
 	url = http://git.mchi.mcgill.ca/zack/test
+[submodule "data"]
+	path = data
+	url = http://git.mchi.mcgill.ca/zack/data
