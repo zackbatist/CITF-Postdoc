@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/test/two.html</loc>
+    <lastmod>2025-02-28T21:03:07.438Z</lastmod>
+  </url>
+  <url>
     <loc>https://zackbatist.info/CITF-Postdoc/research-protocol.html</loc>
     <lastmod>2025-01-22T21:05:38.131Z</lastmod>
   </url>
@@ -34,7 +38,7 @@
   </url>
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/notes/coding-methods.html</loc>
-    <lastmod>2025-02-25T20:06:03.093Z</lastmod>
+    <lastmod>2025-02-26T17:37:18.993Z</lastmod>
   </url>
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/interview-protocol.html</loc>
@@ -82,7 +86,7 @@
   </url>
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/posts/2024-12-11-technical-specs.html</loc>
-    <lastmod>2024-12-18T20:38:01.508Z</lastmod>
+    <lastmod>2025-02-28T21:12:44.918Z</lastmod>
   </url>
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W03.html</loc>
@@ -99,5 +103,9 @@
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/qda-protocol.html</loc>
     <lastmod>2025-01-10T18:27:00.850Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/test/one.html</loc>
+    <lastmod>2025-02-28T20:55:33.007Z</lastmod>
   </url>
 </urlset>

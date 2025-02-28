@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-12-18">
+<meta name="dcterms.date" content="2025-02-28">
 
 <title>Technical specs for this website – CITF-Postdoc</title>
 <style>
@@ -199,6 +199,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#fundamentals" id="toc-fundamentals" class="nav-link active" data-scroll-target="#fundamentals">Fundamentals</a></li>
   <li><a href="#generating-pdfs" id="toc-generating-pdfs" class="nav-link" data-scroll-target="#generating-pdfs">Generating PDFs</a></li>
   <li><a href="#archiving-and-version-control" id="toc-archiving-and-version-control" class="nav-link" data-scroll-target="#archiving-and-version-control">Archiving and Version Control</a></li>
+  <li><a href="#git-submodules" id="toc-git-submodules" class="nav-link" data-scroll-target="#git-submodules">Git Submodules</a></li>
+  <li><a href="#qc" id="toc-qc" class="nav-link" data-scroll-target="#qc">qc</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/posts/2024-12-11-technical-specs.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
@@ -221,7 +223,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 18, 2024</p>
+      <p class="date">February 28, 2025</p>
     </div>
   </div>
   
@@ -250,6 +252,26 @@ ul.task-list li input[type="checkbox"] {
 <p>Every change is tracked using git. I would also like to archive each research protocol in Zenodo once they reach a point of stability. This would ensure that they ca be aassigned DOIs and detailed metadata, which will make them easier to reference.</p>
 <p>However, I do not want to rely on Zenodo’s GitHub integration for two reasons: (1) I want this to be as platform-agnostic as possible, and (2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files.</p>
 <p>I might be able to write a custom CI workflow to archive specific files to Zenodo using their API. But, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway.</p>
+</section>
+<section id="git-submodules" class="level2">
+<h2 class="anchored" data-anchor-id="git-submodules">Git Submodules</h2>
+<p>Since I’m dealing with potentially sensitive information, including recordings, transcripts and notes deriving from interviews that participants may opt to keep confidential, I need to isolate those files so they remain private and secure. To accomplish this, I will set up private git repos on the MCHI-administered GitLab instance and integrate them into my main project repository (hosted on GitHub, and hence less secure) as submodules. I will then configure my quarto rendering options to ignore any subdirectories deemed sensitive enough to not share publicly (which may not include everything in the submodule). I intend to follow <a href="https://www.taniarascia.com/git-submodules-private-content/">this guide written by Tania Rascia</a> to pull this off.</p>
+<p>Just as a quick reminder of the procedure for committing and syncing changes, based on my testing:</p>
+<ol type="1">
+<li>Make changes to files in the submodule.</li>
+<li>Commit and sync those changes to the remote submodule.</li>
+<li>Obtain a record of those changes from the remote submodule:
+<ul>
+<li><code>git submodule update --remote</code></li>
+<li>This can be verified using <code>git status</code>; changes should be indicated as <code>(new commits)</code>.</li>
+</ul></li>
+<li>Commit the record of commits to the main repo’s remote.</li>
+</ol>
+</section>
+<section id="qc" class="level2">
+<h2 class="anchored" data-anchor-id="qc">qc</h2>
+<p>I intend to use <a href="https://qualitative-coding.readthedocs.io/en/latest/index.html">qc</a>, a novel too for qualitative data analysis designed for qualitaitve thinking. It’s a command line tool that makes QDA compatible with <a href="https://plain-text.co/">textfile based social science workflows</a>, which more-or-less aligns with my overall approach. qc also plays nice with my plan to isolate potentially sensitive information on a private git submodule, and is loosely compatible with my strategy for posting memos and research outputs publicly via this website.</p>
+<p>I’m also communicating with its maintainer, Chris Proctor, who is an education researcher and computer scientist based at SUNY Buffalo. This is the perfect combination for this kind of work since he specializes in instilling computational literacies, he has the technical chops to actually develop this system, and most of all: qualitative data analysis is the bread and butter of education research, so he is developing from an informed perspective. I really like what I see so far, and I’m eager to collect data of my own so that I can maximize the full potential that this system affords.</p>
 
 
 </section>
