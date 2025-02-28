@@ -1,0 +1,3 @@
+[submodule "test"]
+	path = test
+	url = http://git.mchi.mcgill.ca/zack/test
