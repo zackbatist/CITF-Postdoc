@@ -3,6 +3,7 @@ project:
   render:
     - "*.qmd"
     - "!private/"
+    - "!data/test2/"
   preview:
     port: 7777
     browser: false
