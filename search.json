@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "test/two.html",
-    "href": "test/two.html",
-    "title": "CITF-Postdoc",
-    "section": "",
-    "text": "blop"
-  },
-  {
     "objectID": "research-protocol.html",
     "href": "research-protocol.html",
     "title": "Research Protocol",
@@ -333,6 +326,13 @@
     ]
   },
   {
+    "objectID": "data/test1/index.html",
+    "href": "data/test1/index.html",
+    "title": "Test1",
+    "section": "",
+    "text": "This is a test directory within the submodule. It is set to render, so if you can see it then this works properly."
+  },
+  {
     "objectID": "data-management.html",
     "href": "data-management.html",
     "title": "Data Management Plan",
@@ -431,6 +431,13 @@
     "crumbs": [
       "Context"
     ]
+  },
+  {
+    "objectID": "data/index.html",
+    "href": "data/index.html",
+    "title": "Data",
+    "section": "",
+    "text": "This directory contains data."
   },
   {
     "objectID": "ethics-protocol.html",
@@ -700,12 +707,5 @@
     "crumbs": [
       "QDA Protocol"
     ]
-  },
-  {
-    "objectID": "test/one.html",
-    "href": "test/one.html",
-    "title": "CITF-Postdoc",
-    "section": "",
-    "text": "blah"
   }
 ]
