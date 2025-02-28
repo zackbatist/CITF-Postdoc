@@ -326,13 +326,6 @@
     ]
   },
   {
-    "objectID": "data/test1/index.html",
-    "href": "data/test1/index.html",
-    "title": "Test1",
-    "section": "",
-    "text": "This is a test directory within the submodule. It is set to render, so if you can see it then this works properly."
-  },
-  {
     "objectID": "data-management.html",
     "href": "data-management.html",
     "title": "Data Management Plan",
@@ -431,13 +424,6 @@
     "crumbs": [
       "Context"
     ]
-  },
-  {
-    "objectID": "data/index.html",
-    "href": "data/index.html",
-    "title": "Data",
-    "section": "",
-    "text": "This directory contains data."
   },
   {
     "objectID": "ethics-protocol.html",
