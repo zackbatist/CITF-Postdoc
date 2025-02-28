@@ -36,3 +36,18 @@ I might be able to write a custom CI workflow to archive specific files to Zenod
 But, I want to be able to toggle this option, rather than have it occur for every single detected change.
 Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on.
 Or it might be easier to simply do this manually, since I'm not sure I will be using it that often anyway.
+
+## Git Submodules
+Since I'm dealing with potentially sensitive information, including recordings, transcripts and notes deriving from interviews that participants may opt to keep confidential, I need to isolate those files so they remain private and secure.
+To accomplish this, I will set up private git repos on the MCHI-administered GitLab instance and integrate them into my main project repository (hosted on GitHub, and hence less secure) as submodules.
+I will then configure my quarto rendering options to ignore any subdirectories deemed sensitive enough to not share publicly (which may not include everything in the submodule).
+I intend to follow [this guide written by Tania Rascia](https://www.taniarascia.com/git-submodules-private-content/) to pull this off.
+
+## qc
+I intend to use [qc](https://qualitative-coding.readthedocs.io/en/latest/index.html), a novel too for qualitative data analysis designed for qualitaitve thinking.
+It's a command line tool that makes QDA compatible with [textfile based social science workflows](https://plain-text.co/), which more-or-less aligns with my overall approach.
+qc also plays nice with my plan to isolate potentially sensitive information on a private git submodule, and is loosely compatible with my strategy for posting memos and research outputs publicly via this website.
+
+I'm also communicating with its maintainer, Chris Proctor, who is an education researcher and computer scientist based at SUNY Buffalo.
+This is the perfect combination for this kind of work since he specializes in instilling computational literacies, he has the technical chops to actually develop this system, and most of all: qualitative data analysis is the bread and butter of education research, so he is developing from an informed perspective.
+I really like what I see so far, and I'm eager to collect data of my own so that I can maximize the full potential that this system affords.
