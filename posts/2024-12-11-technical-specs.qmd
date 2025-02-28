@@ -43,6 +43,15 @@ To accomplish this, I will set up private git repos on the MCHI-administered Git
 I will then configure my quarto rendering options to ignore any subdirectories deemed sensitive enough to not share publicly (which may not include everything in the submodule).
 I intend to follow [this guide written by Tania Rascia](https://www.taniarascia.com/git-submodules-private-content/) to pull this off.
 
+Just as a quick reminder of the procedure for committing and syncing changes, based on my testing:
+
+1. Make changes to files in the submodule.
+2. Commit and sync those changes to the remote submodule.
+3. Obtain a record of those changes from the remote submodule:
+    - `git submodule update --remote`
+    - This can be verified using `git status`; changes should be indicated as `(new commits)`.
+4. Commit the record of commits to the main repo's remote.
+
 ## qc
 I intend to use [qc](https://qualitative-coding.readthedocs.io/en/latest/index.html), a novel too for qualitative data analysis designed for qualitaitve thinking.
 It's a command line tool that makes QDA compatible with [textfile based social science workflows](https://plain-text.co/), which more-or-less aligns with my overall approach.
