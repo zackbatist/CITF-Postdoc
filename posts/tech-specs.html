@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="">
+<meta name="dcterms.date" content="2025-03-01">
 
-<title>Blog – CITF-Postdoc</title>
+<title>Technical specs for this website – CITF-Postdoc</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,26 +24,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./images/favicon.ico" rel="icon">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b6cc9bb6fcb6d8b77cec24a8d661402f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-a0fdc5a2b886e7c1a2139fa05c5ac8ae.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/favicon.ico" rel="icon">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-01bf821d34ede30856b0c0e7e2988940.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-742016998ec9c251613c3a4c0e69968a.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -71,69 +69,11 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author"],
-    };
+</head>
 
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="alternate" type="application/rss+xml" title="CITF-Postdoc" href="posts.xml" data-external="1"></head>
-
-<body class="nav-sidebar docked fullcontent">
+<body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -142,7 +82,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./posts.html">Blog</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Technical specs for this website</li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -153,8 +93,8 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../images/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
@@ -164,67 +104,67 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./context.html" class="sidebar-item-text sidebar-link">
+  <a href="../context.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Context</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./research-protocol.html" class="sidebar-item-text sidebar-link">
+  <a href="../research-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Research Protocol</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./case-selection.html" class="sidebar-item-text sidebar-link">
+  <a href="../case-selection.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Case Selection</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ethics-protocol.html" class="sidebar-item-text sidebar-link">
+  <a href="../ethics-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ethics Protocol</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./interview-protocol.html" class="sidebar-item-text sidebar-link">
+  <a href="../interview-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interview Protocol</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data-management.html" class="sidebar-item-text sidebar-link">
+  <a href="../data-management.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Management</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./qda-protocol.html" class="sidebar-item-text sidebar-link">
+  <a href="../qda-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">QDA Protocol</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./glossary.html" class="sidebar-item-text sidebar-link">
+  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Glossary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./notes.html" class="sidebar-item-text sidebar-link">
+  <a href="../notes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Notes</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts.html" class="sidebar-item-text sidebar-link active">
+  <a href="../posts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Blog</span></a>
   </div>
 </li>
@@ -236,13 +176,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./CITF-Postdoc.bib" class="sidebar-item-text sidebar-link">
+  <a href="../CITF-Postdoc.bib" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bib</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts.xml" class="sidebar-item-text sidebar-link">
+  <a href="../posts.xml" class="sidebar-item-text sidebar-link">
  <span class="menu-text">RSS</span></a>
   </div>
 </li>
@@ -251,22 +191,41 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#fundamentals" id="toc-fundamentals" class="nav-link active" data-scroll-target="#fundamentals">Fundamentals</a></li>
+  <li><a href="#generating-pdfs" id="toc-generating-pdfs" class="nav-link" data-scroll-target="#generating-pdfs">Generating PDFs</a></li>
+  <li><a href="#archiving-and-version-control" id="toc-archiving-and-version-control" class="nav-link" data-scroll-target="#archiving-and-version-control">Archiving and Version Control</a></li>
+  <li><a href="#git-submodules" id="toc-git-submodules" class="nav-link" data-scroll-target="#git-submodules">Git Submodules</a></li>
+  <li><a href="#qc" id="toc-qc" class="nav-link" data-scroll-target="#qc">qc</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/posts/tech-specs.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Blog</h1>
-</div>
+<h1 class="title">Technical specs for this website</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">website</div>
+  </div>
+  </div>
 
 
 
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 1, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -276,153 +235,48 @@ window.Quarto = {
 </header>
 
 
+<p>I’m using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.</p>
+<p>This post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves.</p>
+<section id="fundamentals" class="level2">
+<h2 class="anchored" data-anchor-id="fundamentals">Fundamentals</h2>
+<p>This website is based on <a href="https://quarto.org/">Quarto</a>, a platform for writing and publishing scientific and technical writing. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.</p>
+<p>I had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. You can find an older version of this post reflecting that setup here: <a href="https://github.com/zackbatist/CITF-Postdoc/commit/2346852df7224ca18eff65c0f34335cc6245a78a">#2346852</a>.</p>
+<p>The site is hosted on GitHub Pages. The repo is located at <a href="https://github.com/zackbatist/CITF-Postdoc">https://github.com/zackbatist/CITF-Postdoc</a>.</p>
+</section>
+<section id="generating-pdfs" class="level2">
+<h2 class="anchored" data-anchor-id="generating-pdfs">Generating PDFs</h2>
+<p>As an avid user, one thing I really like about Quarto is the ability to generate PDFs alongside html versions served over the web. I started tinkering with includes but I need to review how Quarto passes info from YAML frontmatter. It is not at all straightforward and I will need to experiment a bit more with this to get the hang of it.</p>
+</section>
+<section id="archiving-and-version-control" class="level2">
+<h2 class="anchored" data-anchor-id="archiving-and-version-control">Archiving and Version Control</h2>
+<p>Every change is tracked using git. I would also like to archive each research protocol in Zenodo once they reach a point of stability. This would ensure that they ca be aassigned DOIs and detailed metadata, which will make them easier to reference.</p>
+<p>However, I do not want to rely on Zenodo’s GitHub integration for two reasons: (1) I want this to be as platform-agnostic as possible, and (2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files.</p>
+<p>I might be able to write a custom CI workflow to archive specific files to Zenodo using their API. But, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway.</p>
+</section>
+<section id="git-submodules" class="level2">
+<h2 class="anchored" data-anchor-id="git-submodules">Git Submodules</h2>
+<p>Since I’m dealing with potentially sensitive information, including recordings, transcripts and notes deriving from interviews that participants may opt to keep confidential, I need to isolate those files so they remain private and secure. To accomplish this, I will set up private git repos on the MCHI-administered GitLab instance and integrate them into my main project repository (hosted on GitHub, and hence less secure) as submodules. I will then configure my quarto rendering options to ignore any subdirectories deemed sensitive enough to not share publicly (which may not include everything in the submodule). I intend to follow <a href="https://www.taniarascia.com/git-submodules-private-content/">this guide written by Tania Rascia</a> to pull this off.</p>
+<p>Just as a quick reminder of the procedure for committing and syncing changes, based on my testing:</p>
+<ol type="1">
+<li>Make changes to files in the submodule.</li>
+<li>Commit and sync those changes to the remote submodule.</li>
+<li>Obtain a record of those changes from the remote submodule:
+<ul>
+<li><code>git submodule update --remote</code></li>
+<li>This can be verified using <code>git status</code>; changes should be indicated as <code>(new commits)</code>.</li>
+</ul></li>
+<li>Commit the record of commits to the main repo’s remote.</li>
+</ol>
+</section>
+<section id="qc" class="level2">
+<h2 class="anchored" data-anchor-id="qc">qc</h2>
+<p>I intend to use <a href="https://qualitative-coding.readthedocs.io/en/latest/index.html">qc</a>, a novel too for qualitative data analysis designed for qualitaitve thinking. It’s a command line tool that makes QDA compatible with <a href="https://plain-text.co/">textfile based social science workflows</a>, which more-or-less aligns with my overall approach. qc also plays nice with my plan to isolate potentially sensitive information on a private git submodule, and is loosely compatible with my strategy for posting memos and research outputs publicly via this website.</p>
+<p>I’m also communicating with its maintainer, Chris Proctor, who is an education researcher and computer scientist based at SUNY Buffalo. This is the perfect combination for this kind of work since he specializes in instilling computational literacies, he has the technical chops to actually develop this system, and most of all: qualitative data analysis is the bread and butter of education research, so he is developing from an informed perspective. I really like what I see so far, and I’m eager to collect data of my own so that I can maximize the full potential that this system affords.</p>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-table" id="listing-listing">
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-<th>
-Date
-</th>
-<th>
-Title
-</th>
-<th>
-Categories
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-categories="d2Vic2l0ZQ==" data-listing-date-sort="1740859039000" data-listing-file-modified-sort="1740859039795" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="731" data-listing-title-sort="Technical specs for this website" data-listing-filename-sort="tech-specs.qmd">
-<td>
-<span class="listing-date">Mar 1, 2025</span>
-</td>
-<td>
-<a href="./posts/tech-specs.html" class="title listing-title">Technical specs for this website</a>
-</td>
-<td>
-<span class="listing-categories">website</span>
-</td>
-</tr>
-<tr data-index="1" data-categories="d2VlayUyMG5vdGVz" data-listing-date-sort="1740718800000" data-listing-file-modified-sort="1740859189761" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="177" data-listing-title-sort="Week notes (2025-W09)" data-listing-filename-sort="weeknotes-2025-W09.qmd">
-<td>
-<span class="listing-date">Feb 28, 2025</span>
-</td>
-<td>
-<a href="./posts/weeknotes-2025-W09.html" class="title listing-title">Week notes (2025-W09)</a>
-</td>
-<td>
-<span class="listing-categories">week notes</span>
-</td>
-</tr>
-<tr data-index="2" data-categories="d2VlayUyMG5vdGVz" data-listing-date-sort="1740114000000" data-listing-file-modified-sort="1740171933605" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="86" data-listing-title-sort="Week notes (2025-W08)" data-listing-filename-sort="weeknotes-2025-W08.qmd">
-<td>
-<span class="listing-date">Feb 21, 2025</span>
-</td>
-<td>
-<a href="./posts/weeknotes-2025-W08.html" class="title listing-title">Week notes (2025-W08)</a>
-</td>
-<td>
-<span class="listing-categories">week notes</span>
-</td>
-</tr>
-<tr data-index="3" data-categories="d2VlayUyMG5vdGVz" data-listing-date-sort="1739509200000" data-listing-file-modified-sort="1739562801488" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="80" data-listing-title-sort="Week notes (2025-W07)" data-listing-filename-sort="weeknotes-2025-W07.qmd">
-<td>
-<span class="listing-date">Feb 14, 2025</span>
-</td>
-<td>
-<a href="./posts/weeknotes-2025-W07.html" class="title listing-title">Week notes (2025-W07)</a>
-</td>
-<td>
-<span class="listing-categories">week notes</span>
-</td>
-</tr>
-<tr data-index="4" data-categories="d2VlayUyMG5vdGVz" data-listing-date-sort="1738904400000" data-listing-file-modified-sort="1738957488625" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="169" data-listing-title-sort="Week notes (2025-W06)" data-listing-filename-sort="weeknotes-2025-W06.qmd">
-<td>
-<span class="listing-date">Feb 7, 2025</span>
-</td>
-<td>
-<a href="./posts/weeknotes-2025-W06.html" class="title listing-title">Week notes (2025-W06)</a>
-</td>
-<td>
-<span class="listing-categories">week notes</span>
-</td>
-</tr>
-<tr data-index="5" data-categories="d2VlayUyMG5vdGVz" data-listing-date-sort="1738299600000" data-listing-file-modified-sort="1738346895277" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="194" data-listing-title-sort="Week notes (2025-W05)" data-listing-filename-sort="weeknotes-2025-W05.qmd">
-<td>
-<span class="listing-date">Jan 31, 2025</span>
-</td>
-<td>
-<a href="./posts/weeknotes-2025-W05.html" class="title listing-title">Week notes (2025-W05)</a>
-</td>
-<td>
-<span class="listing-categories">week notes</span>
-</td>
-</tr>
-<tr data-index="6" data-categories="d2VlayUyMG5vdGVz" data-listing-date-sort="1737781200000" data-listing-file-modified-sort="1737822883500" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="420" data-listing-title-sort="Week notes (2025-W04)" data-listing-filename-sort="weeknotes-2025-W04.qmd">
-<td>
-<span class="listing-date">Jan 25, 2025</span>
-</td>
-<td>
-<a href="./posts/weeknotes-2025-W04.html" class="title listing-title">Week notes (2025-W04)</a>
-</td>
-<td>
-<span class="listing-categories">week notes</span>
-</td>
-</tr>
-<tr data-index="7" data-categories="QUklMjAlMkYlMjBMTE0lMkNNZXRob2RzJTJDUURB" data-listing-date-sort="1737694800000" data-listing-file-modified-sort="1737821193708" data-listing-date-modified-sort="1737821193000" data-listing-reading-time-sort="14" data-listing-word-count-sort="2651" data-listing-title-sort="On the role of AI in my research" data-listing-filename-sort="2025-01-24-ai-in-my-work.qmd">
-<td>
-<span class="listing-date">Jan 24, 2025</span>
-</td>
-<td>
-<a href="./posts/2025-01-24-ai-in-my-work.html" class="title listing-title">On the role of AI in my research</a>
-</td>
-<td>
-<span class="listing-categories">AI / LLM, Methods, QDA</span>
-</td>
-</tr>
-<tr data-index="8" data-categories="d2VlayUyMG5vdGVz" data-listing-date-sort="1737176400000" data-listing-file-modified-sort="1737221485738" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="698" data-listing-title-sort="Week notes (2025-W03)" data-listing-filename-sort="weeknotes-2025-W03.qmd">
-<td>
-<span class="listing-date">Jan 18, 2025</span>
-</td>
-<td>
-<a href="./posts/weeknotes-2025-W03.html" class="title listing-title">Week notes (2025-W03)</a>
-</td>
-<td>
-<span class="listing-categories">week notes</span>
-</td>
-</tr>
-<tr data-index="9" data-categories="bWVldGluZyUyMG5vdGVzJTJDZ2VuZXJhbCUyMHRob3VnaHRz" data-listing-date-sort="1733720400000" data-listing-file-modified-sort="1734539498954" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="363" data-listing-title-sort="Reflection on first team meeting" data-listing-filename-sort="2024-12-09-first-team-meeting.qmd">
-<td>
-<span class="listing-date">Dec 9, 2024</span>
-</td>
-<td>
-<a href="./posts/2024-12-09-first-team-meeting.html" class="title listing-title">Reflection on first team meeting</a>
-</td>
-<td>
-<span class="listing-categories">meeting notes, general thoughts</span>
-</td>
-</tr>
-<tr data-index="10" data-categories="aW50cm9kdWN0aW9uJTJDd2Vic2l0ZQ==" data-listing-date-sort="1733720400000" data-listing-file-modified-sort="1734539498955" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="69" data-listing-title-sort="Hello World!" data-listing-filename-sort="2024-12-09-hello-world.qmd">
-<td>
-<span class="listing-date">Dec 9, 2024</span>
-</td>
-<td>
-<a href="./posts/2024-12-09-hello-world.html" class="title listing-title">Hello World!</a>
-</td>
-<td>
-<span class="listing-categories">introduction, website</span>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -657,9 +511,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("^(?:http:|https:)\/\/zackbatist\.info\/
-^(?:http:|https:)\/\/github\.com\/zackbatist\/
-");
+      var filterRegex = new RegExp("https:\/\/zackbatist\.info\/CITF-Postdoc\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -673,8 +525,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         if (link.dataset.originalHref !== undefined) {
           link.href = link.dataset.originalHref;
         }
-          // default icon
-          link.classList.add("external");
       }
     }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
@@ -1002,7 +852,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    </div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/posts/tech-specs.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
