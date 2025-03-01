@@ -41,7 +41,7 @@ I organize and rename files using a semantic naming scheme and then mirror all f
 
 ## Processing data
 I use [FFmpeg]( https://www.ffmpeg.org/) and [Audacity](https://www.audacityteam.org/) to cut, concatenate, and clean the audio and video files if necessary.
-I generate transcripts of audio recordings following the [transcription protocol](transcription-protocol.qmd).
+I generate transcripts of audio recordings following the transcription protocol.
 
 ## Storage and backups
 I keep all data on a dedicated portable solid state drive which serves as a working directory for all research activities.

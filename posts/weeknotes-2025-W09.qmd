@@ -9,7 +9,7 @@ This week I continued to work on my methodology notes, specifically going throug
 I also spent some time updating an article from my dissertation that was rejected from a journal again, and I'm trying to see how it can be published elsewhere (including as a preprint on my own website).
 
 I experimented with the mechanism for keeping private data contained in a git submodule stored on a secure server, and fiddled with the quarto configuration too.
-I updated the [tech specs blog post](../posts/tech-specs.qmd.qmd) with some notes.
+I updated the [tech specs blog post](../posts/tech-specs.qmd) with some notes.
 
 I also started developing more comprehensive case files, outlining and reflecting on the first case and how I will approach it.
 
