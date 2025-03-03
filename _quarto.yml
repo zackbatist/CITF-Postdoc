@@ -3,7 +3,9 @@ project:
   render:
     - "*.qmd"
     - "!private/"
-    # - "!data/"
+    - "!data/cases/"
+    - "!data/interviews/"
+    - "!data/reflections/"
   preview:
     port: 7777
     browser: false
