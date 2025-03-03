@@ -179,18 +179,86 @@ Exploratory and preliminary assignments of coces to the data before more refined
 - Can also be applied midway or later in the analysis process to confirm or disconfirm any assertions or theories made thus far.
 
 ## Procedural methods
-### Protocol coding
+Comprise pre-established coding systems or very specific ways of analyzing qualitative data.
 
+### Protocol coding
+- Also referred to as "a priori coding".
+- A protocol is a detailed and specific set of procedural guidelines for conducting an experiment, administering a treatment or conducting field research and data analysis.
+- A predefined list of codes and categories is provided to the researher and applied to the data after collection.
+- The defitions of all codes should be clear and inclusive of all possible types of responses to be collected.
+- Could be useful when examining video-recorded data and focus group transcripts, especially in contexts with multiple coders.
 
 ### Outline of cultural materials coding
-
+- A topical index for anthropologists and archaeologists, providing coding for the categories of social life that have traditionally been included in ethnographic description.
+- Serves to organize the database of the Human Relations Area Files (HLAF), which is a massive collection of ethnographic field notes about hundreds of world cultures collected over the past several decades.
+- May be especially useful for indexing, rather than coding, field notes.
 
 ### Domain and taxonomic coding
-
+- A method for discovering the cultural knowledge people use to organize their behaviours and organize their experiences.
+- We call categories that categorize other categires _domains_, and the words that name them _cover terms_.
+- Taxonomies are hierarchical lists of different things that are classified together under a domain word on the basis of some shared attributes.
+- Better to apply terms used by informants (referred to as _folk terms_) but when no term is offered then researchers may apply _analytic terms_.
+- Nine possible semantic relationships exist within domains (and which relate the items in the nested hierarchy):
+  - **Strict inclusion:** X is a kind of Y
+  - **Spatial:** X is a place in or a part of Y
+  - **Cause-effect:** X is a result or cause of Y
+  - **Rationale:** X is a reason for doing Y
+  - **Location for action:** X is a place for doing Y
+  - **Function:** X is used for Y
+  - **Means-end:** X is a way to do Y
+  - **Sequence:** X is a step in Y
+  - **Attribution:** X is an an attribute of Y
+- Strict inclusion forms are generally nounce, and means-end forms are generally verbs.
+- For analysis, a semantic relationship is chosen, and the data are then reviewed to find examples of the semantic relationship.
+- Related forms and analytical terms are noted, and a _folk taxonomy_ emerges as a set of categories organized on the basis of a single semantic relationship.
 
 ### Causation coding
+- Locates, extracts and/or infers causal beliefs.
+- Attempts to label the mental models participants use to uncover what people believe about events and their causes.
+- An attribution is an expression of the way a person things about the relationship between a cause and an outcome, and can consist of an event, action or characteristic.
+- It is important to remain focused on the individual who performs the action, rather than variables pertaining to the individual such as social class, sex, ethnicity, etc.
 
+# Themeing the data
+- A theme is an outcome of coding, categorization and analytic reflection, not something that is itself coded.
+- However it could also be useful to label portions of the data with extended thematic statements rather than codes.
+- A theme is an extended phrase of sentence that identifies what a unit of data is _about_ and/or what it _means_.
+- They are discerned during data collection and initial analysis.
+- The analytic goal is to winnow down the number of themes to explore in a report and to develop an overarching theme from the data corpus or an integrative theme that weaves various themes together into a coherent narrative.
+- Themes may be identified at the manifesr level (directly observable) or at the latent level (underlying the observed phenomenon).
+- At the manifest level, a theme functions as a way to categorize a set of data into an implicit topic that organizes a group of repeating ideas.
+- This foundation work leads to the development of higher-level theoretical constructs when similar themes are clustered together.
+- At the latent level, themes serve phenemenology, which is driven my an objective of gaining a deeper understanding of the nature or meaning of our everyday experiences.
+- When winnowing themes, it is important to keep what is essential rather than incidental, the former making the phenomenon what it is and without which the phenomenon could not be what it is.
+
+## Metasummary and metasynthesis
+- Comprise systematic comparison of case studies to draw cross-case conclusions.
+- They reduce the accounts while preserving the esnse of the account through the selection of key metaphors and orhanizers, such as themes, concepts, ideas and perspectives.
+- It is the qualitative cousin of quantitative research's meta-analysis.
+- Relies on a researcher's strategic collection and comparative analysis of themes that represent the essences and essentials of previous cases.
+- It is not a method designed to produce oversimplification; rather, it is one in which differences are trained and complexity enlightened.
+- The outcome will be more like a common understanding of the nature of a phenomenon, not a consensual worldview.
+
+# Post-Coding Transitions
+Outlines a few strategies for drawing greater meaning after first cycle coding:
+
+- **Eclectic coding** is intended as a first draft or first cycle of coding with multiple methods simultaneously, followed by a revised draft during a second cycle with a more purposeful and select number of methods based on the impressions obtained the first time and following reflexive memo-writing.^[I think this is awkwardly situated in this book, and that it should have been treated as an overall coding strategy or workflow rather than as an interstitial method.]
+- **Code mapping** seems similar to Clarke's [-@clarke2016] situational mapping and analysis, and involves iterative organization of codes:
+  - **First iteration:** a simple list of all codes applied using a specific method
+  - **Second iteration:** categorize the codes according to how they seem to go together, and assign names to the categories
+  - **Third iteration:** categorize the categories, and assign names to them
+  - **Fourth iteration:** refer to the coding method as a means of exploring how the major categories relate with each other, and perhaps even explain the phemomenon of interest
+- **Code landscaping** is basically word clouds.
+- **Operational model diagramming** can help disentangle the threads of our analysis.
+- **Coding the codes** refers to lumping a series of codes into a common concept, with the aim of condensing the meanings of codes with more granular meanings.
+- **Code charting** enables an analyst to scan and construct patterns from the codes, to develop initial assertions or propositions, and explore the possible dimensions which might be found in the range of codes.
+  - Involves summarizing and classifying codes in a table, with axes possibly arranged along an ordinal scale.
+  - Certain variables on the table can be considered more stable and fixed in one context and more dependent in another.
+- **Tabletop categories** involves printing and physically arranging hard copies of codes and chunks of data on a tapletop, stapling them together, examining the thickness of stacks, and arranging them in different shapes (linear, circular, network, etc).
+  - I imagine this could also be useful for accounting for codes "left behind" since there will be a physical trace of them that are not included in the physical arrangements.
+- **From codes to theme**s refers to transforming the shorter terms that embody codes to longer-phrased themes, which may allow the analyst to draw out a code's truncated essence by eloborating on its meanings.
+- **"Shop-talking" through the study** refers to talking with a trusted peer, colleague, advisor, mentor or friend about your research, and addressing any provocative questions they may pose.
 
 # Second cycle coding methods
+
 
 # References
