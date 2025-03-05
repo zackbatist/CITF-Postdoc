@@ -259,6 +259,59 @@ Outlines a few strategies for drawing greater meaning after first cycle coding:
 - **"Shop-talking" through the study** refers to talking with a trusted peer, colleague, advisor, mentor or friend about your research, and addressing any provocative questions they may pose.
 
 # Second cycle coding methods
+The primary goal of second cycle coding is to develop a sense of categorical, thematic, conceptual, and/or theoretical organization from your array of first cycle codes.
 
+Basically involves reorganizing and reconfiguring your existing codes to eventually develop a smaller and more select list of broader categories, themes, concepts and assertions.
+
+Saldańa provides an example:
+
+> Second cycle coding is reorganizing and condensing the vast array of initial analytic details into a "main dish."
+> To propose another analogy:
+> When I shop for groceries (i.e., visit a site for fieldwork), I can place up to 20 different food items (data) in my shopping cart (field note journal).
+> When I go to the cashier's stand (computer) and get each item (datum) with a bar code scanned (first cycle coding), the bagger (analyst) will tend to place all frozen foods in one bag (category one), fresh produce in another bag (category two), meats in another bag (category three), and so on.
+> As I bring my food items home, I think about what I might prepare (reflection and analytic memo writing).
+> I unpack the food items (second cycle coding), and organize them appropriately in the kitchen's refrigerator (concept one), pantry (concept two), freezer (concept three) and so on.
+> And when I am ready to make that one special dish (a key assertion or theory), I take out only what I need (the essence and essentials of the data corpus) out of everything I bought (analyzed) to cook it (write up).
+
+## Pattern coding
+- Develeps the "meta code" --- the category label that identifies similarly coded data.
+- Pattern codes don't just organize the corpus, but also attempt to attribute meaning to that organization.
+- Analogous to cluster or factor analysis in quantitative analyses.
+- Pattern codes are explanatory or inferential codes in that they identify emergent themes, configurations or explanations.
+- They pull together material from first cycle coding into more meaningful and parsimonious units of analysis.
+
+## Focused coding
+- Also sometimes referred to as selective coding or intermediate coding.
+- Typically follows in vivo, process and/or initial coding.
+- Searches for the most frequent or most significant codes to develop the most salient categories in the data corpus.
+- Requires making decisions about which initial (open) codes make the most analytic sense.
+- A more streamlined adaptation of axial coding; the goal is to develop categories without having to distract oneself with analysis of codes' dimensions or properties.
+- Particularly useful for comparing codes across different particpants' data to assess their transferability.
+
+## Axial coding
+- Extends the analytical work from intial coding and focused coding.
+- The goal is to strategically reassemble data that were "split" or "fractured" during initial or open coding.
+- Axial coding's purpose is to determine which codes are dominant or less important and to reorganizing the dataset by crossing out synonyms, removing redundant codes, and selecting the best representative codes.
+- The "axis" of axial coding is like the axis on a wheel with wooden spokes that are the codes from the first cycle; axial coding aims to link categories with subcategories and ask how they are related, while also specifying the properties and dimensions of each category.
+- Properties are characteristics or attributes, and dimensions are the location of a property along a continuum or range.
+- Honestly I don't really understand this and I agree with Charmaz's characterization of it as overly cumbersome and systematic, in a way that stifles or suffocates gleanings obtained from first cycle methods.
+
+## Theoretical coding
+- Also sometimes referred to as selective coding or conceptual coding.
+- In theoeretical coding, all categories and concepts become systematically integrated around a central or core category, which suggests a theoretical explanation for the whole phenomenon.
+- The theoretical code is not a theory itself, but an abstraction that models the integration; it is a key word or phrase that triggers a discussion of the theory itself.
+- If codes are the bones that form the skeleton of our analysis, then the central or core strategy is the spine that supports the corpus and aligns it.
+- Continuous and detailed coding puts analytic meat on those bones.
+
+## Elaborative coding
+- The process of analyzing data to develop theory further.
+- Sometimes framed as top-down because it begins coding with theoretical constructs from another study in mind.
+- The goal is to refine theoretical constructs from a previous study.
+
+## Longitudinal coding
+- Attribution of selected change processes to data collected and compared across time.
+
+# Tid-bits
+We no not categorize and then connect; we connect by categorizing [@dey2007: 178].
 
 # References
