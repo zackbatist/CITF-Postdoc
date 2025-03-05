@@ -1,0 +1,17 @@
+---
+title: Situational analysis
+description: Notes perpainting to situational analysis, which is a significant analytical framework that will support my research.
+date: 2025-03-05
+date-modified: last-modified
+toc-depth: 6
+toc-expand: 3
+reference-location: document
+categories: 
+  - situational analysis
+  - QDA methods
+  - reading
+---
+
+Some notes on situational analysis and related methods are useful for my work.
+Largely drawn from @clarke2016.
+
