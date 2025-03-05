@@ -2,22 +2,7 @@
 title: Interview Protocol
 ---
 
-<!-- 
-## Interview methods
-
-- semi-structured
-- primary focus and objectives
-
-Here are some potentially helpful prompts to keep the conversation flowing:
-
-- What happened next?
-- Who was that person?
-- Tell me more about that development or event.
-- Please give me an example.
-- Do you remember a specific time when you did this?
--->
-
-## Interview records
+# Interview records
 Interviews may be held either in-person or through online video conference.
 All interviews will be held in quiet and comfortable environments, such as office spaces or conference rooms.
 
@@ -30,13 +15,17 @@ Moreover, the camera provides an additional backup audio recording in case of da
 
 Remote interviews will be recorded using the video conferencing software's built-in recording tools.
 Participants will be instructed to disable their microphones or video cameras prior to initiating recording if they have opted to not be recorded through these media.
-The researcher will record all media locally and refrain from using any cloud services to store or modify the records which the video conference software may provide.
+I will record all media locally and refrain from using any cloud services to store or modify the records which the video conference software may provide.
 
-I will also record handwritten notes comprising descriptive accounts of activities and interactions when recording devices are switched off, as well as preliminary interpretations of observed behaviours and notes on things I plan to follow up on at a later time.
+I will also record handwritten or typed notes comprising descriptive accounts of activities and interactions when recording devices are switched off, as well as preliminary interpretations of observed behaviours and notes on things I plan to follow up on at a later time.
 
-## Interview guide
-Interviews are oriented by my goal to document values and attitudes concerning data harmonization efforts, as elicited by research participants in their responses.
-Participants will be asked to reflect on:
+All records, including audio and video records, notes, transcripts, interview guides and planning documents are kept confidential until consent has been granted to release materials relating to participants' responses.
+
+# Interview guide
+Interviews will be semi-structured, following a broad pattern of inquiry, though the specific questions may vary.
+In keeping with my methodological preference toward highlighting situated attitudes and experiences [cf. @knorrcetina2001; @suchman2007; @clarke2016], interviews will trace (1) participants' goals and perspectives; (2) their projects' missions, purposes and motivations; and (3) the practices, procedures and relationships that enable them to operationalize their personal and collective goals.
+This approach allows me to examine how participants relate their own identities and experiences to communities' collective interests (in terms of affinities, aversions, or other associations) and reflect on their capacity to act individually and in concert with others.
+More specifically, participants will be asked to reflect on:
 
 - the motivations for their initiatives;
 - the challenges they experience;
@@ -46,9 +35,10 @@ Participants will be asked to reflect on:
 - how the technological apparatus they set up enables them to realize their goals and values; and
 - ways in which they believe data-sharing could be improved.
 
-To this end, each interview will proceed following a strategic order:
+The questions will be tailored to each individual interviewee so that they may address their responses in general terms and in relation to their own specific experiences.
+With this in mind, each interview will proceed following a strategic order:
 
-### 1. Participants' goals and perspectives
+## 1. Participants' goals and perspectives
 Follow a life-history method to better understand participants' professional backgrounds and their roles within their projects.
 The goal is to obtain information about their paths, not the rehearsed origin story.
 
@@ -57,7 +47,7 @@ The goal is to obtain information about their paths, not the rehearsed origin st
 - How did you find yourself in this role?
 - How has your previous experience prepared you for your role?
 
-### 2. Projects' missions, purposes, motivations
+## 2. Projects' missions, purposes, motivations
 This section is about the project in general, including its purpose, scope and value.
 Information about practices and procedures will be sought in a subsequent phase of the interview.
 
@@ -65,19 +55,19 @@ Information about practices and procedures will be sought in a subsequent phase 
 - What makes the project unique?
 - What is the project doing that no other similar project is doing?
 - Do you consider this project as similar to any other initiatives?
-- What are they, and in what ways are they simiar or different?
+- What are they, and in what ways are they similar or different?
 
 []()
 
 - What are the expected outcomes?
 - Have you achieved these goals and outcomes?
-- If not Are you on track to achieving them?
+- If not, are you on track to achieving them?
 - What are some challenges that the project experienced, and how have you worked to overcome them?
 
-### 3. Practices, procedures, relationships
+## 3. Practices, procedures, relationships
 This section asks about specific actions and interactions that the participant engages in.
 
-#### Roles and relationships
+### Roles and relationships
 - What does your role entail?
 - Can you provide a couple examples of things that you recently did in this capacity?
 
@@ -89,7 +79,7 @@ This section asks about specific actions and interactions that the participant e
 The interview might proceed in different ways depending on their initial responses.
 Here are some questions I might ask, corresponding with the participants' role and area of expertise.
 
-#### Maintaining the project community
+### Maintaining the project community
 - Please briefly describe the process through which you obtain new partners or users.
 - Can you please recall a recent example?
 
@@ -123,7 +113,7 @@ Here are some questions I might ask, corresponding with the participants' role a
 - Does your role as someone who leads a data harmonization initiative differentiate you from other epidemiologists?
 - How has your relationship with other epidemiologists changed after initiating this project and taking on this role?
 
-#### Reflections on data's value
+### Reflections on data's value
 - How has the data been used or analyzed?
 - Do you track how the data is used?
 - Is this tracking formal or informal?
@@ -148,15 +138,15 @@ Here are some questions I might ask, corresponding with the participants' role a
 - Based on your experience, what are the main obstacles for the effective and widespread adoption of these skills?
 - What are some positive factors, or drivers, that can make that prospect more tangible?
 
-#### Data ownership
+### Data ownership
 - Who has rights (in the legal sense or informally) over the information contained in the system, or in related documents and datasets?
 - Can you tell me about any conflicts or tensions that emerged relating to expressions of propriety or ownership over data?
 
-#### Collecting data
+### Collecting data
 - Do projects collect data with future harmonization in mind?
 - If so, how does this affect data collection procedures, and does this play a role in subsequent decision-making?
 
-#### Curating data
+### Curating data
 - Please describe the overall process of getting data into the system and then working with the data.
 
 []()
@@ -165,7 +155,7 @@ Here are some questions I might ask, corresponding with the participants' role a
 - What made these cases unique or challenging?
 - How did you resolve them or work towards a solution or viable outcome?
 
-#### Accessing data
+### Accessing data
 - Do you consider the system easy to access?
 - Can you identify some challenges that pose as barriers to access?
 
@@ -175,7 +165,7 @@ Here are some questions I might ask, corresponding with the participants' role a
 - How are decisions regarding access rights made?
 - Can you tell me about any unnaceptable practices regarding accessing and sharing data?
 
-#### Using data
+### Using data
 - If you engage with the data with specific questions in mind, how do these questions emerge?
 - What role does the data play in shaping the questions and analytical approach?
 
@@ -191,7 +181,7 @@ Here are some questions I might ask, corresponding with the participants' role a
 - Do you use the tools that are designed to export of visualize data, or do you prefer to use your own tooling?
 - What are the reasons behind this preference?
 
-#### Documentation
+### Documentation
 - How is the system documented?
 - Who is responsible for creating documentation?
 - Can you please tell me about a great example of documentation in your project?
@@ -218,7 +208,7 @@ Here are some questions I might ask, corresponding with the participants' role a
 - What kinds of questions do they ask?
 - What kinds of responses are given?
 
-#### Relationships with Maelstrom
+### Relationships with Maelstrom
 - Can you please concisely describe the role of Maelstrom as part of your project's overall initiative?
 
 []()
@@ -241,3 +231,13 @@ Here are some questions I might ask, corresponding with the participants' role a
 
 - Do you engage with Maelstrom's other partners?
 - If so, what is the nature of these relationships?
+
+# General Tips and Strategies
+Here are some potentially helpful prompts to keep the conversation flowing:
+
+- What happened next?
+- Who was that person?
+- Tell me more about that development or event.
+- Please give me an example.
+- Do you remember a specific time when you did this?
+
