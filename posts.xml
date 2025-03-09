@@ -10,7 +10,35 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Sat, 01 Mar 2025 19:57:19 GMT</lastBuildDate>
+<lastBuildDate>Fri, 07 Mar 2025 05:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W10)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W10.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Ethics protocol was approved!</li>
+<li>Met with Isabel, who provided me with some more background info to help plan my first interviews</li>
+<li>Met with collaborators for a paper on data governance / informed consent materials, and made significant progress outlining and re-framing the paper</li>
+<li>Developed case overview files and interview guides</li>
+<li>Started reading more on situational analysis methods</li>
+<li>Settled on a directory structure and workflow for dealing with sensitive data</li>
+<li>Received reviews from another paper deriving from my dissertation, which call for some revisions (deadline April 1)</li>
+<li>Started checking out my options for re-submitting my other twice-rejected paper deriving from my dissertation to another journal</li>
+<li>Met with the SSLA-SIG, where I accidentally signed on to lead an initiative to document AI in archaeological practice</li>
+<li>Worked on side-gig translation work in my spare time</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W10.html</guid>
+  <pubDate>Fri, 07 Mar 2025 05:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Technical specs for this website</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/tech-specs.html</link>
