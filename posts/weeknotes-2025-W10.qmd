@@ -1,0 +1,17 @@
+---
+title: Week notes (2025-W10)
+date: 2025-03-07
+categories:
+  - week notes
+---
+
+- Ethics protocol was approved!
+- Met with Isabel, who provided me with some more background info to help plan my first interviews
+- Met with collaborators for a paper on data governance / informed consent materials, and made significant progress outlining and re-framing the paper
+- Developed case overview files and interview guides
+- Started reading more on situational analysis methods
+- Settled on a directory structure and workflow for dealing with sensitive data
+- Received reviews from another paper deriving from my dissertation, which call for some revisions (deadline April 1)
+- Started checking out my options for re-submitting my other twice-rejected paper deriving from my dissertation to another journal
+- Met with the SSLA-SIG, where I accidentally signed on to lead an initiative to document AI in archaeological practice
+- Worked on side-gig translation work in my spare time
