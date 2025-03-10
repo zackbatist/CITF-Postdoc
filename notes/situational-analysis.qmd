@@ -15,3 +15,90 @@ categories:
 Some notes on situational analysis and related methods are useful for my work.
 Largely drawn from @clarke2016.
 
+## Maps
+The main strategies involved in SA are the three maps that researchers do across the full trajectory of the project, from the earliest design stages to the preparation of publications:
+
+### Situational maps
+- From  @clarke2016 [: 13-14]
+- Lay out _all_ the major human, non-human, discursive, historical, symbolic, cultural, political, and other elements in the research situation of concern.
+- This map should ideally be made earlier on in the design phase.
+- Lays out everything about which at least some data should be gathered.
+- It meant to gain a sense of possibly important relations about all the elements.
+- Also helps guide data collection and develop stronger funding proposals.^[I could also present this during my "turn" at the MCHI meeting in April, and solicit the other members' feedback.]
+- Downstream in the research, situational maps are used to provoke analysis of relations among different elements through _relational mapping_.
+- These maps capture and provoke discussion of the many and heterogeneous elements, their relationships to one another, and the messy complexities of the situation [@clarke2005: 83-103; @clarke2014; see also: @lather2007; @law1999; @law2004; @law2007; @law2006; @taylor2005].
+
+### Social worlds/aernas maps
+- From @clarke2016 [: 14]
+- Lay out all the _collective_ actors and the arena(s) of commitment within thich they are engaged in ongoing dicourses and negotiations.
+- These maps offer _interpretations_ of the broader situation, taking up its social organizational, institutional and discursive dimensions [@strauss1978].
+- They invoke distinctively poststructuralist assumptions:
+  - we cannot assume directionalities of influence;
+  - boundaries are open and porous;
+  - negotiations are fluid;
+  - discourses are multiple and potentially contradictory.
+- _Negotiations_ of many kinds, from coercion to bargaining are the "basic social processes" that construct and constantly destabilize social worlds' relations and arenas maps.
+- Symbolic interactionism tells is that things can always be otherwise --- not only individually, but also collectively, organizationally, institutionally, and discursively.
+- These maps portray these poststructural possibilities.
+- The flipside of social worlds/arenas maps are discourse/arenas maps.
+- Social worlds are "universes of discourse". routinely producing discourses about themselves, about other social worlds, and about issues of concern in the arena.
+- These discourses can be positionally mapped and analyzed.
+
+### Positional maps
+- From @clarke2016 [: 14-15]
+- Lay out the major positions taken and not taken in the data vis-a-vis particular axes of variation and difference, focus, and controversy found in the situation of concern.
+- The discursive data can include interviews, observations, website, documents, etc.
+- Most significantly, discursive maps are _not_ articulated with persons or groups but instead seek tp represent the full range of _discursive_ positions on key issues in the broad situation of concern.
+- They allow multiple positions and contradictions to be articulated.
+- Discourses are therefore disarticulated from their sites of production, decentering them and making analytic complexities more visible.
+
+## Affinities with other frameworks
+SA does not operate in a vacuum, and has some very strong productive relationships with other key theoretical and methodological frameworks emerging or radically evolving around the same time of its "birth".
+Here I outline these affinities, articulate distinctions and similarities between them, and perhaps also identify certain antagonistic or opposing perspectives.
+
+### Grounded Theory
+- SA both relies on _and_ radically extends GT by pushing that method around the postmodern / postructuralist / interpretive turn and taking into account other theoretical and methodological developments since GT's origins in 1967 [@clarke2016: 77].
+- Clarke framed SA in relation to GT as "the (re)turn to the social", or the reconfiguration of relationality taking place across the social sciences and humanities, specifically regarding the location of individual agency in participation as members of collectives engaged in universes of discourses.
+
+
+### Actor-Network Theory
+- See @clarke1987 and @clarke1992 for examples of SA work that draws from ANT (which was initially developed by @latour1986).
+
+
+### Rhyzome Theory
+- Situational maps are, in some way, representations of Deleuze and Guittari's [-@deleuze2007] concept of rhyzomes, a plant-based metaphor for multiple emergent shoots emerging from a plane with widespread horizontal, entwined networks of underground roots.
+- Rhyzomes contrast and resist tree metaphors, which are vertical, have localized roots, and an original source like acorns or seeds.
+- In contrast, rhyzomes invoke multiplicities of connections, relationality, linkages across people and non-human objects and beings, nomadic propagation, and growth.
+- They are complex, contingent, and ultimately indeterminate --- messy!
+
+
+### Poststructualist Feminism
+- Key affinities include @haraway1991 and @lather2007.
+- Clarke argues that GT has always been implicitly feminist (due to its pragmatic roots), and SA is one of a few attempts to draw that out more explicitly.
+- SA shares with postructural feminism a criticsl lens through which one might identify biased outlooks in the research process.
+- SA's emphasis on elucidating complexities and diversities of the elements and positions under examination also belie its usefulness as a tool for critical, feminist and anti-racist research [@clarke2016: 20-21].
+- SA's consideration of non-human entities also lends itself to feminist critique and a social justice orientation in that it encourages identification of things and connections that exist and _that could exist but do not_ among various actors [@clarke2016: 21].
+  - This draws on what @foucault1975 called the "conditions of possibility".
+- Moreover, SA is inherently reflexive and strongly encourages researchers to acknowledge their positionality in relation to the things they are examining.
+- It also encourages the researcher to situate themselves as the learner in critical inquiry, which can shift the tenor of the research in valuable ways.
+
+
+### Participatory Action Research
+- @genat2009 found it valuable to make social worlds/arenas maps of PAR projects themselves. carefully laying out and analyzing the worlds that should be involved, studied and analyzed.
+- In this sense, SA is used as a reflexive method that articulates the interacting system of social worlds of specific stakeholders, which carry different commitments to their collective research initiative.
+- Enables researchers and their local research partners to foreground _shared local understandings_ in order to both critique more dominant discourses originating elsewhere and to generate locally based statements of need on which policy positions to improve the local situation can be founded [@clarke2016: 17-18].
+
+### Constructivism and Interpretivism
+- Initiated by @blumer1954; @blumer1969, with roots in the pragmatic philosophy of George Herbert Mead^[As well as William James, Charles Sanders Pierce and John Dewey, but I think in highlighting Mead, Clarke intentionally situates symbolic interactism as a primarily _sociological_ framework --- which evolved as such at the University of Chicago in particular --- rather than as a more general philosophical orientation that exhibits a more rationalist form of logic in its east coast counterparts (at Harvard and Johns Hopkins, specifically).]
+- One aspect of Blumer's position was that theory and method are inextricably entwined and nonfungible, which today would be described as co-constitutive of Star's [-@star1989] concept of "theory/methods packages" [@clarke2016: 26-27].
+- See also Goffman's dismissal of scientistic claims of positivism in sociology by asserting that "a sort of sympathetic magic seems to be involved, the assumption being that if you go through the motions attributable to science then science will result. But it hasn't." [quoted in @vidich1994 [: 40]].
+  - This corresponds with similar dismissals of positivism made by @geertz1973 and others.
+- The next 20 years (ending during the early 1990s) constituted that @denzin1994 [: 9] called the era of blurred genres.
+  - The first edition of the Handbook of Qualitative Research [@denzin1994] signalled loud and clear that the renaissance of qualitative research had arrived, after years of poignant, but scattered critiques of positivist modes of inquiry.
+
+### Epistemic Cultures
+- The concept of "epistemic cultures" (developed by @knorrcetina1999) asserts that through their actual practices of working, different scientific disciplines, specialties, and approaches generate distinctive cultures based on their epistemic assumptions, theories, and the practices used in doing such research.
+- This concept is part of the "turn to practice" occurring throughout the social sciences and humanities.^[@clarke2016 does not mention them specifically, but @giddens1984 and @bourdieu1983 come to mind as relevant to the practice turn, too.].
+- Epistemic cultures are one kind of social world.
+
+
