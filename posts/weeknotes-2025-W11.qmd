@@ -1,0 +1,22 @@
+---
+title: Week notes (2025-W11)
+date: 2025-03-14
+categories:
+  - week notes
+---
+
+- Updated David on my progress
+- Finally settled on situational analysis as my methodological framework
+  - Continuing to take more notes on key readings
+- Started producing situational maps and memos
+- Started looking into ways of mining the CITF papers and research summaries (as briefly discussed during the weekly update)
+
+[]()
+
+- Worked a bit on the "locationg creative agency" paper during my off-time
+- Initiated and discussed a community-driven survey of AI applications in archaeology
+  - It's now on the backburner due to lack of time and motivation from the SSLA members, and becoming aware of similar initiatives being undertaken by others
+- Worked on ReACH data governance paper a bit
+- Finishing some translation work during my off-time
+- Migrating my personal/professional blog from wordpress to a quarto-based system
+  - Also looking through some ancient posts (circa 2011-2014) and reformatting those to be migrated too
