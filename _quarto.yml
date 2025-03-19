@@ -5,7 +5,7 @@ project:
     - "!private/"
     - "!data/cases/"
     - "!data/interviews/"
-    - "!data/reflections/"
+    - "!data/memos/"
   preview:
     port: 7777
     browser: false
