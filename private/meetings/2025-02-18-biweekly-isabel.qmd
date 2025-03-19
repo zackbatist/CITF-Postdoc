@@ -1,0 +1,65 @@
+---
+title: Bi-weekly update with Isabel (February 18, 2025)
+date: 2025-02-18
+categories: 
+  - meetings
+---
+
+## Updates
+- Had to make some minor revisions to the ethics protocol
+- Should be ready to get in touch with Julie Bergeron and the others later this week
+- General updates on methodology readings and the approaches that will be embodied in my coding techniques
+
+## Questions / concerns
+
+## Meeting notes
+I got in late because of the bad weather, with very few updates, but I came out with a lot.
+
+Isabel expressed some concerns about not understanding what the outcomes will be.
+I framed it in terms of articulating the tensions that data harmonization tries to resolve, rather than explaining in a generalizable sense common features across all instances of data harmonization.
+This seemed to satisfy her apprehension about drawing generalizations from very discrete initiatives, each with their own story (which is a very valid concern).
+I also situated this in relation to my longer term research interest relating to the management of information common.
+
+At that Isabel politely pointed out some communication issues.
+She fears that when I speak to Julie Bergeron or anyon else they will likely not understand what I'm trying to do, given the way I currently babble on.
+So we practiced a short explanatory phrase, and settled on this gem of a summary statement:
+
+> The goal of my research is to articulate the assemblage of collaborative, technological and administative ties that make harmonization work.
+
+I also apparently speak very fast, which stems from my enthusiasm, but I need to work on it during initial meetings. Isabel suggested I continue to practice with others, and suggested I ask Rita in the future.
+
+From there, Isabel started to go over some of the key stakeholders involved involved, which include:
+
+- Scientists (the grant-holders, on the analysis end)
+- Data contributors
+- Technologists
+- Administrators
+
+It started as three, scientists and data contributors together as one, but with the acknowledgement that they could be split depending on the circumstances, but we managed to agree that they take on different roles depending on circumstances.
+Similarly, there could be a scientists who is technologically inclined and who takes on that role, or a scientist who was formerly a dean and may be in tune with the admin role.
+So it's more about roles and situations, rather than tied with individual identity.
+
+Isabel also communicated some of the key collaborative commitments (I had defined what I meant by that earlier, and in retrospect she was probably relating her explanations to that term).
+She flagged that the technical relationships are where things really happen, where people are shoulder to shoulder actually getting the data transferred over.
+But the institutional admin are the primary "blockers" that, even if scientists want to share their data, everyone must go through; the admin are where data transfer agreements are drawn up and approval is finally granted.
+Though she did mention that in each data agreement there are two blockers: one is the admin, and the other is the data contributor.
+Interestingly, she also framed grant writing as scientific activity, since it is the setting where research questions are drawn up.
+
+One thing that aslo came up is Isabel's adament insistance that strong leadership is a major driver of success.
+Even while collaboration happens on a relatively heterarchical manner, the leader really _makes_ the collaboration happen, as she put it.
+
+Aside from this, and she made it clear that this is separate from the postdoc research, Isabel asked I'd be able to help one of her former students, Alexander Bernier, get a paper out the door.
+Apparently the analysis is complete, but the former PhD student finished his degre without submitting this paper.
+It's just missing an intro and discussion, and the primary author either doesn't have time or lacks motiviation, so she thinks I can help inject new life into the work.
+The paper is in bioethics, a review of the diverse ethics frameworks adopted by various constributors to REACH.
+Apparently it's a quantitative analysis of the documents themselves, and I imagine that the challenge of writing the dicussion is similar to that which I faced while working on the open-archaeo paper with Joe.
+So Isabel will put me in touch with the primmary author, and if he's responsive I'll meet with Tina Wray who led the analysis, to help prime me for writing up the discussion.
+Depending on when Bernier gets back to us, I may be able to meet with Tina next time I'm at the RI, after our regular meeting in two weeks.
+I be listed as a co-author, though presumably at the end of the list of contributors.
+
+I indicated that next time I want to discuss the general spread of harmonization across the discipline, the overlap of people across different projects, and seemingly "independent" initiatives like the Lifecycle project.
+
+## Actions items
+- Get in touch with Julie Bergeron and other project leads (from Capacity specifically), now that I rceived the signal from the REB that approval is imminent.
+- Meet with Alexander Bernier and start working on the paper.
+

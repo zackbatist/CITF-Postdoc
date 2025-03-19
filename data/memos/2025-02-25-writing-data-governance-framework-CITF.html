@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="">
+<meta name="dcterms.date" content="2025-02-25">
+<meta name="description" content="Memo on discussion about the revised data governance framework, with regards to documenting data management and transformation processes.">
 
-<title>Notes – CITF-Postdoc</title>
+<title>writing-data-governance-framework-citf – CITF-Postdoc</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,26 +25,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./images/favicon.ico" rel="icon">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b6cc9bb6fcb6d8b77cec24a8d661402f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-a0fdc5a2b886e7c1a2139fa05c5ac8ae.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../images/favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-d166b450ba5a8e9f7a0ab969bf6592c1.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-01bf821d34ede30856b0c0e7e2988940.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-742016998ec9c251613c3a4c0e69968a.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -71,69 +70,11 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date-modified','listing-title','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
-<body class="nav-sidebar docked fullcontent">
+<body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -142,7 +83,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./notes.html">Notes</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -153,8 +94,8 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
-      <a href="./index.html" class="sidebar-logo-link">
-      <img src="./images/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       <div class="sidebar-tools-main">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
@@ -164,67 +105,67 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./context.html" class="sidebar-item-text sidebar-link">
+  <a href="../../context.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Context</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./research-protocol.html" class="sidebar-item-text sidebar-link">
+  <a href="../../research-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Research Protocol</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./case-selection.html" class="sidebar-item-text sidebar-link">
+  <a href="../../case-selection.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Case Selection</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ethics-protocol.html" class="sidebar-item-text sidebar-link">
+  <a href="../../ethics-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ethics Protocol</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./interview-protocol.html" class="sidebar-item-text sidebar-link">
+  <a href="../../interview-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interview Protocol</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./data-management.html" class="sidebar-item-text sidebar-link">
+  <a href="../../data-management.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Management</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./qda-protocol.html" class="sidebar-item-text sidebar-link">
+  <a href="../../qda-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">QDA Protocol</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./glossary.html" class="sidebar-item-text sidebar-link">
+  <a href="../../glossary.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Glossary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./notes.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../notes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Notes</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts.html" class="sidebar-item-text sidebar-link">
+  <a href="../../posts.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Blog</span></a>
   </div>
 </li>
@@ -236,13 +177,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./CITF-Postdoc.bib" class="sidebar-item-text sidebar-link">
+  <a href="../../CITF-Postdoc.bib" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bib</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./posts.xml" class="sidebar-item-text sidebar-link">
+  <a href="../../posts.xml" class="sidebar-item-text sidebar-link">
  <span class="menu-text">RSS</span></a>
   </div>
 </li>
@@ -259,14 +200,24 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Notes</h1>
 </div>
 
+<div>
+  <div class="description">
+    Memo on discussion about the revised data governance framework, with regards to documenting data management and transformation processes.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 25, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -276,87 +227,15 @@ window.Quarto = {
 </header>
 
 
+<p>In the weekly CITF status update this morning, David, Tanya, Aklil, Sudun and I present, though each of us remote from different locations (I am the only one in the office).</p>
+<p>One aspect of the meeting was going through the revised governance framework. Various components involve defining terms, roles of actor groups, and data management processes. Some of the discussion raised questions about whether they need to really get into the weeds about defining data to include metadata, or specific data transformation processes. The discussion focused on how these things are to be <em>documented and communicated</em>, rather than the specific concepts themselves. To keep this on track, David framed data governance as something like “contextualizing our work in relation to ethico-legal obligations”.</p>
+<p>One moment that stood out to me was when Tanya was describing a section labelled “types of data included in the databank”, but which actually documents data management processes. I drew attention to this and Tanya responded by saying (approximately) that she was trying to reflect on what these data are to her. This reveals to me that she sees the data as things that need to be processed, are part of a continuous flow or series of transformations, and that the “type” of data actually corresponds with their origins and potential outcomes.</p>
+<p>She wrote this section in this way because apparently there is no other place where this kind of thing is documented, and she said that she would spin this off into a separate document. I wonder if this will be an internal document or something that will be publicly shared. I was somewhat concerned that, if shared, especially in the context of a governance framework, this could be overly prescriptive. And there is also the issue of distinguishing whether this is meant to be more descriptive or prescriptive.</p>
+<p>Anyway, I did not feel like it was my place to comment any more during this meeting, but I think it was kind of interesting. If I end up interviewing Tanya, maybe I’ll ask her about this in more depth, and ask to see that document she is spinning off.</p>
 
 
 
-
-<div class="quarto-listing quarto-listing-container-table" id="listing-listing">
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-<th>
-Modified
-</th>
-<th>
-Title
-</th>
-<th>
-Categories
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-categories="c2l0dWF0aW9uYWwlMjBhbmFseXNpcyUyQ1FEQSUyMG1ldGhvZHMlMkNyZWFkaW5n" data-listing-date-sort="1741150800000" data-listing-file-modified-sort="1742410820486" data-listing-date-modified-sort="1742410820000" data-listing-reading-time-sort="30" data-listing-word-count-sort="5952" data-listing-title-sort="Situational analysis" data-listing-filename-sort="situational-analysis.qmd">
-<td>
-<span class="listing-date-modified">Mar 19, 2025</span>
-</td>
-<td>
-<a href="./notes/situational-analysis.html" class="title listing-title">Situational analysis</a>
-</td>
-<td>
-<span class="listing-categories">situational analysis, QDA methods, reading</span>
-</td>
-</tr>
-<tr data-index="1" data-categories="UURBJTIwbWV0aG9kcyUyQ2NvZGluZyUyQ3JlYWRpbmc=" data-listing-date-sort="1740459600000" data-listing-file-modified-sort="1741208363566" data-listing-date-modified-sort="1741208363000" data-listing-reading-time-sort="20" data-listing-word-count-sort="3909" data-listing-title-sort="Coding methods" data-listing-filename-sort="coding-methods.qmd">
-<td>
-<span class="listing-date-modified">Mar 5, 2025</span>
-</td>
-<td>
-<a href="./notes/coding-methods.html" class="title listing-title">Coding methods</a>
-</td>
-<td>
-<span class="listing-categories">QDA methods, coding, reading</span>
-</td>
-</tr>
-<tr data-index="2" data-categories="cmVhZGluZyUyQ2dlbmVyYWwlMjB0aG91Z2h0cw==" data-listing-date-sort="1736744400000" data-listing-file-modified-sort="1740509979912" data-listing-date-modified-sort="1740509979000" data-listing-reading-time-sort="92" data-listing-word-count-sort="18282" data-listing-title-sort="Methodology notes" data-listing-filename-sort="methodology-notes.qmd">
-<td>
-<span class="listing-date-modified">Feb 25, 2025</span>
-</td>
-<td>
-<a href="./notes/methodology-notes.html" class="title listing-title">Methodology notes</a>
-</td>
-<td>
-<span class="listing-categories">reading, general thoughts</span>
-</td>
-</tr>
-<tr data-index="3" data-categories="Y2FzZXMlMkNicmFpbnN0b3JtaW5n" data-listing-date-sort="1736830800000" data-listing-file-modified-sort="1740155502033" data-listing-date-modified-sort="1740155502000" data-listing-reading-time-sort="4" data-listing-word-count-sort="608" data-listing-title-sort="Potential cases" data-listing-filename-sort="potential-cases.qmd">
-<td>
-<span class="listing-date-modified">Feb 21, 2025</span>
-</td>
-<td>
-<a href="./notes/potential-cases.html" class="title listing-title">Potential cases</a>
-</td>
-<td>
-<span class="listing-categories">cases, brainstorming</span>
-</td>
-</tr>
-<tr data-index="4" data-categories="cmVhZGluZw==" data-listing-date-sort="1736226000000" data-listing-file-modified-sort="1738096073768" data-listing-date-modified-sort="1738096073000" data-listing-reading-time-sort="31" data-listing-word-count-sort="6139" data-listing-title-sort="Maelstrom reading notes" data-listing-filename-sort="maelstrom-readings.qmd">
-<td>
-<span class="listing-date-modified">Jan 28, 2025</span>
-</td>
-<td>
-<a href="./notes/maelstrom-readings.html" class="title listing-title">Maelstrom reading notes</a>
-</td>
-<td>
-<span class="listing-categories">reading</span>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -591,9 +470,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("^(?:http:|https:)\/\/zackbatist\.info\/
-^(?:http:|https:)\/\/github\.com\/zackbatist\/
-");
+      var filterRegex = new RegExp("https:\/\/zackbatist\.info\/CITF-Postdoc\/");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
@@ -607,8 +484,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         if (link.dataset.originalHref !== undefined) {
           link.href = link.dataset.originalHref;
         }
-          // default icon
-          link.classList.add("external");
       }
     }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
@@ -936,7 +811,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    </div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/data/memos/2025-02-25-writing-data-governance-framework-CITF.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
