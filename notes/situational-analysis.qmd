@@ -276,6 +276,20 @@ I think this is the main message, from @clarke2005 [: 48]
 > By whom?
 > Through understanding the discursive constructions of implicated actors and actants, analysts can grasp a lot about the social worlds and the arena in which they are active and some of the consequences of those actions for the less powerful.
 
+From @clark22005 [: 55]:
+
+> Strauss was similarly concerned with the invariably social/organizational ways in which what he frames as identities (rather than subjectivities) are produced and transformed throughout life through relations in social worlds in which people participate.
+> ...
+> Also traceable back to Mead, both Blumer and Strauss understood individuals as constituted through such collectivities, and collectivities as constituted through interaction with other collectivities.
+> ...
+> For Foucault, both individuals and collectivities are _constituted_ through discourses and disciplining.
+> For Strauss, both individuals and collectivities are _produced_ through their participation in social worlds and arenas, including their discourses.
+> While Foucault's language of disciplining and the constitution of subjectivity(ies) is more insistent and decenters "the knowing subject" much more thoroughly, these productions are accomplished through routine practices.
+> Later in his career, when issues of agency concerned him more, @foucault1988 [: 11] (emphasis added) stated:
+  > I would say that if now I am interested, in fact, in the way in which the subject constitutes himself in an active fashion, by the practices of self, these practices are nevertheless _not_ something that the individual invents by himself.
+  > They are patterns that he finds in his culture and which are proposed, suggested and imposed on him by his culture, his society _and his social group_.
+> This, to me, is a key point of articulation with Strauss-and with interac tionism more broadly.
+
 ### Discourse Studies
 @clarke2016 [: 90] summary of Foucault's notion of discourse:
 
@@ -357,13 +371,38 @@ From @clarke2005 [: xxxi-xxxii]:
 > Theoretical sampling has been integral to grounded theory from the outset, remains a fundamental strength of this analytic approach, and is crucial for situational analysis.
 > In fact, "The true legacy of Glaser and Strauss is a collective awareness of the heuristic value of developmental research designs [through theoretical sampling] and exploratory data analytic strategies, not a 'system' for conducting and analyzing research" (Atkinson, Coffey, & Delamont 2003:162-163).
 
+### Sensitizing Concepts
+According to @clarke2005 [: 28] (emphasis original):
+
+> ... a key aspect of the alternative approach developed here is focused on grounded theor_izing_ through the development of _sensitizing concepts_ and integrated analytics.
+
+She goes on to quote @blumer1969 [:147-148]:
+
+> [T]he concepts of our discipline are fundamentally sensitizing instruments.
+> Hence, I call them "sensitizing concepts" and put them in contrast with definitive concepts
+> ...
+> A definitive concept refers precisely to what is common to a class of objects, and by the aid of a clear definition in terms of attributes or fixed bench marks
+> ...
+> A sensitizing concept lacks such specification
+> ...
+> Instead, it gives the user a general sense of reference and guidance in approaching empirical instances.
+> Whereas definitive concepts provide prescriptions of what to see, **sensitizing concepts merely suggest directions along which to look**.
+
+The bold part of this passage, which Clarke also emphasized, denotes recognition of the researcher's intervention.
+
 ## Situations
 From @fosket2021: [: 269]:
 
-> With her conceptualization of situational analyses, Clarke moved these the ories further (2003, 2005).
+> With her conceptualization of situational analyses, Clarke moved these theories further (2003, 2005).
 > Here social worlds/arenas theory expands to include as consequential elements everything within a given situation.
 > That is, it is not just the social worlds and their human and nonhuman elements that situate and shape knowledge and practices, but histories, discourses, symbols, institutions, material things, and anything else conceived of as present in the situation.
 
 From @fosket2021: [: 270]:
 > Within this framework, an understanding of the work of scientific knowl edge production requires an understanding of everything in the situation: the workplaces and their organizations, scientists and other workers, theories, mod els, research materials, instruments, technologies, skills and techniques, sponsor ship and its organization, regulatory groups, audiences, consumers, and so on. Each of the relevant elements is not merely contextual (i.e., background) but conditional. Each element is an integral aspect of the situation itself, constitutive of the practices and contingencies of the research work that constitutes the very construction of knowledge. Even those elements that are not physically present in the situation are part of the situation in a very real sense.
 
+@clarke2005 [: 21-23] takes to heart four notions of "situations" while devising her methodology:
+
+1. From @thomas1928, who argued that situations defined as real are real in their consequences. _Perspective_ dominates the interpretatiobs upon which actions are based. This is a very relational and ecological perspective.
+2. From @mills1940, whose perspective is deeply pragmatist, in that he emphasized circumstances as important factors that influence action.
+3. From @haraway1991, whose situated knowledges empasizes the embodied nature of all sensory experiences, and therefore of all knowledge.
+4. From @massumi2002, who emphasized the situation of inquiry itself, and who draws a direct relationship with the researcher who enters a situation through its examination.
