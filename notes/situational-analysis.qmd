@@ -18,7 +18,7 @@ Largely drawn from @clarke2016.
 ## Maps
 The main strategies involved in SA are the three maps that researchers do across the full trajectory of the project, from the earliest design stages to the preparation of publications.
 
-@clark2005 [: 30] explains why mapping is a useful method:
+@clarke2005 [: 30] explains why mapping is a useful method:
 
 > Why situational maps?
 > Why not narratives?
@@ -131,7 +131,7 @@ From @clarke2005 [: xxxv-xxxvi]:
 - They allow multiple positions and contradictions to be articulated.
 - Discourses are therefore disarticulated from their sites of production, decentering them and making analytic complexities more visible.
 
-From @clark2005 [: xxxvi]:
+From @clarke2005 [: xxxvi]:
 
 > Third, positional maps lay out the major positions taken, and not taken, in the data vis-a-vis particular axes of variation and difference, focus, and controversy found in the situation of concern.
 > Perhaps most significantly, positional maps are not articulated with persons or groups but rather seek to represent the full range of _discursive_ positions on particular issues --- fully allowing multiple positions and even contradictions within both individuals and collectivities to be articulated.
@@ -212,7 +212,7 @@ She [-@clarke2021: 230] goes on with a critique of this approach, which she then
 > In sum, to me, the conditional matrices ultimately did not do the conceptual analytic work Strauss and Corbin wanted to do in grounded theory method.
 > My critiques ultimately provoked me to develop new strategies to better _focus empirically and analytically on the broader situation_.
 
-Clarke's [-@clark2021: 231] describes the benefits of her alternative, the situational matrix:
+Clarke's [-@clarke2021: 231] describes the benefits of her alternative, the situational matrix:
 
 > Here _the conditions **of** the situation are **in** the situation._
 > _There is no such thing as "context,"_ and no concentric or spiraling circles.
@@ -276,7 +276,7 @@ I think this is the main message, from @clarke2005 [: 48]
 > By whom?
 > Through understanding the discursive constructions of implicated actors and actants, analysts can grasp a lot about the social worlds and the arena in which they are active and some of the consequences of those actions for the less powerful.
 
-From @clark22005 [: 55]:
+From @clarke2005 [: 55]:
 
 > Strauss was similarly concerned with the invariably social/organizational ways in which what he frames as identities (rather than subjectivities) are produced and transformed throughout life through relations in social worlds in which people participate.
 > ...
@@ -314,7 +314,7 @@ From @clark22005 [: 55]:
 
 From @clarke2005 [: xxxvi-xxxvii]:
 
-> @bowker1999 [: 10] discuss "infrastructural inversion" wherein the infrastructure of something is (unusually) revealed and even featured.
+> @bowker2000 [: 10] discuss "infrastructural inversion" wherein the infrastructure of something is (unusually) revealed and even featured.
 > ...
 > Situational maps and analyses do a kind of "social inversion" in making the usually invisible and inchoate social fea tures of a situation more visible: all the key elements in the situation and their interrelations; the social worlds and arenas in which the phenomena of interest are embedded; the discursive positions taken and not taken by actors (human and nonhuman) on key issues; and the discourses themselves as constitutive of the situation.
 > This is the postmodernization of a grounded theory grounded in symbolic interactionism and Foucaultian analytics.

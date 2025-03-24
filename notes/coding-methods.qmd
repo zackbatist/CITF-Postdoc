@@ -30,7 +30,7 @@ Refer to the basic grammatical principles of a technique, by articulating the fo
 ### Magnitude coding
 - Can be applied to tag positive/negative attitudes, but also other gradients like hard/soft, technical/social skills.
 - Can use colons to identify a magnitude facet for specific codes corresponding with the code's usage in the specific context.
-  - For example: using `programming: 1` or `programming: 5` to identify different instances of programming and the degree of difficulty elicited regarding each instance.
+  - For example: using "programming: 1" or "programming: 5" to identify different instances of programming and the degree of difficulty elicited regarding each instance.
   - See additional examples at Saldaña [-@saldana2016: 88-19].
 
 ### Subcoding
@@ -45,12 +45,12 @@ Basic but focused filters for reviewing the corpus, which build a foundation for
 
 ### Descriptive coding
 - I should minimize this kind of coding, and replace with "initial / open" coding, use of sensitizing concepts, or in vivo coding instead.
-- Speaking of sensitizing concepts, I could use the prefix `SC:` to denote these as a distinct kind of code.
+- Speaking of sensitizing concepts, I could use the prefix "SC:" to denote these as a distinct kind of code.
 - Saldaña likens them to hashtags on social media.
 
 ### In vivo coding
 - I imagine creating in vivo codes in an opportunistic way, whenever I see something that really stands out, and therefore is best applied during an initial or open pass through the document.
-- For this reason, I should distinguish these codes with a prefix `IV:`.
+- For this reason, I should distinguish these codes with a prefix "IV:".
 - I imagime this could be especially useful to articulate the improvised adoption of certain terms or imagery, which can be somewhat haphazard (as per my observation that the curatorial lens reifies and perpetuates certain notions of data based on common and/or authoritative use of specific terms across contexts).
 
 ### Process coding
@@ -90,7 +90,7 @@ These affective qualities are core motives for human action, reaction and intera
   - A **value** is the importance we attribute to ourselves, another person, thing, or idea; the principles, moral codes, and situational norms people live by.
   - An **attitude** is the way we think and feel about ourselves, another person, thing or idea, and are part of a relatively enduring system of evaluative, affective reactions.
   - A **belief** is part of a system that includes our values and attitudes, plus our personal knowledge, experiences, opinions, prejudices, morals, and other perceptions of the social world; they can be considered as "rules for action".
-- Use prefixes `V:`, `A:` and `B:` to distinguish these things.
+- Use prefixes "V:", "A:" and "B:" to distinguish these things.
 - Some key phrases that signpost values, attitudes and beliefs include:
   - It's important that...
   - I like...
@@ -122,12 +122,12 @@ Borrow from established approaches in the analysis of literature and oral commun
 - Interview transcripts are framed as dialogue, soliloquy and dialogue; field notes and naturalistic videos are framed as improvized scenarious with stage direction.
 - Environments, dress and artefacts are viewed as scenery, costumes and props.
 - This is enacted by applying terms and conventions from scriptwriting as code prefixes:
-  - `OBJ`: participant-actor objectives
-  - `CON`: conflicts or obstacles
-  - `TAC`: tactics or strategies to deal with conflucts
-  - `ATT`: attitudes toward setting, others, or conflicts
-  - `EMO`: emotions experiences by actors
-  - `SUB`: subtexts, or the actors' unspoken thought or impression management
+  - "OBJ": participant-actor objectives
+  - "CON": conflicts or obstacles
+  - "TAC": tactics or strategies to deal with conflucts
+  - "ATT": attitudes toward setting, others, or conflicts
+  - "EMO": emotions experiences by actors
+  - "SUB": subtexts, or the actors' unspoken thought or impression management
 - Useful in projects leading to narrative or arts-based presentational forms.
 - Also useful to trace daily routines or regular interactions among participants.
 - Best applied to self-standing, inclusive vignettes, episodes or stories in the data record, which may even be divided into stanzas or scenes connected  by plotting devies like curtain-raising or prologues.
@@ -312,6 +312,6 @@ Saldańa provides an example:
 - Attribution of selected change processes to data collected and compared across time.
 
 # Tid-bits
-We no not categorize and then connect; we connect by categorizing [@dey2007: 178].
+We do not categorize and then connect; we connect by categorizing [@dey2007: 178].
 
 # References
