@@ -10,7 +10,61 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 21 Mar 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 24 Mar 2025 20:07:38 GMT</lastBuildDate>
+<item>
+  <title>Technical specs for this website</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/tech-specs.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>I’m using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.</p>
+<p>This post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves.</p>
+<section id="fundamentals" class="level2">
+<h2 class="anchored" data-anchor-id="fundamentals">Fundamentals</h2>
+<p>This website is based on <a href="https://quarto.org/">Quarto</a>, a platform for writing and publishing scientific and technical writing. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.</p>
+<p>I had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. You can find an older version of this post reflecting that setup here: <a href="https://github.com/zackbatist/CITF-Postdoc/commit/2346852df7224ca18eff65c0f34335cc6245a78a">#2346852</a>.</p>
+<p>The site is hosted on GitHub Pages. The repo is located at <a href="https://github.com/zackbatist/CITF-Postdoc">https://github.com/zackbatist/CITF-Postdoc</a>.</p>
+</section>
+<section id="generating-pdfs" class="level2">
+<h2 class="anchored" data-anchor-id="generating-pdfs">Generating PDFs</h2>
+<p>As an avid user, one thing I really like about Quarto is the ability to generate PDFs alongside html versions served over the web. I started tinkering with includes but I need to review how Quarto passes info from YAML frontmatter. It is not at all straightforward and I will need to experiment a bit more with this to get the hang of it.</p>
+</section>
+<section id="archiving-and-version-control" class="level2">
+<h2 class="anchored" data-anchor-id="archiving-and-version-control">Archiving and Version Control</h2>
+<p>Every change is tracked using git. I would also like to archive each research protocol in Zenodo once they reach a point of stability. This would ensure that they ca be aassigned DOIs and detailed metadata, which will make them easier to reference.</p>
+<p>However, I do not want to rely on Zenodo’s GitHub integration for two reasons: (1) I want this to be as platform-agnostic as possible, and (2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files.</p>
+<p>I might be able to write a custom CI workflow to archive specific files to Zenodo using their API. But, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway.</p>
+</section>
+<section id="git-submodules" class="level2">
+<h2 class="anchored" data-anchor-id="git-submodules">Git Submodules</h2>
+<p>Since I’m dealing with potentially sensitive information, including recordings, transcripts and notes deriving from interviews that participants may opt to keep confidential, I need to isolate those files so they remain private and secure. To accomplish this, I will set up private git repos on the MCHI-administered GitLab instance and integrate them into my main project repository (hosted on GitHub, and hence less secure) as submodules. I will then configure my quarto rendering options to ignore any subdirectories deemed sensitive enough to not share publicly (which may not include everything in the submodule). I intend to follow <a href="https://www.taniarascia.com/git-submodules-private-content/">this guide written by Tania Rascia</a> to pull this off.</p>
+<p>Just as a quick reminder of the procedure for committing and syncing changes, based on my testing:</p>
+<ol type="1">
+<li>Make changes to files in the submodule.</li>
+<li>Commit and sync those changes to the remote submodule.</li>
+<li>Obtain a record of those changes from the remote submodule:
+<ul>
+<li><code>git submodule update --remote</code></li>
+<li>This can be verified using <code>git status</code>; changes should be indicated as <code>(new commits)</code>.</li>
+</ul></li>
+<li>Commit the record of commits to the main repo’s remote.</li>
+</ol>
+</section>
+<section id="qc" class="level2">
+<h2 class="anchored" data-anchor-id="qc">qc</h2>
+<p>I intend to use <a href="https://qualitative-coding.readthedocs.io/en/latest/index.html">qc</a>, a novel too for qualitative data analysis designed for qualitaitve thinking. It’s a command line tool that makes QDA compatible with <a href="https://plain-text.co/">textfile based social science workflows</a>, which more-or-less aligns with my overall approach. qc also plays nice with my plan to isolate potentially sensitive information on a private git submodule, and is loosely compatible with my strategy for posting memos and research outputs publicly via this website.</p>
+<p>I’m also communicating with its maintainer, Chris Proctor, who is an education researcher and computer scientist based at SUNY Buffalo. This is the perfect combination for this kind of work since he specializes in instilling computational literacies, he has the technical chops to actually develop this system, and most of all: qualitative data analysis is the bread and butter of education research, so he is developing from an informed perspective. I really like what I see so far, and I’m eager to collect data of my own so that I can maximize the full potential that this system affords.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>website</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/tech-specs.html</guid>
+  <pubDate>Mon, 24 Mar 2025 20:07:38 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W12)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W12.html</link>
@@ -103,60 +157,6 @@
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W10.html</guid>
   <pubDate>Fri, 07 Mar 2025 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Technical specs for this website</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/tech-specs.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>I’m using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.</p>
-<p>This post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves.</p>
-<section id="fundamentals" class="level2">
-<h2 class="anchored" data-anchor-id="fundamentals">Fundamentals</h2>
-<p>This website is based on <a href="https://quarto.org/">Quarto</a>, a platform for writing and publishing scientific and technical writing. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.</p>
-<p>I had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. You can find an older version of this post reflecting that setup here: <a href="https://github.com/zackbatist/CITF-Postdoc/commit/2346852df7224ca18eff65c0f34335cc6245a78a">#2346852</a>.</p>
-<p>The site is hosted on GitHub Pages. The repo is located at <a href="https://github.com/zackbatist/CITF-Postdoc">https://github.com/zackbatist/CITF-Postdoc</a>.</p>
-</section>
-<section id="generating-pdfs" class="level2">
-<h2 class="anchored" data-anchor-id="generating-pdfs">Generating PDFs</h2>
-<p>As an avid user, one thing I really like about Quarto is the ability to generate PDFs alongside html versions served over the web. I started tinkering with includes but I need to review how Quarto passes info from YAML frontmatter. It is not at all straightforward and I will need to experiment a bit more with this to get the hang of it.</p>
-</section>
-<section id="archiving-and-version-control" class="level2">
-<h2 class="anchored" data-anchor-id="archiving-and-version-control">Archiving and Version Control</h2>
-<p>Every change is tracked using git. I would also like to archive each research protocol in Zenodo once they reach a point of stability. This would ensure that they ca be aassigned DOIs and detailed metadata, which will make them easier to reference.</p>
-<p>However, I do not want to rely on Zenodo’s GitHub integration for two reasons: (1) I want this to be as platform-agnostic as possible, and (2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files.</p>
-<p>I might be able to write a custom CI workflow to archive specific files to Zenodo using their API. But, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway.</p>
-</section>
-<section id="git-submodules" class="level2">
-<h2 class="anchored" data-anchor-id="git-submodules">Git Submodules</h2>
-<p>Since I’m dealing with potentially sensitive information, including recordings, transcripts and notes deriving from interviews that participants may opt to keep confidential, I need to isolate those files so they remain private and secure. To accomplish this, I will set up private git repos on the MCHI-administered GitLab instance and integrate them into my main project repository (hosted on GitHub, and hence less secure) as submodules. I will then configure my quarto rendering options to ignore any subdirectories deemed sensitive enough to not share publicly (which may not include everything in the submodule). I intend to follow <a href="https://www.taniarascia.com/git-submodules-private-content/">this guide written by Tania Rascia</a> to pull this off.</p>
-<p>Just as a quick reminder of the procedure for committing and syncing changes, based on my testing:</p>
-<ol type="1">
-<li>Make changes to files in the submodule.</li>
-<li>Commit and sync those changes to the remote submodule.</li>
-<li>Obtain a record of those changes from the remote submodule:
-<ul>
-<li><code>git submodule update --remote</code></li>
-<li>This can be verified using <code>git status</code>; changes should be indicated as <code>(new commits)</code>.</li>
-</ul></li>
-<li>Commit the record of commits to the main repo’s remote.</li>
-</ol>
-</section>
-<section id="qc" class="level2">
-<h2 class="anchored" data-anchor-id="qc">qc</h2>
-<p>I intend to use <a href="https://qualitative-coding.readthedocs.io/en/latest/index.html">qc</a>, a novel too for qualitative data analysis designed for qualitaitve thinking. It’s a command line tool that makes QDA compatible with <a href="https://plain-text.co/">textfile based social science workflows</a>, which more-or-less aligns with my overall approach. qc also plays nice with my plan to isolate potentially sensitive information on a private git submodule, and is loosely compatible with my strategy for posting memos and research outputs publicly via this website.</p>
-<p>I’m also communicating with its maintainer, Chris Proctor, who is an education researcher and computer scientist based at SUNY Buffalo. This is the perfect combination for this kind of work since he specializes in instilling computational literacies, he has the technical chops to actually develop this system, and most of all: qualitative data analysis is the bread and butter of education research, so he is developing from an informed perspective. I really like what I see so far, and I’m eager to collect data of my own so that I can maximize the full potential that this system affords.</p>
-
-
-</section>
-
- ]]></description>
-  <category>website</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/tech-specs.html</guid>
-  <pubDate>Sat, 01 Mar 2025 19:57:19 GMT</pubDate>
 </item>
 <item>
   <title>Week notes (2025-W09)</title>

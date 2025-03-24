@@ -2,10 +2,10 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/tech-specs.html",
       "/posts/weeknotes-2025-W12.html",
       "/posts/weeknotes-2025-W11.html",
       "/posts/weeknotes-2025-W10.html",
-      "/posts/tech-specs.html",
       "/posts/weeknotes-2025-W09.html",
       "/posts/weeknotes-2025-W08.html",
       "/posts/weeknotes-2025-W07.html",
@@ -21,11 +21,11 @@
   {
     "listing": "/notes.html",
     "items": [
-      "/notes/situational-analysis.html",
       "/notes/coding-methods.html",
+      "/notes/maelstrom-readings.html",
       "/notes/methodology-notes.html",
       "/notes/potential-cases.html",
-      "/notes/maelstrom-readings.html"
+      "/notes/situational-analysis.html"
     ]
   }
 ]
