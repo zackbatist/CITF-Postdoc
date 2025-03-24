@@ -1,0 +1,13 @@
+---
+title: Week notes (2025-W12)
+date: 2025-03-21
+categories:
+  - week notes
+---
+
+- Met with Isabel, discussed the practical implementation of harmonization procedures.
+- Worked on interview guides
+- Wrote more notes on situational analysis
+- Met with Alex and made progress regarding the ICF / data governance paper
+- Worked on revisions for the papers from my dissertation during my spare time
+  - See my preprint submitted to PCI-archaeo: https://zackbatist.info/locating-creative-agency/
