@@ -1,17 +1,8 @@
 [
   {
-    "listing": "/notes.html",
-    "items": [
-      "/notes/situational-analysis.html",
-      "/notes/coding-methods.html",
-      "/notes/methodology-notes.html",
-      "/notes/potential-cases.html",
-      "/notes/maelstrom-readings.html"
-    ]
-  },
-  {
     "listing": "/posts.html",
     "items": [
+      "/posts/weeknotes-2025-W12.html",
       "/posts/weeknotes-2025-W11.html",
       "/posts/weeknotes-2025-W10.html",
       "/posts/tech-specs.html",
@@ -25,6 +16,16 @@
       "/posts/weeknotes-2025-W03.html",
       "/posts/2024-12-09-first-team-meeting.html",
       "/posts/2024-12-09-hello-world.html"
+    ]
+  },
+  {
+    "listing": "/notes.html",
+    "items": [
+      "/notes/situational-analysis.html",
+      "/notes/coding-methods.html",
+      "/notes/methodology-notes.html",
+      "/notes/potential-cases.html",
+      "/notes/maelstrom-readings.html"
     ]
   }
 ]
