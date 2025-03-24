@@ -1,0 +1,169 @@
+---
+title: Untitled
+subtitle: MCHI Research Group
+description: |
+  A presentation for the McGill Clinical and Health Information Research Group.
+  It is too soon for me to present any findings, so instead I'm talking about my research protocol and plan of action.
+author:
+  - name: Zack Batist
+    url: https://zackbatist.info
+date: 2025-04-02
+date-format: long
+license: CC0
+url: https://zackbatist.info/CITF-Postdoc/MCHI-2025/
+format: revealjs
+theme: moon
+slide-number: c/t
+footer: |
+  <a href="https://zackbatist.info/CITF-Postdoc/MCHI-2025">zackbatist.info/CITF-Postdoc/MCHI-2025</a>
+---
+## Outline
+1. My background
+2. My objectives
+3. Plan of action
+
+## About me {.smaller}
+::: {.fragment}
+- Scholar of scientific practice
+:::
+
+::: {.fragment}
+- Specific interests:
+  - data sharing
+  - information commons
+  - research infrastructure
+  - collaborative experiences
+  - open science in practice
+:::
+
+::: {.footer}
+[zackbatist.info](https://zackbatist.info/) | [archaeo.social/@zackbatist](https://archaeo.social/@zackbatist)
+:::
+
+## About me {.smaller}
+::: {.fragment}
+- Palaeolithic/Neolithic of Greece, Cyprus and Near East
+:::
+
+::: {.fragment}
+- Managed archaeological project databases
+:::
+
+::: {.fragment}
+- Computational methods based on integrated datasets
+:::
+
+::: {.fragment}
+- Research about archaeological data work ☜
+  - [10.1515/opar-2024-0014](https://doi.org/10.1515/opar-2024-0014)
+  - [zackbatist.info/locating-creative-agency](https://zackbatist.info/locating-creative-agency/)
+  - [zackbatist.info/fuzzy-concrete](https://zackbatist.info/fuzzy-concrete/)
+:::
+
+::: {.fragment}
+- Research about archaeological software development practices ☜
+  - [open-archaeo.info](https://open-archaeo.info/): a list of archaeological software and resources
+  - [zackbatist.info/openarchaeo-collaboration](https://zackbatist.info/openarchaeo-collaboration/)
+:::
+
+::: {.footer}
+[zackbatist.info](https://zackbatist.info/) | [archaeo.social/@zackbatist](https://archaeo.social/@zackbatist)
+:::
+
+## What am I doing here? {.smaller}
+::: {.fragment}
+- Framing harmonization as information commons
+  - Who contributes? Who extracts?
+  - What are their converging and diverging interests?
+  - What commitments do these interactions entail?
+:::
+
+::: {.fragment}
+- Framing harmonization as value-driven
+  - What are the targeted outcomes?
+  - What is the projected value-added?
+:::
+
+::: {.fragment}
+- Framing data work as improvized action
+  - How do they go about trying to achieve these objectives?
+  - Are their strategies successful? Why or why not?
+:::
+
+::: {.footer}
+[zackbatist.info/CITF-Postdoc](https://zackbatist.info/CITF-Postdoc/)
+:::
+
+## Interviews {.smaller}
+::: {.fragment}
+- Interviews with leaders and key stakeholders of data harmonization initiatives
+:::
+
+::: {.fragment}
+- I will ask participants about:
+  - The motivations for their initiatives
+  - The challenges they experience
+  - How they envision success and failure
+  - Perceptions of their own roles and the roles of others
+  - The values that inform their decisions
+  - The systems that enable them to achieved their goals
+  - Ways in which they believe data sharing could be improved
+:::
+
+::: {.footer}
+[zackbatist.info/CITF-Postdoc/interview-protocol](https://zackbatist.info/CITF-Postdoc/interview-protocol.html)
+:::
+
+## Qualitative Data Analysis {.smaller}
+:::: {.columns}
+
+::: {.column width="65%"}
+::: {.fragment}
+- Coding interview transcripts
+  - Enable me to develop theory about their social actions
+:::
+
+::: {.fragment}
+- Writing analytic memos
+  - To synthesize broader concepts, themes and theories based on the encoded data
+:::
+
+::: {.fragment}
+- Informed by broader theoretical frameworks
+  - About scientific practice, research infrastructure, collaborative experiences, information commons, etc
+:::
+
+::: {.fragment}
+- Theory is therefore "grounded" in the data
+:::
+:::
+
+::: {.column width="35%"}
+![](coding.png)
+:::
+
+::::
+
+
+::: {.footer}
+:::
+
+## Sampling {.smaller}
+::: {.fragment}
+- Theoretical sampling
+  - Sample emerges in response to ongoing theory-building
+:::
+
+::: {.fragment}
+- Clustered into cases
+  - Cases are data harmonization initiatives
+  - They constitute sets of collective goals and circumstances that contextualize individuals' responses
+  - These circumstances must exhibit overlap and difference to support comparison
+:::
+
+::: {.fragment}
+- Not generalizable, but representative of prevalent tensions inherent of data sharing
+:::
+
+::: {.footer}
+:::
