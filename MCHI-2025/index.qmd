@@ -41,8 +41,11 @@ footer: |
 :::
 
 ## About me {.smaller}
+:::: {.columns}
+
+::: {.column width="70%"}
 ::: {.fragment}
-- Palaeolithic/Neolithic of Greece, Cyprus and Near East
+- Palaeolithic/Neolithic of Greece / Cyprus / Near East
 :::
 
 ::: {.fragment}
@@ -50,7 +53,7 @@ footer: |
 :::
 
 ::: {.fragment}
-- Computational methods based on integrated datasets
+- Computational methods using integrated datasets
 :::
 
 ::: {.fragment}
@@ -61,10 +64,17 @@ footer: |
 :::
 
 ::: {.fragment}
-- Research about archaeological software development practices ☜
-  - [open-archaeo.info](https://open-archaeo.info/): a list of archaeological software and resources
+- Research about archaeological software development ☜
+  - [open-archaeo.info](https://open-archaeo.info/): a list of archaeological software
   - [zackbatist.info/openarchaeo-collaboration](https://zackbatist.info/openarchaeo-collaboration/)
 :::
+:::
+
+::: {.column width="30%"}
+![](digging.gif)
+:::
+
+::::
 
 ::: {.footer}
 [zackbatist.info](https://zackbatist.info/) | [archaeo.social/@zackbatist](https://archaeo.social/@zackbatist)
@@ -139,11 +149,10 @@ footer: |
 :::
 
 ::: {.column width="35%"}
-![](coding.png)
+![Codes applied to an interview transcript from my prior research.](coding.png)
 :::
 
 ::::
-
 
 ::: {.footer}
 :::
