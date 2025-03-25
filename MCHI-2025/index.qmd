@@ -11,16 +11,20 @@ date: 2025-04-02
 date-format: long
 license: CC0
 url: https://zackbatist.info/CITF-Postdoc/MCHI-2025/
-format: revealjs
-theme: moon
-slide-number: c/t
-footer: |
-  <a href="https://zackbatist.info/CITF-Postdoc/MCHI-2025">zackbatist.info/CITF-Postdoc/MCHI-2025</a>
+format:
+  revealjs: 
+    output-file: slides
+    theme: moon
+    slide-number: c/t
+    footer: |
+      <a href="https://zackbatist.info/CITF-Postdoc/MCHI-2025">zackbatist.info/CITF-Postdoc/MCHI-2025</a>
+  html: default
 ---
 ## Outline
 1. My background
 2. My objectives
 3. Plan of action
+4. Questions and feedback?
 
 ## About me {.smaller}
 ::: {.fragment}
