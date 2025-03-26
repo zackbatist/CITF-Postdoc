@@ -406,3 +406,10 @@ From @fosket2021: [: 270]:
 2. From @mills1940, whose perspective is deeply pragmatist, in that he emphasized circumstances as important factors that influence action.
 3. From @haraway1991, whose situated knowledges empasizes the embodied nature of all sensory experiences, and therefore of all knowledge.
 4. From @massumi2002, who emphasized the situation of inquiry itself, and who draws a direct relationship with the researcher who enters a situation through its examination.
+
+
+# From @becker1998
+
+@becker1998 [: 44]:
+
+> Making activities the starting point focuses analysis on the situation the activity occurs in, and on all the connections what you are studying has with all the other things around it, with its context. Activities only make sense when you know what they are a response to, what phenomena provide inputs and necessary conditions for the thing you want to understand. If the character of the person or object is so immutable as to resist all situ ational variation, so unchanging that no input is a necessary condition for it to do whatever it does, that will be an empirical finding rather than a theoretical commitment made before the research began and thus immune to disproof by evidence.
