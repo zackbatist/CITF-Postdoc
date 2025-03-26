@@ -1,3 +1,6 @@
 [submodule "data"]
 	path = data
 	url = https://git.mchi.mcgill.ca/zack/data
+[submodule "private"]
+	path = private
+	url = http://git.mchi.mcgill.ca/zack/private

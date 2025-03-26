@@ -60,6 +60,5 @@ Thumbs.db
 /.luarc.json
 _site/
 
-private/
 _extensions/
 qc
