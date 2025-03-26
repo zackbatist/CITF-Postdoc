@@ -1,0 +1,87 @@
+---
+title: Tricks of the Trade
+description: Some gems from @becker1998.
+date: 2025-03-25
+date-modified: last-modified
+toc-depth: 6
+toc-expand: 3
+reference-location: document
+categories: 
+  - reading
+---
+
+@becker1998 [: 44]:
+
+> Making activities the starting point focuses analysis on the situation the activity occurs in, and on all the connections what you are studying has with all the other things around it, with its context.
+> Activities only make sense when you know what they are a response to, what phenomena provide inputs and necessary conditions for the thing you want to understand.
+> If the character of the person or object is so immutable as to resist all situ ational variation, so unchanging that no input is a necessary condition for it to do whatever it does, that will be an empirical finding rather than a theoretical commitment made before the research began and thus immune to disproof by evidence.
+
+---
+
+@becker1998 [: 50]:
+
+> Objects, then, are congealed social agreements, or rather, con gealed moments in the history of people acting together.
+> The analytic trick consists of seeing in the physical object before you all the traces of how it got that way, of who did what so that this thing should now exist as it does.
+> I often act out the exercise in class: picking up any ob ject that comes to hand—a student's notebook, my shoe, a pencil—and tracking down all the earlier decisions and activities that produced this thing sitting before us.
+
+---
+
+@becker1998 [: 60-61]:
+
+> Assume that whatever you want to study has, not causes, but a history, a story, a narrative, a "first this happened, then that happened, and then the other happened, and it ended up like this."
+> On this view, we understand the occurrence of events by learning the steps in the process by which they came to happen, rather than by learning the conditions that made their existence necessary.
+
+Continued on @becker1998 [: 63]:
+
+> One shows "why something was or became necessary;"
+> the other shows "how something was or became possible."
+
+---
+
+@becker1998 [: 64]:
+
+> The procedures used in studies based on this logic depend on comparing cells in a table (the cells containing cases that embody dif ferent combinations of the variables being studied), and the comparis ons will not withstand standard criticisms unless they rest on large numbers of cases.
+> The results of such studies consist of probabilistic statements about the relations between the variables, statements whose subjects are not people or organizations doing things but rather variables having an effect or producing some measurable degree of variation in the dependent variable.
+> The conclusions of such a study --- that the cases studied have a particular probability of showing this or that result --- are intended to apply to an entire universe of simil ar cases.
+
+
+Continued on @becker1998 [: 65-66]:
+
+> Another approach, which @ragin1987 describes as multiple and conjunctival, has a quite different image of causality.
+> It recognizes that causes are typically not really independent, each making its independ ent contribution to some vector that produces the overall outcome in a dependent variable.
+> It suggests instead that causes are only effective when they operate in concert.
+> ...
+> In multiplicative images of causality all the elements have to be there to play their part in the conjunction or combination of relevant causal circum stances.
+> If any one of them is missing, no matter how big or important the others are, the answer will still be zero—the effect we are inter ested in will not be produced.
+> The "multiple" part of the argument says that more than one such combination can produce the result we're interested in.
+> In these causal images, there's more than one way to get there.
+> Which combination works in a case depends on context: historically and socially specific conditions that vary from case to case.
+> ...
+> I'll conclude this chapter by referring to another kind of image, our image of the social scientist at work.
+> A standard image in contemporary social science is of the brave scientist submitting his (I use the masculine pronoun because the imagery is so macho) theories to a crucial empirical test and casting them aside when they don't measure up, when it isn't possible to reject the null hypothesis.
+> Ragin draws a contrasting picture that I find quite compelling, of a social scientist engaged in "a rich dialogue" of data and evidence, a picture that looks a lot more like the scientific activity Blumer envisioned: pondering the possibilities gained from deep familiarity with some aspect of the world, systematizing those ideas in relation to kinds of information one might gather, checking the ideas in the light of that information, dealing with the inevitable discrepancies between what was expected and what was found by rethinking the possibilities and getting more data, and so on, in a version of Kuhn's image of the development of science as a whole.
+
+---
+
+This also brings to mind the brief story from the closing paragraphs of @becker1998 [: 218-219], which I read yesterday:
+
+> I once heard a Zen scholar tell the following story.
+> He was from Japan and did not speak English well, although well enough.
+> He impressed me, at first, with his high good humor.
+> Despite problems of language, he smiled and laughed a lot, and his pleasure in talking to us was infectious.
+> Then he told the following story, which he meant, I think, as an explanation of the Zen idea of _satori_ or enlightenment.
+> It is as good a parable as I know for what it means to have gotten a social science way of thinking into your bones.
+> Since I have never been able to find anyone who could tell me where this story has been written down, I have to reproduce it from memory.
+> 
+>> In the middle of the ocean, there is a special place, which is a Dragon Gate.
+>> It has this wonderful property: any fish that swims through it immediately turns into a dragon.
+>> However, the Dragon Gate does not look any different from any other part of the ocean.
+>> So you can never find it by looking for it.
+>> The only way to know where it is is to notice that the fish who swim through it become dragons.
+>> However, when a fish swims through the Dragon Gate, and becomes a dragon, it doesn't look any different.
+>> It just looks like the same fish it was before.
+>> So you can't tell where the Dragon Gate is by looking closely to find just where the change takes place.
+>> Furthermore, when fish swim through the Dragon Gate and become dragons, they don't feel any different, so they don't know that they have changed into dragons.
+>> They just are dragons from then on.
+> 
+> You could be a dragon.
