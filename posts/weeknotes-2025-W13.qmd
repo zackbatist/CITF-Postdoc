@@ -1,0 +1,20 @@
+---
+title: Week notes (2025-W13)
+date: 2025-03-28
+date-modified: 2025-03-31
+categories:
+  - week notes
+---
+
+- Confirmed date and time for my first interview
+- Worked on the interview guide
+- Continued reading about the harmonization software ecosystem, and about cataloguing
+- Continued reading about situational analysis and qualitative research methods in general
+- Started working on my MCHI presentation
+- Made significant progress on the data governance paper
+- Wrote up some notes based on a rich discussion with colleagues
+- Created a private repo / submodule for my private files after nearly losing that data
+- PCI-archaeo successfully recruited a recommender
+- Worked on the fuzzy-concrete revisions over the weekend
+- Had my biweekly update with David
+- Participated in the Surveillance Lab journal club
