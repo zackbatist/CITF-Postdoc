@@ -27,27 +27,9 @@ format:
 4. Questions and feedback?
 
 ## About me {.smaller}
-::: {.fragment}
-- Scholar of scientific practice
-:::
-
-::: {.fragment}
-- Specific interests:
-  - data sharing
-  - information commons
-  - research infrastructure
-  - collaborative experiences
-  - open science in practice
-:::
-
-::: {.footer}
-[zackbatist.info](https://zackbatist.info/) | [archaeo.social/@zackbatist](https://archaeo.social/@zackbatist)
-:::
-
-## About me {.smaller}
 :::: {.columns}
 
-::: {.column width="70%"}
+::: {.column width="75%"}
 ::: {.fragment}
 - Palaeolithic/Neolithic of Greece / Cyprus / Near East
 :::
@@ -61,24 +43,45 @@ format:
 :::
 
 ::: {.fragment}
-- Research about archaeological data work ☜
+- Research about archaeological data work
   - [10.1515/opar-2024-0014](https://doi.org/10.1515/opar-2024-0014)
   - [zackbatist.info/locating-creative-agency](https://zackbatist.info/locating-creative-agency/)
   - [zackbatist.info/fuzzy-concrete](https://zackbatist.info/fuzzy-concrete/)
 :::
 
 ::: {.fragment}
-- Research about archaeological software development ☜
+- Research about academic open source software development
   - [open-archaeo.info](https://open-archaeo.info/): a list of archaeological software
   - [zackbatist.info/openarchaeo-collaboration](https://zackbatist.info/openarchaeo-collaboration/)
 :::
 :::
 
-::: {.column width="30%"}
+::: {.column width="25%"}
 ![](digging.gif)
 :::
 
 ::::
+
+::: {.footer}
+[zackbatist.info](https://zackbatist.info/) | [archaeo.social/@zackbatist](https://archaeo.social/@zackbatist)
+:::
+
+## About me {.smaller}
+::: {.fragment}
+- Scholar of scientific practice
+:::
+
+::: {.fragment}
+- Specific interests:
+  - data sharing
+  - data documentaion
+  - information commons
+  - research infrastructure
+  - research software
+  - alternative publishing
+  - collaborative experiences
+  - open science in practice
+:::
 
 ::: {.footer}
 [zackbatist.info](https://zackbatist.info/) | [archaeo.social/@zackbatist](https://archaeo.social/@zackbatist)
@@ -134,7 +137,7 @@ format:
 ::: {.column width="65%"}
 ::: {.fragment}
 - Coding interview transcripts
-  - Enable me to develop theory about their social actions
+  - Enables me to develop theory about social actions
 :::
 
 ::: {.fragment}
@@ -170,13 +173,56 @@ format:
 ::: {.fragment}
 - Clustered into cases
   - Cases are data harmonization initiatives
-  - They constitute sets of collective goals and circumstances that contextualize individuals' responses
-  - These circumstances must exhibit overlap and difference to support comparison
+  - Each constitute their own sets of goals and circumstances
+  - Leveraging overlap and difference to support comparison
 :::
 
 ::: {.fragment}
-- Not generalizable, but representative of prevalent tensions inherent of data sharing
+- Not generalizable, but representative of work occurring under similar circumstances
 :::
+
+::: {.fragment}
+- Doesn't have to be fully generalizable to inform practical action
+:::
+
+::: {.footer}
+:::
+
+## Current Work {.smaller}
+::: {.fragment}
+- First interview next week
+:::
+
+::: {.fragment}
+- Creating "situational maps"
+  - Identifying "elements" and potential relationships
+  - Relating my own understanding to interviewees' persectives
+  - Writing memos about these elements
+:::
+
+::: {.fragment}
+::: {.column width="60%"}
+![](../data/memos/2025-03-18-aspects-of-harmonization/2025-03-18.excalidraw.png){width=80%}
+:::
+
+::: {.column width="35%"}
+![](../data/memos/2025-03-14-aspects-of-harmonization/2025-03-12-situational-map.excalidraw.png){width=80%}
+:::
+:::
+
+::: {.footer}
+:::
+
+## Questions / Comments ? {.smaller .center}
+
+- Project Website:
+  - [zackbatist.info/CITF-Postdoc](https://zackbatist.info/CITF-Postdoc/)
+
+- Slides:
+  - [zackbatist.info/CITF-Postdoc/MCHI-2025/](https://zackbatist.info/CITF-Postdoc/MCHI-2025/)
+
+- GitHub:
+  - [github.com/zackbatist/CITF-Postdoc](https://github.com/zackbatist/CITF-Postdoc)
 
 ::: {.footer}
 :::
