@@ -10,7 +10,37 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Mon, 24 Mar 2025 20:07:38 GMT</lastBuildDate>
+<lastBuildDate>Fri, 28 Mar 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W13)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W13.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Confirmed date and time for my first interview</li>
+<li>Worked on the interview guide</li>
+<li>Continued reading about the harmonization software ecosystem, and about cataloguing</li>
+<li>Continued reading about situational analysis and qualitative research methods in general</li>
+<li>Started working on my MCHI presentation</li>
+<li>Made significant progress on the data governance paper</li>
+<li>Wrote up some notes based on a rich discussion with colleagues</li>
+<li>Created a private repo / submodule for my private files after nearly losing that data</li>
+<li>PCI-archaeo successfully recruited a recommender</li>
+<li>Worked on the fuzzy-concrete revisions over the weekend</li>
+<li>Had my biweekly update with David</li>
+<li>Participated in the Surveillance Lab journal club</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W13.html</guid>
+  <pubDate>Fri, 28 Mar 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Technical specs for this website</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/tech-specs.html</link>

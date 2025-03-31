@@ -1,7 +1,19 @@
 [
   {
+    "listing": "/notes.html",
+    "items": [
+      "/notes/tricks-of-the-trade.html",
+      "/notes/situational-analysis.html",
+      "/notes/coding-methods.html",
+      "/notes/maelstrom-readings.html",
+      "/notes/methodology-notes.html",
+      "/notes/potential-cases.html"
+    ]
+  },
+  {
     "listing": "/posts.html",
     "items": [
+      "/posts/weeknotes-2025-W13.html",
       "/posts/tech-specs.html",
       "/posts/weeknotes-2025-W12.html",
       "/posts/weeknotes-2025-W11.html",
@@ -16,16 +28,6 @@
       "/posts/weeknotes-2025-W03.html",
       "/posts/2024-12-09-first-team-meeting.html",
       "/posts/2024-12-09-hello-world.html"
-    ]
-  },
-  {
-    "listing": "/notes.html",
-    "items": [
-      "/notes/coding-methods.html",
-      "/notes/maelstrom-readings.html",
-      "/notes/methodology-notes.html",
-      "/notes/potential-cases.html",
-      "/notes/situational-analysis.html"
     ]
   }
 ]
