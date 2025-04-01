@@ -1,0 +1,255 @@
+---
+date: 2025-03-27
+date-modified: today
+description: Notes on cataloguing practices.
+title: Cataloguing
+---
+
+## Outside Maelstrom
+From @pan2023, who use a "crosswalk-cataloging-harmonization process":
+
+> We applied the crosswalk-cataloging-harmonization process (Figure 2).
+> During the crosswalk step, we used a spreadsheet to document available variables from each cohort and organized them by data concept (e.g., education, income, tobacco use). During the cataloging step, we identified common data elements (CDEs) from PhenX or the National Institutes of Health CDE Repository (https://cde.nlm.nih.gov/home) within each data concept for sociodemographic, lifestyle, and pregnancy-related baseline variables (Web Table 1).
+> If a CDE could not be identified or an identified CDE could not be applied across studies, a definition was created to incorporate the maximum amount of information from each study (5).
+
+They cite @pino2018 with regards to the crosswalk-cataloging-harmonization process:
+
+> The first step of harmonising data for the MULTITUDE consortium was the crosswalk of data measures (vari ables) across all studies. All available variables from individual studies within the consortium were identified and systematically entered in eight sections of (1) demo graphic data, (2) comorbidities, (3) laboratory values at diagnosis, (4) biomarkers, (5) medications, (6) ECG and echocardiogram (ECHO), complications related to diabetes and (8) events. This crosswalk allows assessment of each variable and, in turn, allows us to determine the level of comparability between studies.
+> were identified and collected from each study without alteration of the original data or creation of new MULTI TUDE- specific target variables. For example, in determining a baseline diagnosis of T2DM, individual studies may have dichotomous ‘yes’/’no’ data on a history or diagnosis of T2DM. Alter natively, studies may only have data on fasting glucose levels, random plasma glucose levels or haemoglobin A1c levels. At this stage of the process, all relevant variables.
+> Following data element crosswalk, all variables were then catalogued based on their key characteristics and rele vance in answering the research questions addressed. Recording of blood pressure may be different across studies: one study may have systolic and diastolic blood pressure measured by the technician and another could have reported values from medical records. Clinical outcomes can also be obtained from different sources such as medical records without independent adjudica tion, with independent adjudication or via self-report. All variables that are empirically similar or indicate the same measurement are grouped together and named under a common pooled variable. We evaluated which studies could provide data that enabled generation of each of the target variables and we qualitatively assessed the level of similarity between the study-specific and target variables.
+
+@fortier2017 seems to make a similar distinction through sub-steps of their comprehensive guidelines:
+
+> The identification of studies of interest (Step 1) and evaluation of the harmonization potential (Step 2) are facilitated by the existence of central metadata catalogues providing comprehensive information on existing study designs and content.
+> Catalogues can also provide information useful to guide the development of prospective data collections.
+
+> **Step 1:** Assemble information and select studies.\
+> **Step 1a:** Document individual study designs, methods and content:
+> ensure appropriate knowledge and understanding of > each study. Data comparability can be affected by heterogeneity of study-, population-, procedural- and data-related characteristics.
+> Information related to design, time frame and population background will, for example, be required to evaluate study eligibility.
+> In addition, information related to the specific data collected and, where relevant, standard operating procedures used will be essential to evaluate harmonization potential and guide data processing.\
+> **Step 1b:** Select participant studies: select studies based on explicit criteria.
+> To ensure consistency, designs of the studies included in a harmonization project must be similar enough to be considered compatible.
+
+## Formalizing an existing tacit procedure?
+
+From @bergeron2018:
+
+> The present paper describes the approach and software developed by the Maelstrom Research team to answer the need for a general and customizable solution to support the creation of comprehensive and user-friendly study- and network-specific catalogues used to lever age epidemiological research making use of cohort data.
+
+In other words, it seems more concerned with presenting the tooling, which complements documentation of procudure and methods in @fortier2017.
+
+---
+
+> Since 2004, maturing versions of the toolkit were produced and tested by these projects (Table 1).
+> Throughout, comments and suggestions from investigators of these initiatives were integrated in a central repository.
+> At least once a year, the most pressing or crucial demands for improvements were selected and the toolkit was, and still is customized to answer these requests.
+> Improved versions of the toolkit are therefore regularly generated and tested by users.
+
+Again, this implies that they had honed a procedure over many years, and were now simply formalizing the process
+I wonder if this was to make it more compatible with the software's demands for formal processes, or whether it was merely inspired by a computational way of thinking.
+
+---
+
+In @bergeron2017, they identify a few key components to a catalog entry:
+
+**1. Study outline**
+
+  - study's name
+  - logo
+  - website
+  - list of investigators and contact persons
+  - the objectives
+  - timeline
+  - number of participants recruited and participants providing biological samples
+  - information on access to data and samples
+
+**1. For each subpopulation of participants**
+
+  - information related to the recruitment of participants and selection criteria
+
+**3. Documentation of each data collection event**
+
+  - general description
+  - start and end dates
+  - data sources
+  - type of information collected
+
+**4. Lists of variables collected**
+
+  - dataset metadata
+    - names of the datasets
+    - description of the dataset content
+  - variable metadata
+    - variables' names and labels
+    - codes and labels of each variable category (if applicable)
+    - the specific question used to collect the data
+    - measurement units
+  - annotations using various classification schemes
+
+These are more formally defined in the supplement, copied here:
+
+|  |  |
+| --- | --- |
+| **STUDY** | |
+| **Field** | **Definition** |
+| **Name** | Official name of the study. |
+| **Acronym** | Study acronym. |
+| **Website** | Study website URL. |
+| **Investigators** | Name, affiliated institution and contact information of the principal investigators. |
+| **Contacts** | Name, affiliated institution and contact information of the person to be contacted to have more information about the study. |
+| **Objectives** | Main objectives of the study. |
+| **Study timeline** | Date when first participants were recruited and study end date if the study is completed. |
+| **Study design** | Information on specific study design.   1. Cohort 2. Case-control 3. Case only 4. Cross-sectional 5. Clinical trial 6. Other |
+| **General information on follow-up** | Profile and frequency of participants’ follow-up  (*e.g. Participants are followed-up every 5 years*). |
+| **Supplementary information about study design** | Additional information about study design  (*e.g. Subgroups of the population were intentionally over-sampled*). |
+| **Recruitment target** | Type of participant units targeted by the study.   1. Individuals 2. Families 3. Other |
+| **Number of participants** | Number of participants planned to be recruited. If the study is completed, the final number of participants. |
+| **Number of participants with biological samples** | If the study is collecting biological samples, number of participants that should provide samples. If the study is completed, the final number of participants that provided biological samples. |
+| **Supplementary information about number of participants** | Additional information about target number of participants  (*e.g. Additional biological samples will be collected for population 2*). |
+| **Access** | Whether access to study data, biological samples or other study material by external researchers or third parties is allowed or foreseen. |
+| **Marker paper(s)** | Bibliographic citation(s) which should be used to refer to the study and, if applicable, the paper’s Pubmed ID. |
+| **Logo** | Logo used by the study. |
+| **Documents** | Relevant documents about the study  (*e.g. Questionnaires, standard operating procedures, codebooks*). |
+
+|  |  |
+| --- | --- |
+| **POPULATION** | |
+| **Field** | **Definition** |
+| **Name** | Name of the study population. |
+| **Description** | A brief description of the population. |
+| **Sources of recruitment** | Specification of the sources of recruitment.   1. General population (*volunteer enrolment, selected sample, random digit dialing*) 2. Specific population (*clinic patients, members of specific association, other specific population*) 3. Participants from existing studies 4. Other source |
+| **Supplementary information about sources of recruitment** | Additional information about recruitment procedures  (*e.g. Participants were identified from the electoral register and general practice lists*). |
+| **Selection criteria** | If relevant, specification for the following selection criteria of the participants.   1. Gender (*women or men*) 2. Age (*minimum age and maximum age*) 3. Residence (*country, territory or city*) 4. Pregnant women (*first trimester, second trimester, third trimester)* 5. Newborns 6. Twins 7. Ethnic origin 8. Health status 9. Other |
+| **Supplementary information about selection criteria** | Additional information about selection criteria of the population  (e.g. *All subjects identified at baseline as affected by cognitive impairment without dementia were eligible for the longitudinal phase conducted after one year*). |
+| **Number of participants** | Number of participants planned to be recruited for the population. If the study is completed, the final number of participants. |
+| **Number of participants with biological samples** | If the study is collecting biological samples, number of participants that should provide samples for the population. If the study is completed, the final number of participants that provided biological samples. |
+| **Supplementary information about number of participants** | Additional information about number of participants. Usually the number of participants for each wave of the study  (*e.g. Number of participants for each data collection event*  *Wave 1: 7175 participants*  *Wave 2: 3145 participants*  *Wave 3: 1733 participants*). |
+
+|  |  |
+| --- | --- |
+| **DATA COLLECTION EVENT** | |
+| **Field** | **Definition** |
+| **Name** | Name of the data collection event. |
+| **Description** | A brief description of the data collection event. |
+| **Data collection event date** | Data collection start date and end date. |
+| **Data sources** | Data sources from which the information is obtained.   1. Questionnaires 2. Physical measures 3. Cognitive measures 4. Biological samples (*blood, cord blood, buccal cells, tissues, saliva, urine, hair, nail, other*) 5. Administrative databases (*health databases, vital statistics databases, socioeconomic databases, environmental databases*) 6. Others (*e.g. medical files*) |
+
+|  |  |
+| --- | --- |
+| **DATASET** | |
+| **Field** | **Definition** |
+| **Name** | Name of the dataset. |
+| **Acronym** | Dataset acronym. |
+| **Description** | Short description of the dataset specifying its content. |
+| **Entity type** | What the data are about (usually the participant). |
+
+|  |  |
+| --- | --- |
+| **VARIABLE** | |
+| **Field** | **Definition** |
+| **Dataset** | Name of the dataset in which the variable resides. |
+| **Name** | Name of the variable. |
+| **Label** | Short description of the variable specifying its content  (e.g. *Type of diabetes*).  Further information can be added in the **description** field. |
+| **Description** | Additional information about the variable such as:   1. For variables collected by questionnaire, the question itself or any relevant information about the variable (e.g. *Have you ever been told by a doctor that you had diabetes?)* 2. For variables about physical/laboratory measures, any relevant information describing the context of measurement (e.g. *self-reported measure, measure by a trained professional*) or related to the protocol (e.g. *measure taken when the participant is at rest*) 3. For derived or constructed variables, any relevant information about the derivation or construction of the variable (e.g. *MMSE total score, total energy in Kcal per day derived from diet questionnaire*). |
+| **Value type** | Type of variable:   1. Boolean (*two possible values (usually denoted true or false)*) 2. Date (*values written in a defined date format*) 3. Datetime (*values written in a defined date and time format*) 4. Decimal (*numerical values with a fractional component*) 5. Integer (*numerical values without a fractional component*) 6. Text (*alphanumerical values*) 7. Other types (*Point, line string, or polygon, etc.*)   (e.g. Type of diabetes has an integer value type: *1, 2, 3, 8, 9*). |
+|  | **For continuous variables (where relevant)** |
+| **Unit** | Measurement unit of the variable (e.g. *cm, mmol/L*). |
+|  | **For categorical variables** |
+| **Category name** | Value assigned to each variable category  (e.g. Type of diabetes has 5 categories: *1, 2, 3, 8, 9*). |
+| **Category label** | Short description of the category  (e.g.:  1: *Type 1 diabetes*  2: *Type 2 diabetes*  3: *Gestational diabetes*  8: *Prefers not to answer*  9: *Missing*) |
+
+
+
+## Cataloguing procedures
+
+@bergeron2018 [: 9] explains the procedure for creating catalogue entries:
+
+> To ensure quality and standardization of the metadata documented across networks, standard operating procedures were implemented.
+> Using information found in peer-reviewed journals or on institutional websites, the study outline is documented using Mica and validated by study investigators.
+> Where possible, data dictionaries or codebooks are obtained, completed for missing information (e.g. missing labels) and formatted to be uploaded in Opal.
+> Variables are then manually classified by domains and subdomains and validated with the help of an in house automated classifier based on a machine learning method.
+> When completed, study and variable-specific metadata are made publicly available on the Maelstrom Research website. 
+
+The procedure is described in more detail in the supplementary materials, which they divide into three steps: study description, variables documentation and variables annotation.
+
+#### Step 1: Completion of the study description
+**Aim:** Document the study design, targeted population(s) and data collection event(s).\
+**Procedures:**
+
+- Gather information about the study from different sources including published papers and study website. 
+- Complete the fields of the study description model available in Mica.
+- Ensure validation of the study description by a second person to ascertain the adequacy and quality of its content.
+- Obtain validation and, if required, additional information from the study investigators.
+- Make any required modifications and publish the study description on the Maelstrom Research website.
+
+#### Step 2: Documentation of the study variables
+**Aim:** Generate standardized variable dictionaries.\
+**Procedures:**
+
+- Obtain the questionnaires and data dictionary from the study investigator. The data dictionary can be in different formats (SPSS, Excel, csv, etc.).
+- Format the data dictionary to be compatible with Opal.
+- Evaluate completeness of the data dictionary content.
+- Correct any missing or unclear information with the help of the questionnaires (label, category codes and labels). Variables should at least have a name, a label, and if applicable, codes and labels for categories. If impossible, ask study investigators to add the missing information and send back the complete data dictionary.
+
+#### Step 3: Annotation of variables by domains and sub-domains 
+**Aim:** Classify each study variable in at least one domain and subdomain of the Maelstrom Research classification.\
+**Procedures:**
+
+- First research assistant: attribution of each variable to one or more subdomains of the areas of information with the help of the questionnaires and the information documented in the previous cataloguing steps. The context surrounding the variable should prevail on blindly applying the rules.
+- Validation of the classification using an in-house automated classifier based on a machine learning method. This, to identify discrepancies between the human and the machine annotations. 
+- Second research assistant: validation of all variables for which a divergence was observed and where relevant, suggestion of modifications to the initial classification.
+- First research assistant: review of the suggested modifications.
+- If disagreement on the classification of a variable remains, group discussion to take final decision.
+- Upload annotated variables on Opal and publish variables data dictionaries and related annotation on the Maelstrom Research website.
+
+## Taxonomy
+@bergeron2018 [: 7] explains how interoperability is achieved through the use of classification schemes:
+
+Variables are annotated using various classification schemes, which effectively "facilitate browsing and extraction of variables by topics of interest and enables the generation of tables comparing domain-specific data collected across studies, subpopulations and data collection events."
+
+They do not use the term taxonomy, but that is what they are presenting here.
+
+In the supplement, they describe the process in further detail:
+
+> The Maelstrom model supports usage of multiple variables annotations that can be used to better inform variable metadata content (e.g. name of the measure or standardized questionnaire used, source of the data, etc.).
+> However, a classification index, was develop as complementary to the cataloguing toolkit.
+> The Maelstrom Research classification can be used to facilitate variable search and was specifically developed to serve the needs of the platform users.
+> It aims to facilitate selection of variables by topics of interest and generation of tables comparing variables content across studies, subpopulations and data collection events.
+> This classification can theoretically be used to categorize all type of information collected by a study and is divided into 18 domains and 135 subdomains (see section below).
+> Development of the classification was done through a series of workshops with cohorts’ investigators, computer scientists, statisticians and data managers.
+> When is was possible, we used existing classifications, but is was not always the case.
+> Some of the domains are thus based on international classification systems (e.g. International Classification of Diseases (ICD)) or are elements of existing classifications (International Classification of Functioning, Disability and Health (ICF)).
+> However, for other domains no existing classification were available or could be used to classify variables provided by our partners. It was thus required to create new classes.
+
+The supplement then goes on to define the 18 domains and 135 subdomains.
+
+---
+
+The taxonomies are also accessible by request, despite being licensed with CCBY and and some other files available on GitHub (https://github.com/maelstrom-research/maelstrom-taxonomies).
+
+From the readme:
+
+> These classification schemes allow you to annotate study variables with a standardized list of areas of information and, when applicable, the standardized scales / questionnaires used to collect them.
+> A specific taxonomy also allows annotating harmonized datasets.
+> To the end user, these taxonomies facilitate metadata browsing and enhances data discoverability in the Mica web data portal.
+
+The OBiBa documentation also makes reference to the Maelstrom taxonomy: https://opaldoc.obiba.org/en/latest/web-user-guide/administration/taxonomies.html
+
+---
+
+The Maelstrom taxonomy is referenced in various papers, most notably those that document work being done under the aegis of the NFDI4Health Covid-19 Task Force:
+
+- @pigeot2024
+- @schmidt2020a
+- @vorisek2022
+- @schmidt2021
+- @darms2021
+- etc
+
+---
+
+@sasse2024 documents the process for using AI to assign variables to the Maelstrom taxonomy.
+The code is here: https://github.com/nfdi4health/workbench-AI-model
+
+---
