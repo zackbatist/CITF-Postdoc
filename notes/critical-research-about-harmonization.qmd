@@ -1,0 +1,32 @@
+---
+date: 2025-03-27
+date-modified: today
+description: Notes on other critical research about harmonization.
+title: Other research about harmonization
+categories:
+  - reading-notes
+---
+
+## @rolland2015
+From @rolland2015 [: 1034]:
+
+> Few investigators write extensively about their data-harmonization procedures, despite the widespread use of harmonized data.
+> Even papers that reference the methodological issues of data pooling tend to gloss over the actual process of data harmonization itself (3–5).
+> In the paper by Fortier et al., for example, there are details in the Methods section on how the data are selected; then the harmonization process itself is summed up thus:
+>
+>> In order to classify the assessment items and to ensure the validity and reproducibility of the pairing results, sets of comprehensive ‘pairing rules’ specific to each variable are defined.
+>> Development of pairing rules is context specific and involves a systematic process of iteration between scientific experts and trained research officers.
+>> Using these pairing rules, trained research officers determine whether or not a variable can be recreated using the assessment items collected by each participating study (4, p. 1317).
+>
+> There are no details on how the scientific experts and trained research officers derived and refined their pairing rules or how long it took.
+> Though such an explanation might be complex, without it, researchers are unable to apply the methods themselves or even fully evaluate the methods proposed.
+> This lack of discussion on how to pool data for a new analysis means that investigators in each study craft their own methods of harmonization, with little empirical evidence to support any one method.
+> Pooled studies have markedly increased power because of their larger sample sizes; it behooves us to be sure that the conclusions being drawn are as accurate as possible.
+> To that end, we describe here the harmonization processes needed for 4 different studies, the analyses of which were directed by 2 of us (M.T., Z.F.), both senior biostatisticians.
+
+From @rolland2015 [: 1035]:
+
+> Identification of these high-level data concepts is not an easy process, as it requires researchers to take a step back from the detailed data, think conceptually about their research questions, and then negotiate around those concepts with their colleagues until they reach agreement on what is impor tant.
+> For investigators accustomed to moving directly to individual data points, it may feel like a waste to start at such a high level, but it has been our experience that time spent on this step makes the work that follows substantially smoother and quicker.
+> Such conversations need to involve a variety of people, including the Principal Investigators (PIs) of the original studies and their data managers, who collectively have an understanding of the subtle nuances within the data they collect and manage, including questions of data reliability and availability.
+> Answers to these questions can influence the final form of the project’s scientific questions.
