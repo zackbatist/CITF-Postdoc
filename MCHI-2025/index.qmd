@@ -202,7 +202,7 @@ format:
 
 ::: {.fragment}
 ::: {.column width="60%"}
-![](../data/memos/2025-03-18-aspects-of-harmonization/2025-03-18.excalidraw.png){width=80%}
+![](../data/memos/four-corners/four-corners.excalidraw.png){width=80%}
 :::
 
 ::: {.column width="35%"}
