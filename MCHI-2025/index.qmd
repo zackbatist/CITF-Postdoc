@@ -62,7 +62,7 @@ include-in-header:
 ::: {.fragment}
 - Research about academic open source software development
   - [open-archaeo.info](https://open-archaeo.info/): a list of archaeological software
-  - [zackbatist.info/openarchaeo-collaboration](https://zackbatist.info/openarchaeo-collaboration/)
+  - [10.11141/ia.67.13](https://doi.org/10.11141/ia.67.13)
 :::
 :::
 
@@ -77,6 +77,9 @@ include-in-header:
 :::
 
 ## About me {.smaller}
+:::: {.columns}
+
+::: {.column width="60%"}
 ::: {.fragment}
 - Scholar of scientific practice
 :::
@@ -92,6 +95,13 @@ include-in-header:
   - collaborative experiences
   - open science in practice
 :::
+:::
+
+::: {.column width="40%"}
+![Adapted from [xkcd.com/1838](https://xkcd.com/1838/)](xkcd-1838.png)
+:::
+
+::::
 
 ::: {.footer}
 [zackbatist.info](https://zackbatist.info/) | [archaeo.social/@zackbatist](https://archaeo.social/@zackbatist)
@@ -106,15 +116,16 @@ include-in-header:
 :::
 
 ::: {.fragment}
-- Framing harmonization as value-driven
+- Framing harmonization as value-driven, improvized action
   - What are the targeted outcomes?
-  - What is the projected value-added?
+  - How do they go about trying to achieve these objectives?
+  - Are their strategies successful? Why or why not?
 :::
 
 ::: {.fragment}
-- Framing data work as improvized action
-  - How do they go about trying to achieve these objectives?
-  - Are their strategies successful? Why or why not?
+- Revealing tensions between:
+  1. naive collective imaginations about data in technical and administrative systems
+  2. the messy, pragmatic and collaborative reality of data work in practice
 :::
 
 ::: {.footer}
@@ -157,7 +168,7 @@ include-in-header:
 
 ::: {.fragment}
 - Informed by broader theoretical frameworks
-  - About scientific practice, research infrastructure, collaborative experiences, information commons, etc
+  - About scientific practice, research infrastructure, collaborative experiences, information commons
 :::
 
 ::: {.fragment}
