@@ -53,10 +53,60 @@ Just as a quick reminder of the procedure for committing and syncing changes, ba
 4. Commit the record of commits to the main repo's remote.
 
 ## qc
-I intend to use [qc](https://qualitative-coding.readthedocs.io/en/latest/index.html), a novel too for qualitative data analysis designed for qualitaitve thinking.
+I'm using [qc](https://qualitative-coding.readthedocs.io/en/latest/index.html), a novel qualitative data analysis tool designed for computational thinking.
 It's a command line tool that makes QDA compatible with [textfile based social science workflows](https://plain-text.co/), which more-or-less aligns with my overall approach.
 qc also plays nice with my plan to isolate potentially sensitive information on a private git submodule, and is loosely compatible with my strategy for posting memos and research outputs publicly via this website.
 
 I'm also communicating with its maintainer, Chris Proctor, who is an education researcher and computer scientist based at SUNY Buffalo.
 This is the perfect combination for this kind of work since he specializes in instilling computational literacies, he has the technical chops to actually develop this system, and most of all: qualitative data analysis is the bread and butter of education research, so he is developing from an informed perspective.
 I really like what I see so far, and I'm eager to collect data of my own so that I can maximize the full potential that this system affords.
+I will write another post about my experiences once I have more to report.
+
+### Installing qc
+I had a bit of a hard time installing qc using the recommended method (using `pipx install qualitative-coding`) due to NumPy and spaCy dependency issues, so I had to install from source.
+First I created a virtual environment:
+
+```bash
+python3.12 -m venv qc
+source qc/bin/activate
+```
+
+I then downloaded the source code from the [GitHub repo](https://github.com/cproctor/qualitative-coding) and installed it within the virtual environment:
+
+```bash
+pip install qualitative-coding-main.zip
+```
+
+Then `cd` into the directory and initialize a qc project:
+
+```bash
+cd qc
+qc init
+```
+
+I applied some custom settings because I'm using Codium instead of VSCode.
+These basically replace the editor that's called up when I use the `code` command.
+
+```yaml
+codebook: codebook.yaml
+corpus_dir: corpus
+database: qualitative_coding.sqlite3
+log_file: qualitative_coding.log
+memos_dir: memos
+qc_version: 1.7.3
+verbose: true
+editor: codium
+editors:
+  codium:
+    name: Codium
+    code_command: 'codium "{corpus_file_path}" "{codes_file_path}" --wait'
+    memo_command: 'codium "{memo_file_path}" --wait'
+```
+
+I also set `verbose: true` to help troubleshoot any issues that might come up and reduce my dependence on Chris.
+
+Regarding the submodule, there is a conflict with how the qc directory had to be generated.
+I needed to create the qc directory using `venv`, but I also had to create it by pulling it down from the GitLab server.
+So I had to create the virtual environment, exit the environment, rename the directory to a placeholder name, pull down the fresh submodule, commit and push the new submodule to the parent git repository, and then copy over all the contents from the placeholder directory into the submodule (and then commit changes and push).
+Not really a major issue, but a minor incompatibility in the workflow that's worth noting.
+
