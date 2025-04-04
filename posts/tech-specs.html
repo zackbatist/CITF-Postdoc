@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-03-24">
+<meta name="dcterms.date" content="2025-04-04">
 
 <title>Technical specs for this website – CITF-Postdoc</title>
 <style>
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -200,7 +234,10 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#generating-pdfs" id="toc-generating-pdfs" class="nav-link" data-scroll-target="#generating-pdfs">Generating PDFs</a></li>
   <li><a href="#archiving-and-version-control" id="toc-archiving-and-version-control" class="nav-link" data-scroll-target="#archiving-and-version-control">Archiving and Version Control</a></li>
   <li><a href="#git-submodules" id="toc-git-submodules" class="nav-link" data-scroll-target="#git-submodules">Git Submodules</a></li>
-  <li><a href="#qc" id="toc-qc" class="nav-link" data-scroll-target="#qc">qc</a></li>
+  <li><a href="#qc" id="toc-qc" class="nav-link" data-scroll-target="#qc">qc</a>
+  <ul class="collapse">
+  <li><a href="#installing-qc" id="toc-installing-qc" class="nav-link" data-scroll-target="#installing-qc">Installing qc</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/posts/tech-specs.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
@@ -223,7 +260,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 24, 2025</p>
+      <p class="date">April 4, 2025</p>
     </div>
   </div>
   
@@ -270,10 +307,37 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="qc" class="level2">
 <h2 class="anchored" data-anchor-id="qc">qc</h2>
-<p>I intend to use <a href="https://qualitative-coding.readthedocs.io/en/latest/index.html">qc</a>, a novel too for qualitative data analysis designed for qualitaitve thinking. It’s a command line tool that makes QDA compatible with <a href="https://plain-text.co/">textfile based social science workflows</a>, which more-or-less aligns with my overall approach. qc also plays nice with my plan to isolate potentially sensitive information on a private git submodule, and is loosely compatible with my strategy for posting memos and research outputs publicly via this website.</p>
-<p>I’m also communicating with its maintainer, Chris Proctor, who is an education researcher and computer scientist based at SUNY Buffalo. This is the perfect combination for this kind of work since he specializes in instilling computational literacies, he has the technical chops to actually develop this system, and most of all: qualitative data analysis is the bread and butter of education research, so he is developing from an informed perspective. I really like what I see so far, and I’m eager to collect data of my own so that I can maximize the full potential that this system affords.</p>
+<p>I’m using <a href="https://qualitative-coding.readthedocs.io/en/latest/index.html">qc</a>, a novel qualitative data analysis tool designed for computational thinking. It’s a command line tool that makes QDA compatible with <a href="https://plain-text.co/">textfile based social science workflows</a>, which more-or-less aligns with my overall approach. qc also plays nice with my plan to isolate potentially sensitive information on a private git submodule, and is loosely compatible with my strategy for posting memos and research outputs publicly via this website.</p>
+<p>I’m also communicating with its maintainer, Chris Proctor, who is an education researcher and computer scientist based at SUNY Buffalo. This is the perfect combination for this kind of work since he specializes in instilling computational literacies, he has the technical chops to actually develop this system, and most of all: qualitative data analysis is the bread and butter of education research, so he is developing from an informed perspective. I really like what I see so far, and I’m eager to collect data of my own so that I can maximize the full potential that this system affords. I will write another post about my experiences once I have more to report.</p>
+<section id="installing-qc" class="level3">
+<h3 class="anchored" data-anchor-id="installing-qc">Installing qc</h3>
+<p>I had a bit of a hard time installing qc using the recommended method (using <code>pipx install qualitative-coding</code>) due to NumPy and spaCy dependency issues, so I had to install from source. First I created a virtual environment:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3.12</span> <span class="at">-m</span> venv qc</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> qc/bin/activate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I then downloaded the source code from the <a href="https://github.com/cproctor/qualitative-coding">GitHub repo</a> and installed it within the virtual environment:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install qualitative-coding-main.zip</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Then <code>cd</code> into the directory and initialize a qc project:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> qc</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qc</span> init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I applied some custom settings because I’m using Codium instead of VSCode. These basically replace the editor that’s called up when I use the <code>code</code> command.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">codebook</span><span class="kw">:</span><span class="at"> codebook.yaml</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">corpus_dir</span><span class="kw">:</span><span class="at"> corpus</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">database</span><span class="kw">:</span><span class="at"> qualitative_coding.sqlite3</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">log_file</span><span class="kw">:</span><span class="at"> qualitative_coding.log</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">memos_dir</span><span class="kw">:</span><span class="at"> memos</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">qc_version</span><span class="kw">:</span><span class="at"> </span><span class="fl">1.7.3</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">verbose</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">editor</span><span class="kw">:</span><span class="at"> codium</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">editors</span><span class="kw">:</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">codium</span><span class="kw">:</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Codium</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">code_command</span><span class="kw">:</span><span class="at"> </span><span class="st">'codium "{corpus_file_path}" "{codes_file_path}" --wait'</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">memo_command</span><span class="kw">:</span><span class="at"> </span><span class="st">'codium "{memo_file_path}" --wait'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I also set <code>verbose: true</code> to help troubleshoot any issues that might come up and reduce my dependence on Chris.</p>
+<p>Regarding the submodule, there is a conflict with how the qc directory had to be generated. I needed to create the qc directory using <code>venv</code>, but I also had to create it by pulling it down from the GitLab server. So I had to create the virtual environment, exit the environment, rename the directory to a placeholder name, pull down the fresh submodule, commit and push the new submodule to the parent git repository, and then copy over all the contents from the placeholder directory into the submodule (and then commit changes and push). Not really a major issue, but a minor incompatibility in the workflow that’s worth noting.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

@@ -10,37 +10,7 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 28 Mar 2025 04:00:00 GMT</lastBuildDate>
-<item>
-  <title>Week notes (2025-W13)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W13.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<ul>
-<li>Confirmed date and time for my first interview</li>
-<li>Worked on the interview guide</li>
-<li>Continued reading about the harmonization software ecosystem, and about cataloguing</li>
-<li>Continued reading about situational analysis and qualitative research methods in general</li>
-<li>Started working on my MCHI presentation</li>
-<li>Made significant progress on the data governance paper</li>
-<li>Wrote up some notes based on a rich discussion with colleagues</li>
-<li>Created a private repo / submodule for my private files after nearly losing that data</li>
-<li>PCI-archaeo successfully recruited a recommender</li>
-<li>Worked on the fuzzy-concrete revisions over the weekend</li>
-<li>Had my biweekly update with David</li>
-<li>Participated in the Surveillance Lab journal club</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W13.html</guid>
-  <pubDate>Fri, 28 Mar 2025 04:00:00 GMT</pubDate>
-</item>
+<lastBuildDate>Fri, 04 Apr 2025 20:37:50 GMT</lastBuildDate>
 <item>
   <title>Technical specs for this website</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/tech-specs.html</link>
@@ -84,16 +54,217 @@
 </section>
 <section id="qc" class="level2">
 <h2 class="anchored" data-anchor-id="qc">qc</h2>
-<p>I intend to use <a href="https://qualitative-coding.readthedocs.io/en/latest/index.html">qc</a>, a novel too for qualitative data analysis designed for qualitaitve thinking. It’s a command line tool that makes QDA compatible with <a href="https://plain-text.co/">textfile based social science workflows</a>, which more-or-less aligns with my overall approach. qc also plays nice with my plan to isolate potentially sensitive information on a private git submodule, and is loosely compatible with my strategy for posting memos and research outputs publicly via this website.</p>
-<p>I’m also communicating with its maintainer, Chris Proctor, who is an education researcher and computer scientist based at SUNY Buffalo. This is the perfect combination for this kind of work since he specializes in instilling computational literacies, he has the technical chops to actually develop this system, and most of all: qualitative data analysis is the bread and butter of education research, so he is developing from an informed perspective. I really like what I see so far, and I’m eager to collect data of my own so that I can maximize the full potential that this system affords.</p>
+<p>I’m using <a href="https://qualitative-coding.readthedocs.io/en/latest/index.html">qc</a>, a novel qualitative data analysis tool designed for computational thinking. It’s a command line tool that makes QDA compatible with <a href="https://plain-text.co/">textfile based social science workflows</a>, which more-or-less aligns with my overall approach. qc also plays nice with my plan to isolate potentially sensitive information on a private git submodule, and is loosely compatible with my strategy for posting memos and research outputs publicly via this website.</p>
+<p>I’m also communicating with its maintainer, Chris Proctor, who is an education researcher and computer scientist based at SUNY Buffalo. This is the perfect combination for this kind of work since he specializes in instilling computational literacies, he has the technical chops to actually develop this system, and most of all: qualitative data analysis is the bread and butter of education research, so he is developing from an informed perspective. I really like what I see so far, and I’m eager to collect data of my own so that I can maximize the full potential that this system affords. I will write another post about my experiences once I have more to report.</p>
+<section id="installing-qc" class="level3">
+<h3 class="anchored" data-anchor-id="installing-qc">Installing qc</h3>
+<p>I had a bit of a hard time installing qc using the recommended method (using <code>pipx install qualitative-coding</code>) due to NumPy and spaCy dependency issues, so I had to install from source. First I created a virtual environment:</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">python3.12</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-m</span> venv qc</span>
+<span id="cb1-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">source</span> qc/bin/activate</span></code></pre></div>
+<p>I then downloaded the source code from the <a href="https://github.com/cproctor/qualitative-coding">GitHub repo</a> and installed it within the virtual environment:</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pip</span> install qualitative-coding-main.zip</span></code></pre></div>
+<p>Then <code>cd</code> into the directory and initialize a qc project:</p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">cd</span> qc</span>
+<span id="cb3-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">qc</span> init</span></code></pre></div>
+<p>I applied some custom settings because I’m using Codium instead of VSCode. These basically replace the editor that’s called up when I use the <code>code</code> command.</p>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">codebook</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> codebook.yaml</span></span>
+<span id="cb4-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">corpus_dir</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> corpus</span></span>
+<span id="cb4-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">database</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> qualitative_coding.sqlite3</span></span>
+<span id="cb4-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">log_file</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> qualitative_coding.log</span></span>
+<span id="cb4-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">memos_dir</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> memos</span></span>
+<span id="cb4-6"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">qc_version</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.7.3</span></span>
+<span id="cb4-7"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">verbose</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">true</span></span>
+<span id="cb4-8"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">editor</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> codium</span></span>
+<span id="cb4-9"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">editors</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb4-10"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">codium</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb4-11"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> Codium</span></span>
+<span id="cb4-12"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">code_command</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'codium "{corpus_file_path}" "{codes_file_path}" --wait'</span></span>
+<span id="cb4-13"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">memo_command</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></pre></div>
+<p>I also set <code>verbose: true</code> to help troubleshoot any issues that might come up and reduce my dependence on Chris.</p>
+<p>Regarding the submodule, there is a conflict with how the qc directory had to be generated. I needed to create the qc directory using <code>venv</code>, but I also had to create it by pulling it down from the GitLab server. So I had to create the virtual environment, exit the environment, rename the directory to a placeholder name, pull down the fresh submodule, commit and push the new submodule to the parent git repository, and then copy over all the contents from the placeholder directory into the submodule (and then commit changes and push). Not really a major issue, but a minor incompatibility in the workflow that’s worth noting.</p>
 
 
+</section>
 </section>
 
  ]]></description>
   <category>website</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/tech-specs.html</guid>
-  <pubDate>Mon, 24 Mar 2025 20:07:38 GMT</pubDate>
+  <pubDate>Fri, 04 Apr 2025 20:37:50 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2025-W14)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W14.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>This was a really tough week. I did not sleep well at all. Got a lot done, though.</p>
+<ul>
+<li>Continued refining the guide for my first interview.</li>
+<li>Writing and editing new memos.</li>
+<li>Did an overview of graph databases with other members of the CITF team, to explore their potential utility for us.</li>
+<li>Did <a href="../MCHI-2025/index.html">my presentation for the MCHI research group</a>, where I basically talked about my research goals and methods.</li>
+<li>I started drafting a blog post about tech fetishism among academics.</li>
+<li>Worked a bit more on my revisions for the <a href="https://zackbatist.info/fuzzy-concrete">AAP paper</a> (got a 2-week extension).</li>
+<li>Connected with other coool postdocs at the monthly casual meetup.</li>
+<li>Participated in the monthly SSLA meeting.</li>
+<li>Attended <a href="https://www.mcgill.ca/epi-biostat-occh/channels/event/building-capacity-pragmatic-clinical-trials-canada-363513">a talk on pragmatic clinical trials</a>, which I thought was really interesting.</li>
+<li>Set up the <a href="../posts/tech-specs.html#qc">qualitative coding system</a>.</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W14.html</guid>
+  <pubDate>Fri, 04 Apr 2025 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2025-W13)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W13.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Confirmed date and time for my first interview</li>
+<li>Worked on the interview guide</li>
+<li>Continued reading about the harmonization software ecosystem, and about cataloguing</li>
+<li>Continued reading about situational analysis and qualitative research methods in general</li>
+<li>Started working on my MCHI presentation</li>
+<li>Made significant progress on the data governance paper</li>
+<li>Wrote up some notes based on a rich discussion with colleagues</li>
+<li>Created a private repo / submodule for my private files after nearly losing that data</li>
+<li>PCI-archaeo successfully recruited a recommender</li>
+<li>Worked on the fuzzy-concrete revisions over the weekend</li>
+<li>Had my biweekly update with David</li>
+<li>Participated in the Surveillance Lab journal club</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W13.html</guid>
+  <pubDate>Fri, 28 Mar 2025 04:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Week notes (2025-W12)</title>
