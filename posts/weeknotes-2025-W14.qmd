@@ -5,10 +5,12 @@ categories:
   - week notes
 ---
 
-This was a really tough week. I did not sleep well at all.
+This was a really tough week.
+I did not sleep well at all.
+Got a lot done, though.
 
 - Continued refining the guide for my first interview.
-- Writing and editing memos new.
+- Writing and editing new memos.
 - Did an overview of graph databases with other members of the CITF team, to explore their potential utility for us.
 - Did [my presentation for the MCHI research group](../MCHI-2025/index.qmd), where I basically talked about my research goals and methods.
 - I started drafting a blog post about tech fetishism among academics.
@@ -16,4 +18,4 @@ This was a really tough week. I did not sleep well at all.
 - Connected with other coool postdocs at the monthly casual meetup.
 - Participated in the monthly SSLA meeting.
 - Attended [a talk on pragmatic clinical trials](https://www.mcgill.ca/epi-biostat-occh/channels/event/building-capacity-pragmatic-clinical-trials-canada-363513), which I thought was really interesting.
-
+- Set up the [qualitative coding system](tech-specs.qmd#qc).
