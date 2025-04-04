@@ -59,6 +59,4 @@ Thumbs.db
 .hugo_build.lock
 /.luarc.json
 _site/
-
 _extensions/
-qc

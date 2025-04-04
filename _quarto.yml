@@ -6,6 +6,7 @@ project:
     - "!data/cases/"
     - "!data/interviews/"
     - "!data/memos/"
+    - "!qc/"
   preview:
     port: 7777
     browser: false
