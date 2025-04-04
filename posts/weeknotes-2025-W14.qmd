@@ -1,0 +1,19 @@
+---
+title: Week notes (2025-W14)
+date: 2025-04-04
+categories:
+  - week notes
+---
+
+This was a really tough week. I did not sleep well at all.
+
+- Continued refining the guide for my first interview.
+- Writing and editing memos new.
+- Did an overview of graph databases with other members of the CITF team, to explore their potential utility for us.
+- Did [my presentation for the MCHI research group](../MCHI-2025/index.qmd), where I basically talked about my research goals and methods.
+- I started drafting a blog post about tech fetishism among academics.
+- Worked a bit more on my revisions for the [AAP paper](https://zackbatist.info/fuzzy-concrete) (got a 2-week extension).
+- Connected with other coool postdocs at the monthly casual meetup.
+- Participated in the monthly SSLA meeting.
+- Attended [a talk on pragmatic clinical trials](https://www.mcgill.ca/epi-biostat-occh/channels/event/building-capacity-pragmatic-clinical-trials-canada-363513), which I thought was really interesting.
+
