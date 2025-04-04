@@ -4,3 +4,6 @@
 [submodule "private"]
 	path = private
 	url = http://git.mchi.mcgill.ca/zack/private
+[submodule "qc"]
+	path = qc
+	url = http://git.mchi.mcgill.ca/zack/qc.git
