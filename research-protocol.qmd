@@ -173,20 +173,6 @@ Ethics approval will be obtained before initiating the study.
 Consent forms will take into consideration the well-being, free-will and respect of the participants, including respect of privacy.
 The practices undertaken to ensure adherence to these principles are described in the [ethics protocol](ethics-protocol.qmd).
 
-## Timelime
-| Date                      | Milestone                                                 |
-| ------------------------- | --------------------------------------------------------- |
-| 2025/01/14                | Finalize ethics protocol                                  |
-| 2025/01/21                | Finalize data management plan                            |
-| 2025/01/31                | Finalize case selection and invite members to participate |
-| 2025/02/14                | Finalize interview protocol                               |
-| 2025/02/14 --- 2025/03/31 | Conduct interviews                                        |
-| 2025/04/01 --- 2025/04/30 | Prepare interview transcripts for analysis                |
-| 2025/05/01 --- 2025/05/31 | Prepare code system and develop sensitizing concepts      |
-| 2025/06/01 --- 2025/09/30 | Qualitative coding and memoing                            |
-| 2025/10/01 --- 2025/11/30 | Draft manuscripts and submit for publication              |
-| 2025/11/01 --- 2025/12/31 | Write accessible and constructive reports                 |
-
 ## References
 
 
