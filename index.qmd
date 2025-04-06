@@ -43,13 +43,13 @@ A series of key terms and their definitions, with reference to the literature an
 Some semi-structured ideas that situate my work in relation to extant literature.
 
 **Blog:**
-Updates and reflections on key events, or general thoughts I wish to share.
+Weekly updates, reflections on key events, notes on new workflows, and general thoughts I wish to share.
 
 **GitHub:**
 A link to the GitHub repository where this website's files are hosted.
 
 **Bib:**
-A biblatex file containing a continually-updated list of sources cited in all documents hosted on this website.
+A continually-updated biblatex export of my zotero library.
 
 **RSS:**
-RSS feed you can use to subscribe to the blog.
+RSS feed for the [blog](posts.qmd).
