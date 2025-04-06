@@ -1,13 +1,9 @@
 ---
 title: Data Management Plan
+description: Overview of the data that this project generates and of data processing and storage procedures.
 ---
-::: {.callout-note}
-This document is still a work in progress.
-:::
 
-This document describes the data that this research will produce and the procedures for curating data throughout the project.
-
-# Kinds of data
+## Kinds of Data
 This project relies on various data sources, including interviews, bibliographic resources and structured datasets.
 
 Interviews generate audio, video and textual resources, formatted according to the WAV, MP4 and markdown specifications, respectively.
@@ -22,34 +18,52 @@ When collecting structured data, I opt to use open text formats including CSV, J
 
 I embed all original code, including database retrieval queries and API requests, in or alongside quarto documents, where I annotate code with detailed and contextualizing comments.
 
-I am still exploring my options for QDA tooling.
-If I decide to use [MaxQDA](https://www.maxqda.com/), the data will be stored in a project file comprising a proprietary SQLite Database schema.
-Alternatively, I may use [qc](https://github.com/cproctor/qualitative-coding) which stores data across a series of text files and a barebones SQLite database.
+I use [qc](https://github.com/cproctor/qualitative-coding) for my qualitative data analysis, which stores data across a series of text files and a barebones SQLite database.
 
-# Activities, processes and workfflows
-## Data collection
-Interviews generate audio, video and textual records.
-I primarily rely on a SONY ICD-UX560 audio recorder, which contains 4GB of internal storage supplemented with a 32GB microSD card.^[See <https://weloty.com/sony-icd-ux560-review> and <https://weloty.com/using-the-sony-icd-ux560-the-4-how-tos> for more information on this audio recording device.]
+# Data Collection
+Interviews may generate audio, video and textual records.
+
+When given consent to record audio, I primarily rely on a SONY ICD-UX560 audio recorder, which contains 4GB of internal storage supplemented with a 32GB microSD card.^[See <https://weloty.com/sony-icd-ux560-review> and <https://weloty.com/using-the-sony-icd-ux560-the-4-how-tos> for more information on this audio recording device.]
 I record using the lossless 16bit 44.1 kHz Linear PCM wav format.
 
-With participants' consent, I also record video using a GoPro Hero 4 Silver action camera equipped with a 64GB microSD card.
+Video is recorded using a GoPro Hero 4 Silver action camera equipped with a 64GB microSD card.
 
 I maintain typed notes before, during and after each interview, which I may edit and re-organize to enhance clarity.
 
 Immediately after each interview, I copy the data off the recording devices and onto a dedicated project drive.
 I organize and rename files using a semantic naming scheme and then mirror all files onto physical and a cloud-based backup drives.
 
-## Processing data
-I use [FFmpeg]( https://www.ffmpeg.org/) and [Audacity](https://www.audacityteam.org/) to cut, concatenate, and clean the audio and video files if necessary.
-I generate transcripts of audio recordings following the transcription protocol.
+<!-- Overview of the naming scheme -->
 
-## Storage and backups
-I keep all data on a dedicated portable solid state drive which serves as a working directory for all research activities.
-I mirror the contents of this drive onto an identical secondary backup drive and onto cloud storage administered by the CITF using [rsync](https://rsync.samba.org/).
+# Data Processing
+I use [FFmpeg]( https://www.ffmpeg.org/) and [Audacity](https://www.audacityteam.org/) to cut, concatenate, and clean the audio and video files, if necessary.
+
+I generate transcripts using [noScribe](https://github.com/kaixxx/noScribe), which I then edit and verify manually.
+
+| Setting | Value | Reason |
+| :------ | :---- | ------ |
+| Language | English | This is the language spoken during the interview. |
+| Quality | Precise | I have the hardware to support this. |
+| Mark pause | 1sec +| Corresponds with common convention for interview transcripts. |
+| Speaker detection | 2 | This will vary depending on how many people are present during the interview. |
+| Overlapping speech | True | It is useful to detect this. |
+| Disfluencies | True | It is useful to detect this. |
+| Timestamps | False | Distracting information that provides little value, and potentially incompatible with qc. |
+
+: noScribe Configuration {tbl-colwidths="[15,10,75]"}
+
+# Storage and Backups
+All data are stored and tracked in a private repository on the MCHI GitLab instance.
+I maintain a backup on an encrypted portable solid state drive.
 
 I maintain this website where I share documentation that supports this project and reflect on the work as it progresses.
-It is hosted using GitHub Pages and is backed up using Dropbox, however no sensitive research data will pass through these services.
+It is hosted using GitHub Pages and is backed up using Dropbox, however no sensitive research data passes through these services.
 
-## Publishing and archiving
-After my research is complete, I will make a concerted effort to document all the data I will have collected and generated and deposit them in a digital repository operated by a dedicated team of digital archivists certified to curate and preserve research data in perpetuity.
+# Publishing and Archiving
+I make significant effort to document all the data as I collect them.
+Whenever possible, I record metata within the documents themselves, and if necessary I record relevant metadata in a separate and related file.
+This will facilitate access and reuse by my future self and by others.
 
+I will explore my options for making the data accessible.
+This will depend on compliance with ethical concerns [see @hertz2021].
+The project website will likely serve as the primary vehicle for sharing public data, and I will deposit its contents in a professional archive as well.
