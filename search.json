@@ -621,47 +621,17 @@
     "href": "data-management.html",
     "title": "Data Management Plan",
     "section": "",
-    "text": "Note\n\n\n\nThis document is still a work in progress.\nThis document describes the data that this research will produce and the procedures for curating data throughout the project.",
+    "text": "This project relies on various data sources, including interviews, bibliographic resources and structured datasets.\nInterviews generate audio, video and textual resources, formatted according to the WAV, MP4 and markdown specifications, respectively.\nWhile reviewing extant literature, I compile numerous published PDF and HTML documents. I maintain a bibliographic database using Zotero and continually export core information to BibLaTeX format using the Better BibTeX add-on.\nI prioritize writing all documents using plaintext file formats. I rely on Quarto, an open-source scientific and technical publishing system, to generate HTML, PDF and DOCX files from singular markdown files via the pandoc conversion egnine and the LaTeX typesetting system.\nWhen collecting structured data, I opt to use open text formats including CSV, JSON and XML, however I may also use XLSX format to maintain interoperability with collaborators.\nI embed all original code, including database retrieval queries and API requests, in or alongside quarto documents, where I annotate code with detailed and contextualizing comments.\nI use qc for my qualitative data analysis, which stores data across a series of text files and a barebones SQLite database.",
     "crumbs": [
       "Data Management"
     ]
   },
   {
-    "objectID": "data-management.html#data-collection",
-    "href": "data-management.html#data-collection",
+    "objectID": "data-management.html#kinds-of-data",
+    "href": "data-management.html#kinds-of-data",
     "title": "Data Management Plan",
-    "section": "Data collection",
-    "text": "Data collection\nInterviews generate audio, video and textual records. I primarily rely on a SONY ICD-UX560 audio recorder, which contains 4GB of internal storage supplemented with a 32GB microSD card.1 I record using the lossless 16bit 44.1 kHz Linear PCM wav format.\n1 See https://weloty.com/sony-icd-ux560-review and https://weloty.com/using-the-sony-icd-ux560-the-4-how-tos for more information on this audio recording device.With participants’ consent, I also record video using a GoPro Hero 4 Silver action camera equipped with a 64GB microSD card.\nI maintain typed notes before, during and after each interview, which I may edit and re-organize to enhance clarity.\nImmediately after each interview, I copy the data off the recording devices and onto a dedicated project drive. I organize and rename files using a semantic naming scheme and then mirror all files onto physical and a cloud-based backup drives.",
-    "crumbs": [
-      "Data Management"
-    ]
-  },
-  {
-    "objectID": "data-management.html#processing-data",
-    "href": "data-management.html#processing-data",
-    "title": "Data Management Plan",
-    "section": "Processing data",
-    "text": "Processing data\nI use FFmpeg and Audacity to cut, concatenate, and clean the audio and video files if necessary. I generate transcripts of audio recordings following the transcription protocol.",
-    "crumbs": [
-      "Data Management"
-    ]
-  },
-  {
-    "objectID": "data-management.html#storage-and-backups",
-    "href": "data-management.html#storage-and-backups",
-    "title": "Data Management Plan",
-    "section": "Storage and backups",
-    "text": "Storage and backups\nI keep all data on a dedicated portable solid state drive which serves as a working directory for all research activities. I mirror the contents of this drive onto an identical secondary backup drive and onto cloud storage administered by the CITF using rsync.\nI maintain this website where I share documentation that supports this project and reflect on the work as it progresses. It is hosted using GitHub Pages and is backed up using Dropbox, however no sensitive research data will pass through these services.",
-    "crumbs": [
-      "Data Management"
-    ]
-  },
-  {
-    "objectID": "data-management.html#publishing-and-archiving",
-    "href": "data-management.html#publishing-and-archiving",
-    "title": "Data Management Plan",
-    "section": "Publishing and archiving",
-    "text": "Publishing and archiving\nAfter my research is complete, I will make a concerted effort to document all the data I will have collected and generated and deposit them in a digital repository operated by a dedicated team of digital archivists certified to curate and preserve research data in perpetuity.",
+    "section": "",
+    "text": "This project relies on various data sources, including interviews, bibliographic resources and structured datasets.\nInterviews generate audio, video and textual resources, formatted according to the WAV, MP4 and markdown specifications, respectively.\nWhile reviewing extant literature, I compile numerous published PDF and HTML documents. I maintain a bibliographic database using Zotero and continually export core information to BibLaTeX format using the Better BibTeX add-on.\nI prioritize writing all documents using plaintext file formats. I rely on Quarto, an open-source scientific and technical publishing system, to generate HTML, PDF and DOCX files from singular markdown files via the pandoc conversion egnine and the LaTeX typesetting system.\nWhen collecting structured data, I opt to use open text formats including CSV, JSON and XML, however I may also use XLSX format to maintain interoperability with collaborators.\nI embed all original code, including database retrieval queries and API requests, in or alongside quarto documents, where I annotate code with detailed and contextualizing comments.\nI use qc for my qualitative data analysis, which stores data across a series of text files and a barebones SQLite database.",
     "crumbs": [
       "Data Management"
     ]
@@ -721,7 +691,7 @@
     "href": "index.html",
     "title": "CITF-Postdoc",
     "section": "",
-    "text": "This website serves as a hub for my postdoctoral research at McGill University’s Covid-19 Immunity Task Force Databank.\nThe project is concerned with articulating social, collaborative and discursive aspects of epidemiological data-sharing initiatives, and how they relate to, overlap with or conflict with technical, institutional and epistemic factors.\nThis website hosts a series of preparatory protocols that structure the project, as well as notes about key concepts and reflections on the progress of work. Please keep in mind that this is a continually evolving site and its contents may change as the project goes on. All content is hosted and tracked at github.com/zackbatist/CITF-Postdoc.\nHere’s an overview of what’s on this site:\nContext: My motivations for doing this work and the circumstances that surround the establishment of the project.\nResearch Protocol: Outlines the project’s overall vision and contextualizes it in relation to specific objectives.\nCase Selection: Articulates the parameters that inform how cases are selected.\nEthics Protocol: Specifies ethical considerations, including risks of harm and strategies for mitigating them.\nInterview Protocol: The questions I will be asking research participants, including the rationale for asking them.\nData Management: Procedures that circumscribe collection, management and curation of research data.\nQDA Protocol: The code system, memoing guidelines, and specific QDA procedures.\nGlossary: A series of key terms and their definitions, with reference to the literature and expanded notes about their meanings.\nNotes: Some semi-structured ideas that situate my work in relation to extant literature.\nBlog: Updates and reflections on key events, or general thoughts I wish to share.\nGitHub: A link to the GitHub repository where this website’s files are hosted.\nBib: A biblatex file containing a continually-updated list of sources cited in all documents hosted on this website.\nRSS: RSS feed you can use to subscribe to the blog.",
+    "text": "This website serves as a hub for my postdoctoral research at McGill University’s Covid-19 Immunity Task Force Databank.\nThe project is concerned with articulating social, collaborative and discursive aspects of epidemiological data-sharing initiatives, and how they relate to, overlap with or conflict with technical, institutional and epistemic factors.\nThis website hosts a series of preparatory protocols that structure the project, as well as notes about key concepts and reflections on the progress of work. Please keep in mind that this is a continually evolving site and its contents may change as the project goes on. All content is hosted and tracked at github.com/zackbatist/CITF-Postdoc.\nHere’s an overview of what’s on this site:\nContext: My motivations for doing this work and the circumstances that surround the establishment of the project.\nResearch Protocol: Outlines the project’s overall vision and contextualizes it in relation to specific objectives.\nCase Selection: Articulates the parameters that inform how cases are selected.\nEthics Protocol: Specifies ethical considerations, including risks of harm and strategies for mitigating them.\nInterview Protocol: The questions I will be asking research participants, including the rationale for asking them.\nData Management: Procedures that circumscribe collection, management and curation of research data.\nQDA Protocol: The code system, memoing guidelines, and specific QDA procedures.\nGlossary: A series of key terms and their definitions, with reference to the literature and expanded notes about their meanings.\nNotes: Some semi-structured ideas that situate my work in relation to extant literature.\nBlog: Weekly updates, reflections on key events, notes on new workflows, and general thoughts I wish to share.\nGitHub: A link to the GitHub repository where this website’s files are hosted.\nBib: A continually-updated biblatex export of my zotero library.\nRSS: RSS feed for the blog.",
     "crumbs": [
       "Home"
     ]
@@ -731,7 +701,7 @@
     "href": "notes.html",
     "title": "Notes",
     "section": "",
-    "text": "Modified\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nApr 4, 2025\n\n\nCataloguing\n\n\n \n\n\n\n\nApr 4, 2025\n\n\nOther research about harmonization\n\n\nreading-notes\n\n\n\n\nMar 26, 2025\n\n\nTricks of the Trade\n\n\nreading\n\n\n\n\nMar 25, 2025\n\n\nSituational analysis\n\n\nsituational analysis, QDA methods, reading\n\n\n\n\nMar 24, 2025\n\n\nCoding methods\n\n\nQDA methods, coding, reading\n\n\n\n\nMar 24, 2025\n\n\nMaelstrom reading notes\n\n\nreading\n\n\n\n\nMar 24, 2025\n\n\nMethodology notes\n\n\nreading, general thoughts\n\n\n\n\nMar 24, 2025\n\n\nPotential cases\n\n\ncases, brainstorming\n\n\n\n\n\nNo matching items",
+    "text": "Modified\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nApr 6, 2025\n\n\nCataloguing\n\n\n \n\n\n\n\nApr 6, 2025\n\n\nOther research about harmonization\n\n\nreading-notes\n\n\n\n\nMar 26, 2025\n\n\nTricks of the Trade\n\n\nreading\n\n\n\n\nMar 25, 2025\n\n\nSituational analysis\n\n\nsituational analysis, QDA methods, reading\n\n\n\n\nMar 24, 2025\n\n\nCoding methods\n\n\nQDA methods, coding, reading\n\n\n\n\nMar 24, 2025\n\n\nMaelstrom reading notes\n\n\nreading\n\n\n\n\nMar 24, 2025\n\n\nMethodology notes\n\n\nreading, general thoughts\n\n\n\n\nMar 24, 2025\n\n\nPotential cases\n\n\ncases, brainstorming\n\n\n\n\n\nNo matching items",
     "crumbs": [
       "Notes"
     ]

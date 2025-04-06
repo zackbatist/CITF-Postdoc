@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Overview of the data that this project generates and of data processing and storage procedures.">
 
 <title>Data Management Plan – CITF-Postdoc</title>
 <style>
@@ -20,7 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -195,14 +216,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#kinds-of-data" id="toc-kinds-of-data" class="nav-link active" data-scroll-target="#kinds-of-data">Kinds of data</a></li>
-  <li><a href="#activities-processes-and-workfflows" id="toc-activities-processes-and-workfflows" class="nav-link" data-scroll-target="#activities-processes-and-workfflows">Activities, processes and workfflows</a>
-  <ul class="collapse">
-  <li><a href="#data-collection" id="toc-data-collection" class="nav-link" data-scroll-target="#data-collection">Data collection</a></li>
-  <li><a href="#processing-data" id="toc-processing-data" class="nav-link" data-scroll-target="#processing-data">Processing data</a></li>
-  <li><a href="#storage-and-backups" id="toc-storage-and-backups" class="nav-link" data-scroll-target="#storage-and-backups">Storage and backups</a></li>
-  <li><a href="#publishing-and-archiving" id="toc-publishing-and-archiving" class="nav-link" data-scroll-target="#publishing-and-archiving">Publishing and archiving</a></li>
-  </ul></li>
+  <li><a href="#kinds-of-data" id="toc-kinds-of-data" class="nav-link active" data-scroll-target="#kinds-of-data">Kinds of Data</a></li>
+  <li><a href="#data-collection" id="toc-data-collection" class="nav-link" data-scroll-target="#data-collection">Data Collection</a></li>
+  <li><a href="#data-processing" id="toc-data-processing" class="nav-link" data-scroll-target="#data-processing">Data Processing</a></li>
+  <li><a href="#storage-and-backups" id="toc-storage-and-backups" class="nav-link" data-scroll-target="#storage-and-backups">Storage and Backups</a></li>
+  <li><a href="#publishing-and-archiving" id="toc-publishing-and-archiving" class="nav-link" data-scroll-target="#publishing-and-archiving">Publishing and Archiving</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/data-management.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
@@ -214,6 +232,11 @@ ul.task-list li input[type="checkbox"] {
 <h1 class="title">Data Management Plan</h1>
 </div>
 
+<div>
+  <div class="description">
+    Overview of the data that this project generates and of data processing and storage procedures.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -228,58 +251,102 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This document is still a work in progress.</p>
-</div>
-</div>
-<p>This document describes the data that this research will produce and the procedures for curating data throughout the project.</p>
-<section id="kinds-of-data" class="level1">
-<h1>Kinds of data</h1>
+<section id="kinds-of-data" class="level2">
+<h2 class="anchored" data-anchor-id="kinds-of-data">Kinds of Data</h2>
 <p>This project relies on various data sources, including interviews, bibliographic resources and structured datasets.</p>
 <p>Interviews generate audio, video and textual resources, formatted according to the WAV, MP4 and markdown specifications, respectively.</p>
 <p>While reviewing extant literature, I compile numerous published PDF and HTML documents. I maintain a bibliographic database using <a href="https://www.zotero.org/">Zotero</a> and continually export core information to <a href="https://www.overleaf.com/learn/latex/Bibliography_management_with_biblatex">BibLaTeX</a> format using the <a href="https://retorque.re/zotero-better-bibtex/">Better BibTeX</a> add-on.</p>
 <p>I prioritize writing all documents using plaintext file formats. I rely on <a href="https://quarto.org/">Quarto</a>, an open-source scientific and technical publishing system, to generate HTML, PDF and DOCX files from singular markdown files via the <a href="https://pandoc.org/">pandoc</a> conversion egnine and the <a href="https://www.latex-project.org/">LaTeX</a> typesetting system.</p>
 <p>When collecting structured data, I opt to use open text formats including CSV, JSON and XML, however I may also use XLSX format to maintain interoperability with collaborators.</p>
 <p>I embed all original code, including database retrieval queries and API requests, in or alongside quarto documents, where I annotate code with detailed and contextualizing comments.</p>
-<p>I am still exploring my options for QDA tooling. If I decide to use <a href="https://www.maxqda.com/">MaxQDA</a>, the data will be stored in a project file comprising a proprietary SQLite Database schema. Alternatively, I may use <a href="https://github.com/cproctor/qualitative-coding">qc</a> which stores data across a series of text files and a barebones SQLite database.</p>
+<p>I use <a href="https://github.com/cproctor/qualitative-coding">qc</a> for my qualitative data analysis, which stores data across a series of text files and a barebones SQLite database.</p>
 </section>
-<section id="activities-processes-and-workfflows" class="level1 page-columns page-full">
-<h1>Activities, processes and workfflows</h1>
-<section id="data-collection" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="data-collection">Data collection</h2>
-<p>Interviews generate audio, video and textual records. I primarily rely on a SONY ICD-UX560 audio recorder, which contains 4GB of internal storage supplemented with a 32GB microSD card.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> I record using the lossless 16bit 44.1 kHz Linear PCM wav format.</p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;See <a href="https://weloty.com/sony-icd-ux560-review" class="uri">https://weloty.com/sony-icd-ux560-review</a> and <a href="https://weloty.com/using-the-sony-icd-ux560-the-4-how-tos" class="uri">https://weloty.com/using-the-sony-icd-ux560-the-4-how-tos</a> for more information on this audio recording device.</p></div></div><p>With participants’ consent, I also record video using a GoPro Hero 4 Silver action camera equipped with a 64GB microSD card.</p>
+<section id="data-collection" class="level1 page-columns page-full">
+<h1>Data Collection</h1>
+<p>Interviews may generate audio, video and textual records.</p>
+<p>When given consent to record audio, I primarily rely on a SONY ICD-UX560 audio recorder, which contains 4GB of internal storage supplemented with a 32GB microSD card.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> I record using the lossless 16bit 44.1 kHz Linear PCM wav format.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;See <a href="https://weloty.com/sony-icd-ux560-review" class="uri">https://weloty.com/sony-icd-ux560-review</a> and <a href="https://weloty.com/using-the-sony-icd-ux560-the-4-how-tos" class="uri">https://weloty.com/using-the-sony-icd-ux560-the-4-how-tos</a> for more information on this audio recording device.</p></div></div><p>Video is recorded using a GoPro Hero 4 Silver action camera equipped with a 64GB microSD card.</p>
 <p>I maintain typed notes before, during and after each interview, which I may edit and re-organize to enhance clarity.</p>
 <p>Immediately after each interview, I copy the data off the recording devices and onto a dedicated project drive. I organize and rename files using a semantic naming scheme and then mirror all files onto physical and a cloud-based backup drives.</p>
+<!-- Overview of the naming scheme -->
 </section>
-<section id="processing-data" class="level2">
-<h2 class="anchored" data-anchor-id="processing-data">Processing data</h2>
-<p>I use <a href="https://www.ffmpeg.org/">FFmpeg</a> and <a href="https://www.audacityteam.org/">Audacity</a> to cut, concatenate, and clean the audio and video files if necessary. I generate transcripts of audio recordings following the transcription protocol.</p>
+<section id="data-processing" class="level1">
+<h1>Data Processing</h1>
+<p>I use <a href="https://www.ffmpeg.org/">FFmpeg</a> and <a href="https://www.audacityteam.org/">Audacity</a> to cut, concatenate, and clean the audio and video files, if necessary.</p>
+<p>I generate transcripts using <a href="https://github.com/kaixxx/noScribe">noScribe</a>, which I then edit and verify manually.</p>
+<table class="caption-top table">
+<caption>noScribe Configuration</caption>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 10%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Setting</th>
+<th style="text-align: left;">Value</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Language</td>
+<td style="text-align: left;">English</td>
+<td>This is the language spoken during the interview.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Quality</td>
+<td style="text-align: left;">Precise</td>
+<td>I have the hardware to support this.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mark pause</td>
+<td style="text-align: left;">1sec +</td>
+<td>Corresponds with common convention for interview transcripts.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Speaker detection</td>
+<td style="text-align: left;">2</td>
+<td>This will vary depending on how many people are present during the interview.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Overlapping speech</td>
+<td style="text-align: left;">True</td>
+<td>It is useful to detect this.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Disfluencies</td>
+<td style="text-align: left;">True</td>
+<td>It is useful to detect this.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Timestamps</td>
+<td style="text-align: left;">False</td>
+<td>Distracting information that provides little value, and potentially incompatible with qc.</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="storage-and-backups" class="level2">
-<h2 class="anchored" data-anchor-id="storage-and-backups">Storage and backups</h2>
-<p>I keep all data on a dedicated portable solid state drive which serves as a working directory for all research activities. I mirror the contents of this drive onto an identical secondary backup drive and onto cloud storage administered by the CITF using <a href="https://rsync.samba.org/">rsync</a>.</p>
-<p>I maintain this website where I share documentation that supports this project and reflect on the work as it progresses. It is hosted using GitHub Pages and is backed up using Dropbox, however no sensitive research data will pass through these services.</p>
+<section id="storage-and-backups" class="level1">
+<h1>Storage and Backups</h1>
+<p>All data are stored and tracked in a private repository on the MCHI GitLab instance. I maintain a backup on an encrypted portable solid state drive.</p>
+<p>I maintain this website where I share documentation that supports this project and reflect on the work as it progresses. It is hosted using GitHub Pages and is backed up using Dropbox, however no sensitive research data passes through these services.</p>
 </section>
-<section id="publishing-and-archiving" class="level2">
-<h2 class="anchored" data-anchor-id="publishing-and-archiving">Publishing and archiving</h2>
-<p>After my research is complete, I will make a concerted effort to document all the data I will have collected and generated and deposit them in a digital repository operated by a dedicated team of digital archivists certified to curate and preserve research data in perpetuity.</p>
+<section id="publishing-and-archiving" class="level1">
+<h1>Publishing and Archiving</h1>
+<p>I make significant effort to document all the data as I collect them. Whenever possible, I record metata within the documents themselves, and if necessary I record relevant metadata in a separate and related file. This will facilitate access and reuse by my future self and by others.</p>
+<p>I will explore my options for making the data accessible. This will depend on compliance with ethical concerns <span class="citation" data-cites="hertz2021">(see <a href="#ref-hertz2021" role="doc-biblioref">Hertz 2021</a>)</span>. The project website will likely serve as the primary vehicle for sharing public data, and I will deposit its contents in a professional archive as well.</p>
 
 
-</section>
+
 </section>
 
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-hertz2021" class="csl-entry" role="listitem">
+Hertz, Ellen. 2021. <span>“Open <span>Science</span> and <span>Data Management</span> in <span>Anthropological Research</span>: <span>Position Paper</span> of the <span>Swiss Anthropological Association</span>.”</span> Swiss Anthropological Association.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
