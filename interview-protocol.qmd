@@ -1,5 +1,6 @@
 ---
 title: Interview Protocol
+description: Overview of the general interviewing strategy and the kinds of questions I ask.
 ---
 
 # Interview records

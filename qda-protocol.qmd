@@ -55,28 +55,28 @@ However, for the sake of simplicity, I not really make this distinction between 
 ## Values coding
 
 - Prefix: `VAL:`
-- [Notes on open coding](notes/coding-methods.qmd#values-coding)
+- [Notes on values coding](notes/coding-methods.qmd#values-coding)
 
 ## Versus coding
 
 - Prefix: `VER:`
-- [Notes on open coding](notes/coding-methods.qmd#versus-coding)
+- [Notes on versus coding](notes/coding-methods.qmd#versus-coding)
 
 ## Domain / taxonomic coding
 
 - Prefix: `X:`
-- [Notes on open coding](notes/coding-methods.qmd#domain-and-taxonomic-coding)
+- [Notes on domain and taxonomic coding](notes/coding-methods.qmd#domain-and-taxonomic-coding)
 
 ## In vivo coding
 
 - Prefix: `IV:`
-- [Notes on open coding](notes/coding-methods.qmd#in-vivo-coding)
+- [Notes on in vivo coding](notes/coding-methods.qmd#in-vivo-coding)
 
 ## Attribute coding
 Maintain a separate document with poeple's and projects' names, affiliations, objectives, etc, as a way to keep track of them all.
 This may turn into a memo document in its own right.
 
-- [Notes on open coding](notes/coding-methods.qmd#attribute-coding)
+- [Notes on attribute coding](notes/coding-methods.qmd#attribute-coding)
 
 
 # Memos
