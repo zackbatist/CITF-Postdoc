@@ -1,5 +1,107 @@
 ---
 title: Qualitaive Data Analysis Protocol
+description: Overview of analytical tools, methods and techniques.
 ---
 
-This document outlines the analytical tools, methods and techniques.
+# Data Collection
+- Patterns and processes that support theotetical sampling
+- How are interview guides and case files prepared?
+- How does memo-writing feed back into data collection?
+- Post-interview reflections
+
+# Data Processing
+I use an entirely locally-hosted whisper model to generate an initial transcript of the audio recording.
+I then manually edit the transcript to correct any errors in the computer-generated version.
+Given the accuracy of the whisper model, corrections tend to be simply resolve mis-spellings of proper names of people and projects (and their acronyms), re-assign my affirmations to interviewees' responses to my own speaker label, and correct any minor issues deriving from the model not properly interpreting interviewees' accents.
+I then run a basic spell checker to find any blatant errors and to ensure consistency.
+I rely on find and replace functions to resolve these issues en masse.
+
+Some changes to the transcript can not really be anticipated during the data preparation phase.
+For instance, during coding, I may modify the transcript to make minor correctuons that I missed while transcribing, such as mis-capitalization or unresolved trailing blank spaces following a terminal period.
+These corrections are fine as long as meaning is preserved or clarified, and as long as the trancripts and qc coding files remain consistent.
+Regarding this latter point, since the reoslution is limited to line numbers, this will be ok as long as I add an equal number of correspnding lines to the same position in the codings file.
+
+Once the project is complete or a transcript is fully coded, I will copy the file from the qc corpus directory into the data directory and mark it up using markdown for easier publishing.
+
+# Coding
+See my [notes on coding](notes/methodology-notes.qmd#coding) and my [notes on specific coding methods](notes/coding-methods.qmd).
+
+## Open coding
+Open coding (also sometimes referred to as initial coding) constitutes a first pass through data.
+I go through the transcript line by line, remaining open to all theoretical directions and interpretations that arise.
+It is akin to a brainstorming session.
+
+Essentially serves asn opportunity to reflect deeply on the contents and nuances of the data and to begin taking ownership over them.
+
+I also engage in open-ended memo-writing pertaining to specific passages within a transcipt, similar to writing in-document memos using MaxQDA.
+These are stored in a single file associated with the interview transcript, with reference to specific line numbers and labelled subheadings when appropriate.
+
+This also relates to [holistic coding](notes/coding-methods.qmd#holistic-coding), which is similar to open/initial coding, but operates at a coarser grain.
+Holistic coding is useful for "chunking" the data into broader topics as a preliminary step for more detailed analysis later on.
+However, for the sake of simplicity, I not really make this distinction between open and holisitc coding methods in my coding processes.
+
+- Prefix: `OPEN:`
+- [Notes on open coding](notes/coding-methods.qmd#initial-coding)
+
+## Process coding
+
+- Prefix: `ING:`
+- [Notes on process coding](notes/coding-methods.qmd#process-coding)
+
+## Values coding
+
+- Prefix: `VAL:`
+- [Notes on open coding](notes/coding-methods.qmd#values-coding)
+
+## Versus coding
+
+- Prefix: `VER:`
+- [Notes on open coding](notes/coding-methods.qmd#versus-coding)
+
+## Domain / taxonomic coding
+
+- Prefix: `X:`
+- [Notes on open coding](notes/coding-methods.qmd#domain-and-taxonomic-coding)
+
+## In vivo coding
+
+- Prefix: `IV:`
+- [Notes on open coding](notes/coding-methods.qmd#in-vivo-coding)
+
+## Attribute coding
+Maintain a separate document with poeple's and projects' names, affiliations, objectives, etc, as a way to keep track of them all.
+This may turn into a memo document in its own right.
+
+- [Notes on open coding](notes/coding-methods.qmd#attribute-coding)
+
+
+# Memos
+See my [notes on memo-writing methods](notes/methodology-notes.qmd#memos).
+
+## Kinds of memos
+I find memos hard to classify and distinguish.
+For instance, when I attempt to simply describe an interaction that I observed or participated in, which would typically be classified as descriptive field notes, I often find myself offering interpreations alongside my accounts of what happened.
+At the same time, there are some clear distinctions between these accounts of events, memos about situational maps, or general reflections about the strange epidemiological world I'm encountering.
+I therefore lump most of these into the category of "memo" (and stored under the [data/memos/](data/memos/index.qmd) directory), and append tags to the metadata that indicate the context in which the memo was created.
+Some common tags include:
+
+- situational map
+- in-document memo
+- descriptive field notes
+- post-interview reflections
+- reflection on an encounter
+
+## Titles and descriptions
+I find it kind of difficult to provide very brief titles for memos, but there is a lot of value in writing brief descriptive summaries.
+Those are probably better quality and more helpful than the titles themselves.
+
+I also struggle with the file names.
+Sometimes it is appropriate to use a very simple series of hyphenated words, especially if I plan on adding content or editing the document in the future.
+But in situations where I am reflecting on a speciifc encounter, I may prefer to use a datestamp, with or without a series of descriptive terms (usually borrowed from the title).
+
+For memos that are linked to other documents, such as in-document memos associated with a collection of files collected during an interview (transcript, recordings, etc), then I put the memo in the folder where those materials are kept and five the memos corresponding names.
+
+## Analyzing memos
+I may import memos into qc for their analysis as research materials in their own right.
+I prefer to analyze memos that are more descriptive and less interpretive, or that have a basis in what my informants say, rather than what I say.
+
