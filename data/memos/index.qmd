@@ -1,0 +1,16 @@
+---
+title: Memos
+author: ""
+date: ""
+repo-actions: false
+toc: false
+format-links: false
+---
+
+**Journals** are reflections on my work as it progresses, a place to document my hesitations, anticipations, hopes and worries.
+
+**Field notes** comprise noted observations of participants' behaviours and elicitations.
+
+**Memos** are where observations coalesce into more concrete ideas, where complex ideas take root.
+
+**Jottings** are random scraps, which may be trivial or grand but not necessarily good or related to the research.

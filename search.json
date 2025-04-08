@@ -691,7 +691,7 @@
     "href": "notes.html",
     "title": "Notes",
     "section": "",
-    "text": "Modified\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nApr 6, 2025\n\n\nCataloguing\n\n\n \n\n\n\n\nApr 6, 2025\n\n\nOther research about harmonization\n\n\nreading-notes\n\n\n\n\nMar 26, 2025\n\n\nTricks of the Trade\n\n\nreading\n\n\n\n\nMar 25, 2025\n\n\nSituational analysis\n\n\nsituational analysis, QDA methods, reading\n\n\n\n\nMar 24, 2025\n\n\nCoding methods\n\n\nQDA methods, coding, reading\n\n\n\n\nMar 24, 2025\n\n\nMaelstrom reading notes\n\n\nreading\n\n\n\n\nMar 24, 2025\n\n\nMethodology notes\n\n\nreading, general thoughts\n\n\n\n\nMar 24, 2025\n\n\nPotential cases\n\n\ncases, brainstorming\n\n\n\n\n\nNo matching items",
+    "text": "Modified\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nApr 8, 2025\n\n\nCataloguing\n\n\n \n\n\n\n\nApr 8, 2025\n\n\nOther research about harmonization\n\n\nreading-notes\n\n\n\n\nMar 26, 2025\n\n\nTricks of the Trade\n\n\nreading\n\n\n\n\nMar 25, 2025\n\n\nSituational analysis\n\n\nsituational analysis, QDA methods, reading\n\n\n\n\nMar 24, 2025\n\n\nCoding methods\n\n\nQDA methods, coding, reading\n\n\n\n\nMar 24, 2025\n\n\nMaelstrom reading notes\n\n\nreading\n\n\n\n\nMar 24, 2025\n\n\nMethodology notes\n\n\nreading, general thoughts\n\n\n\n\nMar 24, 2025\n\n\nPotential cases\n\n\ncases, brainstorming\n\n\n\n\n\nNo matching items",
     "crumbs": [
       "Notes"
     ]
@@ -988,7 +988,107 @@
     "href": "qda-protocol.html",
     "title": "Qualitaive Data Analysis Protocol",
     "section": "",
-    "text": "This document outlines the analytical tools, methods and techniques.",
+    "text": "Note\n\n\n\nThis document is still a work in progress.",
+    "crumbs": [
+      "QDA Protocol"
+    ]
+  },
+  {
+    "objectID": "qda-protocol.html#open-coding",
+    "href": "qda-protocol.html#open-coding",
+    "title": "Qualitaive Data Analysis Protocol",
+    "section": "Open coding",
+    "text": "Open coding\nOpen coding (also sometimes referred to as initial coding) constitutes a first pass through data. I go through the transcript line by line, remaining open to all theoretical directions and interpretations that arise. It is akin to a brainstorming session.\nEssentially serves asn opportunity to reflect deeply on the contents and nuances of the data and to begin taking ownership over them.\nI also engage in open-ended memo-writing pertaining to specific passages within a transcipt, similar to writing in-document memos using MaxQDA. These are stored in a single file associated with the interview transcript, with reference to specific line numbers and labelled subheadings when appropriate.\nThis also relates to holistic coding, which is similar to open/initial coding, but operates at a coarser grain. Holistic coding is useful for “chunking” the data into broader topics as a preliminary step for more detailed analysis later on. However, for the sake of simplicity, I not really make this distinction between open and holisitc coding methods in my coding processes.\n\nPrefix: OPEN:\nNotes on open coding",
+    "crumbs": [
+      "QDA Protocol"
+    ]
+  },
+  {
+    "objectID": "qda-protocol.html#process-coding",
+    "href": "qda-protocol.html#process-coding",
+    "title": "Qualitaive Data Analysis Protocol",
+    "section": "Process coding",
+    "text": "Process coding\n\nPrefix: ING:\nNotes on process coding",
+    "crumbs": [
+      "QDA Protocol"
+    ]
+  },
+  {
+    "objectID": "qda-protocol.html#values-coding",
+    "href": "qda-protocol.html#values-coding",
+    "title": "Qualitaive Data Analysis Protocol",
+    "section": "Values coding",
+    "text": "Values coding\n\nPrefix: VAL:\nNotes on open coding",
+    "crumbs": [
+      "QDA Protocol"
+    ]
+  },
+  {
+    "objectID": "qda-protocol.html#versus-coding",
+    "href": "qda-protocol.html#versus-coding",
+    "title": "Qualitaive Data Analysis Protocol",
+    "section": "Versus coding",
+    "text": "Versus coding\n\nPrefix: VER:\nNotes on open coding",
+    "crumbs": [
+      "QDA Protocol"
+    ]
+  },
+  {
+    "objectID": "qda-protocol.html#domain-taxonomic-coding",
+    "href": "qda-protocol.html#domain-taxonomic-coding",
+    "title": "Qualitaive Data Analysis Protocol",
+    "section": "Domain / taxonomic coding",
+    "text": "Domain / taxonomic coding\n\nPrefix: X:\nNotes on open coding",
+    "crumbs": [
+      "QDA Protocol"
+    ]
+  },
+  {
+    "objectID": "qda-protocol.html#in-vivo-coding",
+    "href": "qda-protocol.html#in-vivo-coding",
+    "title": "Qualitaive Data Analysis Protocol",
+    "section": "In vivo coding",
+    "text": "In vivo coding\n\nPrefix: IV:\nNotes on open coding",
+    "crumbs": [
+      "QDA Protocol"
+    ]
+  },
+  {
+    "objectID": "qda-protocol.html#attribute-coding",
+    "href": "qda-protocol.html#attribute-coding",
+    "title": "Qualitaive Data Analysis Protocol",
+    "section": "Attribute coding",
+    "text": "Attribute coding\nMaintain a separate document with poeple’s and projects’ names, affiliations, objectives, etc, as a way to keep track of them all. This may turn into a memo document in its own right.\n\nNotes on open coding",
+    "crumbs": [
+      "QDA Protocol"
+    ]
+  },
+  {
+    "objectID": "qda-protocol.html#kinds-of-memos",
+    "href": "qda-protocol.html#kinds-of-memos",
+    "title": "Qualitaive Data Analysis Protocol",
+    "section": "Kinds of memos",
+    "text": "Kinds of memos\nI find memos hard to classify and distinguish. For instance, when I attempt to simply describe an interaction that I observed or participated in, which would typically be classified as descriptive field notes, I often find myself offering interpreations alongside my accounts of what happened. At the same time, there are some clear distinctions between these accounts of events, memos about situational maps, or general reflections about the strange epidemiological world I’m encountering. I therefore lump most of these into the category of “memo” (and stored under the data/memos/ directory), and append tags to the metadata that indicate the context in which the memo was created. Some common tags include:\n\nsituational map\nin-document memo\ndescriptive field notes\npost-interview reflections\nreflection on an encounter",
+    "crumbs": [
+      "QDA Protocol"
+    ]
+  },
+  {
+    "objectID": "qda-protocol.html#titles-and-descriptions",
+    "href": "qda-protocol.html#titles-and-descriptions",
+    "title": "Qualitaive Data Analysis Protocol",
+    "section": "Titles and descriptions",
+    "text": "Titles and descriptions\nI find it kind of difficult to provide very brief titles for memos, but there is a lot of value in writing brief descriptive summaries. Those are probably better quality and more helpful than the titles themselves.\nI also struggle with the file names. Sometimes it is appropriate to use a very simple series of hyphenated words, especially if I plan on adding content or editing the document in the future. But in situations where I am reflecting on a speciifc encounter, I may prefer to use a datestamp, with or without a series of descriptive terms (usually borrowed from the title).\nFor memos that are linked to other documents, such as in-document memos associated with a collection of files collected during an interview (transcript, recordings, etc), then I put the memo in the folder where those materials are kept and five the memos corresponding names.",
+    "crumbs": [
+      "QDA Protocol"
+    ]
+  },
+  {
+    "objectID": "qda-protocol.html#analyzing-memos",
+    "href": "qda-protocol.html#analyzing-memos",
+    "title": "Qualitaive Data Analysis Protocol",
+    "section": "Analyzing memos",
+    "text": "Analyzing memos\nI may import memos into qc for their analysis as research materials in their own right. I prefer to analyze memos that are more descriptive and less interpretive, or that have a basis in what my informants say, rather than what I say.",
     "crumbs": [
       "QDA Protocol"
     ]

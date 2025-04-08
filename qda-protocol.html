@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Overview of analytical tools, methods and techniques.">
 
 <title>Qualitaive Data Analysis Protocol – CITF-Postdoc</title>
 <style>
@@ -190,8 +191,31 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="3">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-collection" id="toc-data-collection" class="nav-link active" data-scroll-target="#data-collection">Data Collection</a></li>
+  <li><a href="#data-processing" id="toc-data-processing" class="nav-link" data-scroll-target="#data-processing">Data Processing</a></li>
+  <li><a href="#coding" id="toc-coding" class="nav-link" data-scroll-target="#coding">Coding</a>
+  <ul class="collapse">
+  <li><a href="#open-coding" id="toc-open-coding" class="nav-link" data-scroll-target="#open-coding">Open coding</a></li>
+  <li><a href="#process-coding" id="toc-process-coding" class="nav-link" data-scroll-target="#process-coding">Process coding</a></li>
+  <li><a href="#values-coding" id="toc-values-coding" class="nav-link" data-scroll-target="#values-coding">Values coding</a></li>
+  <li><a href="#versus-coding" id="toc-versus-coding" class="nav-link" data-scroll-target="#versus-coding">Versus coding</a></li>
+  <li><a href="#domain-taxonomic-coding" id="toc-domain-taxonomic-coding" class="nav-link" data-scroll-target="#domain-taxonomic-coding">Domain / taxonomic coding</a></li>
+  <li><a href="#in-vivo-coding" id="toc-in-vivo-coding" class="nav-link" data-scroll-target="#in-vivo-coding">In vivo coding</a></li>
+  <li><a href="#attribute-coding" id="toc-attribute-coding" class="nav-link" data-scroll-target="#attribute-coding">Attribute coding</a></li>
+  </ul></li>
+  <li><a href="#memos" id="toc-memos" class="nav-link" data-scroll-target="#memos">Memos</a>
+  <ul class="collapse">
+  <li><a href="#kinds-of-memos" id="toc-kinds-of-memos" class="nav-link" data-scroll-target="#kinds-of-memos">Kinds of memos</a></li>
+  <li><a href="#titles-and-descriptions" id="toc-titles-and-descriptions" class="nav-link" data-scroll-target="#titles-and-descriptions">Titles and descriptions</a></li>
+  <li><a href="#analyzing-memos" id="toc-analyzing-memos" class="nav-link" data-scroll-target="#analyzing-memos">Analyzing memos</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/qda-protocol.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -201,6 +225,11 @@ ul.task-list li input[type="checkbox"] {
 <h1 class="title">Qualitaive Data Analysis Protocol</h1>
 </div>
 
+<div>
+  <div class="description">
+    Overview of analytical tools, methods and techniques.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -215,9 +244,118 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This document outlines the analytical tools, methods and techniques.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This document is still a work in progress.</p>
+</div>
+</div>
+<section id="data-collection" class="level1">
+<h1>Data Collection</h1>
+<ul>
+<li>Patterns and processes that support theotetical sampling</li>
+<li>How are interview guides and case files prepared?</li>
+<li>How does memo-writing feed back into data collection?</li>
+<li>Post-interview reflections</li>
+</ul>
+</section>
+<section id="data-processing" class="level1">
+<h1>Data Processing</h1>
+<p>I use an entirely locally-hosted whisper model to generate an initial transcript of the audio recording. I then manually edit the transcript to correct any errors in the computer-generated version. Given the accuracy of the whisper model, corrections tend to be simply resolve mis-spellings of proper names of people and projects (and their acronyms), re-assign my affirmations to interviewees’ responses to my own speaker label, and correct any minor issues deriving from the model not properly interpreting interviewees’ accents. I then run a basic spell checker to find any blatant errors and to ensure consistency. I rely on find and replace functions to resolve these issues en masse.</p>
+<p>Some changes to the transcript can not really be anticipated during the data preparation phase. For instance, during coding, I may modify the transcript to make minor correctuons that I missed while transcribing, such as mis-capitalization or unresolved trailing blank spaces following a terminal period. These corrections are fine as long as meaning is preserved or clarified, and as long as the trancripts and qc coding files remain consistent. Regarding this latter point, since the reoslution is limited to line numbers, this will be ok as long as I add an equal number of correspnding lines to the same position in the codings file.</p>
+<p>Once the project is complete or a transcript is fully coded, I will copy the file from the qc corpus directory into the data directory and mark it up using markdown for easier publishing.</p>
+</section>
+<section id="coding" class="level1">
+<h1>Coding</h1>
+<p>See my <a href="./notes/methodology-notes.html#coding">notes on coding</a> and my <a href="./notes/coding-methods.html">notes on specific coding methods</a>.</p>
+<section id="open-coding" class="level2">
+<h2 class="anchored" data-anchor-id="open-coding">Open coding</h2>
+<p>Open coding (also sometimes referred to as initial coding) constitutes a first pass through data. I go through the transcript line by line, remaining open to all theoretical directions and interpretations that arise. It is akin to a brainstorming session.</p>
+<p>Essentially serves asn opportunity to reflect deeply on the contents and nuances of the data and to begin taking ownership over them.</p>
+<p>I also engage in open-ended memo-writing pertaining to specific passages within a transcipt, similar to writing in-document memos using MaxQDA. These are stored in a single file associated with the interview transcript, with reference to specific line numbers and labelled subheadings when appropriate.</p>
+<p>This also relates to <a href="./notes/coding-methods.html#holistic-coding">holistic coding</a>, which is similar to open/initial coding, but operates at a coarser grain. Holistic coding is useful for “chunking” the data into broader topics as a preliminary step for more detailed analysis later on. However, for the sake of simplicity, I not really make this distinction between open and holisitc coding methods in my coding processes.</p>
+<ul>
+<li>Prefix: <code>OPEN:</code></li>
+<li><a href="./notes/coding-methods.html#initial-coding">Notes on open coding</a></li>
+</ul>
+</section>
+<section id="process-coding" class="level2">
+<h2 class="anchored" data-anchor-id="process-coding">Process coding</h2>
+<ul>
+<li>Prefix: <code>ING:</code></li>
+<li><a href="./notes/coding-methods.html#process-coding">Notes on process coding</a></li>
+</ul>
+</section>
+<section id="values-coding" class="level2">
+<h2 class="anchored" data-anchor-id="values-coding">Values coding</h2>
+<ul>
+<li>Prefix: <code>VAL:</code></li>
+<li><a href="./notes/coding-methods.html#values-coding">Notes on open coding</a></li>
+</ul>
+</section>
+<section id="versus-coding" class="level2">
+<h2 class="anchored" data-anchor-id="versus-coding">Versus coding</h2>
+<ul>
+<li>Prefix: <code>VER:</code></li>
+<li><a href="./notes/coding-methods.html#versus-coding">Notes on open coding</a></li>
+</ul>
+</section>
+<section id="domain-taxonomic-coding" class="level2">
+<h2 class="anchored" data-anchor-id="domain-taxonomic-coding">Domain / taxonomic coding</h2>
+<ul>
+<li>Prefix: <code>X:</code></li>
+<li><a href="./notes/coding-methods.html#domain-and-taxonomic-coding">Notes on open coding</a></li>
+</ul>
+</section>
+<section id="in-vivo-coding" class="level2">
+<h2 class="anchored" data-anchor-id="in-vivo-coding">In vivo coding</h2>
+<ul>
+<li>Prefix: <code>IV:</code></li>
+<li><a href="./notes/coding-methods.html#in-vivo-coding">Notes on open coding</a></li>
+</ul>
+</section>
+<section id="attribute-coding" class="level2">
+<h2 class="anchored" data-anchor-id="attribute-coding">Attribute coding</h2>
+<p>Maintain a separate document with poeple’s and projects’ names, affiliations, objectives, etc, as a way to keep track of them all. This may turn into a memo document in its own right.</p>
+<ul>
+<li><a href="./notes/coding-methods.html#attribute-coding">Notes on open coding</a></li>
+</ul>
+</section>
+</section>
+<section id="memos" class="level1">
+<h1>Memos</h1>
+<p>See my <a href="./notes/methodology-notes.html#memos">notes on memo-writing methods</a>.</p>
+<section id="kinds-of-memos" class="level2">
+<h2 class="anchored" data-anchor-id="kinds-of-memos">Kinds of memos</h2>
+<p>I find memos hard to classify and distinguish. For instance, when I attempt to simply describe an interaction that I observed or participated in, which would typically be classified as descriptive field notes, I often find myself offering interpreations alongside my accounts of what happened. At the same time, there are some clear distinctions between these accounts of events, memos about situational maps, or general reflections about the strange epidemiological world I’m encountering. I therefore lump most of these into the category of “memo” (and stored under the <a href="data/memos/index.qmd">data/memos/</a> directory), and append tags to the metadata that indicate the context in which the memo was created. Some common tags include:</p>
+<ul>
+<li>situational map</li>
+<li>in-document memo</li>
+<li>descriptive field notes</li>
+<li>post-interview reflections</li>
+<li>reflection on an encounter</li>
+</ul>
+</section>
+<section id="titles-and-descriptions" class="level2">
+<h2 class="anchored" data-anchor-id="titles-and-descriptions">Titles and descriptions</h2>
+<p>I find it kind of difficult to provide very brief titles for memos, but there is a lot of value in writing brief descriptive summaries. Those are probably better quality and more helpful than the titles themselves.</p>
+<p>I also struggle with the file names. Sometimes it is appropriate to use a very simple series of hyphenated words, especially if I plan on adding content or editing the document in the future. But in situations where I am reflecting on a speciifc encounter, I may prefer to use a datestamp, with or without a series of descriptive terms (usually borrowed from the title).</p>
+<p>For memos that are linked to other documents, such as in-document memos associated with a collection of files collected during an interview (transcript, recordings, etc), then I put the memo in the folder where those materials are kept and five the memos corresponding names.</p>
+</section>
+<section id="analyzing-memos" class="level2">
+<h2 class="anchored" data-anchor-id="analyzing-memos">Analyzing memos</h2>
+<p>I may import memos into qc for their analysis as research materials in their own right. I prefer to analyze memos that are more descriptive and less interpretive, or that have a basis in what my informants say, rather than what I say.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -799,7 +937,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/qda-protocol.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/qda-protocol.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
 </div>
