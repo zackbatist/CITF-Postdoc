@@ -1,5 +1,6 @@
 ---
 title: Case Selection
+description: Overview of sampling strategies and factors that inform the selection of cases.
 ---
 ::: {.callout-note}
 This document is still a work in progress.
