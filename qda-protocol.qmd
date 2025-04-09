@@ -8,10 +8,10 @@ This document is still a work in progress.
 :::
 
 # Data Collection
-- Patterns and processes that support theotetical sampling
-- How are interview guides and case files prepared?
-- How does memo-writing feed back into data collection?
-- Post-interview reflections
+Most of the data subject to QDA comprise transcribed interviews.
+Interviewees are selected based on a [theoretical sampling strategy](case-selection.qmd#theoretical-sampling), which is responsive to prior analysis.
+Interview guides are informed by case files, which include detailed profiles of prospective interviewees, which gauge the value that they will bring to the research project as a whole.
+These guides are in turn informed by memos written during the coding process and in response to situational mapping excercises.
 
 # Data Processing
 I use an entirely locally-hosted whisper model to generate an initial transcript of the audio recording.
@@ -44,17 +44,52 @@ This also relates to [holistic coding](notes/coding-methods.qmd#holistic-coding)
 Holistic coding is useful for "chunking" the data into broader topics as a preliminary step for more detailed analysis later on.
 However, for the sake of simplicity, I not really make this distinction between open and holisitc coding methods in my coding processes.
 
-- Prefix: `OPEN:`
+- Prefix: `O:`
 - [Notes on open coding](notes/coding-methods.qmd#initial-coding)
 
-## Process coding
+## In vivo coding
+In vivo coding draws out specific words or phrases directly from the text.
+In vivo codes are identified opportunistically, and are typically created during an initial or open coding phase.
 
-- Prefix: `ING:`
+In vivo codes are especially useful for drawing attention to the improvised collective adoption of certain terms or imagery.
+
+- Prefix: `IV:`
+- [Notes on in vivo coding](notes/coding-methods.qmd#in-vivo-coding)
+
+## Process coding
+Process coding entails framing expressions of action in terms of generalizable processes.
+This may help reveal common objectives, circumstances and tooling that contextualize these action or that give these actions meaning.
+It may also help to elucidate commonalities and differences across similar processes, especially when coding the same passages with multiple processes.
+
+- Prefix: `PRO:`
 - [Notes on process coding](notes/coding-methods.qmd#process-coding)
 
 ## Values coding
+Entails three kinds of codes:
 
-- Prefix: `VAL:`
+- Values
+  - The importance that respondents attribute to themselves, to other people, things or ideas.
+  - The principles, moral codes, and situational norms that they live by.
+- Attitudes
+  - The way respondents think and feel about themselves, other people, things or ideas.
+  - They are part of a relatively enduring system of evaluative, affective reactions.
+- Beliefs
+  - Part of a system that includes respondents' values and attitudes, plus their personal knowledge, experiences, opinions, prejudices, morals, and other perceptions of the social world.
+  - RTey can be considered as "rules for action".
+
+Some key phrases that signpost values, attitudes and beliefs include:
+
+- It’s important that...
+- I like...
+- I love...
+- I need...
+- I think...
+- I feel...
+- I want...
+
+[]()
+
+- Prefix: `VAL:` for preliminary or general codings; `VAL-V:`, `VAL-A:` or `VAL-B:` when specifying a specific kind of value code.
 - [Notes on values coding](notes/coding-methods.qmd#values-coding)
 
 ## Versus coding
@@ -67,10 +102,6 @@ However, for the sake of simplicity, I not really make this distinction between 
 - Prefix: `X:`
 - [Notes on domain and taxonomic coding](notes/coding-methods.qmd#domain-and-taxonomic-coding)
 
-## In vivo coding
-
-- Prefix: `IV:`
-- [Notes on in vivo coding](notes/coding-methods.qmd#in-vivo-coding)
 
 ## Attribute coding
 Maintain a separate document with poeple's and projects' names, affiliations, objectives, etc, as a way to keep track of them all.
