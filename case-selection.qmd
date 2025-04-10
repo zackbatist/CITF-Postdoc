@@ -80,10 +80,6 @@ This prior work will serve as valuable resources supporting this project.
 
 Additionally, the fact that all cases interact with Maelstrom for their technical infrastructure will greatly simplify the interviews by reducing the "overhead" of having to learn or be told about the technical systems, which may distract from the primary themes I seek to address during interviews.
 
-CITF will also serve as a fixed case.
-This is partly for logistical reqasons, since the grant is meant to support the CITF Databank, and this project will align with concurrent research on user experiences pertaining to CITF specifically.
-At the same time, CITF is relevant to the project's objectives in its own right, and will contribute meaningful insight in comparison with other cases.
-
 ## Logistical Constraints and Sources of Bias
 After identifying potential cases, I will reach out to project leaders to invite them to participate.
 I will prepare a document outlining this project's objectives and the roles that cases will play in the work.
