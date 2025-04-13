@@ -1,0 +1,20 @@
+---
+title: Week notes (2025-W15)
+date: 2025-04-11
+date-modified: today
+categories:
+  - week notes
+---
+
+Did my first interview, it went really well!
+We scheduled a follow-up for next month.
+I finished transcribing and processing the interview.
+I also started doing some open / initial coding and memoing.
+
+I made a significant update to the [QDA protocol](../qda-protocol.qmd) and [data management plan](../data-management.qmd).
+
+I developed another case file and made more concrete progress on planning subsequent interviews.
+I also obtained informed consent from additional potential participants.
+
+Over the weekend and outside work hours I made significant progress on a revisions to a paper deriving from my thesis.
+I will be ready to submit the revisions this week.
