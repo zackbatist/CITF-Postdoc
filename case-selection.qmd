@@ -7,11 +7,23 @@ This document is still a work in progress.
 :::
 
 # Background
-## Theoretical Sampling
-About theoretical sampling.
-
 ## Case Studies
-About case study research.
+In case-study research, cases represent discrete instances of a phenomenon that inform the researcher about it.
+The cases are not the subjects of inquiry, and instead represent unique sets of circumstances that frame or contextualize the phenomenon of interest [@stake2006: 4-7].
+Cases usually share common reference to the overall research themes, but exhibit variations that enable a researcher to capture different outlooks or perspectives on matters of common concern.
+Drawing from multiple cases thus enables comprehensive coverage of a broad topic that no single case may cover on its own [@stake2006: 23].
+In other words, the power of case study research derives from identifying consistencies that relate cases to each other, while simultaneously highlighting how their unique and distinguishing facets contribute to their representativeness of the underlying phenomon.
+Case study research therefore plays on the tensions that challenge relationships among cases and the phenomenon that they are being called upon to represent [@ragin1999: 1139-1140].
+
+## Theoretical Sampling
+The number of cases reflects the capacity to draw adequate comparison across unique circumstances while also complementing the meaningful number of individuals who may serve as interview participants.
+Breadth of perspective is my primary concern; the goal is to articulate the series of inter-woven factors that impact how epidemiological researchers coordinate and participate in data-sharing initiatives while explicitly accounting for and drawing from the unique and situational contexts that frame each case.
+The goal is not to define causal relationships or to derive generalizable findings, but rather to draw meaning from situations that many epidemiologists identify with.
+
+I adhere to a theoretical sampling strategy, which effectively entails developing the sample in response to ongoing theory-building.
+Theoretical sampling focuses on finding new data sources that can best address specific theoretical facets of an emerging analysis.
+The goal is to eventually reach a point of saturation, when new data fit into the emergent model with ease [@charmaz2000: 519-520].
+This sampling strategy enables me to access new dimensions on a topic that arise during reflexive inquiry [@morse2019: 146].
 
 # Case Selection
 ## Key Factors
