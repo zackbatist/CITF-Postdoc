@@ -389,6 +389,18 @@ Charmaz [-@charmaz2000: 524] on the concretization of procedures from what were 
 > Guidelines turn into procedures and are reified into immutable rules, unlike Glaser and Strauss's [-@glaser1967] original flexible strategies.
 > By taking grounded theory methods as prescriptive scientific rules, proponents further the positivist cast to obiectivist grounded theory.
 
+---
+
+From @denzin2019 [: 450]:
+
+> Like Charmaz, Clarke's postmodern, situational analysis (SA), deploys constructivist models of truth, and rejects objectivist views of the inquirer.
+> Compared to traditional GT, Clarke's social arena framework privileges poststructural feminism, Foucault over the study of analytic maps, systems of discourse, and the effect of nonhuman (buildings, technology) elements on situations of inquiry [@clarke2005: 32, 291; @clarke2015a; @clarke2016].
+> 
+> Yet underneath, these differences, there are commonalities: flexible guidelines for data collection (and analysis), including interviewing, archival analysis, observation, and participant observation.
+> Most importantly, the commitment is to remain close to the world being studied, while developing integrated theoretical concepts grounded in data that show process, relationship, and social world connectedness [@charmaz2005: 508; @clarke2005: 292; @clarke2015b].
+
+This seems to be elaborated in parts of @mruck2019.
+
 #### On the modes of reasoning behind grounded theory
 
 @kelle2005 is an overview of the Glaser / Strauss and Corbin split.
