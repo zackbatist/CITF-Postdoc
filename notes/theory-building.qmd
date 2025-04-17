@@ -1,0 +1,28 @@
+---
+title: Theory-building
+description: Notes perpainting to the emergence of theory from data.
+date: 2025-04-17
+date-modified: last-modified
+toc-depth: 6
+toc-expand: 3
+reference-location: document
+categories: 
+  - reading
+  - general thoughts
+---
+
+@urquhart2019 provides some great ways to think about theory-building, especially in the latter half of the chapter.
+Specifically, they compare two axes: theory scope, and conceptual level.
+
+See also: @kelle2019 and @flick2019.
+
+@mruck2019 [: 480]:
+
+> The challenging task during analysis is to be as aware as possible of the co-constructiveness of data and methods on the one hand, i.e., focusing on the researcher's continuous impact on every single decision during the data analysis process. On the other hand, in traditional research, this stage is most important for preserving the voices of research participants in theory construction in any possible way.
+> But each encounter with the Other, each single word heard during the interview or written in a text, has to pass the bodily, cognitive, and emotional filters of the analyst, and leads to specific embodied resonances – there is no way to not (re)act personally.
+> Researchers should not ignore this in the hope that, if they pretend ‘long enough that it does not exist, it should just quietly go away’ (Devereux, 1967: xviii).
+> Instead, the researcher's anxieties and ‘warding-off manoeuvres’, quite as much as his/her ‘research strategy, perception of data, and decision making … can shed light’ (ibid.) on the topic under interest, and enrich data analysis and theory development in two different ways:
+>
+>> 1. As researchers are not neutral observers but part of the field, their responses are responses to the performance and narrations of the Other, the interviewee, be it as insiders sharing parts of his/her lifeworld, or as outsiders reacting to him/her, for example, in a friendly or aversive manner. This may help to get in touch with issues not explicitly mentioned during the interview but which are important for analysis. For example, while we worked on a study on theatre performance in a research group we supervised, different group members continuously reported feelings of severe time pressure while reading interview texts and preparing the sessions. Even though until that point ‘time’ had not been mentioned explicitly by the interviewees, this observation led to taking into account the role of ‘limited time’ slipping in as a new actor alongside the existing ones, and as an important aspect of further theory development (Mruck & Mey, 1998).
+>> 2. Trying to see the world as strictly as possible through the interviewee's eyes, researchers need to ‘bracket’ one's own experiences, involvement, etc. Without reflexive strategies, ‘perspective slurring’ is unavoidable. This means that different perceptions and interpretations (of interviewees, field members, the researcher, members of research groups) need to be taken seriously and subjected to constant comparison (Glaser, 1965). Trying to understand interviewees’ perspectives is especially difficult in cases, far away from interviewers’ everyday life. In another research group we supervised, group members were asked to work individually on an interview with a sexual offender to prepare a group session. In the beginning of the session, a group member started by describing in detail the slaughtering of an animal he had witnessed some time ago. Other group members contributed their own ‘bloody’ everyday experiences, partly giggling and expressing feelings of disgust in a rather pleasurable way. In this way, the group in a way re-enacted bodily (and in this way got a first glimpse of) the offender's trivialization of his actions during the interview, and at the same time tried to get closer to what the members (not the interviewee!) felt to be the monstrosity of murders (Mey & Mruck, 1998: 298f).
+

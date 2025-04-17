@@ -126,6 +126,8 @@ Some common tags include:
 - post-interview reflections
 - reflection on an encounter
 
+See @mruck2019 [: 483-485] for further details on the distinctions and crossovers between journalling and memo-writing.
+
 ## Titles and descriptions
 I find it kind of difficult to provide very brief titles for memos, but there is a lot of value in writing brief descriptive summaries.
 Those are probably better quality and more helpful than the titles themselves.
@@ -139,4 +141,9 @@ For memos that are linked to other documents, such as in-document memos associat
 ## Analyzing memos
 I may import memos into qc for their analysis as research materials in their own right.
 I prefer to analyze memos that are more descriptive and less interpretive, or that have a basis in what my informants say, rather than what I say.
+
+
+# Diagramming
+@birks2015 [: 100] claim that "diagramming is _the_ creative tool to use when operationalizing the logic of abduction".
+@gorra expands on this by stating that it enables seeing the data in new ways and enabling flexible movement
 

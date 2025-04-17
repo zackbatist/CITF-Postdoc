@@ -1,0 +1,44 @@
+---
+title: QDA Software
+description: Notes perpainting to the use of digital tools to support QDA.
+date: 2025-04-17
+date-modified: last-modified
+toc-depth: 6
+toc-expand: 3
+reference-location: document
+categories: 
+  - reading
+  - general thoughts
+---
+
+@friese2019 on the affordances of CAQDAS, including comparisson of various software.
+Distinguishes between QDA and GT, and responds to Glaser's criticism of CAQDAS.
+Seems to also relate to Glaser's -@glaser2003 critique of modern versions of GT as being overly descriptive.
+Gets into the distinction between coding and tagging, and may relate to @belgrave2019.
+Includes an appendix that relates the terms used in various software with functional applications in a theoretical and methodological sense.
+
+@gorra2019 examines how CAQDAS is actually used in practice, and found that researchers never stay within the software's boundaries.
+Comes down to how the software is being wielded as a tool.
+She found that data portability was a major concern.
+Emphasized importance of enabling researchers to interact with their data, and to do so in whatever ways best suit them.
+Enabling researchers to take advantages of the affordances of digital tech, specifically the ability to look at the data in different gestalts, sapes, forms or guises.
+Emphasies a need for researchers to tae ownership over their data (similar to how Saldana and Charmaz suggest).
+FLexibility enables enaction of what Becker referred to as the tricks of the trade.
+
+Concludes by identifying two different ways in which software could and should be used:
+
+- to help with organizing the data
+- for creative development of ideas
+
+He specifically identifies specialist CAQDAS software as more suitable for the former, and other technologies in a more general sense for the latter.
+
+@gorra2019 [: 329] really emphasizes moving the data conciously between different media with the help of technology to see the data in different guises, shapes and formats.
+
+> In my view, GT theory construction is indeed a ‘pragmatic process of puzzling out’ (Timmermans & Tavory, 2012) and it is the process of Movement that helps to ‘solve the puzzle’, or at least helps with speeding up the process of making sense of the data. As a result of the process of moving data, thoughts and codes, the data are being reworked and changed with every iteration. This is what I observed my participants were doing with their theory construction. This is what they did at times with software, other times without, in order to construct meaning from their data, using a host of different technologies and media available to them.
+
+@gorra2019 [: 329] also aknowledges (and builds on prior related claims) that serendipity may have a larger role in GT, and suggests that "[s]erendipity can be encouraged by careful preparation, through the meticulous management of data – often supported by technology – but in addition what is also needed is the ‘creative free-play’ consisting of moving data and body."^[This may also relate to the notion of "Informed Grounded Theory" introduced by @thornberg2011.]
+
+
+---
+
+@inaba2019 on text mining.

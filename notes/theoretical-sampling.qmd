@@ -1,0 +1,108 @@
+---
+title: Theoretical sampling
+description: Notes perpainting theoretical sampling strategies.
+date: 2025-04-17
+date-modified: last-modified
+toc-depth: 6
+toc-expand: 3
+reference-location: document
+categories: 
+  - reading
+  - general thoughts
+---
+
+# Sampling Targets
+According to @morse2019, theoretical sampling can be done with a few targets in mind:
+
+## Grasping the phenomenon
+Concerned with understanding "what is going on" with the phenomenon.
+Get a feel for the phenomenon.
+Primarily relies on retrospective accounts, rather than through perspectives of people who are in the midst of it.
+
+There are a few main ways to collect such broad-level understanding:
+- Sampling to obtain an initial understanding
+  - Understand the phenomenon of interest and the characteristics/attributes involved
+  - Allows me to recognize the phenomenon in other or adject settings
+  - This is generally depends on a biased and convenience sample
+
+- Sampling for process
+  - At this time, you begin working with abstract categories and must transition to theoretical sampling
+  - Once the main storyline of the narrative has veen identified, the researcher can go back to the participants to gain a better understanding of their experiences in the midst of the phenomenon
+  - This will enable the researcher to develop an understanding of processes that occur within the phenomenon
+  - In other words, it's about the _how_, as opposed to the _what_ in sampling to obtain initial understanding.
+
+- Sampling for maximum variation
+  - Two kinds of variation: diversity contextual variation, and diversity/demographic variation
+  - Diversity contextual variation examines different experiences that people face within the target population
+  - Diversity/demographic variation prompts the researcher to identify "missing" viewpoints, in proportion to what would be required to gain a full understanding of the phenomenon of interest
+    - Males and females?
+    - Class?
+    - Insiders and outsiders?
+    - Various cultural and ethnic groups?
+    - Other characteristics that are relevant to your topic?
+
+- Sampling to chase important leads
+  - Qualitative research is unique in that it allows participants to provide info about people other than themselves
+  - "As the participants sort their world for you, they are telling how you can organize your data, and where to go for further information." [@morse2019: 156]
+
+## Identifying the theoretical components
+- Sampling to locate and create concepts
+  - Occurs through the process of coding and building categories
+  - As you code, you develop a sense of what is important to your participants
+  - These perceptions acrue into categories, and may be divided into smaller perspectives or subcategories (I may use the term "facet") as you build more data and write comprehensive memos
+
+- Sampling for identifying trajectories
+  - It can be helpful to identify trajectories, transitions, causes and consequences
+  - Process coding helps keep things action-orienteed
+
+- Sampling for pattern identification
+  - Return to the interviews and see where in the story each concept or category appears
+
+- Sampling for confirmation
+  - See if the concept is consistent across several participants
+  - One account may support another, even if they are not exactly the same
+
+- Sampling for negative cases
+  - Negative cases are those accounts that contradict or do not support the other data
+  - May arise due to the fact that something was omitted, so it may be necessary to go back to the source and verify through additional questions
+
+## Constructing theory
+- Sampling to link concepts
+- Sampling to obtain certainty
+- Sampling for saturation
+- Sampling for verification
+
+## Sampling for theory development
+- Sampling to determine equivalency across contexts
+- Sampling for theoretical group interviews
+
+# Practicalities of Sampling
+# Data insufficiency
+There are a number of ways to supplement your sample in situations where your study may be exploring an uncommon event, the phenomenon is considered rather private, you may not have access to additional participants, or you run out of time, money or enthusiasm:
+
+- Hypotehtical data
+  - If the phenomenon is concerned with rare or uncommon events, consider asking participants about what they would do under specific circumstances
+- Shadowed data
+  - Ask participants about potential alternative ways of doing something
+  - This helps get a notion about how representative your data are
+  - Could be useful for studying something that may be embarrassing to participants, since they enable them to say what other might do (not them, of course) and therefore procide access to knowledge that is otherwise inaccessible
+- Supplement using other data types
+  - Use autobiographical literature
+  - Maybe even published papers, or appendixes attached to papers, in my case
+- Hypothetical cases
+  - Recognize how one might extend the study, and examine what you might observe if such a scenario might occur
+- Limited total sample
+  - Simply note the limitations of the sample in published work
+
+## When do you cease sampling?
+- One key characteristic of a completed grounded theory is theoretical transference
+  - Well-developed theoretical concepts and theories should be applicable beyond the context and situation in which they were first identified
+  - @morse2019 [: 163] argues that qualitative research can indeed be generalizable, and that the onus is on the researcher to illustrative the application of the concept or theory in multiple situations
+    - Quantifiable demographics are merely proxies for more complex webs of characteristics; qualitative research moves beyond these concrete descriptors into keveks of abstraction that transcend the particular, and the abstract findings may therefore be applied to other situuations framed by similar characteristics
+
+---
+
+@urquhart2019 [: 94-101] and @vaast2017 also addresses theoretical sampling and how it can conctrtibute to theory-building.
+However much of their emphasis seems to be on how theoretical sampling was applied in the original conception of grounded theory, in a retrospective sense.
+It is somewhat notable that the data sources that they rely on (social media posts and their linked content) are relatively well-structured, the "distance" from a core backbone dataset could be rather easily ascertained, and the dataset can be readily re-samples numerous times.
+
