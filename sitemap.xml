@@ -42,7 +42,11 @@
   </url>
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/notes/tricks-of-the-trade.html</loc>
-    <lastmod>2025-03-26T20:09:10.988Z</lastmod>
+    <lastmod>2025-04-17T19:11:23.534Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/notes/theoretical-sampling.html</loc>
+    <lastmod>2025-04-17T20:06:03.923Z</lastmod>
   </url>
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/notes/potential-cases.html</loc>
@@ -57,48 +61,52 @@
     <lastmod>2025-03-24T20:07:38.561Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/notes.html</loc>
-    <lastmod>2025-03-24T20:07:38.560Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/notes/caqdas.html</loc>
+    <lastmod>2025-04-17T20:10:43.213Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/index.html</loc>
-    <lastmod>2025-04-06T17:20:00.543Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/ethics-protocol.html</loc>
-    <lastmod>2025-03-24T20:07:38.559Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/data-management.html</loc>
-    <lastmod>2025-04-06T18:36:46.143Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/case-selection.html</loc>
-    <lastmod>2025-04-10T13:13:07.378Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/MCHI-2025/index.html</loc>
-    <lastmod>2025-04-03T14:03:15.578Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/MCHI-2025/slides.html</loc>
-    <lastmod>2025-04-03T14:03:15.578Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/context.html</loc>
-    <lastmod>2025-03-24T20:07:38.479Z</lastmod>
-  </url>
-  <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/data/index.html</loc>
-    <lastmod>2025-03-25T13:09:42.379Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/interview-protocol.html</loc>
+    <lastmod>2025-04-08T23:45:47.466Z</lastmod>
   </url>
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/glossary.html</loc>
     <lastmod>2025-03-24T20:07:38.559Z</lastmod>
   </url>
   <url>
-    <loc>https://zackbatist.info/CITF-Postdoc/interview-protocol.html</loc>
-    <lastmod>2025-04-08T23:45:47.466Z</lastmod>
+    <loc>https://zackbatist.info/CITF-Postdoc/data/index.html</loc>
+    <lastmod>2025-03-25T13:09:42.379Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/context.html</loc>
+    <lastmod>2025-03-24T20:07:38.479Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/MCHI-2025/slides.html</loc>
+    <lastmod>2025-04-03T14:03:15.578Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/MCHI-2025/index.html</loc>
+    <lastmod>2025-04-03T14:03:15.578Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/case-selection.html</loc>
+    <lastmod>2025-04-14T16:05:43.180Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/data-management.html</loc>
+    <lastmod>2025-04-06T18:36:46.143Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/ethics-protocol.html</loc>
+    <lastmod>2025-03-24T20:07:38.559Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/index.html</loc>
+    <lastmod>2025-04-06T17:20:00.543Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/notes.html</loc>
+    <lastmod>2025-03-24T20:07:38.560Z</lastmod>
   </url>
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/notes/cataloguing.html</loc>
@@ -115,6 +123,10 @@
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/notes/situational-analysis.html</loc>
     <lastmod>2025-03-25T21:02:45.841Z</lastmod>
+  </url>
+  <url>
+    <loc>https://zackbatist.info/CITF-Postdoc/notes/theory-building.html</loc>
+    <lastmod>2025-04-17T20:06:24.589Z</lastmod>
   </url>
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/posts.html</loc>
@@ -154,6 +166,6 @@
   </url>
   <url>
     <loc>https://zackbatist.info/CITF-Postdoc/qda-protocol.html</loc>
-    <lastmod>2025-04-09T19:56:35.068Z</lastmod>
+    <lastmod>2025-04-17T20:07:24.219Z</lastmod>
   </url>
 </urlset>

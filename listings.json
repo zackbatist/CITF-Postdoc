@@ -2,9 +2,12 @@
   {
     "listing": "/notes.html",
     "items": [
+      "/notes/caqdas.html",
+      "/notes/theory-building.html",
+      "/notes/theoretical-sampling.html",
+      "/notes/tricks-of-the-trade.html",
       "/notes/cataloguing.html",
       "/notes/critical-research-about-harmonization.html",
-      "/notes/tricks-of-the-trade.html",
       "/notes/situational-analysis.html",
       "/notes/coding-methods.html",
       "/notes/maelstrom-readings.html",

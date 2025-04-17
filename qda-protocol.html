@@ -21,7 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -214,6 +234,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#titles-and-descriptions" id="toc-titles-and-descriptions" class="nav-link" data-scroll-target="#titles-and-descriptions">Titles and descriptions</a></li>
   <li><a href="#analyzing-memos" id="toc-analyzing-memos" class="nav-link" data-scroll-target="#analyzing-memos">Analyzing memos</a></li>
   </ul></li>
+  <li><a href="#diagramming" id="toc-diagramming" class="nav-link" data-scroll-target="#diagramming">Diagramming</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/qda-protocol.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></nav>
     </div>
@@ -369,6 +390,7 @@ Note
 <li>post-interview reflections</li>
 <li>reflection on an encounter</li>
 </ul>
+<p>See <span class="citation" data-cites="mruck2019">Mruck and Mey (<a href="#ref-mruck2019" role="doc-biblioref">2019</a>: 483-485)</span> for further details on the distinctions and crossovers between journalling and memo-writing.</p>
 </section>
 <section id="titles-and-descriptions" class="level2">
 <h2 class="anchored" data-anchor-id="titles-and-descriptions">Titles and descriptions</h2>
@@ -379,12 +401,24 @@ Note
 <section id="analyzing-memos" class="level2">
 <h2 class="anchored" data-anchor-id="analyzing-memos">Analyzing memos</h2>
 <p>I may import memos into qc for their analysis as research materials in their own right. I prefer to analyze memos that are more descriptive and less interpretive, or that have a basis in what my informants say, rather than what I say.</p>
+</section>
+</section>
+<section id="diagramming" class="level1">
+<h1>Diagramming</h1>
+<p><span class="citation" data-cites="birks2015">Birks and Mills (<a href="#ref-birks2015" role="doc-biblioref">2015</a>: 100)</span> claim that “diagramming is <em>the</em> creative tool to use when operationalizing the logic of abduction”. <span class="citation" data-cites="gorra">(<a href="#ref-gorra" role="doc-biblioref"><strong>gorra?</strong></a>)</span> expands on this by stating that it enables seeing the data in new ways and enabling flexible movement</p>
+
 
 
 </section>
-</section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-birks2015" class="csl-entry" role="listitem">
+Birks, Melanie, and Jane Mills. 2015. <em>Grounded <span>Theory</span>: <span>A Practical Guide</span></em>. SAGE. <a href="https://books.google.com?id=YsGICwAAQBAJ">https://books.google.com?id=YsGICwAAQBAJ</a>.
+</div>
+<div id="ref-mruck2019" class="csl-entry" role="listitem">
+Mruck, Katja, and Günter Mey. 2019. <span>“Grounded <span>Theory Methodology</span> and <span>Self-Reflexivity</span> in the <span>Qualitative Research Process</span>.”</span> In <em>The <span>SAGE Handbook</span> of <span>Current Developments</span> in <span>Grounded Theory</span></em>, edited by Antony Bryant and Kathy Charmaz, 470–96. SAGE Publications Ltd. <a href="https://doi.org/10.4135/9781526485656">https://doi.org/10.4135/9781526485656</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
