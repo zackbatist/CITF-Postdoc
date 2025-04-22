@@ -1,0 +1,12 @@
+---
+title: Week notes (2025-W16)
+date: 2025-04-18
+date-modified: today
+categories:
+  - week notes
+---
+
+- Finished open coding the first interview
+- Updated coding protocol and case selection protocol
+- Did some more reading notes
+- Submitted revisions for a paper deriving from my dissertation
