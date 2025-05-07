@@ -392,7 +392,7 @@
     "href": "notes.html",
     "title": "Notes",
     "section": "",
-    "text": "Modified\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nMay 4, 2025\n\n\nCataloguing\n\n\n \n\n\n\n\nMay 4, 2025\n\n\nOther research about harmonization\n\n\nreading-notes\n\n\n\n\nApr 17, 2025\n\n\nMethodology notes\n\n\nreading, general thoughts\n\n\n\n\nApr 17, 2025\n\n\nTricks of the Trade\n\n\nreading\n\n\n\n\nApr 17, 2025\n\n\nQDA Software\n\n\nreading, general thoughts\n\n\n\n\nApr 17, 2025\n\n\nTheory-building\n\n\nreading, general thoughts\n\n\n\n\nApr 17, 2025\n\n\nTheoretical sampling\n\n\nreading, general thoughts\n\n\n\n\nMar 25, 2025\n\n\nSituational analysis\n\n\nsituational analysis, QDA methods, reading\n\n\n\n\nMar 24, 2025\n\n\nCoding methods\n\n\nQDA methods, coding, reading\n\n\n\n\nMar 24, 2025\n\n\nMaelstrom reading notes\n\n\nreading\n\n\n\n\nMar 24, 2025\n\n\nPotential cases\n\n\ncases, brainstorming\n\n\n\n\n\nNo matching items",
+    "text": "Modified\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nMay 7, 2025\n\n\nCataloguing\n\n\n \n\n\n\n\nMay 7, 2025\n\n\nOther research about harmonization\n\n\nreading-notes\n\n\n\n\nApr 17, 2025\n\n\nMethodology notes\n\n\nreading, general thoughts\n\n\n\n\nApr 17, 2025\n\n\nTricks of the Trade\n\n\nreading\n\n\n\n\nApr 17, 2025\n\n\nQDA Software\n\n\nreading, general thoughts\n\n\n\n\nApr 17, 2025\n\n\nTheory-building\n\n\nreading, general thoughts\n\n\n\n\nApr 17, 2025\n\n\nTheoretical sampling\n\n\nreading, general thoughts\n\n\n\n\nMar 25, 2025\n\n\nSituational analysis\n\n\nsituational analysis, QDA methods, reading\n\n\n\n\nMar 24, 2025\n\n\nCoding methods\n\n\nQDA methods, coding, reading\n\n\n\n\nMar 24, 2025\n\n\nMaelstrom reading notes\n\n\nreading\n\n\n\n\nMar 24, 2025\n\n\nPotential cases\n\n\ncases, brainstorming\n\n\n\n\n\nNo matching items",
     "crumbs": [
       "Notes"
     ]
@@ -695,7 +695,7 @@
     "href": "data/index.html",
     "title": "Data",
     "section": "",
-    "text": "This is a where I keep interview recording and transcripts, analytical memos, journal entries, and information about the cases.\nThese files are kept on a university-administered git server and made accessible to the working environment through a submodule.\nThe data shall remain private until I obtain consent to share elicitations and/or finish anonymizing their responses."
+    "text": "This is a where I keep interview recordings and transcripts, as well as memos and notes about the cases. These files are kept on a private git repo administered and hosted by the MCHI, which is made accessible to the working environment through a submodule. The data shall remain private until I obtain consent to share elicitations and/or finish anonymizing their responses."
   },
   {
     "objectID": "glossary.html",
