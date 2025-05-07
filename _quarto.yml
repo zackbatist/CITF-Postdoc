@@ -3,7 +3,8 @@ project:
   render:
     - "*.qmd"
     - "!private/"
-    - "!data/cases/"
+    - "!data/CITF.qmd"
+    - "!data/*.excalidraw.png"
     - "!data/interviews/"
     - "!data/memos/"
     - "!qc/"
