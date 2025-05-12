@@ -4,6 +4,8 @@ project:
     - "*.qmd"
     - "!private/"
     - "!data/CITF.qmd"
+    - "!data/CITF.html"
+    - "!data/CITF_files/"
     - "!data/*.excalidraw.png"
     - "!data/interviews/"
     - "!data/memos/"
