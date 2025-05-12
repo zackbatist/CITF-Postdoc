@@ -10,7 +10,28 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 02 May 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 09 May 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W19)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W19.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Worked on the case file and interview guides</li>
+<li>Wrote a memo about the pivot</li>
+<li>Posted on my <a href="https://zackbatist.info/posts.html">personal blog</a></li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W19.html</guid>
+  <pubDate>Fri, 09 May 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W18)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W18.html</link>
@@ -689,24 +710,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>meeting notes</category>
   <category>general thoughts</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-first-team-meeting.html</guid>
-  <pubDate>Mon, 09 Dec 2024 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Hello World!</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-hello-world.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>Welcome to the website for my CITF Postdoc! This will serve as a hub for documenting and sharing my work. I decided to do this as a way of managing and sharing always-updated drafts of research protocols with my supervisor and team members, but it is also generally useful for keeping my thoughts organized. I will also use this blog section to write my thoughts as the project progresses.</p>
-
-
-
- ]]></description>
-  <category>introduction</category>
-  <category>website</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-hello-world.html</guid>
   <pubDate>Mon, 09 Dec 2024 05:00:00 GMT</pubDate>
 </item>
 </channel>
