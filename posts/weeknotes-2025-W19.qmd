@@ -1,0 +1,11 @@
+---
+title: Week notes (2025-W19)
+date: 2025-05-09
+date-modified: today
+categories:
+  - week notes
+---
+
+- Worked on the case file and interview guides
+- Wrote a memo about the pivot
+- Posted on my [personal blog](https://zackbatist.info/posts.html)
