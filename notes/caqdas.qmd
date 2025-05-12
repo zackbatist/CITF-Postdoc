@@ -36,7 +36,7 @@ He specifically identifies specialist CAQDAS software as more suitable for the f
 
 > In my view, GT theory construction is indeed a ‘pragmatic process of puzzling out’ (Timmermans & Tavory, 2012) and it is the process of Movement that helps to ‘solve the puzzle’, or at least helps with speeding up the process of making sense of the data. As a result of the process of moving data, thoughts and codes, the data are being reworked and changed with every iteration. This is what I observed my participants were doing with their theory construction. This is what they did at times with software, other times without, in order to construct meaning from their data, using a host of different technologies and media available to them.
 
-@gorra2019 [: 329] also aknowledges (and builds on prior related claims) that serendipity may have a larger role in GT, and suggests that "[s]erendipity can be encouraged by careful preparation, through the meticulous management of data – often supported by technology – but in addition what is also needed is the ‘creative free-play’ consisting of moving data and body."^[This may also relate to the notion of "Informed Grounded Theory" introduced by @thornberg2011.]
+@gorra2019 [: 329] also aknowledges (and builds on prior related claims) that serendipity may have a larger role in GT, and suggests that "[s]erendipity can be encouraged by careful preparation, through the meticulous management of data – often supported by technology – but in addition what is also needed is the ‘creative free-play’ consisting of moving data and body."^[This may also relate to the notion of "Informed Grounded Theory" introduced by @thornberg2012.]
 
 
 ---

@@ -51,7 +51,7 @@ I wonder if this was to make it more compatible with the software's demands for 
 
 ---
 
-In @bergeron2017, they identify a few key components to a catalog entry:
+In @bergeron2018, they identify a few key components to a catalog entry:
 
 **1. Study outline**
 

@@ -145,5 +145,5 @@ I prefer to analyze memos that are more descriptive and less interpretive, or th
 
 # Diagramming
 @birks2015 [: 100] claim that "diagramming is _the_ creative tool to use when operationalizing the logic of abduction".
-@gorra expands on this by stating that it enables seeing the data in new ways and enabling flexible movement
+@gorra2019 expands on this by stating that it enables seeing the data in new ways and enabling flexible movement
 
