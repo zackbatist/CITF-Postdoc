@@ -1,0 +1,12 @@
+---
+title: Week notes (2025-W20)
+date: 2025-05-16
+date-modified: today
+categories:
+  - week notes
+---
+
+- Ethics amendment under review
+- Developed a couple situational maps
+- Developed some interview guides
+- Made significant progress on the data governance paper
