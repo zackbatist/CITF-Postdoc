@@ -10,7 +10,29 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 09 May 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 16 May 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W20)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W20.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Ethics amendment under review</li>
+<li>Developed a couple situational maps</li>
+<li>Developed some interview guides</li>
+<li>Made significant progress on the data governance paper</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W20.html</guid>
+  <pubDate>Fri, 16 May 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W19)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W19.html</link>
@@ -688,29 +710,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W03.html</guid>
   <pubDate>Sat, 18 Jan 2025 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Reflection on first team meeting</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-first-team-meeting.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>Last week (2024/12/04) I finally met with David Buckeridge, Tanya Murphy and Aklil Noza in person. The meeting was meant to convey my vision for the project to the whole team, to align perspectives, and to articulate how this will actually work in practice.</p>
-<p>The gist is that I will be investigating the role of social and cultural factors in data-sharing initiatives such as CITF and other Maelstrom-affiliated projects, and how these relate to, overlap with, or conflict with technical and institutional/administrative factors. To be clear, these are all very important aspects of data-sharing, but we generally recognized that the social and cultural aspects are under-explored relative to their impact.</p>
-<p>We briefly talked about how we will go about selecting cases, and I emphasized the importance of strategic case selection. This also involves carefully articulating the project’s goals so that the cases will complement them. We agreed that the dataset will likely comprise between 12-15 interviews of around 60-90 minutes in length with representatives from 4-5 cases (one of them being CITF), in addition to representatives of the Maelstrom team. Maelstrom will serve as a “fixed point” that limits the scope of the cases’ breadth and ensures that participants have a common frame of reference. It also potentially allows me to “offload” or “consolidate” reference to technical and administrative aspects of data-sharing through targeted interviews with Maelstrom personnel, instead of dealing with those things with the representatives for each case.</p>
-<p>We discussed timelines and overlap with Aklil’s work, which will be more concerned with focus groups with CITF databank users. There is definitely overlap with the emphasis of my own work and we will coordinate data collection to enhance the potential for analytical alignment.</p>
-<p>After the meeting I chatted with Tanya and Aklil who helped familiarize me with the bigger-picture theoretical discourse and tensions in epidemiology. Much of it seemed familiar since these concerns are common across disciplines, but I still need to read more to concretize my understanding. Tanya recommended I read the “Baby Rothman” which is a condensed version of a very long-lived textbook in this field, among a few other papers she sent me.</p>
-<p>Overall, this meeting got me really excited about this project :)</p>
-
-
-
- ]]></description>
-  <category>meeting notes</category>
-  <category>general thoughts</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/2024-12-09-first-team-meeting.html</guid>
-  <pubDate>Mon, 09 Dec 2024 05:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
