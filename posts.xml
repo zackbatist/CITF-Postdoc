@@ -10,7 +10,29 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 30 May 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 06 Jun 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W23)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W23.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Revising ethics amendment</li>
+<li>Worked on data governance paper</li>
+<li>Background reading</li>
+<li>Some other archaeology-related things</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W23.html</guid>
+  <pubDate>Fri, 06 Jun 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W22)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W22.html</link>
@@ -630,28 +652,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W05.html</guid>
   <pubDate>Fri, 31 Jan 2025 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W04)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W04.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>This week was a bit slower than last. I spent much of it finalizing the content for my IRB application, and the rest preparing for a meeting with a key stakeholder relating to my research.</p>
-<p>The IRB application is more or less done, just waiting on David and the department head to sign off. It was a major opportunity to re-organize my research protocol and related documents. I shuffled some things over into various placeholder sections in my <a href="../notes/methodology-notes.html">methodology notes</a>, and pushed a revised <a href="../research-protocol.html">research protocol</a> to the website.</p>
-<p>Yesterday I posted about <a href="https://zackbatist.info/CITF-Postdoc/posts/2025-01-24-ai-in-my-work.html">on the role of AI in my research</a>. It’s mainly meant to lay out my current state of thinking on AI. I’m not fixed to those ideas, and I think there is much more nuance than I do justice to in that post, but putting it on the page helped me consolidate and put aside some scrambled opinions.</p>
-<p>After playing around with <a href="https://qualitative-coding.readthedocs.io/">qc</a> on Sunday, I started to assemble some feedback. I may post a github issue later this week, once I’ve had a chance to consolidate and edit my thoughts.</p>
-<p>I participated in the weekly CITF logistics update, after which I met with Aklil to discuss the overall strategy for her project and strategize on how we might form the focus groups for that work. We’re gonna meet more regularly, just to share some updates on our respective projects which have a lot in common.</p>
-<p>On Thursday I met with Isabel Fortier, with the intention of discussing data harmonozation initiatives that might serve as potential cases. It was a bit of a tough meeting. During the first 45 minutes I struggled to communicate the purpose of my work, but I think by the end we reached a greater understanding of what this work will entail and the unique perspective it will bring. One surprising outcome that I still need to think through is Isabel’s suggestion that I slow down a bit, immerse myself more in the world of data harmonization. While she is absolutely right that I’ve been rushing through this first month, I do feel pressure to get the project going and to start accumulating data — I felt a similar pressure when starting my PhD, too. So I need to put my eagerness aside so that the data are relevant and of good enough quality. Isabel offered to schedule regular meetings with me, and even to have me work in the Maelstrom office once a week, and I’m extremely grateful for her support! Plus, I’ll get to have lunch with my mom who works in the same hospital complex, one building over :)</p>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W04.html</guid>
-  <pubDate>Sat, 25 Jan 2025 05:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
