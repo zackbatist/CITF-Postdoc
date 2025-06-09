@@ -1,0 +1,12 @@
+---
+title: Week notes (2025-W23)
+date: 2025-06-06
+date-modified: today
+categories:
+  - week notes
+---
+
+- Revising ethics amendment
+- Worked on data governance paper
+- Background reading
+- Some other archaeology-related things
