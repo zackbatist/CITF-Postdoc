@@ -1,0 +1,11 @@
+---
+title: Week notes (2025-W24)
+date: 2025-06-13
+date-modified: today
+categories:
+  - week notes
+---
+
+- Revised ethics amendment.
+- Worked on the data governance paper.
+- Worked on grant apps.
