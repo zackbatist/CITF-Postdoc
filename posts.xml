@@ -10,7 +10,28 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 06 Jun 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 13 Jun 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W24)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W24.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Revised ethics amendment.</li>
+<li>Worked on the data governance paper.</li>
+<li>Worked on grant apps.</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W24.html</guid>
+  <pubDate>Fri, 13 Jun 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W23)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W23.html</link>
@@ -630,28 +651,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W06.html</guid>
   <pubDate>Fri, 07 Feb 2025 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W05)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W05.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>The first part of my week largely involved reading and taking notes on methodological texts. I focused on case study design and qualitative coding techniques. I plan to continue my methodology readings on coding techniques, memoing, interview methods and systematic note-taking, as well filling in gaps in my understanding of grounded theory and related debates. These readings are especially useful in this planning stage, but also serve to fill time while I wait for my IRB approval.</p>
-<p>On that note, I finally submitted my ethics application on Thursday. I expect an expedited review based on the low-risk nature of the work. I posted the materials I submitted on the <a href="../ethics-protocol.html">ethics protocol</a> page.</p>
-<p>I had my biweekly meeting with David, and he was very encouraging.</p>
-<p>I met with Isabel Fortier again yesterday and we came up a list of six projects that may serve as potential cases. We will discuss them in greater depth next week.</p>
-<p>I finally sent some feedback on <a href="https://qualitative-coding.readthedocs.io/en/latest/">qc</a>.</p>
-<p>Next week I also need to fulfill a few commitments not as related to the postdoc: I need to work on a peer-review I had committed to, continue assemmbling constructive feedback for qc, and continue <a href="https://github.com/open-archaeo/diamond.open-archaeo.info/issues/19">going through the DOAJ</a> for the <a href="https://diamond.open-archaeo.info/">diamond.open-archaeo</a> initiative.</p>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W05.html</guid>
-  <pubDate>Fri, 31 Jan 2025 05:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
