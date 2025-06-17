@@ -15,7 +15,7 @@ format:
 **Protocol:** 25-01-057\
 **Submitted:** 2025-01-30\
 **Approved:** 2025-03-03\
-**Amended:** 2025-05-xx
+**Amended:** 2025-06-17
 
 ## Recruitment and consent
 **Will this study involve recruitment of human study participants?**
