@@ -1,0 +1,11 @@
+---
+title: Week notes (2025-W25)
+date: 2025-06-20
+date-modified: today
+categories:
+  - week notes
+---
+
+- Scheduled interviews
+- Finalized some interview guides
+- Revisions to a paper deriving from my dissertation
