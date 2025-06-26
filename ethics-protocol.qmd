@@ -10,7 +10,6 @@ format:
 ---
 
 **Project Title:** Articulating epidemiological data harmonization initiatives as practical and collaborative experiences\
-**Submitted Materials:** [zackbatist.info/CITF-Postdoc/irb-docs.pdf](irb-docs.pdf){.external target="_blank"}\
 **Principal Investigator:** Zachary Batist\
 **Protocol:** 25-01-057\
 **Submitted:** 2025-01-30\

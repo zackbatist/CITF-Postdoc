@@ -68,18 +68,18 @@ format:
   html:
     theme: 
       light: cosmo
-      dark: [cosmo, theme-dark.scss]
+      dark: [cosmo, assets/theme-dark.scss]
     code-copy: true
     code-overflow: wrap
     toc: true
 
 filters:
   - quarto
-  - include-files.lua
-  # - collect-citekeys.lua
+  - assets/include-files.lua
+  # - assets/collect-citekeys.lua
 
 execute:
   freeze: auto
 
-resources:
-  - irb-docs.pdf
+# resources:
+  # - irb-docs.pdf
