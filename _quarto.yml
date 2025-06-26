@@ -59,7 +59,7 @@ website:
         text: Blog
       - href: https://github.com/zackbatist/CITF-Postdoc
         text: GitHub
-      - href: CITF-Postdoc.bib
+      - href: assets/CITF-Postdoc.bib
         text: Bib
       - href: posts.xml
         text: RSS
