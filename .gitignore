@@ -60,3 +60,4 @@ Thumbs.db
 /.luarc.json
 _site/
 _extensions/
+.vscode/

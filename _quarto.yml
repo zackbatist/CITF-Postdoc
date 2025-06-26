@@ -21,14 +21,14 @@ website:
   repo-actions: [source]
   bread-crumbs: true
   page-navigation: false
-  favicon: images/favicon.ico
+  favicon: assets/favicon.ico
   page-footer:
     right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
     left:
       - text: "CC0"
         href: https://creativecommons.org/publicdomain/zero/1.0/
   sidebar:
-    logo: "images/logo.png"
+    logo: "assets/logo.png"
     pinned: true
     align: center
     style: "docked"
