@@ -10,7 +10,28 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 20 Jun 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 27 Jun 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W26)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W26.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Completed one interview, and mostly finished open coding.</li>
+<li>Scheduled additional interviews for the coming weeks.</li>
+<li>Worked on revisions to an article from my dissertation.</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W26.html</guid>
+  <pubDate>Fri, 27 Jun 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W25)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W25.html</link>
@@ -634,25 +655,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W08.html</guid>
   <pubDate>Fri, 21 Feb 2025 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W07)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W07.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>This week I continued my methodological readings. Today I got some requests for minor modifications to my REB protocol, which will be rather painless to implement.</p>
-<p>I also attended the Public Health day, a student conference where grad students presented their practicum research. I really enjoyed engaging with the students at the poster session, I actually learned quite a lot.</p>
-<p>Next week I’ll try to round off my methodology readings in anticipation of my REB application being approved by the end of this month.</p>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W07.html</guid>
-  <pubDate>Fri, 14 Feb 2025 05:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
