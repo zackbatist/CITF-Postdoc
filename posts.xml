@@ -10,7 +10,31 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 27 Jun 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 04 Jul 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W27)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W27.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Finished open coding for the first interview.</li>
+<li>Held my second interview, began writing memos about it (but no coding yet).</li>
+<li>Corresponding with additional interview participants, trying to pin down dates and times to meet.</li>
+<li>Preparing for third interview next week.</li>
+<li>Work on data governance paper.</li>
+<li>Initiated work on a new CIHR project grant.</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W27.html</guid>
+  <pubDate>Fri, 04 Jul 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W26)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W26.html</link>
@@ -631,30 +655,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W09.html</guid>
   <pubDate>Fri, 28 Feb 2025 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W08)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W08.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>Some highlights from this week:</p>
-<ul>
-<li>I met with Isabel for our biweekly update. We talked about challenges involved in introducing my work to epidemiologists, and practiced some techniques for communicating what my project is about.</li>
-<li>I made some revisions to my ethics protocol in response to the feedback provided by the IRB. Currently trying to resolve a technical problem with the online portal that processes these applications.</li>
-<li>I submitted a peer-review.</li>
-<li>I followed up on some translation work for SNAP.</li>
-<li>I continued with my methodology notes.</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W08.html</guid>
-  <pubDate>Fri, 21 Feb 2025 05:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
