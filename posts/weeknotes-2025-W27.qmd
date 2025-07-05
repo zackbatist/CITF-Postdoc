@@ -1,0 +1,14 @@
+---
+title: Week notes (2025-W27)
+date: 2025-07-04
+date-modified: today
+categories:
+  - week notes
+---
+
+- Finished open coding for the first interview.
+- Held my second interview, began writing memos about it (but no coding yet).
+- Corresponding with additional interview participants, trying to pin down dates and times to meet.
+- Preparing for third interview next week.
+- Work on data governance paper.
+- Initiated work on a new CIHR project grant.
