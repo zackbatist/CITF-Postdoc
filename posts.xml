@@ -10,7 +10,32 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 04 Jul 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 11 Jul 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W28)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W28.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Coded interviews.</li>
+<li>Held yet another interview.</li>
+<li>Participated in Surveillance Lab discussion about AI and publishing.</li>
+<li>Worked on a CIHR project grant.</li>
+<li>Worked on the MSCA grant (great progress!).</li>
+<li>Worked on the ICF/data governance paper (also great progress!).</li>
+</ul>
+<p>Overall, a really busy week!</p>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W28.html</guid>
+  <pubDate>Fri, 11 Jul 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W27)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W27.html</link>
@@ -634,27 +659,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W10.html</guid>
   <pubDate>Fri, 07 Mar 2025 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W09)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W09.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>This week I continued to work on my methodology notes, specifically going through the coding methods. I also spent some time updating an article from my dissertation that was rejected from a journal again, and I’m trying to see how it can be published elsewhere (including as a preprint on my own website).</p>
-<p>I experimented with the mechanism for keeping private data contained in a git submodule stored on a secure server, and fiddled with the quarto configuration too. I updated the <a href="../posts/tech-specs.html">tech specs blog post</a> with some notes.</p>
-<p>I also started developing more comprehensive case files, outlining and reflecting on the first case and how I will approach it.</p>
-<p>Being a bit ill this week, in combination with the paper rejection and another grant application, made it a bit of a slog. It will be better next week, right?</p>
-<p>On the bright side, I started a collaboration with one of Isabel’s former students, trying to revive the momentum on an abandoned paper. We really clicked and I foresee some good work coming out of this in the future, maybe even beyond this one initiaive.</p>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W09.html</guid>
-  <pubDate>Fri, 28 Feb 2025 05:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
