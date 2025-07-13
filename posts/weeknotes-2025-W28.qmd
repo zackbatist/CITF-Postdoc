@@ -1,0 +1,16 @@
+---
+title: Week notes (2025-W28)
+date: 2025-07-11
+date-modified: today
+categories:
+  - week notes
+---
+
+- Coded interviews.
+- Held yet another interview.
+- Participated in Surveillance Lab discussion about AI and publishing.
+- Worked on a CIHR project grant.
+- Worked on the MSCA grant (great progress!).
+- Worked on the ICF/data governance paper (also great progress!).
+
+Overall, a really busy week!
