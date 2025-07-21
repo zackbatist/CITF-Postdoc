@@ -1,0 +1,11 @@
+\title{$title$}
+
+\author{
+  $for(by-author)$
+    {$by-author.name.literal$ \orcidlink{$by-author.orcid$} \href{mailto:$by-author.email$}{\Letter}} \\
+    $for(by-author.affiliations)$
+      $it.name$
+    $endfor$ \\
+  $endfor$}
+
+\date{$date$}
