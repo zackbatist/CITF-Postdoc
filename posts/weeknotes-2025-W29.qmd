@@ -1,0 +1,17 @@
+---
+title: Week notes (2025-W29)
+date: 2025-07-18
+date-modified: today
+categories:
+  - week notes
+---
+
+- Finished open coding for the interviews I've done thus far.
+- Started re-arranging the codebook.
+- Wrote an intermittent report, which is basically a series of memos to keep me writing in a thematic way and to keep me on my toes as I code.
+- Worked on the CIHR project grant.
+
+[]()
+
+- Submitted revisions for [one paper from my dissertation](https://zackbatist.info/locating-creative-agency/).
+- Update [the preprint](http://zackbatist.info/fuzzy-concrete) for another paper with some more visual flair.
