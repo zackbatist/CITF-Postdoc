@@ -10,7 +10,28 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 18 Jul 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 25 Jul 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W30)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W30.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Amalgamating and organizing codes.</li>
+<li>Working on grant proposals.</li>
+<li>Journal club discussion.</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W30.html</guid>
+  <pubDate>Fri, 25 Jul 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W29)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W29.html</link>
@@ -619,45 +640,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W12.html</guid>
   <pubDate>Fri, 21 Mar 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W11)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W11.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<ul>
-<li>Updated David on my progress</li>
-<li>Finally settled on situational analysis as my methodological framework
-<ul>
-<li>Continuing to take more notes on key readings</li>
-</ul></li>
-<li>Started producing situational maps and memos</li>
-<li>Started looking into ways of mining the CITF papers and research summaries (as briefly discussed during the weekly update)</li>
-</ul>
-<p><a href=""></a></p>
-<ul>
-<li>Worked a bit on the “locationg creative agency” paper during my off-time</li>
-<li>Initiated and discussed a community-driven survey of AI applications in archaeology
-<ul>
-<li>It’s now on the backburner due to lack of time and motivation from the SSLA members, and becoming aware of similar initiatives being undertaken by others</li>
-</ul></li>
-<li>Worked on ReACH data governance paper a bit</li>
-<li>Finishing some translation work during my off-time</li>
-<li>Migrating my personal/professional blog from wordpress to a quarto-based system
-<ul>
-<li>Also looking through some ancient posts (circa 2011-2014) and reformatting those to be migrated too</li>
-</ul></li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W11.html</guid>
-  <pubDate>Fri, 14 Mar 2025 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
