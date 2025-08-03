@@ -1,7 +1,24 @@
 [
   {
+    "listing": "/notes.html",
+    "items": [
+      "/notes/cataloguing.html",
+      "/notes/critical-research-about-harmonization.html",
+      "/notes/caqdas.html",
+      "/notes/methodology-notes.html",
+      "/notes/tricks-of-the-trade.html",
+      "/notes/theory-building.html",
+      "/notes/theoretical-sampling.html",
+      "/notes/situational-analysis.html",
+      "/notes/coding-methods.html",
+      "/notes/maelstrom-readings.html",
+      "/notes/potential-cases.html"
+    ]
+  },
+  {
     "listing": "/posts.html",
     "items": [
+      "/posts/weeknotes-2025-W31.html",
       "/posts/weeknotes-2025-W30.html",
       "/posts/weeknotes-2025-W29.html",
       "/posts/weeknotes-2025-W28.html",
@@ -34,22 +51,6 @@
       "/posts/weeknotes-2025-W03.html",
       "/posts/2024-12-09-first-team-meeting.html",
       "/posts/2024-12-09-hello-world.html"
-    ]
-  },
-  {
-    "listing": "/notes.html",
-    "items": [
-      "/notes/cataloguing.html",
-      "/notes/critical-research-about-harmonization.html",
-      "/notes/caqdas.html",
-      "/notes/methodology-notes.html",
-      "/notes/tricks-of-the-trade.html",
-      "/notes/theory-building.html",
-      "/notes/theoretical-sampling.html",
-      "/notes/situational-analysis.html",
-      "/notes/coding-methods.html",
-      "/notes/maelstrom-readings.html",
-      "/notes/potential-cases.html"
     ]
   }
 ]
