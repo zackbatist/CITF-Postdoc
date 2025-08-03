@@ -1,0 +1,27 @@
+---
+title: Week notes (2025-W31)
+date: 2025-08-01
+date-modified: today
+categories:
+  - week notes
+---
+
+This was a busy one, and looks like all of August will be packed too.
+
+- Much work on the project grant
+  - Presented progress to the rest of the team
+  - Started developing an entity-relationship diagram to arrive at more structured nomenclature
+  - Signed up for a grant-writing webinar
+  - Initiated parallel work on an NFRF exploration grant submission
+- Held another interview
+- Scheduled another interview
+- Significant progress made on the ICF paper
+- Progress on organizing the code system has been limited, I must admit
+
+[]()
+
+- Hosted the SSLA meeting
+- Checked in regarding MSCA grant
+- Inquired about challenges I face for software I use (qc and grobid)
+- Initiated a TT job application
+- Touched on work for the data-tech-poli-arch workshop in December
