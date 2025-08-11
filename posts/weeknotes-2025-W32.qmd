@@ -1,0 +1,14 @@
+---
+title: Week notes (2025-W32)
+date: 2025-08-08
+date-modified: today
+categories:
+  - week notes
+---
+
+- Working on the code system.
+- Grant-writing.
+- Scheduling additional interviews.
+- Surveillance Lab meeting.
+- Grant-writing webinar.
+- Working on the ICF paper.
