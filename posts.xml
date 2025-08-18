@@ -10,7 +10,27 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 08 Aug 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 15 Aug 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W33)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W33.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Lots of grant-writing, mainly.</li>
+<li>Also lots of emails in support of grant-writing.</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W33.html</guid>
+  <pubDate>Fri, 15 Aug 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W32)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W32.html</link>
@@ -617,35 +637,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>website</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/tech-specs.html</guid>
   <pubDate>Fri, 04 Apr 2025 20:37:50 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W14)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W14.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>This was a really tough week. I did not sleep well at all. Got a lot done, though.</p>
-<ul>
-<li>Continued refining the guide for my first interview.</li>
-<li>Writing and editing new memos.</li>
-<li>Did an overview of graph databases with other members of the CITF team, to explore their potential utility for us.</li>
-<li>Did <a href="../MCHI-2025/index.html">my presentation for the MCHI research group</a>, where I basically talked about my research goals and methods.</li>
-<li>I started drafting a blog post about tech fetishism among academics.</li>
-<li>Worked a bit more on my revisions for the <a href="https://zackbatist.info/fuzzy-concrete">AAP paper</a> (got a 2-week extension).</li>
-<li>Connected with other coool postdocs at the monthly casual meetup.</li>
-<li>Participated in the monthly SSLA meeting.</li>
-<li>Attended <a href="https://www.mcgill.ca/epi-biostat-occh/channels/event/building-capacity-pragmatic-clinical-trials-canada-363513">a talk on pragmatic clinical trials</a>, which I thought was really interesting.</li>
-<li>Set up the <a href="../posts/tech-specs.html#qc">qualitative coding system</a>.</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W14.html</guid>
-  <pubDate>Fri, 04 Apr 2025 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
