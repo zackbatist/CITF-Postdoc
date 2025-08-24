@@ -10,9 +10,9 @@ link-external-icon: true
 link-external-filter: |
   ^(?:http:|https:)\/\/zackbatist\.info\/
   ^(?:http:|https:)\/\/github\.com\/zackbatist\/
-format: 
-  html: 
-    grid: 
+format:
+  html:
+    grid:
       content-mode: full
       body-width: 1000px
       sidebar-width: 200px
