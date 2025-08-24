@@ -1,0 +1,13 @@
+---
+title: Week notes (2025-W34)
+date: 2025-08-22
+date-modified: today
+categories:
+  - week notes
+---
+
+- Mainly grant-writing and emails in support of grant-writing.
+- Participated in the Surveillance Lab discussion.
+- Participated in a grant-writing educational webinar.
+- Posted about [the challenges of accessing and using scholarly metadata pertaining to monographs and grey literature](https://zackbatist.info/posts/2025-08-18-open-scholarly-metadata/) (part of the BibVik project).
+- Mentally preparing for the start of the new semester next week.
