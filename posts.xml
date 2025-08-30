@@ -10,7 +10,27 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 22 Aug 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 29 Aug 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W35)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W35.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Grant writing, and emails in support of grant writing.</li>
+<li>Was partially out of commission this week due to a biking injury.</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W35.html</guid>
+  <pubDate>Fri, 29 Aug 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W34)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W34.html</link>
@@ -444,26 +464,6 @@
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W16.html</guid>
   <pubDate>Fri, 18 Apr 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W15)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W15.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<p>Did my first interview, it went really well! We scheduled a follow-up for next month. I finished transcribing and processing the interview. I also started doing some open / initial coding and memoing.</p>
-<p>I made a significant update to the <a href="../qda-protocol.html">QDA protocol</a> and <a href="../data-management.html">data management plan</a>.</p>
-<p>I developed another case file and made more concrete progress on planning subsequent interviews. I also obtained informed consent from additional potential participants.</p>
-<p>Over the weekend and outside work hours I made significant progress on a revisions to a paper deriving from my thesis. I will be ready to submit the revisions this week.</p>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W15.html</guid>
-  <pubDate>Fri, 11 Apr 2025 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
