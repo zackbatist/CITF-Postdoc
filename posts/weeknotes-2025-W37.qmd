@@ -1,0 +1,10 @@
+---
+title: Week notes (2025-W37)
+date: 2025-09-12
+date-modified: today
+categories:
+  - week notes
+---
+
+- Submitted all my grant proposals.
+- Started taking stock of the data I'd collected during the summer.
