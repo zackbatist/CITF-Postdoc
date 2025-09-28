@@ -10,7 +10,37 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 19 Sep 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 26 Sep 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W39)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W39.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>Overall, a very productive week. Feels great to get back into the research after spending so much time in grant-land, and then suffering from a really terrible cold. It’s also the Jewish high holidays, which kinda scaffolds my work in a weirdly productive way.</p>
+<p>I also received equipment that enables me to use both of my external displays, and settled on a combination digital and analog method for coding, so I’m finally getting into a more productive “zone”. I may write a blog post about that next week.</p>
+<ul>
+<li><p>Finished re-coding an entire interview.</p>
+<ul>
+<li>Hand-coded and then brought into the qc database.</li>
+</ul></li>
+<li><p>Around halfway done hand-coding another interview.</p></li>
+<li><p>Got a primer on the state of the data tables for the cleaned-up email correspondence data.</p></li>
+<li><p>Initiated work on a protocol document for the CIHR Project Grant study.</p></li>
+<li><p>Attended David’s seminar presentation.</p></li>
+<li><p>Revised proofs from a paper deriving from my dissertation work.</p></li>
+<li><p>Worked on a peer-review due this weekend.</p></li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W39.html</guid>
+  <pubDate>Fri, 26 Sep 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W38)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W38.html</link>
@@ -443,27 +473,6 @@
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W20.html</guid>
   <pubDate>Fri, 16 May 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W19)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W19.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<ul>
-<li>Worked on the case file and interview guides</li>
-<li>Wrote a memo about the pivot</li>
-<li>Posted on my <a href="https://zackbatist.info/posts.html">personal blog</a></li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W19.html</guid>
-  <pubDate>Fri, 09 May 2025 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
