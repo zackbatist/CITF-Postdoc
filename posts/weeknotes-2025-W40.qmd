@@ -1,0 +1,13 @@
+---
+title: Week notes (2025-W40)
+date: 2025-10-03
+date-modified: today
+categories:
+  - week notes
+---
+
+- Finished coding another interview
+- Worked on the protocol for the CIHR PG study
+- Got a rundown of the data cleaning processes for the CIHR PG study
+- Met with Chris Proctor for support on my qc workflows, and to discuss the software's potential
+- Submitted a peer review
