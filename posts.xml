@@ -10,7 +10,30 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 26 Sep 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 03 Oct 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W40)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W40.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Finished coding another interview</li>
+<li>Worked on the protocol for the CIHR PG study</li>
+<li>Got a rundown of the data cleaning processes for the CIHR PG study</li>
+<li>Met with Chris Proctor for support on my qc workflows, and to discuss the software’s potential</li>
+<li>Submitted a peer review</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W40.html</guid>
+  <pubDate>Fri, 03 Oct 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W39)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W39.html</link>
@@ -451,28 +474,6 @@
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W21.html</guid>
   <pubDate>Fri, 23 May 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W20)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W20.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<ul>
-<li>Ethics amendment under review</li>
-<li>Developed a couple situational maps</li>
-<li>Developed some interview guides</li>
-<li>Made significant progress on the data governance paper</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W20.html</guid>
-  <pubDate>Fri, 16 May 2025 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
