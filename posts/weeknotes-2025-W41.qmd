@@ -1,0 +1,18 @@
+---
+title: Week notes (2025-W41)
+date: 2025-10-10
+date-modified: today
+categories:
+  - week notes
+---
+
+- Completed another round of coding for an additional interview.
+- Scheduled two more interviews and began revising the interview guides.
+- Continued to think through the next phase of analysis, and met with David to discuss.
+- Continued to develop the project grant research protocol, specifically focusing on developing a taxonomy of the values applied during data cleaning.
+- Continued to think and play around with ways of visualizing the analysis by passing information from qc to quarto.
+- Briefly watched some of the presentations for a conference on Open Science in Canada put on at Concordia.
+
+- Revised proofs for a paper deriving from my dissertation.
+- Worked on the data-tech-poli-arch paper over the weekend.
+- Participated in the Montreal Anarchist Tech Convergence over the weekend.
