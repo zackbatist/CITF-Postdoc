@@ -10,7 +10,34 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 03 Oct 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 10 Oct 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W41)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W41.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li><p>Completed another round of coding for an additional interview.</p></li>
+<li><p>Scheduled two more interviews and began revising the interview guides.</p></li>
+<li><p>Continued to think through the next phase of analysis, and met with David to discuss.</p></li>
+<li><p>Continued to develop the project grant research protocol, specifically focusing on developing a taxonomy of the values applied during data cleaning.</p></li>
+<li><p>Continued to think and play around with ways of visualizing the analysis by passing information from qc to quarto.</p></li>
+<li><p>Briefly watched some of the presentations for a conference on Open Science in Canada put on at Concordia.</p></li>
+<li><p>Revised proofs for a paper deriving from my dissertation.</p></li>
+<li><p>Worked on the data-tech-poli-arch paper over the weekend.</p></li>
+<li><p>Participated in the Montreal Anarchist Tech Convergence over the weekend.</p></li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W41.html</guid>
+  <pubDate>Fri, 10 Oct 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W40)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W40.html</link>
@@ -452,28 +479,6 @@
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W22.html</guid>
   <pubDate>Fri, 30 May 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W21)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W21.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<ul>
-<li>Still waiting for approval on the ethics ammendment</li>
-<li>Presented for the surveillance lab and had a great discussion</li>
-<li>Worked on interview planning and memo-writing</li>
-<li>Read about other Covid-19 data-sharing and collaborative initiatives</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W21.html</guid>
-  <pubDate>Fri, 23 May 2025 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
