@@ -1,7 +1,7 @@
---[[ Lua Script: Aggregate Double Space Utility: aggregate_double_space.lua ]]
+--[[ Lua Script: Aggregate Corpus: aggregate_corpus.lua ]]
 -- This script aggregates the content of multiple text files specified as command-line arguments.
 -- For each line, it applies double-spacing and bolds speaker names (Name:), regardless of indentation.
--- The final, single, processed output is written to 'double_spaced_corpus.md' in the current directory.
+-- The final, single, processed output is written to 'aggregated_corpus.md' in the 'qc' directory.
 
 -- The target output file name (no leading underscore to avoid file lock issues)
 local OUTPUT_FILENAME = "qc/aggregated_corpus.md"
