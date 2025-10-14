@@ -1,7 +1,7 @@
 project: 
   type: website
   pre-render:
-    - sh -c "/opt/homebrew/bin/lua assets/aggregate_corpus.lua qc/corpus/*.txt"
+    - sh -c "./assets/generate_corpus.sh"
   render:
     - "*.qmd"
     - "!private/"
