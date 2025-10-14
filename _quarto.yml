@@ -1,5 +1,7 @@
 project: 
   type: website
+  pre-render:
+    - sh -c "/opt/homebrew/bin/lua assets/aggregate_corpus.lua qc/corpus/*.txt"
   render:
     - "*.qmd"
     - "!private/"
@@ -13,7 +15,6 @@ project:
   preview:
     port: 7777
     browser: false
-
 website: 
   title: "CITF-Postdoc" 
   site-url: "https://zackbatist.info/CITF-Postdoc/" 
