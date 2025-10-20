@@ -1,0 +1,12 @@
+---
+title: Week notes (2025-W42)
+date: 2025-10-17
+date-modified: today
+categories:
+  - week notes
+---
+
+- Held another interview.
+- Worked on the PG protocol.
+- Started vibe-coding a better interface for visual exploration of codings.
+- Worked on my presentation for a guest lecture in a colleague's class.
