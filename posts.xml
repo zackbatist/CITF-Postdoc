@@ -10,7 +10,29 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.39</generator>
-<lastBuildDate>Fri, 10 Oct 2025 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 17 Oct 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W42)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W42.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<ul>
+<li>Held another interview.</li>
+<li>Worked on the PG protocol.</li>
+<li>Started vibe-coding a better interface for visual exploration of codings.</li>
+<li>Worked on my presentation for a guest lecture in a colleague’s class.</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W42.html</guid>
+  <pubDate>Fri, 17 Oct 2025 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W41)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W41.html</link>
@@ -458,27 +480,6 @@
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W23.html</guid>
   <pubDate>Fri, 06 Jun 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W22)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W22.html</link>
-  <description><![CDATA[ 
-
-
-
-
-<ul>
-<li>Still waiting on ethics review.</li>
-<li>Background reading.</li>
-<li>Memo-writing / reflection.</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W22.html</guid>
-  <pubDate>Fri, 30 May 2025 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
