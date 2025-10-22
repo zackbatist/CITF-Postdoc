@@ -1,7 +1,7 @@
 project: 
   type: website
   pre-render:
-    - sh -c "./assets/generate_corpus.sh"
+    - "assets/generate_corpus.sh"
   render:
     - "*.qmd"
     - "!private/"
@@ -64,6 +64,8 @@ website:
         text: Bib
       - href: posts.xml
         text: RSS
+      - text: "Corpus Viewer"
+        file: corpus-viewer.qmd
 
 format:
   html:

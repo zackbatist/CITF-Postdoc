@@ -61,3 +61,6 @@ Thumbs.db
 _site/
 _extensions/
 .vscode/
+**/*.quarto_ipynb
+_freeze/
+_corpus_output/

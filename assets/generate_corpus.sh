@@ -1,46 +1,75 @@
-#!/bin/sh
+#!/bin/bash
 
-# 1. Generate all required JSON files using the qc tool
-echo "--- Starting JSON Generation ---"
+# --- 1. Robust Path Setup ---
+# Calculate the absolute path to the directory containing this script ('assets/').
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
 
-# Change directory to 'qc/' where the settings.yaml and project database reside.
-(
-    cd qc || exit 1 
-    
-    # Create the dedicated directory for JSON output
-    mkdir -p json
-    echo "JSON output directory created at qc/json/"
-    
-    # Temporarily copy files from 'corpus/' to the current directory (qc/) 
-    # so the 'qc codes find' command can work with just the filename.
-    echo "Copying corpus files to qc/ for qc tool execution..."
-    cp corpus/*.txt .
-    
-    # Run the command for each file now located directly in the qc/ directory.
-    for TXT_FILE in *.txt; do
-        # Skip the loop if no files were copied (e.g., if another .txt exists)
-        if [ "$TXT_FILE" = "*.txt" ]; then
-            continue
-        fi
+# The documents are in 'qc/corpus', which is one level up from 'assets'
+ASSETS_DIR="${SCRIPT_DIR}/../qc/corpus" 
 
-        FILENAME=$(basename "$TXT_FILE")
-        JSON_OUT_PATH="json/${FILENAME%.txt}.json" 
-        
-        echo "Generating codes for $FILENAME -> $JSON_OUT_PATH"
-        
-        # Execute the qc command. Output is piped to the new json/ subdirectory.
-        qc codes find -rjp "$FILENAME" > "$JSON_OUT_PATH"
-    done
-    
-    # Clean up the temporary files from the qc/ directory
-    echo "Cleaning up temporary corpus files..."
-    rm *.txt
+# The Lua script ('aggregate_corpus.lua') is in the SAME directory as this script:
+LUA_SCRIPT="${SCRIPT_DIR}/aggregate_corpus.lua"
 
+
+# --- 2. Exclusion List ---
+declare -a EXCLUDED_DOCUMENTS=(
+    "2025-03-26"
+    "2025-04-07-JBergeron"
+    "2025-07-31-DAC"
 )
 
-# 2. Run the Lua aggregator filter 
-echo "--- Starting Lua Aggregation ---"
-# This is executed back in the CITF-Postdoc root directory.
-/opt/homebrew/bin/lua assets/aggregate_corpus.lua qc/corpus/*.txt > qc/aggregated_corpus.html
 
-echo "--- Pre-render complete ---"
+# --- 3. File Processing Logic (Uses Process Substitution for portability) ---
+declare -a FILES_TO_PROCESS=()
+FOUND_COUNT=0
+SKIPPED_COUNT=0
+ 
+# The process substitution < <(...) ensures the counters are updated correctly
+while IFS= read -r -d $'\0' file_path; do
+    
+    [[ -z "$file_path" ]] && continue
+    
+    FOUND_COUNT=$((FOUND_COUNT + 1))
+    
+    # Extract the base name (e.g., "2025-03-26")
+    filename=$(basename "$file_path")
+    base_name="${filename%.*}"
+    
+    # Check for exclusion
+    IS_EXCLUDED=0
+    for excluded_name in "${EXCLUDED_DOCUMENTS[@]}"; do
+        if [[ "$base_name" == "$excluded_name" ]]; then
+            IS_EXCLUDED=1
+            break
+        fi
+    done
+    
+    if [ "$IS_EXCLUDED" -eq 1 ]; then
+        echo "Excluding: $file_path" >&2
+        SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
+        continue # Skip to the next file
+    fi
+    
+    # Add the file path to the processing array
+    FILES_TO_PROCESS+=("$file_path")
+
+done < <(find "${ASSETS_DIR}" -type f \( -name "*.txt" -o -name "*.corpus" \) -print0)
+
+# --- 4. Execution and Reporting ---
+
+echo "" >&2
+echo "--- AGGREGATION REPORT ---" >&2
+echo "Searching in: ${ASSETS_DIR}" >&2
+echo "Total files found: $FOUND_COUNT" >&2
+echo "Files skipped: $SKIPPED_COUNT" >&2
+echo "Files to process: ${#FILES_TO_PROCESS[@]}" >&2
+
+if [ ${#FILES_TO_PROCESS[@]} -gt 0 ]; then
+    echo "Processing ${#FILES_TO_PROCESS[@]} file(s) with ${LUA_SCRIPT}..." >&2
+    echo "---------------------------" >&2
+    lua "${LUA_SCRIPT}" "${FILES_TO_PROCESS[@]}"
+else
+    echo "---------------------------" >&2
+    echo "ERROR: No valid files remained after filtering. Lua script not executed." >&2
+    exit 1
+fi
