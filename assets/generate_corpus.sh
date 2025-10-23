@@ -8,12 +8,13 @@ SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
 ASSETS_DIR="${SCRIPT_DIR}/../qc/corpus" 
 
 # The Lua script ('aggregate_corpus.lua') is in the SAME directory as this script:
-LUA_SCRIPT="${SCRIPT_DIR}/aggregate_corpus.lua"
+# LUA_SCRIPT="${SCRIPT_DIR}/aggregate_corpus.lua"
+LUA_SCRIPT="${SCRIPT_DIR}/x.lua"
 
 
 # --- 2. Exclusion List ---
 declare -a EXCLUDED_DOCUMENTS=(
-    "2025-03-26"
+    "2025-03-26-x"
     "2025-04-07-JBergeron"
     "2025-07-31-DAC"
 )
@@ -23,7 +24,7 @@ declare -a EXCLUDED_DOCUMENTS=(
 declare -a FILES_TO_PROCESS=()
 FOUND_COUNT=0
 SKIPPED_COUNT=0
- 
+
 # The process substitution < <(...) ensures the counters are updated correctly
 while IFS= read -r -d $'\0' file_path; do
     

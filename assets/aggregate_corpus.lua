@@ -1,10 +1,10 @@
 -- ==========================================================
--- FILE: assets/aggregate_corpus.lua (Final Version)
+-- FILE: assets/aggregate_corpus.lua
 -- ==========================================================
 
 -- --- Configuration & Dependencies ---
 local json = require("dkjson") 
-local OUTPUT_DIR_RELATIVE = "qc/corpus/json"
+local OUTPUT_DIR_RELATIVE = "qc/json"
 local JSON_OUTPUT_DIR = OUTPUT_DIR_RELATIVE
 
 -- 1. Function to ensure the output directory exists
@@ -25,7 +25,7 @@ local function analyze_document(file_path)
 
     local filename = file_path:match("([^/]+)$")
     
-    -- **CRITICAL FIX:** 1. If the filename has no period, it's not a standard file.
+    -- 1. If the filename has no period, it's not a standard file.
     if not filename:find(".") then
         io.stderr:write("LUA WARNING: Skipping directory or extensionless file: " .. file_path .. "\n")
         return nil
@@ -72,7 +72,7 @@ for i, file_path in ipairs(arg) do
         local filename_base = analysis_data.file 
         local output_file_path = JSON_OUTPUT_DIR .. "/" .. filename_base .. ".json"
 
-        local json_string = json.encode(analysis_data) 
+        local json_string = json.encode(analysis_data)
 
         local f, err = io.open(output_file_path, "w")
         if not f then
