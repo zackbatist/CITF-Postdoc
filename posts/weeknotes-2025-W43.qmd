@@ -1,0 +1,13 @@
+---
+title: Week notes (2025-W43)
+date: 2025-10-24
+date-modified: today
+categories:
+  - week notes
+---
+
+- Finished transcribing the last interview and wrote reflexive memos about it too
+- Worked on qc-viz (the lua filter)
+- Developed the PG protocol
+- Progress on my guest lecture for a Digital Curation class next week
+- Side project stuff
