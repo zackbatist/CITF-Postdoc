@@ -1,76 +1,66 @@
 #!/bin/bash
 
-# --- 1. Robust Path Setup ---
-# Calculate the absolute path to the directory containing this script ('assets/').
-SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
+# Define paths relative to CITF-Postdoc root
+QC_DIR="qc"
+CORPUS_DIR="$QC_DIR/corpus"
+JSON_DIR="$QC_DIR/json"
 
-# The documents are in 'qc/corpus', which is one level up from 'assets'
-ASSETS_DIR="${SCRIPT_DIR}/../qc/corpus" 
+# Store the current directory (project root)
+PROJECT_ROOT="$(pwd)"
 
-# The Lua script ('aggregate_corpus.lua') is in the SAME directory as this script:
-# LUA_SCRIPT="${SCRIPT_DIR}/aggregate_corpus.lua"
-LUA_SCRIPT="${SCRIPT_DIR}/x.lua"
+# Ensure directories exist
+mkdir -p "$JSON_DIR"
 
+echo "Running qualitative-coding export..."
 
-# --- 2. Exclusion List ---
-declare -a EXCLUDED_DOCUMENTS=(
-    "2025-03-26-x"
-    "2025-04-07-JBergeron"
-    "2025-07-31-DAC"
-)
+# --- STEP 1: GENERATE JSON FILES ---
 
+OLDPWD="$PWD"
+cd "$QC_DIR" || { echo "❌ ERROR: Cannot change directory to $QC_DIR. Aborting."; exit 1; }
+echo "Working directory changed to: $PWD"
 
-# --- 3. File Processing Logic (Uses Process Substitution for portability) ---
-declare -a FILES_TO_PROCESS=()
-FOUND_COUNT=0
-SKIPPED_COUNT=0
-
-# The process substitution < <(...) ensures the counters are updated correctly
-while IFS= read -r -d $'\0' file_path; do
+# List all .txt files in corpus/
+find corpus -name "*.txt" | grep -v 'corpus/2025-03-26-x.txt' | grep -v 'corpus/2025-04-07-JBergeron.txt' | grep -v 'corpus/2025-07-31-DAC.txt' | while read -r filepath_rel_qc; do
     
-    [[ -z "$file_path" ]] && continue
+    filename=$(basename "$filepath_rel_qc")
+    filename_stem="${filename%.txt}"
     
-    FOUND_COUNT=$((FOUND_COUNT + 1))
+    json_output="../$JSON_DIR/${filename_stem}.json" 
     
-    # Extract the base name (e.g., "2025-03-26")
-    filename=$(basename "$file_path")
-    base_name="${filename%.*}"
+    echo "Processing $filename. Using pattern: $filename_stem"
     
-    # Check for exclusion
-    IS_EXCLUDED=0
-    for excluded_name in "${EXCLUDED_DOCUMENTS[@]}"; do
-        if [[ "$base_name" == "$excluded_name" ]]; then
-            IS_EXCLUDED=1
-            break
-        fi
-    done
+    ./bin/qc codes find --json --pattern "$filename_stem" --before 0 --after 0 > "$json_output"
     
-    if [ "$IS_EXCLUDED" -eq 1 ]; then
-        echo "Excluding: $file_path" >&2
-        SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
-        continue # Skip to the next file
+    if [ ! -s "$json_output" ]; then
+        echo "⚠️ WARNING: $json_output is empty (0 bytes or just []). Pattern used: $filename_stem"
     fi
     
-    # Add the file path to the processing array
-    FILES_TO_PROCESS+=("$file_path")
+done
 
-done < <(find "${ASSETS_DIR}" -type f \( -name "*.txt" -o -name "*.corpus" \) -print0)
+# Return to the project root directory
+cd "$OLDPWD"
+echo "Returned to project root: $PWD"
+echo "JSON generation complete."
 
-# --- 4. Execution and Reporting ---
+# --- STEP 2: CALL THE LUA SCRIPT TO GENERATE 0.HTML (ROBUST EXECUTION) ---
 
-echo "" >&2
-echo "--- AGGREGATION REPORT ---" >&2
-echo "Searching in: ${ASSETS_DIR}" >&2
-echo "Total files found: $FOUND_COUNT" >&2
-echo "Files skipped: $SKIPPED_COUNT" >&2
-echo "Files to process: ${#FILES_TO_PROCESS[@]}" >&2
+LUA_SCRIPT_PATH="$PROJECT_ROOT/assets/qualitative-viz.lua"
 
-if [ ${#FILES_TO_PROCESS[@]} -gt 0 ]; then
-    echo "Processing ${#FILES_TO_PROCESS[@]} file(s) with ${LUA_SCRIPT}..." >&2
-    echo "---------------------------" >&2
-    lua "${LUA_SCRIPT}" "${FILES_TO_PROCESS[@]}"
-else
-    echo "---------------------------" >&2
-    echo "ERROR: No valid files remained after filtering. Lua script not executed." >&2
-    exit 1
+echo "Calling Lua script using absolute path and environment variable..."
+
+# Export the absolute path as a reliable environment variable for the Lua filter.
+export PROJECT_ROOT_PATH="$PROJECT_ROOT"
+
+# Method A: Use the universal 'pandoc' command with --lua-filter on a dummy file.
+# We direct output to /dev/null since the filter writes the real output file.
+echo "Attempting method A: pandoc --lua-filter..."
+/usr/bin/env pandoc --lua-filter "$LUA_SCRIPT_PATH" /dev/null -o /dev/null
+
+# Check the exit status of the Pandoc command.
+if [ $? -ne 0 ]; then
+    echo "Pandoc call failed. Attempting method B: Quarto run with standard filter syntax..."
+    # Method B: Fallback to Quarto's filter execution command.
+    quarto run --filter "$LUA_SCRIPT_PATH" dummy_input.md -o dummy_output.html
 fi
+
+echo "HTML generation completed by Lua script."

@@ -4,6 +4,7 @@ project:
     - "assets/generate_corpus.sh"
   render:
     - "*.qmd"
+    - "qc/0.html"
     - "!private/"
     - "!data/CITF.qmd"
     - "!data/CITF.html"
