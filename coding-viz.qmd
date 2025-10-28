@@ -1,0 +1,11 @@
+---
+title: "Qualitative Coding Visualization"
+format:
+  html:
+    filters:
+      - assets/coding-visualizer.lua
+---
+
+This document triggers the generation of the coding visualization.
+
+The HTML output is generated at `qc/0.html` and can be viewed directly in your browser.
