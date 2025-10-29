@@ -64,8 +64,6 @@ website:
         text: Bib
       - href: posts.xml
         text: RSS
-      - text: "Corpus Viewer"
-        file: corpus-viewer.qmd
 
 format:
   html:
