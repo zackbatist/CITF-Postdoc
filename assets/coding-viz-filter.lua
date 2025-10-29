@@ -1,5 +1,5 @@
--- coding-visualizer.lua
--- Place in assets/coding-visualizer.lua
+-- coding-viz-filter.lua
+-- Place in assets/coding-viz-filter.lua
 
 -- Code prefix schema
 local code_schema = {
@@ -89,7 +89,7 @@ end
 
 -- Parse filename to interview name
 local function get_interview_name(filename)
-  return filename:gsub("%.txt$", ""):gsub("%-", " ")
+  return filename:gsub("%.txt$", "")
 end
 
 -- Generate slug
@@ -153,9 +153,9 @@ local function collect_all_codes(json_files)
   return codes_by_prefix
 end
 
--- Find longest speaker
-local function find_longest_speaker(json_files, corpus_dir)
-  local max_length = 0
+-- Collect all speakers
+local function collect_all_speakers(json_files, corpus_dir)
+  local speakers = {}
   
   for _, json_file in ipairs(json_files) do
     local basename = json_file:match("([^/]+)%.json$")
@@ -165,13 +165,30 @@ local function find_longest_speaker(json_files, corpus_dir)
       
       for _, line in ipairs(corpus_lines) do
         local speaker = extract_speaker(line)
-        if speaker and #speaker > max_length then
-          max_length = #speaker
+        if speaker then
+          speakers[speaker] = true
         end
       end
     end
   end
   
+  local speaker_array = {}
+  for speaker, _ in pairs(speakers) do
+    speaker_array[#speaker_array + 1] = speaker
+  end
+  table.sort(speaker_array)
+  
+  return speaker_array
+end
+
+-- Find longest speaker
+local function find_longest_speaker(speakers)
+  local max_length = 0
+  for _, speaker in ipairs(speakers) do
+    if #speaker > max_length then
+      max_length = #speaker
+    end
+  end
   return max_length
 end
 
@@ -183,7 +200,8 @@ local function generate_html()
   local json_files = get_json_files(json_dir)
   
   local codes_by_prefix = collect_all_codes(json_files)
-  local max_speaker_length = find_longest_speaker(json_files, corpus_dir)
+  local all_speakers = collect_all_speakers(json_files, corpus_dir)
+  local max_speaker_length = find_longest_speaker(all_speakers)
   local speaker_width = math.max(80, math.min(200, max_speaker_length * 8 + 20))
   
   -- CSS
@@ -207,6 +225,28 @@ local function generate_html()
   html = html .. '    <div class="filter-header">\n'
   html = html .. '      <h3>Filter by Codes</h3>\n'
   html = html .. '      <div class="filter-actions">\n'
+  html = html .. '        <div class="toggle-uncoded">\n'
+  html = html .. '          <input type="checkbox" id="show-uncoded">\n'
+  html = html .. '          <label for="show-uncoded">Show uncoded segments</label>\n'
+  html = html .. '        </div>\n'
+  html = html .. '        <div class="speaker-filter">\n'
+  html = html .. '          <span class="speaker-filter-label">Speakers <span class="speaker-filter-summary">(all)</span> ▾</span>\n'
+  html = html .. '          <div class="speaker-filter-dropdown" id="speaker-filter-dropdown">\n'
+  html = html .. '            <div class="speaker-filter-controls">\n'
+  html = html .. '              <button class="speaker-filter-btn" id="speaker-select-all">All</button>\n'
+  html = html .. '              <button class="speaker-filter-btn" id="speaker-select-none">None</button>\n'
+  html = html .. '            </div>\n'
+  
+  for _, speaker in ipairs(all_speakers) do
+    local speaker_id = escape_html(speaker):gsub("[^%w]", "-")
+    html = html .. '            <div class="speaker-filter-item">\n'
+    html = html .. '              <input type="checkbox" class="speaker-checkbox" data-speaker="' .. escape_html(speaker) .. '" id="spk-' .. speaker_id .. '" checked>\n'
+    html = html .. '              <label for="spk-' .. speaker_id .. '">' .. escape_html(speaker) .. '</label>\n'
+    html = html .. '            </div>\n'
+  end
+  
+  html = html .. '          </div>\n'
+  html = html .. '        </div>\n'
   html = html .. '        <div style="position: relative;">\n'
   html = html .. '          <button class="action-btn export" id="export-btn">Export ▾</button>\n'
   html = html .. '          <div class="export-menu" id="export-menu">\n'
@@ -234,13 +274,14 @@ local function generate_html()
     local label = code_schema[prefix] or prefix
     local codes = codes_by_prefix[prefix]
     
-    html = html .. '      <div class="filter-category" data-prefix="' .. prefix .. '" style="border-color: ' .. color .. ';">\n'
+    html = html .. '      <div class="filter-category" data-prefix="' .. prefix .. '" style="border-left-color: ' .. color .. ';">\n'
     html = html .. '        <div class="category-header collapsed">\n'
-    html = html .. '          <div class="category-title">' .. prefix .. ': ' .. label .. '</div>\n'
-    html = html .. '          <div class="category-controls">\n'
-    html = html .. '            <button class="select-all-btn" data-prefix="' .. prefix .. '">None</button>\n'
-    html = html .. '            <span class="expand-icon">▼</span>\n'
+    html = html .. '          <div class="category-title">\n'
+    html = html .. '            <span>' .. prefix .. ': ' .. label .. '</span>\n'
+    html = html .. '            <span class="category-status">(all)</span>\n'
     html = html .. '          </div>\n'
+    html = html .. '          <button class="select-all-btn" data-prefix="' .. prefix .. '">None</button>\n'
+    html = html .. '          <span class="expand-icon">▼</span>\n'
     html = html .. '        </div>\n'
     html = html .. '        <div class="codes-list collapsed">\n'
     
@@ -310,18 +351,19 @@ local function generate_html()
           end
           
           local codes = line_codes[i]
+          local display_text = line
+          if speaker then
+            display_text = line:gsub("^" .. speaker:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1") .. ":%s*", "")
+          end
+          
+          -- Include both coded and uncoded lines
+          html = html .. '          <tr>\n'
+          html = html .. '            <td class="speaker-cell">' .. escape_html(current_speaker) .. '</td>\n'
+          html = html .. '            <td class="text-cell">' .. escape_html(display_text) .. '</td>\n'
+          html = html .. '            <td class="codes-cell">'
+          
           if codes and #codes > 0 then
             coded_lines = coded_lines + 1
-            
-            local display_text = line
-            if speaker then
-              display_text = line:gsub("^" .. speaker:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1") .. ":%s*", "")
-            end
-            
-            html = html .. '          <tr>\n'
-            html = html .. '            <td class="speaker-cell">' .. escape_html(current_speaker) .. '</td>\n'
-            html = html .. '            <td class="text-cell">' .. escape_html(display_text) .. '</td>\n'
-            html = html .. '            <td class="codes-cell">'
             
             for _, code in ipairs(codes) do
               local prefix = code:match("^(%d%d)_")
@@ -333,15 +375,15 @@ local function generate_html()
                               escape_html(code) .. '</span> '
               end
             end
-            
-            html = html .. '</td>\n'
-            html = html .. '          </tr>\n'
           end
+          
+          html = html .. '</td>\n'
+          html = html .. '          </tr>\n'
         end
         
         html = html .. '        </tbody>\n'
         html = html .. '      </table>\n'
-        html = html .. '      <div class="stats-summary">Showing ' .. coded_lines .. ' of ' .. coded_lines .. ' coded lines</div>\n'
+        html = html .. '      <div class="stats-summary">Showing 0 of ' .. #corpus_lines .. ' lines (0/' .. coded_lines .. ' coded, 0/' .. (#corpus_lines - coded_lines) .. ' uncoded)</div>\n'
         html = html .. '    </div>\n'
         html = html .. '  </div>\n'
       end
@@ -357,7 +399,7 @@ end
 function Pandoc(doc)
   local html_content = generate_html()
   
-  local output_file = io.open("qc/0.html", "w")
+  local output_file = io.open("qc/coding-viz.html", "w")
   if output_file then
     output_file:write('<!DOCTYPE html>\n')
     output_file:write('<html lang="en">\n')
@@ -371,9 +413,9 @@ function Pandoc(doc)
     output_file:write('</body>\n')
     output_file:write('</html>\n')
     output_file:close()
-    print("Generated qc/0.html")
+    print("Generated qc/coding-viz.html")
   else
-    print("ERROR: Could not write to qc/0.html")
+    print("ERROR: Could not write to qc/coding-viz.html")
   end
   
   return doc

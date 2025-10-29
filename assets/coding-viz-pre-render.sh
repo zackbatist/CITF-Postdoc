@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Pre-render script to generate JSON files from qc database
-# Place this in the project root: CITF-Postdoc/assets/pre-render.sh
+# Place this in the project root: CITF-Postdoc/assets/coding-viz-pre-render.sh
 
 set -e
 

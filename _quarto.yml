@@ -1,7 +1,7 @@
 project: 
   type: website
   pre-render:
-    - bash assets/pre-render.sh
+    - bash assets/coding-viz-pre-render.sh
   render:
     - "*.qmd"
     - "!private/"
