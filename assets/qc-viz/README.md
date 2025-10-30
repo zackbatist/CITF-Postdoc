@@ -1,6 +1,6 @@
 # qc-viz: Qualitative Coding Visualization
 
-A context-agnostic tool for visualizing qualitative coding data from the [qualitative-coding](https://github.com/cproctor/qualitative-coding/) Python package.
+A tool for visualizing qualitative coding data from the [qualitative-coding](https://github.com/cproctor/qualitative-coding/) Python package within a [Quarto](https://quarto.org/) project.
 
 ## Features
 
@@ -50,15 +50,16 @@ A context-agnostic tool for visualizing qualitative coding data from the [qualit
 
 ## Project Structure Requirements
 
-The tool expects the following structure:
+I tried to make this as context-agnostic as possible, but you may need to adapt paths and configurations to fit your own project structure.
+For clarity, I refer to the root of your project as `project-root/`, and here is a diagram of the expected structure:
 
-```
-project-root/
+```project-root/
 ├── assets/
-│   └── qc-viz/          # Tool files
+│   └── qc-viz/          # This tool's files
 ├── qc/                  # Qualitative coding directory (configurable)
 │   ├── bin/activate     # Python venv (optional)
 │   ├── corpus/          # Text files (.txt)
+│       └── exclude/     # Corpus files to exclude from qc-viz
 │   ├── json/            # Generated JSON (auto-created)
 │   └── qc-viz.html      # Generated output (auto-created)
 └── qc-viz.qmd           # Trigger document
@@ -102,6 +103,9 @@ project:
 ```
 
 ## Code Schema Customization
+
+I use a [Johnny Decimal](https://johnnydecimal.com/) system to organize codes into categories.
+I may adapt this tool to read from the code schema file in the future, but for now, you can customize categories and colors directly in the Lua filter.
 
 To customize code categories, edit the `code_schema` table in `qc-viz-filter.lua`:
 
@@ -160,6 +164,13 @@ Another Speaker: More content...
 ```
 
 Lines without a speaker prefix inherit the most recent speaker.
+
+## Sensitive Data
+
+The tool is designed to extract data from your corpus files and generate an HTML visualization.
+No sensitive data is transmitted externally, but sensitive information may be included in the generated HTML file.
+Ensure that you handle and share the output file appropriately.
+For instance, you may want to apply custom Quarto [render targets](https://quarto.org/docs/projects/quarto-projects.html#render-targets) to exclude files and directories containing sensitive information, use .gitignore to prevent committing sensitive data, maintain your working directory as a private or local [git submodule](https://zackbatist.info/CITF-Postdoc/posts/tech-specs.html#git-submodules), or maintain a separate project for visualization purposes.
 
 ## Portability
 
