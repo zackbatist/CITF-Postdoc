@@ -1,5 +1,19 @@
--- coding-viz-filter.lua
--- Place in assets/coding-viz-filter.lua
+-- qc-viz-filter.lua
+-- Place in assets/qc-viz/qc-viz-filter.lua
+-- This filter is context-agnostic and can be used in any qualitative-coding project
+
+-- Configuration - can be customized per project
+local config = {
+  qc_dir = os.getenv("QC_DIR") or "qc",
+  output_filename = os.getenv("QC_OUTPUT_FILE") or "qc-viz.html",
+  css_file = os.getenv("QC_CSS_FILE") or "assets/qc-viz/qc-viz.css",
+  js_file = os.getenv("QC_JS_FILE") or "assets/qc-viz/qc-viz.js"
+}
+
+-- Derived paths
+local json_dir = config.qc_dir .. "/json"
+local corpus_dir = config.qc_dir .. "/corpus"
+local output_path = config.qc_dir .. "/" .. config.output_filename
 
 -- Code prefix schema
 local code_schema = {
@@ -195,8 +209,6 @@ end
 -- Generate HTML
 local function generate_html()
   local html = ""
-  local json_dir = "qc/json"
-  local corpus_dir = "qc/corpus"
   local json_files = get_json_files(json_dir)
   
   local codes_by_prefix = collect_all_codes(json_files)
@@ -205,7 +217,7 @@ local function generate_html()
   local speaker_width = math.max(80, math.min(200, max_speaker_length * 8 + 20))
   
   -- CSS
-  local css_content = read_text_file("assets/coding-viz.css")
+  local css_content = read_text_file(config.css_file)
   html = html .. "<style>\n" .. css_content .. "\n.speaker-cell { width: " .. speaker_width .. "px; }\n</style>\n"
   
   -- JavaScript libraries
@@ -214,11 +226,11 @@ local function generate_html()
   html = html .. '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>\n'
   
   -- JavaScript
-  local js_content = read_text_file("assets/coding-viz.js")
+  local js_content = read_text_file(config.js_file)
   html = html .. "<script>\n" .. js_content .. "\n</script>\n"
   
   -- Container start
-  html = html .. '<div class="coding-viz-container">\n'
+  html = html .. '<div class="qc-viz-container">\n'
   
   -- Filter controls
   html = html .. '  <div class="filter-controls">\n'
@@ -399,7 +411,7 @@ end
 function Pandoc(doc)
   local html_content = generate_html()
   
-  local output_file = io.open("qc/coding-viz.html", "w")
+  local output_file = io.open(output_path, "w")
   if output_file then
     output_file:write('<!DOCTYPE html>\n')
     output_file:write('<html lang="en">\n')
@@ -413,9 +425,9 @@ function Pandoc(doc)
     output_file:write('</body>\n')
     output_file:write('</html>\n')
     output_file:close()
-    print("Generated qc/coding-viz.html")
+    print("Generated " .. output_path)
   else
-    print("ERROR: Could not write to qc/coding-viz.html")
+    print("ERROR: Could not write to " .. output_path)
   end
   
   return doc

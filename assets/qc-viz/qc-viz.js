@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   
-  const STATE_KEY = 'coding-viz-state';
+  const STATE_KEY = 'qc-viz-state';
   
   let state = {
     collapsed: {},
