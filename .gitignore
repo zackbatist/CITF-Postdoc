@@ -52,15 +52,18 @@ Thumbs.db
 *.out
 *.gz
 
+# System Directories *
+######################
+.vscode/
+/.quarto/
+_site/
+_extensions/
+_freeze/
+_corpus_output/
+
 # Other #
 ######################
 .gdsheet
-/.quarto/
 .hugo_build.lock
 /.luarc.json
-_site/
-_extensions/
-.vscode/
 **/*.quarto_ipynb
-_freeze/
-_corpus_output/

@@ -3,7 +3,7 @@ title: "Qualitative Coding Visualization"
 format:
   html:
     filters:
-      - assets/qc-viz/qc-viz-filter.lua
+      - assets/scripts/qc-viz/qc-viz-filter.lua
 ---
 
 This document triggers the generation of the qualitative coding visualization.

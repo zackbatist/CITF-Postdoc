@@ -1,7 +1,7 @@
 project: 
   type: website
   pre-render:
-    - bash assets/qc-viz/qc-viz-pre-render.sh
+    - bash assets/scripts/qc-viz/qc-viz-pre-render.sh
   render:
     - "*.qmd"
     - "!private/"
@@ -22,14 +22,14 @@ website:
   repo-actions: [source]
   bread-crumbs: true
   page-navigation: false
-  favicon: assets/favicon.ico
+  favicon: assets/resources/favicon.ico
   page-footer:
     right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
     left:
       - text: "CC0"
         href: https://creativecommons.org/publicdomain/zero/1.0/
   sidebar:
-    logo: "assets/logo.png"
+    logo: "assets/resources/logo.png"
     pinned: true
     align: center
     style: "docked"
@@ -60,7 +60,7 @@ website:
         text: Blog
       - href: https://github.com/zackbatist/CITF-Postdoc
         text: GitHub
-      - href: assets/CITF-Postdoc.bib
+      - href: assets/resources/CITF-Postdoc.bib
         text: Bib
       - href: posts.xml
         text: RSS
@@ -69,15 +69,15 @@ format:
   html:
     theme: 
       light: cosmo
-      dark: [cosmo, assets/theme-dark.scss]
+      dark: [cosmo, assets/styles/theme-dark.scss]
     code-copy: true
     code-overflow: wrap
     toc: true
 
 filters:
   - quarto
-  - assets/include-files.lua
-  # - assets/collect-citekeys.lua
+  - assets/scripts/include-files.lua
+  # - assets/scripts/collect-citekeys.lua
 
 execute:
   freeze: auto
