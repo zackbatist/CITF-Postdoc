@@ -1,13 +1,13 @@
 -- qc-viz-filter.lua
--- Place in assets/qc-viz/qc-viz-filter.lua
+-- Place in assets/scripts/qc-viz/qc-viz-filter.lua
 -- This filter is context-agnostic and can be used in any qualitative-coding project
 
 -- Configuration - can be customized per project
 local config = {
   qc_dir = os.getenv("QC_DIR") or "qc",
   output_filename = os.getenv("QC_OUTPUT_FILE") or "qc-viz.html",
-  css_file = os.getenv("QC_CSS_FILE") or "assets/qc-viz/qc-viz.css",
-  js_file = os.getenv("QC_JS_FILE") or "assets/qc-viz/qc-viz.js"
+  css_file = os.getenv("QC_CSS_FILE") or "assets/scripts/qc-viz/qc-viz.css",
+  js_file = os.getenv("QC_JS_FILE") or "assets/scripts/qc-viz/qc-viz.js"
 }
 
 -- Derived paths

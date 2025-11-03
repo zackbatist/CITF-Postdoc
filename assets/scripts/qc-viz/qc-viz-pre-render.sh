@@ -2,7 +2,7 @@
 
 # Pre-render script to generate JSON files from qc database
 # This script is context-agnostic and works with any qualitative-coding project
-# Place this in: assets/qc-viz/qc-viz-pre-render.sh
+# Place this in: assets/scripts/qc-viz/qc-viz-pre-render.sh
 
 set -e
 
@@ -10,16 +10,8 @@ set -e
 QC_DIR="${QC_DIR:-qc}"
 QC_VENV="${QC_VENV:-${QC_DIR}/bin/activate}"
 QC_CORPUS_DIR="${QC_CORPUS_DIR:-${QC_DIR}/corpus}"
+QC_EXCLUDE_DIR="${QC_EXCLUDE_DIR:-${QC_CORPUS_DIR}/exclude}"
 QC_JSON_DIR="${QC_JSON_DIR:-${QC_DIR}/json}"
-
-# List of files to exclude (can be set via QC_EXCLUDE_FILES env var)
-# Format: space-separated list of basenames
-if [ -z "$QC_EXCLUDE_FILES" ]; then
-    # Default exclusions - override by setting QC_EXCLUDE_FILES=""
-    EXCLUDE_ARRAY=()
-else
-    IFS=' ' read -r -a EXCLUDE_ARRAY <<< "$QC_EXCLUDE_FILES"
-fi
 
 # Check if virtual environment exists
 if [ ! -f "$QC_VENV" ]; then
@@ -51,17 +43,9 @@ for file in corpus/*.txt; do
     
     basename=$(basename "$file")
     
-    # Check if file should be excluded
-    skip=false
-    for exclude in "${EXCLUDE_ARRAY[@]}"; do
-        if [[ "$basename" == "$exclude" ]]; then
-            skip=true
-            break
-        fi
-    done
-    
-    if [ "$skip" = true ]; then
-        echo "Skipping excluded file: $basename"
+    # Check if file exists in exclude directory
+    if [ -d "$QC_EXCLUDE_DIR" ] && [ -f "${QC_EXCLUDE_DIR}/${basename}" ]; then
+        echo "Skipping excluded file: $basename (found in exclude/)"
         continue
     fi
     
