@@ -1,0 +1,15 @@
+---
+title: Week notes (2025-W44)
+date: 2025-10-31
+date-modified: today
+categories:
+  - week notes
+---
+
+- Held a guest lecture for a colleague's Digital Curation class.
+- Led a meeting ti align the emails analysis, and developed a solid initial strategy to get the ball rolling.
+- Invited additional interview participants.
+- Worked on qc-viz, which is now nearly complete.
+- Gave feedback for a friend's job applications.
+- Postdoc gala.
+- Fall cleaning.
