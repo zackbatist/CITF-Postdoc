@@ -2,21 +2,248 @@
 -- Place in assets/scripts/qc-viz/qc-viz-filter.lua
 -- This filter is context-agnostic and can be used in any qualitative-coding project
 
--- Configuration - can be customized per project
-local config = {
-  qc_dir = os.getenv("QC_DIR") or "qc",
-  output_filename = os.getenv("QC_OUTPUT_FILE") or "qc-viz.html",
-  css_file = os.getenv("QC_CSS_FILE") or "assets/scripts/qc-viz/qc-viz.css",
-  js_file = os.getenv("QC_JS_FILE") or "assets/scripts/qc-viz/qc-viz.js"
-}
+-- Load YAML parser (Pandoc's built-in)
+local function read_yaml_file(filepath)
+  local file = io.open(filepath, "r")
+  if not file then return nil end
+  local content = file:read("*all")
+  file:close()
+  
+  -- Try to parse as YAML using Pandoc
+  local success, result = pcall(function()
+    -- Use Pandoc's read function to parse YAML frontmatter
+    local doc = pandoc.read("---\n" .. content .. "\n---", "markdown")
+    return doc.meta
+  end)
+  
+  if success and result then
+    return result
+  else
+    return nil
+  end
+end
 
--- Derived paths
-local json_dir = config.qc_dir .. "/json"
-local corpus_dir = config.qc_dir .. "/corpus"
-local output_path = config.qc_dir .. "/" .. config.output_filename
+-- Convert Pandoc meta values to Lua tables recursively
+local function meta_to_lua(meta_value)
+  if not meta_value then return nil end
+  
+  -- Handle simple types
+  if type(meta_value) == "string" or type(meta_value) == "number" or type(meta_value) == "boolean" then
+    return meta_value
+  end
+  
+  -- Handle Pandoc meta types
+  if type(meta_value) == "table" then
+    if meta_value.t == "MetaString" or meta_value.t == "MetaInlines" then
+      return pandoc.utils.stringify(meta_value)
+    elseif meta_value.t == "MetaBool" then
+      return meta_value.c or meta_value
+    elseif meta_value.t == "MetaList" then
+      local result = {}
+      for i, v in ipairs(meta_value) do
+        result[i] = meta_to_lua(v)
+      end
+      return result
+    elseif meta_value.t == "MetaMap" then
+      local result = {}
+      for k, v in pairs(meta_value) do
+        result[k] = meta_to_lua(v)
+      end
+      return result
+    else
+      -- Try to handle as regular table
+      local result = {}
+      local has_numeric_keys = false
+      local has_string_keys = false
+      
+      for k, v in pairs(meta_value) do
+        if type(k) == "number" then
+          has_numeric_keys = true
+          result[k] = meta_to_lua(v)
+        elseif type(k) == "string" and k ~= "t" and k ~= "c" then
+          has_string_keys = true
+          result[k] = meta_to_lua(v)
+        end
+      end
+      
+      -- If it's a mixed or empty table, try to stringify
+      if not has_numeric_keys and not has_string_keys then
+        return pandoc.utils.stringify(meta_value)
+      end
+      
+      return result
+    end
+  end
+  
+  return pandoc.utils.stringify(meta_value)
+end
 
--- Code prefix schema
-local code_schema = {
+-- Load configuration from YAML file or environment variables
+local function load_config()
+  local config_file = os.getenv("QC_VIZ_CONFIG") or "qc-viz-config.yaml"
+  local verbose = os.getenv("QC_VERBOSE") == "true"
+  
+  -- Default configuration
+  local config = {
+    directories = {
+      qc_dir = "qc",
+      corpus_dir = "qc/corpus",
+      exclude_dir = "qc/corpus/exclude",
+      json_dir = "qc/json",
+      output_dir = "qc"
+    },
+    files = {
+      output_file = "qc-viz.html",
+      css_file = "assets/scripts/qc-viz/qc-viz.css",
+      js_file = "assets/scripts/qc-viz/qc-viz.js",
+      venv = "qc/bin/activate"
+    },
+    code_filters = {
+      whitelist = {
+        enabled = false,
+        codes = {},
+        prefixes = {},
+        prefix_ranges = {},
+        patterns = {},
+        branches = {}
+      },
+      blacklist = {
+        enabled = true,
+        codes = {},
+        prefixes = {},
+        prefix_ranges = {},
+        patterns = {},
+        branches = {}
+      }
+    },
+    code_schema = {
+      categories = {},
+      colors = {},
+      default_color = "#757575"
+    },
+    display = {
+      speaker_column = {
+        min_width = 80,
+        max_width = 200,
+        char_multiplier = 8
+      },
+      sections = {
+        default_collapsed = false,
+        preserve_filename_format = true
+      },
+      code_tags = {
+        show_full_code = true
+      }
+    },
+    advanced = {
+      json_line_offset = 1,
+      verbose = verbose
+    }
+  }
+  
+  if verbose then
+    print("DEBUG: Looking for config file: " .. config_file)
+    print("DEBUG: Default CSS file: " .. config.files.css_file)
+    print("DEBUG: Default JS file: " .. config.files.js_file)
+  end
+  
+  -- Try to load YAML config
+  local yaml_config = read_yaml_file(config_file)
+  
+  if yaml_config then
+    if verbose then
+      print("DEBUG: Found YAML config, attempting to parse...")
+    end
+    
+    local yaml_lua = meta_to_lua(yaml_config)
+    
+    if verbose and yaml_lua then
+      print("DEBUG: Parsed YAML config")
+      if yaml_lua.files then
+        print("DEBUG: Found files section in YAML")
+        if yaml_lua.files.css_file then
+          print("DEBUG: CSS file from YAML: " .. tostring(yaml_lua.files.css_file))
+        end
+        if yaml_lua.files.js_file then
+          print("DEBUG: JS file from YAML: " .. tostring(yaml_lua.files.js_file))
+        end
+      end
+    end
+    
+    -- Deep merge function
+    local function merge(target, source)
+      if type(source) ~= "table" then return end
+      for k, v in pairs(source) do
+        if type(v) == "table" and type(target[k]) == "table" then
+          merge(target[k], v)
+        elseif v ~= nil then
+          target[k] = v
+        end
+      end
+    end
+    
+    merge(config, yaml_lua)
+    
+    if verbose then
+      print("Loaded configuration from: " .. config_file)
+      print("DEBUG: CSS file after merge: " .. tostring(config.files.css_file))
+      print("DEBUG: JS file after merge: " .. tostring(config.files.js_file))
+    end
+  else
+    if verbose then
+      print("No config file found at: " .. config_file)
+      print("Using built-in defaults")
+    end
+  end
+  
+  -- Environment variable overrides (highest priority)
+  config.directories.qc_dir = os.getenv("QC_DIR") or config.directories.qc_dir
+  config.files.output_file = os.getenv("QC_OUTPUT_FILE") or config.files.output_file
+  config.files.css_file = os.getenv("QC_CSS_FILE") or config.files.css_file
+  config.files.js_file = os.getenv("QC_JS_FILE") or config.files.js_file
+  
+  if verbose then
+    print("DEBUG: Final CSS file: " .. tostring(config.files.css_file))
+    print("DEBUG: Final JS file: " .. tostring(config.files.js_file))
+    print("DEBUG: Type of config: " .. type(config))
+    print("DEBUG: Type of config.files: " .. type(config.files))
+    print("DEBUG: config.files exists: " .. tostring(config.files ~= nil))
+    if config.files then
+      print("DEBUG: config.files.css_file exists: " .. tostring(config.files.css_file ~= nil))
+    end
+  end
+  
+  -- Validate that required files are set
+  if not config.files or not config.files.css_file or not config.files.js_file then
+    error("ERROR: CSS or JS file path is nil. config.files=" .. tostring(config.files))
+  end
+  
+  return config
+end
+
+-- Load configuration
+local config = load_config()
+
+-- Store file paths at module level to ensure they're accessible
+local CSS_FILE = config.files.css_file
+local JS_FILE = config.files.js_file
+
+-- Derived paths - must come AFTER config loading
+local json_dir = config.directories.json_dir
+local corpus_dir = config.directories.corpus_dir
+local output_path = config.directories.output_dir .. "/" .. config.files.output_file
+
+if config.advanced.verbose then
+  print("DEBUG: Loaded config, derived paths:")
+  print("DEBUG: CSS_FILE = " .. tostring(CSS_FILE))
+  print("DEBUG: JS_FILE = " .. tostring(JS_FILE))
+  print("DEBUG: json_dir = " .. json_dir)
+  print("DEBUG: corpus_dir = " .. corpus_dir)
+  print("DEBUG: output_path = " .. output_path)
+end
+
+-- Default code schema (if not provided in config)
+local default_code_schema = {
   ["10"] = "People",
   ["11"] = "Roles and positions",
   ["20"] = "Organizations",
@@ -44,21 +271,120 @@ local code_schema = {
   ["80"] = "Qualities"
 }
 
+-- Default colors
+local default_colors = {
+  ["10"] = "#2196F3", ["11"] = "#1976D2",
+  ["20"] = "#FF9800", ["21"] = "#F57C00", ["22"] = "#E64A19",
+  ["30"] = "#9C27B0",
+  ["40"] = "#4CAF50", ["41"] = "#388E3C", ["43"] = "#2E7D32", ["44"] = "#1B5E20",
+  ["50"] = "#E91E63", ["51"] = "#C2185B", ["52"] = "#AD1457",
+  ["53"] = "#880E4F", ["54"] = "#F06292", ["55"] = "#EC407A",
+  ["56"] = "#D81B60", ["57"] = "#C2185B", ["58"] = "#AD1457",
+  ["60"] = "#FFC107", ["61"] = "#FFA000", ["62"] = "#FF8F00", ["63"] = "#FF6F00",
+  ["70"] = "#9C27B0",
+  ["80"] = "#009688"
+}
+
+-- Use config or defaults
+local code_schema = next(config.code_schema.categories) and config.code_schema.categories or default_code_schema
+local code_colors = next(config.code_schema.colors) and config.code_schema.colors or default_colors
+
+-- Code filtering functions
+local function matches_pattern(code, pattern)
+  return code:match(pattern) ~= nil
+end
+
+local function matches_prefix(code, prefix)
+  return code:sub(1, #prefix) == prefix
+end
+
+local function matches_prefix_range(code, range_str)
+  local start_str, end_str = range_str:match("^(%d+)%-(%d+)$")
+  if not start_str or not end_str then return false end
+  
+  local code_prefix = code:match("^(%d+)_")
+  if not code_prefix then return false end
+  
+  local code_num = tonumber(code_prefix)
+  local start_num = tonumber(start_str)
+  local end_num = tonumber(end_str)
+  
+  return code_num >= start_num and code_num <= end_num
+end
+
+local function matches_branch(code, branch_name, recursive)
+  if recursive then
+    return code:match("^" .. branch_name) ~= nil
+  else
+    return code == branch_name
+  end
+end
+
+local function should_include_code(code)
+  -- Whitelist takes precedence
+  if config.code_filters.whitelist.enabled then
+    -- Check specific codes
+    for _, wl_code in ipairs(config.code_filters.whitelist.codes) do
+      if code == wl_code then return true end
+    end
+    
+    -- Check prefixes
+    for _, prefix in ipairs(config.code_filters.whitelist.prefixes) do
+      if matches_prefix(code, prefix) then return true end
+    end
+    
+    -- Check prefix ranges
+    for _, range in ipairs(config.code_filters.whitelist.prefix_ranges) do
+      if matches_prefix_range(code, range) then return true end
+    end
+    
+    -- Check patterns
+    for _, pattern in ipairs(config.code_filters.whitelist.patterns) do
+      if matches_pattern(code, pattern) then return true end
+    end
+    
+    -- Check branches
+    for _, branch in ipairs(config.code_filters.whitelist.branches) do
+      if matches_branch(code, branch.name, branch.recursive) then return true end
+    end
+    
+    return false  -- Not in whitelist
+  end
+  
+  -- Blacklist mode
+  if config.code_filters.blacklist.enabled then
+    -- Check specific codes
+    for _, bl_code in ipairs(config.code_filters.blacklist.codes) do
+      if code == bl_code then return false end
+    end
+    
+    -- Check prefixes
+    for _, prefix in ipairs(config.code_filters.blacklist.prefixes) do
+      if matches_prefix(code, prefix) then return false end
+    end
+    
+    -- Check prefix ranges
+    for _, range in ipairs(config.code_filters.blacklist.prefix_ranges) do
+      if matches_prefix_range(code, range) then return false end
+    end
+    
+    -- Check patterns
+    for _, pattern in ipairs(config.code_filters.blacklist.patterns) do
+      if matches_pattern(code, pattern) then return false end
+    end
+    
+    -- Check branches
+    for _, branch in ipairs(config.code_filters.blacklist.branches) do
+      if matches_branch(code, branch.name, branch.recursive) then return false end
+    end
+  end
+  
+  return true  -- Not blacklisted
+end
+
 -- Generate color for code prefix
 local function get_prefix_color(prefix)
-  local colors = {
-    ["10"] = "#2196F3", ["11"] = "#1976D2",
-    ["20"] = "#FF9800", ["21"] = "#F57C00", ["22"] = "#E64A19",
-    ["30"] = "#9C27B0", 
-    ["40"] = "#4CAF50", ["41"] = "#388E3C", ["43"] = "#2E7D32", ["44"] = "#1B5E20",
-    ["50"] = "#E91E63", ["51"] = "#C2185B", ["52"] = "#AD1457", 
-    ["53"] = "#880E4F", ["54"] = "#F06292", ["55"] = "#EC407A", 
-    ["56"] = "#D81B60", ["57"] = "#C2185B", ["58"] = "#AD1457",
-    ["60"] = "#FFC107", ["61"] = "#FFA000", ["62"] = "#FF8F00", ["63"] = "#FF6F00",
-    ["70"] = "#9C27B0",
-    ["80"] = "#009688"
-  }
-  return colors[prefix] or "#757575"
+  return code_colors[prefix] or config.code_schema.default_color
 end
 
 -- Read JSON file
@@ -77,8 +403,15 @@ end
 
 -- Read text file
 local function read_text_file(filepath)
+  if config.advanced.verbose then
+    print("DEBUG: read_text_file called with filepath = " .. tostring(filepath))
+  end
+  
   local file = io.open(filepath, "r")
-  if not file then return "" end
+  if not file then
+    print("ERROR: Could not open file: " .. tostring(filepath))
+    return ""
+  end
   local content = file:read("*all")
   file:close()
   return content
@@ -103,7 +436,11 @@ end
 
 -- Parse filename to interview name
 local function get_interview_name(filename)
-  return filename:gsub("%.txt$", "")
+  local name = filename:gsub("%.txt$", "")
+  if not config.display.sections.preserve_filename_format then
+    name = name:gsub("%-", " ")
+  end
+  return name
 end
 
 -- Generate slug
@@ -142,7 +479,7 @@ local function collect_all_codes(json_files)
     local json_data = read_json_file(json_file)
     if json_data then
       for _, entry in ipairs(json_data) do
-        if entry.code then
+        if entry.code and should_include_code(entry.code) then
           local prefix = entry.code:match("^(%d%d)_")
           if prefix then
             if not codes_by_prefix[prefix] then
@@ -216,8 +553,8 @@ local function generate_html()
   local max_speaker_length = find_longest_speaker(all_speakers)
   local speaker_width = math.max(80, math.min(200, max_speaker_length * 8 + 20))
   
-  -- CSS
-  local css_content = read_text_file(config.css_file)
+  -- CSS - FIXED: Use module-level CSS_FILE variable
+  local css_content = read_text_file(CSS_FILE)
   html = html .. "<style>\n" .. css_content .. "\n.speaker-cell { width: " .. speaker_width .. "px; }\n</style>\n"
   
   -- JavaScript libraries
@@ -225,8 +562,8 @@ local function generate_html()
   html = html .. '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>\n'
   html = html .. '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>\n'
   
-  -- JavaScript
-  local js_content = read_text_file(config.js_file)
+  -- JavaScript - FIXED: Use module-level JS_FILE variable
+  local js_content = read_text_file(JS_FILE)
   html = html .. "<script>\n" .. js_content .. "\n</script>\n"
   
   -- Container start
@@ -287,7 +624,7 @@ local function generate_html()
     local codes = codes_by_prefix[prefix]
     
     html = html .. '      <div class="filter-category" data-prefix="' .. prefix .. '" style="border-left-color: ' .. color .. ';">\n'
-    html = html .. '        <div class="category-header collapsed">\n'
+    html = html .. '        <div class="category-header' .. (config.display.sections.default_collapsed and ' collapsed' or '') .. '">\n'
     html = html .. '          <div class="category-title">\n'
     html = html .. '            <span>' .. prefix .. ': ' .. label .. '</span>\n'
     html = html .. '            <span class="category-status">(all)</span>\n'
@@ -295,7 +632,7 @@ local function generate_html()
     html = html .. '          <button class="select-all-btn" data-prefix="' .. prefix .. '">None</button>\n'
     html = html .. '          <span class="expand-icon">▼</span>\n'
     html = html .. '        </div>\n'
-    html = html .. '        <div class="codes-list collapsed">\n'
+    html = html .. '        <div class="codes-list' .. (config.display.sections.default_collapsed and ' collapsed' or '') .. '">\n'
     
     for _, code in ipairs(codes) do
       local code_escaped = escape_html(code)
@@ -381,9 +718,9 @@ local function generate_html()
               local prefix = code:match("^(%d%d)_")
               if prefix then
                 local color = get_prefix_color(prefix)
-                html = html .. '<span class="code-tag" data-code="' .. escape_html(code) .. 
-                              '" data-prefix="' .. prefix .. 
-                              '" style="background-color: ' .. color .. '">' .. 
+                html = html .. '<span class="code-tag" data-code="' .. escape_html(code) ..
+                              '" data-prefix="' .. prefix ..
+                              '" style="background-color: ' .. color .. '">' ..
                               escape_html(code) .. '</span> '
               end
             end

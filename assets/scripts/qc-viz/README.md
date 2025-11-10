@@ -25,7 +25,6 @@ A tool for visualizing qualitative coding data from the [qualitative-coding](htt
            └── qc-viz-pre-render.sh
    ```
 
-
 2. **Make the pre-render script executable:**
    ```bash
    chmod +x assets/scripts/qc-viz/qc-viz-pre-render.sh
@@ -51,24 +50,22 @@ A tool for visualizing qualitative coding data from the [qualitative-coding](htt
        - bash assets/scripts/qc-viz/qc-viz-pre-render.sh
    ```
 
-## Project Structure Requirements
+## Project Structure
 
 The tool expects the following structure, though all paths are configurable via environment variables:
 
-```project-root/
+```
+project-root/
 ├── assets/
 │   └── scripts/
-│       └── qc-viz/                   # This tool's files
-│           ├── qc-viz.css            # CSS styles
-│           ├── qc-viz.js             # JavaScript functionality
-│           ├── qc-viz-filter.lua     # Lua filter for Quarto
-│           └── qc-viz-pre-render.sh  # Pre-render script
-├── qc/                               # Qualitative coding directory (configurable)
-│   ├── corpus/                       # Text files (.txt)
-│   │   └── exclude/                  # Corpus files to exclude from qc-viz
-│   ├── json/                         # Generated JSON (auto-created)
-│   └── qc-viz.html                   # Generated output (auto-created)
-└── qc-viz.qmd                        # Trigger document
+│       └── qc-viz/          # Tool files
+├── qc/                      # Qualitative coding directory
+│   ├── bin/activate         # Python venv (optional)
+│   ├── corpus/              # Text files to analyze
+│   │   └── exclude/         # Files to exclude from visualization
+│   ├── json/                # Generated JSON (auto-created)
+│   └── qc-viz.html          # Generated visualization (auto-created)
+└── qc-viz.qmd               # Trigger document
 ```
 
 ## Usage
@@ -109,43 +106,123 @@ This is useful for:
 
 ## Configuration
 
-### Environment Variables
+qc-viz supports flexible configuration through a YAML file or environment variables. Configuration precedence (highest to lowest):
 
-All paths and settings can be customized via environment variables:
+1. Environment variables
+2. YAML configuration file
+3. Default values
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `QC_DIR` | `qc` | Base directory for qualitative coding files |
-| `QC_VENV` | `${QC_DIR}/bin/activate` | Path to Python virtual environment |
-| `QC_CORPUS_DIR` | `${QC_DIR}/corpus` | Directory containing text files |
-| `QC_EXCLUDE_DIR` | `${QC_CORPUS_DIR}/exclude` | Directory for excluded files |
-| `QC_JSON_DIR` | `${QC_DIR}/json` | Directory for generated JSON |
-| `QC_OUTPUT_FILE` | `qc-viz.html` | Output filename |
-| `QC_CSS_FILE` | `assets/scripts/qc-viz/qc-viz.css` | Path to CSS file |
-| `QC_JS_FILE` | `assets/scripts/qc-viz/qc-viz.js` | Path to JavaScript file |
+### Configuration File
 
-### Example Configurations
+Create a `qc-viz-config.yaml` file in your project root (or specify a custom location with the `QC_VIZ_CONFIG` environment variable):
 
-**Custom directory structure:**
 ```yaml
-# _quarto.yml
-project:
-  pre-render:
-    - bash -c "export QC_DIR=interviews && bash assets/scripts/qc-viz/qc-viz-pre-render.sh"
+# See assets/scripts/qc-viz/qc-viz-config.yaml for full example
+
+directories:
+  qc_dir: "qc"
+  corpus_dir: "qc/corpus"
+  exclude_dir: "qc/corpus/exclude"
+
+code_filters:
+  blacklist:
+    enabled: true
+    branches:
+      - name: "old_codes"
+        recursive: true
+
+code_schema:
+  categories:
+    "51": "Goals"
+    "52": "Challenges"
+  colors:
+    "51": "#C2185B"
+    "52": "#AD1457"
 ```
 
-**Custom exclude location:**
+### Code Filtering
+
+qc-viz provides powerful filtering to include or exclude codes from visualization. This is especially useful for:
+- Excluding orphaned or deprecated codes
+- Hiding codes under an "old_codes" branch
+- Working with multiple codebooks
+- Focusing on specific code categories
+
+**Whitelist Mode** (include only specific codes):
 ```yaml
-project:
-  pre-render:
-    - bash -c "export QC_EXCLUDE_DIR=qc/private && bash assets/scripts/qc-viz/qc-viz-pre-render.sh"
+code_filters:
+  whitelist:
+    enabled: true
+    codes:                    # Specific codes
+      - "51_02_Initial_goals"
+      - "62_01_Origin_story"
+    prefixes:                 # Johnny Decimal prefixes
+      - "51_"
+      - "52_"
+    prefix_ranges:            # Ranges of prefixes
+      - "50-59"               # Codes 50_ through 59_
+    patterns:                 # Regex patterns
+      - ".*_goals$"           # Codes ending with _goals
+    branches:                 # Code tree branches
+      - name: "challenges"
+        recursive: true       # Include all child codes
 ```
 
-**Multiple configurations:**
+**Blacklist Mode** (exclude specific codes):
 ```yaml
-project:
-  pre-render:
-    - bash -c "export QC_DIR=data/interviews QC_OUTPUT_FILE=interviews.html && bash assets/scripts/qc-viz/qc-viz-pre-render.sh"
+code_filters:
+  blacklist:
+    enabled: true
+    codes:                    # Specific codes to exclude
+      - "99_test_code"
+    prefixes:                 # Exclude by prefix
+      - "99_"
+    prefix_ranges:            # Exclude prefix ranges
+      - "90-99"
+    patterns:                 # Regex patterns
+      - ".*_old$"             # Exclude codes ending with _old
+    branches:                 # Exclude entire branches
+      - name: "old_codes"
+        recursive: true       # Exclude all descendants
+      - name: "drafts"
+        recursive: false      # Only exclude exact match
+```
+
+**Filtering Logic:**
+- If whitelist is enabled, ONLY whitelisted codes are included (blacklist is ignored)
+- If whitelist is disabled, all codes are included EXCEPT blacklisted ones
+- Multiple filter types within a mode are combined with OR logic
+- Use `recursive: true` for branches to exclude all descendants
+- Use `recursive: false` to match only the exact branch name
+
+**Common Use Cases:**
+
+```yaml
+# Exclude old/deprecated codes
+code_filters:
+  blacklist:
+    enabled: true
+    branches:
+      - name: "old_codes"
+        recursive: true
+      - name: "deprecated"
+        recursive: true
+
+# Focus on specific analysis (goals and challenges only)
+code_filters:
+  whitelist:
+    enabled: true
+    prefix_ranges:
+      - "50-59"
+
+# Exclude test codes and temporary annotations
+code_filters:
+  blacklist:
+    enabled: true
+    patterns:
+      - "^test_"
+      - "^temp_"
+      - ".*_draft$"
 ```
 
 ## Customizing Code Schema
@@ -196,7 +273,6 @@ Participant: Then we discovered an interesting pattern.
 ```
 
 Lines without a speaker prefix inherit the most recent speaker.
-
 
 ### JSON Output
 
@@ -255,7 +331,6 @@ The tool remembers between sessions:
 
 This uses browser LocalStorage and is specific to each browser/device.
 
-
 ## Security and Privacy
 
 ### Sensitive Data Handling
@@ -281,6 +356,18 @@ The export functionality loads these libraries from CDN:
 - [jsPDF](https://cdnjs.cloudflare.com) for PDF generation
 
 These run in your browser and don't transmit data externally.
+
+## Browser Compatibility
+
+**Supported:**
+- Chrome/Edge (v90+)
+- Firefox (v88+)
+- Safari (v14+)
+
+**Requirements:**
+- JavaScript enabled
+- LocalStorage enabled (for state persistence)
+- Modern CSS support (grid, flexbox)
 
 ## Troubleshooting
 
@@ -349,7 +436,7 @@ The tool consists of:
 ### Workflow
 
 ```
-Corpus files (.txt)
+Corpus files (.txt) 
     ↓
 qc tool (coding)
     ↓
@@ -387,3 +474,10 @@ Adapt and use freely in your own projects.
 
 Found a bug or have a feature request? Please open an issue or submit a pull request.
 
+## Version History
+
+- **v1.0** (2024): Initial release with core features
+  - Interactive filtering
+  - Multi-speaker support
+  - Export functionality
+  - Directory-based exclusion

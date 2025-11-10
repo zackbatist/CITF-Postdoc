@@ -1,0 +1,214 @@
+# qc-viz Configuration File
+# Place this in your project root or specify path with QC_VIZ_CONFIG environment variable
+
+# Directory Configuration
+directories:
+  qc_dir: "qc"                                    # Base directory for qualitative coding
+  corpus_dir: "qc/corpus"                         # Directory containing text files
+  exclude_dir: "qc/corpus/exclude"                # Directory for excluded corpus files
+  json_dir: "qc/json"                             # Directory for generated JSON files
+  output_dir: "qc"                                # Directory for generated HTML
+
+# File Configuration
+files:
+  output_file: "qc-viz.html"                      # Name of generated HTML file
+  css_file: "assets/scripts/qc-viz/qc-viz.css"   # Path to CSS file
+  js_file: "assets/scripts/qc-viz/qc-viz.js"     # Path to JavaScript file
+  venv: "qc/bin/activate"                         # Path to Python virtual environment
+
+# Code Filtering Configuration
+code_filters:
+  # Whitelist: If specified, ONLY these codes will be included (overrides blacklist)
+  whitelist:
+    enabled: false                                # Set to true to enable whitelist mode
+    codes: []                                     # Specific codes to include
+    # codes:
+    #   - "51_02_Initial_goals"
+    #   - "62_01_Origin_story"
+    
+    prefixes: []                                  # Johnny Decimal prefixes to include
+    # prefixes:
+    #   - "51_"                                   # Include all codes starting with 51_
+    #   - "52_"
+    
+    prefix_ranges: []                             # Ranges of prefixes (format: "start-end")
+    # prefix_ranges:
+    #   - "50-59"                                 # Include codes 50_ through 59_
+    #   - "70-79"
+    
+    patterns: []                                  # Regex patterns to match
+    # patterns:
+    #   - ".*_goals$"                            # Match codes ending with _goals
+    #   - "^6[0-3]_"                             # Match codes 60-63
+    
+    branches: []                                  # Code tree branches to include
+    # branches:
+    #   - name: "challenges"
+    #     recursive: true                         # Include all child codes
+  
+  # Blacklist: Codes to exclude (ignored if whitelist is enabled)
+  blacklist:
+    enabled: true                                 # Set to false to disable blacklist
+    codes: [                                  # Specific codes to exclude
+      "O_Apprehension",
+      "O_Asserting_authority",
+      "O_Awkwardness",
+      "O_Building_a_team",
+      "O_CITF_Databank_as_research_centre",
+      "O_CITF_Databank_as_service",
+      "O_Centralized_model",
+      "O_Collaborative_fit",
+      "O_Comparing_CITF_with_other_initiatives",
+      "O_Competition",
+      "O_Data_sharing_policies",
+      "O_Engaging_with_stakeholders",
+      "O_Establishing_consent_elements",
+      "O_Establishing_core_data_elements",
+      "O_Federated_model",
+      "O_Finding_collaborators",
+      "O_Harmonization",
+      "O_Having_a_plan_for_data",
+      "O_Intellectual_property",
+      "O_Lack_of_purpose",
+      "O_Striking_balance_between_stakeholder_interests",
+      "O_Unwillingness_t",
+      "O_share_data",
+      "O_Working_things_out"
+    ]
+    
+    prefixes: []                                  # Johnny Decimal prefixes to exclude
+    # prefixes:
+    #   - "99_"                                   # Exclude all codes starting with 99_
+    
+    prefix_ranges: []                             # Ranges of prefixes to exclude
+    # prefix_ranges:
+    #   - "90-99"                                 # Exclude codes 90_ through 99_
+    
+    patterns: []                                  # Regex patterns to exclude
+    # patterns:
+    #   - ".*_old$"                              # Exclude codes ending with _old
+    #   - "^test_"                               # Exclude codes starting with test_
+    
+    branches:                                     # Code tree branches to exclude
+      # - name: "OLDER OPEN CODING STRUCTURE"
+      #   recursive: true                           # Exclude all child codes
+      # - name: "drafts"
+      #   recursive: false                        # Only exclude exact match, not children
+
+# Code Schema Configuration
+code_schema:
+  # Define your code categories (Johnny Decimal system)
+  # Format: "prefix": "Label"
+  categories:
+    "10": "People"
+    "11": "Roles and positions"
+    "20": "Organizations"
+    "21": "Research consortia"
+    "22": "Projects / Studies"
+    "30": "Activities"
+    "40": "Abstractions"
+    "41": "Kinds of work"
+    "43": "Kinds of data"
+    "44": "Kinds of relationships"
+    "50": "Challenges and resolutions"
+    "51": "Goals"
+    "52": "Challenges"
+    "53": "Means"
+    "54": "Contexts"
+    "55": "Hypotheticals"
+    "56": "Outcomes"
+    "57": "Facilitators"
+    "58": "Drivers"
+    "60": "Figurations"
+    "61": "Analogies"
+    "62": "Stories"
+    "63": "Comparisons"
+    "70": "Concepts"
+    "80": "Qualities"
+  
+  # Define colors for each prefix
+  # Format: "prefix": "#HEXCOLOR"
+  colors:
+    "10": "#2196F3"
+    "11": "#1976D2"
+    "20": "#FF9800"
+    "21": "#F57C00"
+    "22": "#E64A19"
+    "30": "#9C27B0"
+    "40": "#4CAF50"
+    "41": "#388E3C"
+    "43": "#2E7D32"
+    "44": "#1B5E20"
+    "50": "#E91E63"
+    "51": "#C2185B"
+    "52": "#AD1457"
+    "53": "#880E4F"
+    "54": "#F06292"
+    "55": "#EC407A"
+    "56": "#D81B60"
+    "57": "#C2185B"
+    "58": "#AD1457"
+    "60": "#FFC107"
+    "61": "#FFA000"
+    "62": "#FF8F00"
+    "63": "#FF6F00"
+    "70": "#9C27B0"
+    "80": "#009688"
+  
+  # Default color for codes without a defined prefix
+  default_color: "#757575"
+
+# Display Configuration
+display:
+  # Speaker column width calculation
+  speaker_column:
+    min_width: 80                                 # Minimum width in pixels
+    max_width: 200                                # Maximum width in pixels
+    char_multiplier: 8                            # Pixels per character
+  
+  # Interview sections
+  sections:
+    default_collapsed: false                      # Start with sections collapsed
+    preserve_filename_format: true                # Keep hyphens in document titles
+  
+  # Code tags
+  code_tags:
+    show_full_code: true                          # Show full code or just suffix
+    # If false, "51_02_Initial_goals" displays as "Initial_goals"
+
+# Export Configuration
+export:
+  include_filter_params: true                     # Document filter parameters in exports
+  timestamp_format: "%Y%m%d_%H%M%S"               # Format for export timestamps
+  filename_prefix: "qc-viz-export"                # Prefix for export filenames
+
+# UI Configuration
+ui:
+  # Initial filter states
+  filters:
+    code_categories_collapsed: true               # Start with code filter categories collapsed
+    show_uncoded_default: false                   # Show uncoded segments by default
+    speakers_default: "all"                       # Default speaker filter ("all" or list)
+  
+  # State persistence
+  persistence:
+    enabled: true                                 # Remember filter states between sessions
+    storage_key: "qc-viz-state"                   # LocalStorage key name
+
+# Codebook Integration (future feature)
+codebook:
+  enabled: false                                  # Read schema from qc codebook
+  path: "qc/codebook.yaml"                        # Path to qc codebook file
+  # When enabled, code_schema.categories and colors will be read from codebook
+
+# Advanced Configuration
+advanced:
+  # JSON line number offset (0 for 0-indexed, 1 for 1-indexed)
+  json_line_offset: 1                             # Add this to JSON line numbers
+  
+  # Performance
+  max_codes_per_category: 1000                    # Warn if category has more codes
+  
+  # Debugging
+  verbose: false                                  # Print detailed information during generation
+  include_stats: true                             # Include statistics in HTML output
