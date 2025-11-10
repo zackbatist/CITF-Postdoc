@@ -1,0 +1,16 @@
+---
+title: Week notes (2025-W45)
+date: 2025-11-07
+date-modified: today
+categories:
+  - week notes
+---
+
+- Got the ball rolling on the emails analysis
+- Progress update with David
+- Qualitative coding
+- Some work on qc-viz (slow debug mode, at my claude token limit)
+- Followed up with prospective interviewees
+- Participated in Global Health Night
+- Before- and after-hours work on side projects
+
