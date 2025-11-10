@@ -1,0 +1,39 @@
+---
+title: qc-viz
+date: 2025-11-03
+categories:
+  - qc-viz
+  - software
+  - qualitative-coding
+draft: true
+---
+
+Over the past few weeks I've been vibe-coding a workflow to support analysis and visualization of my qualitative codes.
+Qualitative coding involves systematically annotating segments of interview transcripts and observational records, and is often paired with reflexive writing and conceptual modelling exercises.
+Coding essentially bridges what study participants do and say with elements of an emerging theory.
+By creating codes that abstract the interview responses, I am able to (a) render disparate instantiations of those codes as comparable entities that fit within a broader model and (b) think through the data and consider what elements of the theory need to be accounted for and iterated upon.
+In other words, it's a locus of theory-building, where the participants experiences and my own expertise as a scholar of scientific practice converge.
+
+I will post again with more information on my coding process, but for now I just want to highlight some aspects of the workflow that are very tool-dependent, and which served as the impetus for my development of qc-viz.
+
+There are a variety of computer-assisted qualitative data analysis systems (CAQDAS) out there, most of which are proprietary.
+I used MaxQDA throughout my dissertation, and I thought it was pretty good.
+It probably has the best user interface of the bunch, but it leaves much to be desired for data portability.
+Everything was based in a poorly document sqlite database, and while you _can_ access that directly, I do not recommend it (based on personal experience).
+QualCoder is a great open source alternative, whose database is more accessible and more effectively documented, but it maintains the same design choices as most other CAQDAS.
+
+Qualitative-Coding, or qc, developed by Chris Proctor, is different.
+qc is a command line interface, and is explicitly designed with a computational mindset.
+This reflects Chris' position as a computer scientist, as an educator, and as an education researcher whose main interests are concerned with computational literacy among non-computer scientists.
+Education is basically one of the fields that most heavily relies on QDA, so Chris is making this tool from a position of methodological understanding.
+That being said, QDA is extremely flexible and there are as many ways of applying QDA as there are QDA projects.
+So as one of the first users, I've been in touch with Chris to figure out ways to improve the system and make it more generally accessible.
+
+One aspect that really needed improvement was visualization.
+QC is limited in scope in that it supports assigning codes to relevant lines of an interview transcript, writes those assignments to a database, and enables basic lookups of those relationships.
+It does not do visualization, but it does provide users with the tools to do visualization themselves.
+In keeps with the spirit of the unix philosophy, which advocates for software to do a handful of things well, while embedding into an ecosystem of related tools to extend from such a basic scope of functionality.
+
+The way this works in practice is that qc allows a user to export all relevant data into json, which can then be picked up in another environment.
+I basically developed a system that leverages these json exports to generate a project-specific webpage to support further analysis, beyond the CLI.
+
