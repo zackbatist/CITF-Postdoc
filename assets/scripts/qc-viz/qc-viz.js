@@ -30,14 +30,119 @@
     }
   }
   
-  document.addEventListener('DOMContentLoaded', function() {
-    loadState();
-    initializeFilters();
-    initializeCollapsibles();
-    initializeExport();
-    restoreState();
-    updateAllFilters();
-  });
+  function updateCategoryState(prefix) {
+    const category = document.querySelector(`.filter-category[data-prefix="${prefix}"]`);
+    const checkboxes = category.querySelectorAll('.code-checkbox');
+    const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+    const totalCount = checkboxes.length;
+    const hasFilter = checkedCount < totalCount;
+    const noneSelected = checkedCount === 0;
+    
+    category.classList.toggle('has-filter', hasFilter && !noneSelected);
+    category.classList.toggle('none-selected', noneSelected);
+    
+    const selectAllBtn = category.querySelector('.select-all-btn');
+    selectAllBtn.textContent = checkedCount === totalCount ? 'None' : 'All';
+    
+    // Update status indicator
+    let statusEl = category.querySelector('.category-status');
+    if (!statusEl) {
+      statusEl = document.createElement('span');
+      statusEl.className = 'category-status';
+      category.querySelector('.category-title').appendChild(statusEl);
+    }
+    
+    if (checkedCount === totalCount) {
+      statusEl.textContent = '(all)';
+      statusEl.style.color = '#6c757d';
+    } else if (checkedCount === 0) {
+      statusEl.textContent = '(none)';
+      statusEl.style.color = '#dc3545';
+    } else {
+      statusEl.textContent = `(${checkedCount}/${totalCount})`;
+      statusEl.style.color = '#fd7e14';
+    }
+  }
+  
+  function updateAllCategoryStates() {
+    document.querySelectorAll('.filter-category').forEach(cat => {
+      updateCategoryState(cat.dataset.prefix);
+    });
+  }
+  
+  function updateAllFilters() {
+    document.querySelectorAll('.code-tag').forEach(tag => {
+      const code = tag.dataset.code;
+      const prefix = tag.dataset.prefix;
+      const isSelected = state.selectedCodes[prefix]?.[code] !== false;
+      tag.classList.toggle('inactive', !isSelected);
+    });
+    
+    // Handle rows - separate logic for coded vs uncoded, plus speaker filter
+    document.querySelectorAll('.coding-table tbody tr').forEach(row => {
+      const tags = row.querySelectorAll('.code-tag');
+      const isUncoded = tags.length === 0;
+      const speakerCell = row.querySelector('.speaker-cell');
+      const speaker = speakerCell ? speakerCell.textContent.trim() : '';
+      
+      // Check speaker filter - true if speaker is selected
+      const speakerMatch = state.selectedSpeakers[speaker] !== false;
+      
+      if (!speakerMatch) {
+        row.classList.add('hidden');
+      } else if (isUncoded) {
+        // Uncoded rows: show/hide based on uncoded toggle
+        row.classList.toggle('hidden', !state.showUncoded);
+      } else {
+        // Coded rows: show if any code is active
+        const hasActiveCode = Array.from(tags).some(tag => !tag.classList.contains('inactive'));
+        row.classList.toggle('hidden', !hasActiveCode);
+      }
+    });
+    
+    updateStats();
+  }
+  
+  function updateSpeakerFilterSummary() {
+    const checkboxes = document.querySelectorAll('.speaker-checkbox');
+    const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+    const totalCount = checkboxes.length;
+    const summary = document.querySelector('.speaker-filter-summary');
+    
+    if (summary) {
+      if (checkedCount === totalCount) {
+        summary.textContent = '(all)';
+      } else if (checkedCount === 0) {
+        summary.textContent = '(none)';
+      } else {
+        summary.textContent = `(${checkedCount}/${totalCount})`;
+      }
+    }
+  }
+  
+  function updateStats() {
+    document.querySelectorAll('.interview-section').forEach(section => {
+      const table = section.querySelector('.coding-table');
+      if (!table) return;
+      
+      const allRows = table.querySelectorAll('tbody tr');
+      const visibleRows = table.querySelectorAll('tbody tr:not(.hidden)');
+      
+      const total = allRows.length;
+      const visible = visibleRows.length;
+      
+      // Count coded vs uncoded
+      const codedRows = Array.from(allRows).filter(row => row.querySelectorAll('.code-tag').length > 0);
+      const uncodedRows = Array.from(allRows).filter(row => row.querySelectorAll('.code-tag').length === 0);
+      const visibleCoded = Array.from(visibleRows).filter(row => row.querySelectorAll('.code-tag').length > 0);
+      const visibleUncoded = Array.from(visibleRows).filter(row => row.querySelectorAll('.code-tag').length === 0);
+      
+      const summary = section.querySelector('.stats-summary');
+      if (summary) {
+        summary.textContent = `Showing ${visible} of ${total} lines (${visibleCoded.length}/${codedRows.length} coded, ${visibleUncoded.length}/${uncodedRows.length} uncoded)`;
+      }
+    });
+  }
   
   function initializeFilters() {
     // Initialize selected codes from checkboxes
@@ -189,96 +294,6 @@
     }
   }
   
-  function updateSpeakerFilterSummary() {
-    const checkboxes = document.querySelectorAll('.speaker-checkbox');
-    const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
-    const totalCount = checkboxes.length;
-    const summary = document.querySelector('.speaker-filter-summary');
-    
-    if (summary) {
-      if (checkedCount === totalCount) {
-        summary.textContent = '(all)';
-      } else if (checkedCount === 0) {
-        summary.textContent = '(none)';
-      } else {
-        summary.textContent = `(${checkedCount}/${totalCount})`;
-      }
-    }
-  }
-  
-  function updateCategoryState(prefix) {
-    const category = document.querySelector(`.filter-category[data-prefix="${prefix}"]`);
-    const checkboxes = category.querySelectorAll('.code-checkbox');
-    const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
-    const totalCount = checkboxes.length;
-    const hasFilter = checkedCount < totalCount;
-    const noneSelected = checkedCount === 0;
-    
-    category.classList.toggle('has-filter', hasFilter && !noneSelected);
-    category.classList.toggle('none-selected', noneSelected);
-    
-    const selectAllBtn = category.querySelector('.select-all-btn');
-    selectAllBtn.textContent = checkedCount === totalCount ? 'None' : 'All';
-    
-    // Update status indicator
-    let statusEl = category.querySelector('.category-status');
-    if (!statusEl) {
-      statusEl = document.createElement('span');
-      statusEl.className = 'category-status';
-      category.querySelector('.category-title').appendChild(statusEl);
-    }
-    
-    if (checkedCount === totalCount) {
-      statusEl.textContent = '(all)';
-      statusEl.style.color = '#6c757d';
-    } else if (checkedCount === 0) {
-      statusEl.textContent = '(none)';
-      statusEl.style.color = '#dc3545';
-    } else {
-      statusEl.textContent = `(${checkedCount}/${totalCount})`;
-      statusEl.style.color = '#fd7e14';
-    }
-  }
-  
-  function updateAllCategoryStates() {
-    document.querySelectorAll('.filter-category').forEach(cat => {
-      updateCategoryState(cat.dataset.prefix);
-    });
-  }
-  
-  function updateAllFilters() {
-    document.querySelectorAll('.code-tag').forEach(tag => {
-      const code = tag.dataset.code;
-      const prefix = tag.dataset.prefix;
-      const isSelected = state.selectedCodes[prefix]?.[code] !== false;
-      tag.classList.toggle('inactive', !isSelected);
-    });
-    
-    // Handle rows - separate logic for coded vs uncoded, plus speaker filter
-    document.querySelectorAll('.coding-table tbody tr').forEach(row => {
-      const tags = row.querySelectorAll('.code-tag');
-      const isUncoded = tags.length === 0;
-      const speakerCell = row.querySelector('.speaker-cell');
-      const speaker = speakerCell ? speakerCell.textContent.trim() : '';
-      
-      // Check speaker filter - true if speaker is selected
-      const speakerMatch = state.selectedSpeakers[speaker] !== false;
-      
-      if (!speakerMatch) {
-        row.classList.add('hidden');
-      } else if (isUncoded) {
-        // Uncoded rows: show/hide based on uncoded toggle
-        row.classList.toggle('hidden', !state.showUncoded);
-      } else {
-        // Coded rows: show if any code is active
-        const hasActiveCode = Array.from(tags).some(tag => !tag.classList.contains('inactive'));
-        row.classList.toggle('hidden', !hasActiveCode);
-      }
-    });
-    
-    updateStats();
-  }
-  
   function initializeCollapsibles() {
     document.querySelectorAll('.interview-header').forEach(header => {
       header.addEventListener('click', function() {
@@ -319,30 +334,6 @@
     });
     
     updateAllCategoryStates();
-  }
-  
-  function updateStats() {
-    document.querySelectorAll('.interview-section').forEach(section => {
-      const table = section.querySelector('.coding-table');
-      if (!table) return;
-      
-      const allRows = table.querySelectorAll('tbody tr');
-      const visibleRows = table.querySelectorAll('tbody tr:not(.hidden)');
-      
-      const total = allRows.length;
-      const visible = visibleRows.length;
-      
-      // Count coded vs uncoded
-      const codedRows = Array.from(allRows).filter(row => row.querySelectorAll('.code-tag').length > 0);
-      const uncodedRows = Array.from(allRows).filter(row => row.querySelectorAll('.code-tag').length === 0);
-      const visibleCoded = Array.from(visibleRows).filter(row => row.querySelectorAll('.code-tag').length > 0);
-      const visibleUncoded = Array.from(visibleRows).filter(row => row.querySelectorAll('.code-tag').length === 0);
-      
-      const summary = section.querySelector('.stats-summary');
-      if (summary) {
-        summary.textContent = `Showing ${visible} of ${total} lines (${visibleCoded.length}/${codedRows.length} coded, ${visibleUncoded.length}/${uncodedRows.length} uncoded)`;
-      }
-    });
   }
   
   function initializeExport() {
@@ -511,19 +502,15 @@
   }
   
   function getCategoryName(prefix) {
-    const categoryMap = {
-      "10": "People", "11": "Roles and positions",
-      "20": "Organizations", "21": "Research consortia", "22": "Projects / Studies",
-      "30": "Activities",
-      "40": "Abstractions", "41": "Kinds of work", "43": "Kinds of data", "44": "Kinds of relationships",
-      "50": "Challenges and resolutions", "51": "Goals", "52": "Challenges",
-      "53": "Means", "54": "Contexts", "55": "Hypotheticals",
-      "56": "Outcomes", "57": "Facilitators", "58": "Drivers",
-      "60": "Figurations", "61": "Analogies", "62": "Stories", "63": "Comparisons",
-      "70": "Concepts",
-      "80": "Qualities"
-    };
-    return categoryMap[prefix] || prefix;
+    const category = document.querySelector(`.filter-category[data-prefix="${prefix}"]`);
+    if (category) {
+      const titleSpan = category.querySelector('.category-title > span:first-child');
+      if (titleSpan) {
+        const text = titleSpan.textContent;
+        return text.replace(/^\d+:\s*/, '');
+      }
+    }
+    return prefix;
   }
   
   function exportExcel(data, filterParams) {
@@ -696,4 +683,19 @@
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
+  
+  // Expose necessary functions and state to global scope for additional handlers
+  window.state = state;
+  window.saveState = saveState;
+  window.updateAllCategoryStates = updateAllCategoryStates;
+  window.updateAllFilters = updateAllFilters;
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    loadState();
+    initializeFilters();
+    initializeCollapsibles();
+    initializeExport();
+    restoreState();
+    updateAllFilters();
+  });
 })();

@@ -135,6 +135,10 @@ local function load_config()
         show_full_code = true
       }
     },
+    codebook = {
+      enabled = true,
+      path = "qc/codebook.yaml"
+    },
     advanced = {
       json_line_offset = 1,
       verbose = verbose
@@ -143,8 +147,6 @@ local function load_config()
   
   if verbose then
     print("DEBUG: Looking for config file: " .. config_file)
-    print("DEBUG: Default CSS file: " .. config.files.css_file)
-    print("DEBUG: Default JS file: " .. config.files.js_file)
   end
   
   -- Try to load YAML config
@@ -156,19 +158,6 @@ local function load_config()
     end
     
     local yaml_lua = meta_to_lua(yaml_config)
-    
-    if verbose and yaml_lua then
-      print("DEBUG: Parsed YAML config")
-      if yaml_lua.files then
-        print("DEBUG: Found files section in YAML")
-        if yaml_lua.files.css_file then
-          print("DEBUG: CSS file from YAML: " .. tostring(yaml_lua.files.css_file))
-        end
-        if yaml_lua.files.js_file then
-          print("DEBUG: JS file from YAML: " .. tostring(yaml_lua.files.js_file))
-        end
-      end
-    end
     
     -- Deep merge function
     local function merge(target, source)
@@ -186,8 +175,6 @@ local function load_config()
     
     if verbose then
       print("Loaded configuration from: " .. config_file)
-      print("DEBUG: CSS file after merge: " .. tostring(config.files.css_file))
-      print("DEBUG: JS file after merge: " .. tostring(config.files.js_file))
     end
   else
     if verbose then
@@ -201,17 +188,6 @@ local function load_config()
   config.files.output_file = os.getenv("QC_OUTPUT_FILE") or config.files.output_file
   config.files.css_file = os.getenv("QC_CSS_FILE") or config.files.css_file
   config.files.js_file = os.getenv("QC_JS_FILE") or config.files.js_file
-  
-  if verbose then
-    print("DEBUG: Final CSS file: " .. tostring(config.files.css_file))
-    print("DEBUG: Final JS file: " .. tostring(config.files.js_file))
-    print("DEBUG: Type of config: " .. type(config))
-    print("DEBUG: Type of config.files: " .. type(config.files))
-    print("DEBUG: config.files exists: " .. tostring(config.files ~= nil))
-    if config.files then
-      print("DEBUG: config.files.css_file exists: " .. tostring(config.files.css_file ~= nil))
-    end
-  end
   
   -- Validate that required files are set
   if not config.files or not config.files.css_file or not config.files.js_file then
@@ -232,6 +208,7 @@ local JS_FILE = config.files.js_file
 local json_dir = config.directories.json_dir
 local corpus_dir = config.directories.corpus_dir
 local output_path = config.directories.output_dir .. "/" .. config.files.output_file
+local codebook_path = config.codebook.path
 
 if config.advanced.verbose then
   print("DEBUG: Loaded config, derived paths:")
@@ -240,9 +217,102 @@ if config.advanced.verbose then
   print("DEBUG: json_dir = " .. json_dir)
   print("DEBUG: corpus_dir = " .. corpus_dir)
   print("DEBUG: output_path = " .. output_path)
+  print("DEBUG: codebook_path = " .. codebook_path)
 end
 
--- Default code schema (if not provided in config)
+-- Parse codebook to extract category labels
+local function parse_codebook(codebook_data, prefix_to_label)
+  if type(codebook_data) ~= "table" then return end
+  
+  for _, item in ipairs(codebook_data) do
+    if type(item) == "table" then
+      -- This is a nested structure
+      for key, value in pairs(item) do
+        if type(key) == "string" then
+          -- Extract prefix from key (e.g., "11_Roles" -> "11")
+          local prefix = key:match("^(%d%d)_")
+          if prefix then
+            -- Extract label (e.g., "11_Roles" -> "Roles")
+            local label = key:match("^%d%d_(.+)$") or key
+            prefix_to_label[prefix] = label
+          end
+          
+          -- Recursively parse nested items
+          if type(value) == "table" then
+            parse_codebook(value, prefix_to_label)
+          end
+        end
+      end
+    elseif type(item) == "string" then
+      -- This is a flat code
+      local prefix = item:match("^(%d%d)_")
+      if prefix and not prefix_to_label[prefix] then
+        -- Extract label from the code itself if no parent category exists
+        local label = item:match("^%d%d_(%w+)")
+        if label then
+          prefix_to_label[prefix] = label
+        end
+      end
+    end
+  end
+end
+
+-- Load code schema from codebook
+local function load_code_schema_from_codebook()
+  if not config.codebook.enabled then
+    if config.advanced.verbose then
+      print("DEBUG: Codebook integration disabled")
+    end
+    return nil
+  end
+  
+  local codebook = read_yaml_file(codebook_path)
+  if not codebook then
+    if config.advanced.verbose then
+      print("DEBUG: Could not read codebook from: " .. codebook_path)
+    end
+    return nil
+  end
+  
+  if config.advanced.verbose then
+    print("DEBUG: Successfully loaded codebook from: " .. codebook_path)
+  end
+  
+  local codebook_lua = meta_to_lua(codebook)
+  if not codebook_lua then
+    if config.advanced.verbose then
+      print("DEBUG: Could not parse codebook")
+    end
+    return nil
+  end
+  
+  local prefix_to_label = {}
+  parse_codebook(codebook_lua, prefix_to_label)
+  
+  if config.advanced.verbose then
+    print("DEBUG: Extracted " .. #prefix_to_label .. " categories from codebook")
+    for prefix, label in pairs(prefix_to_label) do
+      print("DEBUG:   " .. prefix .. " -> " .. label)
+    end
+  end
+  
+  return prefix_to_label
+end
+
+-- Generate color palette for prefixes
+local function generate_color_palette()
+  -- Expanded color palette with more distinct colors
+  local base_colors = {
+    "#2196F3", "#FF9800", "#9C27B0", "#4CAF50", "#E91E63",
+    "#FFC107", "#009688", "#F44336", "#3F51B5", "#8BC34A",
+    "#FF5722", "#00BCD4", "#CDDC39", "#673AB7", "#795548",
+    "#607D8B", "#FF6F00", "#1976D2", "#C2185B", "#388E3C"
+  }
+  
+  return base_colors
+end
+
+-- Default code schema (fallback)
 local default_code_schema = {
   ["10"] = "People",
   ["11"] = "Roles and positions",
@@ -270,24 +340,6 @@ local default_code_schema = {
   ["70"] = "Concepts",
   ["80"] = "Qualities"
 }
-
--- Default colors
-local default_colors = {
-  ["10"] = "#2196F3", ["11"] = "#1976D2",
-  ["20"] = "#FF9800", ["21"] = "#F57C00", ["22"] = "#E64A19",
-  ["30"] = "#9C27B0",
-  ["40"] = "#4CAF50", ["41"] = "#388E3C", ["43"] = "#2E7D32", ["44"] = "#1B5E20",
-  ["50"] = "#E91E63", ["51"] = "#C2185B", ["52"] = "#AD1457",
-  ["53"] = "#880E4F", ["54"] = "#F06292", ["55"] = "#EC407A",
-  ["56"] = "#D81B60", ["57"] = "#C2185B", ["58"] = "#AD1457",
-  ["60"] = "#FFC107", ["61"] = "#FFA000", ["62"] = "#FF8F00", ["63"] = "#FF6F00",
-  ["70"] = "#9C27B0",
-  ["80"] = "#009688"
-}
-
--- Use config or defaults
-local code_schema = next(config.code_schema.categories) and config.code_schema.categories or default_code_schema
-local code_colors = next(config.code_schema.colors) and config.code_schema.colors or default_colors
 
 -- Code filtering functions
 local function matches_pattern(code, pattern)
@@ -382,11 +434,6 @@ local function should_include_code(code)
   return true  -- Not blacklisted
 end
 
--- Generate color for code prefix
-local function get_prefix_color(prefix)
-  return code_colors[prefix] or config.code_schema.default_color
-end
-
 -- Read JSON file
 local function read_json_file(filepath)
   local file = io.open(filepath, "r")
@@ -408,9 +455,9 @@ local function read_text_file(filepath)
   end
   
   local file = io.open(filepath, "r")
-  if not file then
+  if not file then 
     print("ERROR: Could not open file: " .. tostring(filepath))
-    return ""
+    return "" 
   end
   local content = file:read("*all")
   file:close()
@@ -471,10 +518,12 @@ local function get_json_files(dir)
   return files
 end
 
--- Collect all codes
-local function collect_all_codes(json_files)
+-- Collect all codes and build schema dynamically
+local function collect_codes_and_build_schema(json_files)
   local codes_by_prefix = {}
+  local all_prefixes = {}
   
+  -- First pass: collect all codes after filtering
   for _, json_file in ipairs(json_files) do
     local json_data = read_json_file(json_file)
     if json_data then
@@ -482,6 +531,7 @@ local function collect_all_codes(json_files)
         if entry.code and should_include_code(entry.code) then
           local prefix = entry.code:match("^(%d%d)_")
           if prefix then
+            all_prefixes[prefix] = true
             if not codes_by_prefix[prefix] then
               codes_by_prefix[prefix] = {}
             end
@@ -492,6 +542,7 @@ local function collect_all_codes(json_files)
     end
   end
   
+  -- Convert code sets to sorted arrays
   for prefix, code_set in pairs(codes_by_prefix) do
     local code_array = {}
     for code, _ in pairs(code_set) do
@@ -501,7 +552,70 @@ local function collect_all_codes(json_files)
     codes_by_prefix[prefix] = code_array
   end
   
-  return codes_by_prefix
+  -- Build schema: try codebook first, then config, then generate from codes, then fallback
+  local code_schema = {}
+  local color_palette = generate_color_palette()
+  local code_colors = {}
+  
+  -- Step 1: Try to load from codebook
+  local codebook_schema = load_code_schema_from_codebook()
+  
+  -- Step 2: Check config for manually defined schema
+  local has_config_schema = next(config.code_schema.categories) ~= nil
+  local has_config_colors = next(config.code_schema.colors) ~= nil
+  
+  if config.advanced.verbose then
+    print("DEBUG: Building code schema...")
+    print("DEBUG: Has codebook schema: " .. tostring(codebook_schema ~= nil))
+    print("DEBUG: Has config schema: " .. tostring(has_config_schema))
+  end
+  
+  -- Build schema for each prefix found in the data
+  local sorted_prefixes = {}
+  for prefix, _ in pairs(all_prefixes) do
+    sorted_prefixes[#sorted_prefixes + 1] = prefix
+  end
+  table.sort(sorted_prefixes)
+  
+  for i, prefix in ipairs(sorted_prefixes) do
+    -- Priority: codebook > config > default > auto-generate
+    if codebook_schema and codebook_schema[prefix] then
+      code_schema[prefix] = codebook_schema[prefix]
+    elseif has_config_schema and config.code_schema.categories[prefix] then
+      code_schema[prefix] = config.code_schema.categories[prefix]
+    elseif default_code_schema[prefix] then
+      code_schema[prefix] = default_code_schema[prefix]
+    else
+      -- Auto-generate label from first code with this prefix
+      if codes_by_prefix[prefix] and #codes_by_prefix[prefix] > 0 then
+        local first_code = codes_by_prefix[prefix][1]
+        local label = first_code:match("^%d%d_(%w+)") or prefix
+        code_schema[prefix] = label
+      else
+        code_schema[prefix] = prefix
+      end
+    end
+    
+    -- Assign colors: config > generate from palette
+    if has_config_colors and config.code_schema.colors[prefix] then
+      code_colors[prefix] = config.code_schema.colors[prefix]
+    else
+      -- Use palette with wrapping
+      local color_index = ((i - 1) % #color_palette) + 1
+      code_colors[prefix] = color_palette[color_index]
+    end
+    
+    if config.advanced.verbose then
+      print("DEBUG: Schema for " .. prefix .. ": " .. code_schema[prefix] .. " (" .. code_colors[prefix] .. ")")
+    end
+  end
+  
+  return codes_by_prefix, code_schema, code_colors
+end
+
+-- Generate color for code prefix
+local function get_prefix_color(prefix, code_colors)
+  return code_colors[prefix] or config.code_schema.default_color
 end
 
 -- Collect all speakers
@@ -548,12 +662,14 @@ local function generate_html()
   local html = ""
   local json_files = get_json_files(json_dir)
   
-  local codes_by_prefix = collect_all_codes(json_files)
+  -- Build schema dynamically based on actual codes (after filtering)
+  local codes_by_prefix, code_schema, code_colors = collect_codes_and_build_schema(json_files)
+  
   local all_speakers = collect_all_speakers(json_files, corpus_dir)
   local max_speaker_length = find_longest_speaker(all_speakers)
   local speaker_width = math.max(80, math.min(200, max_speaker_length * 8 + 20))
   
-  -- CSS - FIXED: Use module-level CSS_FILE variable
+  -- CSS
   local css_content = read_text_file(CSS_FILE)
   html = html .. "<style>\n" .. css_content .. "\n.speaker-cell { width: " .. speaker_width .. "px; }\n</style>\n"
   
@@ -562,9 +678,53 @@ local function generate_html()
   html = html .. '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>\n'
   html = html .. '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>\n'
   
-  -- JavaScript - FIXED: Use module-level JS_FILE variable
+  -- JavaScript
   local js_content = read_text_file(JS_FILE)
-  html = html .. "<script>\n" .. js_content .. "\n</script>\n"
+  
+  -- Add handlers for select/deselect all codes buttons
+  local additional_js = [[
+    
+    // Select All Codes button
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('select-all-codes')?.addEventListener('click', function() {
+        document.querySelectorAll('.code-checkbox').forEach(cb => {
+          cb.checked = true;
+          const prefix = cb.dataset.prefix;
+          const code = cb.dataset.code;
+          if (window.state && window.state.selectedCodes) {
+            if (!window.state.selectedCodes[prefix]) {
+              window.state.selectedCodes[prefix] = {};
+            }
+            window.state.selectedCodes[prefix][code] = true;
+          }
+        });
+        
+        if (window.saveState) window.saveState();
+        if (window.updateAllCategoryStates) window.updateAllCategoryStates();
+        if (window.updateAllFilters) window.updateAllFilters();
+      });
+      
+      document.getElementById('deselect-all-codes')?.addEventListener('click', function() {
+        document.querySelectorAll('.code-checkbox').forEach(cb => {
+          cb.checked = false;
+          const prefix = cb.dataset.prefix;
+          const code = cb.dataset.code;
+          if (window.state && window.state.selectedCodes) {
+            if (!window.state.selectedCodes[prefix]) {
+              window.state.selectedCodes[prefix] = {};
+            }
+            window.state.selectedCodes[prefix][code] = false;
+          }
+        });
+        
+        if (window.saveState) window.saveState();
+        if (window.updateAllCategoryStates) window.updateAllCategoryStates();
+        if (window.updateAllFilters) window.updateAllFilters();
+      });
+    });
+  ]]
+  
+  html = html .. "<script>\n" .. js_content .. additional_js .. "\n</script>\n"
   
   -- Container start
   html = html .. '<div class="qc-viz-container">\n'
@@ -607,11 +767,13 @@ local function generate_html()
   html = html .. '          </div>\n'
   html = html .. '        </div>\n'
   html = html .. '        <button class="action-btn clear" id="clear-all-filters">Clear Filters</button>\n'
+  html = html .. '        <button class="action-btn" id="select-all-codes">Select All</button>\n'
+  html = html .. '        <button class="action-btn" id="deselect-all-codes">Deselect All</button>\n'
   html = html .. '      </div>\n'
   html = html .. '    </div>\n'
   html = html .. '    <div class="filter-grid">\n'
   
-  -- Generate filter categories
+  -- Generate filter categories (only for prefixes that exist after filtering)
   local sorted_prefixes = {}
   for prefix, _ in pairs(codes_by_prefix) do
     sorted_prefixes[#sorted_prefixes + 1] = prefix
@@ -619,12 +781,12 @@ local function generate_html()
   table.sort(sorted_prefixes)
   
   for _, prefix in ipairs(sorted_prefixes) do
-    local color = get_prefix_color(prefix)
+    local color = get_prefix_color(prefix, code_colors)
     local label = code_schema[prefix] or prefix
     local codes = codes_by_prefix[prefix]
     
     html = html .. '      <div class="filter-category" data-prefix="' .. prefix .. '" style="border-left-color: ' .. color .. ';">\n'
-    html = html .. '        <div class="category-header' .. (config.display.sections.default_collapsed and ' collapsed' or '') .. '">\n'
+    html = html .. '        <div class="category-header collapsed">\n'
     html = html .. '          <div class="category-title">\n'
     html = html .. '            <span>' .. prefix .. ': ' .. label .. '</span>\n'
     html = html .. '            <span class="category-status">(all)</span>\n'
@@ -632,7 +794,7 @@ local function generate_html()
     html = html .. '          <button class="select-all-btn" data-prefix="' .. prefix .. '">None</button>\n'
     html = html .. '          <span class="expand-icon">▼</span>\n'
     html = html .. '        </div>\n'
-    html = html .. '        <div class="codes-list' .. (config.display.sections.default_collapsed and ' collapsed' or '') .. '">\n'
+    html = html .. '        <div class="codes-list collapsed">\n'
     
     for _, code in ipairs(codes) do
       local code_escaped = escape_html(code)
@@ -717,10 +879,10 @@ local function generate_html()
             for _, code in ipairs(codes) do
               local prefix = code:match("^(%d%d)_")
               if prefix then
-                local color = get_prefix_color(prefix)
-                html = html .. '<span class="code-tag" data-code="' .. escape_html(code) ..
-                              '" data-prefix="' .. prefix ..
-                              '" style="background-color: ' .. color .. '">' ..
+                local color = get_prefix_color(prefix, code_colors)
+                html = html .. '<span class="code-tag" data-code="' .. escape_html(code) .. 
+                              '" data-prefix="' .. prefix .. 
+                              '" style="background-color: ' .. color .. '">' .. 
                               escape_html(code) .. '</span> '
               end
             end
