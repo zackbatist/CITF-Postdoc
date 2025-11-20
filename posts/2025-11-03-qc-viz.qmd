@@ -8,32 +8,48 @@ categories:
 draft: true
 ---
 
-Over the past few weeks I've been vibe-coding a workflow to support analysis and visualization of my qualitative codes.
-Qualitative coding involves systematically annotating segments of interview transcripts and observational records, and is often paired with reflexive writing and conceptual modelling exercises.
-Coding essentially bridges what study participants do and say with elements of an emerging theory.
-By creating codes that abstract the interview responses, I am able to (a) render disparate instantiations of those codes as comparable entities that fit within a broader model and (b) think through the data and consider what elements of the theory need to be accounted for and iterated upon.
-In other words, it's a locus of theory-building, where the participants experiences and my own expertise as a scholar of scientific practice converge.
+Over the past month or so I've been vibe-coding [qc-viz](https://github.com/zackbatist/qc-viz), a workflow to support analysis and visualization of my qualitative codes.
+This post describes qc-viz, the problem it tries to solve, and the process of building it.
 
-I will post again with more information on my coding process, but for now I just want to highlight some aspects of the workflow that are very tool-dependent, and which served as the impetus for my development of qc-viz.
+## What is qc-viz?
 
-There are a variety of computer-assisted qualitative data analysis systems (CAQDAS) out there, most of which are proprietary.
-I used MaxQDA throughout my dissertation, and I thought it was pretty good.
-It probably has the best user interface of the bunch, but it leaves much to be desired for data portability.
-Everything was based in a poorly document sqlite database, and while you _can_ access that directly, I do not recommend it (based on personal experience).
-QualCoder is a great open source alternative, whose database is more accessible and more effectively documented, but it maintains the same design choices as most other CAQDAS.
+qc-viz is a workflow for processing data stored in a [qc](https://qualitative-coding.readthedocs.io/en/latest/index.html) database and generating a static site to support visual queries.
+It's built as a lua filter that takes json files exported from qc, wraps values within html divs, styles those elements according to a custom stylesheet, and applies some javascript to dynamically re-arrange how the data are arranged on the page.
 
-Qualitative-Coding, or qc, developed by Chris Proctor, is different.
-qc is a command line interface, and is explicitly designed with a computational mindset.
-This reflects Chris' position as a computer scientist, as an educator, and as an education researcher whose main interests are concerned with computational literacy among non-computer scientists.
-Education is basically one of the fields that most heavily relies on QDA, so Chris is making this tool from a position of methodological understanding.
-That being said, QDA is extremely flexible and there are as many ways of applying QDA as there are QDA projects.
-So as one of the first users, I've been in touch with Chris to figure out ways to improve the system and make it more generally accessible.
+Here are some of the key features:
 
-One aspect that really needed improvement was visualization.
-QC is limited in scope in that it supports assigning codes to relevant lines of an interview transcript, writes those assignments to a database, and enables basic lookups of those relationships.
-It does not do visualization, but it does provide users with the tools to do visualization themselves.
-In keeps with the spirit of the unix philosophy, which advocates for software to do a handful of things well, while embedding into an ecosystem of related tools to extend from such a basic scope of functionality.
+- **Interactive filtering** by code categories and individual codes
+- **Multi-speaker filtering** with checkbox selection
+- **Toggle uncoded segments** visibility
+- **Export** to CSV, JSON, Excel, HTML, and PDF with filter parameters documented
+- **Collapsible sections** with persistent state between sessions
+- **Color-coded tags** for easy code identification
+- **Directory-based exclusion** of sensitive or incomplete files
 
-The way this works in practice is that qc allows a user to export all relevant data into json, which can then be picked up in another environment.
-I basically developed a system that leverages these json exports to generate a project-specific webpage to support further analysis, beyond the CLI.
+qc-viz is an offline system that spits out a self-contained static site, which you can serve from the file system and easily share with colleagues.
+It is highly configurable and automatically adapts to [any codebook you throw at it](https://qualitative-coding.readthedocs.io/en/latest/manuscript.html#organizing-the-codebook).
 
+Explicit guidelines on how to install and use qc-viz are available in the [readme](https://github.com/zackbatist/qc-viz/README.md).
+
+## What is qc?
+
+qc-viz is built atop qc, which is a computer-assisted qualitative data analysis system that runs on the command line and which is [explicitly designed with a computational mindset](https://qualitative-coding.readthedocs.io/en/latest/manuscript.html#background).
+In this spirit, qc embraces the [unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) by taking on a limited scope: it simply assigns codes to relevant lines of an interview transcript, writes those assignments to a database, and enables basic lookups of those relationships.
+It's up to the user to extend from such basic functionality by extracting the data and embedding qc into a broader computational ecosystem.
+
+In practice, qc allows users to export all relevant data into json format, which can then be picked up in another environment.
+I basically developed qc-viz as a system that leverages these json exports to generate a project-specific webpage that supports further analysis beyond the command line interface.
+
+You can read a more comprehensive overview in Chris' peer-reviewed article published in the Journal of Open Source Software: [10.21105/joss.07031](https://doi.org/10.21105/joss.07031).
+
+## Development process
+
+qc-viz is a vibe-coded system.
+I started using Google Gemini for initial iterations, and thanks to suggestions from colleagues (including [Tom Scheinfeldt](https://hcommons.social/@foundhistory/115425373980090466)) I shifted over to Claude.
+Claude is much better suited for coding due on its enhanced ability to track iterative versions and its superior code commenting.
+
+As someone who is technical enough to know what's going on but who doesn't really have the chops to develop such a complex system from scratch, this was a very empowering experience.
+Not only was I able to make something from nothing, but I was able to solidify my really basic understanding of lua, a scripting language that I've been dabbling with over the past year and a bit.
+The code is also much better documented than I could ever have possibly accomplished on my own, which makes it painless to verify what's going on and for others or my future self to make additional changes down the road.
+
+I strongly encourage any readers to take a look at Tom's recent blog series about vibe-coding in practice, as well as Shawn Graham's book [Practical Necromancy for Beginners](https://thedigitalpress.org/practical-necromancy-for-beginners/), which is a great introductory guide on local and methodological use of AI systems, including an account of the tradeoffs involved.

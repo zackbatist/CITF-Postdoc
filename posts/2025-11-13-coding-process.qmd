@@ -1,0 +1,28 @@
+
+But first it would be prudent to very briefly describe qualitative coding as a method.
+Qualitative coding involves systematically annotating segments of interview transcripts and observational records, and is often paired with reflexive writing and conceptual modelling exercises.
+Coding essentially bridges what study participants do and say with elements of an emerging theory.
+By creating codes that abstract the interview responses, I am able to (a) render disparate instantiations of those codes as comparable entities that fit within a broader model and (b) think through the data and consider what elements of the theory need to be accounted for and iterated upon.
+In other words, it's an important locus of theory-building that grounds my own expertise as a scholar of scientific practice through references to what research subjects actually say and do.
+
+
+
+There are a variety of computer-assisted qualitative data analysis systems (CAQDAS) out there, most of which are proprietary.
+I used MaxQDA throughout my dissertation, and I thought it was pretty good.
+It probably has the best user interface of the bunch, but it leaves much to be desired for data portability.
+Everything was based in a poorly document sqlite database, and while you _can_ access that directly, I do not recommend it (based on personal experience).
+QualCoder is a great open source alternative, whose database is more accessible and more effectively documented, but it maintains the same design choices as most other CAQDAS.
+
+---
+
+qc is developed by Chris Proctor, who is a computer scientist, educator and education researcher at SUNY Buffalo's School of Education.
+Chris's unique role as an education researcher concerned computational literacy among non-computer scientists ensures that qc is being developed from a position of methodological understanding.^[Education is one of the fields that most heavily relies on qualitative data analysis (QDA) methods.]
+That being said, QDA is extremely flexible and there are as many ways of applying QDA as there are QDA projects.
+So as one of the first users, I've been in touch with Chris to figure out ways to improve the system and make it more generally accessible.
+
+
+qc is fantastic at handling and processing data, but it has essentially no visual interface.
+This is a problem for me because at some point I really need to look at what I've got in order to refine my code system and draw more meaning from the data I've collected and processed so far.
+So I'm developing qc-viz as a way of supporting this kind of iterative theory-building.
+
+
