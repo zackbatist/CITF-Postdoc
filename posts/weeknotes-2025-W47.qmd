@@ -1,0 +1,17 @@
+---
+title: Week notes (2025-W47)
+date: 2025-11-21
+date-modified: today
+categories:
+  - week notes
+---
+
+- Meetings to re-align on the PG study.
+- Held another interview.
+- Re-organized some older codes, and began re-visiting older interviews.
+- Work on qc-viz has been slow.
+
+[]()
+
+- Submitting a grant over the weekend / after hours.
+- Weekend after-hours work on presentations for side-projects.
