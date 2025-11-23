@@ -30,6 +30,7 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .action-btn {
@@ -64,6 +65,10 @@
 
 .action-btn.clear:hover {
   background: #bb2d3b;
+}
+
+.export-dropdown {
+  position: relative;
 }
 
 .toggle-uncoded {
@@ -286,6 +291,7 @@
 .code-item input[type="checkbox"] {
   margin-right: 0.4rem;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .code-item label {
@@ -299,6 +305,9 @@
 
 .export-menu {
   position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.25rem;
   background: white;
   border: 1px solid #dee2e6;
   border-radius: 4px;
@@ -306,6 +315,7 @@
   padding: 0.5rem 0;
   display: none;
   z-index: 1000;
+  min-width: 120px;
 }
 
 .export-menu.show {
@@ -400,6 +410,35 @@
   display: none;
 }
 
+.coding-table tbody tr.gap-row {
+  background: #e9ecef;
+}
+
+.coding-table tbody tr.gap-row td {
+  padding: 0.3rem 0.75rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #6c757d;
+  font-style: italic;
+  border-top: 1px dashed #adb5bd;
+  border-bottom: 1px dashed #adb5bd;
+}
+
+.line-number-header {
+  width: 50px;
+  text-align: center;
+}
+
+.line-number-cell {
+  width: 50px;
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.85rem;
+  font-family: monospace;
+  background: #f8f9fa;
+  border-right: 2px solid #dee2e6;
+}
+
 .speaker-cell {
   font-weight: 500;
   color: #495057;
@@ -440,4 +479,18 @@
   border-top: 1px solid #dee2e6;
   font-size: 0.9rem;
   color: #6c757d;
+}
+
+.stats-summary .visible-count,
+.stats-summary .visible-coded-count,
+.stats-summary .visible-uncoded-count {
+  font-weight: 600;
+  color: #198754;
+}
+
+.stats-summary .hidden-count,
+.stats-summary .hidden-coded-count,
+.stats-summary .hidden-uncoded-count {
+  font-weight: 600;
+  color: #dc3545;
 }

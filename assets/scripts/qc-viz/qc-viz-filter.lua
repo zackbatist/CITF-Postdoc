@@ -671,7 +671,83 @@ local function generate_html()
   
   -- CSS
   local css_content = read_text_file(CSS_FILE)
-  html = html .. "<style>\n" .. css_content .. "\n.speaker-cell { width: " .. speaker_width .. "px; }\n</style>\n"
+  local additional_css = [[
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.filter-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.filter-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.line-number-header {
+  width: 50px;
+  text-align: center;
+}
+
+.line-number-cell {
+  width: 50px;
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.85rem;
+  font-family: monospace;
+  background: #f8f9fa;
+  border-right: 2px solid #dee2e6;
+}
+
+.stats-summary {
+  padding: 1rem 1.5rem;
+  background: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.stats-summary .visible-count,
+.stats-summary .visible-coded-count,
+.stats-summary .visible-uncoded-count {
+  font-weight: 600;
+  color: #198754;
+}
+
+.stats-summary .hidden-count,
+.stats-summary .hidden-coded-count,
+.stats-summary .hidden-uncoded-count {
+  font-weight: 600;
+  color: #dc3545;
+}
+
+.coding-table tbody tr.hidden {
+  display: none;
+}
+
+.coding-table tbody tr.gap-row {
+  background: #e9ecef;
+}
+
+.coding-table tbody tr.gap-row td {
+  padding: 0.3rem 0.75rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #6c757d;
+  font-style: italic;
+  border-top: 1px dashed #adb5bd;
+  border-bottom: 1px dashed #adb5bd;
+}
+]]
+  
+  html = html .. "<style>\n" .. css_content .. additional_css .. "\n.speaker-cell { width: " .. speaker_width .. "px; }\n</style>\n"
   
   -- JavaScript libraries
   html = html .. '<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>\n'
@@ -680,51 +756,7 @@ local function generate_html()
   
   -- JavaScript
   local js_content = read_text_file(JS_FILE)
-  
-  -- Add handlers for select/deselect all codes buttons
-  local additional_js = [[
-    
-    // Select All Codes button
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('select-all-codes')?.addEventListener('click', function() {
-        document.querySelectorAll('.code-checkbox').forEach(cb => {
-          cb.checked = true;
-          const prefix = cb.dataset.prefix;
-          const code = cb.dataset.code;
-          if (window.state && window.state.selectedCodes) {
-            if (!window.state.selectedCodes[prefix]) {
-              window.state.selectedCodes[prefix] = {};
-            }
-            window.state.selectedCodes[prefix][code] = true;
-          }
-        });
-        
-        if (window.saveState) window.saveState();
-        if (window.updateAllCategoryStates) window.updateAllCategoryStates();
-        if (window.updateAllFilters) window.updateAllFilters();
-      });
-      
-      document.getElementById('deselect-all-codes')?.addEventListener('click', function() {
-        document.querySelectorAll('.code-checkbox').forEach(cb => {
-          cb.checked = false;
-          const prefix = cb.dataset.prefix;
-          const code = cb.dataset.code;
-          if (window.state && window.state.selectedCodes) {
-            if (!window.state.selectedCodes[prefix]) {
-              window.state.selectedCodes[prefix] = {};
-            }
-            window.state.selectedCodes[prefix][code] = false;
-          }
-        });
-        
-        if (window.saveState) window.saveState();
-        if (window.updateAllCategoryStates) window.updateAllCategoryStates();
-        if (window.updateAllFilters) window.updateAllFilters();
-      });
-    });
-  ]]
-  
-  html = html .. "<script>\n" .. js_content .. additional_js .. "\n</script>\n"
+  html = html .. "<script>\n" .. js_content .. "\n</script>\n"
   
   -- Container start
   html = html .. '<div class="qc-viz-container">\n'
@@ -756,7 +788,7 @@ local function generate_html()
   
   html = html .. '          </div>\n'
   html = html .. '        </div>\n'
-  html = html .. '        <div style="position: relative;">\n'
+  html = html .. '        <div class="export-dropdown">\n'
   html = html .. '          <button class="action-btn export" id="export-btn">Export ▾</button>\n'
   html = html .. '          <div class="export-menu" id="export-menu">\n'
   html = html .. '            <div class="export-option" data-format="csv">CSV</div>\n'
@@ -767,8 +799,6 @@ local function generate_html()
   html = html .. '          </div>\n'
   html = html .. '        </div>\n'
   html = html .. '        <button class="action-btn clear" id="clear-all-filters">Clear Filters</button>\n'
-  html = html .. '        <button class="action-btn" id="select-all-codes">Select All</button>\n'
-  html = html .. '        <button class="action-btn" id="deselect-all-codes">Deselect All</button>\n'
   html = html .. '      </div>\n'
   html = html .. '    </div>\n'
   html = html .. '    <div class="filter-grid">\n'
@@ -785,13 +815,13 @@ local function generate_html()
     local label = code_schema[prefix] or prefix
     local codes = codes_by_prefix[prefix]
     
-    html = html .. '      <div class="filter-category" data-prefix="' .. prefix .. '" style="border-left-color: ' .. color .. ';">\n'
+    html = html .. '      <div class="filter-category" data-prefix="' .. prefix .. '">\n'
     html = html .. '        <div class="category-header collapsed">\n'
     html = html .. '          <div class="category-title">\n'
     html = html .. '            <span>' .. prefix .. ': ' .. label .. '</span>\n'
     html = html .. '            <span class="category-status">(all)</span>\n'
     html = html .. '          </div>\n'
-    html = html .. '          <button class="select-all-btn" data-prefix="' .. prefix .. '">None</button>\n'
+    html = html .. '          <button class="select-all-btn" data-prefix="' .. prefix .. '">All</button>\n'
     html = html .. '          <span class="expand-icon">▼</span>\n'
     html = html .. '        </div>\n'
     html = html .. '        <div class="codes-list collapsed">\n'
@@ -845,6 +875,7 @@ local function generate_html()
         html = html .. '      <table class="coding-table">\n'
         html = html .. '        <thead>\n'
         html = html .. '          <tr>\n'
+        html = html .. '            <th class="line-number-header">Line</th>\n'
         html = html .. '            <th>Speaker</th>\n'
         html = html .. '            <th>Text</th>\n'
         html = html .. '            <th>Codes</th>\n'
@@ -868,7 +899,8 @@ local function generate_html()
           end
           
           -- Include both coded and uncoded lines
-          html = html .. '          <tr>\n'
+          html = html .. '          <tr data-line-number="' .. i .. '">\n'
+          html = html .. '            <td class="line-number-cell">' .. i .. '</td>\n'
           html = html .. '            <td class="speaker-cell">' .. escape_html(current_speaker) .. '</td>\n'
           html = html .. '            <td class="text-cell">' .. escape_html(display_text) .. '</td>\n'
           html = html .. '            <td class="codes-cell">'
@@ -894,7 +926,7 @@ local function generate_html()
         
         html = html .. '        </tbody>\n'
         html = html .. '      </table>\n'
-        html = html .. '      <div class="stats-summary">Showing 0 of ' .. #corpus_lines .. ' lines (0/' .. coded_lines .. ' coded, 0/' .. (#corpus_lines - coded_lines) .. ' uncoded)</div>\n'
+        html = html .. '      <div class="stats-summary">Showing <span class="visible-count">0</span> of ' .. #corpus_lines .. ' lines (<span class="visible-coded-count">0</span>/<span class="total-coded-count">' .. coded_lines .. '</span> coded, <span class="visible-uncoded-count">0</span>/<span class="total-uncoded-count">' .. (#corpus_lines - coded_lines) .. '</span> uncoded) | Hidden: <span class="hidden-count">0</span> lines (<span class="hidden-coded-count">0</span> coded, <span class="hidden-uncoded-count">0</span> uncoded)</div>\n'
         html = html .. '    </div>\n'
         html = html .. '  </div>\n'
       end
