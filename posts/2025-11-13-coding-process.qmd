@@ -1,3 +1,13 @@
+---
+title: coding-process
+date: 2025-11-03
+categories:
+  - qc-viz
+  - software
+  - qualitative-coding
+draft: true
+---
+
 
 But first it would be prudent to very briefly describe qualitative coding as a method.
 Qualitative coding involves systematically annotating segments of interview transcripts and observational records, and is often paired with reflexive writing and conceptual modelling exercises.
