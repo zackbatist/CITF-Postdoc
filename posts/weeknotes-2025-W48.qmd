@@ -1,0 +1,15 @@
+---
+title: Week notes (2025-W48)
+date: 2025-11-28
+date-modified: today
+categories:
+  - week notes
+---
+
+- Finished hand-coding another interview.
+- Scheduled another one, to take place in a few weeks.
+- Packaged up qc-viz and refined the readme.
+
+I'll be away the next couple weeks.
+I may continue to give and receive updates from team members, but I'll mainly be working on side-projects.
+My next post will probably be 2025-W51.
