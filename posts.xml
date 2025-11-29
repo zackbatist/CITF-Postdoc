@@ -10,7 +10,30 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Fri, 21 Nov 2025 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 28 Nov 2025 05:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2025-W48)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W48.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Finished hand-coding another interview.</li>
+<li>Scheduled another one, to take place in a few weeks.</li>
+<li>Packaged up qc-viz and refined the readme.</li>
+</ul>
+<p>I’ll be away the next couple weeks. I may continue to give and receive updates from team members, but I’ll mainly be working on side-projects. My next post will probably be 2025-W51.</p>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W48.html</guid>
+  <pubDate>Fri, 28 Nov 2025 05:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2025-W47)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W47.html</link>
@@ -487,32 +510,6 @@
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W29.html</guid>
   <pubDate>Fri, 18 Jul 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W28)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W28.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Coded interviews.</li>
-<li>Held yet another interview.</li>
-<li>Participated in Surveillance Lab discussion about AI and publishing.</li>
-<li>Worked on a CIHR project grant.</li>
-<li>Worked on the MSCA grant (great progress!).</li>
-<li>Worked on the ICF/data governance paper (also great progress!).</li>
-</ul>
-<p>Overall, a really busy week!</p>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W28.html</guid>
-  <pubDate>Fri, 11 Jul 2025 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
