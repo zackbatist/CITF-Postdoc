@@ -10,7 +10,33 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Fri, 09 Jan 2026 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 16 Jan 2026 05:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2026-W03)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W03.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Worked on the draft of the emails analysis paper</li>
+<li>Coordinated plans for further work on the emails analysis paper</li>
+<li>Held another interview and began summarizing its contents</li>
+<li>Renewed the ethics protocol</li>
+<li>Received feedback on the (unsuccessful) project grant and started devising a strategy for the next round</li>
+<li>BibVik meeting, including workshop coordination</li>
+<li>Digital Archaeology Maintainathon throughout the week</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W03.html</guid>
+  <pubDate>Fri, 16 Jan 2026 05:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2026-W02)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W02.html</link>
@@ -484,28 +510,6 @@
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W31.html</guid>
   <pubDate>Fri, 01 Aug 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W30)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W30.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Amalgamating and organizing codes.</li>
-<li>Working on grant proposals.</li>
-<li>Journal club discussion.</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W30.html</guid>
-  <pubDate>Fri, 25 Jul 2025 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
