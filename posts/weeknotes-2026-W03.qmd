@@ -1,0 +1,15 @@
+---
+title: Week notes (2026-W03)
+date: 2026-01-16
+date-modified: today
+categories:
+  - week notes
+---
+
+- Worked on the draft of the emails analysis paper
+- Coordinated plans for further work on the emails analysis paper
+- Held another interview and began summarizing its contents
+- Renewed the ethics protocol
+- Received feedback on the (unsuccessful) project grant and started devising a strategy for the next round
+- BibVik meeting, including workshop coordination
+- Digital Archaeology Maintainathon throughout the week
