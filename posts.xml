@@ -10,7 +10,28 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Fri, 16 Jan 2026 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 23 Jan 2026 05:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2026-W04)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W04.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Synthesized CIHR-PG feedback and began formulating a response</li>
+<li>Meeting to touch base on the emails analysis paper</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W04.html</guid>
+  <pubDate>Fri, 23 Jan 2026 05:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2026-W03)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W03.html</link>
@@ -471,45 +492,6 @@
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W32.html</guid>
   <pubDate>Fri, 08 Aug 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W31)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W31.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<p>This was a busy one, and looks like all of August will be packed too.</p>
-<ul>
-<li>Much work on the project grant
-<ul>
-<li>Presented progress to the rest of the team</li>
-<li>Started developing an entity-relationship diagram to arrive at more structured nomenclature</li>
-<li>Signed up for a grant-writing webinar</li>
-<li>Initiated parallel work on an NFRF exploration grant submission</li>
-</ul></li>
-<li>Held another interview</li>
-<li>Scheduled another interview</li>
-<li>Significant progress made on the ICF paper</li>
-<li>Progress on organizing the code system has been limited, I must admit</li>
-</ul>
-<p><a href=""></a></p>
-<ul>
-<li>Hosted the SSLA meeting</li>
-<li>Checked in regarding MSCA grant</li>
-<li>Inquired about challenges I face for software I use (qc and grobid)</li>
-<li>Initiated a TT job application</li>
-<li>Touched on work for the data-tech-poli-arch workshop in December</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W31.html</guid>
-  <pubDate>Fri, 01 Aug 2025 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
