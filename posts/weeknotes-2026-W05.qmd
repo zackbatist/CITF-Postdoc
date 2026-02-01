@@ -1,0 +1,15 @@
+---
+title: Week notes (2026-W05)
+date: 2026-01-30
+date-modified: today
+categories:
+  - week notes
+---
+
+- Lots of work on the CIHR Project Grant registration
+- Research on conference/publication venues for the emails analysis paper
+- Did another interview
+- Started another side-project about positive mentorship and scientific community-building, drawing from the history of radiology
+- Progress made on planning the BibVik workshop
+- Finished and published summary post about the maintainathon
+- Submitted an abstract for the 2026 INKE gathering
