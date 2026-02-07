@@ -1,0 +1,14 @@
+---
+title: Week notes (2026-W06)
+date: 2026-02-06
+date-modified: today
+categories:
+  - week notes
+---
+
+- Submitted CIHR-PG registration
+- CIHR-PG logistical planning
+- Updated the publication strategy for the emails analysis paper
+- Made some minor suggestions for the marker paper
+- Coding interview transcripts
+- Finalized date and some other logistics for the BibVik workshop
