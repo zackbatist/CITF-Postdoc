@@ -1,0 +1,13 @@
+---
+title: Week notes (2026-W07)
+date: 2026-02-13
+date-modified: today
+categories:
+  - week notes
+---
+
+- Finalized the abstract for CRDCN
+- Worked on the CIHR-PG proposal
+- A bit of coding
+- Planning for the BibVik workshop
+- Got news of a grant rejection :(
