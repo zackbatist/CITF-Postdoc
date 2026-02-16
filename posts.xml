@@ -10,7 +10,82 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Fri, 23 Jan 2026 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 13 Feb 2026 05:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2026-W07)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W07.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Finalized the abstract for CRDCN</li>
+<li>Worked on the CIHR-PG proposal</li>
+<li>A bit of coding</li>
+<li>Planning for the BibVik workshop</li>
+<li>Got news of a grant rejection :(</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W07.html</guid>
+  <pubDate>Fri, 13 Feb 2026 05:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W06)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W06.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Submitted CIHR-PG registration</li>
+<li>CIHR-PG logistical planning</li>
+<li>Updated the publication strategy for the emails analysis paper</li>
+<li>Made some minor suggestions for the marker paper</li>
+<li>Coding interview transcripts</li>
+<li>Finalized date and some other logistics for the BibVik workshop</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W06.html</guid>
+  <pubDate>Fri, 06 Feb 2026 05:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W05)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W05.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Lots of work on the CIHR Project Grant registration</li>
+<li>Research on conference/publication venues for the emails analysis paper</li>
+<li>Did another interview</li>
+<li>Started another side-project about positive mentorship and scientific community-building, drawing from the history of radiology</li>
+<li>Progress made on planning the BibVik workshop</li>
+<li>Finished and published summary post about the maintainathon</li>
+<li>Submitted an abstract for the 2026 INKE gathering</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W05.html</guid>
+  <pubDate>Fri, 30 Jan 2026 05:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2026-W04)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W04.html</link>
@@ -422,76 +497,6 @@
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W35.html</guid>
   <pubDate>Fri, 29 Aug 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W34)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W34.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Mainly grant-writing and emails in support of grant-writing.</li>
-<li>Participated in the Surveillance Lab discussion.</li>
-<li>Participated in a grant-writing educational webinar.</li>
-<li>Posted about <a href="https://zackbatist.info/posts/2025-08-18-open-scholarly-metadata/">the challenges of accessing and using scholarly metadata pertaining to monographs and grey literature</a> (part of the BibVik project).</li>
-<li>Mentally preparing for the start of the new semester next week.</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W34.html</guid>
-  <pubDate>Fri, 22 Aug 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W33)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W33.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Lots of grant-writing, mainly.</li>
-<li>Also lots of emails in support of grant-writing.</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W33.html</guid>
-  <pubDate>Fri, 15 Aug 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W32)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W32.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Working on the code system.</li>
-<li>Grant-writing.</li>
-<li>Scheduling additional interviews.</li>
-<li>Surveillance Lab meeting.</li>
-<li>Grant-writing webinar.</li>
-<li>Working on the ICF paper.</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W32.html</guid>
-  <pubDate>Fri, 08 Aug 2025 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
