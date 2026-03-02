@@ -1,0 +1,15 @@
+---
+title: Week notes (2026-W08)
+date: 2026-02-20
+date-modified: today
+categories:
+  - week notes
+---
+
+- Continued work on the grant proposal
+- Submitted the CRDCN abstract
+- Regular updates with the team
+- Some work on the digi-tech-poli-arch manuscript
+- Some work on the PCI-archaeo peer review
+- Participated in the public health day
+- Worked on a script to crawl and analyze citations for BibVik

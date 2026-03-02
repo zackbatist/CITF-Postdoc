@@ -1,0 +1,9 @@
+---
+title: Week notes (2026-W09)
+date: 2026-02-27
+date-modified: today
+categories:
+  - week notes
+---
+
+- Focused primarily on the project grant
