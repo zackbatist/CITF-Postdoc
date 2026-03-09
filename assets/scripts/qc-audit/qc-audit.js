@@ -33,8 +33,9 @@
 
   // ── Ollama helpers ────────────────────────────────────────────────────────
 
-  async function ollamaQuery(systemPrompt, userPrompt) {
+  async function ollamaQuery(systemPrompt, userPrompt, passLabel) {
     for (let attempt = 1; attempt <= 3; attempt++) {
+      let rawText = '';
       try {
         const res = await fetch(AUDIT_CONFIG.ollama_url + '/api/chat', {
           method: 'POST',
@@ -46,17 +47,31 @@
               { role: 'user',   content: userPrompt   },
             ],
             stream: false,
-            options: { temperature: 0.1 },
+            options: { temperature: 0.1, num_ctx: 8192 },
           }),
         });
+        if (!res.ok) {
+          const errText = await res.text();
+          throw new Error('HTTP ' + res.status + ': ' + errText.slice(0, 200));
+        }
         const data = await res.json();
-        const text = data.message?.content || '';
-        const match = text.match(/\{[\s\S]*\}/);
-        if (!match) throw new Error('No JSON object found');
-        return JSON.parse(match[0]);
+        rawText = data.message?.content || data.response || '';
+        if (!rawText) throw new Error('Empty response. Keys: ' + Object.keys(data).join(','));
+
+        // Strip markdown code fences if present
+        rawText = rawText.replace(/^```(?:json)?\s*/m, '').replace(/\s*```\s*$/m, '').trim();
+
+        // Extract outermost JSON object
+        const start = rawText.indexOf('{');
+        const end   = rawText.lastIndexOf('}');
+        if (start === -1 || end === -1) throw new Error('No JSON braces in: ' + rawText.slice(0, 200));
+        return JSON.parse(rawText.slice(start, end + 1));
       } catch (err) {
-        console.warn(`ollamaQuery attempt ${attempt} failed:`, err.message);
+        const msg = (passLabel || 'pass') + ' attempt ' + attempt + ': ' + err.message;
+        console.warn('[qc-audit]', msg);
+        state.lastOllamaError = msg;
         if (attempt === 3) return null;
+        await new Promise(r => setTimeout(r, 1000 * attempt));
       }
     }
   }
@@ -66,115 +81,95 @@
   async function runAnalysis() {
     const { sorted, orphaned, rare } = getCodeStats();
     const docNames = DOC_NAMES.map(d => d.replace(/\.txt$/, ''));
-    const codeList = sorted.map(([c, s]) =>
-      `${c}: ${s.total} uses in ${Object.keys(s.byDoc).length}/${DOC_NAMES.length} docs [${Object.keys(s.byDoc).map(d => d.replace(/\.txt$/, '')).join(', ')}]`
-    ).join('\n');
-    const coocLines = CO_OCCURRENCE.slice(0, 30).map(r =>
-      `${r.code_a} + ${r.code_b}: ${r.shared_docs} shared docs`
-    ).join('\n');
+
+    // Helper: compact code summary — just name + total, no doc breakdown
+    // Keeps prompts within ~4k tokens even for large corpora
+    const compactList = (entries, limit) =>
+      entries.slice(0, limit)
+        .map(([c, s]) => `${c}(${s.total})`)
+        .join(', ');
+
+    // For co-occurrence: top 20 pairs only
+    const coocLines = CO_OCCURRENCE.slice(0, 20).map(r =>
+      `${r.code_a}+${r.code_b}:${r.shared_docs}docs`
+    ).join(', ');
 
     // Pass 1: duplicates / redundancy
+    // Focus on high-usage codes and strong co-occurrences — most likely to have redundancy
     setPhaseLabel('Pass 1/4: Checking for duplicate and redundant codes…');
-    const pass1 = await ollamaQuery(SYS, `You are auditing a qualitative research coding project.
+    const top80 = compactList(sorted, 80);
+    const pass1 = await ollamaQuery(SYS, `Audit a qualitative coding project (${DOC_NAMES.length} docs, ${sorted.length} codes total).
 
-Code usage (code: total uses in N/${DOC_NAMES.length} docs [docs]):
-${codeList}
+Top codes by usage (name(count)): ${top80}
 
-Top co-occurrences (codes that appear in the same documents):
-${coocLines}
+Top co-occurring pairs (codeA+codeB:sharedDocs): ${coocLines}
 
-Task: Find codes that are duplicates or redundant — similar names, synonyms, plural/singular pairs, or codes that always appear together and could be merged.
+Find codes that are duplicates or near-synonyms (similar names, singular/plural, same concept). Focus on names that look similar or pairs with high co-occurrence.
 
-Return ONLY this JSON:
-{
-  "issues": [
-    {"type": "duplicate", "severity": "high|medium|low", "codes": ["code1", "code2"], "description": "...", "evidence": "..."}
-  ],
-  "proposed_changes": [
-    {"id": "c1", "action": "merge", "from": ["code1", "code2"], "to": "merged_name", "rationale": "...", "affected_docs": ["doc"], "qc_commands": ["qc codes rename code1 merged_name", "qc codes rename code2 merged_name"]}
-  ]
-}`);
+Return ONLY:
+{"issues":[{"type":"duplicate","severity":"high","codes":["code1","code2"],"description":"why similar","evidence":"co-occurrence or name similarity"}],"proposed_changes":[{"id":"c1","action":"merge","from":["code1","code2"],"to":"merged_name","rationale":"brief reason","affected_docs":[],"qc_commands":["qc codes rename code1 merged_name","qc codes rename code2 merged_name"]}]}`, 'pass1');
 
     // Pass 2: inconsistent coverage
-    setPhaseLabel('Pass 2/4: Checking for inconsistent coverage across documents…');
+    // Only look at codes appearing in 2..(N-1) docs, capped to 25 most informative
+    setPhaseLabel('Pass 2/4: Checking for inconsistent coverage…');
     const partialCodes = sorted
       .filter(([, s]) => {
         const n = Object.keys(s.byDoc).length;
         return n > 1 && n < DOC_NAMES.length;
       })
-      .slice(0, 35)
+      .slice(0, 25)
       .map(([c, s]) => {
-        const present = Object.keys(s.byDoc).map(d => d.replace(/\.txt$/, ''));
-        const absent  = DOC_NAMES.filter(d => !s.byDoc[d]).map(d => d.replace(/\.txt$/, ''));
-        return `${c}: present in [${present.join(', ')}], absent from [${absent.join(', ')}]`;
+        const present = Object.keys(s.byDoc).map(d => d.replace(/\.txt$/, '')).join(',');
+        const absentCount = DOC_NAMES.length - Object.keys(s.byDoc).length;
+        return `${c}: in [${present}], absent from ${absentCount} docs`;
       }).join('\n');
 
-    const pass2 = await ollamaQuery(SYS, `You are auditing a qualitative research coding project with ${DOC_NAMES.length} documents: ${docNames.join(', ')}
+    const pass2 = await ollamaQuery(SYS, `Audit a qualitative coding project (${DOC_NAMES.length} docs: ${docNames.join(', ')}).
 
-These codes appear in SOME but not all documents:
+Codes present in some but not all documents:
 ${partialCodes}
 
-Task: Identify codes whose absence from certain documents looks suspicious — i.e. codes that cover a topic likely present in those documents but were not applied there. Do NOT flag codes whose absence makes sense (e.g. a code specific to one interviewee's role).
+Flag codes whose absence from certain docs looks like a coding oversight (not just because the topic doesn't apply). Return ONLY:
+{"issues":[{"type":"inconsistent_coverage","severity":"medium","codes":["code1"],"description":"...","evidence":"..."}],"coverage_gaps":[{"description":"...","docs_missing":["doc"],"suggested_codes":["code"],"rationale":"..."}]}`, 'pass2');
 
-Return ONLY this JSON:
-{
-  "issues": [
-    {"type": "inconsistent_coverage", "severity": "high|medium|low", "codes": ["code1"], "description": "...", "evidence": "..."}
-  ],
-  "coverage_gaps": [
-    {"description": "...", "docs_missing": ["doc"], "suggested_codes": ["code"], "rationale": "..."}
-  ]
-}`);
-
-    // Pass 3: orphaned / underused
+    // Pass 3: orphaned / underused — send only the problematic codes, not full list
     setPhaseLabel('Pass 3/4: Checking for orphaned and underused codes…');
-    const pass3 = await ollamaQuery(SYS, `You are auditing a qualitative research coding project.
+    const rareList  = rare.slice(0, 40).join(', ')  || 'none';
+    const orphanList = orphaned.slice(0, 30).join(', ') || 'none';
+    const pass3 = await ollamaQuery(SYS, `Audit a qualitative coding project.
 
-Codebook (YAML):
-${CODEBOOK_TEXT.slice(0, 3000)}
+Orphaned codes (in codebook, never used): ${orphanList}
+Rarely used codes (1–2 uses total): ${rareList}
+Total active codes: ${sorted.length}
 
-Orphaned codes (defined in codebook but never used): ${orphaned.join(', ') || 'none'}
-Rarely used codes (1-2 total uses): ${rare.join(', ') || 'none'}
+Which orphaned codes should be deleted or merged, and which rare codes are too granular? Return ONLY:
+{"issues":[{"type":"orphaned","severity":"medium","codes":["code1"],"description":"...","evidence":"..."}],"proposed_changes":[{"id":"c3","action":"delete","from":["code1"],"to":null,"rationale":"...","affected_docs":[],"qc_commands":["qc codes delete code1"]}]}`, 'pass3');
 
-All code usage:
-${codeList}
+    // Pass 4: hierarchy / structure — send abbreviated codebook (top-level keys only)
+    setPhaseLabel('Pass 4/4: Auditing codebook structure…');
+    const pass4 = await ollamaQuery(SYS, `Audit a qualitative coding project.
 
-Task: Identify orphaned codes that should be removed or merged into existing codes, and rarely used codes that are too granular or should be folded into broader categories.
+Codebook structure (first 2000 chars):
+${CODEBOOK_TEXT.slice(0, 2000)}
 
-Return ONLY this JSON:
-{
-  "issues": [
-    {"type": "orphaned", "severity": "high|medium|low", "codes": ["code1"], "description": "...", "evidence": "..."}
-  ],
-  "proposed_changes": [
-    {"id": "c3", "action": "delete|merge", "from": ["code1"], "to": "parent_code_or_null", "rationale": "...", "affected_docs": [], "qc_commands": ["qc codes rename code1 parent_code"]}
-  ]
-}`);
+Top co-occurring code pairs: ${coocLines}
 
-    // Pass 4: hierarchy / structure
-    setPhaseLabel('Pass 4/4: Auditing codebook hierarchy and structure…');
-    const pass4 = await ollamaQuery(SYS, `You are auditing a qualitative research coding project.
-
-Codebook (YAML):
-${CODEBOOK_TEXT.slice(0, 3000)}
-
-Top code co-occurrences:
-${coocLines}
-
-Task: Identify structural problems in the codebook hierarchy — codes at the wrong level, missing intermediate categories, siblings with very different abstraction levels, or groups of co-occurring codes that should be under a shared parent node.
-
-Return ONLY this JSON:
-{
-  "issues": [
-    {"type": "structural", "severity": "high|medium|low", "codes": ["code1"], "description": "...", "evidence": "..."}
-  ],
-  "structural_suggestions": [
-    {"description": "...", "before": "...", "after": "..."}
-  ]
-}`);
+Identify structural problems: codes at wrong abstraction level, missing parent categories, or co-occurring codes that need a shared parent. Return ONLY:
+{"issues":[{"type":"structural","severity":"low","codes":["code1"],"description":"...","evidence":"..."}],"structural_suggestions":[{"description":"...","before":"...","after":"..."}]}`, 'pass4');
 
     // Merge
     setPhaseLabel('Merging results…');
+
+    // Surface Ollama errors if all passes failed
+    const passResults = [pass1, pass2, pass3, pass4];
+    if (passResults.every(p => p === null)) {
+      const errDetail = state.lastOllamaError || 'All 4 Ollama passes returned null. Check that Ollama is running and the model is loaded.';
+      console.error('[qc-audit] All passes failed. Last error:', errDetail);
+      throw new Error(errDetail);
+    }
+    if (passResults.some(p => p === null)) {
+      console.warn('[qc-audit] Some passes failed. Last error:', state.lastOllamaError);
+    }
 
     const allIssues = [
       ...(pass1?.issues || []),
@@ -710,8 +705,32 @@ Return ONLY this JSON:
 
   async function startAnalysis() {
     state.phase = 'running';
-    state.phaseLabel = 'Starting…';
+    state.phaseLabel = 'Connecting to Ollama…';
     state.error = null;
+    state.lastOllamaError = null;
+    render();
+
+    // Quick connectivity check before running all 4 passes
+    try {
+      const ping = await fetch(AUDIT_CONFIG.ollama_url + '/api/tags', { method: 'GET' });
+      if (!ping.ok) throw new Error('HTTP ' + ping.status);
+      const tags = await ping.json();
+      const models = (tags.models || []).map(m => m.name);
+      const modelFound = models.some(m => m.startsWith(AUDIT_CONFIG.ollama_model.split(':')[0]));
+      if (!modelFound) {
+        state.error = `Model "${AUDIT_CONFIG.ollama_model}" not found in Ollama. Available: ${models.join(', ') || 'none'}. Run: ollama pull ${AUDIT_CONFIG.ollama_model}`;
+        state.phase = 'idle';
+        render();
+        return;
+      }
+    } catch (pingErr) {
+      state.error = `Cannot reach Ollama at ${AUDIT_CONFIG.ollama_url}. Is it running? Error: ${pingErr.message}`;
+      state.phase = 'idle';
+      render();
+      return;
+    }
+
+    state.phaseLabel = 'Starting…';
     render();
 
     try {
