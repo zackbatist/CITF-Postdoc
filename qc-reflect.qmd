@@ -1,0 +1,11 @@
+---
+title: "QC Reflection"
+format:
+  html:
+    filters:
+      - assets/scripts/qc-reflect/qc-reflect-filter.lua
+---
+
+This document triggers the generation of the qualitative coding reflection tool.
+The output is written to `qc/qc-reflect.html` and can be opened directly in a browser
+(served via `python3 -m http.server 8080` from the `qc/` directory with `OLLAMA_ORIGINS="*" ollama serve`).
