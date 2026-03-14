@@ -1,0 +1,13 @@
+---
+title: Week notes (2026-W11)
+date: 2026-03-13
+date-modified: today
+categories:
+  - week notes
+---
+
+- Worked on qc-reflect and qc-codebook-docs
+- Qualitative coding
+- Drafted scoping outline for an emails analysis manuscript
+- Consolidated a platform for BibVik analysis
+- Worked on a system for extracting and analyzing references from PDFs at scale
