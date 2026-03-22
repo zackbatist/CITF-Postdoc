@@ -1,0 +1,15 @@
+---
+title: Week notes (2026-W12)
+date: 2026-03-20
+date-modified: today
+categories:
+  - week notes
+---
+
+- Finished coding an interview
+- Worked on the emails analysis outline
+- Participated in the MORPHSS catalogue launch event and panel discussion
+- Gave a talk for the University of York's Digital Archaeology and Heritage seminar
+- Submitted a manuscript relating to my PhD
+- Finished a peer-review
+- Various BibVik tasks
