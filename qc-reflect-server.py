@@ -8,8 +8,8 @@ Routes:
   Ollama proxy        ANY  /api/*          → http://localhost:11434
   Reflect logs        POST /logs/save      → save report log to disk
                       GET  /logs/list      → list all saved logs
-  Docs persistence    POST /docs/save      → write qc-codebook-docs.yaml
-                      GET  /docs/load      → read qc-codebook-docs.yaml
+  Docs persistence    POST /docs/save      → write codebook.docs.json
+                      GET  /docs/load      → read codebook.docs.json
 
 Usage (from project root):
     python3 qc-reflect-server.py [port]
@@ -332,8 +332,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def _docs_load(self):
         qs = self.path.split("?", 1)[1] if "?" in self.path else ""
         params = dict(p.split("=", 1) for p in qs.split("&") if "=" in p)
-        docs_path = Path(params.get("path", "qc/qc-codebook-docs.yaml"))
-        json_path = docs_path.with_suffix(".json")
+        docs_path = Path(params.get("path", "qc/codebook.docs.json"))
+        json_path = docs_path  # already .json; kept as Path object
         try:
             if json_path.exists():
                 with open(json_path) as f:
@@ -419,7 +419,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def _docs_save(self, body):
         try:
             payload   = json.loads(body)
-            docs_path = Path(payload.get("path", "qc/qc-codebook-docs.json"))
+            docs_path = Path(payload.get("path", "qc/codebook.docs.json"))
             data      = payload.get("data", {})
             tree      = payload.get("tree", [])
             overrides = payload.get("overrides", {})
@@ -428,7 +428,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             if isinstance(data.get("codes"), list):
                 data["codes"] = {}
 
-            abs_path = docs_path.resolve().with_suffix(".json")
+            abs_path = docs_path.resolve()  # path is already .json; resolve to absolute
             abs_path.parent.mkdir(parents=True, exist_ok=True)
 
             json_payload = {

@@ -1,5 +1,5 @@
 -- qc-codebook-docs-filter.lua
--- Bakes codebook.yaml + qc-codebook-docs.yaml + corpus excerpts
+-- Bakes codebook.yaml + codebook.docs.json + corpus excerpts
 -- into qc/qc-codebook-docs.html at render time.
 
 local function read_yaml_file(filepath)
@@ -159,7 +159,7 @@ local config = load_config()
 -- These paths are always relative to project root, never from shared config:
 local OUTPUT_PATH     = project_path("qc/qc-codebook-docs.html")
 local CODEBOOK_PATH   = project_path(S(config.directories.output_dir) .. "/codebook.yaml")
-local CODEBOOK_DOCS_PATH = project_path(S(config.directories.output_dir) .. "/qc-codebook-docs.yaml")
+local CODEBOOK_DOCS_JSON = project_path(S(config.directories.output_dir) .. "/codebook.docs.json")
 local JSON_DIR        = project_path(S(config.directories.json_dir))
 local CSS_FILE        = project_path("assets/scripts/qc-codebook-docs/qc-codebook-docs.css")
 local JS_FILE         = project_path("assets/scripts/qc-codebook-docs/qc-codebook-docs.js")
@@ -307,33 +307,6 @@ local function build_use_counts(json_files)
   return result
 end
 
--- ── Load existing qc-codebook-docs.yaml ─────────────────────────────────────────
-
-local function load_codebook_docs()
-  local path = CODEBOOK_DOCS_PATH
-  local f = io.open(path, "r")
-  if not f then
-    print("qc-codebook-docs: no qc-codebook-docs.yaml found — will create on first save")
-    return { codes = {}, schemes = {} }
-  end
-  local raw = f:read("*all"); f:close()
-  -- Return raw text for baking; the server handles writes
-  -- Also return a parsed version for the Lua side
-  local ok, meta = pcall(function()
-    local doc = pandoc.read("---\n" .. raw .. "\n---", "markdown")
-    return doc.meta
-  end)
-  if ok and meta then
-    local parsed = meta_to_lua(meta) or {}
-    return {
-      raw    = raw,
-      codes  = parsed.codes or {},
-      schemes = parsed.schemes or {},
-    }
-  end
-  return { raw = raw, codes = {}, schemes = {} }
-end
-
 -- ── Generate HTML ─────────────────────────────────────────────────────────────
 
 local function generate_html()
@@ -360,7 +333,7 @@ local function generate_html()
   html[#html+1] = 'const DOCS_DATA = {"codes":{}};'
   html[#html+1] = 'const DOCS_CONFIG = '   .. to_json({
     server_port        = N(config.server.port),
-    codebook_docs_path = CODEBOOK_DOCS_PATH,
+    codebook_docs_path = CODEBOOK_DOCS_JSON,
     json_dir           = JSON_DIR,
   }) .. ';'
   html[#html+1] = '</script>'

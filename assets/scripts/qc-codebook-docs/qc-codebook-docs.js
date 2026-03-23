@@ -299,7 +299,7 @@ async function loadDocs() {
     if (data.overrides) { Object.assign(state.treeOverrides, data.overrides); rebuildIndices(); }
     // Restore document changelog
     if (Array.isArray(data.changelog)) state.changelog = data.changelog;
-    clDoc('open', DOCS_CONFIG.codebook_docs_path.replace(/.*\//, '') + ' (autosave)');
+    clDoc('open', DOCS_CONFIG.codebook_docs_path.replace(/.*\//, ''));
     state.saveStatus = 'saved';
     render();
   } catch(e) {}
