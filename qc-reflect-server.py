@@ -19,10 +19,12 @@ Opens:
     http://localhost:8080/qc-codebook-docs.html
 """
 
+import hashlib
 import http.server
 import json
 import os
 import re
+import shutil
 import sys
 import urllib.request
 import urllib.error
@@ -67,13 +69,15 @@ def load_config():
         return defaults
 
 
-CONFIG    = load_config()
-SERVE_DIR = Path(CONFIG["serve_dir"]).resolve()
-LOGS_DIR  = Path(CONFIG["logs_dir"]).resolve()
-PORT      = CONFIG["port"]
-OLLAMA    = CONFIG["ollama_url"]
+CONFIG       = load_config()
+SERVE_DIR    = Path(CONFIG["serve_dir"]).resolve()
+LOGS_DIR     = Path(CONFIG["logs_dir"]).resolve()
+VERSIONS_DIR = (SERVE_DIR / "versions").resolve()
+PORT         = CONFIG["port"]
+OLLAMA       = CONFIG["ollama_url"]
 
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
+VERSIONS_DIR.mkdir(parents=True, exist_ok=True)
 
 print(f"[qc-server] Serving   http://localhost:{PORT}/qc-reflect.html")
 print(f"[qc-server]           http://localhost:{PORT}/qc-codebook-docs.html")
@@ -231,6 +235,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/logs/list":
             self._logs_list()
+        elif self.path == "/versions/list":
+            self._versions_list()
+        elif self.path == "/versions/lineage":
+            self._versions_lineage()
         elif self.path.startswith("/docs/list-json"):
             self._docs_list_json()
         elif self.path.startswith("/docs/load-json"):
@@ -251,6 +259,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._logs_save(body)
         elif self.path == "/docs/save":
             self._docs_save(body)
+        elif self.path == "/versions/create":
+            self._versions_create(body)
         elif self.path.startswith("/api/"):
             self._proxy("POST", body)
         else:
@@ -403,12 +413,30 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 return
             with open(target) as f:
                 data = json.load(f)
+
+            # If this file lives inside a versioned directory, record it as active
+            active_dir = ""
+            try:
+                rel = target.relative_to(VERSIONS_DIR)
+                # rel is like  codebook-collab_20260323-1510_a3f9/codebook.docs.json
+                dir_name = rel.parts[0]
+                if (VERSIONS_DIR / dir_name).is_dir():
+                    active_dir = dir_name
+                    ts_log = datetime.now().strftime("%H:%M:%S")
+                    print(f"[{ts_log}] load-json: detected versioned dir = {active_dir}")
+                    # Record this as the working parent for next version/fork
+                    (SERVE_DIR / ".working_parent").write_text(dir_name)
+            except ValueError:
+                pass  # not inside VERSIONS_DIR
+
             ts = datetime.now().strftime("%H:%M:%S")
-            print(f"[{ts}] imported {target}")
+            print(f"[{ts}] opened {target}" + (f"  (active: {active_dir})" if active_dir else ""))
             self._json(200, {
-                "codes":     data.get("codes", {}),
-                "overrides": data.get("overrides", {}),
-                "saved":     data.get("saved", ""),
+                "codes":      data.get("codes", {}),
+                "overrides":  data.get("overrides", {}),
+                "changelog":  data.get("changelog", []),
+                "saved":      data.get("saved", ""),
+                "active_dir": active_dir,
                 "ok": True,
             })
         except Exception as e:
@@ -451,6 +479,213 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
             self._json(200, {"ok": True})
         except Exception as e:
+            self._json(500, {"error": str(e)})
+
+    # ── Version helpers ────────────────────────────────────────────────────────
+
+    def _sanitize_segment(self, s):
+        """Sanitize a name segment: alphanumeric and hyphens only, no underscores."""
+        s = re.sub(r'[^A-Za-z0-9-]', '-', s.strip())
+        s = re.sub(r'-+', '-', s).strip('-')
+        return s[:40] or 'untitled'
+
+    def _lineage_path(self):
+        return VERSIONS_DIR / "lineage.json"
+
+    def _read_lineage(self):
+        p = self._lineage_path()
+        if p.exists():
+            try:
+                with open(p) as f:
+                    return json.load(f)
+            except Exception:
+                pass
+        return {}
+
+    def _write_lineage(self, data):
+        with open(self._lineage_path(), "w") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+
+    def _parse_dir_name(self, name):
+        """Parse a versioned directory name into {chain, timestamp, hash4}.
+        Format: chain_YYYYMMDD-HHMM  or  chain_YYYYMMDD-HHMM_xxxx
+        chain may itself contain underscores (multiple segments).
+        The timestamp is always the second-to-last or last segment depending on hash."""
+        parts = name.split('_')
+        # Timestamp pattern: 8 digits, dash, 4 digits
+        ts_pat = re.compile(r'^\d{8}-\d{4}$')
+        hash_pat = re.compile(r'^[0-9a-f]{4}$')
+        if len(parts) >= 2 and ts_pat.match(parts[-1]):
+            return {'chain': '_'.join(parts[:-1]), 'timestamp': parts[-1], 'hash4': None}
+        if len(parts) >= 3 and ts_pat.match(parts[-2]) and hash_pat.match(parts[-1]):
+            return {'chain': '_'.join(parts[:-2]), 'timestamp': parts[-2], 'hash4': parts[-1]}
+        return None
+
+    def _hash4(self, parent_dir_name):
+        """4-char hex hash of the parent directory name."""
+        return hashlib.sha1(parent_dir_name.encode()).hexdigest()[:4]
+
+    # ── GET /versions/list ────────────────────────────────────────────────────
+
+    def _versions_list(self):
+        lineage    = self._read_lineage()
+        versions   = []
+        docs_paths = []
+        if VERSIONS_DIR.is_dir():
+            for d in sorted(VERSIONS_DIR.iterdir()):
+                if not d.is_dir() or d.name in ('__pycache__',):
+                    continue
+                parsed = self._parse_dir_name(d.name)
+                if not parsed:
+                    continue
+                docs_json = d / "codebook.docs.json"
+                cb_yaml   = d / "codebook.yaml"
+                entry = lineage.get(d.name, {})
+                versions.append({
+                    "dir":       d.name,
+                    "path":      str(d),
+                    "chain":     parsed['chain'],
+                    "timestamp": parsed['timestamp'],
+                    "hash4":     parsed['hash4'],
+                    "parent":    entry.get("parent", ""),
+                    "note":      entry.get("note", ""),
+                    "has_docs":  docs_json.exists(),
+                    "has_yaml":  cb_yaml.exists(),
+                })
+                if docs_json.exists():
+                    docs_paths.append(str(docs_json))
+
+        # Also include the working sidecar at the top of suggestions
+        active_docs = SERVE_DIR / "codebook.docs.json"
+        if active_docs.exists():
+            p = str(active_docs)
+            if p not in docs_paths:
+                docs_paths.insert(0, p)
+
+        self._json(200, {
+            "versions":   versions,
+            "docs_paths": docs_paths,
+            "ok": True,
+        })
+
+    # ── GET /versions/lineage ─────────────────────────────────────────────────
+
+    def _versions_lineage(self):
+        self._json(200, {"lineage": self._read_lineage(), "ok": True})
+
+    # ── POST /versions/create ─────────────────────────────────────────────────
+    # Body: {
+    #   "action":      "version" | "fork",
+    #   "parent_dir":  "codebook_20260310-0900"  (existing dir name, or "" for root),
+    #   "fork_segment": "collaboration",          (fork only — new name segment)
+    #   "note":        "optional prose note",
+    #   "active_yaml_path":  "/abs/path/to/codebook.yaml",
+    #   "active_docs_path":  "/abs/path/to/codebook.docs.json",
+    #   "include_md":  true | false,
+    #   "tree":        [...],
+    #   "overrides":   {...}
+    # }
+
+    def _versions_create(self, body):
+        try:
+            payload      = json.loads(body)
+            action       = payload.get("action", "version")
+            parent_dir   = payload.get("parent_dir", "")
+            fork_segment = self._sanitize_segment(payload.get("fork_segment", ""))
+            note         = payload.get("note", "")
+            active_yaml  = Path(payload.get("active_yaml_path", ""))
+            active_docs  = Path(payload.get("active_docs_path", ""))
+            include_md   = payload.get("include_md", False)
+            tree         = payload.get("tree", [])
+            overrides    = payload.get("overrides", {})
+
+            ts = datetime.now().strftime("%Y%m%d-%H%M")
+
+            ts_log2 = datetime.now().strftime("%H:%M:%S")
+            print(f"[{ts_log2}] versions/create: action={action}, parent_dir='{parent_dir}', fork_segment='{fork_segment}', active_docs='{active_docs}'")
+
+            # If parent_dir not supplied, use the .working_parent pointer
+            # (written when a versioned file is loaded via load-json)
+            if not parent_dir:
+                wp_file = SERVE_DIR / ".working_parent"
+                if wp_file.exists():
+                    parent_dir = wp_file.read_text().strip()
+                    print(f"[{datetime.now().strftime('%H:%M:%S')}] versions/create: using .working_parent = '{parent_dir}'")
+
+            # Determine new directory name
+            if not parent_dir:
+                if action == "fork" and fork_segment:
+                    # Fork from the bare active codebook — no prior versioned parent
+                    new_chain = f"codebook-{fork_segment}"
+                    new_name  = f"{new_chain}_{ts}"
+                else:
+                    # First version ever, or version with no prior saved version
+                    new_chain = "codebook"
+                    new_name  = f"{new_chain}_{ts}"
+            else:
+                parsed = self._parse_dir_name(parent_dir)
+                parent_chain = parsed['chain'] if parsed else parent_dir
+                if action == "fork":
+                    seg = fork_segment or "untitled"
+                    new_chain = f"{parent_chain}-{seg}"
+                    h4 = self._hash4(parent_dir)
+                    new_name = f"{new_chain}_{ts}_{h4}"
+                else:
+                    # version: same chain, no hash (lineage.json records parent)
+                    new_chain = parent_chain
+                    new_name  = f"{new_chain}_{ts}"
+
+            new_dir = VERSIONS_DIR / new_name
+            if new_dir.exists():
+                # Timestamp collision (rare): append seconds
+                ts2 = datetime.now().strftime("%Y%m%d-%H%M%S")
+                new_name = new_name.rsplit('_', 1)[0] + f"_{ts2}"
+                if action != "version":
+                    new_name += f"_{self._hash4(parent_dir)}"
+                new_dir = VERSIONS_DIR / new_name
+            new_dir.mkdir(parents=True, exist_ok=True)
+
+            # Always copy from the live working files in SERVE_DIR
+            working_yaml = SERVE_DIR / "codebook.yaml"
+            working_docs = SERVE_DIR / "codebook.docs.json"
+
+            if working_yaml.exists():
+                shutil.copy2(working_yaml, new_dir / "codebook.yaml")
+            else:
+                (new_dir / "codebook.yaml").write_text(
+                    to_qc_yaml(tree, overrides) if tree else "# empty codebook\n"
+                )
+
+            if working_docs.exists():
+                shutil.copy2(working_docs, new_dir / "codebook.docs.json")
+            else:
+                with open(new_dir / "codebook.docs.json", "w") as f:
+                    json.dump({"saved": datetime.now().isoformat(),
+                               "codes": {}, "tree": tree, "overrides": overrides}, f, indent=2)
+
+            # Optional MD export (plain text summary)
+            if include_md:
+                md_lines = [f"# {new_name}\n"]
+                for node in tree:
+                    pad = "  " * node.get("depth", 0)
+                    md_lines.append(f"{pad}- {node.get('name','')}")
+                (new_dir / "codebook.md").write_text("\n".join(md_lines))
+
+            # Update .working_parent so subsequent create/fork chains from this new dir
+            (SERVE_DIR / ".working_parent").write_text(new_name)
+
+            # Update lineage.json
+            lineage = self._read_lineage()
+            lineage[new_name] = {"parent": parent_dir, "note": note}
+            self._write_lineage(lineage)
+
+            ts_log = datetime.now().strftime("%H:%M:%S")
+            print(f"[{ts_log}] versions/create {action} → {new_name}")
+
+            self._json(200, {"ok": True, "dir": new_name, "path": str(new_dir)})
+
+        except Exception as e:
+            import traceback; traceback.print_exc()
             self._json(500, {"error": str(e)})
 
     # ── Ollama proxy ───────────────────────────────────────────────────────────

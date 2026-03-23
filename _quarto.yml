@@ -1,7 +1,7 @@
 project: 
   type: website
-  pre-render:
-    - bash assets/scripts/qc-viz/qc-viz-pre-render.sh
+  # pre-render:
+  #   - bash assets/scripts/qc-viz/qc-viz-pre-render.sh
   render:
     - "*.qmd"
     - "!private/"
@@ -12,6 +12,7 @@ project:
     - "!data/interviews/"
     - "!data/memos/"
     - "!qc/"
+    # - "!qc-codebook-docs.qmd"
   preview:
     port: 7777
     browser: false

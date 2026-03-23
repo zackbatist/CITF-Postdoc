@@ -20,7 +20,7 @@ var state = {
   search:         '',
   excerpts:       {},
   saveStatus:     'saved',   // 'saved' | 'unsaved' | 'saving' | 'error'
-  exportFormat:   'yaml-qc',  // default
+  exportFormat:   'yaml',  // default
   exportSelected: null,
   statusInclude:  new Set(['active','experimental','deprecated','']),
   treeOverrides:  {},
@@ -28,8 +28,18 @@ var state = {
   importPath:     '',
   importStatus:   '',
   importMsg:      '',
-  saveOpen:         false,
-  saveAsName:       '',
+  versionsOpen:     false,
+  versionsData:     null,   // {versions:[...]} from server
+  versionsStatus:   '',     // 'loading'|'ok'|'error'
+  versionsMsg:      '',
+  versionForkName:  '',
+  openedDocsPath:   DOCS_CONFIG ? DOCS_CONFIG.codebook_docs_path : '',
+  openedVersionDir: '',
+  openSearch:       '',
+  openedVersionDir: '',  // versioned dir name of currently open file
+  versionNote:      '',
+  versionAction:    'version',  // 'version'|'fork'
+  versionLog:       [],         // [{ts, msg, ok}] — session log of version actions
   tableSort:        {col: null, dir: 1},
   changelog:        [],    // [{ts, type, detail}] — document-level events
   changelogOpen:    false, // topbar changelog panel open
@@ -190,19 +200,25 @@ function handleRowClick(name, e) {
     render();
 
   } else {
-    // Plain click — preserve sidebar scroll position across re-render
-    var sidebar = document.querySelector('.sidebar');
-    var prevScroll = sidebar ? sidebar.scrollTop : 0;
+    // Plain click — surgical update: rebuild tree (preserving scroll) + swap editor only
     state.multiSelected.clear();
     if (getChildren(name).length) state.expanded[name] = !state.expanded[name];
-    if (state.selected !== name) state.histSel = [];  // reset history selection on code change
+    if (state.selected !== name) state.histSel = [];
     state.selected = name;
     state.docHistoryOpen = false;
     state.lastClicked = name;
     state.tab = 'doc';
-    render();
-    var newSidebar = document.querySelector('.sidebar');
-    if (newSidebar) newSidebar.scrollTop = prevScroll;
+
+    // Rebuild tree in-place (scroll preserved by renderSidebar)
+    renderSidebar();
+
+    // Swap editor panel only
+    var editorEl = document.querySelector('.editor');
+    if (editorEl) {
+      editorEl.parentNode.replaceChild(buildEditor(), editorEl);
+    } else {
+      render();
+    }
     fetchExcerpts(name);
   }
 }
@@ -300,13 +316,15 @@ async function loadDocs() {
     // Restore document changelog
     if (Array.isArray(data.changelog)) state.changelog = data.changelog;
     clDoc('open', DOCS_CONFIG.codebook_docs_path.replace(/.*\//, ''));
+    state.openedDocsPath = DOCS_CONFIG.codebook_docs_path;
     state.saveStatus = 'saved';
     render();
   } catch(e) {}
 }
 
 async function importJson(path) {
-  if (!path.trim()) return;
+  if (!path.trim()) { console.warn('[importJson] called with empty path'); return; }
+  console.log('[importJson] loading:', path);
   state.importStatus = 'loading'; state.importMsg = ''; renderTopbar();
   try {
     var res = await fetch(API+'/docs/load-json?path='+encodeURIComponent(path.trim()));
@@ -351,7 +369,13 @@ async function importJson(path) {
     var moveN  = Object.keys(state.treeOverrides).length;
     state.saveStatus   = 'unsaved';
     state.importStatus = 'ok';
-    state.importMsg    = 'Loaded ' + codeN + ' codes' + (moveN ? ' · ' + moveN + ' moves' : '') + (data.exported ? ' · exported ' + data.exported.slice(0,10) : '');
+    state.importMsg    = 'Loaded ' + codeN + ' codes' + (moveN ? ' · ' + moveN + ' moves' : '');
+    // Track which file and versioned dir is now open
+    state.openedDocsPath = path.trim();
+    state.openedVersionDir = data.active_dir || '';
+    if (data.active_dir && state.versionsData) {
+      state.versionsData.active_dir = data.active_dir;
+    }
     state.importOpen   = false;
     scheduleSave();
     render();
@@ -604,8 +628,7 @@ function doExport(codes) {
   var fmt=state.exportFormat;
   var ts = tsNow();
   if (fmt==='pdf')       { buildPdf(codes); return; }
-  if (fmt==='yaml-qc')   { download(buildQcYaml(codes),   'codebook-'+ts+'.yaml',           'text/yaml'); return; }
-  if (fmt==='yaml-full') { download(buildFullYaml(codes),  'codebook-full-'+ts+'.yaml',      'text/yaml'); return; }
+  if (fmt==='yaml')      { download(buildFullYaml(codes),  'codebook-'+ts+'.yaml',            'text/yaml'); return; }
   if (fmt==='md')        { download(buildMd(codes,false),  'qc-codebook-docs-'+ts+'.md',     'text/markdown'); return; }
   if (fmt==='qmd')       { download(buildMd(codes,true),   'qc-codebook-docs-'+ts+'.qmd',    'text/markdown'); return; }
   if (fmt==='html')      { download(buildHtml(codes),      'qc-codebook-docs-'+ts+'.html',   'text/html'); return; }
@@ -722,7 +745,11 @@ function refreshSaveIndicator() {
 function renderSidebar() {
   var tree=document.querySelector('.sidebar .tree'), ep=document.querySelector('.export-panel');
   if(!tree||!ep){render();return;}
-  tree.parentNode.replaceChild(buildTree(),tree);
+  var treeScroll = tree.scrollTop;
+  var newTree = buildTree();
+  tree.parentNode.replaceChild(newTree, tree);
+  // Defer until after browser lays out the new tree
+  requestAnimationFrame(function(){ newTree.scrollTop = treeScroll; });
   ep.parentNode.replaceChild(buildExportPanel(),ep);
 }
 
@@ -749,6 +776,10 @@ function buildTopbar() {
       (movedCount?' · '+movedCount+' moved':'')+
       (multiN>1?' · '+multiN+' selected':'')
     ),
+    state.openedVersionDir ? h('span',{
+      className:'topbar-version-badge',
+      title:'Currently open: '+state.openedVersionDir,
+    }, state.openedVersionDir.replace(/_[0-9]{8}-[0-9]{4}(_[0-9a-f]{4})?$/, '')) : null,
     h('button',{
       className:'topbar-history-tab'+(state.docHistoryOpen?' active':''),
       title:'Document history',
@@ -772,11 +803,11 @@ function buildTopbar() {
     h('span',{className:saveCls}, saveLabel),
     h('button',{
       className:'btn'+(state.importOpen?' active':''),
-      title:'Open a JSON documentation file',
+      title:'Open a documentation JSON file by path',
       onClick:function(){
         var opening = !state.importOpen;
         state.importOpen    = opening;
-        state.saveOpen      = false;
+        state.versionsOpen  = false;
         state.changelogOpen = false;
         state.importStatus  = '';
         state.importMsg     = '';
@@ -784,22 +815,22 @@ function buildTopbar() {
       },
     },'Open'),
     h('button',{
-      className:'btn'+(state.saveOpen?' active':''),
-      title:'Save documentation as JSON',
+      className:'btn'+(state.versionsOpen?' active':''),
+      title:'Manage codebook versions',
       onClick:function(){
-        var opening = !state.saveOpen;
-        state.saveOpen      = opening;
+        var opening = !state.versionsOpen;
+        state.versionsOpen  = opening;
         state.importOpen    = false;
         state.changelogOpen = false;
-        if (opening) state.saveAsName = 'qc-codebook-docs-'+tsNow()+'.json';
+        if (opening) { state.versionsData = null; state.versionsStatus = 'loading'; loadVersions(); }
         renderTopbar();
       },
-    },'Save JSON')
+    },'Versions')
   );
 
   var panelEl = null;
-  if      (state.importOpen) panelEl = buildOpenPanel();
-  else if (state.saveOpen)   panelEl = buildSavePanel();
+  if      (state.importOpen)   panelEl = buildOpenPanel();
+  else if (state.versionsOpen) panelEl = buildVersionsPanel();
 
   if (!panelEl) return bar;
   var wrap = h('div',{className:'topbar-wrap'});
@@ -937,78 +968,308 @@ function buildDocDiffPane(evA, evB, idxA, idxB) {
 }
 
 
+// ── Versions ─────────────────────────────────────────────────────────────────
+
+async function loadVersions() {
+  try {
+    var res = await fetch(API+'/versions/list');
+    var data = await res.json();
+    state.versionsData   = data;
+    // Restore the open dir into fresh versionsData
+    if (state.openedVersionDir) state.versionsData.active_dir = state.openedVersionDir;
+    state.versionsStatus = 'ok';
+  } catch(e) {
+    state.versionsStatus = 'error';
+    state.versionsMsg    = String(e.message||e);
+  }
+  if (state.versionsOpen) renderTopbar();
+  // If Open panel is showing, refresh its suggestions now that paths are loaded
+  if (state.importOpen) {
+    var dd = document.querySelector('.open-suggestions');
+    var inputEl = document.querySelector('.open-input-wrap .fp-bar-input');
+    if (dd && inputEl) renderSuggestions(dd, inputEl.value, inputEl);
+  }
+}
+
+async function createVersion(action, forkSegment, note) {
+  state.versionsStatus = 'loading';
+  renderTopbar();
+  try {
+    var body = {
+      action:            action,
+      parent_dir:        state.openedVersionDir || '',  // set when a versioned file is opened
+      fork_segment:      forkSegment || '',
+      note:              note || '',
+      active_yaml_path:  DOCS_CONFIG.codebook_docs_path.replace(/codebook\.docs\.json$/, 'codebook.yaml'),
+      active_docs_path:  DOCS_CONFIG.codebook_docs_path,
+      // parent_dir is derived by server from .working_parent file
+      include_md:        true,
+      tree:              treeArr,
+      overrides:         state.treeOverrides,
+    };
+    console.log('[createVersion] body:', JSON.stringify({action:body.action, parent_dir:body.parent_dir, fork_segment:body.fork_segment, active_docs_path:body.active_docs_path}));
+    var res  = await fetch(API+'/versions/create', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+    var data = await res.json();
+    if (!res.ok || data.error) throw new Error(data.error || 'HTTP '+res.status);
+    clDoc('save', (action==='fork'?'fork → ':'version → ')+data.dir);
+    // Refresh list
+    var listRes  = await fetch(API+'/versions/list');
+    state.versionsData   = await listRes.json();
+    // New directory is now the open one
+    state.versionsData.active_dir = data.dir;
+    var newEntry = state.versionsData.versions && state.versionsData.versions.find(function(v){ return v.dir === data.dir; });
+    if (newEntry) {
+      state.openedDocsPath    = newEntry.path + '/codebook.docs.json';
+      state.openedVersionDir  = data.dir;
+    }
+    state.versionsStatus = 'ok';
+    var logMsg = (action==='fork'?'Forked':'Saved')+': '+data.dir;
+    state.versionsMsg    = logMsg;
+    state.versionLog.push({ts: new Date().toLocaleTimeString(), msg: logMsg, ok: true});
+    state.versionForkName = '';
+    state.versionNote     = '';
+  } catch(e) {
+    state.versionsStatus = 'error';
+    state.versionsMsg    = String(e.message||e);
+    state.versionLog.push({ts: new Date().toLocaleTimeString(), msg: String(e.message||e), ok: false});
+  }
+  renderTopbar();
+}
+
+
+function buildVersionsPanel() {
+  var wrap = h('div',{className:'fp-bar-wrap vp-wrap'});
+
+  // ── Primary action: Save version ──
+  var primaryRow = h('div',{className:'fp-bar vp-primary-row'});
+
+  var saveBtn = h('button',{
+    className:'btn primary vp-save-btn',
+    disabled: state.versionsStatus==='loading',
+    onClick: function(){
+      var noteArea = document.querySelector('.vp-note-area');
+      createVersion('version', '', (noteArea ? noteArea.value.trim() : '') || state.versionNote.trim());
+    },
+  }, state.versionsStatus==='loading' ? 'Saving…' : 'Save version');
+
+  var noteArea = h('textarea',{
+    className:'vp-note-area',
+    placeholder:'Note (optional) — describe what changed…',
+    rows: 2,
+    value: state.versionNote,
+    onInput: function(e){ state.versionNote = e.target.value; },
+  });
+
+  primaryRow.appendChild(saveBtn);
+  primaryRow.appendChild(noteArea);
+  wrap.appendChild(primaryRow);
+
+  // ── Secondary action: Fork ──
+  var forkRow = h('div',{className:'fp-bar vp-fork-row'});
+  forkRow.appendChild(h('span',{className:'vp-fork-label'},'Fork into new line:'));
+
+  var forkInp = h('input',{
+    type:'text', className:'fp-bar-input vp-fork-input',
+    placeholder:'name (e.g. collaboration)',
+    value: state.versionForkName,
+    onInput: function(e){ state.versionForkName = e.target.value; },
+  });
+  forkInp.addEventListener('keydown', function(e){
+    if (e.key==='Enter') {
+      var name = forkInp.value.trim();
+      if (name) createVersion('fork', name, noteArea.value.trim() || state.versionNote);
+    }
+  });
+
+  var forkBtn = h('button',{
+    className:'btn vp-fork-btn',
+    disabled: state.versionsStatus==='loading',
+    onClick: function(){
+      var name = forkInp.value.trim() || state.versionForkName.trim();
+      if (!name) {
+        state.versionsMsg = 'Enter a fork name.';
+        state.versionsStatus = 'ok';
+        renderTopbar();
+        return;
+      }
+      createVersion('fork', name, noteArea.value.trim() || state.versionNote);
+    },
+  }, 'Fork');
+
+  forkRow.appendChild(forkInp);
+  forkRow.appendChild(forkBtn);
+  wrap.appendChild(forkRow);
+
+  // ── Session log ──
+  if (state.versionLog.length) {
+    var logWrap = h('div',{className:'vp-log'});
+    // Newest first
+    state.versionLog.slice().reverse().forEach(function(entry){
+      var row = h('div',{className:'vp-log-row'+(entry.ok?'':' vp-log-error')});
+      row.appendChild(h('span',{className:'vp-log-ts'}, entry.ts));
+      row.appendChild(h('span',{className:'vp-log-msg'}, entry.msg));
+      logWrap.appendChild(row);
+    });
+    wrap.appendChild(logWrap);
+  }
+
+  // ── Version list ──
+  if (state.versionsStatus === 'loading' && !state.versionsData) {
+    wrap.appendChild(h('div',{className:'fp-bar-subhint'},'Loading versions…'));
+    return wrap;
+  }
+
+  var versions = (state.versionsData && state.versionsData.versions) || [];
+  if (!versions.length) {
+    wrap.appendChild(h('div',{className:'fp-bar-subhint'},'No versions yet. Save a version to create the first one.'));
+    return wrap;
+  }
+
+  var tableScroll = h('div',{className:'vt-scroll'});
+  var table = h('div',{className:'vt'});
+
+  // Header
+  var hdr = h('div',{className:'vt-row vt-hdr'});
+  hdr.appendChild(h('span',{className:'vt-cell vt-chain'},'Name chain'));
+  hdr.appendChild(h('span',{className:'vt-cell vt-ts'},'Timestamp'));
+  hdr.appendChild(h('span',{className:'vt-cell vt-hash'},'Hash'));
+  hdr.appendChild(h('span',{className:'vt-cell vt-parent'},'Parent'));
+  hdr.appendChild(h('span',{className:'vt-cell vt-note'},'Note'));
+  hdr.appendChild(h('span',{className:'vt-cell vt-actions'},''));
+  table.appendChild(hdr);
+
+  // Rows sorted by timestamp descending
+  var sortedVersions = versions.slice().sort(function(a,b){
+    return b.timestamp < a.timestamp ? -1 : b.timestamp > a.timestamp ? 1 : 0;
+  });
+  sortedVersions.forEach(function(v){
+    var vDocsPath = v.path + '/codebook.docs.json';
+    var isOpen = (state.versionsData && state.versionsData.active_dir === v.dir);
+    var row = h('div',{className:'vt-row'+(isOpen?' vt-row-active':'')});
+    var chainCell = h('span',{className:'vt-cell vt-chain', title:v.dir});
+    chainCell.appendChild(document.createTextNode(v.chain));
+    if(isOpen) chainCell.appendChild(h('span',{className:'vt-current-badge'},'open'));
+    row.appendChild(chainCell);
+    row.appendChild(h('span',{className:'vt-cell vt-ts'}, v.timestamp));
+    row.appendChild(h('span',{className:'vt-cell vt-hash'}, v.hash4 || '—'));
+    row.appendChild(h('span',{className:'vt-cell vt-parent', title:v.parent}, v.parent ? v.parent.split('_').slice(-2,-1)[0]||'—' : '—'));
+    row.appendChild(h('span',{className:'vt-cell vt-note'}, v.note || ''));
+    var acts = h('span',{className:'vt-cell vt-actions'});
+    acts.appendChild(h('button',{
+      className:'btn-xs'+(isOpen?' btn-xs-open':''),
+      title: vDocsPath,
+      onClick: (function(p, dir){ return function(){
+        state.openedVersionDir = dir;
+        if (state.versionsData) state.versionsData.active_dir = dir;
+        state.versionsOpen = false;
+        importJson(p);
+      }; })(vDocsPath, v.dir),
+    }, isOpen ? '✓ open' : 'Open'));
+    row.appendChild(acts);
+    table.appendChild(row);
+  });
+  tableScroll.appendChild(table);
+  wrap.appendChild(tableScroll);
+  return wrap;
+}
+
 // ── Open panel ────────────────────────────────────────────────────────────────
 
 function buildOpenPanel() {
-  var panel = h('div',{className:'fp-bar'});
+  if (!state.versionsData && state.versionsStatus !== 'loading') {
+    state.versionsStatus = 'loading';
+    loadVersions();
+  }
 
-  var inp = h('input',{
-    type:'text', className:'fp-bar-input',
-    placeholder:'/absolute/path/to/qc-codebook-docs.json',
-    value: state.importPath,
-    onInput: function(e){ state.importPath = e.target.value; },
+  var wrap = h('div',{className:'fp-bar-wrap op-wrap'});
+
+  // ── Search input ──
+  var searchRow = h('div',{className:'fp-bar op-search-row'});
+  var searchInp = h('input',{
+    type:'text', className:'fp-bar-input op-search-input',
+    placeholder:'Filter by name, timestamp, or note…',
+    value: state.openSearch || '',
+    onInput: function(e){
+      state.openSearch = e.target.value;
+      // Re-render just the list
+      var list = wrap.querySelector('.op-list');
+      if (list) list.parentNode.replaceChild(buildOpenList(state.openSearch), list);
+    },
   });
-  inp.addEventListener('keydown', function(e){
-    if (e.key==='Enter')  importJson(state.importPath);
+  searchInp.addEventListener('keydown', function(e){
     if (e.key==='Escape') { state.importOpen=false; renderTopbar(); }
   });
+  searchRow.appendChild(searchInp);
+  wrap.appendChild(searchRow);
 
-  panel.appendChild(h('span',{className:'fp-bar-label'},'Open'));
-  panel.appendChild(inp);
-  panel.appendChild(h('button',{
-    className:'btn primary',
-    disabled: state.importStatus==='loading',
-    onClick: function(){ importJson(state.importPath); },
-  }, state.importStatus==='loading' ? 'Loading…' : 'Open'));
+  function buildOpenList(query) {
+    var listWrap = h('div',{className:'op-list'});
+    var versions = (state.versionsData && state.versionsData.versions) || [];
+    if (state.versionsStatus === 'loading' && !versions.length) {
+      listWrap.appendChild(h('div',{className:'op-empty'},'Loading…'));
+      return listWrap;
+    }
+    if (!versions.length) {
+      listWrap.appendChild(h('div',{className:'op-empty'},'No versions yet.'));
+      return listWrap;
+    }
+    var q = (query||'').toLowerCase();
+    var sorted = versions.slice().sort(function(a,b){
+      return b.timestamp < a.timestamp ? -1 : b.timestamp > a.timestamp ? 1 : 0;
+    });
+    var filtered = q ? sorted.filter(function(v){
+      return (v.chain+' '+v.timestamp+' '+(v.note||'')+(v.hash4||'')).toLowerCase().indexOf(q) !== -1;
+    }) : sorted;
+    if (!filtered.length) {
+      listWrap.appendChild(h('div',{className:'op-empty'},'No matches.'));
+      return listWrap;
+    }
+    filtered.forEach(function(v){
+      var vDocsPath = v.path + '/codebook.docs.json';
+      var isOpen = (state.openedDocsPath === vDocsPath);
+      var row = h('div',{className:'op-row'+(isOpen?' op-row-open':'')});
+      // Load button on the LEFT
+      var loadBtn = h('button',{
+        className:'btn op-load-btn'+(isOpen?' btn-disabled':''),
+        disabled: isOpen,
+        onClick: (function(p, dir){ return function(){
+          state.openedVersionDir = dir;
+          if (state.versionsData) state.versionsData.active_dir = dir;
+          state.importOpen = false;
+          renderTopbar();
+          importJson(p);
+        }; })(vDocsPath, v.dir),
+      }, isOpen ? '✓' : 'Load');
+      row.appendChild(loadBtn);
+      // Label to the right
+      var lbl = h('div',{className:'op-row-lbl'});
+      lbl.appendChild(h('span',{className:'op-row-chain'}, v.chain));
+      lbl.appendChild(h('span',{className:'op-row-ts'}, v.timestamp));
+      if(v.hash4) lbl.appendChild(h('span',{className:'op-row-hash'}, v.hash4));
+      if(v.note)  lbl.appendChild(h('span',{className:'op-row-note-inline'}, v.note));
+      row.appendChild(lbl);
+      listWrap.appendChild(row);
+    });
+    return listWrap;
+  }
+
+  wrap.appendChild(buildOpenList(state.openSearch));
+
+  // ── Status message ──
   if (state.importMsg) {
-    panel.appendChild(h('span',{
-      className:'fp-msg '+(state.importStatus==='error'?'msg-error':'msg-ok'),
+    wrap.appendChild(h('div',{
+      className:'fp-bar-subhint '+(state.importStatus==='error'?'msg-error':''),
     }, state.importMsg));
   }
 
   setTimeout(function(){
-    var i = document.querySelector('.fp-bar-input');
-    if (i && !i.value) i.focus();
+    var i = wrap.querySelector('.op-search-input');
+    if (i) i.focus();
   }, 0);
-  return panel;
-}
 
-// ── Save panel ────────────────────────────────────────────────────────────────
-
-function buildSavePanel() {
-  var wrap = h('div',{className:'fp-bar-wrap'});
-  var bar  = h('div',{className:'fp-bar'});
-
-  var inp = h('input',{
-    type:'text', className:'fp-bar-input',
-    placeholder:'qc-codebook-docs-'+tsNow()+'.json',
-    value: state.saveAsName,
-    onInput: function(e){ state.saveAsName = e.target.value; },
-  });
-  inp.addEventListener('keydown', function(e){
-    if (e.key==='Enter')  { saveJsonAs(state.saveAsName); clDoc('save', state.saveAsName); state.saveOpen=false; renderTopbar(); }
-    if (e.key==='Escape') { state.saveOpen=false; renderTopbar(); }
-  });
-
-  bar.appendChild(h('span',{className:'fp-bar-label'},'Save as'));
-  bar.appendChild(inp);
-  bar.appendChild(h('button',{
-    className:'btn primary',
-    onClick:function(){
-      saveJsonAs(state.saveAsName);
-      clDoc('save', state.saveAsName || 'manual save');
-      state.saveOpen = false;
-      renderTopbar();
-    },
-  }, 'Download JSON'));
-  wrap.appendChild(bar);
-  wrap.appendChild(h('div',{className:'fp-bar-subhint'}, 'Snapshot of all codes, structure, and history'));
-
-  setTimeout(function(){
-    var i = document.querySelector('.fp-bar-input'); if (i) { i.focus(); i.select(); }
-  }, 0);
   return wrap;
 }
+
 
 
 
@@ -1147,8 +1408,7 @@ function buildExportPanel() {
 
   var fmtRow=h('div',{className:'export-panel-fmts'});
   [
-    ['yaml-qc',   'YAML·qc',   'qc-compatible bare list (structure only)'],
-    ['yaml-full', 'YAML·full', 'Full YAML with all documentation fields'],
+    ['yaml',      'YAML',       'Full YAML with all documentation fields'],
     ['md',        'MD',        'Markdown documentation'],
     ['qmd',       'QMD',       'Quarto document'],
     ['html',      'HTML',      'Standalone HTML page'],
@@ -1167,7 +1427,7 @@ function buildExportPanel() {
   var actRow=h('div',{className:'export-panel-action'});
   actRow.appendChild(h('span',{className:'export-panel-count'},codes.length+' selected · '+docN+' documented'));
   // Human-readable label for the button
-  var fmtLabel = {'yaml-qc':'YAML (qc)', 'yaml-full':'YAML (full)', 'md':'MD', 'qmd':'QMD', 'html':'HTML', 'csv':'CSV', 'pdf':'PDF'}[fmt]||fmt.toUpperCase();
+  var fmtLabel = {'yaml':'YAML', 'md':'MD', 'qmd':'QMD', 'html':'HTML', 'csv':'CSV', 'pdf':'PDF'}[fmt]||fmt.toUpperCase();
   var dlBtn=h('button',{
     className:'btn primary ep-download-btn'+(state.saveStatus!=='saved'?' ep-unsaved':'')+(state.saveStatus==='error'?' ep-error':''),
     disabled:!codes.length,
