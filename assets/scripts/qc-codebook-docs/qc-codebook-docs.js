@@ -24,8 +24,6 @@ var state = {
   exportSelected: null,
   statusInclude:  new Set(['active','experimental','deprecated','']),
   treeOverrides:  {},
-  dragName:       null,
-  dropTarget:     null,
   importOpen:     false,
   importPath:     '',
   importStatus:   '',
@@ -163,7 +161,7 @@ function getVisibleOrder() {
 // ── Multi-select ──────────────────────────────────────────────────────────────
 
 function handleRowClick(name, e) {
-  if (e.target.closest('.tree-pip-wrap') || e.target.closest('.drag-handle')) return;
+  if (e.target.closest('.tree-pip-wrap')) return;
 
   if (e.metaKey || e.ctrlKey) {
     if (state.multiSelected.has(name)) {
@@ -192,7 +190,9 @@ function handleRowClick(name, e) {
     render();
 
   } else {
-    // Plain click
+    // Plain click — preserve sidebar scroll position across re-render
+    var sidebar = document.querySelector('.sidebar');
+    var prevScroll = sidebar ? sidebar.scrollTop : 0;
     state.multiSelected.clear();
     if (getChildren(name).length) state.expanded[name] = !state.expanded[name];
     if (state.selected !== name) state.histSel = [];  // reset history selection on code change
@@ -201,6 +201,8 @@ function handleRowClick(name, e) {
     state.lastClicked = name;
     state.tab = 'doc';
     render();
+    var newSidebar = document.querySelector('.sidebar');
+    if (newSidebar) newSidebar.scrollTop = prevScroll;
     fetchExcerpts(name);
   }
 }
@@ -1028,16 +1030,11 @@ function buildSidebar() {
 }
 
 function buildTree() {
-  var tree=h('div',{
-    className:'tree',
-    onDragover:function(e){ if(state.dragName) e.preventDefault(); },
-    onDrop:function(e){ e.preventDefault(); }, // fallback; rows handle their own drops
-  });
+  var tree=h('div',{className:'tree'});
   if(state.search.trim()){
     var q=state.search.toLowerCase();
     treeArr.filter(function(n){return n.name.toLowerCase().indexOf(q)>=0;}).forEach(function(n){tree.appendChild(buildRow(n,0));});
   } else {
-    if(state.dragName) tree.appendChild(buildDropZone('__root__'));
     getRoots().forEach(function(r){renderSubtree(tree,r.name);});
   }
   return tree;
@@ -1059,8 +1056,6 @@ function buildRow(node, overrideDepth) {
   var depth=(overrideDepth!==null&&overrideDepth!==undefined)?overrideDepth:nodeDepth(node.name);
   var hasChildren=(_childrenIdx[node.name]||[]).length>0;
   var sel=subtreeState(node.name);
-  var isDragging=state.dragName===node.name;
-  var isDropTarget=state.dropTarget===node.name;
   var isMulti=state.multiSelected.has(node.name);
   var isSingle=state.selected===node.name && state.multiSelected.size===0;
   // Dim rows whose status is excluded from export
@@ -1070,62 +1065,12 @@ function buildRow(node, overrideDepth) {
   var rowClass='tree-row'+
     (isSingle?' active':'')+
     (isMulti?' multi-active':'')+
-    (isDragging?' dragging':'')+
-    (isDropTarget?' drop-target':'')+
     (isStatusDimmed?' status-dimmed':'');
 
   var row=h('div',{
     className:rowClass,
     onClick:function(e){ e.stopPropagation(); handleRowClick(node.name,e); },
-    onDragover:function(e){
-      if(!state.dragName||state.dragName===node.name||wouldCycle(state.dragName,node.name)) return;
-      e.preventDefault(); e.stopPropagation();
-      if(state.dropTarget!==node.name){
-        // Remove highlight from previous target without re-render
-        if(state.dropTarget){
-          var prev=document.querySelector('.tree-row.drop-target');
-          if(prev) prev.classList.remove('drop-target');
-        }
-        state.dropTarget=node.name;
-        row.classList.add('drop-target');
-      }
-    },
-    onDragleave:function(e){
-      if(e.relatedTarget&&row.contains(e.relatedTarget)) return;
-      if(state.dropTarget===node.name){
-        state.dropTarget=null;
-        row.classList.remove('drop-target');
-      }
-    },
-    onDrop:function(e){
-      e.preventDefault();e.stopPropagation();
-      if(state.dragName&&state.dragName!==node.name){
-        reparent(state.dragName,node.name);
-        state.expanded[node.name]=true;
-      }
-      state.dragName=null;state.dropTarget=null;
-      render();
-    },
   });
-
-  var handle=h('span',{
-    className:'drag-handle', draggable:'true', title:'Drag to move',
-    onDragstart:function(e){
-      state.dragName=node.name; state.dropTarget=null;
-      e.dataTransfer.effectAllowed='move';
-      e.dataTransfer.setData('text/plain',node.name);
-      // Mark the dragging row visually without full re-render
-      setTimeout(function(){ row.classList.add('dragging'); },0);
-    },
-    onDragend:function(){
-      row.classList.remove('dragging');
-      state.dragName=null; state.dropTarget=null;
-      // Only re-render to remove drop-zone; no full rebuild needed if drop didn't happen
-      var dz=document.querySelector('.drop-zone');
-      if(dz) dz.remove();
-    },
-  },'⠿');
-  row.appendChild(handle);
 
   for(var i=0;i<depth;i++) row.appendChild(h('span',{className:'tree-indent'}));
 
@@ -1164,43 +1109,12 @@ function buildRow(node, overrideDepth) {
     var uses=getUses(node.name);
     rightGroup.appendChild(h('span',{className:'tree-count'},uses?String(uses):''));
   }
-  rightGroup.appendChild(h('span',{
-    className:'moved-badge',
-    title: node.name in state.treeOverrides ? 'Moved from original position' : '',
-    style: {visibility: node.name in state.treeOverrides ? 'visible' : 'hidden'},
-  },'↕'));
+
   row.appendChild(rightGroup);
 
   return row;
 }
 
-function buildDropZone(target) {
-  var zone = h('div',{
-    className:'drop-zone',
-    onDragover:function(e){
-      if(!state.dragName) return; e.preventDefault();
-      if(state.dropTarget!==target){
-        if(state.dropTarget){
-          var prev=document.querySelector('.tree-row.drop-target');
-          if(prev) prev.classList.remove('drop-target');
-        }
-        state.dropTarget=target;
-        zone.classList.add('active');
-      }
-    },
-    onDragleave:function(e){
-      if(e.relatedTarget&&zone.contains(e.relatedTarget)) return;
-      if(state.dropTarget===target){ state.dropTarget=null; zone.classList.remove('active'); }
-    },
-    onDrop:function(e){
-      e.preventDefault();
-      if(state.dragName) reparent(state.dragName,'');
-      state.dragName=null;state.dropTarget=null;
-      render();
-    },
-  },'↑ Make root');
-  return zone;
-}
 
 // ── Export panel ──────────────────────────────────────────────────────────────
 
