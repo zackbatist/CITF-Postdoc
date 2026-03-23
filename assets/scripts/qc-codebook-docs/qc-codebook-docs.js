@@ -39,14 +39,10 @@ var state = {
   histSel:          [],    // up to 2 entry keys (code-level: 'code:N', doc-level: 'doc:N')
   histDiffMode:     'fields', // 'fields' | 'json'
   docHistoryOpen:   false,    // editor shows doc history instead of code editor
+  lightMode:        false,
 };
 
 // ── Changelog helpers ─────────────────────────────────────────────────────────
-
-// Max chars stored for long prose fields in per-code log entries
-var LOG_TRUNCATE = 200;
-// Fields where we store full text (short); others get truncated
-var LOG_FULL_FIELDS = {status:1, provenance:1};
 
 function clNow() { return new Date().toISOString(); }
 
@@ -56,18 +52,15 @@ function clDoc(type, detail) {
 }
 
 // Append a per-code field edit to code._log (only when value actually changed)
+// Full values stored — no truncation.
 function clCode(code, field, fromVal, toVal) {
   if (!state.docs.codes[code]) return;
   if (!state.docs.codes[code]._log) state.docs.codes[code]._log = [];
-  var trunc = function(s) {
-    if (!s) return '';
-    return (LOG_FULL_FIELDS[field] || s.length <= LOG_TRUNCATE) ? s : s.slice(0, LOG_TRUNCATE) + '…';
-  };
   state.docs.codes[code]._log.push({
     ts:    clNow(),
     field: field,
-    from:  trunc(fromVal),
-    to:    trunc(toVal),
+    from:  fromVal !== undefined && fromVal !== null ? String(fromVal) : '',
+    to:    toVal   !== undefined && toVal   !== null ? String(toVal)   : '',
   });
 }
 
@@ -764,6 +757,15 @@ function buildTopbar() {
       },
     }, 'History'),
     h('div',{className:'topbar-space'}),
+    h('button',{
+      className:'btn topbar-theme-toggle',
+      title: state.lightMode ? 'Switch to dark mode' : 'Switch to light mode',
+      onClick:function(){
+        state.lightMode = !state.lightMode;
+        document.body.classList.toggle('light-mode', state.lightMode);
+        renderTopbar();
+      },
+    }, state.lightMode ? '☀' : '☾'),
     multiN>1 ? h('button',{className:'btn',onClick:clearMulti},'Esc  Clear') : null,
     h('span',{className:saveCls}, saveLabel),
     h('button',{
@@ -972,7 +974,8 @@ function buildOpenPanel() {
 // ── Save panel ────────────────────────────────────────────────────────────────
 
 function buildSavePanel() {
-  var panel = h('div',{className:'fp-bar'});
+  var wrap = h('div',{className:'fp-bar-wrap'});
+  var bar  = h('div',{className:'fp-bar'});
 
   var inp = h('input',{
     type:'text', className:'fp-bar-input',
@@ -985,9 +988,9 @@ function buildSavePanel() {
     if (e.key==='Escape') { state.saveOpen=false; renderTopbar(); }
   });
 
-  panel.appendChild(h('span',{className:'fp-bar-label'},'Save as'));
-  panel.appendChild(inp);
-  panel.appendChild(h('button',{
+  bar.appendChild(h('span',{className:'fp-bar-label'},'Save as'));
+  bar.appendChild(inp);
+  bar.appendChild(h('button',{
     className:'btn primary',
     onClick:function(){
       saveJsonAs(state.saveAsName);
@@ -996,16 +999,13 @@ function buildSavePanel() {
       renderTopbar();
     },
   }, 'Download JSON'));
-  panel.appendChild(h('span',{className:'fp-bar-hint'},
-    DOCS_CONFIG.codebook_docs_path
-      ? 'Autosave → ' + DOCS_CONFIG.codebook_docs_path.replace(/.*\//,'')
-      : 'Snapshot of all codes, structure, and history'
-  ));
+  wrap.appendChild(bar);
+  wrap.appendChild(h('div',{className:'fp-bar-subhint'}, 'Snapshot of all codes, structure, and history'));
 
   setTimeout(function(){
     var i = document.querySelector('.fp-bar-input'); if (i) { i.focus(); i.select(); }
   }, 0);
-  return panel;
+  return wrap;
 }
 
 
@@ -1108,8 +1108,6 @@ function buildRow(node, overrideDepth) {
     },
   });
 
-  for(var i=0;i<depth;i++) row.appendChild(h('span',{className:'tree-indent'}));
-
   var handle=h('span',{
     className:'drag-handle', draggable:'true', title:'Drag to move',
     onDragstart:function(e){
@@ -1129,6 +1127,8 @@ function buildRow(node, overrideDepth) {
   },'⠿');
   row.appendChild(handle);
 
+  for(var i=0;i<depth;i++) row.appendChild(h('span',{className:'tree-indent'}));
+
   row.appendChild(h('span',{className:'tree-toggle'+(state.expanded[node.name]?' open':'')},hasChildren?'▶':''));
 
   // Pip: export selector + status ring
@@ -1143,7 +1143,17 @@ function buildRow(node, overrideDepth) {
   pipWrap.appendChild(makePipSvg(statusColor?3:4,innerFill,innerOpacity,statusColor?5.5:0,statusColor,sel==='none'?0.3:0.85));
   row.appendChild(pipWrap);
 
-  row.appendChild(h('span',{className:'tree-name',title:node.name},node.name));
+  var nameSpan = h('span',{className:'tree-name',title:node.name},node.name);
+  row.appendChild(nameSpan);
+
+  // Subtle undoc indicator: faint dot after name when no documentation at all
+  var docMissing = !hasDoc(node.name);
+  if (docMissing) {
+    row.appendChild(h('span',{
+      className:'tree-undoc-dot',
+      title:'No documentation yet',
+    }));
+  }
 
   var rightGroup = h('span',{className:'tree-right'});
   if(hasChildren){
@@ -1557,131 +1567,202 @@ var FIELD_LABELS = {
   status:'Status', scope:'Scope', rationale:'Rationale',
   usage_notes:'Usage notes', provenance:'History', parent:'Parent',
 };
+var DOC_FIELDS_ORDER = ['status','parent','scope','rationale','usage_notes','provenance'];
 
-// Iterative LCS — avoids call-stack overflow on large texts
-function buildLineDiff(a, b) {
-  var al = (a||'').split('\n'), bl = (b||'').split('\n');
-  var m = al.length, n = bl.length;
-  // Cap size to avoid O(n²) freeze on huge texts
-  if (m > 200 || n > 200) {
-    return [{type:'del',text:'− (before, '+(a.length)+' chars)'},{type:'add',text:'+ (after, '+(b.length)+' chars)'}];
-  }
-  var dp = []; for(var i=0;i<=m;i++){dp[i]=new Uint16Array(n+1);}
-  for(var i=1;i<=m;i++) for(var j=1;j<=n;j++)
-    dp[i][j] = al[i-1]===bl[j-1] ? dp[i-1][j-1]+1 : Math.max(dp[i-1][j],dp[i][j-1]);
-  // Iterative backtrack
-  var out=[]; var i=m, j=n;
-  while(i>0||j>0){
-    if(i>0&&j>0&&al[i-1]===bl[j-1]){out.unshift({type:'ctx',text:'  '+al[i-1]});i--;j--;}
-    else if(j>0&&(!i||dp[i][j-1]>=dp[i-1][j])){out.unshift({type:'add',text:'+ '+bl[j-1]});j--;}
-    else{out.unshift({type:'del',text:'− '+al[i-1]});i--;}
-  }
-  return out;
-}
+// Selection colours — A = teal, B = amber
+var SEL_A_BG  = 'rgba(20,184,166,0.13)';  // teal tint
+var SEL_B_BG  = 'rgba(251,191,36,0.13)';  // amber tint
+var SEL_A_BAR = '#14b8a6';
+var SEL_B_BAR = '#fbbf24';
 
-function buildJsonDiffBlock(aStr, bStr) {
-  var wrap = h('div',{className:'ch-json-diff'});
-  var aLines = aStr.split('\n'), bLines = bStr.split('\n');
-  var m=aLines.length, n=bLines.length;
-  if(m>400||n>400){wrap.appendChild(h('div',{className:'ch-diff-empty'},'JSON too large to diff inline.'));return wrap;}
-  var dp=[];for(var i=0;i<=m;i++){dp[i]=new Uint16Array(n+1);}
+function selBg(ord)  { return ord===1 ? SEL_A_BG  : SEL_B_BG; }
+function selBar(ord) { return ord===1 ? SEL_A_BAR : SEL_B_BAR; }
+function selLabel(ord) { return ord===1 ? 'A' : 'B'; }
+
+// Iterative LCS — avoids call-stack overflow
+function lcs(al, bl) {
+  var m=al.length, n=bl.length;
+  var dp=[]; for(var i=0;i<=m;i++){dp[i]=new Uint16Array(n+1);}
   for(var i=1;i<=m;i++) for(var j=1;j<=n;j++)
-    dp[i][j]=aLines[i-1]===bLines[j-1]?dp[i-1][j-1]+1:Math.max(dp[i-1][j],dp[i][j-1]);
+    dp[i][j]=al[i-1]===bl[j-1]?dp[i-1][j-1]+1:Math.max(dp[i-1][j],dp[i][j-1]);
   var ops=[]; var ii=m, jj=n;
   while(ii>0||jj>0){
-    if(ii>0&&jj>0&&aLines[ii-1]===bLines[jj-1]){ops.unshift({t:'ctx',s:aLines[ii-1]});ii--;jj--;}
-    else if(jj>0&&(!ii||dp[ii][jj-1]>=dp[ii-1][jj])){ops.unshift({t:'add',s:bLines[jj-1]});jj--;}
-    else{ops.unshift({t:'del',s:aLines[ii-1]});ii--;}
+    if(ii>0&&jj>0&&al[ii-1]===bl[jj-1]){ops.unshift({t:'ctx',s:al[ii-1]});ii--;jj--;}
+    else if(jj>0&&(!ii||dp[ii][jj-1]>=dp[ii-1][jj])){ops.unshift({t:'add',s:bl[jj-1]});jj--;}
+    else{ops.unshift({t:'del',s:al[ii-1]});ii--;}
   }
-  var CONTEXT=3, changed=[];
-  for(var k=0;k<ops.length;k++){if(ops[k].t!=='ctx')changed.push(k);}
-  if(!changed.length){wrap.appendChild(h('div',{className:'ch-diff-empty'},'No changes.'));return wrap;}
-  var shown=new Set();
-  changed.forEach(function(ci){for(var k=Math.max(0,ci-CONTEXT);k<=Math.min(ops.length-1,ci+CONTEXT);k++)shown.add(k);});
-  var pre=h('pre',{className:'ch-json-pre'});
-  var lastShown=-1;
-  for(var k=0;k<ops.length;k++){
-    var op=ops[k];
-    if(!shown.has(k)){
-      if(lastShown!==-1){var el=document.createElement('div');el.className='ch-json-hunk';el.textContent='@@ …';pre.appendChild(el);}
-      lastShown=-1;continue;
+  return ops;
+}
+
+function buildLineDiff(a, b) {
+  var al=(a||'').split('\n'), bl=(b||'').split('\n');
+  var ops=lcs(al,bl);
+  if(!ops) return [{type:'del',text:'(before, '+a.length+' chars)'},{type:'add',text:'(after, '+b.length+' chars)'}];
+  return ops.map(function(o){return {type:o.t==='ctx'?'ctx':o.t==='add'?'add':'del', text:o.s};});
+}
+
+// Full-record for a code at a given log index (excludes _log/_baseline)
+function codeRecordAtIdx(rawLog, baseline, logIdx) {
+  var s = {};
+  DOC_FIELDS_ORDER.forEach(function(f){ s[f] = (baseline && baseline[f] !== undefined) ? String(baseline[f]) : ''; });
+  if(logIdx >= 0){
+    for(var i=0; i<=logIdx && i<rawLog.length; i++){
+      s[rawLog[i].field] = rawLog[i].to !== undefined ? String(rawLog[i].to) : '';
     }
-    lastShown=k;
+  }
+  return s;
+}
+
+// Full overrides map at a doc changelog index (reconstructed)
+function overridesRecordAtIdx(upToIdx) {
+  var base = {};
+  treeArr.forEach(function(n){ base[n.name] = n.parent || ''; });
+  for(var i=0; i<=upToIdx; i++){
+    var ev = state.changelog[i];
+    if(ev && ev.type==='move'){
+      var m = ev.detail.match(/^(.+?):\s*(.+?)\s*→\s*(.*)$/);
+      if(m) base[m[1].trim()] = m[3].trim()==='root'?'':m[3].trim();
+    }
+  }
+  return base;
+}
+
+// ── JSON diff helpers ────────────────────────────────────────────────────────
+
+// Plain full diff — shows all lines, no accordion (for small records like code docs)
+function buildCodeJsonDiff(aStr, bStr) {
+  var wrap = h('div',{className:'ch-json-diff'});
+  var aLines = aStr.split('\n'), bLines = bStr.split('\n');
+  // Raise limit for code records (small, ~8 lines)
+  var ops = lcs(aLines, bLines);
+  if(!ops.some(function(o){return o.t!=='ctx';})){
+    wrap.appendChild(h('div',{className:'ch-diff-empty'},'No differences.')); return wrap;
+  }
+  var pre=h('pre',{className:'ch-json-pre'});
+  ops.forEach(function(op){
     var el=document.createElement('div');
     el.className='ch-json-line ch-json-'+op.t;
     el.textContent=(op.t==='add'?'+ ':op.t==='del'?'− ':'  ')+op.s;
     pre.appendChild(el);
-  }
-  wrap.appendChild(pre);
-  return wrap;
+  });
+  wrap.appendChild(pre); return wrap;
 }
 
-// Reconstruct field state for a code at a given log index (0 = baseline, N = after Nth edit)
-// index -1 means baseline (before any edits)
-function codeStateAtIdx(rawLog, baseline, upTo) {
-  var s = Object.assign({}, baseline || {});
-  for(var i=0; i<=upTo && i<rawLog.length; i++) {
-    s[rawLog[i].field] = rawLog[i].to;
+// Accordion diff — collapses long unchanged runs (for large overrides maps)
+function buildDocJsonDiff(aStr, bStr) {
+  var wrap = h('div',{className:'ch-json-diff'});
+  var aLines = aStr.split('\n'), bLines = bStr.split('\n');
+  var ops = lcs(aLines, bLines);
+  if(!ops.some(function(o){return o.t!=='ctx';})){
+    wrap.appendChild(h('div',{className:'ch-diff-empty'},'No differences.')); return wrap;
   }
-  return s;
+  // Only use accordion when there are many unchanged lines (> 30 total)
+  var ctxCount = ops.filter(function(o){return o.t==='ctx';}).length;
+  if(ctxCount <= 30) {
+    // Small enough — show all lines
+    var pre=h('pre',{className:'ch-json-pre'});
+    ops.forEach(function(op){
+      var el=document.createElement('div');
+      el.className='ch-json-line ch-json-'+op.t;
+      el.textContent=(op.t==='add'?'+ ':op.t==='del'?'− ':'  ')+op.s;
+      pre.appendChild(el);
+    });
+    wrap.appendChild(pre); return wrap;
+  }
+  // Accordion: 3 lines of context, collapse the rest
+  var CONTEXT=3;
+  var changed=new Set();
+  for(var k=0;k<ops.length;k++){ if(ops[k].t!=='ctx') changed.add(k); }
+  var shown=new Set();
+  changed.forEach(function(ci){
+    for(var k=Math.max(0,ci-CONTEXT);k<=Math.min(ops.length-1,ci+CONTEXT);k++) shown.add(k);
+  });
+  var pre2=h('pre',{className:'ch-json-pre'});
+  var i=0;
+  while(i<ops.length){
+    if(shown.has(i)){
+      var op=ops[i];
+      var el=document.createElement('div');
+      el.className='ch-json-line ch-json-'+op.t;
+      el.textContent=(op.t==='add'?'+ ':op.t==='del'?'− ':'  ')+op.s;
+      pre2.appendChild(el); i++;
+    } else {
+      var runStart=i;
+      while(i<ops.length&&!shown.has(i)) i++;
+      var runLen=i-runStart;
+      var hidden=ops.slice(runStart,i);
+      (function(hiddenLines,len){
+        var collapsed=true;
+        var btn=document.createElement('div');
+        btn.className='ch-json-hunk';
+        btn.textContent='@@ '+len+' unchanged lines';
+        var expandedEls=hiddenLines.map(function(op){
+          var el=document.createElement('div');
+          el.className='ch-json-line ch-json-ctx';
+          el.textContent='  '+op.s;
+          el.style.display='none';
+          return el;
+        });
+        btn.addEventListener('click',function(){
+          collapsed=!collapsed;
+          expandedEls.forEach(function(el){el.style.display=collapsed?'none':'block';});
+          btn.textContent=collapsed?'@@ '+len+' unchanged lines':'@@ collapse';
+          btn.classList.toggle('ch-json-hunk-open',!collapsed);
+        });
+        pre2.appendChild(btn);
+        expandedEls.forEach(function(el){pre2.appendChild(el);});
+      })(hidden,runLen);
+    }
+  }
+  wrap.appendChild(pre2); return wrap;
 }
 
 // ── Code history tab ──────────────────────────────────────────────────────────
 
 function buildCodeHistoryTab(code) {
   var wrap = h('div',{className:'code-history'});
-  var rawLog  = getDoc(code)._log || [];
-  var baseline = getDoc(code)._baseline || {};
+  var rawLog   = getDoc(code)._log || [];
+  var snapshot = getDoc(code)._baseline || {};
 
-  // Entries to show: baseline row first (oldest), then log entries newest-first
-  // We display newest-first so the list is: log[last]…log[0], then "Baseline"
-  var listCol = h('div',{className:'ch-list'});
-
+  var listWrap = h('div',{className:'ch-list'});
   var codeHistSel = state.histSel.filter(function(k){return k.startsWith('code:');});
-  var hint = codeHistSel.length === 0 ? 'Click a version to inspect · click two to diff' :
-             codeHistSel.length === 1 ? 'Click another version to diff' : '';
+
   var hdrRow = h('div',{className:'ch-list-hdr'});
-  hdrRow.appendChild(h('span',{className:'ch-list-hint'}, hint));
-  if (codeHistSel.length > 0) {
-    var clearBtn = h('button',{className:'btn-xs',style:{marginLeft:'auto'},onClick:function(){
-      state.histSel = state.histSel.filter(function(k){return !k.startsWith('code:');});
-      // Surgically update list + diff pane without rebuild
-      refreshCodeHistory(code, rawLog, baseline);
-    }}, 'Clear');
-    hdrRow.appendChild(clearBtn);
+  hdrRow.appendChild(h('span',{className:'ch-list-hint'},
+    codeHistSel.length===0 ? 'Click a version to inspect; click two to compare'
+    : codeHistSel.length===1 ? 'Click another version to compare'
+    : 'Comparing A (teal) and B (amber)'
+  ));
+  listWrap.appendChild(hdrRow);
+
+  // Newest log entries first; snapshot (initial load) at bottom
+  for(var ri = rawLog.length-1; ri >= 0; ri--){
+    listWrap.appendChild(buildCodeHistoryRow(code, rawLog, snapshot, ri, codeHistSel));
   }
-  listCol.appendChild(hdrRow);
+  listWrap.appendChild(buildCodeHistoryRow(code, rawLog, snapshot, -1, codeHistSel));
+  wrap.appendChild(listWrap);
 
-  // Baseline entry (index -1)
-  listCol.appendChild(buildCodeHistoryRow(code, rawLog, baseline, -1, codeHistSel));
-
-  // Log entries, newest first
-  for(var ri=rawLog.length-1; ri>=0; ri--) {
-    listCol.appendChild(buildCodeHistoryRow(code, rawLog, baseline, ri, codeHistSel));
-  }
-  wrap.appendChild(listCol);
-
-  // Diff pane
-  var diffPane = h('div',{className:'ch-diff-pane',id:'ch-diff-pane-'+code.replace(/\W/g,'_')});
-  if (codeHistSel.length >= 1) {
-    diffPane.appendChild(buildCodeDiffContent(code, rawLog, baseline));
+  var paneId = 'ch-diff-pane-'+code.replace(/\W/g,'_');
+  var diffPane = h('div',{className:'ch-diff-pane', id:paneId});
+  if(codeHistSel.length >= 1){
+    diffPane.appendChild(buildCodeDiffContent(code, rawLog, snapshot));
   } else {
     diffPane.appendChild(h('div',{className:'ch-diff-empty ch-diff-hint'},'Select a version on the left to inspect it.'));
   }
   wrap.appendChild(diffPane);
-
   return wrap;
 }
 
-function buildCodeHistoryRow(code, rawLog, baseline, logIdx, codeHistSel) {
-  // logIdx: -1 = baseline, 0..N = rawLog entries
-  var key = 'code:' + logIdx;
-  var isSel = codeHistSel.indexOf(key) !== -1;
-  var selOrd = codeHistSel.indexOf(key) + 1;  // 1 or 2 if selected, 0 if not
+function buildCodeHistoryRow(code, rawLog, snapshot, logIdx, codeHistSel) {
+  var key = 'code:'+logIdx;
+  var selPos = codeHistSel.indexOf(key); // -1 not selected; 0 = A; 1 = B
+  var isSel  = selPos !== -1;
+  var ord    = selPos + 1; // 1 or 2 if selected
 
+  var rowStyle = isSel ? {background:selBg(ord), borderLeft:'3px solid '+selBar(ord)} : {};
   var row = h('div',{
     className:'ch-entry'+(isSel?' ch-entry-sel':''),
-    dataset:{key:key},
+    style: rowStyle,
     onClick:function(){
       var existing = state.histSel.filter(function(k){return !k.startsWith('code:');});
       var codeKeys = state.histSel.filter(function(k){return k.startsWith('code:');});
@@ -1689,132 +1770,120 @@ function buildCodeHistoryRow(code, rawLog, baseline, logIdx, codeHistSel) {
       if(idx !== -1) codeKeys.splice(idx,1);
       else { if(codeKeys.length>=2) codeKeys.shift(); codeKeys.push(key); }
       state.histSel = existing.concat(codeKeys);
-      refreshCodeHistory(code, rawLog, baseline);
+      refreshCodeHistory(code, rawLog, snapshot);
     },
   });
+  row.dataset.key = key;
 
   var hdr = h('div',{className:'ch-entry-hdr'});
-  // Selection badge — always reserve space
-  var badge = h('span',{className:'ch-sel-badge'+(isSel?'':' ch-sel-badge-empty')},
-    isSel ? String(selOrd) : ''
-  );
-  hdr.appendChild(badge);
+  // Coloured A/B pill when selected; plain circle placeholder when not
+  var badgeCls = isSel ? 'ch-sel-badge ch-sel-badge-'+ord : 'ch-sel-badge ch-sel-badge-empty';
+  hdr.appendChild(h('span',{className:badgeCls}, isSel ? selLabel(ord) : ''));
 
-  if (logIdx === -1) {
-    hdr.appendChild(h('span',{className:'ch-ts'}, 'Baseline'));
-    hdr.appendChild(h('span',{className:'ch-field ch-field-baseline'}, 'initial state'));
+  if(logIdx === -1){
+    // Show timestamp of oldest log entry (first change recorded), or just "Initial state"
+    var snapTs = rawLog.length > 0 ? rawLog[0].ts.slice(0,10) : '';
+    hdr.appendChild(h('span',{className:'ch-ts'}, snapTs ? 'Before '+snapTs : 'Initial state'));
+    hdr.appendChild(h('span',{className:'ch-field ch-field-snapshot'}, 'state when first loaded'));
   } else {
     var entry = rawLog[logIdx];
-    var ts = entry.ts ? entry.ts.slice(0,16).replace('T',' ') : '';
-    hdr.appendChild(h('span',{className:'ch-ts'}, ts));
-    hdr.appendChild(h('span',{className:'ch-field'}, FIELD_LABELS[entry.field] || entry.field));
+    hdr.appendChild(h('span',{className:'ch-ts'}, entry.ts ? entry.ts.slice(0,16).replace('T',' ') : ''));
+    hdr.appendChild(h('span',{className:'ch-field'}, FIELD_LABELS[entry.field]||entry.field));
   }
   row.appendChild(hdr);
 
-  // Compact preview (not shown for baseline)
-  if (logIdx >= 0) {
+  if(logIdx >= 0){
     var entry = rawLog[logIdx];
-    var fv = entry.from || '', tv = entry.to || '';
-    var isShort = fv.length<50 && tv.length<50 && fv.indexOf('\n')===-1 && tv.indexOf('\n')===-1;
+    var fv = entry.from !== undefined ? String(entry.from) : '';
+    var tv = entry.to   !== undefined ? String(entry.to)   : '';
+    var fromLabel = fv==='' ? '(empty)' : (fv.length>60 ? fv.slice(0,60)+'…' : fv);
+    var toLabel   = tv==='' ? '(empty)' : (tv.length>60 ? tv.slice(0,60)+'…' : tv);
     var prev = h('div',{className:'ch-preview'});
-    if (isShort) {
-      if(fv) prev.appendChild(h('span',{className:'ch-from'},fv));
-      prev.appendChild(h('span',{className:'ch-arrow'},'→'));
-      prev.appendChild(h('span',{className:'ch-to'},tv||(fv?'(cleared)':'(set)')));
-    } else {
-      if(fv) prev.appendChild(h('span',{className:'ch-from'},fv.slice(0,50)+(fv.length>50?'…':'')));
-      prev.appendChild(h('span',{className:'ch-arrow'},'→'));
-      prev.appendChild(h('span',{className:'ch-to'},tv.slice(0,50)+(tv.length>50?'…':'')));
-    }
+    prev.appendChild(h('span',{className:'ch-from'}, fromLabel));
+    prev.appendChild(h('span',{className:'ch-arrow'},'→'));
+    prev.appendChild(h('span',{className:'ch-to'}, toLabel));
     row.appendChild(prev);
   }
   return row;
 }
 
-// Re-render just the history list highlights and diff pane (no full rebuild)
-function refreshCodeHistory(code, rawLog, baseline) {
+function refreshCodeHistory(code, rawLog, snapshot) {
   var codeHistSel = state.histSel.filter(function(k){return k.startsWith('code:');});
-  // Update row highlights in-place
   document.querySelectorAll('.ch-entry').forEach(function(el){
-    var key = el.dataset && el.dataset.key;
-    if(!key) return;
-    var isSel = codeHistSel.indexOf(key) !== -1;
-    var selOrd = codeHistSel.indexOf(key) + 1;
+    var key = el.dataset && el.dataset.key; if(!key) return;
+    var selPos = codeHistSel.indexOf(key);
+    var isSel  = selPos !== -1;
+    var ord    = selPos + 1;
     el.classList.toggle('ch-entry-sel', isSel);
+    el.style.background      = isSel ? selBg(ord)  : '';
+    el.style.borderLeft      = isSel ? '3px solid '+selBar(ord) : '2px solid transparent';
     var badge = el.querySelector('.ch-sel-badge');
     if(badge){
-      badge.textContent = isSel ? String(selOrd) : '';
-      badge.classList.toggle('ch-sel-badge-empty', !isSel);
+      badge.textContent = isSel ? selLabel(ord) : '';
+      badge.className = isSel ? 'ch-sel-badge ch-sel-badge-'+ord : 'ch-sel-badge ch-sel-badge-empty';
     }
   });
-  // Update hint
-  var hint = document.querySelector('.ch-list-hint');
+  var hint = document.querySelector('.ch-list-hdr .ch-list-hint');
   if(hint){
-    hint.textContent = codeHistSel.length===0 ? 'Click a version to inspect · click two to diff' :
-                       codeHistSel.length===1  ? 'Click another version to diff' : '';
+    hint.textContent = codeHistSel.length===0 ? 'Click a version to inspect; click two to compare'
+                     : codeHistSel.length===1  ? 'Click another version to compare'
+                     : 'Comparing A (teal) and B (amber)';
   }
-  // Update or show/hide clear button
-  var hdrRow = document.querySelector('.ch-list-hdr');
-  if(hdrRow){
-    var existingClear = hdrRow.querySelector('.btn-xs');
-    if(codeHistSel.length > 0 && !existingClear){
-      var clearBtn = h('button',{className:'btn-xs',style:{marginLeft:'auto'},onClick:function(){
-        state.histSel = state.histSel.filter(function(k){return !k.startsWith('code:');});
-        refreshCodeHistory(code, rawLog, baseline);
-      }}, 'Clear');
-      hdrRow.appendChild(clearBtn);
-    } else if(codeHistSel.length === 0 && existingClear){
-      existingClear.remove();
-    }
-  }
-  // Rebuild just the diff pane
   var paneId = 'ch-diff-pane-'+code.replace(/\W/g,'_');
   var pane = document.getElementById(paneId);
   if(pane){
-    pane.innerHTML = '';
-    if(codeHistSel.length >= 1){
-      pane.appendChild(buildCodeDiffContent(code, rawLog, baseline));
-    } else {
-      pane.appendChild(h('div',{className:'ch-diff-empty ch-diff-hint'},'Select a version on the left to inspect it.'));
-    }
+    pane.innerHTML='';
+    if(codeHistSel.length>=1) pane.appendChild(buildCodeDiffContent(code,rawLog,snapshot));
+    else pane.appendChild(h('div',{className:'ch-diff-empty ch-diff-hint'},'Select a version on the left to inspect it.'));
   }
 }
 
-function buildCodeDiffContent(code, rawLog, baseline) {
+function buildCodeDiffContent(code, rawLog, snapshot) {
   var codeHistSel = state.histSel.filter(function(k){return k.startsWith('code:');});
   if(!codeHistSel.length) return h('div',{});
 
   var idxA = parseInt(codeHistSel[0].split(':')[1]);
-  var idxB = codeHistSel[1] !== undefined ? parseInt(codeHistSel[1].split(':')[1]) : null;
+  var idxB = codeHistSel[1]!==undefined ? parseInt(codeHistSel[1].split(':')[1]) : null;
+  var isSingle = idxB===null;
+  var lo = isSingle ? idxA : Math.min(idxA,idxB);
+  var hi = isSingle ? idxA : Math.max(idxA,idxB);
 
-  var lo = idxB === null ? idxA : Math.min(idxA, idxB);
-  var hi = idxB === null ? idxA : Math.max(idxA, idxB);
-  var isSingle = idxB === null || lo === hi;
+  // Determine which index is A and which is B (matches selection order)
+  var aIdx = parseInt(codeHistSel[0].split(':')[1]);
+  var bIdx = codeHistSel[1]!==undefined ? parseInt(codeHistSel[1].split(':')[1]) : aIdx;
 
-  var stA = codeStateAtIdx(rawLog, baseline, lo);
-  var stB = isSingle ? stA : codeStateAtIdx(rawLog, baseline, hi);
+  var recA = codeRecordAtIdx(rawLog, snapshot, aIdx);
+  var recB = isSingle ? recA : codeRecordAtIdx(rawLog, snapshot, bIdx);
 
-  var tsA = lo === -1 ? 'Baseline' : (rawLog[lo] ? rawLog[lo].ts.slice(0,16).replace('T',' ') : '');
-  var tsB = hi === -1 ? 'Baseline' : (rawLog[hi] ? rawLog[hi].ts.slice(0,16).replace('T',' ') : '');
+  var tsA = aIdx===-1 ? (rawLog.length>0?'Before '+rawLog[0].ts.slice(0,10):'Initial state') : (rawLog[aIdx]?rawLog[aIdx].ts.slice(0,16).replace('T',' '):'');
+  var tsB = bIdx===-1 ? (rawLog.length>0?'Before '+rawLog[0].ts.slice(0,10):'Initial state') : (rawLog[bIdx]?rawLog[bIdx].ts.slice(0,16).replace('T',' '):'');
 
   var wrap = h('div',{className:'ch-diff-content'});
 
   // Header
   var hdr = h('div',{className:'ch-diff-hdr'});
   if(isSingle){
-    hdr.appendChild(h('span',{className:'ch-diff-range'}, lo===-1 ? 'Baseline — initial state' :
-      tsA+' — '+(FIELD_LABELS[rawLog[lo].field]||rawLog[lo].field)));
+    var ts = aIdx===-1?(rawLog.length>0?'Before '+rawLog[0].ts.slice(0,10):'Initial state'):tsA;
+    hdr.appendChild(h('span',{className:'ch-diff-range'}, ts));
+    if(aIdx!==-1 && rawLog[aIdx]){
+      hdr.appendChild(h('span',{className:'ch-diff-field-tag'}, FIELD_LABELS[rawLog[aIdx].field]||rawLog[aIdx].field));
+    }
   } else {
-    hdr.appendChild(h('span',{className:'ch-diff-range'}, tsA+' → '+tsB));
+    // Coloured A/B labels in header
+    var aLbl = h('span',{className:'ch-hdr-sel ch-hdr-sel-a'}, 'A  '+tsA);
+    var bLbl = h('span',{className:'ch-hdr-sel ch-hdr-sel-b'}, 'B  '+tsB);
+    hdr.appendChild(h('span',{className:'ch-diff-range'}, '')); // spacer
+    var lblRow = h('span',{className:'ch-hdr-labels'}); lblRow.appendChild(aLbl); lblRow.appendChild(h('span',{},' → ')); lblRow.appendChild(bLbl);
+    hdr.insertBefore(lblRow, hdr.firstChild);
     var toggle = h('div',{className:'ch-diff-toggle'});
     ['fields','json'].forEach(function(m){
       toggle.appendChild(h('button',{
         className:'ch-toggle-btn'+(state.histDiffMode===m?' active':''),
         onClick:function(){
-          state.histDiffMode = m;
-          var paneId = 'ch-diff-pane-'+code.replace(/\W/g,'_');
-          var pane = document.getElementById(paneId);
-          if(pane){ pane.innerHTML=''; pane.appendChild(buildCodeDiffContent(code,rawLog,baseline)); }
+          state.histDiffMode=m;
+          var paneId='ch-diff-pane-'+code.replace(/\W/g,'_');
+          var pane=document.getElementById(paneId);
+          if(pane){pane.innerHTML='';pane.appendChild(buildCodeDiffContent(code,rawLog,snapshot));}
         },
       }, m==='fields'?'Fields':'JSON'));
     });
@@ -1822,59 +1891,78 @@ function buildCodeDiffContent(code, rawLog, baseline) {
   }
   wrap.appendChild(hdr);
 
-  if(!isSingle && state.histDiffMode==='json'){
-    wrap.appendChild(buildJsonDiffBlock(JSON.stringify(stA,null,2), JSON.stringify(stB,null,2)));
+  // Single version — show full record
+  if(isSingle){
+    DOC_FIELDS_ORDER.forEach(function(f){
+      var val = recA[f] !== undefined ? String(recA[f]) : '';
+      var frow = h('div',{className:'ch-diff-field'});
+      frow.appendChild(h('div',{className:'ch-diff-field-label'}, FIELD_LABELS[f]||f));
+      frow.appendChild(h('div',{className:'ch-diff-value'+(val===''?' ch-diff-value-empty':'')}, val===''?'(empty)':val));
+      wrap.appendChild(frow);
+    });
     return wrap;
   }
 
-  // Fields view
-  var fieldsOrder = ['status','parent','scope','rationale','usage_notes','provenance'];
-  var anyChange = false;
-  fieldsOrder.forEach(function(f){
-    var vA = stA[f] !== undefined ? String(stA[f]) : '';
-    var vB = isSingle ? vA : (stB[f] !== undefined ? String(stB[f]) : '');
-    if(isSingle){
-      // Show the full current value for a single selected entry
-      if(!vA && !vB) return;
-      anyChange = true;
-      var frow = h('div',{className:'ch-diff-field'});
-      frow.appendChild(h('div',{className:'ch-diff-field-label'}, FIELD_LABELS[f]||f));
-      frow.appendChild(h('div',{className:'ch-diff-value'}, vA||'(empty)'));
-      wrap.appendChild(frow);
+  // Two-version: JSON view
+  if(state.histDiffMode==='json'){
+    wrap.appendChild(buildCodeJsonDiff(JSON.stringify(recA,null,2), JSON.stringify(recB,null,2)));
+    return wrap;
+  }
+
+  // Two-version: Fields view — ALL fields, changed ones get before/after blocks
+  DOC_FIELDS_ORDER.forEach(function(f){
+    var vA = recA[f] !== undefined ? String(recA[f]) : '';
+    var vB = recB[f] !== undefined ? String(recB[f]) : '';
+    var changed = vA !== vB;
+
+    var frow = h('div',{className:'ch-diff-field'+(changed?'':' ch-diff-field-unchanged')});
+    frow.appendChild(h('div',{className:'ch-diff-field-label'+(changed?'':' ch-diff-field-label-unch')}, FIELD_LABELS[f]||f));
+
+    if(!changed){
+      frow.appendChild(h('div',{className:'ch-diff-value ch-diff-value-unch'+(vA===''?' ch-diff-value-empty':'')}, vA===''?'(empty)':vA));
     } else {
-      if(vA===vB) return;
-      anyChange = true;
-      var frow = h('div',{className:'ch-diff-field'});
-      frow.appendChild(h('div',{className:'ch-diff-field-label'}, FIELD_LABELS[f]||f));
-      var isShort = vA.length<80 && vB.length<80 && vA.indexOf('\n')===-1 && vB.indexOf('\n')===-1;
-      if(isShort){
-        var row = h('div',{className:'ch-inline'});
-        if(vA) row.appendChild(h('span',{className:'ch-from'},vA));
-        row.appendChild(h('span',{className:'ch-arrow'},'→'));
-        row.appendChild(h('span',{className:'ch-to'},vB||(vA?'(cleared)':'(set)')));
-        frow.appendChild(row);
+      // Before block (A)
+      var beforeBlk = h('div',{className:'ch-diff-before-blk'});
+      beforeBlk.appendChild(h('div',{className:'ch-diff-blk-label ch-blk-label-a'},'A — before'));
+      if(vA.indexOf('\n')===-1 && vA.length < 400){
+        beforeBlk.appendChild(h('div',{className:'ch-diff-blk-val ch-diff-blk-del'+(vA===''?' ch-diff-value-empty':'')}, vA===''?'(empty)':vA));
       } else {
-        buildLineDiff(vA,vB).forEach(function(line){
-          frow.appendChild(h('div',{className:'ch-diff-line ch-diff-'+line.type},line.text));
-        });
+        var preA=h('pre',{className:'ch-diff-blk-pre ch-diff-blk-del'}); preA.textContent=vA||'(empty)'; beforeBlk.appendChild(preA);
       }
-      wrap.appendChild(frow);
+      frow.appendChild(beforeBlk);
+
+      // After block (B)
+      var afterBlk = h('div',{className:'ch-diff-after-blk'});
+      afterBlk.appendChild(h('div',{className:'ch-diff-blk-label ch-blk-label-b'},'B — after'));
+      if(vB.indexOf('\n')===-1 && vB.length < 400){
+        afterBlk.appendChild(h('div',{className:'ch-diff-blk-val ch-diff-blk-add'+(vB===''?' ch-diff-value-empty':'')}, vB===''?'(empty)':vB));
+      } else {
+        // Long text: line diff
+        var lines = buildLineDiff(vA, vB);
+        var preB = h('pre',{className:'ch-diff-blk-pre'});
+        lines.forEach(function(ln){
+          var el=document.createElement('div');
+          el.className='ch-diff-line ch-diff-'+ln.type;
+          el.textContent=(ln.type==='add'?'+ ':ln.type==='del'?'− ':'  ')+ln.text;
+          preB.appendChild(el);
+        });
+        afterBlk.appendChild(preB);
+      }
+      frow.appendChild(afterBlk);
     }
+    wrap.appendChild(frow);
   });
-  if(!anyChange) wrap.appendChild(h('div',{className:'ch-diff-empty'},'No changes between these versions.'));
   return wrap;
 }
 
-// ── Document history editor (replaces main editor when docHistoryOpen) ────────
+// ── Document history editor ───────────────────────────────────────────────────
 
 function buildDocHistoryEditor() {
   var editor = h('div',{className:'editor'});
-  var hdr = h('div',{className:'editor-header'},
+  editor.appendChild(h('div',{className:'editor-header'},
     h('div',{className:'editor-code-name'},'Document history'),
-    h('div',{className:'editor-code-meta'},'Structural changes · opens · saves')
-  );
-  editor.appendChild(hdr);
-
+    h('div',{className:'editor-code-meta'},'Document-level events: opens, saves, and code moves. Field edits are recorded in each code\'s own History tab.')
+  ));
   var body = h('div',{className:'editor-body'});
   body.appendChild(buildDocHistoryContent());
   editor.appendChild(body);
@@ -1883,179 +1971,394 @@ function buildDocHistoryEditor() {
 
 function buildDocHistoryContent() {
   var wrap = h('div',{className:'code-history'});
-
   var docHistSel = state.histSel.filter(function(k){return k.startsWith('doc:');});
 
-  if(!state.changelog.length){
-    wrap.appendChild(h('div',{className:'code-history-empty'},'No document events recorded yet. Opens, saves, and moves will appear here.'));
+  // Build unified feed: structural changelog events + all per-code _log entries
+  // Each entry: {ts, kind:'doc'|'code', docIdx (for kind=doc), code, logIdx (for kind=code), ev/entry}
+  var feed = [];
+
+  // Structural events
+  state.changelog.forEach(function(ev, i){
+    feed.push({ts: ev.ts||'', kind:'doc', docIdx:i, ev:ev});
+  });
+
+  // Per-code field edits from every code's _log
+  if (state.docs.codes) {
+    Object.keys(state.docs.codes).forEach(function(code){
+      var log = state.docs.codes[code]._log;
+      if (!Array.isArray(log)) return;
+      log.forEach(function(entry, i){
+        feed.push({ts: entry.ts||'', kind:'code', code:code, logIdx:i, entry:entry});
+      });
+    });
+  }
+
+  if (!feed.length) {
+    wrap.appendChild(h('div',{className:'code-history-empty'},
+      'No events yet. Open a code and start editing — changes appear here.'));
     return wrap;
   }
 
-  var listCol = h('div',{className:'ch-list'});
-  var hint = docHistSel.length===0 ? 'Click an event · click two to diff structural state' :
-             docHistSel.length===1 ? 'Click another event to diff' : '';
-  var hdrRow = h('div',{className:'ch-list-hdr'});
-  hdrRow.appendChild(h('span',{className:'ch-list-hint'}, hint));
-  if(docHistSel.length > 0){
-    hdrRow.appendChild(h('button',{className:'btn-xs',style:{marginLeft:'auto'},onClick:function(){
-      state.histSel = state.histSel.filter(function(k){return !k.startsWith('doc:');});
-      refreshDocHistory();
-    }},'Clear'));
-  }
-  listCol.appendChild(hdrRow);
+  // Sort newest first
+  feed.sort(function(a,b){ return b.ts < a.ts ? -1 : b.ts > a.ts ? 1 : 0; });
 
-  var reversed = state.changelog.slice().reverse();
-  reversed.forEach(function(ev, ri){
-    var origIdx = state.changelog.length - 1 - ri;
-    var key = 'doc:' + origIdx;
-    var isSel = docHistSel.indexOf(key) !== -1;
-    var selOrd = docHistSel.indexOf(key) + 1;
-    var icon = {open:'↓', save:'↑', move:'⇄', 'bulk-status':'●'}[ev.type] || '·';
+  var listWrap = h('div',{className:'ch-list'});
+  var hdrRow = h('div',{className:'ch-list-hdr'});
+  hdrRow.appendChild(h('span',{className:'ch-list-hint'},
+    docHistSel.length===0 ? 'Click an event to inspect; click two to compare'
+    : docHistSel.length===1 ? 'Click another event to compare'
+    : 'Comparing A (teal) and B (amber)'
+  ));
+  listWrap.appendChild(hdrRow);
+
+  feed.forEach(function(item){
+    // Key encodes enough to reconstruct the item
+    var key = item.kind==='doc'
+      ? 'doc:'+item.docIdx
+      : 'code:'+item.code+':'+item.logIdx;
+    var selPos = docHistSel.indexOf(key);
+    var isSel  = selPos !== -1;
+    var ord    = selPos + 1;
+    var rowStyle2 = isSel ? {background:selBg(ord), borderLeft:'3px solid '+selBar(ord)} : {};
 
     var row = h('div',{
       className:'ch-entry ch-entry-doc'+(isSel?' ch-entry-sel':''),
-      dataset:{key:key},
+      style: rowStyle2,
       onClick:function(){
-        var existing = state.histSel.filter(function(k){return !k.startsWith('doc:');});
-        var docKeys  = state.histSel.filter(function(k){return k.startsWith('doc:');});
-        var idx = docKeys.indexOf(key);
-        if(idx!==-1) docKeys.splice(idx,1);
-        else { if(docKeys.length>=2) docKeys.shift(); docKeys.push(key); }
-        state.histSel = existing.concat(docKeys);
+        // Read current feed-selection keys from state (not stale closure)
+        var feedKeys = state.histSel.filter(function(k){
+          return k.startsWith('doc:') || (k.startsWith('code:') && k.split(':').length===3);
+        });
+        var idx = feedKeys.indexOf(key);
+        if(idx !== -1) {
+          feedKeys.splice(idx, 1);
+        } else {
+          if(feedKeys.length >= 2) feedKeys.shift();
+          feedKeys.push(key);
+        }
+        // Preserve any per-code History tab keys (code:N format), replace feed keys
+        var otherKeys = state.histSel.filter(function(k){
+          return !(k.startsWith('doc:') || (k.startsWith('code:') && k.split(':').length===3));
+        });
+        state.histSel = otherKeys.concat(feedKeys);
         refreshDocHistory();
       },
     });
+    row.dataset.key = key;
 
-    var hdr2 = h('div',{className:'ch-entry-hdr'});
-    var badge = h('span',{className:'ch-sel-badge'+(isSel?'':' ch-sel-badge-empty')}, isSel?String(selOrd):'');
-    hdr2.appendChild(badge);
-    hdr2.appendChild(h('span',{className:'cl-icon cl-icon-'+(ev.type||'other')}, icon));
-    var ts = ev.ts ? ev.ts.slice(0,16).replace('T',' ') : '';
-    hdr2.appendChild(h('span',{className:'ch-ts'}, ts));
-    hdr2.appendChild(h('span',{className:'ch-field ch-field-doctype'}, ev.type));
-    row.appendChild(hdr2);
+    var hdrEl = h('div',{className:'ch-entry-hdr'});
+    var badgeCls = isSel ? 'ch-sel-badge ch-sel-badge-'+ord : 'ch-sel-badge ch-sel-badge-empty';
+    hdrEl.appendChild(h('span',{className:badgeCls}, isSel?selLabel(ord):''));
 
-    var detail = h('div',{className:'ch-preview'});
-    detail.appendChild(h('span',{className:'ch-doc-detail'}, ev.detail||''));
-    row.appendChild(detail);
-    listCol.appendChild(row);
+    var ts = (item.ts||'').slice(0,16).replace('T',' ');
+
+    if(item.kind==='doc'){
+      var icon = {open:'↓', save:'↑', move:'⇄', 'bulk-status':'●'}[item.ev.type] || '·';
+      hdrEl.appendChild(h('span',{className:'cl-icon cl-icon-'+(item.ev.type||'other')}, icon));
+      hdrEl.appendChild(h('span',{className:'ch-ts'}, ts));
+      hdrEl.appendChild(h('span',{className:'ch-field ch-field-doctype'}, item.ev.type));
+      row.appendChild(hdrEl);
+      row.appendChild(h('div',{className:'ch-preview'},
+        h('span',{className:'ch-doc-detail'}, item.ev.detail||'')));
+    } else {
+      var entry = item.entry;
+      hdrEl.appendChild(h('span',{className:'cl-icon cl-icon-edit'}, '✎'));
+      hdrEl.appendChild(h('span',{className:'ch-ts'}, ts));
+      hdrEl.appendChild(h('span',{className:'ch-field'}, FIELD_LABELS[entry.field]||entry.field));
+      hdrEl.appendChild(h('span',{className:'ch-doc-detail'}, ' · '+item.code));
+      row.appendChild(hdrEl);
+      // Preview: from → to (truncated for display only)
+      var fv = entry.from !== undefined ? String(entry.from) : '';
+      var tv = entry.to   !== undefined ? String(entry.to)   : '';
+      var fromLbl = fv===''?'(empty)':fv.length>50?fv.slice(0,50)+'…':fv;
+      var toLbl   = tv===''?'(empty)':tv.length>50?tv.slice(0,50)+'…':tv;
+      var prev = h('div',{className:'ch-preview'});
+      prev.appendChild(h('span',{className:'ch-from'}, fromLbl));
+      prev.appendChild(h('span',{className:'ch-arrow'},'→'));
+      prev.appendChild(h('span',{className:'ch-to'}, toLbl));
+      row.appendChild(prev);
+    }
+
+    listWrap.appendChild(row);
   });
-  wrap.appendChild(listCol);
+  wrap.appendChild(listWrap);
 
   var diffPane = h('div',{className:'ch-diff-pane', id:'doc-hist-diff-pane'});
-  if(docHistSel.length >= 1){
-    diffPane.appendChild(buildDocDiffContent(docHistSel));
-  } else {
-    diffPane.appendChild(h('div',{className:'ch-diff-empty ch-diff-hint'},'Select events on the left to inspect or compare.'));
-  }
+  if(docHistSel.length>=1) diffPane.appendChild(buildDocDiffContent(docHistSel, feed));
+  else diffPane.appendChild(h('div',{className:'ch-diff-empty ch-diff-hint'},'Select events to inspect or compare.'));
   wrap.appendChild(diffPane);
   return wrap;
 }
 
 function refreshDocHistory() {
-  var docHistSel = state.histSel.filter(function(k){return k.startsWith('doc:');});
-  document.querySelectorAll('.ch-entry-doc').forEach(function(el){
-    var key = el.dataset && el.dataset.key;
-    if(!key) return;
-    var isSel = docHistSel.indexOf(key) !== -1;
-    var selOrd = docHistSel.indexOf(key) + 1;
-    el.classList.toggle('ch-entry-sel', isSel);
-    var badge = el.querySelector('.ch-sel-badge');
-    if(badge){ badge.textContent=isSel?String(selOrd):''; badge.classList.toggle('ch-sel-badge-empty',!isSel); }
+  var docHistSel = state.histSel.filter(function(k){
+    return k.startsWith('doc:') || (k.startsWith('code:') && k.split(':').length===3);
   });
-  var hint = document.querySelector('.ch-list-hint');
-  if(hint){ hint.textContent = docHistSel.length===0?'Click an event · click two to diff structural state':docHistSel.length===1?'Click another event to diff':''; }
-  var hdrRow = document.querySelector('.ch-list-hdr');
-  if(hdrRow){
-    var existing = hdrRow.querySelector('.btn-xs');
-    if(docHistSel.length>0&&!existing){
-      hdrRow.appendChild(h('button',{className:'btn-xs',style:{marginLeft:'auto'},onClick:function(){
-        state.histSel=state.histSel.filter(function(k){return !k.startsWith('doc:');});
-        refreshDocHistory();
-      }},'Clear'));
-    } else if(docHistSel.length===0&&existing) existing.remove();
+  // also re-read for the hint update below
+  document.querySelectorAll('.ch-entry-doc').forEach(function(el){
+    var key = el.dataset && el.dataset.key; if(!key) return;
+    var selPos = docHistSel.indexOf(key);
+    var isSel  = selPos !== -1;
+    var ord    = selPos + 1;
+    el.classList.toggle('ch-entry-sel', isSel);
+    el.style.background = isSel ? selBg(ord)  : '';
+    el.style.borderLeft = isSel ? '3px solid '+selBar(ord) : '2px solid transparent';
+    var badge = el.querySelector('.ch-sel-badge');
+    if(badge){ badge.textContent=isSel?selLabel(ord):''; badge.className=isSel?'ch-sel-badge ch-sel-badge-'+ord:'ch-sel-badge ch-sel-badge-empty'; }
+  });
+  var hint = document.querySelector('.ch-list-hdr .ch-list-hint');
+  if(hint){
+    hint.textContent = docHistSel.length===0?'Click an event to inspect; click two to compare'
+                     : docHistSel.length===1?'Click another event to compare'
+                     : 'Comparing A (teal) and B (amber)';
   }
   var pane = document.getElementById('doc-hist-diff-pane');
   if(pane){
     pane.innerHTML='';
-    if(docHistSel.length>=1) pane.appendChild(buildDocDiffContent(docHistSel));
-    else pane.appendChild(h('div',{className:'ch-diff-empty ch-diff-hint'},'Select events on the left to inspect or compare.'));
+    // Rebuild feed for diff (needed to locate items)
+    var feed = buildDocFeed();
+    if(docHistSel.length>=1) pane.appendChild(buildDocDiffContent(docHistSel, feed));
+    else pane.appendChild(h('div',{className:'ch-diff-empty ch-diff-hint'},'Select events to inspect or compare.'));
   }
 }
 
-function buildDocDiffContent(docHistSel) {
-  function overridesAtIdx(upToIdx) {
-    var ov = {};
-    for(var i=0; i<=upToIdx; i++){
-      var ev = state.changelog[i];
-      if(ev && ev.type==='move'){
-        var m = ev.detail.match(/^(.+?):\s*(.+?)\s*→\s*(.*)$/);
-        if(m) ov[m[1].trim()] = m[3].trim()==='root'?'':m[3].trim();
-      }
-    }
-    return ov;
-  }
-
-  var idxA = parseInt(docHistSel[0].split(':')[1]);
-  var idxB = docHistSel[1]!==undefined ? parseInt(docHistSel[1].split(':')[1]) : null;
-  var isSingle = idxB===null;
-
-  var evA = state.changelog[idxA];
-  var lo = isSingle ? idxA : Math.min(idxA, idxB);
-  var hi = isSingle ? idxA : Math.max(idxA, idxB);
-  var ovA = overridesAtIdx(lo);
-  var ovB = isSingle ? ovA : overridesAtIdx(hi);
-
-  var tsA = evA ? evA.ts.slice(0,16).replace('T',' ') : '';
-  var evB = state.changelog[hi];
-  var tsB = evB ? evB.ts.slice(0,16).replace('T',' ') : '';
-
-  var wrap = h('div',{className:'ch-diff-content'});
-  var hdr = h('div',{className:'ch-diff-hdr'});
-  if(isSingle){
-    hdr.appendChild(h('span',{className:'ch-diff-range'}, tsA+' — '+(evA?evA.type:'')));
-    hdr.appendChild(h('span',{className:'ch-doc-detail-hdr'}, evA?evA.detail:''));
-  } else {
-    hdr.appendChild(h('span',{className:'ch-diff-range'}, tsA+' → '+tsB));
-  }
-  wrap.appendChild(hdr);
-
-  if(isSingle){
-    // Show the single event detail
-    var ev = state.changelog[idxA];
-    if(ev){
-      var drow = h('div',{className:'ch-diff-field'});
-      drow.appendChild(h('div',{className:'ch-diff-field-label'}, ev.type));
-      drow.appendChild(h('div',{className:'ch-diff-value'}, ev.detail||'(no detail)'));
-      wrap.appendChild(drow);
-    }
-  } else {
-    // Show structural diff between the two points
-    var allKeys = new Set(Object.keys(ovA).concat(Object.keys(ovB)));
-    var changes = [];
-    allKeys.forEach(function(k){
-      var vA = ovA[k]!==undefined?(ovA[k]||'root'):'—';
-      var vB = ovB[k]!==undefined?(ovB[k]||'root'):'—';
-      if(vA!==vB) changes.push({code:k, from:vA, to:vB});
+// Build the merged feed (same logic as in buildDocHistoryContent, extracted for reuse)
+function buildDocFeed() {
+  var feed = [];
+  state.changelog.forEach(function(ev, i){
+    feed.push({ts:ev.ts||'', kind:'doc', docIdx:i, ev:ev});
+  });
+  if (state.docs.codes) {
+    Object.keys(state.docs.codes).forEach(function(code){
+      var log = state.docs.codes[code]._log;
+      if (!Array.isArray(log)) return;
+      log.forEach(function(entry, i){
+        feed.push({ts:entry.ts||'', kind:'code', code:code, logIdx:i, entry:entry});
+      });
     });
-    if(!changes.length){
-      wrap.appendChild(h('div',{className:'ch-diff-empty'},'No structural changes between these events.'));
-    } else {
-      var lbl = h('div',{className:'ch-diff-field-label'},'Parent changes');
-      wrap.appendChild(lbl);
-      changes.forEach(function(c){
-        var row = h('div',{className:'ch-inline',style:{padding:'3px 0'}});
-        row.appendChild(h('span',{className:'ch-diff-code'},c.code));
-        if(c.from!=='—') row.appendChild(h('span',{className:'ch-from'},c.from));
-        row.appendChild(h('span',{className:'ch-arrow'},'→'));
-        row.appendChild(h('span',{className:'ch-to'},c.to));
-        wrap.appendChild(row);
+  }
+  feed.sort(function(a,b){ return b.ts < a.ts ? -1 : b.ts > a.ts ? 1 : 0; });
+  return feed;
+}
+
+// Full document snapshot at a given wall-clock timestamp.
+// Reconstructs every code's field values by replaying each code's _log up to ts,
+// and every code's parent by replaying the structural changelog up to ts.
+// Returns a plain object keyed by code name, sorted — so diffs are comparable
+// regardless of what kind of feed item was selected.
+function fullDocSnapshotAtTs(ts) {
+  var snap = {};
+  var codes = state.docs.codes || {};
+  // Build parent map up to ts by replaying changelog
+  var parentMap = {};
+  treeArr.forEach(function(n){ parentMap[n.name] = n.parent || ''; });
+  state.changelog.forEach(function(ev){
+    if(ev.ts > ts) return;
+    if(ev.type === 'move') {
+      var m = ev.detail.match(/^(.+?):\s*(.+?)\s*→\s*(.*)$/);
+      if(m) parentMap[m[1].trim()] = m[3].trim()==='root'?'':m[3].trim();
+    }
+  });
+  // Apply treeOverrides that were set before any log (baseline structure)
+  // Already folded into parentMap via treeArr defaults; overrides captured above.
+
+  // Build each code's field values up to ts
+  treeArr.forEach(function(n){
+    var code = n.name;
+    var raw  = codes[code];
+    var baseline = (raw && raw._baseline) || {};
+    var rec = {};
+    DOC_FIELDS_ORDER.filter(function(f){return f!=='parent';}).forEach(function(f){
+      rec[f] = baseline[f] !== undefined ? String(baseline[f]) : '';
+    });
+    // Replay _log entries up to ts
+    if(raw && Array.isArray(raw._log)){
+      raw._log.forEach(function(entry){
+        if(entry.ts > ts) return;
+        if(entry.field !== 'parent') rec[entry.field] = entry.to !== undefined ? String(entry.to) : '';
       });
     }
+    rec.parent = parentMap[code] || '';
+    snap[code] = rec;
+  });
+  return snap;
+}
+
+function buildDocDiffContent(docHistSel, feed) {
+  if(!docHistSel.length) return h('div',{});
+  var keyA = docHistSel[0];
+  var keyB = docHistSel[1] || null;
+  var isSingle = !keyB;
+
+  function findItem(key) {
+    if(!feed) return null;
+    return feed.find(function(item){
+      var k = item.kind==='doc' ? 'doc:'+item.docIdx : 'code:'+item.code+':'+item.logIdx;
+      return k === key;
+    }) || null;
+  }
+
+  var itemA = findItem(keyA);
+  var itemB = keyB ? findItem(keyB) : null;
+
+  var wrap = h('div',{className:'ch-diff-content'});
+  var hdr  = h('div',{className:'ch-diff-hdr'});
+
+  function itemLabel(item) {
+    if(!item) return '—';
+    var ts = (item.ts||'').slice(0,16).replace('T',' ');
+    if(item.kind==='doc') return ts+' '+item.ev.type;
+    return ts+' '+item.code+' / '+(FIELD_LABELS[item.entry.field]||item.entry.field);
+  }
+
+  if(isSingle){
+    hdr.appendChild(h('span',{className:'ch-diff-range'}, itemLabel(itemA)));
+    wrap.appendChild(hdr);
+    if(!itemA){ wrap.appendChild(h('div',{className:'ch-diff-empty'},'Item not found.')); return wrap; }
+    if(itemA.kind==='doc'){
+      wrap.appendChild(h('div',{className:'ch-diff-field'},
+        h('div',{className:'ch-diff-field-label'},'Event'),
+        h('div',{className:'ch-diff-value'}, itemA.ev.type+' — '+(itemA.ev.detail||''))
+      ));
+      if(itemA.ev.type==='move'){
+        // Show full structure at this changelog point
+        var ov = overridesRecordAtIdx(itemA.docIdx);
+        wrap.appendChild(h('div',{className:'ch-diff-field-label',style:{marginTop:'12px'}},'Tree structure at this point'));
+        var pre=h('pre',{className:'ch-json-pre ch-ov-snap'}); pre.textContent=JSON.stringify(ov,null,2); wrap.appendChild(pre);
+      }
+    } else {
+      // Code field edit — show full code record at this log index
+      var rawLog  = (state.docs.codes[itemA.code]||{})._log || [];
+      var snapshot= (state.docs.codes[itemA.code]||{})._baseline || {};
+      wrap.appendChild(h('div',{className:'ch-diff-field'},
+        h('div',{className:'ch-diff-field-label'},'Code'),
+        h('div',{className:'ch-diff-value'}, itemA.code)
+      ));
+      wrap.appendChild(h('div',{className:'ch-diff-field'},
+        h('div',{className:'ch-diff-field-label'}, FIELD_LABELS[itemA.entry.field]||itemA.entry.field)
+      ));
+      var fv = itemA.entry.from !== undefined ? String(itemA.entry.from) : '';
+      var tv = itemA.entry.to   !== undefined ? String(itemA.entry.to)   : '';
+      var bb2=h('div',{className:'ch-diff-before-blk'});
+      bb2.appendChild(h('div',{className:'ch-diff-blk-label ch-blk-label-a'},'Before'));
+      bb2.appendChild(h('div',{className:'ch-diff-blk-val ch-diff-blk-del'+(fv===''?' ch-diff-value-empty':'')}, fv===''?'(empty)':fv));
+      wrap.appendChild(bb2);
+      var ab2=h('div',{className:'ch-diff-after-blk'});
+      ab2.appendChild(h('div',{className:'ch-diff-blk-label ch-blk-label-b'},'After'));
+      ab2.appendChild(h('div',{className:'ch-diff-blk-val ch-diff-blk-add'+(tv===''?' ch-diff-value-empty':'')}, tv===''?'(empty)':tv));
+      wrap.appendChild(ab2);
+    }
+    return wrap;
+  }
+
+  // Two items selected
+  if(!itemA||!itemB){
+    wrap.appendChild(h('div',{className:'ch-diff-empty'},'Could not locate both items.')); return wrap;
+  }
+
+  // Always show earlier → later regardless of click order
+  var tsA2 = itemA.ts || '', tsB2 = itemB.ts || '';
+  var earlyItem = tsA2 <= tsB2 ? itemA : itemB;
+  var lateItem  = tsA2 <= tsB2 ? itemB : itemA;
+  var earlyLbl=h('span',{className:'ch-hdr-sel ch-hdr-sel-a'}, 'Earlier  '+earlyItem.ts.slice(0,16).replace('T',' '));
+  var lateLbl =h('span',{className:'ch-hdr-sel ch-hdr-sel-b'}, 'Later  ' +lateItem.ts.slice(0,16).replace('T',' '));
+  var lblRow=h('span',{className:'ch-hdr-labels'});
+  lblRow.appendChild(earlyLbl); lblRow.appendChild(h('span',{className:'ch-hdr-arrow'},'→')); lblRow.appendChild(lateLbl);
+  hdr.appendChild(lblRow);
+
+  var bothCode = itemA.kind==='code' && itemB.kind==='code' && itemA.code===itemB.code;
+  var bothDoc  = itemA.kind==='doc'  && itemB.kind==='doc';
+
+  // Fields toggle only when same-kind; JSON always available
+  var modes = (bothCode || bothDoc) ? ['fields','json'] : ['json'];
+  if(state.histDiffMode==='fields' && modes.indexOf('fields')===-1) state.histDiffMode='json';
+  var toggle=h('div',{className:'ch-diff-toggle'});
+  modes.forEach(function(m){
+    toggle.appendChild(h('button',{
+      className:'ch-toggle-btn'+(state.histDiffMode===m?' active':''),
+      onClick:function(){
+        state.histDiffMode=m;
+        var pane=document.getElementById('doc-hist-diff-pane');
+        if(pane){pane.innerHTML=''; var f2=buildDocFeed(); pane.appendChild(buildDocDiffContent(docHistSel,f2));}
+      },
+    }, m==='fields'?'Fields':'JSON'));
+  });
+  hdr.appendChild(toggle);
+  wrap.appendChild(hdr);
+
+  // JSON diff — always possible; build full-document snapshots at each item's timestamp
+  // so the two sides are always structurally comparable regardless of event type.
+  if(state.histDiffMode==='json' || (!bothCode && !bothDoc)){
+    // Sort by timestamp so earlier is always the "before" side
+    var tsA2 = itemA.ts || '', tsB2 = itemB.ts || '';
+    var earlyItem = tsA2 <= tsB2 ? itemA : itemB;
+    var lateItem  = tsA2 <= tsB2 ? itemB : itemA;
+    var snapEarly = fullDocSnapshotAtTs(earlyItem.ts);
+    var snapLate  = fullDocSnapshotAtTs(lateItem.ts);
+    wrap.appendChild(buildDocJsonDiff(JSON.stringify(snapEarly,null,2), JSON.stringify(snapLate,null,2)));
+    return wrap;
+  }
+
+  // Fields diff — same code
+  if(bothCode){
+    var rawLog2  = (state.docs.codes[itemA.code]||{})._log || [];
+    var snapshot2= (state.docs.codes[itemA.code]||{})._baseline || {};
+    var earlyIdx = itemA.logIdx < itemB.logIdx ? itemA.logIdx : itemB.logIdx;
+    var lateIdx  = itemA.logIdx < itemB.logIdx ? itemB.logIdx : itemA.logIdx;
+    var recA2 = codeRecordAtIdx(rawLog2, snapshot2, earlyIdx);
+    var recB2 = codeRecordAtIdx(rawLog2, snapshot2, lateIdx);
+    DOC_FIELDS_ORDER.forEach(function(f){
+      var vA=recA2[f]!==undefined?String(recA2[f]):'';
+      var vB=recB2[f]!==undefined?String(recB2[f]):'';
+      var changed=vA!==vB;
+      var frow=h('div',{className:'ch-diff-field'+(changed?'':' ch-diff-field-unchanged')});
+      frow.appendChild(h('div',{className:'ch-diff-field-label'+(changed?'':' ch-diff-field-label-unch')},FIELD_LABELS[f]||f));
+      if(!changed){
+        frow.appendChild(h('div',{className:'ch-diff-value ch-diff-value-unch'+(vA===''?' ch-diff-value-empty':'')},vA===''?'(empty)':vA));
+      } else {
+        var bb3=h('div',{className:'ch-diff-before-blk'});
+        bb3.appendChild(h('div',{className:'ch-diff-blk-label ch-blk-label-a'},'A — before'));
+        bb3.appendChild(h('div',{className:'ch-diff-blk-val ch-diff-blk-del'+(vA===''?' ch-diff-value-empty':'')},vA===''?'(empty)':vA));
+        frow.appendChild(bb3);
+        var ab3=h('div',{className:'ch-diff-after-blk'});
+        ab3.appendChild(h('div',{className:'ch-diff-blk-label ch-blk-label-b'},'B — after'));
+        ab3.appendChild(h('div',{className:'ch-diff-blk-val ch-diff-blk-add'+(vB===''?' ch-diff-value-empty':'')},vB===''?'(empty)':vB));
+        frow.appendChild(ab3);
+      }
+      wrap.appendChild(frow);
+    });
+    return wrap;
+  }
+
+  // Fields diff — same doc (structural changes)
+  var loD = earlyItem.docIdx !== undefined ? earlyItem.docIdx : (itemA.docIdx < itemB.docIdx ? itemA.docIdx : itemB.docIdx);
+  var hiD = lateItem.docIdx  !== undefined ? lateItem.docIdx  : (itemA.docIdx < itemB.docIdx ? itemB.docIdx : itemA.docIdx);
+  var ovA2=overridesRecordAtIdx(loD), ovB2=overridesRecordAtIdx(hiD);
+  var changed3=[];
+  var allC=new Set(Object.keys(ovA2).concat(Object.keys(ovB2)));
+  allC.forEach(function(k){
+    var vA=ovA2[k]||'(root)', vB=ovB2[k]||'(root)';
+    if(vA!==vB) changed3.push({code:k,from:vA,to:vB});
+  });
+  if(!changed3.length){
+    wrap.appendChild(h('div',{className:'ch-diff-empty'},'No structural changes between these events.'));
+  } else {
+    changed3.forEach(function(c){
+      var fr=h('div',{className:'ch-diff-field'});
+      fr.appendChild(h('div',{className:'ch-diff-field-label'},c.code));
+      var bb4=h('div',{className:'ch-diff-before-blk'});
+      bb4.appendChild(h('div',{className:'ch-diff-blk-label ch-blk-label-a'},'A'));
+      bb4.appendChild(h('div',{className:'ch-diff-blk-val ch-diff-blk-del'},c.from));
+      fr.appendChild(bb4);
+      var ab4=h('div',{className:'ch-diff-after-blk'});
+      ab4.appendChild(h('div',{className:'ch-diff-blk-label ch-blk-label-b'},'B'));
+      ab4.appendChild(h('div',{className:'ch-diff-blk-val ch-diff-blk-add'},c.to));
+      fr.appendChild(ab4);
+      wrap.appendChild(fr);
+    });
   }
   return wrap;
 }
-
 
 
 
