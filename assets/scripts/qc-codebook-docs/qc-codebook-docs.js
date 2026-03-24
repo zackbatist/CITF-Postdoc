@@ -34,9 +34,8 @@ var state = {
   versionsMsg:      '',
   versionForkName:  '',
   openedDocsPath:   DOCS_CONFIG ? DOCS_CONFIG.codebook_docs_path : '',
-  openedVersionDir: '',
-  openSearch:       '',
   openedVersionDir: '',  // versioned dir name of currently open file
+  openSearch:       '',
   versionNote:      '',
   versionAction:    'version',  // 'version'|'fork'
   versionLog:       [],         // [{ts, msg, ok}] — session log of version actions
