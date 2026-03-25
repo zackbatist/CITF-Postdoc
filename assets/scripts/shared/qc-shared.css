@@ -1,0 +1,82 @@
+/* qc-shared.css
+   Shared design tokens for the qc-atelier suite.
+   Each tool's own CSS imports this file first, then adds its own rules.
+   Tool CSS may extend but should not override these variables.
+
+   Usage (at top of tool CSS):
+     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+     @import url('../shared/qc-shared.css');
+   (The Lua filter inlines both files, so @import is replaced by the
+    filter's read_text_file calls — see each tool's filter for details.)
+*/
+
+/* ── Light mode (default) ─────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg:           #f7f8fa;
+  --surface:      #ffffff;
+  --surface2:     #f0f2f5;
+
+  /* Borders */
+  --border:       #d8dde6;
+  --border-dim:   #e8ebf0;
+
+  /* Text */
+  --text:         #1c2333;
+  --text-dim:     #4a5568;
+  --text-faint:   #8896aa;
+
+  /* Accent */
+  --accent:       #3b5bdb;
+  --accent-dim:   #4c6ef5;
+
+  /* Semantic colours */
+  --green:        #0f7a55;
+  --yellow:       #c07a00;
+  --red:          #c0392b;
+
+  /* Diff colours */
+  --diff-add-bg:  rgba(15,122,85,0.09);
+  --diff-add-txt: #0a5c3e;
+  --diff-del-bg:  rgba(192,57,43,0.09);
+  --diff-del-txt: #8b1a12;
+  --diff-unch-bg: #f7f8fa;
+  --undoc-dot:    rgba(192,57,43,0.4);
+
+  /* Typography */
+  --mono:         'IBM Plex Mono', monospace;
+  --sans:         'IBM Plex Sans', system-ui, sans-serif;
+
+  /* Shape */
+  --radius:       6px;
+}
+
+/* ── Dark mode ────────────────────────────────────────────────────────────── */
+body.dark-mode {
+  --bg:           #111318;
+  --surface:      #181c24;
+  --surface2:     #1f2430;
+  --border:       #2d3348;
+  --border-dim:   #222736;
+  --text:         #dde1ec;
+  --text-dim:     #8a95b0;
+  --text-faint:   #636e8a;
+  --accent:       #748ffc;
+  --accent-dim:   #5c7cfa;
+  --green:        #40c97b;
+  --yellow:       #fcc419;
+  --red:          #ff6b6b;
+  --diff-add-bg:  rgba(64,201,123,0.10);
+  --diff-add-txt: #1a7a4a;
+  --diff-del-bg:  rgba(255,107,107,0.10);
+  --diff-del-txt: #9b2a2a;
+  --diff-unch-bg: #181c24;
+  --undoc-dot:    rgba(255,107,107,0.4);
+}
+
+/* Light mode class is a no-op — light is the default (:root). */
+/* Kept so JS theme toggles that add body.light-mode don't break. */
+body.light-mode {}
+
+/* ── Base reset ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

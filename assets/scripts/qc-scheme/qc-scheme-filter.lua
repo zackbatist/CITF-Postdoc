@@ -72,9 +72,11 @@ local CODEBOOK_PATH   = project_path(S(config.directories.output_dir) .. "/codeb
 local SCHEME_JSON = project_path(S(config.directories.output_dir) .. "/codebook.json")
 local JSON_DIR        = project_path(S(config.directories.json_dir))
 local CSS_FILE        = project_path("assets/scripts/qc-scheme/qc-scheme.css")
+local SHARED_CSS_FILE = project_path("assets/scripts/shared/qc-shared.css")
 local JS_FILE         = project_path("assets/scripts/qc-scheme/qc-scheme.js")
 
 -- ── Codebook loader ───────────────────────────────────────────────────────────
+local function load_codebook_tree()
   local path = CODEBOOK_PATH
   print("qc-scheme: reading codebook from " .. path)
   local f = io.open(path, "r")
@@ -95,15 +97,17 @@ local function generate_html()
   -- DOCS_DATA is intentionally empty here — loadDocs() fetches live data
   -- from the server on page load, so the baked value is just a fallback.
 
-  local css = read_text_file(CSS_FILE)
-  local js  = read_text_file(JS_FILE)
+  local shared_css = read_text_file(SHARED_CSS_FILE)
+  local css        = read_text_file(CSS_FILE)
+  local js         = read_text_file(JS_FILE)
 
   local html = {}
   html[#html+1] = '<!DOCTYPE html><html lang="en"><head>'
   html[#html+1] = '<meta charset="UTF-8">'
   html[#html+1] = '<meta name="viewport" content="width=device-width,initial-scale=1">'
   html[#html+1] = '<title>QC Scheme</title>'
-  html[#html+1] = '<style>' .. css .. '</style>'
+  html[#html+1] = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">'
+  html[#html+1] = '<style>' .. shared_css .. '\n' .. css .. '</style>'
   html[#html+1] = '</head><body>'
   html[#html+1] = '<script>'
   html[#html+1] = 'const CODEBOOK_TREE = ' .. to_json(tree)       .. ';'

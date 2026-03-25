@@ -155,8 +155,10 @@ end
 local config = load_config()
 
 -- Store file paths at module level to ensure they're accessible
-local CSS_FILE = config.files.css_file
-local JS_FILE = config.files.js_file
+local CSS_FILE        = config.files.css_file
+local JS_FILE         = config.files.js_file
+local SHARED_CSS_FILE = _script:gsub("/assets/scripts/[^/]+/[^/]+$", "")
+                                .. "/assets/scripts/shared/qc-shared.css"
 
 -- Derived paths - must come AFTER config loading
 local json_dir = config.directories.json_dir
@@ -580,85 +582,12 @@ local function generate_html()
   local max_speaker_length = find_longest_speaker(all_speakers)
   local speaker_width = math.max(80, math.min(200, max_speaker_length * 8 + 20))
   
-  -- CSS
+  -- CSS: shared tokens first, then tool-specific styles
+  local shared_css  = read_text_file(SHARED_CSS_FILE)
   local css_content = read_text_file(CSS_FILE)
-  local additional_css = [[
-.filter-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
 
-.filter-header h3 {
-  margin: 0;
-  font-size: 1.2rem;
-}
-
-.filter-actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.line-number-header {
-  width: 50px;
-  text-align: center;
-}
-
-.line-number-cell {
-  width: 50px;
-  text-align: center;
-  color: #6c757d;
-  font-size: 0.85rem;
-  font-family: monospace;
-  background: #f8f9fa;
-  border-right: 2px solid #dee2e6;
-}
-
-.stats-summary {
-  padding: 1rem 1.5rem;
-  background: #f8f9fa;
-  border-top: 1px solid #dee2e6;
-  font-size: 0.9rem;
-  color: #6c757d;
-}
-
-.stats-summary .visible-count,
-.stats-summary .visible-coded-count,
-.stats-summary .visible-uncoded-count {
-  font-weight: 600;
-  color: #198754;
-}
-
-.stats-summary .hidden-count,
-.stats-summary .hidden-coded-count,
-.stats-summary .hidden-uncoded-count {
-  font-weight: 600;
-  color: #dc3545;
-}
-
-.coding-table tbody tr.hidden {
-  display: none;
-}
-
-.coding-table tbody tr.gap-row {
-  background: #e9ecef;
-}
-
-.coding-table tbody tr.gap-row td {
-  padding: 0.3rem 0.75rem;
-  text-align: center;
-  font-size: 0.8rem;
-  color: #6c757d;
-  font-style: italic;
-  border-top: 1px dashed #adb5bd;
-  border-bottom: 1px dashed #adb5bd;
-}
-]]
-  
-  html = html .. "<style>\n" .. css_content .. additional_css .. "\n.speaker-cell { width: " .. speaker_width .. "px; }\n</style>\n"
+  html = html .. '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">\n'
+  html = html .. "<style>\n" .. shared_css .. "\n" .. css_content .. "\n.speaker-cell { width: " .. speaker_width .. "px; }\n</style>\n"
   
   -- JavaScript libraries
   html = html .. '<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>\n'
