@@ -2,114 +2,24 @@
 -- Bakes codebook.yaml + codebook.json + corpus excerpts
 -- into qc/qc-scheme.html at render time.
 
-local function read_yaml_file(filepath)
-  local file = io.open(filepath, "r")
-  if not file then return nil end
-  local content = file:read("*all"); file:close()
-  local ok, result = pcall(function()
-    local doc = pandoc.read("---\n" .. content .. "\n---", "markdown")
-    return doc.meta
-  end)
-  return (ok and result) and result or nil
-end
+-- Load shared helpers from qc-shared.lua (sibling of this filter's directory)
+local _script = os.getenv("PANDOC_SCRIPT_FILE") or ""
+local _shared_path = _script:gsub("/assets/scripts/[^/]+/[^/]+$", "")
+                             .. "/assets/scripts/shared/qc-shared.lua"
+local shared = dofile(_shared_path)
 
--- Parse codebook.yaml directly from raw text.
--- codebook.yaml is a bare YAML list/tree; Pandoc's meta parser can mangle it.
--- This parser handles the actual format: indented "- key:" and "- value" lines.
-local function parse_codebook_yaml(text)
-  local root = {}
-  local stack = { { list = root, indent = -1 } }
-
-  local function current() return stack[#stack] end
-
-  for line in (text .. "\n"):gmatch("([^\n]*)\n") do
-    -- Skip blank lines and comments
-    if line:match("^%s*$") or line:match("^%s*#") then goto continue end
-
-    local indent = #line:match("^(%s*)")
-    local item   = line:match("^%s*-%s+(.-)%s*$")  -- "- something"
-    local kv     = item and item:match("^([^:]+):%s*(.-)%s*$")  -- "key: value" or "key:"
-
-    if item then
-      -- Pop stack to correct indent level
-      while #stack > 1 and indent <= current().indent do
-        table.remove(stack)
-      end
-
-      if kv then
-        -- "- ParentCode:" or "- ParentCode: value" — treat as parent node
-        local key = item:match("^([^:]+):")
-        local node = { _key = key, _children = {}, _indent = indent }
-        local parent_list = current().list
-        parent_list[#parent_list + 1] = node
-        -- Push this node's children list onto the stack
-        stack[#stack + 1] = { list = node._children, indent = indent }
-      else
-        -- "- LeafCode" — leaf node
-        current().list[#current().list + 1] = { _key = item, _children = {}, _indent = indent }
-      end
-    end
-
-    ::continue::
-  end
-
-  return root
-end
-
-local function flatten_codebook(nodes, parent, depth, result)
-  depth = depth or 0
-  result = result or {}
-  for _, node in ipairs(nodes) do
-    if type(node) == "table" and node._key then
-      local name   = node._key
-      local prefix = name:match("^(%d%d)_") or ""
-      result[#result + 1] = {
-        name     = name,
-        parent   = parent or "",
-        depth    = depth,
-        prefix   = prefix,
-        children = {},
-      }
-      if node._children and #node._children > 0 then
-        flatten_codebook(node._children, name, depth + 1, result)
-      end
-    end
-  end
-  return result
-end
-
-local function meta_to_lua(v)
-  if not v then return nil end
-  if type(v) == "string" or type(v) == "number" or type(v) == "boolean" then return v end
-  if type(v) == "table" then
-    if v.t == "MetaString" or v.t == "MetaInlines" then return pandoc.utils.stringify(v) end
-    if v.t == "MetaBool" then return v.c ~= nil and v.c or v end
-    if v.t == "MetaList" then
-      local r = {}; for i, x in ipairs(v) do r[i] = meta_to_lua(x) end; return r
-    end
-    if v.t == "MetaMap" then
-      local r = {}; for k, x in pairs(v) do r[k] = meta_to_lua(x) end; return r
-    end
-    local r = {}
-    for k, x in pairs(v) do
-      if type(k) == "number" then r[k] = meta_to_lua(x)
-      elseif type(k) == "string" and k ~= "t" and k ~= "c" then r[k] = meta_to_lua(x) end
-    end
-    if next(r) then return r end
-    return pandoc.utils.stringify(v)
-  end
-  return pandoc.utils.stringify(v)
-end
-
-local function S(v)
-  if type(v) == "table" then return pandoc.utils.stringify(v) end
-  return tostring(v or "")
-end
-
-local function N(v)
-  if type(v) == "table" then return tonumber(pandoc.utils.stringify(v)) or 0 end
-  return tonumber(v) or 0
-end
+local read_yaml_file      = shared.read_yaml_file
+local meta_to_lua         = shared.meta_to_lua
+local S                   = shared.S
+local N                   = shared.N
+local read_text_file      = shared.read_text_file
+local get_json_files      = shared.get_json_files
+local read_json_file      = shared.read_json_file
+local js_safe             = shared.js_safe
+local to_json             = shared.to_json
+local parse_codebook_yaml = shared.parse_codebook_yaml
+local flatten_codebook    = shared.flatten_codebook
+local build_use_counts    = shared.build_use_counts
 
 -- ── Config ────────────────────────────────────────────────────────────────────
 
@@ -119,7 +29,7 @@ local function get_project_root()
   local script = os.getenv("PANDOC_SCRIPT_FILE") or ""
   -- filter is at <root>/assets/scripts/qc-scheme/qc-scheme-filter.lua
   -- so go up 3 levels
-  local root = script:match("^(.*)/assets/scripts/qc%-codebook%-docs/[^/]+$")
+  local root = script:match("^(.*)/assets/scripts/qc%-scheme/[^/]+$")
   if root and root ~= "" then return root end
   -- Fallback: use cwd
   local h = io.popen("pwd"); local cwd = h:read("*l"); h:close()
@@ -164,106 +74,7 @@ local JSON_DIR        = project_path(S(config.directories.json_dir))
 local CSS_FILE        = project_path("assets/scripts/qc-scheme/qc-scheme.css")
 local JS_FILE         = project_path("assets/scripts/qc-scheme/qc-scheme.js")
 
--- ── File helpers ──────────────────────────────────────────────────────────────
-
-local function read_text_file(path)
-  local f = io.open(path, "r")
-  if not f then return "" end
-  local c = f:read("*all"); f:close(); return c
-end
-
-local function get_json_files(dir)
-  local files = {}
-  local h = io.popen("find " .. dir .. " -name '*.json' 2>/dev/null | sort")
-  if h then for f in h:lines() do files[#files+1] = f end; h:close() end
-  return files
-end
-
-local function read_json_file(path)
-  local f = io.open(path, "r"); if not f then return nil end
-  local raw = f:read("*all"); f:close()
-  local ok, data = pcall(function() return pandoc.json.decode(raw) end)
-  return ok and data or nil
-end
-
--- ── JSON serialiser ───────────────────────────────────────────────────────────
-
-local function js_safe(s)
-  return s:gsub("\\","\\\\"):gsub('"','\\"'):gsub("\n","\\n")
-          :gsub("\r","\\r"):gsub("\t","\\t"):gsub("</","\\/")
-end
-
-local function to_json(v)
-  if v == nil then return "null" end
-  local t = type(v)
-  if t == "boolean" then return v and "true" or "false" end
-  if t == "number"  then return tostring(v) end
-  if t == "string"  then return '"' .. js_safe(v) .. '"' end
-  if t == "table"   then
-    -- Detect sequence
-    local n, is_seq = 0, true
-    for k, _ in pairs(v) do
-      if type(k) ~= "number" then is_seq = false; break end
-      n = n + 1
-    end
-    if is_seq and n > 0 then
-      for i = 1, n do if v[i] == nil then is_seq = false; break end end
-    end
-    if is_seq and n == 0 then
-      -- empty table — check if caller intends object or array; default to array
-      -- for DOCS_DATA.codes we override below, so this is fine for tree/counts
-      return "[]"
-    end
-    if is_seq then
-      local parts = {}
-      for i = 1, n do parts[i] = to_json(v[i]) end
-      return "[" .. table.concat(parts, ",") .. "]"
-    else
-      local parts = {}
-      for k, x in pairs(v) do
-        parts[#parts+1] = '"' .. js_safe(tostring(k)) .. '":' .. to_json(x)
-      end
-      if #parts == 0 then return "[]" end
-      return "{" .. table.concat(parts, ",") .. "}"
-    end
-  end
-  return "null"
-end
-
--- ── Codebook tree parser ──────────────────────────────────────────────────────
-
-local function parse_tree(data, parent, depth, nodes, parent_ch)
-  if type(data) ~= "table" then return end
-  depth = depth or 0
-  for _, item in ipairs(data) do
-    if type(item) == "string" then
-      local name = item
-      nodes[#nodes+1] = { name=name, parent=parent or "", depth=depth,
-                           prefix=name:match("^(%d%d)_") or "", children={} }
-      if parent and parent_ch[parent] then
-        parent_ch[parent][#parent_ch[parent]+1] = name
-      end
-    elseif type(item) == "table" then
-      for key, children in pairs(item) do
-        if type(key) == "string" then
-          local name = key
-          local my_ch = {}
-          nodes[#nodes+1] = { name=name, parent=parent or "", depth=depth,
-                               prefix=name:match("^(%d%d)_") or "", children=my_ch }
-          parent_ch[name] = my_ch
-          if parent and parent_ch[parent] then
-            parent_ch[parent][#parent_ch[parent]+1] = name
-          end
-          if type(children) == "table" then
-            parse_tree(children, name, depth+1, nodes, parent_ch)
-          end
-        end
-      end
-    end
-  end
-end
-
-local function load_codebook_tree()
+-- ── Codebook loader ───────────────────────────────────────────────────────────
   local path = CODEBOOK_PATH
   print("qc-scheme: reading codebook from " .. path)
   local f = io.open(path, "r")
@@ -273,38 +84,6 @@ local function load_codebook_tree()
   local nodes = flatten_codebook(raw_nodes, nil, 0)
   print(string.format("qc-scheme: codebook tree — %d nodes", #nodes))
   return nodes
-end
-
--- ── Corpus excerpt index (for auto-suggesting examples) ───────────────────────
-
--- Corpus use counts only (not full text — excerpts fetched on demand via server)
-local function build_use_counts(json_files)
-  local counts = {}  -- code -> total uses
-  local by_doc = {}  -- code -> set of docs
-  for _, jf in ipairs(json_files) do
-    local data = read_json_file(jf)
-    if data then
-      for _, entry in ipairs(data) do
-        local code = entry.code
-        local doc  = (entry.document or jf:match("([^/]+)%.json$") or jf)
-                       :gsub("^.*/",""):gsub("%.txt$","")
-        if code and code ~= "" then
-          counts[code] = (counts[code] or 0) + 1
-          if not by_doc[code] then by_doc[code] = {} end
-          by_doc[code][doc] = true
-        end
-      end
-    end
-  end
-  -- Convert doc sets to sorted lists
-  local result = {}
-  for code, n in pairs(counts) do
-    local docs = {}
-    for d, _ in pairs(by_doc[code]) do docs[#docs+1] = d end
-    table.sort(docs)
-    result[code] = { total = n, docs = docs }
-  end
-  return result
 end
 
 -- ── Generate HTML ─────────────────────────────────────────────────────────────

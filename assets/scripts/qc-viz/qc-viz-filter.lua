@@ -1,82 +1,17 @@
 -- qc-viz-filter.lua
 -- Place in assets/scripts/qc-viz/qc-viz-filter.lua
--- This filter is context-agnostic and can be used in any qualitative-coding project
 
--- Load YAML parser (Pandoc's built-in)
-local function read_yaml_file(filepath)
-  local file = io.open(filepath, "r")
-  if not file then return nil end
-  local content = file:read("*all")
-  file:close()
-  
-  -- Try to parse as YAML using Pandoc
-  local success, result = pcall(function()
-    -- Use Pandoc's read function to parse YAML frontmatter
-    local doc = pandoc.read("---\n" .. content .. "\n---", "markdown")
-    return doc.meta
-  end)
-  
-  if success and result then
-    return result
-  else
-    return nil
-  end
-end
+-- Load shared helpers from qc-shared.lua (sibling of this filter's directory)
+local _script = os.getenv("PANDOC_SCRIPT_FILE") or ""
+local _shared_path = _script:gsub("/assets/scripts/[^/]+/[^/]+$", "")
+                             .. "/assets/scripts/shared/qc-shared.lua"
+local shared = dofile(_shared_path)
 
--- Convert Pandoc meta values to Lua tables recursively
-local function meta_to_lua(meta_value)
-  if not meta_value then return nil end
-  
-  -- Handle simple types
-  if type(meta_value) == "string" or type(meta_value) == "number" or type(meta_value) == "boolean" then
-    return meta_value
-  end
-  
-  -- Handle Pandoc meta types
-  if type(meta_value) == "table" then
-    if meta_value.t == "MetaString" or meta_value.t == "MetaInlines" then
-      return pandoc.utils.stringify(meta_value)
-    elseif meta_value.t == "MetaBool" then
-      return meta_value.c or meta_value
-    elseif meta_value.t == "MetaList" then
-      local result = {}
-      for i, v in ipairs(meta_value) do
-        result[i] = meta_to_lua(v)
-      end
-      return result
-    elseif meta_value.t == "MetaMap" then
-      local result = {}
-      for k, v in pairs(meta_value) do
-        result[k] = meta_to_lua(v)
-      end
-      return result
-    else
-      -- Try to handle as regular table
-      local result = {}
-      local has_numeric_keys = false
-      local has_string_keys = false
-      
-      for k, v in pairs(meta_value) do
-        if type(k) == "number" then
-          has_numeric_keys = true
-          result[k] = meta_to_lua(v)
-        elseif type(k) == "string" and k ~= "t" and k ~= "c" then
-          has_string_keys = true
-          result[k] = meta_to_lua(v)
-        end
-      end
-      
-      -- If it's a mixed or empty table, try to stringify
-      if not has_numeric_keys and not has_string_keys then
-        return pandoc.utils.stringify(meta_value)
-      end
-      
-      return result
-    end
-  end
-  
-  return pandoc.utils.stringify(meta_value)
-end
+local read_yaml_file      = shared.read_yaml_file
+local meta_to_lua         = shared.meta_to_lua
+local read_text_file      = shared.read_text_file
+local get_json_files      = shared.get_json_files
+local read_json_file      = shared.read_json_file
 
 -- Load configuration from YAML file or environment variables
 local function load_config()
@@ -453,37 +388,7 @@ local function should_include_code(code)
   return true  -- Not blacklisted
 end
 
--- Read JSON file
-local function read_json_file(filepath)
-  local file = io.open(filepath, "r")
-  if not file then return nil end
-  local content = file:read("*all")
-  file:close()
-  
-  local success, result = pcall(function()
-    return pandoc.json.decode(content)
-  end)
-  
-  return success and result or nil
-end
-
--- Read text file
-local function read_text_file(filepath)
-  if config.advanced.verbose then
-    print("DEBUG: read_text_file called with filepath = " .. tostring(filepath))
-  end
-  
-  local file = io.open(filepath, "r")
-  if not file then 
-    print("ERROR: Could not open file: " .. tostring(filepath))
-    return "" 
-  end
-  local content = file:read("*all")
-  file:close()
-  return content
-end
-
--- Read corpus text file
+-- Read corpus text file (qc-viz specific: returns lines array)
 local function read_corpus_file(filepath)
   local file = io.open(filepath, "r")
   if not file then return {} end
@@ -522,19 +427,6 @@ local function escape_html(str)
             :gsub(">", "&gt;")
             :gsub('"', "&quot;")
             :gsub("'", "&#39;")
-end
-
--- Get JSON files
-local function get_json_files(dir)
-  local files = {}
-  local handle = io.popen("find " .. dir .. " -name '*.json' 2>/dev/null | sort")
-  if handle then
-    for file in handle:lines() do
-      files[#files + 1] = file
-    end
-    handle:close()
-  end
-  return files
 end
 
 -- Collect all codes and build schema dynamically
