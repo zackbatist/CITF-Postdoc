@@ -72,12 +72,12 @@ def load_config():
 CONFIG       = load_config()
 SERVE_DIR    = Path(CONFIG["serve_dir"]).resolve()
 LOGS_DIR     = Path(CONFIG["logs_dir"]).resolve()
-VERSIONS_DIR = (SERVE_DIR / "versions").resolve()
+SNAPSHOTS_DIR = (SERVE_DIR / "snapshots").resolve()
 PORT         = CONFIG["port"]
 OLLAMA       = CONFIG["ollama_url"]
 
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
-VERSIONS_DIR.mkdir(parents=True, exist_ok=True)
+SNAPSHOTS_DIR.mkdir(parents=True, exist_ok=True)
 
 print(f"[qc-server] Serving   http://localhost:{PORT}/qc-reflect.html")
 print(f"[qc-server]           http://localhost:{PORT}/qc-scheme.html")
@@ -235,12 +235,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path == "/logs/list":
             self._logs_list()
-        elif self.path == "/versions/list":
-            self._versions_list()
-        elif self.path == "/versions/lineage":
-            self._versions_lineage()
-        elif self.path.startswith("/versions/read"):
-            self._versions_read()
+        elif self.path == "/snapshots/list":
+            self._snapshots_list()
+        elif self.path == "/snapshots/lineage":
+            self._snapshots_lineage()
+        elif self.path.startswith("/snapshots/read"):
+            self._snapshots_read()
         elif self.path.startswith("/docs/list-json"):
             self._docs_list_json()
         elif self.path.startswith("/docs/load-json"):
@@ -261,8 +261,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._logs_save(body)
         elif self.path == "/docs/save":
             self._docs_save(body)
-        elif self.path == "/versions/create":
-            self._versions_create(body)
+        elif self.path == "/snapshots/create":
+            self._snapshots_create(body)
         elif self.path.startswith("/api/"):
             self._proxy("POST", body)
         else:
@@ -416,20 +416,20 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             with open(target) as f:
                 data = json.load(f)
 
-            # If this file lives inside a versioned directory, record it as active
+            # If this file lives inside a snapshot directory, record it as active
             active_dir = ""
             try:
-                rel = target.relative_to(VERSIONS_DIR)
+                rel = target.relative_to(SNAPSHOTS_DIR)
                 # rel is like  codebook-collab_20260323-1510_a3f9/codebook.json
                 dir_name = rel.parts[0]
-                if (VERSIONS_DIR / dir_name).is_dir():
+                if (SNAPSHOTS_DIR / dir_name).is_dir():
                     active_dir = dir_name
                     ts_log = datetime.now().strftime("%H:%M:%S")
-                    print(f"[{ts_log}] load-json: detected versioned dir = {active_dir}")
-                    # Record this as the working parent for next version/fork
+                    print(f"[{ts_log}] load-json: detected snapshot dir = {active_dir}")
+                    # Record this as the working parent for next snapshot/fork
                     (SERVE_DIR / ".working_parent").write_text(dir_name)
             except ValueError:
-                pass  # not inside VERSIONS_DIR
+                pass  # not inside SNAPSHOTS_DIR
 
             ts = datetime.now().strftime("%H:%M:%S")
             print(f"[{ts}] opened {target}" + (f"  (active: {active_dir})" if active_dir else ""))
@@ -483,7 +483,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         except Exception as e:
             self._json(500, {"error": str(e)})
 
-    # ── Version helpers ────────────────────────────────────────────────────────
+    # ── Snapshot helpers ────────────────────────────────────────────────────────
 
     def _sanitize_segment(self, s):
         """Sanitize a name segment: alphanumeric and hyphens only, no underscores."""
@@ -492,7 +492,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         return s[:40] or 'untitled'
 
     def _lineage_path(self):
-        return VERSIONS_DIR / "lineage.json"
+        return SNAPSHOTS_DIR / "lineage.json"
 
     def _read_lineage(self):
         p = self._lineage_path()
@@ -509,7 +509,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             json.dump(data, f, indent=2, ensure_ascii=False)
 
     def _parse_dir_name(self, name):
-        """Parse a versioned directory name into {chain, timestamp, hash4}.
+        """Parse a snapshot directory name into {chain, timestamp, hash4}.
         Format: chain_YYYYMMDD-HHMM  or  chain_YYYYMMDD-HHMM_xxxx
         chain may itself contain underscores (multiple segments).
         The timestamp is always the second-to-last or last segment depending on hash."""
@@ -527,14 +527,14 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         """4-char hex hash of the parent directory name."""
         return hashlib.sha1(parent_dir_name.encode()).hexdigest()[:4]
 
-    # ── GET /versions/list ────────────────────────────────────────────────────
+    # ── GET /snapshots/list ────────────────────────────────────────────────────
 
-    def _versions_list(self):
+    def _snapshots_list(self):
         lineage    = self._read_lineage()
-        versions   = []
+        snapshots   = []
         docs_paths = []
-        if VERSIONS_DIR.is_dir():
-            for d in sorted(VERSIONS_DIR.iterdir()):
+        if SNAPSHOTS_DIR.is_dir():
+            for d in sorted(SNAPSHOTS_DIR.iterdir()):
                 if not d.is_dir() or d.name in ('__pycache__',):
                     continue
                 parsed = self._parse_dir_name(d.name)
@@ -543,7 +543,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 docs_json = d / "codebook.json"
                 cb_yaml   = d / "codebook.yaml"
                 entry = lineage.get(d.name, {})
-                versions.append({
+                snapshots.append({
                     "dir":       d.name,
                     "path":      str(d),
                     "chain":     parsed['chain'],
@@ -565,19 +565,19 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 docs_paths.insert(0, p)
 
         self._json(200, {
-            "versions":   versions,
+            "snapshots":   snapshots,
             "docs_paths": docs_paths,
             "ok": True,
         })
 
-    # ── GET /versions/lineage ─────────────────────────────────────────────────
+    # ── GET /snapshots/lineage ─────────────────────────────────────────────────
 
-    def _versions_lineage(self):
+    def _snapshots_lineage(self):
         self._json(200, {"lineage": self._read_lineage(), "ok": True})
 
-    # ── POST /versions/create ─────────────────────────────────────────────────
+    # ── POST /snapshots/create ─────────────────────────────────────────────────
     # Body: {
-    #   "action":      "version" | "fork",
+    #   "action":      "snapshot" | "fork",
     #   "parent_dir":  "codebook_20260310-0900"  (existing dir name, or "" for root),
     #   "fork_segment": "collaboration",          (fork only — new name segment)
     #   "note":        "optional prose note",
@@ -588,10 +588,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     #   "overrides":   {...}
     # }
 
-    def _versions_create(self, body):
+    def _snapshots_create(self, body):
         try:
             payload      = json.loads(body)
-            action       = payload.get("action", "version")
+            action       = payload.get("action", "snapshot")
             parent_dir   = payload.get("parent_dir", "")
             fork_segment = self._sanitize_segment(payload.get("fork_segment", ""))
             note         = payload.get("note", "")
@@ -604,24 +604,24 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             ts = datetime.now().strftime("%Y%m%d-%H%M")
 
             ts_log2 = datetime.now().strftime("%H:%M:%S")
-            print(f"[{ts_log2}] versions/create: action={action}, parent_dir='{parent_dir}', fork_segment='{fork_segment}', active_docs='{active_docs}'")
+            print(f"[{ts_log2}] snapshots/create: action={action}, parent_dir='{parent_dir}', fork_segment='{fork_segment}', active_docs='{active_docs}'")
 
             # If parent_dir not supplied, use the .working_parent pointer
-            # (written when a versioned file is loaded via load-json)
+            # (written when a snapshot file is loaded via load-json)
             if not parent_dir:
                 wp_file = SERVE_DIR / ".working_parent"
                 if wp_file.exists():
                     parent_dir = wp_file.read_text().strip()
-                    print(f"[{datetime.now().strftime('%H:%M:%S')}] versions/create: using .working_parent = '{parent_dir}'")
+                    print(f"[{datetime.now().strftime('%H:%M:%S')}] snapshots/create: using .working_parent = '{parent_dir}'")
 
             # Determine new directory name
             if not parent_dir:
                 if action == "fork" and fork_segment:
-                    # Fork from the bare active codebook — no prior versioned parent
+                    # Fork from the bare active codebook — no prior snapshoted parent
                     new_chain = f"codebook-{fork_segment}"
                     new_name  = f"{new_chain}_{ts}"
                 else:
-                    # First version ever, or version with no prior saved version
+                    # First snapshot ever, or snapshot with no prior saved snapshot
                     new_chain = "codebook"
                     new_name  = f"{new_chain}_{ts}"
             else:
@@ -633,18 +633,18 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     h4 = self._hash4(parent_dir)
                     new_name = f"{new_chain}_{ts}_{h4}"
                 else:
-                    # version: same chain, no hash (lineage.json records parent)
+                    # snapshot: same chain, no hash (lineage.json records parent)
                     new_chain = parent_chain
                     new_name  = f"{new_chain}_{ts}"
 
-            new_dir = VERSIONS_DIR / new_name
+            new_dir = SNAPSHOTS_DIR / new_name
             if new_dir.exists():
                 # Timestamp collision (rare): append seconds
                 ts2 = datetime.now().strftime("%Y%m%d-%H%M%S")
                 new_name = new_name.rsplit('_', 1)[0] + f"_{ts2}"
-                if action != "version":
+                if action != "snapshot":
                     new_name += f"_{self._hash4(parent_dir)}"
-                new_dir = VERSIONS_DIR / new_name
+                new_dir = SNAPSHOTS_DIR / new_name
             new_dir.mkdir(parents=True, exist_ok=True)
 
             # Always copy from the live working files in SERVE_DIR
@@ -682,7 +682,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._write_lineage(lineage)
 
             ts_log = datetime.now().strftime("%H:%M:%S")
-            print(f"[{ts_log}] versions/create {action} → {new_name}")
+            print(f"[{ts_log}] snapshots/create {action} → {new_name}")
 
             self._json(200, {"ok": True, "dir": new_name, "path": str(new_dir)})
 
@@ -691,18 +691,18 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._json(500, {"error": str(e)})
 
 
-    # ── GET /versions/read?dir=X ──────────────────────────────────────────────
-    # Reads a versioned codebook.json without changing working state.
-    # Used by the cross-version diff UI.
+    # ── GET /snapshots/read?dir=X ──────────────────────────────────────────────
+    # Reads a snapshot codebook.json without changing working state.
+    # Used by the cross-snapshot diff UI.
 
-    def _versions_read(self):
+    def _snapshots_read(self):
         qs = self.path.split("?", 1)[1] if "?" in self.path else ""
         params = dict(p.split("=", 1) for p in qs.split("&") if "=" in p)
         import urllib.parse
         dir_name = urllib.parse.unquote(params.get("dir", ""))
         if not dir_name:
             self._json(400, {"error": "dir param required"}); return
-        target = VERSIONS_DIR / dir_name / "codebook.json"
+        target = SNAPSHOTS_DIR / dir_name / "codebook.json"
         try:
             if not target.exists():
                 self._json(404, {"error": f"Not found: {target}"}); return

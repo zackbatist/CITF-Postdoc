@@ -15,7 +15,7 @@
 7. [Data model](#7-data-model)
 8. [Application state](#8-application-state)
 9. [UI reference](#9-ui-reference)
-10. [Versioning system](#10-versioning-system)
+10. [Snapshoting system](#10-snapshoting-system)
 11. [History and diffing system](#11-history-and-diffing-system)
 12. [Export system](#12-export-system)
 13. [Server API](#13-server-api)
@@ -31,7 +31,7 @@ qc-scheme serves two related purposes within a broader qualitative coding workfl
 
 **Rich metadata for a structurally-constrained code system.** The `qc` tool stores code systems as bare YAML trees — code names and parent/child relationships, nothing more. qc-scheme is a parallel documentation layer that adds what `qc` cannot store: scope definitions, rationale, usage notes, provenance, status, and canonical corpus examples. This metadata is kept in a JSON sidecar file and never mixed into the YAML itself, preserving full qc compatibility.
 
-**Reflexive code system development.** As a researcher works with a code system, codes are introduced, their scope shifts, some are deprecated, others are reorganised. qc-scheme makes this process deliberate and auditable: per-code edit history, a unified document-level event feed, structural diffs between states, and a versioning system that captures named snapshots and named divergent lines of development.
+**Reflexive code system development.** As a researcher works with a code system, codes are introduced, their scope shifts, some are deprecated, others are reorganised. qc-scheme makes this process deliberate and auditable: per-code edit history, a unified document-level event feed, structural diffs between states, and a snapshoting system that captures named snapshots and named divergent lines of development.
 
 **Feeding qc-reflect.** The rich metadata produced here — especially `scope`, `rationale`, and `usage_notes` — is structured input for qc-reflect, an LLM-assisted companion tool that compares *intended* code use (as documented here) against *actual* use (from the corpus coding files). This comparison drives reflexive suggestions: mergers, splits, new codes, triangulations.
 
@@ -62,7 +62,7 @@ qc-scheme serves two related purposes within a broader qualitative coding workfl
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-qc-scheme sits between qc (which owns the code structure) and qc-reflect (which reasons about it). It enriches the code system with documentation and maintains a versioned history of how that documentation and structure evolve over time.
+qc-scheme sits between qc (which owns the code structure) and qc-reflect (which reasons about it). It enriches the code system with documentation and maintains a snapshot history of how that documentation and structure evolve over time.
 
 ---
 
@@ -84,10 +84,10 @@ project root/
 └── qc/
     ├── codebook.yaml                   ← active qc codebook (tree structure)
     ├── codebook.docs.json              ← rich metadata sidecar (autosaved)
-    ├── .working_parent                 ← tracks which versioned dir is open
+    ├── .working_parent                 ← tracks which snapshot dir is open
     ├── qc-scheme.html           ← rendered app (output of quarto render)
     ├── json/                           ← per-document corpus coding files
-    └── versions/                       ← named snapshots and forks
+    └── snapshots/                       ← named snapshots and forks
         ├── lineage.json
         ├── codebook_20260310-0900/
         ├── codebook_20260312-1430/
@@ -127,7 +127,7 @@ qc/qc-scheme.html                 scheduleSave() 800ms
 | Documentation fields edited (scope, rationale, etc.) | No |
 | Status changes | No |
 | Parent moves via UI | No |
-| Version or fork created | No |
+| Snapshot or fork created | No |
 
 ---
 
@@ -145,18 +145,18 @@ The entire client-side application. Single IIFE, no framework, no build step. Ke
 - State initialisation and O(1) index management
 - Changelog helpers (`clDoc`, `clCode`)
 - Save / load / import functions
-- Versioning functions (`loadVersions`, `createVersion`)
+- Snapshoting functions (`loadSnapshots`, `createSnapshot`)
 - Export builders (YAML, MD, QMD, HTML, CSV, PDF)
 - Surgical render functions (preserve sidebar scroll across code selection)
 - Topbar, sidebar, editor builders
-- Versions panel and Open panel
+- Snapshots panel and Open panel
 - History and diff system
 
 ### `assets/scripts/qc-scheme/qc-scheme.css`
 All styles. IBM Plex Sans + IBM Plex Mono from Google Fonts. CSS custom properties for theming. Dark mode is default; `body.light-mode` activates the light theme. No preprocessor.
 
 ### `qc-reflect-server.py`
-Local HTTP server. Pure Python stdlib, no external dependencies. Serves static files from `qc/`; proxies `/api/*` to Ollama; handles all persistence and versioning endpoints. Creates `qc/versions/` on startup if absent.
+Local HTTP server. Pure Python stdlib, no external dependencies. Serves static files from `qc/`; proxies `/api/*` to Ollama; handles all persistence and snapshoting endpoints. Creates `qc/snapshots/` on startup if absent.
 
 ### `qc-reflect-config.yaml`
 Shared configuration file (user-created). Relevant fields:
@@ -272,16 +272,16 @@ Written by qc. Each file is a list of coding entries used for use-count baking (
 [{"code": "CodeName", "document": "filename", "line": 42, "text": "…"}]
 ```
 
-### Versioned directories (`qc/versions/*/`)
+### Snapshoted directories (`qc/snapshots/*/`)
 
 Each snapshot directory contains:
 - `codebook.yaml` — qc-compatible structure, copied from live working file at snapshot time
 - `codebook.docs.json` — full rich metadata including `_log`, `_baseline`, `changelog`
-- `codebook.md` — human-readable tree outline generated at version/fork time
+- `codebook.md` — human-readable tree outline generated at snapshot/fork time
 
-### `qc/versions/lineage.json`
+### `qc/snapshots/lineage.json`
 
-Maps each versioned directory name to its parent directory and an optional prose note:
+Maps each snapshot directory name to its parent directory and an optional prose note:
 
 ```json
 {
@@ -298,7 +298,7 @@ Maps each versioned directory name to its parent directory and an optional prose
 
 ### `qc/.working_parent`
 
-Plain text file containing the directory name of the most recently loaded or created versioned directory. Used by the server to determine the parent chain for the next version or fork without any client-side state dependency.
+Plain text file containing the directory name of the most recently loaded or created snapshot directory. Used by the server to determine the parent chain for the next snapshot or fork without any client-side state dependency.
 
 ---
 
@@ -323,9 +323,9 @@ Key runtime state fields:
 | `saveStatus` | string | `saved`, `unsaved`, `saving`, `error` |
 | `lightMode` | bool | Light mode CSS class active |
 | `openedDocsPath` | string | Absolute path of currently loaded docs JSON |
-| `openedVersionDir` | string | Directory name of currently open versioned state |
-| `versionsData` | object\|null | Cached `/versions/list` response |
-| `versionLog` | array | Session log of version/fork actions `[{ts, msg, ok}]` |
+| `openedSnapshotDir` | string | Directory name of currently open snapshoted state |
+| `snapshotsData` | object\|null | Cached `/snapshots/list` response |
+| `snapshotLog` | array | Session log of snapshot/fork actions `[{ts, msg, ok}]` |
 | `openSearch` | string | Current search query in the Open panel |
 
 **O(1) index caches** — rebuilt by `rebuildIndices()` whenever `treeOverrides` changes:
@@ -346,8 +346,8 @@ Key runtime state fields:
 ```
 ┌─ topbar ──────────────────────────────────────────────────────────────────┐
 │ qc-scheme │ N codes · N documented  [chain-name]  [History]        │
-│                                            ☾  Saved  [Open]  [Versions]   │
-├─ [Open panel or Versions panel — shown inline below topbar when active] ───┤
+│                                            ☾  Saved  [Open]  [Snapshots]   │
+├─ [Open panel or Snapshots panel — shown inline below topbar when active] ───┤
 ├─ sidebar ─────────────────────┬─ editor ──────────────────────────────────┤
 │ [search]                      │  CodeName                                  │
 │                               │  depth N · under Parent · N uses           │
@@ -366,12 +366,12 @@ Key runtime state fields:
 |---|---|
 | Brand | `qc-scheme` |
 | Stat | `N codes · N documented · N moved · N selected` |
-| Version badge | Chain name of currently open version (e.g. `codebook-collaboration`); only shown when a versioned file is open |
+| Snapshot badge | Chain name of currently open snapshot (e.g. `codebook-collaboration`); only shown when a snapshot file is open |
 | History | Toggles unified history feed in editor panel |
 | ☾ / ☀ | Dark/light mode toggle |
 | Save status | `Saved` / `Unsaved` / `Saving…` / `Save error` |
 | Open | Opens the Open panel |
-| Versions | Opens the Versions panel |
+| Snapshots | Opens the Snapshots panel |
 
 ### Sidebar tree
 
@@ -416,17 +416,17 @@ Click one entry to inspect its full field state. Click two to diff. Teal = A (ea
 
 Unified feed merging all per-code `_log` entries and all `changelog` events, sorted newest first. Each entry shows the code name (for field edits) or event type (for structural events), with a from→to preview. Selecting two entries diffs full document snapshots at those timestamps.
 
-### Versions panel
+### Snapshots panel
 
 ```
-┌─ Save version row ─────────────────────────────────────────────────────┐
-│ [Save version]  [note textarea…                                      ] │
+┌─ Save snapshot row ─────────────────────────────────────────────────────┐
+│ [Save snapshot]  [note textarea…                                      ] │
 ├─ Fork row ─────────────────────────────────────────────────────────────┤
 │ Fork into new line:  [name input          ] [Fork]                     │
 ├─ Session log ──────────────────────────────────────────────────────────┤
 │ 14:32  Saved: codebook_20260324-1432                                   │
 │ 14:28  Forked: codebook-collaboration_20260324-1428_a3f9               │
-├─ Version table (scrollable) ───────────────────────────────────────────┤
+├─ Snapshot table (scrollable) ───────────────────────────────────────────┤
 │ Name chain               Timestamp      Hash  Parent  Note  [Action]  │
 │ codebook-collaboration   20260324-1428  a3f9  …1430         [✓ open]  │
 │ codebook                 20260312-1430  —     …0900         [Open]    │
@@ -434,11 +434,11 @@ Unified feed merging all per-code `_log` entries and all `changelog` events, sor
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Save version** — creates a new directory in the current name chain. Note text is optional.
+**Save snapshot** — creates a new directory in the current name chain. Note text is optional.
 
 **Fork** — creates a new name chain. Requires a name segment (e.g. `collaboration` → `codebook-collaboration_…`).
 
-**Open** button in the table — loads that version's `codebook.docs.json` into the editor. The autosave immediately copies the loaded content to the live working `codebook.docs.json`. `.working_parent` is updated so the next save/fork chains from that version.
+**Open** button in the table — loads that snapshot's `codebook.docs.json` into the editor. The autosave immediately copies the loaded content to the live working `codebook.docs.json`. `.working_parent` is updated so the next save/fork chains from that snapshot.
 
 ### Open panel
 
@@ -452,7 +452,7 @@ Unified feed merging all per-code `_log` entries and all `changelog` events, sor
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
-Type to filter by any part of the name chain, timestamp, hash, or note. Load button is on the left. The `✓` indicator marks the currently loaded version.
+Type to filter by any part of the name chain, timestamp, hash, or note. Load button is on the left. The `✓` indicator marks the currently loaded snapshot.
 
 ### Multi-select editor
 
@@ -460,11 +460,11 @@ Triggered when two or more codes are selected. Provides bulk status change, bulk
 
 ---
 
-## 10. Versioning system
+## 10. Snapshoting system
 
 ### Core concept
 
-The versioning system captures named states of the code system — both as linear continuations (versions) and as divergent lines of development (forks). All saves and forks always snapshot the live working files (`qc/codebook.docs.json` and `qc/codebook.yaml`), regardless of which past version is currently loaded in the editor.
+The snapshoting system captures named states of the code system — both as linear continuations (snapshots) and as divergent lines of development (forks). All saves and forks always snapshot the live working files (`qc/codebook.docs.json` and `qc/codebook.yaml`), regardless of which past snapshot is currently loaded in the editor.
 
 ### The working cycle
 
@@ -476,13 +476,13 @@ The versioning system captures named states of the code system — both as linea
 │          ▼  (every 800ms)                                           │
 │   qc/codebook.docs.json  ◄──── always the live autosave target      │
 │          │                                                          │
-│          ├── [Save version] ──────────────────────────────────────► │
-│          │   snapshot → qc/versions/codebook_TIMESTAMP/             │
+│          ├── [Save snapshot] ──────────────────────────────────────► │
+│          │   snapshot → qc/snapshots/codebook_TIMESTAMP/             │
 │          │   .working_parent ← codebook_TIMESTAMP                   │
 │          │   next save chains from here                             │
 │          │                                                          │
 │          └── [Fork "name"] ───────────────────────────────────────► │
-│              snapshot → qc/versions/codebook-name_TIMESTAMP_HASH/   │
+│              snapshot → qc/snapshots/codebook-name_TIMESTAMP_HASH/   │
 │              .working_parent ← codebook-name_TIMESTAMP_HASH         │
 │              next save chains from this fork                        │
 │                                                                     │
@@ -492,14 +492,14 @@ The versioning system captures named states of the code system — both as linea
 ### Directory naming
 
 ```
-Versions (same chain):
+Snapshots (same chain):
   codebook_20260310-0900
   codebook_20260312-1430
   codebook_20260315-0800
 
 Forks (new chain segment + hash):
   codebook-collaboration_20260316-1100_f2b8
-  codebook-collaboration_20260320-1445_9c1d   ← version of fork
+  codebook-collaboration_20260320-1445_9c1d   ← snapshot of fork
   codebook-collaboration-datawork_20260321-1000_7a3f  ← fork of fork
 
   codebook-theory_20260313-0900_a3f9   ← different fork from codebook_20260312-1430
@@ -516,19 +516,19 @@ Forks (new chain segment + hash):
 ```
 codebook_20260310-0900
     │
-    ├── codebook_20260312-1430          ← version
+    ├── codebook_20260312-1430          ← snapshot
     │       │
-    │       ├── codebook_20260315-0800  ← version
+    │       ├── codebook_20260315-0800  ← snapshot
     │       │
     │       ├── codebook-collaboration_20260316-1100_f2b8   ← fork
     │       │       │
-    │       │       └── codebook-collaboration_20260320-1445_9c1d  ← version of fork
+    │       │       └── codebook-collaboration_20260320-1445_9c1d  ← snapshot of fork
     │       │               │
     │       │               └── codebook-collaboration-datawork_20260321-1000_7a3f
     │       │
     │       └── codebook-theory_20260313-0900_a3f9   ← separate fork from same parent
     │
-    └── codebook_20260318-0800          ← version (from original)
+    └── codebook_20260318-0800          ← snapshot (from original)
 ```
 
 Directories sharing a hash4 were forked from the same parent state. Directories with different hash4 values — even if they have the same name chain — came from different parents. The `lineage.json` file provides the prose record; the hash provides the visual hint in the directory listing.
@@ -537,16 +537,16 @@ Directories sharing a hash4 were forked from the same parent state. Directories 
 
 The server writes `qc/.working_parent` in two situations:
 
-1. **When `GET /docs/load-json` detects the loaded file is inside `qc/versions/`** — sets it to that version's directory name.
-2. **When `POST /versions/create` succeeds** — sets it to the newly created directory name.
+1. **When `GET /docs/load-json` detects the loaded file is inside `qc/snapshots/`** — sets it to that snapshot's directory name.
+2. **When `POST /snapshots/create` succeeds** — sets it to the newly created directory name.
 
-When `POST /versions/create` runs, it reads `.working_parent` to determine the parent for naming the new directory. This means the chain advances correctly through both the Open panel (load an older version → chain from there) and the Versions panel (save/fork → chain continues automatically).
+When `POST /snapshots/create` runs, it reads `.working_parent` to determine the parent for naming the new directory. This means the chain advances correctly through both the Open panel (load an older snapshot → chain from there) and the Snapshots panel (save/fork → chain continues automatically).
 
 ### Switching lines of development
 
-Open the Open panel → filter the list → click **Load** on any past version. The app loads that version's `codebook.docs.json` into the editor. The 800 ms autosave writes this content to `qc/codebook.docs.json`. `.working_parent` is updated. All subsequent saves and forks chain from that version.
+Open the Open panel → filter the list → click **Load** on any past snapshot. The app loads that snapshot's `codebook.docs.json` into the editor. The 800 ms autosave writes this content to `qc/codebook.docs.json`. `.working_parent` is updated. All subsequent saves and forks chain from that snapshot.
 
-Important: `CODEBOOK_TREE` is baked at render time and does not change when you load a different version. Parent overrides from the loaded file are applied immediately. If the loaded version has a structurally different `codebook.yaml` (different codes or hierarchy), a `quarto render` is required to reflect those structural differences in the tree.
+Important: `CODEBOOK_TREE` is baked at render time and does not change when you load a different snapshot. Parent overrides from the loaded file are applied immediately. If the loaded snapshot has a structurally different `codebook.yaml` (different codes or hierarchy), a `quarto render` is required to reflect those structural differences in the tree.
 
 ---
 
@@ -620,13 +620,13 @@ All exports are generated client-side from the current in-memory state. Export s
 | CSV | One row per code, all fields as columns. Sortable on import. |
 | PDF | Landscape table via jsPDF + jsPDF-autotable (loaded from CDN). |
 
-The qc-compatible bare-list YAML export (previously "YAML·qc") has been removed — versioned snapshots already provide `codebook.yaml` at every meaningful state.
+The qc-compatible bare-list YAML export (previously "YAML·qc") has been removed — snapshots already provide `codebook.yaml` at every meaningful state.
 
 ---
 
 ## 13. Server API
 
-All endpoints are in `qc-reflect-server.py`. CORS headers on every response. `SERVE_DIR` = resolved `qc/` directory. `VERSIONS_DIR` = `SERVE_DIR/versions/` (created on startup).
+All endpoints are in `qc-reflect-server.py`. CORS headers on every response. `SERVE_DIR` = resolved `qc/` directory. `SNAPSHOTS_DIR` = `SERVE_DIR/snapshots/` (created on startup).
 
 ### Docs persistence
 
@@ -634,26 +634,26 @@ All endpoints are in `qc-reflect-server.py`. CORS headers on every response. `SE
 |---|---|
 | `GET /docs/load?path=X` | Load `codebook.docs.json`; returns `{codes, overrides, changelog, ok}` |
 | `POST /docs/save` | Save to `codebook.docs.json`; body: `{path, data, tree, overrides, changelog}` |
-| `GET /docs/load-json?path=X` | Load any JSON by absolute path; if inside `VERSIONS_DIR`, writes `.working_parent` and returns `active_dir` |
+| `GET /docs/load-json?path=X` | Load any JSON by absolute path; if inside `SNAPSHOTS_DIR`, writes `.working_parent` and returns `active_dir` |
 | `GET /docs/list-json?dir=X` | List `codebook.docs.json` files in a directory |
 
-### Versioning
+### Snapshoting
 
 | Endpoint | Description |
 |---|---|
-| `GET /versions/list` | Scan `VERSIONS_DIR`; parse names; read `lineage.json`; return `{versions, docs_paths, ok}` |
-| `GET /versions/lineage` | Return `lineage.json` directly |
-| `POST /versions/create` | Create a new versioned directory; always copies from live working files; reads `.working_parent` for chain; writes `.working_parent` to new dir on success |
+| `GET /snapshots/list` | Scan `SNAPSHOTS_DIR`; parse names; read `lineage.json`; return `{snapshots, docs_paths, ok}` |
+| `GET /snapshots/lineage` | Return `lineage.json` directly |
+| `POST /snapshots/create` | Create a new snapshot directory; always copies from live working files; reads `.working_parent` for chain; writes `.working_parent` to new dir on success |
 
-**`/versions/create` naming logic:**
+**`/snapshots/create` naming logic:**
 
 ```
 .working_parent absent:
-  version → codebook_TIMESTAMP
+  snapshot → codebook_TIMESTAMP
   fork    → codebook-{segment}_TIMESTAMP
 
 .working_parent = "codebook_X":
-  version → codebook_TIMESTAMP             (same chain, no hash)
+  snapshot → codebook_TIMESTAMP             (same chain, no hash)
   fork    → codebook-{segment}_TIMESTAMP_HASH4   (new chain + hash of parent name)
 ```
 
@@ -694,7 +694,7 @@ Runs once at `quarto render` time. No runtime role.
 qc-scheme                         qc-reflect
 ────────────────                         ──────────
 codebook.yaml           ──────────────►  tree structure
-codebook.docs.json
+codebook.docs.json                       
   ├── scope             ──────────────►  intended use
   ├── rationale                          of each code
   └── usage_notes                              │
@@ -702,13 +702,13 @@ codebook.docs.json
 qc/json/*.json          ──────────────►  actual use ──►  suggestions:
   (corpus coding)                        from corpus      merge, split,
                                                           new codes,
-versions/               ──────────────►  evolution of    triangulations
+snapshots/               ──────────────►  evolution of    triangulations
   lineage.json                           code system
 ```
 
 **Intended vs actual use** is the core comparison: does the scope and rationale of a code match how it is applied in the corpus? Codes with thorough documentation — especially `rationale` (why a code exists relative to its siblings) and `usage_notes` (what to exclude, common confusions) — give qc-reflect more precise signal.
 
-**Version history** provides a temporal dimension: qc-reflect can examine how code boundaries shifted across named versions, which is itself evidence about the analytical process and useful context for reflexive interpretation.
+**Snapshot history** provides a temporal dimension: qc-reflect can examine how code boundaries shifted across named snapshots, which is itself evidence about the analytical process and useful context for reflexive interpretation.
 
 ---
 
@@ -716,7 +716,7 @@ versions/               ──────────────►  evolution
 
 **Structural changes require re-render.** Adding, removing, or renaming codes in `codebook.yaml` via the qc CLI requires `quarto render` before the changes appear. No live reload or watch mode.
 
-**Loading a version with a different tree structure.** When a loaded version's `codebook.yaml` has a different set of codes or hierarchy than the currently baked HTML, documentation loads correctly but the tree display reflects the baked structure. Parent overrides apply immediately; a re-render is required for full structural synchronisation.
+**Loading a snapshot with a different tree structure.** When a loaded snapshot's `codebook.yaml` has a different set of codes or hierarchy than the currently baked HTML, documentation loads correctly but the tree display reflects the baked structure. Parent overrides apply immediately; a re-render is required for full structural synchronisation.
 
 **YAML export does not update `codebook.yaml`.** The YAML export reflects current `treeOverrides` but the user must manually copy it to `codebook.yaml` and re-render to make structural moves durable in qc.
 
