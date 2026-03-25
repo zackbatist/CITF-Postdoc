@@ -415,7 +415,8 @@ body.light-mode .btn.primary:hover { color: #fff; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ── History panels ── */
-.code-history { display: flex; height: 100%; overflow: hidden; }
+.code-history { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+.ch-body { display: flex; flex: 1; overflow: hidden; }
 .code-history-empty { font-size: 12px; color: var(--text-dim); font-style: italic; padding: 24px 18px; line-height: 1.6; }
 
 /* List column */
@@ -682,3 +683,202 @@ body.light-mode .btn.primary:hover { color: #fff; }
 .op-empty { padding: 10px 14px; color: var(--text-faint); font-size: 11px; font-style: italic; }
 .op-load-btn { flex-shrink: 0; min-width: 48px; font-size: 11px; }
 .op-row-note-inline { font-size: 10px; color: var(--text-faint); font-style: italic; }
+
+/* ── History sub-tabs (Log/Timeline, Feed/Compare) ───────────────────────── */
+.ch-subtabs {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  align-self: stretch;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border-dim);
+  padding: 0;
+  gap: 0;
+  position: relative;
+}
+.ch-subtabs-tabs {
+  display: flex; flex-direction: row;
+  padding: 0 4px;
+}
+/* Toggle group aligned with the left edge of ch-diff-pane (ch-list = 260px + 1px border) */
+.ch-subtabs-toggle {
+  position: absolute;
+  left: 261px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex; gap: 2px;
+}
+.ch-subtabs .tab {
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  border-radius: 0;
+  color: var(--text-faint);
+}
+.ch-subtabs .tab:hover { color: var(--text); background: none; }
+.ch-subtabs .tab.active { color: var(--accent); border-bottom-color: var(--accent); background: none; box-shadow: none; }
+
+/* ── Session boundary markers in history feed ───────────────────────────── */
+.ch-session-marker {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 12px; margin: 2px 0;
+  background: rgba(192,132,252,0.06);
+  border-left: 3px solid var(--accent-dim);
+}
+.ch-session-label {
+  font-family: var(--mono); font-size: 10px; color: var(--accent);
+  font-weight: 600; text-transform: none; letter-spacing: 0;
+}
+
+/* ── Code Timeline view ──────────────────────────────────────────────────── */
+.cht-wrap { padding: 12px 16px; overflow-y: auto; }
+.cht-field { margin-bottom: 20px; border: 1px solid var(--border-dim); border-radius: var(--radius); overflow: hidden; }
+.cht-field-label { padding: 6px 10px; font-size: 10px; font-weight: 700; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.06em; background: var(--surface2); border-bottom: 1px solid var(--border-dim); }
+.cht-current { display: flex; gap: 8px; padding: 8px 10px; background: var(--surface); border-bottom: 1px solid var(--border-dim); }
+.cht-current-label { font-size: 9px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; padding-top: 2px; flex-shrink: 0; }
+.cht-current-val { font-size: 12px; color: var(--text); line-height: 1.5; }
+.cht-step { display: flex; gap: 8px; padding: 7px 10px; border-bottom: 1px solid var(--border-dim); align-items: flex-start; }
+.cht-step-ts { font-family: var(--mono); font-size: 10px; color: var(--text-faint); flex-shrink: 0; padding-top: 2px; min-width: 120px; }
+.cht-baseline { display: flex; gap: 8px; padding: 6px 10px; background: var(--surface2); }
+.cht-baseline-label { font-family: var(--mono); font-size: 10px; color: var(--text-faint); flex-shrink: 0; min-width: 120px; padding-top: 2px; }
+.cht-baseline-val { font-size: 11px; color: var(--text-dim); font-style: italic; }
+.cht-empty { opacity: 0.4; }
+
+/* ── Word diff rendering ─────────────────────────────────────────────────── */
+.wd-block { font-size: 12px; line-height: 1.6; color: var(--text); }
+ins.wd-add { text-decoration: none; background: var(--diff-add-bg); color: var(--green); border-radius: 2px; padding: 0 1px; }
+del.wd-del { background: var(--diff-del-bg); color: var(--red); border-radius: 2px; padding: 0 1px; text-decoration: line-through; }
+body.light-mode ins.wd-add { color: #047857; }
+body.light-mode del.wd-del { color: #b91c1c; }
+
+/* ── Cross-version diff panel ────────────────────────────────────────────── */
+.hist-vdiff-pane { display: flex; flex-direction: column; gap: 0; flex: 1; overflow: hidden; }
+.hist-vdiff-selrow { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border-dim); flex-shrink: 0; }
+.hist-vdiff-selcol { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.hist-vdiff-sellabel { font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.05em; }
+.hist-vdiff-sel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-family: var(--mono); font-size: 11px; padding: 4px 7px; outline: none; cursor: pointer; }
+.hist-vdiff-sel:focus { border-color: var(--accent); }
+.hist-vdiff-arrow { color: var(--text-faint); font-size: 16px; padding: 0 4px; flex-shrink: 0; align-self: center; }
+.hist-vdiff-loaded { font-size: 10px; color: var(--green); }
+.hist-vdiff-modesrow { display: flex; gap: 6px; padding: 8px 14px; border-bottom: 1px solid var(--border-dim); flex-shrink: 0; background: var(--surface2); }
+.hist-vdiff-summary { overflow-y: auto; flex: 1; padding: 8px 0; }
+.hist-vdiff-group-label { font-size: 10px; font-weight: 700; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.06em; padding: 8px 14px 4px; }
+.hist-vdiff-add { color: var(--green) !important; }
+.hist-vdiff-del { color: var(--red) !important; }
+.hist-vdiff-sum-row { display: flex; align-items: center; gap: 10px; padding: 5px 14px; cursor: pointer; border-bottom: 1px solid var(--border-dim); }
+.hist-vdiff-sum-row:hover { background: var(--surface2); }
+.hist-vdiff-code { font-family: var(--mono); font-size: 11px; color: var(--text); font-weight: 600; min-width: 140px; }
+.hist-vdiff-fields { font-size: 10px; color: var(--text-faint); }
+.hist-vdiff-focusrow { padding: 8px 14px; border-bottom: 1px solid var(--border-dim); background: var(--surface2); }
+.hist-vdiff-focus-sel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); font-family: var(--mono); font-size: 11px; padding: 4px 7px; outline: none; cursor: pointer; }
+.hist-vdiff-fields-wrap { overflow-y: auto; flex: 1; padding: 4px 14px; }
+.hist-vdiff-code-sec { margin-bottom: 16px; }
+.hist-vdiff-code-hdr { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--accent); padding: 6px 0 4px; border-bottom: 1px solid var(--border-dim); margin-bottom: 8px; }
+
+/* ── Multi-code history ───────────────────────────────────────────────────── */
+.mch-wrap { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+.mch-summary { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--border-dim); flex-shrink: 0; }
+.mch-chip { display: flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 12px; background: var(--surface2); border: 1px solid var(--border-dim); font-family: var(--mono); font-size: 10px; }
+.mch-chip-none { opacity: 0.4; }
+.mch-chip-name { color: var(--text); }
+.mch-chip-count { background: var(--accent); color: var(--bg); border-radius: 8px; padding: 0 5px; font-size: 9px; font-weight: 700; }
+.mch-list { overflow-y: auto; flex: 1; }
+.mch-row { display: grid; grid-template-columns: 120px 140px 100px 1fr; gap: 8px; padding: 5px 14px; border-bottom: 1px solid var(--border-dim); align-items: baseline; font-size: 11px; }
+.mch-row:hover { background: var(--surface2); }
+.mch-ts { font-family: var(--mono); font-size: 10px; color: var(--text-faint); }
+.mch-code { font-family: var(--mono); color: var(--accent); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mch-field { color: var(--text-dim); font-size: 10px; }
+.mch-preview { color: var(--text-faint); font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mch-detail { color: var(--text-faint); font-size: 10px; }
+.btn-active { background: var(--accent-dim) !important; color: #fff !important; border-color: var(--accent) !important; }
+
+/* ── Versions panel tab row ──────────────────────────────────────────────── */
+.vp-tabrow {
+  display: flex; flex-shrink: 0;
+  border-bottom: 1px solid var(--border-dim);
+  background: var(--surface2);
+  padding: 0 14px;
+}
+.vp-tab {
+  padding: 7px 16px; font-size: 12px; font-weight: 500;
+  color: var(--text-faint); cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  background: none; border-top: none; border-left: none; border-right: none;
+  font-family: var(--sans); transition: color 0.1s;
+}
+.vp-tab:hover  { color: var(--text); }
+.vp-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* History body inside versions panel — give it a fixed scroll height */
+.vp-history-body {
+  display: flex; flex-direction: column;
+  max-height: calc(100vh - 180px);
+  overflow: hidden;
+}
+.vp-history-body .code-history { height: auto; flex: 1; }
+
+/* ── App mode tabs (Codebook / History / Versions) ───────────────────────── */
+.topbar-tabs {
+  display: flex; flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  padding: 0 20px;
+}
+.topbar-mode-tab {
+  padding: 7px 18px; font-size: 12px; font-weight: 500;
+  color: var(--text-faint); cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  background: none; border-top: none; border-left: none; border-right: none;
+  font-family: var(--sans); transition: color 0.1s;
+}
+.topbar-mode-tab:hover  { color: var(--text); }
+.topbar-mode-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── Full-panel main views ───────────────────────────────────────────────── */
+.main-panel {
+  flex: 1; display: flex; flex-direction: column; overflow: hidden;
+}
+.versions-main { padding: 0; }
+.history-main  { padding: 0; }
+
+/* versions-main: give the inner vp-wrap room to scroll */
+.versions-main .vp-wrap {
+  max-height: none;
+  flex: 1;
+  overflow-y: auto;
+}
+.versions-main .vt-scroll {
+  max-height: none;
+  flex: 1;
+}
+
+/* history-main: the code-history fills the panel */
+.history-main .code-history {
+  flex: 1;
+  height: auto;
+}
+
+/* ── Document-level Timeline (read-only) ─────────────────────────────────── */
+.doc-timeline-scroll { overflow-y: auto; flex: 1; }
+.dctl-row {
+  display: flex; align-items: baseline; gap: 8px;
+  padding: 5px 12px; border-bottom: 1px solid var(--border-dim);
+  font-size: 11px; flex-wrap: nowrap;
+}
+.dctl-row:hover { background: var(--surface2); }
+.dctl-ts     { font-family: var(--mono); font-size: 10px; color: var(--text-faint); flex-shrink: 0; min-width: 112px; }
+.dctl-type   { font-size: 10px; color: var(--text-dim); flex-shrink: 0; min-width: 60px; }
+.dctl-code   { font-family: var(--mono); font-size: 10px; color: var(--accent); font-weight: 600; flex-shrink: 0; min-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+.dctl-field  { font-size: 10px; color: var(--text-dim); flex-shrink: 0; min-width: 70px; }
+.dctl-detail { font-size: 10px; color: var(--text-faint); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dctl-preview { display: flex; align-items: center; gap: 4px; flex: 1; min-width: 0; }
+
+/* ── Inline Fields/JSON toggle in list header ─────────────────────────────── */
+.ch-diff-toggle-inline {
+  display: flex; gap: 2px; margin-left: auto; flex-shrink: 0;
+}
+.ch-diff-toggle-inline .ch-toggle-btn {
+  padding: 2px 8px; font-size: 10px;
+}

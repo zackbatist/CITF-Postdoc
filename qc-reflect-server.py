@@ -239,6 +239,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._versions_list()
         elif self.path == "/versions/lineage":
             self._versions_lineage()
+        elif self.path.startswith("/versions/read"):
+            self._versions_read()
         elif self.path.startswith("/docs/list-json"):
             self._docs_list_json()
         elif self.path.startswith("/docs/load-json"):
@@ -686,6 +688,34 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         except Exception as e:
             import traceback; traceback.print_exc()
+            self._json(500, {"error": str(e)})
+
+
+    # ── GET /versions/read?dir=X ──────────────────────────────────────────────
+    # Reads a versioned codebook.docs.json without changing working state.
+    # Used by the cross-version diff UI.
+
+    def _versions_read(self):
+        qs = self.path.split("?", 1)[1] if "?" in self.path else ""
+        params = dict(p.split("=", 1) for p in qs.split("&") if "=" in p)
+        import urllib.parse
+        dir_name = urllib.parse.unquote(params.get("dir", ""))
+        if not dir_name:
+            self._json(400, {"error": "dir param required"}); return
+        target = VERSIONS_DIR / dir_name / "codebook.docs.json"
+        try:
+            if not target.exists():
+                self._json(404, {"error": f"Not found: {target}"}); return
+            with open(target) as f:
+                data = json.load(f)
+            self._json(200, {
+                "dir":       dir_name,
+                "codes":     data.get("codes", {}),
+                "overrides": data.get("overrides", {}),
+                "saved":     data.get("saved", ""),
+                "ok": True,
+            })
+        except Exception as e:
             self._json(500, {"error": str(e)})
 
     # ── Ollama proxy ───────────────────────────────────────────────────────────
