@@ -3,53 +3,58 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── Dark mode (default) ── */
+/* ── Light mode (default) ── */
 :root {
-  --bg:         #13141a;
-  --surface:    #1c1e28;
-  --surface2:   #252838;
-  --border:     #333650;
-  --border-dim: #252838;
-  --text:       #d8dae8;
-  --text-dim:   #9ba3c2;
-  --text-faint: #7a82a0;
-  --accent:     #c084fc;
-  --accent-dim: #7c3aed;
-  --green:      #4ade80;
-  --yellow:     #fbbf24;
-  --red:        #f87171;
-  --diff-add-bg:   rgba(16,185,129,0.12);
-  --diff-add-txt:  #065f46;
-  --diff-del-bg:   rgba(239,68,68,0.12);
-  --diff-del-txt:  #991b1b;
-  --diff-unch-bg:  #1c1e28;
-  --undoc-dot:     rgba(248,113,113,0.45);
+  --bg:         #f7f8fa;
+  --surface:    #ffffff;
+  --surface2:   #f0f2f5;
+  --border:     #d8dde6;
+  --border-dim: #e8ebf0;
+  --text:       #1c2333;
+  --text-dim:   #4a5568;
+  --text-faint: #8896aa;
+  --accent:     #3b5bdb;
+  --accent-dim: #4c6ef5;
+  --green:      #0f7a55;
+  --yellow:     #c07a00;
+  --red:        #c0392b;
+  --diff-add-bg:   rgba(15,122,85,0.09);
+  --diff-add-txt:  #0a5c3e;
+  --diff-del-bg:   rgba(192,57,43,0.09);
+  --diff-del-txt:  #8b1a12;
+  --diff-unch-bg:  #f7f8fa;
+  --undoc-dot:     rgba(192,57,43,0.4);
   --mono:       'IBM Plex Mono', monospace;
   --sans:       'IBM Plex Sans', system-ui, sans-serif;
   --radius:     6px;
 }
 
-/* ── Light mode ── */
+/* ── Dark mode ── */
+body.dark-mode {
+  --bg:         #111318;
+  --surface:    #181c24;
+  --surface2:   #1f2430;
+  --border:     #2d3348;
+  --border-dim: #222736;
+  --text:       #dde1ec;
+  --text-dim:   #8a95b0;
+  --text-faint: #636e8a;
+  --accent:     #748ffc;
+  --accent-dim: #5c7cfa;
+  --green:      #40c97b;
+  --yellow:     #fcc419;
+  --red:        #ff6b6b;
+  --diff-add-bg:   rgba(64,201,123,0.10);
+  --diff-add-txt:  #1a7a4a;
+  --diff-del-bg:   rgba(255,107,107,0.10);
+  --diff-del-txt:  #9b2a2a;
+  --diff-unch-bg:  #181c24;
+  --undoc-dot:     rgba(255,107,107,0.4);
+}
+
+/* ── light-mode class maps to :root (no-op; kept for JS toggle compat) ── */
 body.light-mode {
-  --bg:         #f5f6fa;
-  --surface:    #ffffff;
-  --surface2:   #eef0f6;
-  --border:     #d0d4e8;
-  --border-dim: #e4e7f2;
-  --text:       #1a1c2a;
-  --text-dim:   #5a6080;
-  --text-faint: #8890b0;
-  --accent:     #7c3aed;
-  --accent-dim: #a855f7;
-  --green:      #059669;
-  --yellow:     #b45309;
-  --red:        #dc2626;
-  --diff-add-bg:   rgba(5,150,105,0.10);
-  --diff-add-txt:  #064e3b;
-  --diff-del-bg:   rgba(220,38,38,0.10);
-  --diff-del-txt:  #7f1d1d;
-  --diff-unch-bg:  #f0f1f8;
-  --undoc-dot:     rgba(220,38,38,0.4);
+  /* inherits :root — light is default */
 }
 
 body {
@@ -155,10 +160,29 @@ body.light-mode .btn.primary:hover { color: #fff; }
 
 /* ── Sidebar ── */
 .sidebar {
-  width: 280px; flex-shrink: 0;
+  width: 280px; min-width: 160px; max-width: 520px;
+  flex-shrink: 0; position: relative;
   display: flex; flex-direction: column;
-  border-right: 1px solid var(--border);
   background: var(--surface); overflow: hidden;
+}
+/* Resize handle — drag to resize sidebar */
+.sidebar-resize-handle {
+  position: absolute; right: -4px; top: 0; bottom: 0; width: 8px;
+  cursor: col-resize; z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+}
+.sidebar-resize-handle::after {
+  content: '';
+  display: block;
+  width: 2px; height: 32px;
+  border-radius: 2px;
+  background: var(--border);
+  transition: background 0.15s, height 0.15s;
+}
+.sidebar-resize-handle:hover::after,
+.sidebar-resize-handle.dragging::after {
+  background: var(--accent);
+  height: 48px;
 }
 .sidebar-search { padding: 8px 10px; border-bottom: 1px solid var(--border-dim); flex-shrink: 0; }
 .sidebar-search input {
@@ -180,7 +204,7 @@ body.light-mode .btn.primary:hover { color: #fff; }
 }
 .tree-row:hover    { background: var(--surface2); }
 .tree-row.active   { background: var(--surface2); border-left-color: var(--accent); }
-.tree-row.multi-active { background: rgba(109,40,217,0.07); border-left-color: var(--accent); }
+.tree-row.multi-active { background: var(--surface2); border-left-color: var(--accent); }
 
 /* Drag handle — fixed width, always first child */
 
@@ -604,10 +628,10 @@ body.light-mode .btn.primary:hover { color: #fff; }
   color: var(--text-dim); cursor: pointer; white-space: nowrap;
 }
 .btn-xs:hover { background: var(--border); color: var(--text); }
-.btn-xs-open { background: rgba(192,132,252,0.15); color: var(--accent); border-color: var(--accent-dim); }
+.btn-xs-open { background: var(--surface2); color: var(--accent); border-color: var(--border); }
 
-.vt-row-active { background: rgba(192,132,252,0.07); }
-.vt-row-active .vt-chain { color: var(--accent); }
+.vt-row-active { background: var(--surface2); }
+.vt-row-active .vt-chain { color: var(--text); font-weight: 700; }
 .vt-current-badge {
   display: inline-block; margin-left: 7px;
   padding: 0 5px; border-radius: 3px;
@@ -637,7 +661,7 @@ body.light-mode .btn.primary:hover { color: #fff; }
   flex-wrap: nowrap;
 }
 .op-row:hover { background: var(--surface2); }
-.op-row-open { background: rgba(192,132,252,0.07); }
+.op-row-open { background: var(--surface2); }
 .op-row-lbl { display: flex; align-items: baseline; gap: 8px; flex: 1; min-width: 0; }
 .op-row-chain { font-family: var(--mono); font-size: 12px; color: var(--text); font-weight: 600; }
 .op-row-ts    { font-family: var(--mono); font-size: 10px; color: var(--text-dim); }
@@ -670,8 +694,8 @@ body.light-mode .btn.primary:hover { color: #fff; }
 /* ── Topbar version badge ────────────────────────────────────────────────── */
 .topbar-version-badge {
   font-family: var(--mono); font-size: 10px;
-  color: var(--accent); background: rgba(192,132,252,0.12);
-  border: 1px solid rgba(192,132,252,0.25);
+  color: var(--text-dim); background: var(--surface2);
+  border: 1px solid var(--border);
   border-radius: 3px; padding: 1px 7px;
   max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   cursor: default;
@@ -724,8 +748,8 @@ body.light-mode .btn.primary:hover { color: #fff; }
 .ch-session-marker {
   display: flex; align-items: center; gap: 8px;
   padding: 5px 12px; margin: 2px 0;
-  background: rgba(192,132,252,0.06);
-  border-left: 3px solid var(--accent-dim);
+  background: var(--surface2);
+  border-left: 3px solid var(--border);
 }
 .ch-session-label {
   font-family: var(--mono); font-size: 10px; color: var(--accent);
@@ -882,3 +906,21 @@ body.light-mode del.wd-del { color: #b91c1c; }
 .ch-diff-toggle-inline .ch-toggle-btn {
   padding: 2px 8px; font-size: 10px;
 }
+
+/* ── Startup notice banner ───────────────────────────────────────────────── */
+.startup-notice {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 16px;
+  background: #fffbe6; border-bottom: 1px solid #e6c800;
+  color: #7a5f00; font-size: 12px;
+  flex-shrink: 0;
+}
+body.dark-mode .startup-notice {
+  background: #2a2500; border-bottom-color: #5a4d00; color: #e6c800;
+}
+.startup-notice span { flex: 1; }
+.startup-notice-close {
+  background: none; border: none; cursor: pointer;
+  color: inherit; font-size: 14px; padding: 0 4px; opacity: 0.7;
+}
+.startup-notice-close:hover { opacity: 1; }
