@@ -1,4 +1,4 @@
-# qc-codebook-docs — Project Documentation
+# qc-scheme — Project Documentation
 
 *Last updated: 2026-03-24*
 
@@ -27,11 +27,11 @@
 
 ## 1. Purpose and scope
 
-qc-codebook-docs serves two related purposes within a broader qualitative coding workflow.
+qc-scheme serves two related purposes within a broader qualitative coding workflow.
 
-**Rich metadata for a structurally-constrained code system.** The `qc` tool stores code systems as bare YAML trees — code names and parent/child relationships, nothing more. qc-codebook-docs is a parallel documentation layer that adds what `qc` cannot store: scope definitions, rationale, usage notes, provenance, status, and canonical corpus examples. This metadata is kept in a JSON sidecar file and never mixed into the YAML itself, preserving full qc compatibility.
+**Rich metadata for a structurally-constrained code system.** The `qc` tool stores code systems as bare YAML trees — code names and parent/child relationships, nothing more. qc-scheme is a parallel documentation layer that adds what `qc` cannot store: scope definitions, rationale, usage notes, provenance, status, and canonical corpus examples. This metadata is kept in a JSON sidecar file and never mixed into the YAML itself, preserving full qc compatibility.
 
-**Reflexive code system development.** As a researcher works with a code system, codes are introduced, their scope shifts, some are deprecated, others are reorganised. qc-codebook-docs makes this process deliberate and auditable: per-code edit history, a unified document-level event feed, structural diffs between states, and a versioning system that captures named snapshots and named divergent lines of development.
+**Reflexive code system development.** As a researcher works with a code system, codes are introduced, their scope shifts, some are deprecated, others are reorganised. qc-scheme makes this process deliberate and auditable: per-code edit history, a unified document-level event feed, structural diffs between states, and a versioning system that captures named snapshots and named divergent lines of development.
 
 **Feeding qc-reflect.** The rich metadata produced here — especially `scope`, `rationale`, and `usage_notes` — is structured input for qc-reflect, an LLM-assisted companion tool that compares *intended* code use (as documented here) against *actual* use (from the corpus coding files). This comparison drives reflexive suggestions: mergers, splits, new codes, triangulations.
 
@@ -44,7 +44,7 @@ qc-codebook-docs serves two related purposes within a broader qualitative coding
 │                        qc ecosystem                             │
 │                                                                 │
 │  ┌──────────────┐    codebook.yaml    ┌──────────────────────┐  │
-│  │     qc       │ ──────────────────► │  qc-codebook-docs   │  │
+│  │     qc       │ ──────────────────► │  qc-scheme   │  │
 │  │  (CLI tool)  │                     │  (this tool)         │  │
 │  │              │ ◄────────────────── │                      │  │
 │  └──────────────┘   YAML export (opt) │  codebook.docs.json  │  │
@@ -62,7 +62,7 @@ qc-codebook-docs serves two related purposes within a broader qualitative coding
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-qc-codebook-docs sits between qc (which owns the code structure) and qc-reflect (which reasons about it). It enriches the code system with documentation and maintains a versioned history of how that documentation and structure evolve over time.
+qc-scheme sits between qc (which owns the code structure) and qc-reflect (which reasons about it). It enriches the code system with documentation and maintains a versioned history of how that documentation and structure evolve over time.
 
 ---
 
@@ -74,18 +74,18 @@ qc-codebook-docs sits between qc (which owns the code structure) and qc-reflect 
 project root/
 ├── qc-reflect-config.yaml              ← shared config (port, paths)
 ├── qc-reflect-server.py                ← local HTTP server + API
-├── qc-codebook-docs.qmd                ← Quarto source (invokes Lua filter)
+├── qc-scheme.qmd                ← Quarto source (invokes Lua filter)
 │
-├── assets/scripts/qc-codebook-docs/
-│   ├── qc-codebook-docs-filter.lua     ← bakes data into HTML at render time
-│   ├── qc-codebook-docs.js             ← entire client-side application (~2650 lines)
-│   └── qc-codebook-docs.css            ← styles (dark + light mode)
+├── assets/scripts/qc-scheme/
+│   ├── qc-scheme-filter.lua     ← bakes data into HTML at render time
+│   ├── qc-scheme.js             ← entire client-side application (~2650 lines)
+│   └── qc-scheme.css            ← styles (dark + light mode)
 │
 └── qc/
     ├── codebook.yaml                   ← active qc codebook (tree structure)
     ├── codebook.docs.json              ← rich metadata sidecar (autosaved)
     ├── .working_parent                 ← tracks which versioned dir is open
-    ├── qc-codebook-docs.html           ← rendered app (output of quarto render)
+    ├── qc-scheme.html           ← rendered app (output of quarto render)
     ├── json/                           ← per-document corpus coding files
     └── versions/                       ← named snapshots and forks
         ├── lineage.json
@@ -106,11 +106,11 @@ quarto render                            browser loads HTML
 Lua filter reads:                        JS app calls GET /docs/load
   codebook.yaml        ──bakes──►            │
   qc/json/*.json       into HTML         loads codebook.docs.json
-  qc-codebook-docs.js                        │
-  qc-codebook-docs.css                       ▼
+  qc-scheme.js                        │
+  qc-scheme.css                       ▼
      │                                   user edits docs
      ▼                                        │
-qc/qc-codebook-docs.html                 scheduleSave() 800ms
+qc/qc-scheme.html                 scheduleSave() 800ms
                                               │
                                          POST /docs/save
                                               │
@@ -133,13 +133,13 @@ qc/qc-codebook-docs.html                 scheduleSave() 800ms
 
 ## 4. File inventory
 
-### `qc-codebook-docs.qmd`
+### `qc-scheme.qmd`
 Minimal Quarto document. Its only purpose is to invoke the Lua filter. Contains `execute: enabled: false` to prevent Quarto from running any pre-render code execution steps for this file.
 
-### `assets/scripts/qc-codebook-docs/qc-codebook-docs-filter.lua`
-Pandoc filter, runs once at render time. Parses `codebook.yaml` into a flat node list, counts per-code corpus usage from `qc/json/`, inlines CSS and JS, and writes a self-contained HTML file to `qc/qc-codebook-docs.html`.
+### `assets/scripts/qc-scheme/qc-scheme-filter.lua`
+Pandoc filter, runs once at render time. Parses `codebook.yaml` into a flat node list, counts per-code corpus usage from `qc/json/`, inlines CSS and JS, and writes a self-contained HTML file to `qc/qc-scheme.html`.
 
-### `assets/scripts/qc-codebook-docs/qc-codebook-docs.js`
+### `assets/scripts/qc-scheme/qc-scheme.js`
 The entire client-side application. Single IIFE, no framework, no build step. Key sections:
 
 - State initialisation and O(1) index management
@@ -152,7 +152,7 @@ The entire client-side application. Single IIFE, no framework, no build step. Ke
 - Versions panel and Open panel
 - History and diff system
 
-### `assets/scripts/qc-codebook-docs/qc-codebook-docs.css`
+### `assets/scripts/qc-scheme/qc-scheme.css`
 All styles. IBM Plex Sans + IBM Plex Mono from Google Fonts. CSS custom properties for theming. Dark mode is default; `body.light-mode` activates the light theme. No preprocessor.
 
 ### `qc-reflect-server.py`
@@ -179,19 +179,19 @@ server:
 
 ```bash
 # First time, or after codebook.yaml changes:
-quarto render qc-codebook-docs.qmd
+quarto render qc-scheme.qmd
 
 # Start the server (from project root):
 python3 qc-reflect-server.py
 
 # Open in browser:
-open http://localhost:8080/qc-codebook-docs.html
+open http://localhost:8080/qc-scheme.html
 ```
 
-**Migrating from a previous install** — if you have an existing `qc/qc-codebook-docs.json`, copy it to the current canonical path before starting:
+**Migrating from a previous install** — if you have an existing `qc/qc-scheme.json`, copy it to the current canonical path before starting:
 
 ```bash
-cp qc/qc-codebook-docs.json qc/codebook.docs.json
+cp qc/qc-scheme.json qc/codebook.docs.json
 ```
 
 ---
@@ -203,7 +203,7 @@ The Lua filter resolves the project root from `PANDOC_SCRIPT_FILE` (its own abso
 ```javascript
 const DOCS_CONFIG = {
   server_port:        8080,
-  codebook_docs_path: "/absolute/path/to/qc/codebook.docs.json",
+  scheme_path: "/absolute/path/to/qc/codebook.docs.json",
   json_dir:           "/absolute/path/to/qc/json",
 };
 ```
@@ -345,7 +345,7 @@ Key runtime state fields:
 
 ```
 ┌─ topbar ──────────────────────────────────────────────────────────────────┐
-│ qc-codebook-docs │ N codes · N documented  [chain-name]  [History]        │
+│ qc-scheme │ N codes · N documented  [chain-name]  [History]        │
 │                                            ☾  Saved  [Open]  [Versions]   │
 ├─ [Open panel or Versions panel — shown inline below topbar when active] ───┤
 ├─ sidebar ─────────────────────┬─ editor ──────────────────────────────────┤
@@ -364,7 +364,7 @@ Key runtime state fields:
 
 | Element | Description |
 |---|---|
-| Brand | `qc-codebook-docs` |
+| Brand | `qc-scheme` |
 | Stat | `N codes · N documented · N moved · N selected` |
 | Version badge | Chain name of currently open version (e.g. `codebook-collaboration`); only shown when a versioned file is open |
 | History | Toggles unified history feed in editor panel |
@@ -684,17 +684,17 @@ Runs once at `quarto render` time. No runtime role.
 
 `generate_html()` — assembles the final HTML: inlines CSS and JS, emits `CODEBOOK_TREE`, `CORPUS_COUNTS`, `DOCS_DATA`, `DOCS_CONFIG`.
 
-**Path resolution:** `CODEBOOK_DOCS_JSON` is derived from `{output_dir}/codebook.docs.json`. Project root is resolved from `PANDOC_SCRIPT_FILE`, ascending three directory levels.
+**Path resolution:** `SCHEME_JSON` is derived from `{output_dir}/codebook.docs.json`. Project root is resolved from `PANDOC_SCRIPT_FILE`, ascending three directory levels.
 
 ---
 
 ## 15. Relationship to qc-reflect
 
 ```
-qc-codebook-docs                         qc-reflect
+qc-scheme                         qc-reflect
 ────────────────                         ──────────
 codebook.yaml           ──────────────►  tree structure
-codebook.docs.json                       
+codebook.docs.json
   ├── scope             ──────────────►  intended use
   ├── rationale                          of each code
   └── usage_notes                              │
@@ -726,4 +726,4 @@ versions/               ──────────────►  evolution
 
 **Single-file HTML.** The rendered app inlines all CSS and JS (~260 KB uncompressed). Intentional for portability, but means a re-render is required for any code or style change.
 
-**Double JSON generation during render.** If the project-level `_quarto.yml` has a pre-render script that runs `qc`, it may execute twice when rendering this QMD. The `execute: enabled: false` flag in the QMD suppresses Quarto's own code execution, but project-level pre-render hooks are outside its control. The pre-render script should check which file is being rendered and skip if it is `qc-codebook-docs.qmd`.
+**Double JSON generation during render.** If the project-level `_quarto.yml` has a pre-render script that runs `qc`, it may execute twice when rendering this QMD. The `execute: enabled: false` flag in the QMD suppresses Quarto's own code execution, but project-level pre-render hooks are outside its control. The pre-render script should check which file is being rendered and skip if it is `qc-scheme.qmd`.

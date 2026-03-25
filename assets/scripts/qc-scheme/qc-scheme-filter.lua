@@ -1,6 +1,6 @@
--- qc-codebook-docs-filter.lua
--- Bakes codebook.yaml + codebook.docs.json + corpus excerpts
--- into qc/qc-codebook-docs.html at render time.
+-- qc-scheme-filter.lua
+-- Bakes codebook.yaml + codebook.json + corpus excerpts
+-- into qc/qc-scheme.html at render time.
 
 local function read_yaml_file(filepath)
   local file = io.open(filepath, "r")
@@ -26,7 +26,7 @@ local function parse_codebook_yaml(text)
     -- Skip blank lines and comments
     if line:match("^%s*$") or line:match("^%s*#") then goto continue end
 
-    local indent = #line:match("^(%s*)") 
+    local indent = #line:match("^(%s*)")
     local item   = line:match("^%s*-%s+(.-)%s*$")  -- "- something"
     local kv     = item and item:match("^([^:]+):%s*(.-)%s*$")  -- "key: value" or "key:"
 
@@ -117,7 +117,7 @@ end
 -- PANDOC_SCRIPT_FILE is set by Pandoc to the filter's absolute path.
 local function get_project_root()
   local script = os.getenv("PANDOC_SCRIPT_FILE") or ""
-  -- filter is at <root>/assets/scripts/qc-codebook-docs/qc-codebook-docs-filter.lua
+  -- filter is at <root>/assets/scripts/qc-scheme/qc-scheme-filter.lua
   -- so go up 3 levels
   local root = script:match("^(.*)/assets/scripts/qc%-codebook%-docs/[^/]+$")
   if root and root ~= "" then return root end
@@ -157,12 +157,12 @@ end
 local config = load_config()
 
 -- These paths are always relative to project root, never from shared config:
-local OUTPUT_PATH     = project_path("qc/qc-codebook-docs.html")
+local OUTPUT_PATH     = project_path("qc/qc-scheme.html")
 local CODEBOOK_PATH   = project_path(S(config.directories.output_dir) .. "/codebook.yaml")
-local CODEBOOK_DOCS_JSON = project_path(S(config.directories.output_dir) .. "/codebook.docs.json")
+local SCHEME_JSON = project_path(S(config.directories.output_dir) .. "/codebook.json")
 local JSON_DIR        = project_path(S(config.directories.json_dir))
-local CSS_FILE        = project_path("assets/scripts/qc-codebook-docs/qc-codebook-docs.css")
-local JS_FILE         = project_path("assets/scripts/qc-codebook-docs/qc-codebook-docs.js")
+local CSS_FILE        = project_path("assets/scripts/qc-scheme/qc-scheme.css")
+local JS_FILE         = project_path("assets/scripts/qc-scheme/qc-scheme.js")
 
 -- ── File helpers ──────────────────────────────────────────────────────────────
 
@@ -265,13 +265,13 @@ end
 
 local function load_codebook_tree()
   local path = CODEBOOK_PATH
-  print("qc-codebook-docs: reading codebook from " .. path)
+  print("qc-scheme: reading codebook from " .. path)
   local f = io.open(path, "r")
-  if not f then print("qc-codebook-docs: WARNING could not open " .. path); return {} end
+  if not f then print("qc-scheme: WARNING could not open " .. path); return {} end
   local text = f:read("*all"); f:close()
   local raw_nodes = parse_codebook_yaml(text)
   local nodes = flatten_codebook(raw_nodes, nil, 0)
-  print(string.format("qc-codebook-docs: codebook tree — %d nodes", #nodes))
+  print(string.format("qc-scheme: codebook tree — %d nodes", #nodes))
   return nodes
 end
 
@@ -323,7 +323,7 @@ local function generate_html()
   html[#html+1] = '<!DOCTYPE html><html lang="en"><head>'
   html[#html+1] = '<meta charset="UTF-8">'
   html[#html+1] = '<meta name="viewport" content="width=device-width,initial-scale=1">'
-  html[#html+1] = '<title>QC Codebook Docs</title>'
+  html[#html+1] = '<title>QC Scheme</title>'
   html[#html+1] = '<style>' .. css .. '</style>'
   html[#html+1] = '</head><body>'
   html[#html+1] = '<script>'
@@ -333,29 +333,29 @@ local function generate_html()
   html[#html+1] = 'const DOCS_DATA = {"codes":{}};'
   html[#html+1] = 'const DOCS_CONFIG = '   .. to_json({
     server_port        = N(config.server.port),
-    codebook_docs_path = CODEBOOK_DOCS_JSON,
+    scheme_path = SCHEME_JSON,
     json_dir           = JSON_DIR,
   }) .. ';'
   html[#html+1] = '</script>'
   html[#html+1] = '<script>' .. js .. '</script>'
   html[#html+1] = '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>'
   html[#html+1] = '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>'
-  html[#html+1] = '<div id="qc-codebook-docs-root"></div>'
+  html[#html+1] = '<div id="qc-scheme-root"></div>'
   html[#html+1] = '</body></html>'
 
   return table.concat(html, "\n")
 end
 
 function Pandoc(doc)
-  print("qc-codebook-docs: filter running, project_root=" .. PROJECT_ROOT .. ", output=" .. OUTPUT_PATH)
+  print("qc-scheme: filter running, project_root=" .. PROJECT_ROOT .. ", output=" .. OUTPUT_PATH)
   local html = generate_html()
-  print("qc-codebook-docs: html length=" .. #html)
+  print("qc-scheme: html length=" .. #html)
   local dir = OUTPUT_PATH:match("^(.+)/[^/]+$")
   if dir then os.execute("mkdir -p \"" .. dir .. "\"") end
   local f = io.open(OUTPUT_PATH, "w")
   if f then
     f:write(html); f:close()
-    print("qc-codebook-docs: wrote " .. OUTPUT_PATH)
+    print("qc-scheme: wrote " .. OUTPUT_PATH)
   else
     print("ERROR: could not write " .. OUTPUT_PATH)
   end

@@ -1,9 +1,0 @@
----
-title: "QC Codebook Docs"
-format:
-  html:
-    filters:
-      - assets/scripts/qc-codebook-docs/qc-codebook-docs-filter.lua
----
-
-Code documentation and scheme management.
