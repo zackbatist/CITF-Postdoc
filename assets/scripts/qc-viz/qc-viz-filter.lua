@@ -874,7 +874,7 @@ local function generate_html()
         local line_codes = {}
         for _, entry in ipairs(json_data) do
           if entry.line and entry.code then
-            local lua_line_num = entry.line + 1
+            local lua_line_num = entry.line + config.advanced.json_line_offset
             if not line_codes[lua_line_num] then
               line_codes[lua_line_num] = {}
             end
