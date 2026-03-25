@@ -1,30 +1,18 @@
 # qc-atelier Configuration File
 # Place in your project root or set QC_ATELIER_CONFIG env var
 
+# ── Shared directories ────────────────────────────────────────────────────────
 directories:
+  output_dir: "qc"                                      # Base qc output directory
+  corpus_dir: "qc/corpus"                               # Interview transcripts
+  exclude_dir: "qc/corpus/exclude"                      # Corpus files skipped at render
   json_dir: "qc/json"                                   # JSON exports from qc pre-render
-  output_dir: "qc"                                      # Where qc-reflect.html is written
-  logs_dir: "reflect-logs"                              # Conversation logs (relative to output_dir)
+  codebook_path: "qc/codebook.yaml"                     # qc codebook (read by all tools)
+  logs_dir: "reflect-logs"                              # Reflect conversation logs (relative to output_dir)
+  venv: "qc/bin/activate"                               # Python virtual environment
 
-files:
-  output_file: "qc-reflect.html"
-  css_file: "assets/scripts/qc-reflect/qc-reflect.css"
-  js_file: "assets/scripts/qc-reflect/qc-reflect.js"
-  codebook: "qc/codebook.yaml"
-
-ollama:
-  url: "http://localhost:11434"
-  model: "qwen2.5:14b"
-  num_ctx: 32768                                        # Context window tokens
-
-# How many top overlap candidates to surface automatically
-# (ranked by co-occurrence density across documents)
-candidates:
-  max_pairs: 40                                         # Max pairs in final queue (after LLM ranking)
-  max_cross_category: 20                               # Max cross-category pairs from phase 2
-  max_excerpts_per_code: 20                             # Cap excerpts sent to LLM per report
-
-# Code schema for display colours (mirrors viz: section of this file)
+# ── Shared code schema ────────────────────────────────────────────────────────
+# Used by qc-viz (display) and qc-reflect (candidate ranking colours).
 code_schema:
   categories:
     "10": "People"
@@ -80,6 +68,100 @@ code_schema:
     "80": "#009688"
   default_color: "#757575"
 
-# Local server (used by qc-atelier-server.py)
+# ── Server (qc-atelier-server.py) ─────────────────────────────────────────────
 server:
   port: 8080
+
+# ── Ollama (qc-reflect) ───────────────────────────────────────────────────────
+ollama:
+  url: "http://localhost:11434"
+  model: "qwen2.5:14b"
+  num_ctx: 32768                                        # Context window tokens
+
+# ── qc-reflect candidates ─────────────────────────────────────────────────────
+candidates:
+  max_pairs: 40                                         # Max pairs in final queue (after LLM ranking)
+  max_cross_category: 20                               # Max cross-category pairs from phase 2
+  max_excerpts_per_code: 20                             # Cap excerpts sent to LLM per report
+
+# ── qc-viz ────────────────────────────────────────────────────────────────────
+viz:
+  files:
+    output_file: "qc-viz.html"
+    css_file: "assets/scripts/qc-viz/qc-viz.css"
+    js_file: "assets/scripts/qc-viz/qc-viz.js"
+
+  code_filters:
+    whitelist:
+      enabled: false
+      codes: []
+      prefixes: []
+      prefix_ranges: []
+      patterns: []
+      branches: []
+    blacklist:
+      enabled: true
+      codes: [
+        "O_Apprehension",
+        "O_Asserting_authority",
+        "O_Awkwardness",
+        "O_Building_a_team",
+        "O_CITF_Databank_as_research_centre",
+        "O_CITF_Databank_as_service",
+        "O_Centralized_model",
+        "O_Collaborative_fit",
+        "O_Comparing_CITF_with_other_initiatives",
+        "O_Competition",
+        "O_Data_sharing_policies",
+        "O_Engaging_with_stakeholders",
+        "O_Establishing_consent_elements",
+        "O_Establishing_core_data_elements",
+        "O_Federated_model",
+        "O_Finding_collaborators",
+        "O_Harmonization",
+        "O_Having_a_plan_for_data",
+        "O_Intellectual_property",
+        "O_Lack_of_purpose",
+        "O_Striking_balance_between_stakeholder_interests",
+        "O_Unwillingness_t",
+        "O_share_data",
+        "O_Working_things_out"
+      ]
+      prefixes: []
+      prefix_ranges: []
+      patterns: []
+      branches: []
+
+  display:
+    speaker_column:
+      min_width: 80
+      max_width: 200
+      char_multiplier: 8
+    sections:
+      default_collapsed: false
+      preserve_filename_format: true
+    code_tags:
+      show_full_code: true
+
+  export:
+    include_filter_params: true
+    timestamp_format: "%Y%m%d_%H%M%S"
+    filename_prefix: "qc-viz-export"
+
+  ui:
+    filters:
+      code_categories_collapsed: true
+      show_uncoded_default: false
+      speakers_default: "all"
+    persistence:
+      enabled: true
+      storage_key: "qc-viz-state"
+
+  codebook:
+    enabled: false                                      # Read schema from qc codebook
+
+  advanced:
+    json_line_offset: 1
+    max_codes_per_category: 1000
+    verbose: false
+    include_stats: true

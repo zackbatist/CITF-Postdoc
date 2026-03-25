@@ -83,7 +83,7 @@ local function load_config()
   local config_file = os.getenv("QC_ATELIER_CONFIG") or "qc-atelier-config.yaml"
   local verbose = os.getenv("QC_VERBOSE") == "true"
   
-  -- Default configuration
+  -- Default configuration (flat structure used by the rest of this filter)
   local config = {
     directories = {
       qc_dir = "qc",
@@ -136,7 +136,7 @@ local function load_config()
       }
     },
     codebook = {
-      enabled = true,
+      enabled = false,
       path = "qc/codebook.yaml"
     },
     advanced = {
@@ -170,9 +170,22 @@ local function load_config()
         end
       end
     end
-    
-    merge(config, yaml_lua)
-    
+
+    -- Merge shared top-level keys first (directories, code_schema)
+    merge(config.directories, yaml_lua.directories)
+    merge(config.code_schema,  yaml_lua.code_schema)
+
+    -- Promote viz: section keys into the flat config the filter expects.
+    -- Keys inside viz: shadow the shared defaults where they overlap.
+    if type(yaml_lua.viz) == "table" then
+      local viz = yaml_lua.viz
+      if viz.files        then merge(config.files,        viz.files)        end
+      if viz.code_filters then merge(config.code_filters, viz.code_filters) end
+      if viz.display      then merge(config.display,      viz.display)      end
+      if viz.codebook     then merge(config.codebook,     viz.codebook)     end
+      if viz.advanced     then merge(config.advanced,     viz.advanced)     end
+    end
+
     if verbose then
       print("Loaded configuration from: " .. config_file)
     end
@@ -182,12 +195,18 @@ local function load_config()
       print("Using built-in defaults")
     end
   end
+
+  -- Populate directories aliases expected by the rest of the filter
+  config.directories.qc_dir     = config.directories.qc_dir     or config.directories.output_dir
+  config.directories.corpus_dir = config.directories.corpus_dir or (config.directories.output_dir .. "/corpus")
+  config.directories.exclude_dir= config.directories.exclude_dir or (config.directories.corpus_dir .. "/exclude")
+  config.codebook.path          = config.directories.codebook_path or config.codebook.path
   
   -- Environment variable overrides (highest priority)
-  config.directories.qc_dir = os.getenv("QC_DIR") or config.directories.qc_dir
-  config.files.output_file = os.getenv("QC_OUTPUT_FILE") or config.files.output_file
-  config.files.css_file = os.getenv("QC_CSS_FILE") or config.files.css_file
-  config.files.js_file = os.getenv("QC_JS_FILE") or config.files.js_file
+  config.directories.qc_dir  = os.getenv("QC_DIR")         or config.directories.qc_dir
+  config.files.output_file   = os.getenv("QC_OUTPUT_FILE") or config.files.output_file
+  config.files.css_file      = os.getenv("QC_CSS_FILE")    or config.files.css_file
+  config.files.js_file       = os.getenv("QC_JS_FILE")     or config.files.js_file
   
   -- Validate that required files are set
   if not config.files or not config.files.css_file or not config.files.js_file then
@@ -455,9 +474,9 @@ local function read_text_file(filepath)
   end
   
   local file = io.open(filepath, "r")
-  if not file then
+  if not file then 
     print("ERROR: Could not open file: " .. tostring(filepath))
-    return ""
+    return "" 
   end
   local content = file:read("*all")
   file:close()
@@ -912,9 +931,9 @@ local function generate_html()
               local prefix = code:match("^(%d%d)_")
               if prefix then
                 local color = get_prefix_color(prefix, code_colors)
-                html = html .. '<span class="code-tag" data-code="' .. escape_html(code) ..
-                              '" data-prefix="' .. prefix ..
-                              '" style="background-color: ' .. color .. '">' ..
+                html = html .. '<span class="code-tag" data-code="' .. escape_html(code) .. 
+                              '" data-prefix="' .. prefix .. 
+                              '" style="background-color: ' .. color .. '">' .. 
                               escape_html(code) .. '</span> '
               end
             end
