@@ -80,7 +80,7 @@ end
 
 -- Load configuration from YAML file or environment variables
 local function load_config()
-  local config_file = os.getenv("QC_VIZ_CONFIG") or "qc-viz-config.yaml"
+  local config_file = os.getenv("QC_ATELIER_CONFIG") or "qc-atelier-config.yaml"
   local verbose = os.getenv("QC_VERBOSE") == "true"
   
   -- Default configuration
@@ -455,9 +455,9 @@ local function read_text_file(filepath)
   end
   
   local file = io.open(filepath, "r")
-  if not file then 
+  if not file then
     print("ERROR: Could not open file: " .. tostring(filepath))
-    return "" 
+    return ""
   end
   local content = file:read("*all")
   file:close()
@@ -912,9 +912,9 @@ local function generate_html()
               local prefix = code:match("^(%d%d)_")
               if prefix then
                 local color = get_prefix_color(prefix, code_colors)
-                html = html .. '<span class="code-tag" data-code="' .. escape_html(code) .. 
-                              '" data-prefix="' .. prefix .. 
-                              '" style="background-color: ' .. color .. '">' .. 
+                html = html .. '<span class="code-tag" data-code="' .. escape_html(code) ..
+                              '" data-prefix="' .. prefix ..
+                              '" style="background-color: ' .. color .. '">' ..
                               escape_html(code) .. '</span> '
               end
             end

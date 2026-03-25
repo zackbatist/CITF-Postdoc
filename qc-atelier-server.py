@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-qc-reflect-server.py
+qc-atelier-server.py
 Companion server for qc-reflect.html and qc-scheme.html.
 
 Routes:
@@ -12,7 +12,7 @@ Routes:
                       GET  /docs/load      → read codebook.json
 
 Usage (from project root):
-    python3 qc-reflect-server.py [port]
+    python3 qc-atelier-server.py [port]
 
 Opens:
     http://localhost:8080/qc-reflect.html
@@ -35,7 +35,7 @@ from pathlib import Path
 # ── Config ─────────────────────────────────────────────────────────────────────
 
 def load_config():
-    config_path = os.environ.get("QC_REFLECT_CONFIG", "qc-reflect-config.yaml")
+    config_path = os.environ.get("QC_ATELIER_CONFIG", "qc-atelier-config.yaml")
     defaults = {
         "port":       8080,
         "serve_dir":  "qc",
@@ -79,21 +79,21 @@ OLLAMA       = CONFIG["ollama_url"]
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 SNAPSHOTS_DIR.mkdir(parents=True, exist_ok=True)
 
-print(f"[qc-server] Serving   http://localhost:{PORT}/qc-reflect.html")
-print(f"[qc-server]           http://localhost:{PORT}/qc-scheme.html")
-print(f"[qc-server] Files     {SERVE_DIR}")
-print(f"[qc-server] Logs      {LOGS_DIR}")
-print(f"[qc-server] Ollama    {OLLAMA}  (proxied at /api/*)")
+print(f"[qc-atelier-server] Serving   http://localhost:{PORT}/qc-reflect.html")
+print(f"[qc-atelier-server]           http://localhost:{PORT}/qc-scheme.html")
+print(f"[qc-atelier-server] Files     {SERVE_DIR}")
+print(f"[qc-atelier-server] Logs      {LOGS_DIR}")
+print(f"[qc-atelier-server] Ollama    {OLLAMA}  (proxied at /api/*)")
 
 # Diagnostic: show what HTML files are visible at startup
 _html = sorted(SERVE_DIR.glob("*.html"))
 if _html:
-    print(f"[qc-server] HTML files found:")
+    print(f"[qc-atelier-server] HTML files found:")
     for _f in _html:
-        print(f"[qc-server]   {_f.name}")
+        print(f"[qc-atelier-server]   {_f.name}")
 else:
-    print(f"[qc-server] WARNING: no .html files found in {SERVE_DIR}")
-    print(f"[qc-server] Run: quarto render qc-reflect.qmd && quarto render qc-scheme.qmd")
+    print(f"[qc-atelier-server] WARNING: no .html files found in {SERVE_DIR}")
+    print(f"[qc-atelier-server] Run: quarto render qc-reflect.qmd && quarto render qc-scheme.qmd")
 
 
 # ── YAML serialiser ────────────────────────────────────────────────────────────
@@ -777,11 +777,11 @@ if __name__ == "__main__":
             pass
     try:
         with http.server.ThreadingHTTPServer(("", PORT), Handler) as httpd:
-            print(f"[qc-server] Listening on port {PORT} — Ctrl-C to stop\n")
+            print(f"[qc-atelier-server] Listening on port {PORT} — Ctrl-C to stop\n")
             httpd.serve_forever()
     except OSError as e:
         print(f"\nERROR: Could not bind to port {PORT}: {e}")
-        print(f"Try: python3 qc-reflect-server.py {PORT + 1}")
+        print(f"Try: python3 qc-atelier-server.py {PORT + 1}")
         sys.exit(1)
     except KeyboardInterrupt:
-        print("\n[qc-server] Stopped.")
+        print("\n[qc-atelier-server] Stopped.")

@@ -1,5 +1,5 @@
-# qc-reflect Configuration File
-# Place in your project root or set QC_REFLECT_CONFIG env var
+# qc-atelier Configuration File
+# Place in your project root or set QC_ATELIER_CONFIG env var
 
 directories:
   json_dir: "qc/json"                                   # JSON exports from qc pre-render
@@ -24,7 +24,7 @@ candidates:
   max_cross_category: 20                               # Max cross-category pairs from phase 2
   max_excerpts_per_code: 20                             # Cap excerpts sent to LLM per report
 
-# Code schema for display colours (mirrors qc-viz-config.yaml)
+# Code schema for display colours (mirrors viz: section of this file)
 code_schema:
   categories:
     "10": "People"
@@ -80,6 +80,6 @@ code_schema:
     "80": "#009688"
   default_color: "#757575"
 
-# Local server (used by qc-reflect-server.py)
+# Local server (used by qc-atelier-server.py)
 server:
   port: 8080

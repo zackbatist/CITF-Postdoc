@@ -593,7 +593,7 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
   }
 
   // ── Save / load conversation logs via local server ────────────────────────
-  // The companion qc-reflect-server.py handles POST /logs/save and GET /logs/list.
+  // The companion qc-atelier-server.py handles POST /logs/save and GET /logs/list.
 
   const LOG_API = 'http://localhost:' + (REFLECT_CONFIG.log_server_port || 8080);
 

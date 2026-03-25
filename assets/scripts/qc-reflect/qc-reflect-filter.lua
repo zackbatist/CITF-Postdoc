@@ -41,7 +41,7 @@ local function meta_to_lua(v)
 end
 
 local function load_config()
-  local cfg_file = os.getenv("QC_REFLECT_CONFIG") or "qc-reflect-config.yaml"
+  local cfg_file = os.getenv("QC_ATELIER_CONFIG") or "qc-atelier-config.yaml"
   local cfg = {
     directories = {
       json_dir    = "qc/json",

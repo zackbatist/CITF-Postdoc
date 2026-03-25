@@ -1,5 +1,5 @@
 # qc-viz Configuration File
-# Place this in your project root or specify path with QC_VIZ_CONFIG environment variable
+# Place this in your project root or specify path with QC_ATELIER_CONFIG environment variable
 
 # Directory Configuration
 directories:

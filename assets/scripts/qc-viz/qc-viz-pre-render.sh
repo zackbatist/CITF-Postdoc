@@ -8,7 +8,7 @@ set -e
 
 # Function to read YAML config (simple parser for our needs)
 read_yaml_config() {
-    local config_file="${1:-qc-viz-config.yaml}"
+    local config_file="${1:-qc-atelier-config.yaml}"
     
     if [ ! -f "$config_file" ]; then
         return 1
@@ -27,7 +27,7 @@ read_yaml_config() {
 }
 
 # Try to load config file
-CONFIG_FILE="${QC_VIZ_CONFIG:-qc-viz-config.yaml}"
+CONFIG_FILE="${QC_ATELIER_CONFIG:-qc-atelier-config.yaml}"
 if read_yaml_config "$CONFIG_FILE"; then
     echo "Loaded configuration from: $CONFIG_FILE"
 fi
