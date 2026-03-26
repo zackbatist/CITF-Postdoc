@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 qc-atelier-server.py
-Companion server for qc-reflect.html and qc-scheme.html.
+Companion server for qc-atelier — qc-scheme, qc-viz, and qc-reflect.
 
 Routes:
   Static files        GET  /*              → serves qc/ directory
@@ -15,8 +15,7 @@ Usage (from project root):
     python3 qc-atelier-server.py [port]
 
 Opens:
-    http://localhost:8080/qc-reflect.html
-    http://localhost:8080/qc-scheme.html
+    http://localhost:8080/
 """
 
 import hashlib
@@ -79,8 +78,9 @@ OLLAMA       = CONFIG["ollama_url"]
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 SNAPSHOTS_DIR.mkdir(parents=True, exist_ok=True)
 
-print(f"[qc-atelier-server] Serving   http://localhost:{PORT}/qc-reflect.html")
-print(f"[qc-atelier-server]           http://localhost:{PORT}/qc-scheme.html")
+print(f"[qc-atelier-server] Launcher  http://localhost:{PORT}/")
+print(f"[qc-atelier-server] Serving   http://localhost:{PORT}/qc-scheme.html")
+print(f"[qc-atelier-server]           http://localhost:{PORT}/qc-viz.html")
 print(f"[qc-atelier-server] Files     {SERVE_DIR}")
 print(f"[qc-atelier-server] Logs      {LOGS_DIR}")
 print(f"[qc-atelier-server] Ollama    {OLLAMA}  (proxied at /api/*)")
@@ -93,7 +93,7 @@ if _html:
         print(f"[qc-atelier-server]   {_f.name}")
 else:
     print(f"[qc-atelier-server] WARNING: no .html files found in {SERVE_DIR}")
-    print(f"[qc-atelier-server] Run: quarto render qc-reflect.qmd && quarto render qc-scheme.qmd")
+    print(f"[qc-atelier-server] Run: quarto render qc-scheme.qmd && quarto render qc-viz.qmd")
 
 
 # ── YAML serialiser ────────────────────────────────────────────────────────────
