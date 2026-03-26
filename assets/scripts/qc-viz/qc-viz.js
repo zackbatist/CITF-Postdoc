@@ -1,7 +1,18 @@
 (function() {
   'use strict';
   
-  const STATE_KEY = 'qc-viz-state';
+  // One-time migration: move qc-viz-state key to namespaced qc.viz.state.
+  (function() {
+    try {
+      var old = localStorage.getItem('qc-viz-state');
+      if (old !== null) {
+        localStorage.setItem('qc.viz.state', old);
+        localStorage.removeItem('qc-viz-state');
+      }
+    } catch(e) {}
+  })();
+
+  const STATE_KEY = 'qc.viz.state';
   
   let state = {
     collapsed: {},
