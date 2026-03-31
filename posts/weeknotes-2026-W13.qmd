@@ -1,0 +1,12 @@
+---
+title: Week notes (2026-W13)
+date: 2026-03-27
+date-modified: today
+categories:
+  - week notes
+---
+
+- Some additional work on the emails analysis
+- Coding interviews
+- Status update meetings
+- Work on qc-atelier
