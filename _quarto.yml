@@ -12,7 +12,9 @@ project:
     - "!data/interviews/"
     - "!data/memos/"
     - "!qc/"
-    # - "!qc-codebook-docs.qmd"
+    # - "!qc-reflect.qmd"
+    # - "!qc-scheme.qmd"
+    # - "!qc-viz.qmd"
   preview:
     port: 7777
     browser: false

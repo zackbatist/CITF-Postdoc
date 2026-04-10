@@ -1,0 +1,12 @@
+---
+title: Week notes (2026-W15)
+date: 2026-04-10
+date-modified: today
+categories:
+  - week notes
+---
+
+- Finished bringing codes into qc
+- Looked at the CITF-DB marker paper again (but minimal actual contributions this time)
+
+I'm on my way to Oslo for a workshop I'm co-organizing: [Citational Politics and Practices in Viking Age Archaeology and Beyond](https://zackbatist.info/BibVik/workshop.html). I'll be off my main CITF work throughout next week.
