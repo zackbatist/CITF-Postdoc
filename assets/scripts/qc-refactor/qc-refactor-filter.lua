@@ -22,6 +22,7 @@ local get_json_files      = shared.get_json_files
 local to_json             = shared.to_json
 local parse_codebook_yaml = shared.parse_codebook_yaml
 local flatten_codebook    = shared.flatten_codebook
+local read_json_file      = shared.read_json_file
 local build_use_counts    = shared.build_use_counts
 
 -- ── Config ────────────────────────────────────────────────────────────────────
@@ -88,10 +89,37 @@ end
 
 -- ── Generate HTML ─────────────────────────────────────────────────────────────
 
+local function build_corpus_data(json_files)
+  -- Full coding entries per code: {code -> [{document, line, text}, ...]}
+  -- Capped at 30 entries per code to keep HTML size reasonable.
+  local MAX_PER_CODE = 30
+  local result = {}
+  for _, jf in ipairs(json_files) do
+    local data = read_json_file(jf)
+    if data then
+      for _, entry in ipairs(data) do
+        local code = entry.code
+        local doc  = (entry.document or jf:match("([^/]+)%.json$") or jf)
+                       :gsub("^.*/",""):gsub("%.txt$","")
+        local line = entry.line or 0
+        local text = entry.text or ""
+        if code and code ~= "" then
+          if not result[code] then result[code] = {} end
+          if #result[code] < MAX_PER_CODE then
+            result[code][#result[code]+1] = { document=doc, line=line, text=text }
+          end
+        end
+      end
+    end
+  end
+  return result
+end
+
 local function generate_html()
-  local json_files = get_json_files(JSON_DIR)
-  local tree       = load_codebook_tree()
-  local use_counts = build_use_counts(json_files)
+  local json_files   = get_json_files(JSON_DIR)
+  local tree         = load_codebook_tree()
+  local use_counts   = build_use_counts(json_files)
+  local corpus_data  = build_corpus_data(json_files)
 
   local shared_css = read_text_file(SHARED_CSS_FILE)
   local css        = read_text_file(CSS_FILE)
@@ -109,6 +137,7 @@ local function generate_html()
   html[#html+1] = '<script>'
   html[#html+1] = 'const CODEBOOK_TREE = ' .. to_json(tree)       .. ';'
   html[#html+1] = 'const CORPUS_COUNTS = ' .. to_json(use_counts) .. ';'
+  html[#html+1] = 'const CORPUS_DATA = '   .. to_json(corpus_data)  .. ';'
   html[#html+1] = 'const REFACTOR_CONFIG = ' .. to_json({
     server_port = N(config.server.port),
     scheme_path = SCHEME_JSON,
