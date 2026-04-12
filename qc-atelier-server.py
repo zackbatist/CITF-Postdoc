@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 qc-atelier-server.py
-Companion server for qc-atelier — qc-scheme, qc-viz, and qc-reflect.
+Companion server for qc-reflect.html and qc-scheme.html.
 
 Routes:
   Static files        GET  /*              → serves qc/ directory
@@ -15,7 +15,8 @@ Usage (from project root):
     python3 qc-atelier-server.py [port]
 
 Opens:
-    http://localhost:8080/
+    http://localhost:8080/qc-reflect.html
+    http://localhost:8080/qc-scheme.html
 """
 
 import hashlib
@@ -24,6 +25,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 import urllib.request
 import urllib.error
@@ -81,6 +83,7 @@ SNAPSHOTS_DIR.mkdir(parents=True, exist_ok=True)
 print(f"[qc-atelier-server] Launcher  http://localhost:{PORT}/")
 print(f"[qc-atelier-server] Serving   http://localhost:{PORT}/qc-scheme.html")
 print(f"[qc-atelier-server]           http://localhost:{PORT}/qc-viz.html")
+print(f"[qc-atelier-server]           http://localhost:{PORT}/qc-refactor.html")
 print(f"[qc-atelier-server] Files     {SERVE_DIR}")
 print(f"[qc-atelier-server] Logs      {LOGS_DIR}")
 print(f"[qc-atelier-server] Ollama    {OLLAMA}  (proxied at /api/*)")
@@ -93,7 +96,7 @@ if _html:
         print(f"[qc-atelier-server]   {_f.name}")
 else:
     print(f"[qc-atelier-server] WARNING: no .html files found in {SERVE_DIR}")
-    print(f"[qc-atelier-server] Run: quarto render qc-scheme.qmd && quarto render qc-viz.qmd")
+    print(f"[qc-atelier-server] Run: quarto render qc-scheme.qmd && quarto render qc-viz.qmd && quarto render qc-refactor.qmd")
 
 
 # ── YAML serialiser ────────────────────────────────────────────────────────────
@@ -263,6 +266,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._docs_save(body)
         elif self.path == "/snapshots/create":
             self._snapshots_create(body)
+        elif self.path == "/refactor/execute":
+            self._refactor_execute(body)
         elif self.path.startswith("/api/"):
             self._proxy("POST", body)
         else:
@@ -719,6 +724,144 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._json(500, {"error": str(e)})
 
     # ── Ollama proxy ───────────────────────────────────────────────────────────
+
+
+    # ── POST /refactor/execute ──────────────────────────────────────────────────
+
+    def _refactor_execute(self, body):
+        """
+        Execute a queue of refactor operations.
+
+        Payload:
+          operations: [{id, type, sources, target}]
+          summary:    str  — user-supplied description of the change
+          script:     str  — generated bash script (stored in changelog)
+          scheme_path: str — absolute path to codebook.json
+
+        Steps:
+          1. Take an automatic pre-execution snapshot
+          2. Run qc codes rename for each rename/merge operation
+          3. Append to codebook.json changelog
+          4. Return per-operation results
+        """
+        try:
+            payload    = json.loads(body)
+            operations = payload.get("operations", [])
+            summary    = payload.get("summary", "")
+            script     = payload.get("script", "")
+            scheme_path = Path(payload.get("scheme_path", "") or (SERVE_DIR / "codebook.json"))
+
+            ts = datetime.now().strftime("%Y%m%d-%H%M")
+
+            # ── 1. Auto-snapshot before execution ─────────────────────────────
+            snapshot_name = None
+            try:
+                snap_name = f"codebook_{ts}_pre-refactor"
+                new_dir   = SNAPSHOTS_DIR / snap_name
+                # Avoid name collision
+                if new_dir.exists():
+                    snap_name = f"codebook_{datetime.now().strftime('%Y%m%d-%H%M%S')}_pre-refactor"
+                    new_dir   = SNAPSHOTS_DIR / snap_name
+                new_dir.mkdir(parents=True, exist_ok=True)
+
+                working_yaml = SERVE_DIR / "codebook.yaml"
+                working_docs = SERVE_DIR / "codebook.json"
+                if working_yaml.exists():
+                    shutil.copy2(working_yaml, new_dir / "codebook.yaml")
+                if working_docs.exists():
+                    shutil.copy2(working_docs, new_dir / "codebook.json")
+
+                # Update lineage
+                lineage = self._read_lineage()
+                wp_file = SERVE_DIR / ".working_parent"
+                parent_dir = wp_file.read_text().strip() if wp_file.exists() else ""
+                lineage[snap_name] = {"parent": parent_dir, "note": f"auto: pre-refactor — {summary}"}
+                self._write_lineage(lineage)
+                (SERVE_DIR / ".working_parent").write_text(snap_name)
+                snapshot_name = snap_name
+                print(f"[qc-refactor] snapshot: {snap_name}")
+            except Exception as snap_err:
+                print(f"[qc-refactor] WARNING: snapshot failed: {snap_err}")
+
+            # ── 2. Execute operations ──────────────────────────────────────────
+            results = []
+            project_root = str(SERVE_DIR.parent)  # SERVE_DIR is qc/, parent is project root
+
+            for op in operations:
+                op_type = op.get("type")
+                sources = op.get("sources", [])
+                target  = op.get("target", "")
+
+                if op_type in ("rename", "merge"):
+                    cmd = ["qc", "codes", "rename"] + sources + [target]
+                    cmd_str = " ".join(cmd)
+                    try:
+                        result = subprocess.run(
+                            cmd,
+                            cwd=project_root,
+                            capture_output=True,
+                            text=True,
+                            timeout=30,
+                        )
+                        ok  = result.returncode == 0
+                        out = (result.stdout + result.stderr).strip()
+                        results.append({"cmd": cmd_str, "ok": ok, "output": out})
+                        print(f"[qc-refactor] {cmd_str}: {'ok' if ok else 'FAILED'}")
+                    except subprocess.TimeoutExpired:
+                        results.append({"cmd": cmd_str, "ok": False, "output": "Timed out after 30s"})
+                    except Exception as cmd_err:
+                        results.append({"cmd": cmd_str, "ok": False, "output": str(cmd_err)})
+
+                elif op_type == "deprecate":
+                    # Status change only — update codebook.json directly
+                    cmd_str = f"# deprecate: {sources[0]}"
+                    try:
+                        if scheme_path.exists():
+                            docs = json.loads(scheme_path.read_text())
+                            codes = docs.get("codes", {})
+                            if sources[0] not in codes:
+                                codes[sources[0]] = {}
+                            codes[sources[0]]["status"] = "deprecated"
+                            docs["codes"] = codes
+                            docs["saved"] = datetime.now().isoformat()
+                            scheme_path.write_text(json.dumps(docs, ensure_ascii=False, indent=2))
+                        results.append({"cmd": cmd_str, "ok": True, "output": "Status set to deprecated in codebook.json"})
+                    except Exception as dep_err:
+                        results.append({"cmd": cmd_str, "ok": False, "output": str(dep_err)})
+
+            # ── 3. Append to codebook.json changelog ──────────────────────────
+            try:
+                if scheme_path.exists():
+                    docs = json.loads(scheme_path.read_text())
+                    changelog = docs.get("changelog", [])
+                    changelog.append({
+                        "ts":      datetime.now().isoformat(),
+                        "type":    "refactor",
+                        "summary": summary,
+                        "script":  script,
+                        "snapshot": snapshot_name,
+                        "ops":     operations,
+                        "results": results,
+                    })
+                    docs["changelog"] = changelog
+                    docs["saved"] = datetime.now().isoformat()
+                    scheme_path.write_text(json.dumps(docs, ensure_ascii=False, indent=2))
+            except Exception as cl_err:
+                print(f"[qc-refactor] WARNING: changelog update failed: {cl_err}")
+
+            ok_count  = sum(1 for r in results if r["ok"])
+            err_count = len(results) - ok_count
+            print(f"[qc-refactor] execute complete: {ok_count} ok, {err_count} failed")
+
+            self._json(200, {
+                "ok":       err_count == 0,
+                "results":  results,
+                "snapshot": snapshot_name,
+            })
+
+        except Exception as e:
+            import traceback; traceback.print_exc()
+            self._json(500, {"error": str(e)})
 
     def _proxy(self, method, body):
         target = OLLAMA + self.path
