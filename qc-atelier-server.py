@@ -268,6 +268,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._snapshots_create(body)
         elif self.path == "/refactor/execute":
             self._refactor_execute(body)
+        elif self.path == "/refactor/move":
+            self._refactor_move(body)
         elif self.path.startswith("/api/"):
             self._proxy("POST", body)
         else:
@@ -726,6 +728,113 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     # ── Ollama proxy ───────────────────────────────────────────────────────────
 
 
+    # ── POST /refactor/move ────────────────────────────────────────────────────
+
+    def _refactor_move(self, body):
+        """
+        Move a code to a new parent in codebook.yaml.
+        Payload: {code: str, new_parent: str}  (new_parent="" = top level)
+        Direct codebook.yaml edit — no qc CLI command needed.
+        """
+        try:
+            payload    = json.loads(body)
+            code       = payload.get("code", "").strip()
+            new_parent = payload.get("new_parent", "").strip()
+
+            if not code:
+                self._json(400, {"error": "code is required"}); return
+
+            yaml_path = SERVE_DIR / "codebook.yaml"
+            if not yaml_path.exists():
+                self._json(404, {"error": "codebook.yaml not found"}); return
+
+            text = yaml_path.read_text()
+            lines = text.splitlines()
+
+            # Find the line containing this code and remove it
+            code_pattern = re.compile(r'^(\s*)-\s+' + re.escape(code) + r'(:|\s*$)')
+            found_idx = None
+            found_indent = None
+            for i, line in enumerate(lines):
+                m = code_pattern.match(line)
+                if m:
+                    found_idx = i
+                    found_indent = len(m.group(1))
+                    break
+
+            if found_idx is None:
+                self._json(404, {"error": f"Code '{code}' not found in codebook.yaml"}); return
+
+            # Collect the code line and any child lines
+            code_lines = [lines[found_idx]]
+            j = found_idx + 1
+            while j < len(lines):
+                if lines[j].strip() == "" or lines[j].strip().startswith("#"):
+                    j += 1; continue
+                indent = len(lines[j]) - len(lines[j].lstrip())
+                if indent > found_indent:
+                    code_lines.append(lines[j]); j += 1
+                else:
+                    break
+
+            # Remove code block from original position
+            del lines[found_idx:found_idx + len(code_lines)]
+
+            # Reindent code lines relative to new parent
+            if new_parent == "":
+                # Move to top level — indent = 0
+                target_indent = 0
+            else:
+                # Find new_parent indent
+                parent_pattern = re.compile(r'^(\s*)-\s+' + re.escape(new_parent) + r'(:|\s*$)')
+                parent_indent = 0
+                for line in lines:
+                    m = parent_pattern.match(line)
+                    if m:
+                        parent_indent = len(m.group(1))
+                        break
+                target_indent = parent_indent + 2
+
+            indent_diff = target_indent - found_indent
+            reindented = []
+            for line in code_lines:
+                if line.strip() == "":
+                    reindented.append(line)
+                elif indent_diff >= 0:
+                    reindented.append(" " * indent_diff + line)
+                else:
+                    reindented.append(line[min(-indent_diff, len(line) - len(line.lstrip())):])
+
+            # Insert after new parent (or at end for top level)
+            if new_parent == "":
+                insert_at = len(lines)
+            else:
+                insert_at = len(lines)  # fallback
+                for i, line in enumerate(lines):
+                    m = parent_pattern.match(line)
+                    if m:
+                        # Insert after parent and any existing children
+                        j = i + 1
+                        parent_ind = len(m.group(1))
+                        while j < len(lines):
+                            if lines[j].strip() == "": j += 1; continue
+                            ind = len(lines[j]) - len(lines[j].lstrip())
+                            if ind > parent_ind: j += 1
+                            else: break
+                        insert_at = j
+                        break
+
+            for k, line in enumerate(reindented):
+                lines.insert(insert_at + k, line)
+
+            yaml_path.write_text("\n".join(lines) + "\n")
+            print(f"[qc-refactor] moved '{code}' → parent: '{new_parent or '(top level)'}'")
+            self._json(200, {"ok": True})
+
+        except Exception as e:
+            import traceback; traceback.print_exc()
+            self._json(500, {"error": str(e)})
+
     # ── POST /refactor/execute ──────────────────────────────────────────────────
 
     def _refactor_execute(self, body):
@@ -733,34 +842,40 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         Execute a queue of refactor operations.
 
         Payload:
-          operations: [{id, type, sources, target}]
-          summary:    str  — user-supplied description of the change
-          script:     str  — generated bash script (stored in changelog)
-          scheme_path: str — absolute path to codebook.json
+          operations:  [{id, type, sources, target}]
+          summary:     str  — user-supplied session note / snapshot label
+          script:      str  — generated bash script (stored in changelog)
+          scheme_path: str  — absolute path to codebook.json
+          docs_edits:  {codeName: {field: value, ...}}  — field edits made in UI
 
         Steps:
-          1. Take an automatic pre-execution snapshot
-          2. Run qc codes rename for each rename/merge operation
-          3. Append to codebook.json changelog
-          4. Return per-operation results
+          1. Take a named pre-execution snapshot (uses full snapshot machinery)
+          2. Run qc codes rename for rename/merge operations
+          3. Edit codebook.yaml for move operations
+          4. Apply docs_edits to codebook.json
+          5. Update provenance of affected codes with structured log + prose
+          6. Append refactor event to changelog
+          7. Return per-operation results
         """
         try:
-            payload    = json.loads(body)
-            operations = payload.get("operations", [])
-            summary    = payload.get("summary", "")
-            script     = payload.get("script", "")
+            payload     = json.loads(body)
+            operations  = payload.get("operations", [])
+            summary     = payload.get("summary", "")
+            script      = payload.get("script", "")
+            docs_edits  = payload.get("docs_edits", {})
             scheme_path = Path(payload.get("scheme_path", "") or (SERVE_DIR / "codebook.json"))
 
             ts = datetime.now().strftime("%Y%m%d-%H%M")
+            project_root = str(SERVE_DIR.parent)
 
-            # ── 1. Auto-snapshot before execution ─────────────────────────────
+            # ── 1. Named snapshot before execution ────────────────────────────
             snapshot_name = None
             try:
-                snap_name = f"codebook_{ts}_pre-refactor"
-                new_dir   = SNAPSHOTS_DIR / snap_name
-                # Avoid name collision
+                snap_segment = self._sanitize_segment(summary[:30] if summary else "refactor")
+                snap_name    = f"codebook_{ts}_{snap_segment}"
+                new_dir      = SNAPSHOTS_DIR / snap_name
                 if new_dir.exists():
-                    snap_name = f"codebook_{datetime.now().strftime('%Y%m%d-%H%M%S')}_pre-refactor"
+                    snap_name = f"codebook_{datetime.now().strftime('%Y%m%d-%H%M%S')}_{snap_segment}"
                     new_dir   = SNAPSHOTS_DIR / snap_name
                 new_dir.mkdir(parents=True, exist_ok=True)
 
@@ -771,11 +886,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 if working_docs.exists():
                     shutil.copy2(working_docs, new_dir / "codebook.json")
 
-                # Update lineage
-                lineage = self._read_lineage()
-                wp_file = SERVE_DIR / ".working_parent"
+                lineage    = self._read_lineage()
+                wp_file    = SERVE_DIR / ".working_parent"
                 parent_dir = wp_file.read_text().strip() if wp_file.exists() else ""
-                lineage[snap_name] = {"parent": parent_dir, "note": f"auto: pre-refactor — {summary}"}
+                lineage[snap_name] = {"parent": parent_dir, "note": summary}
                 self._write_lineage(lineage)
                 (SERVE_DIR / ".working_parent").write_text(snap_name)
                 snapshot_name = snap_name
@@ -785,7 +899,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
             # ── 2. Execute operations ──────────────────────────────────────────
             results = []
-            project_root = str(SERVE_DIR.parent)  # SERVE_DIR is qc/, parent is project root
 
             for op in operations:
                 op_type = op.get("type")
@@ -793,61 +906,123 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 target  = op.get("target", "")
 
                 if op_type in ("rename", "merge"):
-                    cmd = ["qc", "codes", "rename"] + sources + [target]
+                    cmd     = ["qc", "codes", "rename"] + sources + [target]
                     cmd_str = " ".join(cmd)
                     try:
                         result = subprocess.run(
-                            cmd,
-                            cwd=project_root,
-                            capture_output=True,
-                            text=True,
-                            timeout=30,
+                            cmd, cwd=project_root,
+                            capture_output=True, text=True, timeout=30,
                         )
                         ok  = result.returncode == 0
                         out = (result.stdout + result.stderr).strip()
-                        results.append({"cmd": cmd_str, "ok": ok, "output": out})
+                        results.append({"cmd": cmd_str, "ok": ok, "output": out, "op": op})
                         print(f"[qc-refactor] {cmd_str}: {'ok' if ok else 'FAILED'}")
                     except subprocess.TimeoutExpired:
-                        results.append({"cmd": cmd_str, "ok": False, "output": "Timed out after 30s"})
+                        results.append({"cmd": cmd_str, "ok": False, "output": "Timed out after 30s", "op": op})
                     except Exception as cmd_err:
-                        results.append({"cmd": cmd_str, "ok": False, "output": str(cmd_err)})
+                        results.append({"cmd": cmd_str, "ok": False, "output": str(cmd_err), "op": op})
+
+                elif op_type == "move":
+                    cmd_str = f"# move: {sources[0]} → parent: {target or '(top level)'}"
+                    try:
+                        move_body = json.dumps({"code": sources[0], "new_parent": target}).encode()
+                        self._refactor_move(move_body)
+                        results.append({"cmd": cmd_str, "ok": True, "output": "", "op": op})
+                    except Exception as mv_err:
+                        results.append({"cmd": cmd_str, "ok": False, "output": str(mv_err), "op": op})
 
                 elif op_type == "deprecate":
-                    # Status change only — update codebook.json directly
                     cmd_str = f"# deprecate: {sources[0]}"
-                    try:
-                        if scheme_path.exists():
-                            docs = json.loads(scheme_path.read_text())
-                            codes = docs.get("codes", {})
-                            if sources[0] not in codes:
-                                codes[sources[0]] = {}
-                            codes[sources[0]]["status"] = "deprecated"
-                            docs["codes"] = codes
-                            docs["saved"] = datetime.now().isoformat()
-                            scheme_path.write_text(json.dumps(docs, ensure_ascii=False, indent=2))
-                        results.append({"cmd": cmd_str, "ok": True, "output": "Status set to deprecated in codebook.json"})
-                    except Exception as dep_err:
-                        results.append({"cmd": cmd_str, "ok": False, "output": str(dep_err)})
+                    results.append({"cmd": cmd_str, "ok": True, "output": "status → deprecated", "op": op})
 
-            # ── 3. Append to codebook.json changelog ──────────────────────────
+            # ── 3. Update codebook.json ────────────────────────────────────────
             try:
                 if scheme_path.exists():
-                    docs = json.loads(scheme_path.read_text())
+                    docs      = json.loads(scheme_path.read_text())
+                    codes     = docs.get("codes", {})
                     changelog = docs.get("changelog", [])
+                    now_iso   = datetime.now().isoformat()
+
+                    # Apply field edits from UI
+                    for code_name, fields in docs_edits.items():
+                        if code_name not in codes:
+                            codes[code_name] = {}
+                        for field, value in fields.items():
+                            old_val = codes[code_name].get(field, "")
+                            if old_val != value:
+                                codes[code_name][field] = value
+                                # Log the field change
+                                if "_log" not in codes[code_name]:
+                                    codes[code_name]["_log"] = []
+                                codes[code_name]["_log"].append({
+                                    "ts":    now_iso,
+                                    "field": field,
+                                    "from":  old_val,
+                                    "to":    value,
+                                })
+
+                    # Apply deprecations
+                    for op in operations:
+                        if op.get("type") == "deprecate":
+                            src = op["sources"][0]
+                            if src not in codes: codes[src] = {}
+                            codes[src]["status"] = "deprecated"
+
+                    # Update provenance of affected codes
+                    for op in operations:
+                        op_type = op.get("type")
+                        sources = op.get("sources", [])
+                        target  = op.get("target", "")
+
+                        if op_type == "rename" and sources:
+                            src = sources[0]
+                            # Target code gets provenance note
+                            if target not in codes: codes[target] = {}
+                            existing = codes[target].get("provenance", "")
+                            note = f"Renamed from {src} ({ts})"
+                            codes[target]["provenance"] = (existing + "\n" + note).strip() if existing else note
+                            # Source code: copy docs to target if target is new
+                            if src in codes and not any(codes[target].get(f) for f in ("scope","rationale","usage_notes")):
+                                for field in ("scope", "rationale", "usage_notes", "examples"):
+                                    if codes[src].get(field):
+                                        codes[target][field] = codes[src][field]
+
+                        elif op_type == "merge" and sources:
+                            if target not in codes: codes[target] = {}
+                            existing = codes[target].get("provenance", "")
+                            note = f"Merged from {', '.join(sources)} ({ts})"
+                            if summary:
+                                note += f": {summary}"
+                            codes[target]["provenance"] = (existing + "\n" + note).strip() if existing else note
+
+                        elif op_type == "move" and sources:
+                            src = sources[0]
+                            if src not in codes: codes[src] = {}
+                            existing = codes[src].get("provenance", "")
+                            parent_label = target if target else "(top level)"
+                            note = f"Moved to {parent_label} ({ts})"
+                            codes[src]["provenance"] = (existing + "\n" + note).strip() if existing else note
+
+                    # Append changelog event
                     changelog.append({
-                        "ts":      datetime.now().isoformat(),
-                        "type":    "refactor",
-                        "summary": summary,
-                        "script":  script,
+                        "ts":       now_iso,
+                        "type":     "refactor",
+                        "summary":  summary,
+                        "script":   script,
                         "snapshot": snapshot_name,
-                        "ops":     operations,
-                        "results": results,
+                        "ops":      operations,
+                        "results":  [{k: v for k, v in r.items() if k != "op"} for r in results],
                     })
+
+                    docs["codes"]     = codes
                     docs["changelog"] = changelog
-                    docs["saved"] = datetime.now().isoformat()
+                    docs["saved"]     = now_iso
                     scheme_path.write_text(json.dumps(docs, ensure_ascii=False, indent=2))
-            except Exception as cl_err:
-                print(f"[qc-refactor] WARNING: changelog update failed: {cl_err}")
+                    print(f"[qc-refactor] codebook.json updated")
+
+            except Exception as doc_err:
+                print(f"[qc-refactor] WARNING: codebook.json update failed: {doc_err}")
+                import traceback; traceback.print_exc()
 
             ok_count  = sum(1 for r in results if r["ok"])
             err_count = len(results) - ok_count
@@ -855,7 +1030,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
             self._json(200, {
                 "ok":       err_count == 0,
-                "results":  results,
+                "results":  [{k: v for k, v in r.items() if k != "op"} for r in results],
                 "snapshot": snapshot_name,
             })
 
