@@ -324,6 +324,9 @@ function renderOpForm() {
       '<div class="op-form-row"><label>Target <span class="label-hint">(surviving name)</span></label>',
       codeInputHTML('merge-target', 'select or type new…', true),
       '</div>',
+      '<div style="padding:4px 0 6px;display:flex;justify-content:flex-end">',
+      '  <button class="btn" id="merge-swap-btn" title="Swap: promote first source to target">⇄ Swap target with first source</button>',
+      '</div>',
       '<div id="merge-panels"></div>',
     ].join('');
 
@@ -333,6 +336,22 @@ function renderOpForm() {
     wireCodeInput('merge-target', function(name) {
       refreshMergePanels();
     }, true);
+
+    // Swap: promote first source to target, demote current target to first source
+    var swapBtn = document.getElementById('merge-swap-btn');
+    if (swapBtn) {
+      swapBtn.addEventListener('click', function() {
+        var rows     = document.querySelectorAll('#merge-grid .merge-row');
+        var firstInp = rows.length > 0 ? rows[0].querySelector('.code-input') : null;
+        var tgtInp   = document.getElementById('merge-target');
+        if (!firstInp || !tgtInp) return;
+        var oldFirst  = firstInp.value;
+        var oldTarget = tgtInp.value;
+        firstInp.value = oldTarget;
+        tgtInp.value   = oldFirst;
+        refreshMergePanels();
+      });
+    }
   }
 
   if (type === 'move') {
@@ -413,19 +432,63 @@ function refreshMergePanels() {
   if (!panels) return;
   var srcs   = getMergeSourceNames();
   var target = (document.getElementById('merge-target') || {}).value || '';
-  var all    = srcs.concat(target ? [target] : []);
-  // Deduplicate
-  var seen = new Set();
-  all = all.filter(function(n) { if (seen.has(n)) return false; seen.add(n); return true; });
 
-  panels.innerHTML = all.map(function(name, i) {
-    var panelId = 'merge-panel-' + i;
-    return codePanelHTML(name, panelId);
-  }).join('');
+  var html = '';
 
-  all.forEach(function(name, i) {
-    wireCodePanel('merge-panel-' + i);
-  });
+  // Source codes — read-only summary of existing notes (they are disappearing)
+  if (srcs.length > 0) {
+    html += '<div class="merge-sources-summary">';
+    html += '<div class="merge-sources-label">Source notes (read-only — will be carried into target)</div>';
+    srcs.forEach(function(name) {
+      var doc = getCodeDoc(name);
+      var cnt = corpusCount(name);
+      var hasContent = DOC_FIELDS.some(function(f) { return doc[f]; });
+      html += '<div class="merge-src-summary">';
+      html += '<div class="merge-src-name"><span class="code-name">' + esc(name) + '</span>';
+      if (cnt > 0) html += '<span class="code-panel-count">' + cnt + ' segments</span>';
+      html += '</div>';
+      if (hasContent) {
+        DOC_FIELDS.forEach(function(field) {
+          if (doc[field]) {
+            html += '<div class="merge-src-field">'
+              + '<span class="merge-src-field-label">' + DOC_FIELD_LABELS[field] + '</span>'
+              + '<span class="merge-src-field-val">' + esc(doc[field]) + '</span>'
+              + '</div>';
+          }
+        });
+      } else {
+        html += '<div class="merge-src-empty">No existing documentation.</div>';
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  // Target code — editable, pre-populated from sources if target has no existing content
+  if (target) {
+    var targetDoc = getCodeDoc(target);
+    // Pre-populate empty target fields from source docs (concatenated)
+    var prePopulated = false;
+    if (srcs.length > 0) {
+      DOC_FIELDS.forEach(function(field) {
+        if (!targetDoc[field] && !state.docsEdits[target]?.[field]) {
+          var combined = srcs.map(function(s) {
+            var d = getCodeDoc(s);
+            return d[field] ? '[from ' + s + ']: ' + d[field] : '';
+          }).filter(Boolean).join('\n');
+          if (combined) {
+            if (!state.docsEdits[target]) state.docsEdits[target] = {};
+            state.docsEdits[target][field] = combined;
+            prePopulated = true;
+          }
+        }
+      });
+    }
+    html += codePanelHTML(target, 'merge-target-panel');
+  }
+
+  panels.innerHTML = html;
+  if (target) wireCodePanel('merge-target-panel');
 }
 
 // ── Add operation ─────────────────────────────────────────────────────────────
@@ -512,13 +575,9 @@ function renderQueueForTab(type) {
   }
 
   list.innerHTML = queue.map(function(op) {
-    var swapBtn = (type === 'merge' && op.sources.length > 0)
-      ? '<button class="queue-item-swap" data-id="' + op.id + '" title="Swap target with first source">⇄</button>'
-      : '';
     return '<div class="queue-item" data-id="' + op.id + '">'
       + '<span class="queue-item-badge badge-' + type + '">' + type + '</span>'
       + '<div class="queue-item-body"><div class="queue-item-desc">' + opDesc(op) + '</div></div>'
-      + swapBtn
       + '<button class="queue-item-remove" data-id="' + op.id + '" data-type="' + type + '" title="Remove">×</button>'
       + '</div>';
   }).join('');
@@ -535,19 +594,7 @@ function renderQueueForTab(type) {
     });
   });
 
-  list.querySelectorAll('.queue-item-swap').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var id = parseInt(btn.dataset.id);
-      var op = state.queues['merge'].find(function(o) { return o.id === id; });
-      if (!op || !op.sources.length) return;
-      var oldTgt = op.target;
-      op.target  = op.sources[0];
-      op.sources = [oldTgt].concat(op.sources.slice(1));
-      renderQueueForTab('merge');
-      renderPreview();
-      renderScript();
-    });
-  });
+
 }
 
 function allOps() {
@@ -561,85 +608,174 @@ function totalOps() { return allOps().length; }
 
 // ── Preview — tree diff ───────────────────────────────────────────────────────
 
+// ── Preview — post-operation tree (accordion) ────────────────────────────────
+//
+// Builds a virtual post-operation tree and renders it as a collapsible accordion.
+// Affected branches expanded by default; unaffected collapsed.
+// Changes shown subtly inline (was X, +N merged, moved, deprecated).
+
+function buildVirtualTree() {
+  var ops = allOps();
+
+  // Set of source names being removed (merge-src, rename-src)
+  var removed  = new Set();
+  // Map: oldName → newName (rename)
+  var renamed  = {};
+  // Map: targetName → [sourceNames] (merge)
+  var mergedFrom = {};
+  // Map: name → newParent (move)
+  var moved    = {};
+  // Set of deprecated names
+  var deprecated = new Set();
+
+  ops.forEach(function(op) {
+    if (op.type === 'rename') {
+      removed.add(op.sources[0]);
+      renamed[op.sources[0]] = op.target;
+    } else if (op.type === 'merge') {
+      op.sources.forEach(function(s) { removed.add(s); });
+      if (!mergedFrom[op.target]) mergedFrom[op.target] = [];
+      op.sources.forEach(function(s) { mergedFrom[op.target].push(s); });
+    } else if (op.type === 'move') {
+      moved[op.sources[0]] = op.target; // op.target = new parent ('' = top level)
+    } else if (op.type === 'deprecate') {
+      deprecated.add(op.sources[0]);
+    }
+  });
+
+  // Build virtual node list: start from baked tree, apply transformations
+  var vnodes = [];
+  getTree().forEach(function(node) {
+    // Skip merge sources (they disappear)
+    if (removed.has(node.name) && !renamed[node.name]) return;
+
+    var vname   = renamed[node.name] || node.name;
+    var vparent = moved[node.name] !== undefined ? moved[node.name]
+                : (node.parent && renamed[node.parent] ? renamed[node.parent] : node.parent);
+    var vdepth  = node.depth; // will be recalculated after move
+
+    var annot = null;
+    if (renamed[node.name])        annot = { type: 'renamed',    from: node.name };
+    else if (mergedFrom[vname])    annot = { type: 'merged',     from: mergedFrom[vname] };
+    else if (moved[node.name] !== undefined) annot = { type: 'moved', to: moved[node.name] };
+    else if (deprecated.has(node.name))      annot = { type: 'deprecated' };
+
+    vnodes.push({
+      name:    vname,
+      origName: node.name,
+      parent:  vparent || '',
+      depth:   vdepth,
+      prefix:  node.prefix,
+      annot:   annot,
+      affected: !!annot,
+    });
+  });
+
+  return vnodes;
+}
+
+function buildTreeAccordion(vnodes) {
+  // Build parent→children map
+  var childMap = {};
+  vnodes.forEach(function(n) {
+    if (!childMap[n.parent]) childMap[n.parent] = [];
+    childMap[n.parent].push(n);
+  });
+
+  // Determine which nodes have affected descendants
+  function hasAffectedDescendant(name) {
+    var children = childMap[name] || [];
+    for (var i = 0; i < children.length; i++) {
+      if (children[i].affected) return true;
+      if (hasAffectedDescendant(children[i].name)) return true;
+    }
+    return false;
+  }
+
+  var html = '';
+
+  function renderNode(node, depth) {
+    var children    = childMap[node.name] || [];
+    var hasChildren = children.length > 0;
+    var isAffected  = node.affected;
+    var hasAffDesc  = hasAffectedDescendant(node.name);
+    // Expand if affected or has affected descendants
+    var expanded    = isAffected || hasAffDesc;
+    var nodeId      = 'dtree-' + node.name.replace(/[^a-zA-Z0-9]/g, '_');
+
+    var cls = 'dtree-node';
+    if (isAffected) cls += ' dtree-affected';
+
+    // Annotation
+    var annotEl = '';
+    if (node.annot) {
+      if (node.annot.type === 'renamed') {
+        annotEl = '<span class="dtree-annot">(was ' + esc(node.annot.from) + ')</span>';
+      } else if (node.annot.type === 'merged') {
+        annotEl = '<span class="dtree-annot">(+' + node.annot.from.length + ' merged: '
+          + node.annot.from.map(esc).join(', ') + ')</span>';
+      } else if (node.annot.type === 'moved') {
+        annotEl = '<span class="dtree-annot">(moved)</span>';
+      } else if (node.annot.type === 'deprecated') {
+        annotEl = '<span class="dtree-annot dtree-deprecated">(deprecated)</span>';
+        cls += ' dtree-deprecated-node';
+      }
+    }
+
+    var cnt    = corpusCount(node.origName || node.name);
+    var cntEl  = cnt > 0 ? '<span class="dtree-count">' + cnt + '</span>' : '';
+
+    var toggleEl = hasChildren
+      ? '<span class="dtree-toggle" data-node="' + esc(node.name) + '">' + (expanded ? '▾' : '▸') + '</span>'
+      : '<span class="dtree-toggle dtree-leaf"></span>';
+
+    html += '<div class="' + cls + '" data-depth="' + depth + '" style="padding-left:' + (depth * 16 + 4) + 'px">'
+      + toggleEl
+      + '<span class="dtree-name' + (node.annot && node.annot.type === 'deprecated' ? ' dtree-name-deprecated' : '') + '">'
+      + esc(node.name) + '</span>'
+      + cntEl + annotEl
+      + '</div>';
+
+    if (hasChildren) {
+      html += '<div class="dtree-children" id="' + nodeId + '-children"'
+        + (expanded ? '' : ' style="display:none"') + '>';
+      children.forEach(function(child) { renderNode(child, depth + 1); });
+      html += '</div>';
+    }
+  }
+
+  // Render top-level nodes (parent === '')
+  var topLevel = childMap[''] || [];
+  topLevel.forEach(function(node) { renderNode(node, 0); });
+  return html;
+}
+
 function renderTreeDiff() {
   var panel = document.getElementById('diff-panel');
   if (!panel) return;
 
   var ops = allOps();
   if (ops.length === 0) {
-    panel.innerHTML = '<div class="preview-empty">Stage operations to see a tree diff.</div>';
+    panel.innerHTML = '<div class="preview-empty">Stage operations to see the post-operation tree.</div>';
     return;
   }
 
-  // Build op map
-  var opMap = {};
-  ops.forEach(function(op) {
-    if (op.type === 'rename') {
-      opMap[op.sources[0]] = { op: op, role: 'rename-src' };
-    } else if (op.type === 'merge') {
-      op.sources.forEach(function(s) { opMap[s] = { op: op, role: 'merge-src' }; });
-      if (!opMap[op.target] || opMap[op.target].role !== 'merge-src') {
-        opMap[op.target] = { op: op, role: 'merge-tgt' };
-      }
-    } else if (op.type === 'move') {
-      opMap[op.sources[0]] = { op: op, role: 'move' };
-    } else if (op.type === 'deprecate') {
-      opMap[op.sources[0]] = { op: op, role: 'deprecate' };
-    }
+  var vnodes = buildVirtualTree();
+  var html   = buildTreeAccordion(vnodes);
+
+  panel.innerHTML = '<div class="dtree">' + html + '</div>';
+
+  // Wire toggle clicks
+  panel.querySelectorAll('.dtree-toggle:not(.dtree-leaf)').forEach(function(toggle) {
+    toggle.addEventListener('click', function() {
+      var nodeName  = toggle.dataset.node;
+      var childrenEl = panel.querySelector('#dtree-' + nodeName.replace(/[^a-zA-Z0-9]/g, '_') + '-children');
+      if (!childrenEl) return;
+      var collapsed = childrenEl.style.display === 'none';
+      childrenEl.style.display = collapsed ? '' : 'none';
+      toggle.textContent = collapsed ? '▾' : '▸';
+    });
   });
-
-  var html = [];
-  var addedNames = new Set();
-  ops.forEach(function(op) {
-    if (op.type === 'rename' && !CODEBOOK_TREE.some(function(n) { return n.name === op.target; })) {
-      addedNames.add(op.target);
-    }
-  });
-
-  getTree().forEach(function(node) {
-    var info   = opMap[node.name];
-    var role   = info ? info.role : null;
-    var op     = info ? info.op   : null;
-    var indent = '  '.repeat(node.depth);
-    var cls    = 'tree-node';
-    var tag    = '';
-
-    if (role === 'rename-src') {
-      cls += ' op-remove';
-      tag = '<span class="node-tag tag-renamed">→ ' + esc(op.target) + '</span>';
-    } else if (role === 'merge-src') {
-      cls += ' op-remove';
-      tag = '<span class="node-tag tag-merge-src">→ ' + esc(op.target) + '</span>';
-    } else if (role === 'merge-tgt') {
-      tag = '<span class="node-tag tag-merge-tgt">merge target</span>';
-    } else if (role === 'move') {
-      cls += ' op-move';
-      tag = '<span class="node-tag tag-move">→ ' + esc(op.target || '(top level)') + '</span>';
-    } else if (role === 'deprecate') {
-      cls += ' op-deprecate';
-      tag = '<span class="node-tag tag-deprecated">deprecated</span>';
-    }
-
-    var cnt    = corpusCount(node.name);
-    var cntEl  = cnt > 0 ? '<span class="node-count">(' + cnt + ')</span>' : '';
-
-    html.push('<div class="' + cls + '">'
-      + '<span class="picker-indent">' + esc(indent) + '</span>'
-      + '<span class="node-name">' + esc(node.name) + '</span>'
-      + cntEl + tag
-      + '</div>');
-  });
-
-  addedNames.forEach(function(name) {
-    if (!CODEBOOK_TREE.some(function(n) { return n.name === name; })) {
-      html.push('<div class="tree-node op-add">'
-        + '<span class="node-name">' + esc(name) + '</span>'
-        + '<span class="node-tag tag-renamed">new</span>'
-        + '</div>');
-    }
-  });
-
-  panel.innerHTML = html.join('');
 }
 
 // ── Preview — corpus impact ───────────────────────────────────────────────────

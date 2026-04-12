@@ -268,6 +268,7 @@ body {
   justify-content: center;
   z-index: 100;
 }
+.hidden { display: none !important; }
 .modal-overlay.hidden { display: none; }
 
 .modal {
@@ -322,6 +323,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  min-height: 0;
 }
 
 /* ── Panel tabs ── */
@@ -679,6 +681,7 @@ body {
   flex-direction: column;
   flex: 1;
   overflow: hidden;
+  min-height: 0;
 }
 
 .preview-tabs {
@@ -823,4 +826,137 @@ body {
   font-weight: 400;
   color: var(--text-faint);
   font-size: 10px;
+}
+
+/* ── Context nodes in tree diff ───────────────────────────────────────────────── */
+.tree-node.context-node .node-name { color: var(--text-faint); }
+.tree-node.context-node .picker-indent { opacity: 0.4; }
+
+/* ── Merge source summary (read-only) ────────────────────────────────────────── */
+.merge-sources-summary {
+  margin-top: 10px;
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.merge-sources-label {
+  padding: 5px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.merge-src-summary {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-dim);
+}
+.merge-src-summary:last-child { border-bottom: none; }
+
+.merge-src-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.merge-src-field {
+  display: flex;
+  gap: 8px;
+  font-size: 11px;
+  margin-bottom: 3px;
+  line-height: 1.4;
+}
+
+.merge-src-field-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+  width: 80px;
+  padding-top: 1px;
+}
+
+.merge-src-field-val {
+  color: var(--text-dim);
+  flex: 1;
+}
+
+.merge-src-empty {
+  font-size: 11px;
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+/* ── Accordion tree diff ──────────────────────────────────────────────────────── */
+.dtree {
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.dtree-node {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  padding: 2px 0;
+  color: var(--text);
+}
+
+.dtree-node.dtree-affected {
+  background: rgba(59,91,219,0.04);
+  border-radius: 3px;
+}
+
+.dtree-node.dtree-deprecated-node {
+  opacity: 0.6;
+}
+
+.dtree-toggle {
+  flex-shrink: 0;
+  width: 14px;
+  cursor: pointer;
+  color: var(--text-faint);
+  user-select: none;
+  font-size: 10px;
+}
+.dtree-toggle:hover { color: var(--text); }
+.dtree-leaf { cursor: default; }
+
+.dtree-name {
+  flex-shrink: 0;
+  color: var(--text);
+}
+
+.dtree-name-deprecated {
+  text-decoration: line-through;
+  color: var(--text-faint);
+}
+
+.dtree-count {
+  color: var(--text-faint);
+  font-size: 10px;
+  margin-left: 2px;
+}
+
+.dtree-annot {
+  color: var(--text-faint);
+  font-size: 10px;
+  font-style: italic;
+  margin-left: 6px;
+}
+
+.dtree-deprecated {
+  color: var(--red);
+  font-style: normal;
+}
+
+.dtree-children {
+  /* children shown/hidden via inline style */
 }
