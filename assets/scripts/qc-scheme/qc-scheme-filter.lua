@@ -3,9 +3,14 @@
 -- into qc/qc-scheme.html at render time.
 
 -- Load shared helpers from qc-shared.lua (sibling of this filter's directory)
-local _script = os.getenv("PANDOC_SCRIPT_FILE") or ""
-local _shared_path = _script:gsub("/assets/scripts/[^/]+/[^/]+$", "")
-                             .. "/assets/scripts/shared/qc-shared.lua"
+local function _get_project_root_early()
+  local s = os.getenv("PANDOC_SCRIPT_FILE") or ""
+  local r = s:gsub("/assets/scripts/[^/]+/[^/]+$", "")
+  if r ~= "" and r ~= s then return r end
+  local h = io.popen("pwd"); local cwd = h:read("*l"); h:close()
+  return cwd or "."
+end
+local _shared_path = _get_project_root_early() .. "/assets/scripts/shared/qc-shared.lua"
 local shared = dofile(_shared_path)
 
 local read_yaml_file      = shared.read_yaml_file
