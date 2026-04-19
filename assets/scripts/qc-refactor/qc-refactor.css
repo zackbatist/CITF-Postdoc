@@ -960,3 +960,179 @@ body {
 .dtree-children {
   /* children shown/hidden via inline style */
 }
+
+/* ── Session note area ────────────────────────────────────────────────────────── */
+.session-note-area {
+  padding: 10px 14px;
+  border-top: 1px solid var(--border-dim);
+  border-bottom: 1px solid var(--border-dim);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.session-note-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.session-note-textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 6px 8px;
+  font-family: var(--sans);
+  font-size: 11px;
+  line-height: 1.5;
+  resize: none;
+  height: 72px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+.session-note-textarea:focus { border-color: var(--accent); }
+.session-note-textarea.note-required {
+  border-color: var(--red);
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25%      { transform: translateX(-4px); }
+  75%      { transform: translateX(4px); }
+}
+
+.session-note-preview {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 12px;
+}
+
+/* ── Results panel — snapshot and note ────────────────────────────────────────── */
+.result-snapshot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--diff-add-bg);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+}
+
+.result-snapshot-icon { font-size: 16px; flex-shrink: 0; }
+
+.result-snapshot-body { flex: 1; }
+
+.result-snapshot-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.result-snapshot-name {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text);
+}
+
+.result-note {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-style: italic;
+  padding: 8px 12px;
+  border-left: 3px solid var(--border);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+/* ── History panel ────────────────────────────────────────────────────────────── */
+.history-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+}
+
+.history-loading {
+  font-size: 12px;
+  color: var(--text-faint);
+  font-style: italic;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.history-entry {
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.history-entry-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 12px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.history-ts {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-faint);
+}
+
+.history-status {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+}
+.history-status.ok  { color: var(--green); }
+.history-status.err { color: var(--red); }
+
+.history-note {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: var(--text);
+  font-style: italic;
+  border-bottom: 1px solid var(--border-dim);
+  line-height: 1.5;
+}
+
+.history-snapshot {
+  padding: 5px 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-faint);
+  border-bottom: 1px solid var(--border-dim);
+}
+
+.history-ops {
+  padding: 6px 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.history-op {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-family: var(--mono);
+}
+
+.history-op-desc { color: var(--text-dim); }

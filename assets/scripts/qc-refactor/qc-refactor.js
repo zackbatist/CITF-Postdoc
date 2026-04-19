@@ -18,6 +18,7 @@ var state = {
   previewTab:  'diff',         // diff | impact
   panelTab:    'preview',      // preview | script | results
   results:     null,
+  snapshot:    null,
   nextId:      1,
   sessionNote: '',
   // Loaded codebook.json data
@@ -935,7 +936,21 @@ function renderResults() {
     return;
   }
 
-  panel.innerHTML = state.results.map(function(r) {
+  var snapHtml = '';
+  if (state.snapshot) {
+    snapHtml = '<div class="result-snapshot">'
+      + '<span class="result-snapshot-icon">📸</span>'
+      + '<div class="result-snapshot-body">'
+      + '<div class="result-snapshot-label">Snapshot created</div>'
+      + '<div class="result-snapshot-name">' + esc(state.snapshot) + '</div>'
+      + '</div></div>';
+  }
+
+  var noteHtml = state.sessionNote
+    ? '<div class="result-note">' + esc(state.sessionNote) + '</div>'
+    : '';
+
+  panel.innerHTML = snapHtml + noteHtml + state.results.map(function(r) {
     return '<div class="result-item ' + (r.ok ? 'ok' : 'err') + '">'
       + '<span class="result-icon">' + (r.ok ? '✓' : '✗') + '</span>'
       + '<div class="result-body">'
@@ -947,14 +962,83 @@ function renderResults() {
 
 // ── Execute row ───────────────────────────────────────────────────────────────
 
+// ── History ───────────────────────────────────────────────────────────────────
+
+async function renderHistory() {
+  var panel = document.getElementById('history-panel');
+  if (!panel) return;
+  if (state.panelTab !== 'history') { panel.classList.add('hidden'); return; }
+  panel.classList.remove('hidden');
+
+  panel.innerHTML = '<div class="history-loading">Loading…</div>';
+
+  // Fetch refactor history via dedicated server endpoint
+  var entries = [];
+  try {
+    var res  = await fetch(API + '/refactor/history?path=' + encodeURIComponent(SCHEME_PATH));
+    var json = await res.json();
+    entries  = json.entries || [];
+  } catch(e) {
+    panel.innerHTML = '<div class="script-empty">Could not load history.</div>';
+    return;
+  }
+
+  if (entries.length === 0) {
+    panel.innerHTML = '<div class="preview-empty">No refactor sessions recorded yet.</div>';
+    return;
+  }
+
+  panel.innerHTML = entries.map(function(entry) {
+    var ts      = entry.ts ? new Date(entry.ts).toLocaleString() : '';
+    var ops     = entry.ops || [];
+    var results = entry.results || [];
+    var okCount = results.filter(function(r) { return r.ok; }).length;
+    var allOk   = okCount === results.length;
+
+    var opsHtml = ops.map(function(op) {
+      var srcs = (op.sources || []).join(', ');
+      var arrow = op.type === 'deprecate' ? '→ deprecated' : '→ ' + esc(op.target || '');
+      return '<div class="history-op">'
+        + '<span class="queue-item-badge badge-' + op.type + '">' + op.type + '</span>'
+        + '<span class="history-op-desc">'
+        + esc(srcs) + ' <span class="arrow">' + arrow + '</span>'
+        + '</span></div>';
+    }).join('');
+
+    return '<div class="history-entry">'
+      + '<div class="history-entry-header">'
+      + '<span class="history-ts">' + esc(ts) + '</span>'
+      + '<span class="history-status ' + (allOk ? 'ok' : 'err') + '">'
+      + (allOk ? '✓' : '⚠') + ' ' + okCount + '/' + results.length
+      + '</span>'
+      + '</div>'
+      + (entry.summary ? '<div class="history-note">' + esc(entry.summary) + '</div>' : '')
+      + (entry.snapshot ? '<div class="history-snapshot">📸 ' + esc(entry.snapshot) + '</div>' : '')
+      + '<div class="history-ops">' + opsHtml + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+function updateSnapshotPreview() {
+  var el   = document.getElementById('snapshot-name-preview');
+  if (!el) return;
+  var note = state.sessionNote.trim();
+  if (!note) { el.textContent = ''; return; }
+  var ts       = new Date().toISOString().slice(0,16).replace('T','-').replace(':','');
+  var segment  = note.slice(0,30).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'refactor';
+  el.textContent = 'Snapshot: codebook_' + ts + '_' + segment;
+}
+
 function renderExecuteRow() {
-  var n = totalOps();
+  var n    = totalOps();
+  var note = state.sessionNote.trim();
   var countEl = document.getElementById('queue-count');
   if (countEl) countEl.textContent = n === 0 ? 'Queue is empty' : n === 1 ? '1 operation staged' : n + ' operations staged';
   var btnEx = document.getElementById('btn-execute');
   var btnCl = document.getElementById('btn-clear');
-  if (btnEx) btnEx.disabled = n === 0;
+  if (btnEx) btnEx.disabled = n === 0 || !note;
   if (btnCl) btnCl.disabled = n === 0;
+  updateSnapshotPreview();
 }
 
 // ── Full render ───────────────────────────────────────────────────────────────
@@ -970,21 +1054,8 @@ function render() {
 
 // ── Execute ───────────────────────────────────────────────────────────────────
 
-function showSummaryModal() {
-  var modal = document.getElementById('summary-modal');
-  var ta    = document.getElementById('summary-text');
-  if (modal) modal.classList.remove('hidden');
-  if (ta)    { ta.value = state.sessionNote; ta.focus(); }
-}
-
-function hideSummaryModal() {
-  var modal = document.getElementById('summary-modal');
-  if (modal) modal.classList.add('hidden');
-}
-
 async function executeQueue(summary) {
   state.sessionNote = summary;
-  hideSummaryModal();
 
   var payload = {
     operations:  allOps(),
@@ -1003,6 +1074,7 @@ async function executeQueue(summary) {
     var data = await res.json();
 
     state.results    = data.results || [];
+    state.snapshot   = data.snapshot || null;
     state.queues     = { rename: [], merge: [], move: [], deprecate: [] };
     state.docsEdits  = {};
     state.expandedSegs = {};
@@ -1014,9 +1086,10 @@ async function executeQueue(summary) {
     document.querySelectorAll('.panel-tab').forEach(function(t) {
       t.classList.toggle('active', t.dataset.tab === 'results');
     });
-    document.getElementById('preview-wrap')  && document.getElementById('preview-wrap').classList.add('hidden');
-    document.getElementById('script-panel')  && document.getElementById('script-panel').classList.add('hidden');
-    document.getElementById('results-panel') && document.getElementById('results-panel').classList.remove('hidden');
+    document.getElementById('preview-wrap')    && document.getElementById('preview-wrap').classList.add('hidden');
+    document.getElementById('script-panel')    && document.getElementById('script-panel').classList.add('hidden');
+    document.getElementById('history-panel')   && document.getElementById('history-panel').classList.add('hidden');
+    document.getElementById('results-panel')   && document.getElementById('results-panel').classList.remove('hidden');
 
     render();
   } catch(e) {
@@ -1048,21 +1121,27 @@ document.addEventListener('DOMContentLoaded', async function() {
     '  <div class="queue-list hidden" id="queue-list-merge"></div>',
     '  <div class="queue-list hidden" id="queue-list-move"></div>',
     '  <div class="queue-list hidden" id="queue-list-deprecate"></div>',
+    '  <div class="session-note-area">',
+    '    <label class="session-note-label">Session note</label>',
+    '    <textarea id="session-note" class="session-note-textarea" placeholder="Describe what you&#39;re doing and why — this becomes the snapshot label and seeds provenance of affected codes…"></textarea>',
+    '    <div class="session-note-preview" id="snapshot-name-preview"></div>',
+    '  </div>',
     '  <div class="queue-footer">',
     '    <div class="queue-count" id="queue-count">Queue is empty</div>',
     '    <div class="execute-row">',
     '      <button class="btn" id="btn-clear" disabled>Clear all</button>',
-    '      <button class="btn primary" id="btn-execute" disabled style="flex:1">Execute queue…</button>',
+    '      <button class="btn primary" id="btn-execute" disabled style="flex:1">Execute</button>',
     '    </div>',
     '  </div>',
     '</div>',
 
-    // ── Right: panel tabs + preview (with sub-tabs) + script + results
+    // ── Right: panel tabs + preview (with sub-tabs) + script + results + history
     '<div class="right-panel">',
     '  <div class="panel-tabs">',
     '    <button class="panel-tab active" data-tab="preview">Preview</button>',
     '    <button class="panel-tab" data-tab="script">Script</button>',
     '    <button class="panel-tab" data-tab="results">Results</button>',
+    '    <button class="panel-tab" data-tab="history">History</button>',
     '  </div>',
     // Preview wrap with diff / impact sub-tabs
     '  <div id="preview-wrap" class="preview-wrap">',
@@ -1075,22 +1154,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     '  </div>',
     '  <div class="script-panel hidden" id="script-panel"></div>',
     '  <div class="results-panel hidden" id="results-panel"></div>',
+    '  <div class="history-panel hidden" id="history-panel"></div>',
     '</div>',
 
     '</div>',
 
-    // ── Summary modal
-    '<div class="modal-overlay hidden" id="summary-modal">',
-    '  <div class="modal">',
-    '    <h2>Session note</h2>',
-    '    <p>This note will be used as the snapshot label and will seed the provenance fields of affected codes.</p>',
-    '    <textarea id="summary-text" placeholder="e.g. Merged overlapping activity codes following second coding round"></textarea>',
-    '    <div class="modal-actions">',
-    '      <button class="btn" id="btn-cancel-summary">Cancel</button>',
-    '      <button class="btn primary" id="btn-confirm-execute">Execute</button>',
-    '    </div>',
-    '  </div>',
-    '</div>',
   ].join('');
 
   // Load codebook docs
@@ -1139,12 +1207,15 @@ document.addEventListener('DOMContentLoaded', async function() {
       var pw = document.getElementById('preview-wrap');
       var sp = document.getElementById('script-panel');
       var rp = document.getElementById('results-panel');
+      var hp = document.getElementById('history-panel');
       if (pw) pw.classList.toggle('hidden',  state.panelTab !== 'preview');
       if (sp) sp.classList.toggle('hidden',  state.panelTab !== 'script');
       if (rp) rp.classList.toggle('hidden',  state.panelTab !== 'results');
+      if (hp) hp.classList.toggle('hidden',  state.panelTab !== 'history');
       renderPreview();
       renderScript();
       renderResults();
+      renderHistory();
     });
   });
 
@@ -1157,13 +1228,27 @@ document.addEventListener('DOMContentLoaded', async function() {
     render();
   });
 
-  document.getElementById('btn-execute').addEventListener('click', showSummaryModal);
-  document.getElementById('btn-cancel-summary').addEventListener('click', hideSummaryModal);
-  document.getElementById('btn-confirm-execute').addEventListener('click', function() {
-    var summary = (document.getElementById('summary-text') || {}).value || '';
-    summary = summary.trim();
-    if (!summary) { alert('Please enter a session note.'); return; }
-    executeQueue(summary);
+  // Session note — update snapshot name preview on input
+  var sessionNoteEl = document.getElementById('session-note');
+  if (sessionNoteEl) {
+    sessionNoteEl.addEventListener('input', function() {
+      state.sessionNote = sessionNoteEl.value;
+      updateSnapshotPreview();
+      renderExecuteRow();
+    });
+  }
+
+  document.getElementById('btn-execute').addEventListener('click', function() {
+    var note = state.sessionNote.trim();
+    if (!note) {
+      sessionNoteEl && sessionNoteEl.focus();
+      sessionNoteEl && sessionNoteEl.classList.add('note-required');
+      setTimeout(function() {
+        sessionNoteEl && sessionNoteEl.classList.remove('note-required');
+      }, 1200);
+      return;
+    }
+    executeQueue(note);
   });
 
   render();

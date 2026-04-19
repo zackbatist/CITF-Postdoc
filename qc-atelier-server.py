@@ -252,6 +252,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._docs_load()
         elif self.path.startswith("/excerpts/fetch"):
             self._excerpts_fetch()
+        elif self.path.startswith("/refactor/history"):
+            self._refactor_history()
         elif self.path.startswith("/api/"):
             self._proxy("GET", b"")
         else:
@@ -727,6 +729,22 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     # ── Ollama proxy ───────────────────────────────────────────────────────────
 
+
+    # ── GET /refactor/history ──────────────────────────────────────────────────
+
+    def _refactor_history(self):
+        """Returns all refactor changelog entries from codebook.json, newest first."""
+        try:
+            qs     = self.path.split("?", 1)[1] if "?" in self.path else ""
+            params = dict(p.split("=", 1) for p in qs.split("&") if "=" in p)
+            path   = Path(urllib.parse.unquote(params.get("path", ""))) or (SERVE_DIR / "codebook.json")
+            if not path.exists():
+                self._json(200, {"entries": [], "ok": True}); return
+            docs    = json.loads(path.read_text())
+            entries = [e for e in reversed(docs.get("changelog", [])) if e.get("type") == "refactor"]
+            self._json(200, {"entries": entries, "ok": True})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
 
     # ── POST /refactor/move ────────────────────────────────────────────────────
 
