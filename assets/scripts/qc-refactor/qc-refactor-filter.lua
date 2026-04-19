@@ -144,8 +144,62 @@ local function generate_html()
     json_dir    = JSON_DIR,
   }) .. ';'
   html[#html+1] = '</script>'
+  html[#html+1] = [[
+<div id="qc-refactor-root">
+<div class="app">
+
+  <div class="queue-panel">
+    <div class="op-tabs">
+      <button class="op-tab active" data-type="rename">Rename</button>
+      <button class="op-tab" data-type="merge">Merge</button>
+      <button class="op-tab" data-type="move">Move</button>
+      <button class="op-tab" data-type="deprecate">Deprecate</button>
+    </div>
+    <div class="op-form" id="op-form"></div>
+    <div style="padding:8px 14px;border-bottom:1px solid var(--border-dim);flex-shrink:0">
+      <button class="btn primary" id="btn-add" style="width:100%">Add to queue</button>
+    </div>
+    <div class="queue-list" id="queue-list-rename"></div>
+    <div class="queue-list hidden" id="queue-list-merge"></div>
+    <div class="queue-list hidden" id="queue-list-move"></div>
+    <div class="queue-list hidden" id="queue-list-deprecate"></div>
+    <div class="session-note-area">
+      <label class="session-note-label">Session note</label>
+      <textarea id="session-note" class="session-note-textarea" placeholder="Describe what you're doing and why — this becomes the snapshot label and seeds provenance of affected codes…"></textarea>
+      <div class="session-note-preview" id="snapshot-name-preview"></div>
+    </div>
+    <div class="queue-footer">
+      <div class="queue-count" id="queue-count">Queue is empty</div>
+      <div class="execute-row">
+        <button class="btn" id="btn-clear" disabled>Clear all</button>
+        <button class="btn primary" id="btn-execute" disabled style="flex:1">Execute</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="panel-tabs">
+      <button class="panel-tab active" data-tab="preview">Preview</button>
+      <button class="panel-tab" data-tab="script">Script</button>
+      <button class="panel-tab" data-tab="results">Results</button>
+      <button class="panel-tab" data-tab="history">History</button>
+    </div>
+    <div id="preview-wrap" class="preview-wrap">
+      <div class="preview-tabs">
+        <button class="preview-tab active" data-ptab="diff">Tree diff</button>
+        <button class="preview-tab" data-ptab="impact">Corpus impact</button>
+      </div>
+      <div id="diff-panel" class="diff-panel"></div>
+      <div id="impact-panel" class="impact-panel hidden"></div>
+    </div>
+    <div class="script-panel hidden" id="script-panel"></div>
+    <div class="results-panel hidden" id="results-panel"></div>
+    <div class="history-panel hidden" id="history-panel"></div>
+  </div>
+
+</div>
+</div>]]
   html[#html+1] = '<script>' .. js .. '</script>'
-  html[#html+1] = '<div id="qc-refactor-root"></div>'
   html[#html+1] = '</body></html>'
 
   return table.concat(html, "\n")
