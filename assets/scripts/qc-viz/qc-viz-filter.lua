@@ -99,6 +99,33 @@ local function load_config()
     
     local yaml_lua = meta_to_lua(yaml_config)
     
+    -- Deep stringify: convert any remaining Pandoc metadata objects to plain Lua
+    local function stringify_val(v)
+      if type(v) == "string" or type(v) == "number" or type(v) == "boolean" then return v end
+      if type(v) == "table" then
+        local ok, s = pcall(pandoc.utils.stringify, v)
+        if ok and type(s) == "string" then return s end
+      end
+      return v
+    end
+
+    local function deep_stringify(t)
+      if type(t) ~= "table" then return stringify_val(t) end
+      local r = {}
+      for k, v in pairs(t) do
+        if type(v) == "table" then
+          local ok, s = pcall(pandoc.utils.stringify, v)
+          if ok and type(s) == "string" then r[k] = s
+          else r[k] = deep_stringify(v) end
+        else
+          r[k] = stringify_val(v)
+        end
+      end
+      return r
+    end
+
+    yaml_lua = deep_stringify(yaml_lua)
+
     -- Deep merge function
     local function merge(target, source)
       if type(source) ~= "table" then return end
@@ -152,7 +179,9 @@ local function load_config()
   if not config.files or not config.files.css_file or not config.files.js_file then
     error("ERROR: CSS or JS file path is nil. config.files=" .. tostring(config.files))
   end
-  
+
+  -- Coerce all string-valued config fields to plain Lua strings.
+  -- meta_to_lua returns Pandoc MetaInlines objects which fail on concatenation.
   return config
 end
 
@@ -160,16 +189,15 @@ end
 local config = load_config()
 
 -- Store file paths at module level to ensure they're accessible
-local CSS_FILE        = config.files.css_file
-local JS_FILE         = config.files.js_file
-local SHARED_CSS_FILE = _script:gsub("/assets/scripts/[^/]+/[^/]+$", "")
-                                .. "/assets/scripts/shared/qc-shared.css"
+local CSS_FILE        = pandoc.utils.stringify(config.files.css_file)
+local JS_FILE         = pandoc.utils.stringify(config.files.js_file)
+local SHARED_CSS_FILE = _get_project_root_early() .. "/assets/scripts/shared/qc-shared.css"
 
 -- Derived paths - must come AFTER config loading
-local json_dir = config.directories.json_dir
-local corpus_dir = config.directories.corpus_dir
-local output_path = config.directories.output_dir .. "/" .. config.files.output_file
-local codebook_path = config.codebook.path
+local json_dir = pandoc.utils.stringify(config.directories.json_dir)
+local corpus_dir = pandoc.utils.stringify(config.directories.corpus_dir)
+local output_path = pandoc.utils.stringify(config.directories.output_dir) .. "/" .. pandoc.utils.stringify(config.files.output_file)
+local codebook_path = pandoc.utils.stringify(config.codebook.path)
 
 if config.advanced.verbose then
   print("DEBUG: Loaded config, derived paths:")
@@ -797,7 +825,7 @@ function Pandoc(doc)
     output_file:write('  <title>Qualitative Coding Visualization</title>\n')
     output_file:write('</head>\n')
     output_file:write('<body>\n')
-    output_file:write('<nav class="qc-nav"><span class="qc-nav-brand">qc-atelier</span><a href="/qc-scheme.html">scheme</a><a href="/qc-viz.html" class="active">viz</a><a href="/qc-refactor.html">refactor</a></nav>\n')
+    output_file:write('<nav class="qc-nav"><span class="qc-nav-brand">qc-atelier</span><a href="/qc-scheme.html">scheme</a><a href="/qc-viz.html" class="active">viz</a></nav>\n')
     output_file:write(html_content)
     output_file:write('</body>\n')
     output_file:write('</html>\n')
