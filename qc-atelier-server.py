@@ -19,7 +19,6 @@ Opens:
     http://localhost:8080/qc-scheme.html
 """
 
-import hashlib
 import http.server
 import json
 import os
@@ -519,12 +518,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             'chain':     'codebook',
             'timestamp': m.group(1),
             'label':     m.group(2) or '',
-            'hash4':     None,
         }
-
-    def _hash4(self, parent_dir_name):
-        """4-char hex hash of the parent directory name."""
-        return hashlib.sha1(parent_dir_name.encode()).hexdigest()[:4]
 
     # ── GET /snapshots/list ────────────────────────────────────────────────────
 
@@ -548,8 +542,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     "chain":     parsed['chain'],
                     "timestamp": parsed['timestamp'],
                     "label":     parsed.get('label', ''),
-                    "hash4":     parsed['hash4'],
-                    "parent":    entry.get("parent", ""),
                     "note":      entry.get("note", ""),
                     "has_docs":  docs_json.exists(),
                     "has_yaml":  cb_yaml.exists(),
@@ -638,9 +630,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     pad = "  " * node.get("depth", 0)
                     md_lines.append(f"{pad}- {node.get('name','')}")
                 (new_dir / "codebook.md").write_text("\n".join(md_lines))
-
-            # Update .working_parent so subsequent create/fork chains from this new dir
-            (SERVE_DIR / ".working_parent").write_text(new_name)
 
             # Update lineage.json
             lineage = self._read_lineage()

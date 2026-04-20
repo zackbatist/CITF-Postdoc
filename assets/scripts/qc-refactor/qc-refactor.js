@@ -1044,12 +1044,18 @@ function renderExecuteRow() {
 // ── Full render ───────────────────────────────────────────────────────────────
 
 function render() {
-  ['rename','merge','move','deprecate'].forEach(renderQueueForTab);
-  renderOpForm();
-  renderPreview();
-  renderScript();
-  renderResults();
-  renderExecuteRow();
+  try {
+    ['rename','merge','move','deprecate'].forEach(renderQueueForTab);
+    renderOpForm();
+    renderPreview();
+    renderScript();
+    renderResults();
+    renderExecuteRow();
+  } catch(e) {
+    console.error('[qc-refactor render]', e);
+    var root = document.getElementById('qc-refactor-root');
+    if (root) root.innerHTML = '<div style="padding:24px;color:var(--red);font-family:var(--mono);font-size:12px"><strong>Render error</strong><br>' + String(e.message||e) + '</div>';
+  }
 }
 
 // ── Execute ───────────────────────────────────────────────────────────────────
@@ -1100,66 +1106,6 @@ async function executeQueue(summary) {
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', async function() {
-
-  document.getElementById('qc-refactor-root').innerHTML = [
-    '<div class="app">',
-
-    // ── Left: op tabs + form + per-type queues
-    '<div class="queue-panel">',
-    '  <div class="op-tabs">',
-    '    <button class="op-tab active" data-type="rename">Rename</button>',
-    '    <button class="op-tab" data-type="merge">Merge</button>',
-    '    <button class="op-tab" data-type="move">Move</button>',
-    '    <button class="op-tab" data-type="deprecate">Deprecate</button>',
-    '  </div>',
-    '  <div class="op-form" id="op-form"></div>',
-    '  <div style="padding:8px 14px;border-bottom:1px solid var(--border-dim);flex-shrink:0">',
-    '    <button class="btn primary" id="btn-add" style="width:100%">Add to queue</button>',
-    '  </div>',
-    // Per-type queue lists (only active one visible)
-    '  <div class="queue-list" id="queue-list-rename"></div>',
-    '  <div class="queue-list hidden" id="queue-list-merge"></div>',
-    '  <div class="queue-list hidden" id="queue-list-move"></div>',
-    '  <div class="queue-list hidden" id="queue-list-deprecate"></div>',
-    '  <div class="session-note-area">',
-    '    <label class="session-note-label">Session note</label>',
-    '    <textarea id="session-note" class="session-note-textarea" placeholder="Describe what you&#39;re doing and why — this becomes the snapshot label and seeds provenance of affected codes…"></textarea>',
-    '    <div class="session-note-preview" id="snapshot-name-preview"></div>',
-    '  </div>',
-    '  <div class="queue-footer">',
-    '    <div class="queue-count" id="queue-count">Queue is empty</div>',
-    '    <div class="execute-row">',
-    '      <button class="btn" id="btn-clear" disabled>Clear all</button>',
-    '      <button class="btn primary" id="btn-execute" disabled style="flex:1">Execute</button>',
-    '    </div>',
-    '  </div>',
-    '</div>',
-
-    // ── Right: panel tabs + preview (with sub-tabs) + script + results + history
-    '<div class="right-panel">',
-    '  <div class="panel-tabs">',
-    '    <button class="panel-tab active" data-tab="preview">Preview</button>',
-    '    <button class="panel-tab" data-tab="script">Script</button>',
-    '    <button class="panel-tab" data-tab="results">Results</button>',
-    '    <button class="panel-tab" data-tab="history">History</button>',
-    '  </div>',
-    // Preview wrap with diff / impact sub-tabs
-    '  <div id="preview-wrap" class="preview-wrap">',
-    '    <div class="preview-tabs">',
-    '      <button class="preview-tab active" data-ptab="diff">Tree diff</button>',
-    '      <button class="preview-tab" data-ptab="impact">Corpus impact</button>',
-    '    </div>',
-    '    <div id="diff-panel" class="diff-panel"></div>',
-    '    <div id="impact-panel" class="impact-panel hidden"></div>',
-    '  </div>',
-    '  <div class="script-panel hidden" id="script-panel"></div>',
-    '  <div class="results-panel hidden" id="results-panel"></div>',
-    '  <div class="history-panel hidden" id="history-panel"></div>',
-    '</div>',
-
-    '</div>',
-
-  ].join('');
 
   // Load codebook docs
   await loadDocs();

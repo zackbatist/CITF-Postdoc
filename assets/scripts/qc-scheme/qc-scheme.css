@@ -1103,3 +1103,10 @@ body.dark-mode .startup-notice {
   font-family: var(--mono);
   font-weight: normal;
 }
+
+.export-panel-hint {
+  font-size: 10px;
+  color: var(--text-faint);
+  padding: 4px 8px 2px;
+  font-style: italic;
+}
