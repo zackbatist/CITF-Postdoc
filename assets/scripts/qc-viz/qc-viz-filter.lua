@@ -67,8 +67,13 @@ local function load_config()
         max_width = 200,
         char_multiplier = 8
       },
-      -- Note: sections.default_collapsed and code_tags.show_full_code are
-      -- defined in config but not yet wired up in the filter or JS.
+      sections = {
+        default_collapsed = false,      -- defined but not yet wired up
+        preserve_filename_format = true
+      },
+      code_tags = {
+        show_full_code = true           -- defined but not yet wired up
+      }
     },
     codebook = {
       enabled = false,
@@ -820,7 +825,7 @@ function Pandoc(doc)
     output_file:write('  <title>Qualitative Coding Visualization</title>\n')
     output_file:write('</head>\n')
     output_file:write('<body>\n')
-    output_file:write('<nav class="qc-nav"><span class="qc-nav-brand">qc-atelier</span><a href="/qc-scheme.html">scheme</a><a href="/qc-viz.html" class="active">viz</a><a href="/qc-refactor.html">refactor</a></nav>\n')
+    output_file:write('<nav class="qc-nav"><a class="qc-nav-brand" href="/">qc-atelier</a><a href="/qc-scheme.html">scheme</a><a href="/qc-viz.html" class="active">viz</a><a href="/qc-refactor.html">refactor</a></nav>\n')
     output_file:write(html_content)
     output_file:write('</body>\n')
     output_file:write('</html>\n')

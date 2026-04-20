@@ -133,7 +133,7 @@ local function generate_html()
   html[#html+1] = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">'
   html[#html+1] = '<style>' .. shared_css .. '\n' .. css .. '</style>'
   html[#html+1] = '</head><body>'
-  html[#html+1] = '<nav class="qc-nav"><span class="qc-nav-brand">qc-atelier</span><a href="/qc-scheme.html">scheme</a><a href="/qc-viz.html">viz</a><a href="/qc-refactor.html" class="active">refactor</a></nav>'
+  html[#html+1] = '<nav class="qc-nav"><a class="qc-nav-brand" href="/">qc-atelier</a><a href="/qc-scheme.html">scheme</a><a href="/qc-viz.html">viz</a><a href="/qc-refactor.html" class="active">refactor</a></nav>'
   html[#html+1] = '<script>'
   html[#html+1] = 'const CODEBOOK_TREE = ' .. to_json(tree)       .. ';'
   html[#html+1] = 'const CORPUS_COUNTS = ' .. to_json(use_counts) .. ';'

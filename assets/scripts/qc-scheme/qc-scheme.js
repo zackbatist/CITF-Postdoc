@@ -317,10 +317,30 @@ function getSubtreeNames(name) {
   return out;
 }
 
-
+// Flat visible order for shift-range
+function wouldCycle(name, newParent) {
+  if (!newParent) return false;
+  if (newParent === name) return true;
+  var cur = newParent, seen = new Set();
+  while (cur) { if (cur === name) return true; if (seen.has(cur)) break; seen.add(cur); cur = _parentIdx[cur]; }
+  return false;
+}
+function reparent(name, newParent) {
+  if (wouldCycle(name, newParent)) return false;
+  var oldParent = nodeParent(name) || 'root';
+  state.treeOverrides[name] = newParent;
+  rebuildIndices();
+  var newParentLabel = newParent || 'root';
+  clDoc('move', name + ': ' + oldParent + ' → ' + newParentLabel);
+  // Also record in the code's own log so it appears in the History tab
+  if (!state.docs.codes) state.docs.codes = {};
+  if (!state.docs.codes[name]) state.docs.codes[name] = {};
+  if (!state.docs.codes[name]._log) state.docs.codes[name]._log = [];
+  state.docs.codes[name]._log.push({ts: clNow(), field: 'parent', from: oldParent, to: newParentLabel});
+  scheduleSave();
+  return true;
 }
 
-// Flat visible order for shift-range
 function getVisibleOrder() {
   var out = [];
   function walk(name) {
@@ -577,8 +597,6 @@ async function fetchExcerpts(code) {
 //     - ChildCode
 //     - ParentChild:
 //       - GrandchildCode
-
-}
 
 // Full YAML export — complete documentation fields, hierarchical structure
 function buildFullYaml(codes) {
@@ -1604,8 +1622,9 @@ function buildSidebar() {
   var inp=h('input',{type:'text',placeholder:'Search codes…',value:state.search,
     onInput:function(e){
       state.search=e.target.value;
-      var tree=panel.querySelector('.tree'); panel.replaceChild(buildTree(),tree);
-      var ep=panel.querySelector('.export-panel'); panel.replaceChild(buildExportPanel(),ep);
+      var tree=panel.querySelector('.tree');
+      if(tree) tree.parentNode.replaceChild(buildTree(),tree);
+      var ep=panel.querySelector('.export-panel'); if(ep) ep.parentNode.replaceChild(buildExportPanel(),ep);
     },
   });
   panel.appendChild(h('div',{className:'sidebar-search'},inp));
@@ -1709,7 +1728,6 @@ function buildExportPanel() {
   var panel=h('div',{className:'export-panel'});
 
   // Status include pills — also dims matching rows in tree
-  panel.appendChild(h('div',{className:'export-panel-hint'},'Click the pip beside any code to include or exclude it from exports.'));
   var filterRow=h('div',{className:'export-panel-filters'});
   [['active','#10b981'],['experimental','#f59e0b'],['deprecated','#ef4444'],['','var(--text-dim)']].forEach(function(pair){
     var s=pair[0],color=pair[1],included=state.statusInclude.has(s);
@@ -1747,19 +1765,12 @@ function buildExportPanel() {
     },p[1]);
     fmtRow.appendChild(btn);
   });
-  panel.appendChild(fmtRow);
-
-  var actRow=h('div',{className:'export-panel-action'});
-  actRow.appendChild(h('span',{className:'export-panel-count'},codes.length+' selected · '+docN+' documented'));
-  // Human-readable label for the button
-  var fmtLabel = {'yaml':'YAML', 'md':'MD', 'qmd':'QMD', 'html':'HTML', 'csv':'CSV', 'pdf':'PDF'}[fmt]||fmt.toUpperCase();
-  var dlBtn=h('button',{
-    className:'btn primary ep-download-btn'+(state.saveStatus!=='saved'?' ep-unsaved':'')+(state.saveStatus==='error'?' ep-error':''),
+  fmtRow.appendChild(h('button',{
+    className:'ep-chip ep-export-btn',
     disabled:!codes.length,
     onClick:function(){doExport(getExportCodes());}
-  }, 'Export '+fmtLabel);
-  actRow.appendChild(dlBtn);
-  panel.appendChild(actRow);
+  },'Export'));
+  panel.appendChild(fmtRow);
   return panel;
 }
 
