@@ -591,6 +591,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def _snapshots_create(self, body):
         try:
             payload      = json.loads(body)
+            label        = payload.get("label", "")
             note         = payload.get("note", "")
             active_yaml  = Path(payload.get("active_yaml_path", ""))
             active_docs  = Path(payload.get("active_docs_path", ""))
@@ -601,8 +602,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             ts = datetime.now().strftime("%Y%m%d-%H%M")
 
             # Naming: codebook_YYYYMMDD-HHMM[-optional-label]
-            label = self._sanitize_segment(note) if note else ""
-            new_name = f"codebook_{ts}" + (f"-{label}" if label else "")
+            seg = self._sanitize_segment(label) if label else ""
+            new_name = f"codebook_{ts}" + (f"-{seg}" if seg else "")
 
             new_dir = SNAPSHOTS_DIR / new_name
             if new_dir.exists():
