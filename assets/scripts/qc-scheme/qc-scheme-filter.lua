@@ -112,9 +112,9 @@ local function generate_html()
   html[#html+1] = '<meta name="viewport" content="width=device-width,initial-scale=1">'
   html[#html+1] = '<title>QC Scheme</title>'
   html[#html+1] = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">'
-  html[#html+1] = '<style>' .. shared_css .. '\n' .. css .. '</style>'
+  html[#html+1] = '<style>' .. (shared_css or '') .. '\n' .. (css or '') .. '</style>'
   html[#html+1] = '</head><body>'
-  html[#html+1] = '<nav class="qc-nav"><span class="qc-nav-brand">qc-atelier</span><a href="/qc-scheme.html" class="active">scheme</a><a href="/qc-viz.html">viz</a><a href="/qc-refactor.html">refactor</a></nav>'
+  html[#html+1] = '<nav class="qc-nav"><span class="qc-nav-brand">qc-atelier</span><a href="/qc-scheme.html" class="active">scheme</a><a href="/qc-viz.html">viz</a></nav>'
   html[#html+1] = '<script>'
   html[#html+1] = 'const CODEBOOK_TREE = ' .. to_json(tree)       .. ';'
   html[#html+1] = 'const CORPUS_COUNTS = ' .. to_json(use_counts) .. ';'
@@ -126,10 +126,10 @@ local function generate_html()
     json_dir           = JSON_DIR,
   }) .. ';'
   html[#html+1] = '</script>'
-  html[#html+1] = '<script>' .. js .. '</script>'
   html[#html+1] = '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>'
   html[#html+1] = '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>'
   html[#html+1] = '<div id="qc-scheme-root"></div>'
+  html[#html+1] = '<script>' .. js .. '</script>'
   html[#html+1] = '</body></html>'
 
   return table.concat(html, "\n")
