@@ -509,19 +509,18 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             json.dump(data, f, indent=2, ensure_ascii=False)
 
     def _parse_dir_name(self, name):
-        """Parse a snapshot directory name into {chain, timestamp, hash4}.
-        Format: chain_YYYYMMDD-HHMM  or  chain_YYYYMMDD-HHMM_xxxx
-        chain may itself contain underscores (multiple segments).
-        The timestamp is always the second-to-last or last segment depending on hash."""
-        parts = name.split('_')
-        # Timestamp pattern: 8 digits, dash, 4 digits
-        ts_pat = re.compile(r'^\d{8}-\d{4}$')
-        hash_pat = re.compile(r'^[0-9a-f]{4}$')
-        if len(parts) >= 2 and ts_pat.match(parts[-1]):
-            return {'chain': '_'.join(parts[:-1]), 'timestamp': parts[-1], 'hash4': None}
-        if len(parts) >= 3 and ts_pat.match(parts[-2]) and hash_pat.match(parts[-1]):
-            return {'chain': '_'.join(parts[:-2]), 'timestamp': parts[-2], 'hash4': parts[-1]}
-        return None
+        """Parse a snapshot directory name into {timestamp, label}.
+        Format: codebook_YYYYMMDD-HHMM[-optional-label]
+        """
+        m = re.match(r'^codebook_(\d{8}-\d{4})(?:-(.+))?$', name)
+        if not m:
+            return None
+        return {
+            'chain':     'codebook',
+            'timestamp': m.group(1),
+            'label':     m.group(2) or '',
+            'hash4':     None,
+        }
 
     def _hash4(self, parent_dir_name):
         """4-char hex hash of the parent directory name."""
@@ -548,6 +547,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     "path":      str(d),
                     "chain":     parsed['chain'],
                     "timestamp": parsed['timestamp'],
+                    "label":     parsed.get('label', ''),
                     "hash4":     parsed['hash4'],
                     "parent":    entry.get("parent", ""),
                     "note":      entry.get("note", ""),
