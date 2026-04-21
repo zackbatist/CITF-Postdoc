@@ -5,12 +5,12 @@
 -- Derive project root from PANDOC_SCRIPT_FILE; fall back to pwd if unset.
 local function _get_project_root_early()
   local s = os.getenv("PANDOC_SCRIPT_FILE") or ""
-  local r = s:gsub("/assets/scripts/[^/]+/[^/]+$", "")
+  local r = s:gsub("/qc-atelier/[^/]+/[^/]+$", "")
   if r ~= "" and r ~= s then return r end
   local h = io.popen("pwd"); local cwd = h:read("*l"); h:close()
   return cwd or "."
 end
-local _shared_path = _get_project_root_early() .. "/assets/scripts/shared/qc-shared.lua"
+local _shared_path = _get_project_root_early() .. "/qc-atelier/shared/qc-shared.lua"
 local shared = dofile(_shared_path)
 
 local read_yaml_file      = shared.read_yaml_file
@@ -29,7 +29,7 @@ local build_use_counts    = shared.build_use_counts
 
 local function get_project_root()
   local script = os.getenv("PANDOC_SCRIPT_FILE") or ""
-  local root = script:match("^(.*)/assets/scripts/qc%-refactor/[^/]+$")
+  local root = script:match("^(.*)/qc-atelier/qc-refactor/[^/]+$")
   if root and root ~= "" then return root end
   local h = io.popen("pwd"); local cwd = h:read("*l"); h:close()
   return cwd or "."
@@ -69,9 +69,9 @@ local OUTPUT_PATH     = project_path("qc/qc-refactor.html")
 local CODEBOOK_PATH   = project_path(S(config.directories.output_dir) .. "/codebook.yaml")
 local SCHEME_JSON     = project_path(S(config.directories.output_dir) .. "/codebook.json")
 local JSON_DIR        = project_path(S(config.directories.json_dir))
-local CSS_FILE        = project_path("assets/scripts/qc-refactor/qc-refactor.css")
-local SHARED_CSS_FILE = project_path("assets/scripts/shared/qc-shared.css")
-local JS_FILE         = project_path("assets/scripts/qc-refactor/qc-refactor.js")
+local CSS_FILE        = project_path("qc-atelier/qc-refactor/qc-refactor.css")
+local SHARED_CSS_FILE = project_path("qc-atelier/shared/qc-shared.css")
+local JS_FILE         = project_path("qc-atelier/qc-refactor/qc-refactor.js")
 
 -- ── Codebook loader ───────────────────────────────────────────────────────────
 

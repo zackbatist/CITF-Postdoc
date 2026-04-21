@@ -1,7 +1,6 @@
-project: 
+project:
   type: website
-  # pre-render:
-  #   - bash assets/scripts/qc-viz/qc-viz-pre-render.sh
+  pre-render: qc-atelier/shared/qc-pre-render.sh
   render:
     - "*.qmd"
     - "!private/"
@@ -12,15 +11,12 @@ project:
     - "!data/interviews/"
     - "!data/memos/"
     - "!qc/"
-    # - "!qc-reflect.qmd"
-    # - "!qc-scheme.qmd"
-    # - "!qc-viz.qmd"
   preview:
     port: 7777
     browser: false
-website: 
-  title: "CITF-Postdoc" 
-  site-url: "https://zackbatist.info/CITF-Postdoc/" 
+website:
+  title: "CITF-Postdoc"
+  site-url: "https://zackbatist.info/CITF-Postdoc/"
   repo-url: "https://github.com/zackbatist/CITF-Postdoc"
   repo-actions: [source]
   bread-crumbs: true
@@ -70,7 +66,7 @@ website:
 
 format:
   html:
-    theme: 
+    theme:
       light: cosmo
       dark: [cosmo, assets/styles/theme-dark.scss]
     code-copy: true

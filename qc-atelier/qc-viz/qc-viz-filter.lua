@@ -1,15 +1,15 @@
 -- qc-viz-filter.lua
--- Place in assets/scripts/qc-viz/qc-viz-filter.lua
+-- Place in qc-atelier/qc-viz/qc-viz-filter.lua
 
 -- Load shared helpers from qc-shared.lua (sibling of this filter's directory)
 local function _get_project_root_early()
   local s = os.getenv("PANDOC_SCRIPT_FILE") or ""
-  local r = s:gsub("/assets/scripts/[^/]+/[^/]+$", "")
+  local r = s:gsub("/qc-atelier/[^/]+/[^/]+$", "")
   if r ~= "" and r ~= s then return r end
   local h = io.popen("pwd"); local cwd = h:read("*l"); h:close()
   return cwd or "."
 end
-local _shared_path = _get_project_root_early() .. "/assets/scripts/shared/qc-shared.lua"
+local _shared_path = _get_project_root_early() .. "/qc-atelier/shared/qc-shared.lua"
 local shared = dofile(_shared_path)
 
 local read_yaml_file      = shared.read_yaml_file
@@ -34,8 +34,8 @@ local function load_config()
     },
     files = {
       output_file = "qc-viz.html",
-      css_file = "assets/scripts/qc-viz/qc-viz.css",
-      js_file = "assets/scripts/qc-viz/qc-viz.js",
+      css_file = "qc-atelier/qc-viz/qc-viz.css",
+      js_file = "qc-atelier/qc-viz/qc-viz.js",
       venv = "qc/bin/activate"
     },
     code_filters = {
@@ -191,7 +191,7 @@ local config = load_config()
 -- Store file paths at module level to ensure they're accessible
 local CSS_FILE        = pandoc.utils.stringify(config.files.css_file)
 local JS_FILE         = pandoc.utils.stringify(config.files.js_file)
-local SHARED_CSS_FILE = _get_project_root_early() .. "/assets/scripts/shared/qc-shared.css"
+local SHARED_CSS_FILE = _get_project_root_early() .. "/qc-atelier/shared/qc-shared.css"
 
 -- Derived paths - must come AFTER config loading
 local json_dir = pandoc.utils.stringify(config.directories.json_dir)

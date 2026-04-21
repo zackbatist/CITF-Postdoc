@@ -3,7 +3,7 @@ title: "QC Reflection"
 format:
   html:
     filters:
-      - assets/scripts/qc-reflect/qc-reflect-filter.lua
+      - qc-atelier/qc-reflect/qc-reflect-filter.lua
 ---
 
 This document triggers the generation of the qualitative coding reflection tool.

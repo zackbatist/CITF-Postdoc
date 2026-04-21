@@ -50,8 +50,8 @@ local function load_config()
     },
     files = {
       output_file = "qc-reflect.html",
-      css_file    = "assets/scripts/qc-reflect/qc-reflect.css",
-      js_file     = "assets/scripts/qc-reflect/qc-reflect.js",
+      css_file    = "qc-atelier/qc-reflect/qc-reflect.css",
+      js_file     = "qc-atelier/qc-reflect/qc-reflect.js",
       codebook    = "qc/codebook.yaml",
     },
     ollama = {

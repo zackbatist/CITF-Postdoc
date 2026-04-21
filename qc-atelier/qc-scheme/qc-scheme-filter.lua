@@ -5,12 +5,12 @@
 -- Load shared helpers from qc-shared.lua (sibling of this filter's directory)
 local function _get_project_root_early()
   local s = os.getenv("PANDOC_SCRIPT_FILE") or ""
-  local r = s:gsub("/assets/scripts/[^/]+/[^/]+$", "")
+  local r = s:gsub("/qc-atelier/[^/]+/[^/]+$", "")
   if r ~= "" and r ~= s then return r end
   local h = io.popen("pwd"); local cwd = h:read("*l"); h:close()
   return cwd or "."
 end
-local _shared_path = _get_project_root_early() .. "/assets/scripts/shared/qc-shared.lua"
+local _shared_path = _get_project_root_early() .. "/qc-atelier/shared/qc-shared.lua"
 local shared = dofile(_shared_path)
 
 local read_yaml_file      = shared.read_yaml_file
@@ -32,9 +32,9 @@ local build_use_counts    = shared.build_use_counts
 -- PANDOC_SCRIPT_FILE is set by Pandoc to the filter's absolute path.
 local function get_project_root()
   local script = os.getenv("PANDOC_SCRIPT_FILE") or ""
-  -- filter is at <root>/assets/scripts/qc-scheme/qc-scheme-filter.lua
+  -- filter is at <root>/qc-atelier/qc-scheme/qc-scheme-filter.lua
   -- so go up 3 levels
-  local root = script:match("^(.*)/assets/scripts/qc%-scheme/[^/]+$")
+  local root = script:match("^(.*)/qc-atelier/qc-scheme/[^/]+$")
   if root and root ~= "" then return root end
   -- Fallback: use cwd
   local h = io.popen("pwd"); local cwd = h:read("*l"); h:close()
@@ -76,9 +76,9 @@ local OUTPUT_PATH     = project_path("qc/qc-scheme.html")
 local CODEBOOK_PATH   = project_path(S(config.directories.output_dir) .. "/codebook.yaml")
 local SCHEME_JSON = project_path(S(config.directories.output_dir) .. "/codebook.json")
 local JSON_DIR        = project_path(S(config.directories.json_dir))
-local CSS_FILE        = project_path("assets/scripts/qc-scheme/qc-scheme.css")
-local SHARED_CSS_FILE = project_path("assets/scripts/shared/qc-shared.css")
-local JS_FILE         = project_path("assets/scripts/qc-scheme/qc-scheme.js")
+local CSS_FILE        = project_path("qc-atelier/qc-scheme/qc-scheme.css")
+local SHARED_CSS_FILE = project_path("qc-atelier/shared/qc-shared.css")
+local JS_FILE         = project_path("qc-atelier/qc-scheme/qc-scheme.js")
 
 -- ── Codebook loader ───────────────────────────────────────────────────────────
 local function load_codebook_tree()

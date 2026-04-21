@@ -88,8 +88,8 @@ candidates:
 viz:
   files:
     output_file: "qc-viz.html"
-    css_file: "assets/scripts/qc-viz/qc-viz.css"
-    js_file: "assets/scripts/qc-viz/qc-viz.js"
+    css_file: "qc-atelier/qc-viz/qc-viz.css"
+    js_file: "qc-atelier/qc-viz/qc-viz.js"
 
   code_filters:
     whitelist:
