@@ -1118,3 +1118,20 @@ Fixed by replacing per-key sed pipelines with a `_parse_yaml_value()` helper tha
 
 **Server log filter** extended to include `/refactor/` and `/snapshots/` routes.
 
+---
+
+### 2026-04-22 — Rename/merge execution fixes; orphan cleanup; tree refresh
+
+**Subprocess `cwd` fix.** `qc codes rename` requires `settings.yaml` in the working directory. `cwd` was set to `SERVE_DIR.parent` (project root) but `settings.yaml` lives in `SERVE_DIR` (`qc/`). Fixed to `cwd=SERVE_DIR`.
+
+**`qc_bin` resolution.** Added `qc_bin` config key under `server:` in `qc-atelier-config.yaml`. Server resolves via `CONFIG.get("qc_bin") or shutil.which("qc") or "qc"`. Required because subprocess PATH does not include pipx bin directory. numpy 1.26.4 → 2.4.4 upgrade in pipx venv was also required to fix broken compiled extensions against Python 3.14.3.
+
+**`_docs_load` URL-decode fix.** The `path` query parameter was not being URL-decoded, so absolute paths with encoded slashes were passed directly to `Path()`, silently returning empty codes. Fixed with `urllib.parse.unquote()`.
+
+**Config env var fix.** Server was reading `QC_REFLECT_CONFIG` / `qc-reflect-config.yaml` — updated to `QC_ATELIER_CONFIG` / `qc-atelier-config.yaml`.
+
+**Orphan cleanup after rename/merge.** `qc codes rename` updates SQLite and calls `update_codebook()` which adds the new name to `codebook.yaml` but does not remove the old name. After a successful rename/merge, server now runs `qc codes stats -zu 0` to identify zero-use codes, intersects with the operation's source codes, and strips confirmed orphans from `codebook.yaml` via `_do_remove`. Sources that still have corpus applications are skipped. This follows upstream issue #94 — `qc codebook --clean` is the planned CLI solution; `_do_remove` is the local workaround until it lands.
+
+**`/refactor/tree` endpoint.** New `GET /refactor/tree` handler parses `codebook.yaml` into a flat `{name, parent, depth, prefix}` list. Called by JS `refreshTree()` on page load and after every execute, updating `_runtimeTree` so pickers reflect changes without re-render.
+
+**History panel failure transparency.** Changelog entry now includes a `status` field (`ok`/`partial`/`failed`). Provenance is only written for successful ops. History panel shows per-op ✓/✗ icons with error output inline for failed ops.
