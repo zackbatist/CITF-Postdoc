@@ -38,7 +38,8 @@ var state = {
   docsEdits:   {},             // {codeName: {field: value}} — edits made in UI
   // UI state
   expandedSegs: {},            // key → bool
-  pickerOpen:   null,
+  pickerOpen:     null,
+  pickerCollapsed: new Set(),   // collapsed branch names in multi-select picker
 };
 
 // ── Load codebook.json ────────────────────────────────────────────────────────
@@ -403,8 +404,11 @@ function renderOpForm() {
 
   if (type === 'move') {
     form.innerHTML += [
-      '<div class="op-form-row"><label>Code to move</label>',
-      codeInputHTML('move-source', 'select code…', false),
+      '<div class="op-form-row"><label>Codes to move</label>',
+      '<div class="multi-picker-wrap">',
+        '<input class="picker-search" id="move-multi-search" placeholder="Search codes…" autocomplete="off">',
+        '<div class="multi-picker-list" id="move-multi-list"></div>',
+      '</div>',
       '</div>',
       '<div class="op-form-row"><label>New parent <span class="label-hint">(leave empty for top level)</span></label>',
       codeInputHTML('move-parent', 'select parent…', false),
@@ -413,13 +417,86 @@ function renderOpForm() {
       '<div id="move-panels"></div>',
     ].join('');
 
-    wireCodeInput('move-source', function(name) {
-      var panels = document.getElementById('move-panels');
-      if (panels) {
-        panels.innerHTML = codePanelHTML(name, 'move-src-panel');
-        wireCodePanel('move-src-panel');
+    // Initialise multi-select state
+    if (!state.moveSelected) state.moveSelected = new Set();
+
+    function renderMultiList(query) {
+      var list = document.getElementById('move-multi-list');
+      if (!list) return;
+      var nodes = getTree();
+      query = (query || '').toLowerCase();
+
+      function isVisible(node) {
+        if (query) return node.name.toLowerCase().indexOf(query) >= 0;
+        // Check if any ancestor is collapsed
+        var cur = node.parent;
+        while (cur) {
+          if (state.pickerCollapsed.has(cur)) return false;
+          var p = nodes.find(function(n) { return n.name === cur; });
+          cur = p ? p.parent : null;
+        }
+        return true;
       }
-    }, false);
+
+      function hasChildren(name) {
+        return nodes.some(function(n) { return n.parent === name; });
+      }
+
+      var shown = nodes.filter(isVisible);
+
+      list.innerHTML = shown.map(function(node) {
+        var checked   = state.moveSelected.has(node.name) ? 'checked' : '';
+        var collapsed  = state.pickerCollapsed.has(node.name);
+        var children   = hasChildren(node.name);
+        var toggleBtn  = (!query && children)
+          ? '<button class="multi-picker-toggle" data-name="' + esc(node.name) + '" tabindex="-1">'
+            + (collapsed ? '▶' : '▼') + '</button>'
+          : '<span class="multi-picker-toggle-placeholder"></span>';
+        var cnt = corpusCount(node.name);
+        var cntHtml = cnt > 0 ? '<span class="picker-count">' + cnt + '</span>' : '';
+        return '<label class="multi-picker-item" style="padding-left:' + (node.depth * 14 + 4) + 'px">'
+          + toggleBtn
+          + '<input type="checkbox" class="multi-picker-cb" data-name="' + esc(node.name) + '" ' + checked + '>'
+          + '<span class="picker-label">' + esc(node.name) + '</span>'
+          + cntHtml
+          + '</label>';
+      }).join('');
+
+      // Wire collapse toggles
+      list.querySelectorAll('.multi-picker-toggle').forEach(function(btn) {
+        btn.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+          var name = btn.dataset.name;
+          if (state.pickerCollapsed.has(name)) state.pickerCollapsed.delete(name);
+          else state.pickerCollapsed.add(name);
+          renderMultiList(document.getElementById('move-multi-search').value);
+        });
+      });
+
+      // Wire checkboxes
+      list.querySelectorAll('.multi-picker-cb').forEach(function(cb) {
+        cb.addEventListener('change', function() {
+          var name = cb.dataset.name;
+          if (cb.checked) {
+            state.moveSelected.add(name);
+            // Show doc panel for most recently checked
+            var panels = document.getElementById('move-panels');
+            if (panels) {
+              panels.innerHTML = codePanelHTML(name, 'move-src-panel');
+              wireCodePanel('move-src-panel');
+            }
+          } else {
+            state.moveSelected.delete(name);
+          }
+        });
+      });
+    }
+
+    renderMultiList('');
+
+    document.getElementById('move-multi-search').addEventListener('input', function() {
+      renderMultiList(this.value);
+    });
 
     wireCodeInput('move-parent', null, false);
 
@@ -686,10 +763,19 @@ function addOperation() {
   }
 
   if (type === 'move') {
-    var src    = (document.getElementById('move-source') || {}).value || '';
+    var srcs   = Array.from(state.moveSelected || []);
     var parent = ((document.getElementById('move-parent') || {}).value || '').trim();
-    if (!src) { showFormError('Please select a code to move.'); return; }
-    op = { id: state.nextId++, type: 'move', sources: [src], target: parent };
+    if (srcs.length === 0) { showFormError('Please select at least one code to move.'); return; }
+    srcs.forEach(function(src) {
+      state.queue.push({ id: state.nextId++, type: 'move', sources: [src], target: parent });
+    });
+    // Keep selection visible — cleared after execute
+    state.expandedSegs = {};
+    renderQueue();
+    renderPreview();
+    renderScript();
+    renderExecuteRow();
+    return;
   }
 
   if (type === 'deprecate') {
@@ -1279,10 +1365,11 @@ async function executeQueue(summary) {
     // Refresh tree from server so pickers reflect changes without re-render
     await refreshTree();
 
-    state.queue      = [];
-    state.docsEdits  = {};
+    state.queue        = [];
+    state.moveSelected = new Set();
+    state.docsEdits    = {};
     state.expandedSegs = {};
-    state.panelTab   = 'results';
+    state.panelTab     = 'results';
 
     // Reload docs data so edits are reflected
     await loadDocs();
@@ -1324,6 +1411,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   document.querySelectorAll('.op-tab').forEach(function(tab) {
     tab.addEventListener('click', function() {
       state.activeTab = tab.dataset.type;
+      if (tab.dataset.type !== 'move') state.moveSelected = new Set();
       document.querySelectorAll('.op-tab').forEach(function(t) {
         t.classList.toggle('active', t === tab);
       });
@@ -1373,8 +1461,9 @@ document.addEventListener('DOMContentLoaded', async function() {
   document.getElementById('btn-add').addEventListener('click', addOperation);
 
   document.getElementById('btn-clear').addEventListener('click', function() {
-    state.queue      = [];
-    state.docsEdits  = {};
+    state.queue        = [];
+    state.moveSelected = new Set();
+    state.docsEdits    = {};
     state.expandedSegs = {};
     render();
   });
