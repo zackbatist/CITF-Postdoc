@@ -1078,3 +1078,43 @@ These functions had been accidentally removed during dead code cleanup. They are
 **qc-viz visual alignment** — shared CSS tokens provide a baseline. Full UI structural alignment deferred as an open design question.
 
 **Code quality sweep** — take stock of the full codebase: identify anything that is unclear, redundant, inconsistent, inefficient, or fragile across all four tools and shared infrastructure. Produce a docket of specific actions to resolve problems, streamline the system, and bring everything to a professional standard.
+
+### 2026-04-22 — qc-pre-render.sh YAML parsing fix
+
+`qc-pre-render.sh` was printing raw YAML lines (including inline comments) as config values. The grep/sed chain in `read_yaml_config()` captured `qc/corpus   # Interview transcripts` rather than `qc/corpus`, causing the corpus directory check to fail on render.
+
+Fixed by replacing per-key sed pipelines with a `_parse_yaml_value()` helper that strips inline comments (`# ...`), trailing whitespace, and quotes in order. All five config keys use the helper.
+
+---
+
+### 2026-04-22 — qc-refactor overhaul
+
+**Script generation.** `generateScript()` previously emitted commented pseudo-instructions for move and deprecate. Now returns only executable `qc codes rename` calls. When the queue contains only server-side ops (move, deprecate), the Script panel renders the `#!/bin/bash` header with a prominent explanatory note. The note is dynamically shown below the script block when server-side ops are mixed with CLI ops.
+
+**Corpus impact.** Removed erroneous filter that excluded move ops from the impact panel. All four operation types now show corpus segments for affected codes. `affectedCodes` logic updated: rename/merge show sources plus existing target; move/deprecate show sources only.
+
+**Field descriptions.** `codePanelHTML` updated to include hints (subtitle on label) and placeholder text for all four documentation fields, matching qc-scheme exactly.
+
+**Queue editing.** Edit button (✎) added per queue item. Clicking removes the item from the queue, switches to the appropriate op tab, and calls `repopulateForm()` to restore values into the form.
+
+**Unified queue.** Per-type queues (`state.queues.rename` etc.) replaced with a single `state.queue` array. Single `#queue-list` element in the HTML skeleton. All op types appear together with type badges.
+
+**Inline validation errors.** All `alert()` calls replaced with `showFormError()`, which renders a red inline message in the form that auto-dismisses after 3 seconds. Execution errors shown in the Results panel.
+
+**Missing move badge.** `badge-move` CSS rule was absent, causing transparent labels. Added with amber colouring consistent with the existing palette.
+
+---
+
+### 2026-04-22 — Server refactor routes; snapshot/execute decoupling
+
+**Missing server routes.** `/refactor/execute`, `/refactor/move`, and `/refactor/history` were absent from `qc-atelier-server.py` — the file in use was a pre-qc-refactor version. All three handlers added:
+
+- `_refactor_execute` — runs rename/merge ops via `qc codes rename` subprocess, move ops via `_do_move`, deprecate ops via direct `codebook.json` edit. Updates provenance fields and appends a `refactor` changelog entry. No snapshot created.
+- `_refactor_move` — thin wrapper around `_do_move` for standalone move calls.
+- `_do_move` — direct line-level manipulation of `codebook.yaml`: finds the code block, extracts it with children, re-indents, reinserts under new parent or at top level.
+- `_refactor_history` — reads `refactor`-type entries from `codebook.json` changelog, returns newest first.
+
+**Snapshot/execute decoupling.** Auto-snapshot on execute removed. Snapshots are now created only through a manual action (to be implemented). The session note is a commit-style description written into the changelog `summary` field and used to seed code provenance — it is no longer used as a snapshot label and the snapshot name preview has been removed from the UI.
+
+**Server log filter** extended to include `/refactor/` and `/snapshots/` routes.
+
