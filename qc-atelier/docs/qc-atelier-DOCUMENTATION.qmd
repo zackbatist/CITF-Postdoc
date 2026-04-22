@@ -1135,3 +1135,11 @@ Fixed by replacing per-key sed pipelines with a `_parse_yaml_value()` helper tha
 **`/refactor/tree` endpoint.** New `GET /refactor/tree` handler parses `codebook.yaml` into a flat `{name, parent, depth, prefix}` list. Called by JS `refreshTree()` on page load and after every execute, updating `_runtimeTree` so pickers reflect changes without re-render.
 
 **History panel failure transparency.** Changelog entry now includes a `status` field (`ok`/`partial`/`failed`). Provenance is only written for successful ops. History panel shows per-op ✓/✗ icons with error output inline for failed ops.
+
+### 2026-04-22 — Bulk move; queue panel layout fix
+
+**Bulk move.** Move tab now renders a multi-select checklist instead of a single code picker. All codes in the tree are listed with indentation reflecting hierarchy. Branch collapse toggles (▶/▼) persist collapse state in `state.pickerCollapsed` across opens. Checking a code adds it to `state.moveSelected`; the doc panel updates to the most recently checked code. "Add to queue" generates one move op per selected code. Selection persists visually after queuing and is cleared only on execute or clear-all.
+
+**Queue panel layout fix.** The left panel had large empty space below the footer and the queue list had no scroll. Root cause: `#qc-refactor-root` had no CSS, so it didn't participate in the flex height chain — `body` (100vh flex column) → `#qc-refactor-root` (unsized) → `.app` (flex:1) → `.queue-panel`. The missing link meant `.app` couldn't stretch to fill the viewport. Fixed by giving `#qc-refactor-root` `display:flex; flex-direction:column; flex:1; min-height:0`. Queue list now has `flex:1` and scrolls; form is capped; session note and footer are pinned.
+
+**Note for qc-scheme.** The sidebar height workaround (currently `max-height: calc(100vh - 110px)`) is likely the same root cause — `#qc-scheme-root` or an intermediate container missing from the flex chain. Resolve by auditing the height chain in qc-scheme the same way.
