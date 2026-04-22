@@ -24,8 +24,8 @@ var DOC_FIELD_PLACEHOLDERS = {
 // ── State ─────────────────────────────────────────────────────────────────────
 
 var state = {
-  // Separate queues per operation type
-  queues: { rename: [], merge: [], move: [], deprecate: [] },
+  // Unified queue — all op types together
+  queue:       [],
   activeTab:   'rename',       // which op tab is open
   previewTab:  'diff',         // diff | impact
   panelTab:    'preview',      // preview | script | results
@@ -297,7 +297,18 @@ function wireCodePanel(panelId) {
   });
 }
 
-// ── Operation forms ───────────────────────────────────────────────────────────
+function showFormError(msg) {
+  var el = document.getElementById('op-form-error');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.remove('hidden');
+  setTimeout(function() { el.classList.add('hidden'); }, 3000);
+}
+
+function clearFormError() {
+  var el = document.getElementById('op-form-error');
+  if (el) el.classList.add('hidden');
+}
 
 var _mergeRowCount = 0;
 
@@ -307,9 +318,10 @@ function renderOpForm() {
   form.innerHTML = '';
 
   var type = state.activeTab;
+  form.innerHTML = '<div id="op-form-error" class="op-form-error hidden"></div>';
 
   if (type === 'rename') {
-    form.innerHTML = [
+    form.innerHTML += [
       '<div class="op-form-row"><label>Code to rename</label>',
       codeInputHTML('rename-source', 'select code…', false),
       '</div>',
@@ -334,7 +346,7 @@ function renderOpForm() {
 
   if (type === 'merge') {
     _mergeRowCount = 0;
-    form.innerHTML = [
+    form.innerHTML += [
       '<div class="op-form-row"><label>Source codes</label>',
       '<div class="merge-grid" id="merge-grid"></div>',
       '<button class="btn" style="margin-top:6px;width:100%" id="add-merge-src">+ Add code</button>',
@@ -373,7 +385,7 @@ function renderOpForm() {
   }
 
   if (type === 'move') {
-    form.innerHTML = [
+    form.innerHTML += [
       '<div class="op-form-row"><label>Code to move</label>',
       codeInputHTML('move-source', 'select code…', false),
       '</div>',
@@ -401,7 +413,7 @@ function renderOpForm() {
   }
 
   if (type === 'deprecate') {
-    form.innerHTML = [
+    form.innerHTML += [
       '<div class="op-form-row"><label>Code to deprecate</label>',
       codeInputHTML('deprecate-source', 'select code…', false),
       '</div>',
@@ -576,39 +588,39 @@ function addOperation() {
   if (type === 'rename') {
     var src = (document.getElementById('rename-source') || {}).value || '';
     var tgt = ((document.getElementById('rename-target') || {}).value || '').trim();
-    if (!src) { alert('Please select a source code.'); return; }
-    if (!tgt) { alert('Please enter a new name.'); return; }
-    if (src === tgt) { alert('Source and target are the same.'); return; }
+    if (!src) { showFormError('Please select a source code.'); return; }
+    if (!tgt) { showFormError('Please enter a new name.'); return; }
+    if (src === tgt) { showFormError('Source and target are the same.'); return; }
     op = { id: state.nextId++, type: 'rename', sources: [src], target: tgt };
   }
 
   if (type === 'merge') {
     var srcs = getMergeSourceNames();
     var tgt  = ((document.getElementById('merge-target') || {}).value || '').trim();
-    if (srcs.length === 0) { alert('Please select at least one source code.'); return; }
-    if (!tgt) { alert('Please select or enter a target code.'); return; }
+    if (srcs.length === 0) { showFormError('Please select at least one source code.'); return; }
+    if (!tgt) { showFormError('Please select or enter a target code.'); return; }
     srcs = srcs.filter(function(s) { return s !== tgt; });
-    if (srcs.length === 0) { alert('Sources and target cannot all be the same code.'); return; }
+    if (srcs.length === 0) { showFormError('Sources and target cannot all be the same code.'); return; }
     op = { id: state.nextId++, type: 'merge', sources: srcs, target: tgt };
   }
 
   if (type === 'move') {
     var src    = (document.getElementById('move-source') || {}).value || '';
     var parent = ((document.getElementById('move-parent') || {}).value || '').trim();
-    if (!src) { alert('Please select a code to move.'); return; }
+    if (!src) { showFormError('Please select a code to move.'); return; }
     op = { id: state.nextId++, type: 'move', sources: [src], target: parent };
   }
 
   if (type === 'deprecate') {
     var src = (document.getElementById('deprecate-source') || {}).value || '';
-    if (!src) { alert('Please select a code to deprecate.'); return; }
+    if (!src) { showFormError('Please select a code to deprecate.'); return; }
     op = { id: state.nextId++, type: 'deprecate', sources: [src], target: src };
   }
 
   if (op) {
-    state.queues[type].push(op);
+    state.queue.push(op);
     state.expandedSegs = {};
-    renderQueueForTab(type);
+    renderQueue();
     renderPreview();
     renderScript();
     renderExecuteRow();
@@ -640,17 +652,17 @@ function opDesc(op) {
   return '';
 }
 
-function renderQueueForTab(type) {
-  var list = document.getElementById('queue-list-' + type);
+function renderQueue() {
+  var list = document.getElementById('queue-list');
   if (!list) return;
-  var queue = state.queues[type];
 
-  if (queue.length === 0) {
-    list.innerHTML = '<div class="queue-empty">No ' + type + ' operations staged.</div>';
+  if (state.queue.length === 0) {
+    list.innerHTML = '<div class="queue-empty">No operations staged.</div>';
     return;
   }
 
-  list.innerHTML = queue.map(function(op) {
+  list.innerHTML = state.queue.map(function(op) {
+    var type = op.type;
     return '<div class="queue-item" data-id="' + op.id + '">'
       + '<span class="queue-item-badge badge-' + type + '">' + type + '</span>'
       + '<div class="queue-item-body"><div class="queue-item-desc">' + opDesc(op) + '</div></div>'
@@ -663,23 +675,16 @@ function renderQueueForTab(type) {
     btn.addEventListener('click', function() {
       var id = parseInt(btn.dataset.id);
       var t  = btn.dataset.type;
-      var op = state.queues[t].find(function(o) { return o.id === id; });
+      var op = state.queue.find(function(o) { return o.id === id; });
       if (!op) return;
-      // Remove from queue
-      state.queues[t] = state.queues[t].filter(function(o) { return o.id !== id; });
-      // Switch to the right tab and repopulate form
+      state.queue = state.queue.filter(function(o) { return o.id !== id; });
       state.activeTab = t;
       document.querySelectorAll('.op-tab').forEach(function(tab) {
         tab.classList.toggle('active', tab.dataset.type === t);
       });
-      ['rename','merge','move','deprecate'].forEach(function(tt) {
-        var el = document.getElementById('queue-list-' + tt);
-        if (el) el.classList.toggle('hidden', tt !== t);
-      });
       renderOpForm();
-      // Repopulate after form is rendered
       repopulateForm(op);
-      renderQueueForTab(t);
+      renderQueue();
       renderPreview();
       renderScript();
       renderExecuteRow();
@@ -689,26 +694,17 @@ function renderQueueForTab(type) {
   list.querySelectorAll('.queue-item-remove').forEach(function(btn) {
     btn.addEventListener('click', function() {
       var id = parseInt(btn.dataset.id);
-      var t  = btn.dataset.type;
-      state.queues[t] = state.queues[t].filter(function(o) { return o.id !== id; });
-      renderQueueForTab(t);
+      state.queue = state.queue.filter(function(o) { return o.id !== id; });
+      renderQueue();
       renderPreview();
       renderScript();
       renderExecuteRow();
     });
   });
-
-
 }
 
-function allOps() {
-  return state.queues.rename
-    .concat(state.queues.merge)
-    .concat(state.queues.move)
-    .concat(state.queues.deprecate);
-}
-
-function totalOps() { return allOps().length; }
+function allOps()   { return state.queue; }
+function totalOps() { return state.queue.length; }
 
 // ── Preview — tree diff ───────────────────────────────────────────────────────
 
@@ -888,17 +884,24 @@ function renderCorpusImpact() {
   var panel = document.getElementById('impact-panel');
   if (!panel) return;
 
-  var ops = allOps().filter(function(op) { return op.type !== 'move'; });
+  var ops = allOps();
 
   if (ops.length === 0) {
-    panel.innerHTML = '<div class="preview-empty">No corpus-affecting operations staged.</div>';
+    panel.innerHTML = '<div class="preview-empty">Stage operations to see corpus segments.</div>';
     return;
   }
 
   var html = ops.map(function(op) {
-    var affectedCodes = op.type === 'deprecate' ? op.sources : op.sources.concat(
-      CODEBOOK_TREE.some(function(n) { return n.name === op.target; }) ? [op.target] : []
-    );
+    // For rename/merge: show sources + target if it already exists in tree
+    // For move/deprecate: show sources only (target is a parent or status, not a code)
+    var affectedCodes;
+    if (op.type === 'move' || op.type === 'deprecate') {
+      affectedCodes = op.sources.slice();
+    } else {
+      affectedCodes = op.sources.concat(
+        CODEBOOK_TREE.some(function(n) { return n.name === op.target; }) ? [op.target] : []
+      );
+    }
     // Deduplicate
     var seen = new Set();
     affectedCodes = affectedCodes.filter(function(n) { if (seen.has(n)) return false; seen.add(n); return true; });
@@ -998,8 +1001,7 @@ function generateScript() {
     }
     // move and deprecate are applied server-side; not emitted here
   });
-  if (!hasCliOps) lines.push('# No qc CLI commands for queued operations.');
-  return lines.join('\n');
+  return { script: hasCliOps ? lines.join('\n') : null, hasCliOps: hasCliOps };
 }
 
 function renderScript() {
@@ -1013,18 +1015,29 @@ function renderScript() {
     return;
   }
 
-  var script = generateScript();
-  var hasMoveOrDeprecate = allOps().some(function(op) { return op.type === 'move' || op.type === 'deprecate'; });
+  var result = generateScript();
+
+  if (!result.hasCliOps) {
+    panel.innerHTML = '<div class="script-block">#!/bin/bash\n# qc-refactor — generated script\n</div>'
+      + '<div class="script-note script-note-prominent">No <code>qc</code> CLI commands are required for the queued operations. Move and deprecate are applied directly by the server on execute: move rewrites <code>codebook.yaml</code> hierarchy; deprecate sets the status field in <code>codebook.json</code>.</div>';
+    return;
+  }
+
+  var serverSideTypes = allOps()
+    .filter(function(op) { return op.type === 'move' || op.type === 'deprecate'; })
+    .map(function(op) { return op.type; })
+    .filter(function(t, i, arr) { return arr.indexOf(t) === i; });
+
   panel.innerHTML = '<div class="script-block">'
     + '<button class="btn script-copy" id="copy-script">Copy</button>'
-    + esc(script)
+    + esc(result.script)
     + '</div>'
-    + (hasMoveOrDeprecate
-        ? '<div class="script-note">Move and deprecate operations are applied directly by the server on execute — no <code>qc</code> CLI command is issued for these.</div>'
+    + (serverSideTypes.length > 0
+        ? '<div class="script-note script-note-prominent">Move and deprecate operations are applied directly by the server on execute — no <code>qc</code> CLI command is issued for these.</div>'
         : '');
 
   document.getElementById('copy-script').addEventListener('click', function() {
-    navigator.clipboard.writeText(script).then(function() {
+    navigator.clipboard.writeText(result.script).then(function() {
       var btn = document.getElementById('copy-script');
       if (btn) { btn.textContent = 'Copied!'; setTimeout(function() { if (btn) btn.textContent = 'Copy'; }, 1500); }
     });
@@ -1153,7 +1166,7 @@ function renderExecuteRow() {
 
 function render() {
   try {
-    ['rename','merge','move','deprecate'].forEach(renderQueueForTab);
+    renderQueue();
     renderOpForm();
     renderPreview();
     renderScript();
@@ -1174,7 +1187,7 @@ async function executeQueue(summary) {
   var payload = {
     operations:  allOps(),
     summary:     summary,
-    script:      generateScript(),
+    script:      generateScript().script || '',
     scheme_path: SCHEME_PATH,
     docs_edits:  state.docsEdits,
   };
@@ -1189,7 +1202,7 @@ async function executeQueue(summary) {
 
     state.results    = data.results || [];
     state.snapshot   = data.snapshot || null;
-    state.queues     = { rename: [], merge: [], move: [], deprecate: [] };
+    state.queue      = [];
     state.docsEdits  = {};
     state.expandedSegs = {};
     state.panelTab   = 'results';
@@ -1207,7 +1220,18 @@ async function executeQueue(summary) {
 
     render();
   } catch(e) {
-    alert('Execution error: ' + e.message);
+    var rp = document.getElementById('results-panel');
+    if (rp) {
+      state.panelTab = 'results';
+      document.querySelectorAll('.panel-tab').forEach(function(t) {
+        t.classList.toggle('active', t.dataset.tab === 'results');
+      });
+      document.getElementById('preview-wrap')  && document.getElementById('preview-wrap').classList.add('hidden');
+      document.getElementById('script-panel')  && document.getElementById('script-panel').classList.add('hidden');
+      document.getElementById('history-panel') && document.getElementById('history-panel').classList.add('hidden');
+      rp.classList.remove('hidden');
+      rp.innerHTML = '<div class="result-item err"><span class="result-icon">✗</span><div class="result-body"><div class="result-cmd">Execution failed</div><div class="result-out">' + esc(e.message) + '</div></div></div>';
+    }
   }
 }
 
@@ -1224,11 +1248,6 @@ document.addEventListener('DOMContentLoaded', async function() {
       state.activeTab = tab.dataset.type;
       document.querySelectorAll('.op-tab').forEach(function(t) {
         t.classList.toggle('active', t === tab);
-      });
-      // Show correct queue list
-      ['rename','merge','move','deprecate'].forEach(function(t) {
-        var el = document.getElementById('queue-list-' + t);
-        if (el) el.classList.toggle('hidden', t !== state.activeTab);
       });
       closePicker();
       renderOpForm();
@@ -1276,7 +1295,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   document.getElementById('btn-add').addEventListener('click', addOperation);
 
   document.getElementById('btn-clear').addEventListener('click', function() {
-    state.queues     = { rename: [], merge: [], move: [], deprecate: [] };
+    state.queue      = [];
     state.docsEdits  = {};
     state.expandedSegs = {};
     render();

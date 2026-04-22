@@ -159,10 +159,7 @@ local function generate_html()
     <div style="padding:8px 14px;border-bottom:1px solid var(--border-dim);flex-shrink:0">
       <button class="btn primary" id="btn-add" style="width:100%">Add to queue</button>
     </div>
-    <div class="queue-list" id="queue-list-rename"></div>
-    <div class="queue-list hidden" id="queue-list-merge"></div>
-    <div class="queue-list hidden" id="queue-list-move"></div>
-    <div class="queue-list hidden" id="queue-list-deprecate"></div>
+    <div class="queue-list" id="queue-list"></div>
     <div class="session-note-area">
       <label class="session-note-label">Session note</label>
       <textarea id="session-note" class="session-note-textarea" placeholder="Describe what you're doing and why — this becomes the snapshot label and seeds provenance of affected codes…"></textarea>

@@ -105,6 +105,15 @@ body {
 .op-form input[type="text"]:focus { border-color: var(--accent); }
 
 .op-form-row { display: flex; flex-direction: column; gap: 3px; }
+.op-form-error {
+  font-size: 11px;
+  color: var(--red);
+  padding: 4px 6px;
+  background: rgba(192,57,43,0.08);
+  border-radius: var(--radius);
+  margin-bottom: 4px;
+}
+.op-form-error.hidden { display: none; }
 
 .sources-list {
   display: flex;
@@ -183,6 +192,7 @@ body {
 }
 .badge-rename    { background: rgba(59,91,219,0.12); color: var(--accent); }
 .badge-merge     { background: rgba(15,122,85,0.12); color: var(--green); }
+.badge-move      { background: rgba(133,77,14,0.12); color: var(--yellow, #b45309); }
 .badge-deprecate { background: rgba(192,57,43,0.10); color: var(--red); }
 
 .queue-item-body { flex: 1; min-width: 0; }
@@ -794,6 +804,15 @@ body {
   color: var(--text-faint);
   font-style: italic;
   line-height: 1.5;
+}
+
+.script-note-prominent {
+  font-style: normal;
+  color: var(--text);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 10px;
 }
 
 .code-panel-textarea {
