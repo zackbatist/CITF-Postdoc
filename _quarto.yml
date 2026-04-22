@@ -1,6 +1,6 @@
 project:
   type: website
-  pre-render: qc-atelier/shared/qc-pre-render.sh
+  # pre-render: qc-atelier/shared/qc-pre-render.sh
   render:
     - "*.qmd"
     - "!private/"

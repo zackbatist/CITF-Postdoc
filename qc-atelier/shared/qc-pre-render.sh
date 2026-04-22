@@ -1,28 +1,34 @@
 #!/bin/bash
-
 # Pre-render script to generate JSON files from qc database
 # This script is context-agnostic and works with any qualitative-coding project
-# Place this in: assets/scripts/qc-viz/qc-viz-pre-render.sh
-
+# Place this in: qc-atelier/shared/qc-pre-render.sh
 set -e
 
 # Function to read YAML config (simple parser for our needs)
 read_yaml_config() {
     local config_file="${1:-qc-atelier-config.yaml}"
-    
     if [ ! -f "$config_file" ]; then
         return 1
     fi
-    
-    # Extract directory configurations
-    QC_DIR_FROM_CONFIG=$(grep "^  qc_dir:" "$config_file" | sed 's/.*: *"\?\([^"]*\)"\?.*/\1/' | tr -d '"')
-    QC_CORPUS_DIR_FROM_CONFIG=$(grep "^  corpus_dir:" "$config_file" | sed 's/.*: *"\?\([^"]*\)"\?.*/\1/' | tr -d '"')
-    QC_EXCLUDE_DIR_FROM_CONFIG=$(grep "^  exclude_dir:" "$config_file" | sed 's/.*: *"\?\([^"]*\)"\?.*/\1/' | tr -d '"')
-    QC_JSON_DIR_FROM_CONFIG=$(grep "^  json_dir:" "$config_file" | sed 's/.*: *"\?\([^"]*\)"\?.*/\1/' | tr -d '"')
-    
-    # Extract file configurations
-    QC_VENV_FROM_CONFIG=$(grep "^  venv:" "$config_file" | sed 's/.*: *"\?\([^"]*\)"\?.*/\1/' | tr -d '"')
-    
+
+    # Extract directory and file configurations.
+    # Strip inline comments (# ...) and surrounding whitespace after the value.
+    _parse_yaml_value() {
+        grep "^  ${1}:" "$2" \
+            | sed 's/.*: *//' \
+            | sed 's/[[:space:]]*#.*//' \
+            | sed 's/^"\(.*\)"$/\1/' \
+            | tr -d '"' \
+            | tr -d "'" \
+            | sed 's/[[:space:]]*$//'
+    }
+
+    QC_DIR_FROM_CONFIG=$(_parse_yaml_value "qc_dir" "$config_file")
+    QC_CORPUS_DIR_FROM_CONFIG=$(_parse_yaml_value "corpus_dir" "$config_file")
+    QC_EXCLUDE_DIR_FROM_CONFIG=$(_parse_yaml_value "exclude_dir" "$config_file")
+    QC_JSON_DIR_FROM_CONFIG=$(_parse_yaml_value "json_dir" "$config_file")
+    QC_VENV_FROM_CONFIG=$(_parse_yaml_value "venv" "$config_file")
+
     return 0
 }
 
@@ -50,7 +56,6 @@ if [ ! -f "$QC_VENV" ]; then
     echo "WARNING: Virtual environment not found at $QC_VENV"
     echo "Attempting to run qc without activating venv..."
 else
-    # Activate virtual environment
     echo "Activating virtual environment: $QC_VENV"
     source "$QC_VENV"
 fi
@@ -65,31 +70,25 @@ if [ ! -d "$QC_CORPUS_DIR" ]; then
 fi
 
 cd "$QC_DIR"
-
 for file in corpus/*.txt; do
-    # Check if glob matched anything
     if [ ! -f "$file" ]; then
         echo "WARNING: No .txt files found in corpus/"
         cd ..
         exit 0
     fi
-    
+
     basename=$(basename "$file")
-    
-    # Check if file exists in exclude directory
+
     if [ -d "$QC_EXCLUDE_DIR" ] && [ -f "${QC_EXCLUDE_DIR}/${basename}" ]; then
         echo "Skipping excluded file: $basename (found in exclude/)"
         continue
     fi
-    
-    # Generate JSON for this file
+
     echo "Generating JSON for: $basename"
     qc codes find --json --pattern "$basename" --before 0 --after 0 > "json/${basename%.txt}.json"
 done
-
 cd ..
 
-# Deactivate venv if it was activated
 if [ -n "$VIRTUAL_ENV" ]; then
     deactivate
 fi
