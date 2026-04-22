@@ -217,7 +217,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         req = args[0]  # e.g. "GET /api/generate HTTP/1.1"
         parts = req.split()
         path = parts[1] if len(parts) >= 2 else ""
-        if any(path.startswith(p) for p in ("/logs/", "/docs/", "/api/", "/excerpts/")):
+        if any(path.startswith(p) for p in ("/logs/", "/docs/", "/api/", "/excerpts/", "/refactor/", "/snapshots/")):
             ts = datetime.now().strftime("%H:%M:%S")
             print(f"[{ts}] {fmt % args}")
 
@@ -248,6 +248,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._docs_load()
         elif self.path.startswith("/excerpts/fetch"):
             self._excerpts_fetch()
+        elif self.path.startswith("/refactor/history"):
+            self._refactor_history()
         elif self.path.startswith("/api/"):
             self._proxy("GET", b"")
         else:
@@ -262,6 +264,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._docs_save(body)
         elif self.path == "/snapshots/create":
             self._snapshots_create(body)
+        elif self.path == "/refactor/execute":
+            self._refactor_execute(body)
+        elif self.path == "/refactor/move":
+            self._refactor_move(body)
         elif self.path.startswith("/api/"):
             self._proxy("POST", body)
         else:
@@ -479,6 +485,260 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             print(f"[{ts}] saved {abs_path}  ({n} documented, {len(overrides)} moves)")
 
             self._json(200, {"ok": True})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
+
+    # ── POST /refactor/execute ─────────────────────────────────────────────────
+    # Body: { operations, summary, script, scheme_path, docs_edits }
+
+    def _refactor_execute(self, body):
+        import subprocess
+        try:
+            payload     = json.loads(body)
+            operations  = payload.get("operations", [])
+            summary     = payload.get("summary", "")
+            scheme_path = Path(payload.get("scheme_path", ""))
+            docs_edits  = payload.get("docs_edits", {})
+
+            working_yaml = SERVE_DIR / "codebook.yaml"
+            working_docs = SERVE_DIR / "codebook.json"
+            project_root = str(SERVE_DIR.parent)
+
+            ts_log = datetime.now().strftime("%H:%M:%S")
+            print(f"[{ts_log}] refactor/execute: {len(operations)} ops — {summary[:60]}")
+
+            # ── Run operations ──────────────────────────────────────────────────
+            results = []
+
+            for op in operations:
+                op_type = op.get("type")
+                sources = op.get("sources", [])
+                target  = op.get("target", "")
+
+                if op_type in ("rename", "merge"):
+                    cmd = ["qc", "codes", "rename"] + sources + ([target] if target else [])
+                    try:
+                        r = subprocess.run(
+                            cmd, cwd=project_root,
+                            capture_output=True, text=True, timeout=30
+                        )
+                        ok  = r.returncode == 0
+                        out = (r.stdout + r.stderr).strip()
+                        results.append({"cmd": " ".join(cmd), "ok": ok, "output": out})
+                    except Exception as e:
+                        results.append({"cmd": " ".join(cmd), "ok": False, "output": str(e)})
+
+                elif op_type == "move":
+                    try:
+                        self._do_move(sources[0] if sources else "", target, working_yaml)
+                        results.append({"cmd": f"move {sources[0]} → {target or '(top level)'}", "ok": True, "output": ""})
+                    except Exception as e:
+                        results.append({"cmd": f"move {sources[0] if sources else '?'} → {target}", "ok": False, "output": str(e)})
+
+                elif op_type == "deprecate":
+                    try:
+                        if working_docs.exists():
+                            with open(working_docs) as f:
+                                docs = json.load(f)
+                            for src in sources:
+                                if src not in docs.setdefault("codes", {}):
+                                    docs["codes"][src] = {}
+                                docs["codes"][src]["status"] = "deprecated"
+                            with open(working_docs, "w") as f:
+                                json.dump(docs, f, ensure_ascii=False, indent=2)
+                        results.append({"cmd": f"deprecate {', '.join(sources)}", "ok": True, "output": ""})
+                    except Exception as e:
+                        results.append({"cmd": f"deprecate {', '.join(sources)}", "ok": False, "output": str(e)})
+
+            # ── Update codebook.json — provenance, docs_edits, changelog ───────
+            if working_docs.exists():
+                try:
+                    with open(working_docs) as f:
+                        docs = json.load(f)
+
+                    codes  = docs.setdefault("codes", {})
+                    ts_iso = datetime.now().isoformat()
+
+                    # Apply docs_edits
+                    for code_name, edits in docs_edits.items():
+                        if code_name not in codes:
+                            codes[code_name] = {}
+                        for field, value in edits.items():
+                            old_val = codes[code_name].get(field, "")
+                            codes[code_name][field] = value
+                            log = codes[code_name].setdefault("_log", [])
+                            log.append({"ts": ts_iso, "field": field, "from": old_val, "to": value})
+
+                    # Write provenance for each op
+                    for op in operations:
+                        op_type = op.get("type")
+                        sources = op.get("sources", [])
+                        target  = op.get("target", "")
+                        if op_type == "rename" and sources:
+                            tgt = codes.setdefault(target, {})
+                            tgt["provenance"] = f"Renamed from {sources[0]} ({ts_iso[:10]})"
+                        elif op_type == "merge" and sources:
+                            tgt = codes.setdefault(target, {})
+                            tgt["provenance"] = f"Merged from {', '.join(sources)} ({ts_iso[:10]}): {summary}"
+                        elif op_type == "move" and sources:
+                            src_doc = codes.setdefault(sources[0], {})
+                            dest = target or "(top level)"
+                            src_doc["provenance"] = (src_doc.get("provenance", "") + f"\nMoved to {dest} ({ts_iso[:10]})").strip()
+
+                    # Append refactor changelog entry
+                    changelog = docs.setdefault("changelog", [])
+                    changelog.append({
+                        "ts":      ts_iso,
+                        "type":    "refactor",
+                        "summary": summary,
+                        "ops":     operations,
+                        "results": results,
+                    })
+
+                    with open(working_docs, "w") as f:
+                        json.dump(docs, f, ensure_ascii=False, indent=2)
+                except Exception as e:
+                    ts_log = datetime.now().strftime("%H:%M:%S")
+                    print(f"[{ts_log}] refactor/execute: WARNING — could not update codebook.json: {e}")
+
+            self._json(200, {"ok": True, "results": results})
+
+        except Exception as e:
+            import traceback; traceback.print_exc()
+            self._json(500, {"ok": False, "error": str(e), "results": []})
+
+    # ── POST /refactor/move ────────────────────────────────────────────────────
+    # Body: { code, new_parent, yaml_path }
+
+    def _refactor_move(self, body):
+        try:
+            payload    = json.loads(body)
+            code       = payload.get("code", "")
+            new_parent = payload.get("new_parent", "")
+            yaml_path  = Path(payload.get("yaml_path", str(SERVE_DIR / "codebook.yaml")))
+            self._do_move(code, new_parent, yaml_path)
+            self._json(200, {"ok": True})
+        except Exception as e:
+            import traceback; traceback.print_exc()
+            self._json(500, {"ok": False, "error": str(e)})
+
+    def _do_move(self, code, new_parent, yaml_path):
+        """Move a code to a new parent in codebook.yaml by direct line manipulation."""
+        if not yaml_path.exists():
+            raise FileNotFoundError(f"codebook.yaml not found: {yaml_path}")
+
+        with open(yaml_path) as f:
+            lines = f.readlines()
+
+        # Find the line containing the code (as a list item)
+        code_pattern = re.compile(r'^(\s*)-\s+' + re.escape(code) + r'\s*:?\s*$')
+        code_line_idx = None
+        for i, line in enumerate(lines):
+            if code_pattern.match(line):
+                code_line_idx = i
+                break
+
+        if code_line_idx is None:
+            raise ValueError(f"Code not found in codebook.yaml: {code}")
+
+        # Collect the code's block: its line plus any indented children
+        code_indent = len(lines[code_line_idx]) - len(lines[code_line_idx].lstrip())
+        block = [lines[code_line_idx]]
+        j = code_line_idx + 1
+        while j < len(lines):
+            line = lines[j]
+            if line.strip() == '' or line.strip().startswith('#'):
+                j += 1
+                continue
+            line_indent = len(line) - len(line.lstrip())
+            if line_indent > code_indent:
+                block.append(line)
+                j += 1
+            else:
+                break
+
+        # Remove the block from its current position
+        del lines[code_line_idx:code_line_idx + len(block)]
+
+        # Re-indent block to depth of new parent + 1
+        if new_parent:
+            parent_pattern = re.compile(r'^(\s*)-\s+' + re.escape(new_parent) + r'\s*:?\s*$')
+            parent_line_idx = None
+            for i, line in enumerate(lines):
+                if parent_pattern.match(line):
+                    parent_line_idx = i
+                    break
+            if parent_line_idx is None:
+                raise ValueError(f"Parent code not found in codebook.yaml: {new_parent}")
+
+            parent_indent = len(lines[parent_line_idx]) - len(lines[parent_line_idx].lstrip())
+            new_indent    = parent_indent + 2
+
+            # Ensure parent line ends with colon
+            if not lines[parent_line_idx].rstrip().endswith(':'):
+                lines[parent_line_idx] = lines[parent_line_idx].rstrip() + ':\n'
+
+            # Re-indent block
+            old_indent = code_indent
+            reindented = []
+            for bline in block:
+                if bline.strip() == '':
+                    reindented.append(bline)
+                else:
+                    bline_indent = len(bline) - len(bline.lstrip())
+                    delta = bline_indent - old_indent
+                    reindented.append(' ' * (new_indent + delta) + bline.lstrip())
+
+            # Insert after parent line (find end of parent's existing children)
+            insert_at = parent_line_idx + 1
+            while insert_at < len(lines):
+                line = lines[insert_at]
+                if line.strip() == '' or line.strip().startswith('#'):
+                    insert_at += 1
+                    continue
+                line_indent = len(line) - len(line.lstrip())
+                if line_indent > parent_indent:
+                    insert_at += 1
+                else:
+                    break
+            lines[insert_at:insert_at] = reindented
+        else:
+            # Top-level: indent = 0
+            reindented = []
+            old_indent = code_indent
+            for bline in block:
+                if bline.strip() == '':
+                    reindented.append(bline)
+                else:
+                    bline_indent = len(bline) - len(bline.lstrip())
+                    delta = bline_indent - old_indent
+                    reindented.append(' ' * max(0, delta) + bline.lstrip())
+            # Append at end (before trailing newline)
+            lines.extend(reindented)
+
+        with open(yaml_path, "w") as f:
+            f.writelines(lines)
+
+        ts_log = datetime.now().strftime("%H:%M:%S")
+        print(f"[{ts_log}] refactor/move: {code} → {new_parent or '(top level)'}")
+
+    # ── GET /refactor/history?path=X ──────────────────────────────────────────
+
+    def _refactor_history(self):
+        qs = self.path.split("?", 1)[1] if "?" in self.path else ""
+        params = dict(p.split("=", 1) for p in qs.split("&") if "=" in p)
+        import urllib.parse
+        scheme_path = Path(urllib.parse.unquote(params.get("path", str(SERVE_DIR / "codebook.json"))))
+        try:
+            if not scheme_path.exists():
+                self._json(200, {"entries": [], "ok": True})
+                return
+            with open(scheme_path) as f:
+                data = json.load(f)
+            changelog = data.get("changelog", [])
+            entries = [e for e in changelog if e.get("type") == "refactor"]
+            entries.sort(key=lambda e: e.get("ts", ""), reverse=True)
+            self._json(200, {"entries": entries, "ok": True})
         except Exception as e:
             self._json(500, {"error": str(e)})
 

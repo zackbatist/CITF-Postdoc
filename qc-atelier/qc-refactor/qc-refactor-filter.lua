@@ -162,8 +162,7 @@ local function generate_html()
     <div class="queue-list" id="queue-list"></div>
     <div class="session-note-area">
       <label class="session-note-label">Session note</label>
-      <textarea id="session-note" class="session-note-textarea" placeholder="Describe what you're doing and why — this becomes the snapshot label and seeds provenance of affected codes…"></textarea>
-      <div class="session-note-preview" id="snapshot-name-preview"></div>
+      <textarea id="session-note" class="session-note-textarea" placeholder="Describe what changed and why — written into the changelog and code provenance…"></textarea>
     </div>
     <div class="queue-footer">
       <div class="queue-count" id="queue-count">Queue is empty</div>

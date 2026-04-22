@@ -1057,21 +1057,11 @@ function renderResults() {
     return;
   }
 
-  var snapHtml = '';
-  if (state.snapshot) {
-    snapHtml = '<div class="result-snapshot">'
-      + '<span class="result-snapshot-icon">📸</span>'
-      + '<div class="result-snapshot-body">'
-      + '<div class="result-snapshot-label">Snapshot created</div>'
-      + '<div class="result-snapshot-name">' + esc(state.snapshot) + '</div>'
-      + '</div></div>';
-  }
-
   var noteHtml = state.sessionNote
     ? '<div class="result-note">' + esc(state.sessionNote) + '</div>'
     : '';
 
-  panel.innerHTML = snapHtml + noteHtml + state.results.map(function(r) {
+  panel.innerHTML = noteHtml + state.results.map(function(r) {
     return '<div class="result-item ' + (r.ok ? 'ok' : 'err') + '">'
       + '<span class="result-icon">' + (r.ok ? '✓' : '✗') + '</span>'
       + '<div class="result-body">'
@@ -1141,13 +1131,7 @@ async function renderHistory() {
 }
 
 function updateSnapshotPreview() {
-  var el   = document.getElementById('snapshot-name-preview');
-  if (!el) return;
-  var note = state.sessionNote.trim();
-  if (!note) { el.textContent = ''; return; }
-  var ts       = new Date().toISOString().slice(0,16).replace('T','-').replace(':','');
-  var segment  = note.slice(0,30).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'refactor';
-  el.textContent = 'Snapshot: codebook_' + ts + '_' + segment;
+  // Snapshot preview removed — snapshots are created manually, not on execute.
 }
 
 function renderExecuteRow() {
@@ -1201,7 +1185,7 @@ async function executeQueue(summary) {
     var data = await res.json();
 
     state.results    = data.results || [];
-    state.snapshot   = data.snapshot || null;
+    state.snapshot   = null;
     state.queue      = [];
     state.docsEdits  = {};
     state.expandedSegs = {};
