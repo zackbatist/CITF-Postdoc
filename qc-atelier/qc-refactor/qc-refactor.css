@@ -1187,3 +1187,17 @@ body {
 }
 
 .history-op-desc { color: var(--text-dim); }
+.history-op-status { font-size: 10px; margin-right: 4px; flex-shrink: 0; }
+.history-op-status.ok  { color: var(--green); }
+.history-op-status.err { color: var(--red); }
+.history-op-error {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--red);
+  background: rgba(192,57,43,0.08);
+  border-radius: 3px;
+  padding: 3px 6px;
+  margin-top: 3px;
+  white-space: pre-wrap;
+  word-break: break-all;
+}

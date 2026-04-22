@@ -34,12 +34,13 @@ from pathlib import Path
 # ── Config ─────────────────────────────────────────────────────────────────────
 
 def load_config():
-    config_path = os.environ.get("QC_REFLECT_CONFIG", "qc-reflect-config.yaml")
+    config_path = os.environ.get("QC_ATELIER_CONFIG", "qc-atelier-config.yaml")
     defaults = {
         "port":       8080,
         "serve_dir":  "qc",
         "logs_dir":   "qc/reflect-logs",
         "ollama_url": "http://localhost:11434",
+        "qc_bin":     "",
     }
     try:
         with open(config_path) as f:
@@ -54,6 +55,7 @@ def load_config():
         logs_dir_r = get("logs_dir",   "reflect-logs")
         port_str   = get("port",       str(defaults["port"]))
         ollama_url = get("url",        defaults["ollama_url"])
+        qc_bin     = get("qc_bin",     "")
         logs_dir   = logs_dir_r if os.path.isabs(logs_dir_r) \
                      else os.path.join(output_dir, logs_dir_r)
 
@@ -62,6 +64,7 @@ def load_config():
             "serve_dir":  output_dir,  # filters write HTML here; serve from same dir
             "logs_dir":   logs_dir,
             "ollama_url": ollama_url.rstrip("/"),
+            "qc_bin":     qc_bin,
         }
     except Exception as e:
         print(f"[config] Could not parse {config_path}: {e}  — using defaults")
@@ -250,6 +253,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._excerpts_fetch()
         elif self.path.startswith("/refactor/history"):
             self._refactor_history()
+        elif self.path.startswith("/refactor/tree"):
+            self._refactor_tree()
         elif self.path.startswith("/api/"):
             self._proxy("GET", b"")
         else:
@@ -347,10 +352,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     # ── GET /docs/load ─────────────────────────────────────────────────────────
 
     def _docs_load(self):
+        import urllib.parse
         qs = self.path.split("?", 1)[1] if "?" in self.path else ""
         params = dict(p.split("=", 1) for p in qs.split("&") if "=" in p)
-        docs_path = Path(params.get("path", "qc/codebook.json"))
-        json_path = docs_path  # already .json; kept as Path object
+        docs_path = Path(urllib.parse.unquote(params.get("path", "qc/codebook.json")))
+        json_path = docs_path
         try:
             if json_path.exists():
                 with open(json_path) as f:
@@ -502,7 +508,14 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
             working_yaml = SERVE_DIR / "codebook.yaml"
             working_docs = SERVE_DIR / "codebook.json"
-            project_root = str(SERVE_DIR.parent)
+            project_root = str(SERVE_DIR)
+            qc_bin       = CONFIG.get("qc_bin") or shutil.which("qc") or "qc"
+
+            # Ensure pipx/local bin is on PATH for subprocess
+            _env = os.environ.copy()
+            _local_bin = str(Path.home() / ".local" / "bin")
+            if _local_bin not in _env.get("PATH", ""):
+                _env["PATH"] = _local_bin + ":" + _env.get("PATH", "")
 
             ts_log = datetime.now().strftime("%H:%M:%S")
             print(f"[{ts_log}] refactor/execute: {len(operations)} ops — {summary[:60]}")
@@ -516,15 +529,51 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 target  = op.get("target", "")
 
                 if op_type in ("rename", "merge"):
-                    cmd = ["qc", "codes", "rename"] + sources + ([target] if target else [])
+                    cmd = [qc_bin, "codes", "rename"] + sources + ([target] if target else [])
                     try:
                         r = subprocess.run(
                             cmd, cwd=project_root,
-                            capture_output=True, text=True, timeout=30
+                            capture_output=True, text=True, timeout=30,
+                            env=_env
                         )
                         ok  = r.returncode == 0
                         out = (r.stdout + r.stderr).strip()
                         results.append({"cmd": " ".join(cmd), "ok": ok, "output": out})
+                        if ok:
+                            # Verify which source codes are now orphans before removing
+                            try:
+                                stats = subprocess.run(
+                                    [qc_bin, "codes", "stats", "-zu", "0"],
+                                    cwd=project_root, capture_output=True, text=True,
+                                    timeout=30, env=_env
+                                )
+                                orphan_lines = stats.stdout.splitlines()
+                                # Output is a table; code names appear in the first column
+                                orphan_codes = set()
+                                for line in orphan_lines:
+                                    # Skip header and separator lines
+                                    stripped = line.strip()
+                                    if not stripped or stripped.startswith('-') or stripped.startswith('Code'):
+                                        continue
+                                    # Count is the last whitespace-separated token
+                                    # Code name is everything before it
+                                    parts = stripped.rsplit(None, 1)
+                                    if len(parts) == 2 and parts[1].lstrip('-').isdigit():
+                                        orphan_codes.add(parts[0].strip())
+                                to_remove = [s for s in sources if s in orphan_codes]
+                                for src in to_remove:
+                                    try:
+                                        self._do_remove(src, working_yaml)
+                                    except Exception as rm_err:
+                                        ts_log = datetime.now().strftime("%H:%M:%S")
+                                        print(f"[{ts_log}] refactor/execute: WARNING — could not remove {src} from yaml: {rm_err}")
+                                skipped = [s for s in sources if s not in orphan_codes]
+                                if skipped:
+                                    ts_log = datetime.now().strftime("%H:%M:%S")
+                                    print(f"[{ts_log}] refactor/execute: skipped removal of {skipped} — still have corpus applications")
+                            except Exception as ve:
+                                ts_log = datetime.now().strftime("%H:%M:%S")
+                                print(f"[{ts_log}] refactor/execute: WARNING — could not verify orphans: {ve}")
                     except Exception as e:
                         results.append({"cmd": " ".join(cmd), "ok": False, "output": str(e)})
 
@@ -559,7 +608,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     codes  = docs.setdefault("codes", {})
                     ts_iso = datetime.now().isoformat()
 
-                    # Apply docs_edits
+                    # Build a result lookup by op index
+                    result_by_idx = { i: results[i] for i in range(len(results)) }
+
+                    # Apply docs_edits unconditionally (user wrote these)
                     for code_name, edits in docs_edits.items():
                         if code_name not in codes:
                             codes[code_name] = {}
@@ -569,8 +621,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                             log = codes[code_name].setdefault("_log", [])
                             log.append({"ts": ts_iso, "field": field, "from": old_val, "to": value})
 
-                    # Write provenance for each op
-                    for op in operations:
+                    # Write provenance only for successful ops
+                    for i, op in enumerate(operations):
+                        r = result_by_idx.get(i, {})
+                        if r.get("ok") is False:
+                            continue
                         op_type = op.get("type")
                         sources = op.get("sources", [])
                         target  = op.get("target", "")
@@ -585,11 +640,18 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                             dest = target or "(top level)"
                             src_doc["provenance"] = (src_doc.get("provenance", "") + f"\nMoved to {dest} ({ts_iso[:10]})").strip()
 
-                    # Append refactor changelog entry
+                    # Determine overall status
+                    n_ok    = sum(1 for r in results if r.get("ok") is not False)
+                    n_fail  = len(results) - n_ok
+                    ok_all  = n_fail == 0
+                    status  = "ok" if ok_all else ("partial" if n_ok > 0 else "failed")
+
+                    # Append refactor changelog entry — always, but with status
                     changelog = docs.setdefault("changelog", [])
                     changelog.append({
                         "ts":      ts_iso,
                         "type":    "refactor",
+                        "status":  status,
                         "summary": summary,
                         "ops":     operations,
                         "results": results,
@@ -597,11 +659,17 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
                     with open(working_docs, "w") as f:
                         json.dump(docs, f, ensure_ascii=False, indent=2)
+
+                    if not ok_all:
+                        ts_log = datetime.now().strftime("%H:%M:%S")
+                        print(f"[{ts_log}] refactor/execute: {n_fail} op(s) failed — {status}")
+
                 except Exception as e:
                     ts_log = datetime.now().strftime("%H:%M:%S")
                     print(f"[{ts_log}] refactor/execute: WARNING — could not update codebook.json: {e}")
 
-            self._json(200, {"ok": True, "results": results})
+            all_ok = all(r.get("ok") is not False for r in results)
+            self._json(200, {"ok": all_ok, "results": results})
 
         except Exception as e:
             import traceback; traceback.print_exc()
@@ -621,6 +689,64 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         except Exception as e:
             import traceback; traceback.print_exc()
             self._json(500, {"ok": False, "error": str(e)})
+
+    def _do_remove(self, code, yaml_path):
+        """Remove a code from codebook.yaml, re-parenting its children to its parent."""
+        if not yaml_path.exists():
+            raise FileNotFoundError(f"codebook.yaml not found: {yaml_path}")
+
+        with open(yaml_path) as f:
+            lines = f.readlines()
+
+        code_pattern = re.compile(r'^(\s*)-\s+' + re.escape(code) + r'\s*:?\s*$')
+        code_line_idx = None
+        for i, line in enumerate(lines):
+            if code_pattern.match(line):
+                code_line_idx = i
+                break
+
+        if code_line_idx is None:
+            return  # Already gone — nothing to do
+
+        code_indent = len(lines[code_line_idx]) - len(lines[code_line_idx].lstrip())
+
+        # Collect children (lines more indented than the code line)
+        children = []
+        j = code_line_idx + 1
+        while j < len(lines):
+            line = lines[j]
+            if line.strip() == '' or line.strip().startswith('#'):
+                j += 1
+                continue
+            line_indent = len(line) - len(line.lstrip())
+            if line_indent > code_indent:
+                children.append(line)
+                j += 1
+            else:
+                break
+
+        # Re-indent children to the code's own indent level
+        if children:
+            child_base_indent = len(children[0]) - len(children[0].lstrip())
+            reindented = []
+            for cl in children:
+                if cl.strip():
+                    cl_indent = len(cl) - len(cl.lstrip())
+                    delta = cl_indent - child_base_indent
+                    reindented.append(' ' * (code_indent + delta) + cl.lstrip())
+                else:
+                    reindented.append(cl)
+        else:
+            reindented = []
+
+        # Replace code line + its children block with re-indented children
+        lines[code_line_idx:code_line_idx + 1 + len(children)] = reindented
+
+        with open(yaml_path, "w") as f:
+            f.writelines(lines)
+
+        ts_log = datetime.now().strftime("%H:%M:%S")
+        print(f"[{ts_log}] refactor/remove: stripped {code} from codebook.yaml")
 
     def _do_move(self, code, new_parent, yaml_path):
         """Move a code to a new parent in codebook.yaml by direct line manipulation."""
@@ -721,6 +847,44 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         ts_log = datetime.now().strftime("%H:%M:%S")
         print(f"[{ts_log}] refactor/move: {code} → {new_parent or '(top level)'}")
+
+    # ── GET /refactor/tree ────────────────────────────────────────────────────
+    # Returns the current codebook.yaml as a flat tree for runtime picker refresh.
+
+    def _refactor_tree(self):
+        yaml_path = SERVE_DIR / "codebook.yaml"
+        try:
+            if not yaml_path.exists():
+                self._json(404, {"error": "codebook.yaml not found"})
+                return
+            with open(yaml_path) as f:
+                text = f.read()
+            nodes = self._parse_codebook_flat(text)
+            self._json(200, {"tree": nodes, "ok": True})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
+
+    def _parse_codebook_flat(self, text):
+        """Parse codebook.yaml into a flat list of {name, parent, depth, prefix}."""
+        nodes  = []
+        stack  = []  # (indent, name)
+        for line in text.splitlines():
+            stripped = line.lstrip()
+            if not stripped or stripped.startswith('#'):
+                continue
+            if not stripped.startswith('-'):
+                continue
+            indent = len(line) - len(line.lstrip())
+            depth  = indent // 2
+            # Pop stack to current depth
+            while stack and stack[-1][0] >= indent:
+                stack.pop()
+            name = stripped[1:].strip().rstrip(':')
+            parent = stack[-1][1] if stack else ''
+            prefix = name[:2] if len(name) >= 2 else name
+            nodes.append({"name": name, "parent": parent, "depth": depth, "prefix": prefix})
+            stack.append((indent, name))
+        return nodes
 
     # ── GET /refactor/history?path=X ──────────────────────────────────────────
 

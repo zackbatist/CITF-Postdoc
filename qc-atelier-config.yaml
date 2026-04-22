@@ -71,6 +71,7 @@ code_schema:
 # ── Server (qc-atelier-server.py) ─────────────────────────────────────────────
 server:
   port: 8080
+  qc_bin: "/Users/zackbatist/.local/pipx/venvs/qualitative-coding/bin/qc"
 
 # ── Ollama (qc-reflect) ───────────────────────────────────────────────────────
 ollama:

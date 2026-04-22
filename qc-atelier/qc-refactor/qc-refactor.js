@@ -55,6 +55,18 @@ async function loadDocs() {
   }
 }
 
+async function refreshTree() {
+  try {
+    var res  = await fetch(API + '/refactor/tree');
+    var data = await res.json();
+    if (data.ok && data.tree) {
+      _runtimeTree = data.tree;
+    }
+  } catch(e) {
+    console.warn('Could not refresh tree:', e);
+  }
+}
+
 function getCodeDoc(name) {
   var base  = (state.docsData && state.docsData[name]) || {};
   var edits = state.docsEdits[name] || {};
@@ -68,8 +80,13 @@ function setCodeDocField(codeName, field, value) {
 
 // ── Tree helpers ──────────────────────────────────────────────────────────────
 
-function getTree()          { return CODEBOOK_TREE || []; }
-function corpusCount(name)  { var c = CORPUS_COUNTS && CORPUS_COUNTS[name]; return c ? c.total : 0; }
+// ── Runtime tree (mutable copy of baked globals, updated after execute) ───────
+
+var _runtimeTree   = (CODEBOOK_TREE || []).map(function(n) { return Object.assign({}, n); });
+var _runtimeCounts = Object.assign({}, CORPUS_COUNTS || {});
+
+function getTree()         { return _runtimeTree; }
+function corpusCount(name) { var c = _runtimeCounts[name]; return c ? c.total : 0; }
 function corpusSegs(name)   { return (CORPUS_DATA && CORPUS_DATA[name]) || []; }
 
 function nodeByName(name) {
@@ -579,6 +596,70 @@ function repopulateForm(op) {
   }
 }
 
+// ── Apply executed ops to runtime tree ───────────────────────────────────────
+// Called after a successful execute to keep pickers and counts current
+// without requiring a re-render.
+
+function applyOpsToRuntimeTree(operations) {
+  operations.forEach(function(op) {
+    var sources = op.sources || [];
+    var target  = op.target  || '';
+
+    if (op.type === 'rename' && sources.length === 1) {
+      var old = sources[0];
+      _runtimeTree.forEach(function(n) {
+        if (n.name   === old) n.name   = target;
+        if (n.parent === old) n.parent = target;
+      });
+      if (_runtimeCounts[old]) {
+        _runtimeCounts[target] = _runtimeCounts[old];
+        delete _runtimeCounts[old];
+      }
+    }
+
+    if (op.type === 'merge') {
+      // Reassign children of sources to target, remove source nodes
+      sources.forEach(function(src) {
+        _runtimeTree.forEach(function(n) {
+          if (n.parent === src) n.parent = target;
+        });
+        _runtimeTree = _runtimeTree.filter(function(n) { return n.name !== src; });
+        // Accumulate counts into target
+        if (_runtimeCounts[src]) {
+          if (!_runtimeCounts[target]) _runtimeCounts[target] = { total: 0, docs: 0 };
+          _runtimeCounts[target].total += _runtimeCounts[src].total;
+          delete _runtimeCounts[src];
+        }
+      });
+      // Add target node if it doesn't exist
+      if (!_runtimeTree.find(function(n) { return n.name === target; })) {
+        _runtimeTree.push({ name: target, parent: '', depth: 0, prefix: target.slice(0, 2) });
+      }
+    }
+
+    if (op.type === 'move' && sources.length === 1) {
+      var src = sources[0];
+      _runtimeTree.forEach(function(n) {
+        if (n.name === src) n.parent = target;
+      });
+    }
+
+    // deprecate: no tree structure change needed
+  });
+
+  // Recompute depths
+  var depthCache = {};
+  function getDepth(name) {
+    if (!name) return 0;
+    if (depthCache[name] !== undefined) return depthCache[name];
+    var node = _runtimeTree.find(function(n) { return n.name === name; });
+    if (!node || !node.parent) { depthCache[name] = 0; return 0; }
+    depthCache[name] = 1 + getDepth(node.parent);
+    return depthCache[name];
+  }
+  _runtimeTree.forEach(function(n) { n.depth = getDepth(n.name); });
+}
+
 // ── Add operation ─────────────────────────────────────────────────────────────
 
 function addOperation() {
@@ -899,7 +980,7 @@ function renderCorpusImpact() {
       affectedCodes = op.sources.slice();
     } else {
       affectedCodes = op.sources.concat(
-        CODEBOOK_TREE.some(function(n) { return n.name === op.target; }) ? [op.target] : []
+        getTree().some(function(n) { return n.name === op.target; }) ? [op.target] : []
       );
     }
     // Deduplicate
@@ -1103,28 +1184,36 @@ async function renderHistory() {
     var ts      = entry.ts ? new Date(entry.ts).toLocaleString() : '';
     var ops     = entry.ops || [];
     var results = entry.results || [];
-    var okCount = results.filter(function(r) { return r.ok; }).length;
-    var allOk   = okCount === results.length;
+    var status  = entry.status || (results.every(function(r) { return r.ok !== false; }) ? 'ok' : 'failed');
+    var statusIcon  = status === 'ok' ? '✓' : status === 'partial' ? '⚠' : '✗';
+    var statusClass = status === 'ok' ? 'ok' : 'err';
 
-    var opsHtml = ops.map(function(op) {
+    var opsHtml = ops.map(function(op, i) {
+      var r    = results[i] || {};
       var srcs = (op.sources || []).join(', ');
       var arrow = op.type === 'deprecate' ? '→ deprecated' : '→ ' + esc(op.target || '');
+      var opStatus = r.ok === false
+        ? '<span class="history-op-status err">✗</span>'
+        : '<span class="history-op-status ok">✓</span>';
+      var errOut = (r.ok === false && r.output)
+        ? '<div class="history-op-error">' + esc(r.output) + '</div>'
+        : '';
       return '<div class="history-op">'
+        + opStatus
         + '<span class="queue-item-badge badge-' + op.type + '">' + op.type + '</span>'
         + '<span class="history-op-desc">'
         + esc(srcs) + ' <span class="arrow">' + arrow + '</span>'
-        + '</span></div>';
+        + '</span>'
+        + errOut
+        + '</div>';
     }).join('');
 
     return '<div class="history-entry">'
       + '<div class="history-entry-header">'
       + '<span class="history-ts">' + esc(ts) + '</span>'
-      + '<span class="history-status ' + (allOk ? 'ok' : 'err') + '">'
-      + (allOk ? '✓' : '⚠') + ' ' + okCount + '/' + results.length
-      + '</span>'
+      + '<span class="history-status ' + statusClass + '">' + statusIcon + ' ' + status + '</span>'
       + '</div>'
       + (entry.summary ? '<div class="history-note">' + esc(entry.summary) + '</div>' : '')
-      + (entry.snapshot ? '<div class="history-snapshot">📸 ' + esc(entry.snapshot) + '</div>' : '')
       + '<div class="history-ops">' + opsHtml + '</div>'
       + '</div>';
   }).join('');
@@ -1186,6 +1275,10 @@ async function executeQueue(summary) {
 
     state.results    = data.results || [];
     state.snapshot   = null;
+
+    // Refresh tree from server so pickers reflect changes without re-render
+    await refreshTree();
+
     state.queue      = [];
     state.docsEdits  = {};
     state.expandedSegs = {};
@@ -1223,8 +1316,9 @@ async function executeQueue(summary) {
 
 document.addEventListener('DOMContentLoaded', async function() {
 
-  // Load codebook docs
+  // Load codebook docs and refresh tree from server
   await loadDocs();
+  await refreshTree();
 
   // Op type tabs
   document.querySelectorAll('.op-tab').forEach(function(tab) {
