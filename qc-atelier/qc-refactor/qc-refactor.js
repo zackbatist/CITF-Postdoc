@@ -7,7 +7,19 @@ var API              = 'http://localhost:' + (REFACTOR_CONFIG ? REFACTOR_CONFIG.
 var SCHEME_PATH      = REFACTOR_CONFIG ? REFACTOR_CONFIG.scheme_path : '';
 var SEG_TRUNCATE     = 140;
 var DOC_FIELDS       = ['scope', 'rationale', 'usage_notes', 'provenance'];
-var DOC_FIELD_LABELS = { scope: 'Scope', rationale: 'Rationale', usage_notes: 'Usage notes', provenance: 'Provenance' };
+var DOC_FIELD_LABELS = { scope: 'Scope', rationale: 'Rationale', usage_notes: 'Usage notes', provenance: 'History' };
+var DOC_FIELD_HINTS  = {
+  scope:       'What this code captures and where it ends',
+  rationale:   'Why this code exists; when to apply vs. siblings',
+  usage_notes: 'Edge cases, what to exclude, common confusions',
+  provenance:  'When created, split from, merged with',
+};
+var DOC_FIELD_PLACEHOLDERS = {
+  scope:       'What does this code cover?',
+  rationale:   'When to use this? How does it differ from nearby codes?',
+  usage_notes: 'What are the tricky cases? What should NOT be coded here?',
+  provenance:  'e.g. Split from X in Oct 2025',
+};
 
 // ── State ─────────────────────────────────────────────────────────────────────
 
@@ -257,10 +269,15 @@ function codePanelHTML(codeName, panelId) {
     + '</div>';
 
   DOC_FIELDS.forEach(function(field) {
-    var val = doc[field] || '';
+    var val         = doc[field] || '';
+    var hint        = DOC_FIELD_HINTS[field] || '';
+    var placeholder = DOC_FIELD_PLACEHOLDERS[field] || '';
     html += '<div class="code-panel-field">'
-      + '<label class="code-panel-label">' + DOC_FIELD_LABELS[field] + '</label>'
-      + '<textarea class="code-panel-textarea" data-code="' + esc(codeName) + '" data-field="' + field + '" rows="2">'
+      + '<label class="code-panel-label">'
+      + DOC_FIELD_LABELS[field]
+      + (hint ? '<span class="code-panel-field-hint">' + esc(hint) + '</span>' : '')
+      + '</label>'
+      + '<textarea class="code-panel-textarea" data-code="' + esc(codeName) + '" data-field="' + field + '" rows="2" placeholder="' + esc(placeholder) + '">'
       + esc(val)
       + '</textarea>'
       + '</div>';
@@ -492,6 +509,64 @@ function refreshMergePanels() {
   if (target) wireCodePanel('merge-target-panel');
 }
 
+// ── Repopulate form from a queue item (for editing) ──────────────────────────
+
+function repopulateForm(op) {
+  if (op.type === 'rename') {
+    var src = document.getElementById('rename-source');
+    var tgt = document.getElementById('rename-target');
+    if (src) { src.value = op.sources[0]; src.dispatchEvent(new Event('change')); }
+    if (tgt) tgt.value = op.target;
+    // Trigger the panel
+    var panels = document.getElementById('rename-panels');
+    if (panels && op.sources[0]) {
+      panels.innerHTML = codePanelHTML(op.sources[0], 'rename-src-panel');
+      wireCodePanel('rename-src-panel');
+    }
+  }
+
+  if (op.type === 'merge') {
+    // Sources: clear the default one row and add one per source
+    var grid = document.getElementById('merge-grid');
+    if (grid) {
+      grid.innerHTML = '';
+      _mergeRowCount = 0;
+      op.sources.forEach(function(s) {
+        addMergeSourceRow();
+        var rows = grid.querySelectorAll('.merge-row');
+        var lastRow = rows[rows.length - 1];
+        var inp = lastRow ? lastRow.querySelector('.code-input') : null;
+        if (inp) inp.value = s;
+      });
+    }
+    var tgt = document.getElementById('merge-target');
+    if (tgt) tgt.value = op.target;
+    refreshMergePanels();
+  }
+
+  if (op.type === 'move') {
+    var src = document.getElementById('move-source');
+    var par = document.getElementById('move-parent');
+    if (src) src.value = op.sources[0];
+    if (par) par.value = op.target || '';
+    var panels = document.getElementById('move-panels');
+    if (panels && op.sources[0]) {
+      panels.innerHTML = codePanelHTML(op.sources[0], 'move-src-panel');
+      wireCodePanel('move-src-panel');
+    }
+  }
+
+  if (op.type === 'deprecate') {
+    var src = document.getElementById('deprecate-source');
+    if (src) src.value = op.sources[0];
+    var panels = document.getElementById('deprecate-panels');
+    if (panels && op.sources[0]) {
+      panels.innerHTML = codePanelHTML(op.sources[0], 'deprecate-src-panel');
+      wireCodePanel('deprecate-src-panel');
+    }
+  }
+}
+
 // ── Add operation ─────────────────────────────────────────────────────────────
 
 function addOperation() {
@@ -579,9 +654,37 @@ function renderQueueForTab(type) {
     return '<div class="queue-item" data-id="' + op.id + '">'
       + '<span class="queue-item-badge badge-' + type + '">' + type + '</span>'
       + '<div class="queue-item-body"><div class="queue-item-desc">' + opDesc(op) + '</div></div>'
+      + '<button class="queue-item-edit" data-id="' + op.id + '" data-type="' + type + '" title="Edit">✎</button>'
       + '<button class="queue-item-remove" data-id="' + op.id + '" data-type="' + type + '" title="Remove">×</button>'
       + '</div>';
   }).join('');
+
+  list.querySelectorAll('.queue-item-edit').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var id = parseInt(btn.dataset.id);
+      var t  = btn.dataset.type;
+      var op = state.queues[t].find(function(o) { return o.id === id; });
+      if (!op) return;
+      // Remove from queue
+      state.queues[t] = state.queues[t].filter(function(o) { return o.id !== id; });
+      // Switch to the right tab and repopulate form
+      state.activeTab = t;
+      document.querySelectorAll('.op-tab').forEach(function(tab) {
+        tab.classList.toggle('active', tab.dataset.type === t);
+      });
+      ['rename','merge','move','deprecate'].forEach(function(tt) {
+        var el = document.getElementById('queue-list-' + tt);
+        if (el) el.classList.toggle('hidden', tt !== t);
+      });
+      renderOpForm();
+      // Repopulate after form is rendered
+      repopulateForm(op);
+      renderQueueForTab(t);
+      renderPreview();
+      renderScript();
+      renderExecuteRow();
+    });
+  });
 
   list.querySelectorAll('.queue-item-remove').forEach(function(btn) {
     btn.addEventListener('click', function() {
@@ -876,25 +979,26 @@ function renderPreview() {
   if (diffPanel)   diffPanel.classList.toggle('hidden',   state.previewTab !== 'diff');
   if (impactPanel) impactPanel.classList.toggle('hidden', state.previewTab !== 'impact');
 
-  if (state.previewTab === 'diff')   renderTreeDiff();
-  if (state.previewTab === 'impact') renderCorpusImpact();
+  renderTreeDiff();
+  renderCorpusImpact();
 }
 
 // ── Script ────────────────────────────────────────────────────────────────────
 
 function generateScript() {
   var lines = ['#!/bin/bash', '# qc-refactor — generated script', ''];
+  var hasCliOps = false;
   allOps().forEach(function(op) {
     if (op.type === 'rename') {
       lines.push('qc codes rename ' + shellQuote(op.sources[0]) + ' ' + shellQuote(op.target));
+      hasCliOps = true;
     } else if (op.type === 'merge') {
       lines.push('qc codes rename ' + op.sources.map(shellQuote).join(' ') + ' ' + shellQuote(op.target));
-    } else if (op.type === 'move') {
-      lines.push('# move ' + op.sources[0] + ' → ' + (op.target || '(top level)') + '  [codebook.yaml edit]');
-    } else if (op.type === 'deprecate') {
-      lines.push('# deprecate: ' + op.sources[0] + '  [codebook.json status change]');
+      hasCliOps = true;
     }
+    // move and deprecate are applied server-side; not emitted here
   });
+  if (!hasCliOps) lines.push('# No qc CLI commands for queued operations.');
   return lines.join('\n');
 }
 
@@ -910,10 +1014,14 @@ function renderScript() {
   }
 
   var script = generateScript();
+  var hasMoveOrDeprecate = allOps().some(function(op) { return op.type === 'move' || op.type === 'deprecate'; });
   panel.innerHTML = '<div class="script-block">'
     + '<button class="btn script-copy" id="copy-script">Copy</button>'
     + esc(script)
-    + '</div>';
+    + '</div>'
+    + (hasMoveOrDeprecate
+        ? '<div class="script-note">Move and deprecate operations are applied directly by the server on execute — no <code>qc</code> CLI command is issued for these.</div>'
+        : '');
 
   document.getElementById('copy-script').addEventListener('click', function() {
     navigator.clipboard.writeText(script).then(function() {

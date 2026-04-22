@@ -208,6 +208,18 @@ body {
   margin-top: 1px;
 }
 .queue-item-remove:hover { color: var(--red); }
+.queue-item-edit {
+  background: none;
+  border: none;
+  color: var(--text-faint);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0 2px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 1px;
+}
+.queue-item-edit:hover { color: var(--accent); }
 
 /* ── Queue footer — execute ── */
 .queue-footer {
@@ -762,6 +774,26 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 3px;
+}
+
+.code-panel-field-hint {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-faint);
+  opacity: 0.7;
+  margin-top: 1px;
+  margin-bottom: 2px;
+}
+
+.script-note {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text-faint);
+  font-style: italic;
+  line-height: 1.5;
 }
 
 .code-panel-textarea {
