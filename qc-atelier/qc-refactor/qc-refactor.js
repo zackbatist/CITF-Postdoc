@@ -50,6 +50,15 @@ async function loadDocs() {
     var data = await res.json();
     if (data.ok) {
       state.docsData = data.codes || {};
+      var mismatches = data.mismatches || [];
+      if (mismatches.length > 0) {
+        console.warn('[qc-refactor] Parent mismatches:', mismatches);
+        var msg = '⚠ Parent mismatch detected:\n'
+          + mismatches.map(function(m) {
+              return '  ' + m.code + ': yaml=' + (m.yaml_parent||'(top)') + ', json=' + (m.json_parent||'(top)');
+            }).join('\n');
+        showFormError(msg);
+      }
     }
   } catch(e) {
     console.warn('Could not load codebook.json:', e);

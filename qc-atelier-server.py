@@ -243,6 +243,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._snapshots_lineage()
         elif self.path.startswith("/snapshots/read"):
             self._snapshots_read()
+        elif self.path.startswith("/snapshots/tree"):
+            self._snapshots_tree()
         elif self.path.startswith("/docs/list-json"):
             self._docs_list_json()
         elif self.path.startswith("/docs/load-json"):
@@ -361,9 +363,47 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             if json_path.exists():
                 with open(json_path) as f:
                     data = json.load(f)
+
+                codes   = data.get("codes", {})
+                changed = False
+
+                # ── Migration: strip _baseline from all code entries ────────
+                for code_data in codes.values():
+                    if "_baseline" in code_data:
+                        del code_data["_baseline"]
+                        changed = True
+
+                # ── Sync check: compare parents in codebook.yaml vs codebook.json ──
+                yaml_path = json_path.parent / "codebook.yaml"
+                mismatches = []
+                if yaml_path.exists():
+                    try:
+                        yaml_tree = self._parse_codebook_flat(yaml_path.read_text())
+                        yaml_parents = {n["name"]: n["parent"] for n in yaml_tree}
+                        for code_name, code_data in codes.items():
+                            if "parent" in code_data:
+                                yaml_parent = yaml_parents.get(code_name)
+                                if yaml_parent is not None and code_data["parent"] != yaml_parent:
+                                    mismatches.append({
+                                        "code":       code_name,
+                                        "json_parent": code_data["parent"],
+                                        "yaml_parent": yaml_parent,
+                                    })
+                    except Exception as e:
+                        ts_log = datetime.now().strftime("%H:%M:%S")
+                        print(f"[{ts_log}] docs/load: WARNING — could not check parent sync: {e}")
+
+                if changed:
+                    data["codes"] = codes
+                    with open(json_path, "w") as f:
+                        json.dump(data, f, ensure_ascii=False, indent=2)
+                    ts_log = datetime.now().strftime("%H:%M:%S")
+                    print(f"[{ts_log}] docs/load: migrated — stripped _baseline from {json_path.name}")
+
                 self._json(200, {
-                    "codes":     data.get("codes", {}),
-                    "overrides": data.get("overrides", {}),
+                    "codes":      codes,
+                    "overrides":  data.get("overrides", {}),
+                    "mismatches": mismatches,
                     "ok": True,
                 })
             elif docs_path.exists():
@@ -371,7 +411,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     raw = f.read()
                 self._json(200, {"raw": raw, "ok": True})
             else:
-                self._json(200, {"codes": {}, "overrides": {}, "ok": True, "new": True})
+                self._json(200, {"codes": {}, "overrides": {}, "mismatches": [], "ok": True, "new": True})
         except Exception as e:
             self._json(500, {"error": str(e)})
 
@@ -630,15 +670,32 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         sources = op.get("sources", [])
                         target  = op.get("target", "")
                         if op_type == "rename" and sources:
+                            old_name = sources[0]
+                            # Move docs entry to new key
+                            if old_name in codes and old_name != target:
+                                codes[target] = codes.pop(old_name)
                             tgt = codes.setdefault(target, {})
-                            tgt["provenance"] = f"Renamed from {sources[0]} ({ts_iso[:10]})"
+                            tgt["provenance"] = f"Renamed from {old_name} ({ts_iso[:10]})"
+                            # Update parent refs
+                            for c, cd in codes.items():
+                                if cd.get("parent") == old_name:
+                                    cd["parent"] = target
                         elif op_type == "merge" and sources:
                             tgt = codes.setdefault(target, {})
                             tgt["provenance"] = f"Merged from {', '.join(sources)} ({ts_iso[:10]}): {summary}"
+                            # Remove source entries, reparent their children
+                            for src in sources:
+                                for c, cd in codes.items():
+                                    if cd.get("parent") == src:
+                                        cd["parent"] = target
+                                codes.pop(src, None)
                         elif op_type == "move" and sources:
-                            src_doc = codes.setdefault(sources[0], {})
-                            dest = target or "(top level)"
-                            src_doc["provenance"] = (src_doc.get("provenance", "") + f"\nMoved to {dest} ({ts_iso[:10]})").strip()
+                            src_name = sources[0]
+                            src_doc = codes.setdefault(src_name, {})
+                            dest = target or ""
+                            src_doc["parent"] = dest
+                            old_prov = src_doc.get("provenance", "")
+                            src_doc["provenance"] = (old_prov + f"\nMoved to {dest or '(top level)'} ({ts_iso[:10]})").strip()
 
                     # Determine overall status
                     n_ok    = sum(1 for r in results if r.get("ok") is not False)
@@ -943,6 +1000,27 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             'timestamp': m.group(1),
             'label':     m.group(2) or '',
         }
+
+    # ── GET /snapshots/tree?dir=X ──────────────────────────────────────────────
+    # Returns flat tree from a snapshot's codebook.yaml, or working tree if no dir.
+
+    def _snapshots_tree(self):
+        import urllib.parse
+        qs = self.path.split("?", 1)[1] if "?" in self.path else ""
+        params = dict(p.split("=", 1) for p in qs.split("&") if "=" in p)
+        snap_dir = urllib.parse.unquote(params.get("dir", ""))
+        try:
+            if snap_dir:
+                yaml_path = SNAPSHOTS_DIR / snap_dir / "codebook.yaml"
+            else:
+                yaml_path = SERVE_DIR / "codebook.yaml"
+            if not yaml_path.exists():
+                self._json(404, {"error": f"codebook.yaml not found: {yaml_path}"})
+                return
+            nodes = self._parse_codebook_flat(yaml_path.read_text())
+            self._json(200, {"tree": nodes, "ok": True})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
 
     # ── GET /snapshots/list ────────────────────────────────────────────────────
 

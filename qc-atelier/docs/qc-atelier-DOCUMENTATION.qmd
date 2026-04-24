@@ -1143,3 +1143,37 @@ Fixed by replacing per-key sed pipelines with a `_parse_yaml_value()` helper tha
 **Queue panel layout fix.** The left panel had large empty space below the footer and the queue list had no scroll. Root cause: `#qc-refactor-root` had no CSS, so it didn't participate in the flex height chain — `body` (100vh flex column) → `#qc-refactor-root` (unsized) → `.app` (flex:1) → `.queue-panel`. The missing link meant `.app` couldn't stretch to fill the viewport. Fixed by giving `#qc-refactor-root` `display:flex; flex-direction:column; flex:1; min-height:0`. Queue list now has `flex:1` and scrolls; form is capped; session note and footer are pinned.
 
 **Note for qc-scheme.** The sidebar height workaround (currently `max-height: calc(100vh - 110px)`) is likely the same root cause — `#qc-scheme-root` or an intermediate container missing from the flex chain. Resolve by auditing the height chain in qc-scheme the same way.
+
+---
+
+### 2026-04-22 — codebook.json data model: _baseline removal, parent sync, mismatch warnings
+
+**`_baseline` removal.** `_baseline` was a per-code snapshot of field values written by qc-scheme on first load, used as the starting state for history reconstruction in `codeRecordAtIdx` and as the fallback in `histCommitted`. Removed because it duplicated information already in `_log` and added maintenance burden.
+
+Migration: `_docs_load` now strips `_baseline` from all code entries on first load and saves back. One-time, transparent to the user.
+
+`histCommitted` now uses the earliest `_log` entry's `from` value as the baseline for a given field, falling back to empty string. `codeRecordAtIdx` already handled missing baseline gracefully (started from empty strings), so no change needed there.
+
+**`parent` sync.** `codebook.yaml` is qc's structural source of truth. `codebook.json` now also stores `parent` per code so documentation records are self-contained. qc-atelier keeps them in sync:
+
+- Rename: updates the code key in `codes`, reparents any children pointing to the old name
+- Merge: removes source code keys, reparents their children to the target
+- Move: updates the `parent` field directly, also updates provenance
+
+**Mismatch detection.** `_docs_load` compares `parent` values between `codebook.yaml` and `codebook.json` on every load. Any discrepancies are returned as a `mismatches` array. qc-scheme displays a dismissible banner warning; qc-refactor shows an inline form error. Mismatches can arise if `codebook.yaml` is edited directly or if a qc CLI operation runs outside qc-atelier.
+
+---
+
+### 2026-04-24 — Runtime tree refresh; codebook.json normalization
+
+**Runtime tree refresh.** `CODEBOOK_TREE` is baked at render time by the Lua filter. Previously, opening a snapshot in qc-scheme showed the render-time tree rather than the snapshot's tree, requiring a re-render to reflect structural changes. Fixed by making `treeArr` mutable (`var` instead of `const`) and adding `refreshTreeFromServer(snapshotDir)`, which fetches from `/snapshots/tree?dir=X` for snapshots or `/refactor/tree` for the working codebook. Called on initial page load (via `loadDocs`) and after every snapshot open (via `importJson`). No re-render needed for tree changes going forward.
+
+New server endpoint `/snapshots/tree?dir=X` parses the `codebook.yaml` in the specified snapshot directory (or working `qc/codebook.yaml` if no dir) and returns a flat `{name, parent, depth, prefix}` list.
+
+**codebook.json schema normalization.** All codes in `codebook.json` now have a complete record with fields in canonical order: `name`, `parent`, `scope`, `rationale`, `usage_notes`, `provenance`, `status`, `pinned_examples`, `_log`. Previously only 56 documented codes had records; all 1157 codes now have full records with empty defaults for undocumented fields. Migration runs automatically in `_docs_load` and `_docs_load_json` on first load, reading parent values from the sibling `codebook.yaml`. `examples` field migrated to `pinned_examples`.
+
+**`_baseline` removal.** `_baseline` write on load removed from qc-scheme. `histCommitted` now uses the earliest `_log` entry's `from` value as the starting state for history reconstruction. `_docs_load` strips any remaining `_baseline` keys on load.
+
+**Parent mismatch warning.** `_docs_load` compares `parent` values between `codebook.yaml` and `codebook.json` on every load and returns a `mismatches` array. qc-scheme displays a dismissible banner if mismatches are found.
+
+---

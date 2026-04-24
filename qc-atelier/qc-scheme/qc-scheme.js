@@ -5,7 +5,7 @@
 'use strict';
 
 const API = 'http://localhost:' + (DOCS_CONFIG.server_port || 8080);
-const treeArr = Array.isArray(CODEBOOK_TREE) ? CODEBOOK_TREE : Object.values(CODEBOOK_TREE);
+var treeArr = Array.isArray(CODEBOOK_TREE) ? CODEBOOK_TREE.slice() : Object.values(CODEBOOK_TREE);
 
 // ── State ─────────────────────────────────────────────────────────────────────
 
@@ -210,9 +210,10 @@ function histKey(code, field) { return code + ' ' + field; }
 function histCommitted(code, field) {
   var k = histKey(code, field);
   if (_histCommitted[k] !== undefined) return _histCommitted[k];
-  // Initialise from baseline if available
-  var baseline = (state.docs.codes[code] && state.docs.codes[code]._baseline) || {};
-  return baseline[field] !== undefined ? String(baseline[field]) : '';
+  // Use earliest _log entry's from value as baseline (replaces _baseline)
+  var log = (state.docs.codes[code] && state.docs.codes[code]._log) || [];
+  var earliest = log.find(function(e) { return e.field === field; });
+  return earliest && earliest.from !== undefined ? String(earliest.from) : '';
 }
 
 // Schedule a history commit for code+field. Called on every input event.
@@ -297,6 +298,30 @@ function rebuildIndices() {
   });
 }
 rebuildIndices();
+
+async function refreshTreeFromServer(snapshotDir) {
+  try {
+    var url = snapshotDir
+      ? API + '/snapshots/tree?dir=' + encodeURIComponent(snapshotDir)
+      : API + '/refactor/tree';
+    var res  = await fetch(url);
+    var data = await res.json();
+    if (data.ok && data.tree && data.tree.length > 0) {
+      treeArr.length = 0;
+      data.tree.forEach(function(n) { treeArr.push(n); });
+      treeArr.forEach(function(n) {
+        if (n.depth === 0 && !(n.name in state.expanded)) {
+          state.expanded[n.name] = true;
+        }
+      });
+      rebuildIndices();
+      return true;
+    }
+  } catch(e) {
+    console.warn('[qc-scheme] refreshTreeFromServer failed:', e);
+  }
+  return false;
+}
 
 function getChildren(name) {
   var ch = _childrenIdx[name]; return ch ? ch.map(function(n){ return treeArr.find(function(x){return x.name===n;}); }).filter(Boolean) : [];
@@ -492,25 +517,34 @@ async function loadDocs() {
       if (!state.docs.codes) state.docs.codes = {};
       Object.keys(data.codes).forEach(function(c){
         state.docs.codes[c] = data.codes[c];  // preserves _log if present
-        // Write baseline snapshot if none exists yet
-        if (!state.docs.codes[c]._baseline) {
-          state.docs.codes[c]._baseline = {
-            status:      data.codes[c].status      || '',
-            scope:       data.codes[c].scope       || '',
-            rationale:   data.codes[c].rationale   || '',
-            usage_notes: data.codes[c].usage_notes || '',
-            provenance:  data.codes[c].provenance  || '',
-            parent:      (data.overrides && data.overrides[c]) || data.codes[c].parent || '',
-          };
-        }
+
       });
     }
     if (data.overrides) { Object.assign(state.treeOverrides, data.overrides); rebuildIndices(); }
     // Restore document changelog
     if (Array.isArray(data.changelog)) state.changelog = data.changelog;
+    // Warn on parent mismatches between codebook.yaml and codebook.json
+    var mismatches = data.mismatches || [];
+    if (mismatches.length > 0) {
+      console.warn('[qc-scheme] Parent mismatches:', mismatches);
+      var mismatchMsg = 'Parent mismatch between codebook.yaml and codebook.json:\n'
+        + mismatches.map(function(m) {
+            return '  ' + m.code + ': yaml=' + (m.yaml_parent||'(top)') + ', json=' + (m.json_parent||'(top)');
+          }).join('\n');
+      setTimeout(function() {
+        var banner = document.createElement('div');
+        banner.style.cssText = 'position:fixed;top:40px;left:50%;transform:translateX(-50%);z-index:9999;background:var(--yellow,#b45309);color:#fff;padding:8px 16px;border-radius:6px;font-size:11px;font-family:var(--mono);white-space:pre;max-width:80vw;cursor:pointer';
+        banner.textContent = mismatchMsg;
+        banner.onclick = function() { banner.remove(); };
+        document.body.appendChild(banner);
+        setTimeout(function() { banner.remove(); }, 8000);
+      }, 500);
+    }
     clDoc('open', DOCS_CONFIG.scheme_path.replace(/.*\//, ''));
     state.openedDocsPath = DOCS_CONFIG.scheme_path;
     state.saveStatus = 'saved';
+    // Refresh tree from working codebook.yaml
+    await refreshTreeFromServer(null);
     render();
   } catch(e) {}
 }
@@ -571,6 +605,8 @@ async function importJson(path) {
     }
     state.importOpen   = false;
     scheduleSave();
+    // Refresh tree from the snapshot's codebook.yaml
+    await refreshTreeFromServer(state.openedSnapshotDir || null);
     render();
   } catch(e) {
     state.importStatus = 'error';
