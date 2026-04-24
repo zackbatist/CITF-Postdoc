@@ -1177,3 +1177,12 @@ New server endpoint `/snapshots/tree?dir=X` parses the `codebook.yaml` in the sp
 **Parent mismatch warning.** `_docs_load` compares `parent` values between `codebook.yaml` and `codebook.json` on every load and returns a `mismatches` array. qc-scheme displays a dismissible banner if mismatches are found.
 
 ---
+
+### 2026-04-24 — Remove parent UI from qc-scheme; sidebar height fix
+
+Parent reassignment UI removed from qc-scheme — the Documentation tab parent dropdown and the multi-select toolbar bulk parent selector both called `reparent()` directly. Structural moves now belong exclusively to qc-refactor. `wouldCycle` and `reparent` retained for rendering machinery.
+
+Sidebar height workaround resolved. `#qc-scheme-root` was absent from the CSS flex chain — `body` (100vh) → `#qc-scheme-root` (unsized) → `.app` (height:100vh, redundant). Fixed by giving `#qc-scheme-root` `height:100vh` and making `.app` `flex:1; min-height:0`. Added `overflow:hidden` to `.sidebar` so `.tree` (`flex:1; overflow-y:auto`) scrolls correctly. Removed `max-height: calc(100vh - 110px)` workaround from `.sidebar`.
+
+---
+

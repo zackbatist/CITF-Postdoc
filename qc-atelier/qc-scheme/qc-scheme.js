@@ -1917,38 +1917,6 @@ function buildMultiEditor(codes) {
   toolbar.appendChild(statusSel);
   toolbar.appendChild(h('span',{className:'multi-toolbar-sep'}));
 
-  // Bulk parent — only offer parents that are safe for ALL selected codes
-  var safeParents=treeArr.filter(function(n){
-    if(codes.indexOf(n.name)!==-1) return false; // can't parent to self
-    return codes.every(function(c){ return !wouldCycle(c, n.name); });
-  });
-  var currentParents=new Set(codes.map(function(c){return nodeParent(c);}));
-  var commonParent=currentParents.size===1?Array.from(currentParents)[0]:null;
-
-  var parentSel=h('select',{
-    style:{background:'var(--surface)',border:'1px solid var(--border)',borderRadius:'var(--radius)',color:'var(--text)',padding:'4px 6px',fontFamily:'var(--sans)',fontSize:'11px',outline:'none',cursor:'pointer'},
-    onChange:function(e){
-      var val=e.target.value;
-      if(val==='__keep__') return;
-      codes.forEach(function(c){ reparent(c, val); });
-      renderTopbar(); renderSidebar();
-      // Rebuild toolbar to reflect new common parent
-      var tb=document.querySelector('.multi-toolbar');
-      if(tb) { var newTb=buildMultiToolbar(codes); tb.parentNode.replaceChild(newTb,tb); }
-    },
-  });
-  var keepParentOpt=document.createElement('option'); keepParentOpt.value='__keep__';
-  keepParentOpt.textContent=commonParent!==null?(commonParent||'(root)'):'(mixed)';
-  parentSel.appendChild(keepParentOpt);
-  var rootP=document.createElement('option'); rootP.value=''; rootP.textContent='→ (root)';
-  parentSel.appendChild(rootP);
-  safeParents.forEach(function(n){
-    var opt=document.createElement('option'); opt.value=n.name; opt.textContent='→ '+n.name;
-    parentSel.appendChild(opt);
-  });
-
-  toolbar.appendChild(h('span',{className:'multi-toolbar-label'},'Parent'));
-  toolbar.appendChild(parentSel);
   toolbar.appendChild(h('div',{className:'topbar-space'}));
 
   // View toggle
@@ -3628,28 +3596,6 @@ function buildDocTab(code) {
   });
   wrap.appendChild(h('div',{className:'field'},h('div',{className:'field-label'},'Status'),statusSel));
 
-  // Parent selector — local override only; for permanent structural moves use qc-refactor
-  var moveWrap=h('div',{className:'field'});
-  moveWrap.appendChild(h('div',{className:'field-label'},'Parent',h('span',{className:'field-label-hint',title:'For permanent structural changes use qc-refactor'},' ↗')));
-  var parentSel=h('select',{
-    className:'parent-sel',
-    onChange:function(e){
-      var newP=e.target.value;
-      if(!reparent(code,newP)) e.target.value=effParent;
-      else renderSidebar();
-    },
-  });
-  var rootOpt=document.createElement('option'); rootOpt.value=''; rootOpt.textContent='(root)';
-  if(!effParent) rootOpt.selected=true;
-  parentSel.appendChild(rootOpt);
-  treeArr.forEach(function(n){
-    if(n.name===code||wouldCycle(code,n.name)) return;
-    var opt=document.createElement('option'); opt.value=n.name; opt.textContent=n.name;
-    if(n.name===effParent) opt.selected=true;
-    parentSel.appendChild(opt);
-  });
-  moveWrap.appendChild(parentSel);
-  wrap.appendChild(moveWrap);
   return wrap;
 }
 
