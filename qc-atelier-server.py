@@ -271,6 +271,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._docs_save(body)
         elif self.path == "/snapshots/create":
             self._snapshots_create(body)
+        elif self.path == "/snapshots/load":
+            self._snapshots_load(body)
         elif self.path == "/refactor/execute":
             self._refactor_execute(body)
         elif self.path == "/refactor/move":
@@ -372,6 +374,42 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     if "_baseline" in code_data:
                         del code_data["_baseline"]
                         changed = True
+
+                # ── Migration: ensure all codes have full records ────────────
+                yaml_path = json_path.parent / "codebook.yaml"
+                if yaml_path.exists():
+                    try:
+                        yaml_tree    = self._parse_codebook_flat(yaml_path.read_text())
+                        yaml_parents = {n["name"]: n["parent"] for n in yaml_tree}
+                        for code_name in yaml_parents:
+                            rec = codes.setdefault(code_name, {})
+                            dirty = False
+                            for field, default in [
+                                ("name",            code_name),
+                                ("parent",          yaml_parents[code_name]),
+                                ("scope",           ""),
+                                ("rationale",       ""),
+                                ("usage_notes",     ""),
+                                ("provenance",      ""),
+                                ("status",          ""),
+                                ("pinned_examples", []),
+                                ("_log",            []),
+                            ]:
+                                if field not in rec:
+                                    rec[field] = default
+                                    dirty = True
+                            # Always keep name and parent in sync with yaml
+                            if rec.get("name") != code_name:
+                                rec["name"] = code_name
+                                dirty = True
+                            if rec.get("parent") != yaml_parents[code_name] and "parent" not in rec:
+                                rec["parent"] = yaml_parents[code_name]
+                                dirty = True
+                            if dirty:
+                                changed = True
+                    except Exception as e:
+                        ts_log = datetime.now().strftime("%H:%M:%S")
+                        print(f"[{ts_log}] docs/load: WARNING — could not normalize records: {e}")
 
                 # ── Sync check: compare parents in codebook.yaml vs codebook.json ──
                 yaml_path = json_path.parent / "codebook.yaml"
@@ -482,10 +520,58 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             except ValueError:
                 pass  # not inside SNAPSHOTS_DIR
 
+            codes    = data.get("codes", {})
+            changed  = False
+
+            # ── Migration: strip _baseline ──────────────────────────────────
+            for code_data in codes.values():
+                if "_baseline" in code_data:
+                    del code_data["_baseline"]
+                    changed = True
+
+            # ── Migration: ensure all codes have full records ────────────────
+            sibling_yaml = target.parent / "codebook.yaml"
+            if sibling_yaml.exists():
+                try:
+                    yaml_tree    = self._parse_codebook_flat(sibling_yaml.read_text())
+                    yaml_parents = {n["name"]: n["parent"] for n in yaml_tree}
+                    for code_name in yaml_parents:
+                        rec = codes.setdefault(code_name, {})
+                        dirty = False
+                        for field, default in [
+                            ("name",            code_name),
+                            ("parent",          yaml_parents[code_name]),
+                            ("scope",           ""),
+                            ("rationale",       ""),
+                            ("usage_notes",     ""),
+                            ("provenance",      ""),
+                            ("status",          ""),
+                            ("pinned_examples", []),
+                            ("_log",            []),
+                        ]:
+                            if field not in rec:
+                                rec[field] = default
+                                dirty = True
+                        if rec.get("name") != code_name:
+                            rec["name"] = code_name
+                            dirty = True
+                        if dirty:
+                            changed = True
+                except Exception as e:
+                    ts_log = datetime.now().strftime("%H:%M:%S")
+                    print(f"[{ts_log}] load-json: WARNING — could not normalize records: {e}")
+
+            if changed:
+                data["codes"] = codes
+                with open(target, "w") as f:
+                    json.dump(data, f, ensure_ascii=False, indent=2)
+                ts_log = datetime.now().strftime("%H:%M:%S")
+                print(f"[{ts_log}] load-json: migrated {target.name}")
+
             ts = datetime.now().strftime("%H:%M:%S")
             print(f"[{ts}] opened {target}" + (f"  (active: {active_dir})" if active_dir else ""))
             self._json(200, {
-                "codes":      data.get("codes", {}),
+                "codes":      codes,
                 "overrides":  data.get("overrides", {}),
                 "changelog":  data.get("changelog", []),
                 "saved":      data.get("saved", ""),
@@ -1000,6 +1086,35 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             'timestamp': m.group(1),
             'label':     m.group(2) or '',
         }
+
+    # ── POST /snapshots/load ───────────────────────────────────────────────────
+    # Copies snapshot's codebook.yaml and codebook.json over working files.
+
+    def _snapshots_load(self, body):
+        try:
+            payload  = json.loads(body)
+            dir_name = payload.get("dir", "")
+            if not dir_name:
+                self._json(400, {"ok": False, "error": "dir required"})
+                return
+            snap_dir = SNAPSHOTS_DIR / dir_name
+            if not snap_dir.is_dir():
+                self._json(404, {"ok": False, "error": f"Snapshot not found: {dir_name}"})
+                return
+            snap_yaml = snap_dir / "codebook.yaml"
+            snap_json = snap_dir / "codebook.json"
+            if snap_yaml.exists():
+                shutil.copy2(snap_yaml, SERVE_DIR / "codebook.yaml")
+            if snap_json.exists():
+                shutil.copy2(snap_json, SERVE_DIR / "codebook.json")
+            # Update working parent
+            (SERVE_DIR / ".working_parent").write_text(dir_name)
+            ts_log = datetime.now().strftime("%H:%M:%S")
+            print(f"[{ts_log}] snapshots/load: loaded {dir_name}")
+            self._json(200, {"ok": True, "dir": dir_name})
+        except Exception as e:
+            import traceback; traceback.print_exc()
+            self._json(500, {"ok": False, "error": str(e)})
 
     # ── GET /snapshots/tree?dir=X ──────────────────────────────────────────────
     # Returns flat tree from a snapshot's codebook.yaml, or working tree if no dir.

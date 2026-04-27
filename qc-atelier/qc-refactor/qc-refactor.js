@@ -28,7 +28,12 @@ var state = {
   queue:       [],
   activeTab:   'rename',       // which op tab is open
   previewTab:  'diff',         // diff | impact
-  panelTab:    'preview',      // preview | script | results
+  panelTab:    'preview',      // preview | script | results | history
+  appMode:     'refactor',     // refactor | snapshots
+  snapshotsData:   null,
+  snapshotsStatus: '',         // '' | 'loading' | 'ok' | 'error'
+  snapshotLabel:   '',
+  snapshotNote:    '',
   results:     null,
   snapshot:    null,
   nextId:      1,
@@ -1339,6 +1344,8 @@ function render() {
     renderPreview();
     renderScript();
     renderResults();
+    renderHistory();
+    renderSnapshots();
     renderExecuteRow();
   } catch(e) {
     console.error('[qc-refactor render]', e);
@@ -1410,8 +1417,162 @@ async function executeQueue(summary) {
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 
-document.addEventListener('DOMContentLoaded', async function() {
+// ── Snapshots ─────────────────────────────────────────────────────────────────
 
+async function loadSnapshots() {
+  state.snapshotsStatus = 'loading';
+  renderSnapshots();
+  try {
+    var res  = await fetch(API + '/snapshots/list');
+    var data = await res.json();
+    state.snapshotsData   = data;
+    state.snapshotsStatus = 'ok';
+  } catch(e) {
+    state.snapshotsStatus = 'error';
+  }
+  renderSnapshots();
+}
+
+async function createSnapshot() {
+  var label = state.snapshotLabel.trim();
+  var note  = state.snapshotNote.trim();
+  try {
+    var res  = await fetch(API + '/snapshots/create', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        action:           'snapshot',
+        label:            label,
+        note:             note,
+        active_docs_path: SCHEME_PATH,
+      }),
+    });
+    var data = await res.json();
+    if (!data.ok) throw new Error(data.error || 'Snapshot failed');
+    state.snapshotLabel = '';
+    state.snapshotNote  = '';
+    await loadSnapshots();
+  } catch(e) {
+    console.error('[createSnapshot]', e);
+  }
+}
+
+async function loadSnapshot(dir) {
+  try {
+    // Copy snapshot files over working files via server
+    var res  = await fetch(API + '/snapshots/load', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ dir: dir }),
+    });
+    var data = await res.json();
+    if (!data.ok) throw new Error(data.error || 'Load failed');
+    // Refresh tree and docs
+    await refreshTree();
+    await loadDocs();
+    render();
+  } catch(e) {
+    console.error('[loadSnapshot]', e);
+    showFormError('Could not load snapshot: ' + e.message);
+  }
+}
+
+function renderSnapshots() {
+  var panel = document.getElementById('snapshots-panel');
+  var view  = document.getElementById('snapshots-view');
+  var app   = document.getElementById('qc-refactor-root');
+  if (!panel || !view) return;
+
+  var isActive = state.appMode === 'snapshots';
+  view.classList.toggle('hidden', !isActive);
+  // Hide/show main app
+  var appDiv = document.querySelector('#qc-refactor-root .app');
+  if (appDiv) appDiv.classList.toggle('hidden', isActive);
+
+  if (!isActive) return;
+
+  if (state.snapshotsStatus === 'loading') {
+    panel.innerHTML = '<div class="rec-feed-empty">Loading snapshots…</div>';
+    return;
+  }
+  if (state.snapshotsStatus === 'error') {
+    panel.innerHTML = '<div class="rec-feed-empty">Could not load snapshots.</div>';
+    return;
+  }
+
+  var snapshots = (state.snapshotsData && state.snapshotsData.snapshots) || [];
+
+  function makePreview() {
+    var seg = state.snapshotLabel.trim().slice(0,30)
+      .toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    var now = new Date();
+    var ts  = now.getFullYear()
+      + String(now.getMonth()+1).padStart(2,'0')
+      + String(now.getDate()).padStart(2,'0') + '-'
+      + String(now.getHours()).padStart(2,'0')
+      + String(now.getMinutes()).padStart(2,'0');
+    return seg ? 'codebook_' + ts + '_' + seg : 'codebook_' + ts;
+  }
+
+  var feedHtml = '';
+  if (snapshots.length === 0) {
+    feedHtml = '<div class="rec-feed-empty">No snapshots yet.</div>';
+  } else {
+    feedHtml = snapshots.slice().reverse().map(function(s) {
+      var label = s.label || s.dir.replace(/^codebook_[0-9]{8}-[0-9]{4}_?/, '');
+      var ts    = s.timestamp ? s.timestamp.replace('-', ' ') : '';
+      return '<div class="rec-feed-row rec-feed-snapshot">'
+        + '<span class="rec-feed-ts">' + esc(ts) + '</span>'
+        + '<span class="rec-feed-icon rec-feed-icon-snap">📷</span>'
+        + '<span class="rec-feed-label">'
+        + (label ? '<strong>' + esc(label) + '</strong> ' : '')
+        + '<span class="rec-feed-dirname">' + esc(s.dir) + '</span>'
+        + '</span>'
+        + (s.note ? '<span class="rec-feed-note">' + esc(s.note) + '</span>' : '')
+        + '<button class="btn-xs snap-load-btn" data-dir="' + esc(s.dir) + '">Open</button>'
+        + '</div>';
+    }).join('');
+  }
+
+  panel.innerHTML = ''
+    + '<div class="rec-snap-zone">'
+    +   '<div class="rec-snap-label-row">'
+    +     '<input class="rec-snap-label" id="snap-label" type="text" placeholder="Short label for filename (optional)" value="' + esc(state.snapshotLabel) + '">'
+    +     '<button class="btn primary rec-snap-btn" id="snap-save-btn">Save snapshot</button>'
+    +   '</div>'
+    +   '<textarea class="rec-snap-desc" id="snap-note" rows="2" placeholder="Description — rationale, what changed, analytical context (optional)">' + esc(state.snapshotNote) + '</textarea>'
+    +   '<div class="rec-snap-preview" id="snap-preview">' + esc(makePreview()) + '</div>'
+    + '</div>'
+    + '<div class="rec-divider"></div>'
+    + '<div class="rec-feed-zone">'
+    +   feedHtml
+    + '</div>';
+
+  var labelInp  = document.getElementById('snap-label');
+  var noteArea  = document.getElementById('snap-note');
+  var previewEl = document.getElementById('snap-preview');
+
+  if (labelInp) labelInp.addEventListener('input', function() {
+    state.snapshotLabel = labelInp.value;
+    if (previewEl) previewEl.textContent = makePreview();
+  });
+  if (noteArea) noteArea.addEventListener('input', function() {
+    state.snapshotNote = noteArea.value;
+  });
+  document.getElementById('snap-save-btn').addEventListener('click', createSnapshot);
+
+  panel.querySelectorAll('.snap-load-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (confirm('Load snapshot "' + btn.dataset.dir + '"?\nThis replaces your working codebook.yaml and codebook.json.')) {
+        loadSnapshot(btn.dataset.dir);
+      }
+    });
+  });
+}
+
+// ── DOMContentLoaded ──────────────────────────────────────────────────────────
+
+(async function() {
   // Load codebook docs and refresh tree from server
   await loadDocs();
   await refreshTree();
@@ -1452,18 +1613,34 @@ document.addEventListener('DOMContentLoaded', async function() {
       document.querySelectorAll('.panel-tab').forEach(function(t) {
         t.classList.toggle('active', t === tab);
       });
-      var pw = document.getElementById('preview-wrap');
-      var sp = document.getElementById('script-panel');
-      var rp = document.getElementById('results-panel');
-      var hp = document.getElementById('history-panel');
-      if (pw) pw.classList.toggle('hidden',  state.panelTab !== 'preview');
-      if (sp) sp.classList.toggle('hidden',  state.panelTab !== 'script');
-      if (rp) rp.classList.toggle('hidden',  state.panelTab !== 'results');
-      if (hp) hp.classList.toggle('hidden',  state.panelTab !== 'history');
+      var pw  = document.getElementById('preview-wrap');
+      var sp  = document.getElementById('script-panel');
+      var rp  = document.getElementById('results-panel');
+      var hp  = document.getElementById('history-panel');
+      if (pw)  pw.classList.toggle('hidden',  state.panelTab !== 'preview');
+      if (sp)  sp.classList.toggle('hidden',  state.panelTab !== 'script');
+      if (rp)  rp.classList.toggle('hidden',  state.panelTab !== 'results');
+      if (hp)  hp.classList.toggle('hidden',  state.panelTab !== 'history');
       renderPreview();
       renderScript();
       renderResults();
       renderHistory();
+    });
+  });
+
+  // Mode bar
+  document.querySelectorAll('.qr-mode-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      state.appMode = btn.dataset.mode;
+      document.querySelectorAll('.qr-mode-btn').forEach(function(b) {
+        b.classList.toggle('active', b === btn);
+      });
+      if (state.appMode === 'snapshots') {
+        if (!state.snapshotsData) loadSnapshots();
+        else renderSnapshots();
+      } else {
+        renderSnapshots(); // hides view
+      }
     });
   });
 
@@ -1501,6 +1678,6 @@ document.addEventListener('DOMContentLoaded', async function() {
   });
 
   render();
-});
+}());
 
 })();

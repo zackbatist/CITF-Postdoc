@@ -1186,3 +1186,18 @@ Sidebar height workaround resolved. `#qc-scheme-root` was absent from the CSS fl
 
 ---
 
+### 2026-04-24 — codebook.json full schema normalization
+
+All codes in `codebook.json` now have a complete record with fields in canonical order: `name`, `parent`, `scope`, `rationale`, `usage_notes`, `provenance`, `status`, `pinned_examples`, `_log`. Previously only 56 documented codes had records; all 1157 codes now have full records with empty defaults for undocumented fields. Migration runs automatically in `_docs_load` and `_docs_load_json` on first load, reading parent values from the sibling `codebook.yaml`. `examples` field migrated to `pinned_examples`. `_baseline` stripped on load.
+
+---
+
+### 2026-04-24 — Snapshot UI in qc-refactor
+
+Snapshot management added to qc-refactor as a top-level mode toggle in the mode bar (Refactor | Snapshots), matching qc-scheme's appMode pattern. Snapshots mode replaces the full app view with a dedicated panel.
+
+**Create zone:** label input with live filename preview, description textarea, Save button. Filename generated as `codebook_YYYYMMDD-HHMM_label`.
+
+**Snapshot feed:** existing snapshots listed newest-first with timestamp, label, dirname, note, and Open button. Opening a snapshot calls `POST /snapshots/load` which copies the snapshot's `codebook.yaml` and `codebook.json` over the working files, then refreshes the runtime tree and docs without re-render.
+
+New server endpoint `POST /snapshots/load` added.
