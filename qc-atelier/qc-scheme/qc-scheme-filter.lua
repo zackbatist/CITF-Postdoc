@@ -78,6 +78,7 @@ local SCHEME_JSON = project_path(S(config.directories.output_dir) .. "/codebook.
 local JSON_DIR        = project_path(S(config.directories.json_dir))
 local CSS_FILE        = project_path("qc-atelier/qc-scheme/qc-scheme.css")
 local SHARED_CSS_FILE = project_path("qc-atelier/shared/qc-shared.css")
+local SHARED_JS_FILE  = project_path("qc-atelier/shared/qc-shared.js")
 local JS_FILE         = project_path("qc-atelier/qc-scheme/qc-scheme.js")
 
 -- ── Codebook loader ───────────────────────────────────────────────────────────
@@ -104,6 +105,7 @@ local function generate_html()
 
   local shared_css = read_text_file(SHARED_CSS_FILE)
   local css        = read_text_file(CSS_FILE)
+  local shared_js  = read_text_file(SHARED_JS_FILE)
   local js         = read_text_file(JS_FILE)
 
   local html = {}
@@ -129,6 +131,7 @@ local function generate_html()
   html[#html+1] = '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>'
   html[#html+1] = '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>'
   html[#html+1] = '<div id="qc-scheme-root"></div>'
+  html[#html+1] = '<script>' .. (shared_js or '') .. '</script>'
   html[#html+1] = '<script>' .. js .. '</script>'
   html[#html+1] = '</body></html>'
 

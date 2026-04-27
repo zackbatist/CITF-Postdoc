@@ -101,3 +101,36 @@ body.light-mode {}
   color: var(--accent);
   border-bottom-color: var(--accent);
 }
+
+/* ── @ Code autocomplete dropdown ─────────────────────────────────────────── */
+.qc-ac-dropdown {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  max-height: 240px;
+  overflow-y: auto;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.qc-ac-item {
+  padding: 5px 10px;
+  cursor: pointer;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.qc-ac-item:hover,
+.qc-ac-item.qc-ac-selected {
+  background: var(--surface2);
+  color: var(--accent);
+}
+
+.qc-ac-item mark {
+  background: none;
+  color: var(--accent);
+  font-weight: 600;
+}

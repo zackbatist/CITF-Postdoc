@@ -71,6 +71,7 @@ local SCHEME_JSON     = project_path(S(config.directories.output_dir) .. "/codeb
 local JSON_DIR        = project_path(S(config.directories.json_dir))
 local CSS_FILE        = project_path("qc-atelier/qc-refactor/qc-refactor.css")
 local SHARED_CSS_FILE = project_path("qc-atelier/shared/qc-shared.css")
+local SHARED_JS_FILE  = project_path("qc-atelier/shared/qc-shared.js")
 local JS_FILE         = project_path("qc-atelier/qc-refactor/qc-refactor.js")
 
 -- ── Codebook loader ───────────────────────────────────────────────────────────
@@ -123,6 +124,7 @@ local function generate_html()
 
   local shared_css = read_text_file(SHARED_CSS_FILE)
   local css        = read_text_file(CSS_FILE)
+  local shared_js  = read_text_file(SHARED_JS_FILE)
   local js         = read_text_file(JS_FILE)
 
   local html = {}
@@ -134,7 +136,6 @@ local function generate_html()
   html[#html+1] = '<style>' .. shared_css .. '\n' .. css .. '</style>'
   html[#html+1] = '</head><body>'
   html[#html+1] = '<nav class="qc-nav"><a class="qc-nav-brand" href="/">qc-atelier</a><a href="/qc-scheme.html">scheme</a><a href="/qc-viz.html">viz</a><a href="/qc-refactor.html" class="active">refactor</a></nav>'
-  html[#html+1] = '<div class="qr-modebar"><button class="qr-mode-btn active" data-mode="refactor">Refactor</button><button class="qr-mode-btn" data-mode="snapshots">Snapshots</button></div>'
   html[#html+1] = '<script>'
   html[#html+1] = 'const CODEBOOK_TREE = ' .. to_json(tree)       .. ';'
   html[#html+1] = 'const CORPUS_COUNTS = ' .. to_json(use_counts) .. ';'
@@ -147,8 +148,8 @@ local function generate_html()
   html[#html+1] = '</script>'
   html[#html+1] = [[
 <div id="qc-refactor-root">
-
 <div class="app">
+
   <div class="queue-panel">
     <div class="op-tabs">
       <button class="op-tab active" data-type="rename">Rename</button>
@@ -193,13 +194,10 @@ local function generate_html()
     <div class="results-panel hidden" id="results-panel"></div>
     <div class="history-panel hidden" id="history-panel"></div>
   </div>
-</div>
 
-<div id="snapshots-view" class="snapshots-view hidden">
-  <div class="snapshots-panel" id="snapshots-panel"></div>
 </div>
-
 </div>]]
+  html[#html+1] = '<script>' .. shared_js .. '</script>'
   html[#html+1] = '<script>' .. js .. '</script>'
   html[#html+1] = '</body></html>'
 

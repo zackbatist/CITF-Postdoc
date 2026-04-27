@@ -315,6 +315,10 @@ async function refreshTreeFromServer(snapshotDir) {
         }
       });
       rebuildIndices();
+      // Reinitialise autocomplete with updated code names
+      if (window.qcAutocompleteInit) {
+        qcAutocompleteInit(treeArr.map(function(n) { return n.name; }));
+      }
       return true;
     }
   } catch(e) {

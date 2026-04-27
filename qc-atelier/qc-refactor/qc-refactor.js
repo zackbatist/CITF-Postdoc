@@ -76,6 +76,10 @@ async function refreshTree() {
     var data = await res.json();
     if (data.ok && data.tree) {
       _runtimeTree = data.tree;
+      // Reinitialise autocomplete with updated code names
+      if (window.qcAutocompleteInit) {
+        qcAutocompleteInit(_runtimeTree.map(function(n) { return n.name; }));
+      }
     }
   } catch(e) {
     console.warn('Could not refresh tree:', e);

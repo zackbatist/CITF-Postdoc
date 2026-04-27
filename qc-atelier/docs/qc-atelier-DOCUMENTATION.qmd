@@ -1201,3 +1201,17 @@ Snapshot management added to qc-refactor as a top-level mode toggle in the mode 
 **Snapshot feed:** existing snapshots listed newest-first with timestamp, label, dirname, note, and Open button. Opening a snapshot calls `POST /snapshots/load` which copies the snapshot's `codebook.yaml` and `codebook.json` over the working files, then refreshes the runtime tree and docs without re-render.
 
 New server endpoint `POST /snapshots/load` added.
+
+---
+
+### 2026-04-24 — @ code autocomplete in text inputs
+
+New shared JavaScript module `qc-shared.js` added to `qc-atelier/shared/`. Contains `qcAutocompleteInit(codeNames)`, a self-contained autocomplete system that attaches to all `<input type="text">` and `<textarea>` elements on the page via event delegation.
+
+**Behaviour:** typing `@` anywhere in a text field opens a floating dropdown of matching code names. The query is everything typed after `@` until a whitespace or delimiter character. Matches are sorted prefix-first, then substring. The matched portion is highlighted in the dropdown. Arrow keys navigate, Enter or Tab selects, Escape dismisses. On selection, the `@query` is replaced in-place with the code name.
+
+**Integration:** both `qc-scheme-filter.lua` and `qc-refactor-filter.lua` updated to read and inline `qc-shared.js` before the tool JS. `qcAutocompleteInit` is called with the current `treeArr` code names after `refreshTreeFromServer()` in qc-scheme and after `refreshTree()` in qc-refactor, keeping the dropdown list current after structural changes without re-render.
+
+Autocomplete dropdown CSS added to `qc-shared.css`.
+
+This establishes `qc-shared.js` as the home for shared runtime JavaScript across the suite, parallel to `qc-shared.lua` (render-time) and `qc-shared.css` (styles).
