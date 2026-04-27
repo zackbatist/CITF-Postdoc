@@ -1,0 +1,144 @@
+---
+title: Week notes (2026-W17)
+date: 2026-04-24
+date-modified: today
+categories:
+  - week notes
+---
+
+## Meetings
+- x David
+  - Recap of Norway trip
+  - Progress update on code documentation:
+    - Starting with low-hanging fruit
+      - Removing orphaned codes
+      - Merging duplicates
+      - Moving top-level codes under their respective branches
+    - Started documenting organizations and roles
+    - Next is documenting activities
+    - Then thinking more carefully about taxonomy for more abstract codes, i.e. kinds of data, kinds of work, etc
+    - Also thinking ahead for LLM-assisted coding:
+      - Asked a local model to identify definitive statements based on their grammar, as a starting point for identifying figurations, i.e. statements about how things are and ought to be done.
+      - Ability to break up long responses covering multiple topics along "natural" breaking points.
+  - CITF-emails
+    - We now have a very solid draft, available at [URL]
+    - My turn to look for additional pathways to explore this dataset, and brainstorm alternative ways of visualizing the data
+    - I also need to write the conclusion
+    - Submit before June 1 for APC discount
+    - Three papers are now in that collection; seems like a grab-bag
+  - NOTE: Better journal for the emails paper: https://link.springer.com/journal/12911
+  - NOTE: Have not forgotten plan to look at data complexity as a meaningful factor
+  - NOTE: David approves of my submission to CRIHN
+  - NOTE: Regarding CITF-emails drafting, people will just annotate the PDF and I will implement changes manually
+  - NOTE: Next steps for the emails analysis paper
+    - Zack to identify new strands of analysis
+    - Zack to write the conclusion
+    - Zack to brainstorm new figures
+    - Zack share with the team, and they give feedback
+    - Submit the paper by June 1
+- x CITF
+  - Making a lot of progress on cleaning up the code system for my interviews
+  - Working with Melissa on the emails analysis paper:
+    - Share the link: https://zackbatist.info/CITF-emails/topic-modelling/
+    - Melissa overhauled the visuals and wrote up the findings and methods
+    - I've gone through it and made some minor corrections, and some suggestions for what to do next
+    - The goal is to have it submitted by June 1, which means distributing a draft to you and the other collaborators by early May
+    - Then we can move onto the next phase, which is a network analysis, and possibly also an analysis that accounts for the impact of data complexity
+  - Gave feedback on the marker paper:
+    - I did a bit of restructuring, sorry if it was too intense
+    - I saw that Sadun went in and added subheadings that correspond with some of the changes
+
+## TODO
+- Resolve marker paper feedback
+- Review Melissa's codebase
+
+### qc-atelier
+#### Maintenance
+- Update the look and feel of qc-viz to be in line with the other utilities.
+- x Resolve missing export button on qc-scheme.
+- x Clean up the entire codebase. Make everything streamlined, more elegant, more efficient, more professional. Find bugs and potential issues and propose a docket of resolutions.
+- x BUG: Data entered into fields in qc-scheme is not read when switching over to qc-refactor, unless a snapshot is saved first. When that does happen, switching back to qc-scheme does not allow me to save another snapshot (the button us greyed out and says "Saving..."). It would probably be best to ensure that autosaves are kept as the version of record, and snapshots are merely kept in a way that resembles publishable archives or reports, rather than as working documents. This way, the forking concept could be dismissed entirely, and replaced with a workflow involved revising saved snapshot states. At the same time, the rationale behind each snapshot needs to be properly embedded in the yaml, json and md outputs, timestamps need to be preserved as a key and unchangeable aspect of the file name, and an optional descriptive name needs to be append-able to the timestamp component. So, similar to before, a directory would be called codebook_20260419-1952[-optional-key-phrase]. Implement feedback in the user interface when saves happen by flashing a notification indicating that a snapshot was created and giving its name, and include this event in the overarching qc-atelier log. Ordinary auto-saved should also be kept in the overarching log, but I suppose they can't have summaries.
+
+#### qc-refactor
+- x The script generation is nonsense, use the qc CLI.
+- x Corpus impact is basically non-existent.
+- x Need to include descriptions of each of the documentation fields.
+- x Need to be able to edit things that have been added to the queue.
+- Need ways to load specific snapshots and to save snapshots.
+- I also want to implement some kind of autocomplete system. For instance, if I type "@" this will be a signal that I'm referring to a code and the autocomplete should activate. Do not keep the @ in the code's name.
+
+#### qc-reflect
+- Build qc-reflect following these specifications. It is intended as a tool to help me consolidate and expand the code system. It differs from the other tools in that it reads the corpus files and the specific codings to derive suggestions, and perhaps even enter dialog with the user, regarding how to handle overlaps and lacunae. It draws from the documentation generated from other aspects of qc-atelier (especially qc-scheme), which provides information regarding codes intended meanings and uses, which may not necessarily be reflected in how they are applied. This tool also relates to the outcomes of qc-refactor in that qc-refactor may be conceived as an initial tidying up phase, where some initial reflection is occurring, which is then passed into a more comprehensive toolchain that enables more in-depth consideration. Whereas qc-refactor squares things away, and qc-scheme reifies those new boundaries, qc-reflect prompts greater reflection on the nature of those boundaries and on their actual application.
+- While I have engaged with the corpus relatively sporadically over the better part of the last year, and my engagement with the data has been rather inconsistent. On the other hand, the LLM that is the main engine of qc-reflect is able to see the whole corpus, code system, and application of the code system to the corpus from a structural perspective. qc-reflect is therefore meant to serve as a context-aware rubber duck; it should draw from knowledge of the method and theory underlying qualitative coding and analysis, ability to project and present the user with information regarding potential practical outcomes of specific decisions and actions, and its awareness of the actual data that forms the corpus.
+- Some specific features should also include:
+  - Ability to suggest points of interviews that could be split apart. It is very common for someone to talk at length about different topics in what is presented as one very long line. Since coding occurs line by line, a series of codes may in reality apply to different sections of the same line. The LLM should therefore assist with breaking those lines at appropriate boundaries, while preserving proper formatting and data integrity.
+  - The system should suggest codes that already exist, propose new codes that do not yet exist (along with documentation), and propose removing, re-naming or merging codes. All suggestions should account for the nested nature of the code system and the relationships between codes.
+  - Suggestions should not be merely technical, but theoretical, thematic and thoughtful.
+- Perhaps as a separate utility, I would like to implement some synthesis and data optimization tools:
+  - Draft mini biographies and relationships based on identification of people's names throughout the corpus. Do something similar for organizations.
+  - Draw explicit associations between speaker names and coded individuals.
+  - Generate summaries along several axes (paragraph; corpus document; branch of the code system; individual or groups of codes; suggest additional axes).
+  - Identify figuration statements, and classify them as positive or negative, or according to some other scheme. Figuration statements should be easy to identify using a language model because they are typically one-off statements, usually in the form of a definitive statement or opinion.
+  - Proposing nested structures for the code system, along with rationales behind these suggestions.
+- All decisions and actions should be summarized and logged. This is an exercise in transparent thinking, after all; a way of externally representing my thought processes.
+- This should all be as efficient as possible while relying on local models. Suggest optimal models for these tasks and optimal ways of streamlining the ways data and contextual information are handled.
+- Ensure that all of this folds in nicely with existing aspects of qc-atelier, including data structures, processes, concepts, nomenclature, design principles, user interface, and user experience.
+- Develop and output a structured plan of action, and a concrete series of technical specifications, to guide this work.
+- As work progresses, be sure to document all decisions and actions, as well as rationalizations behind them, in a granular log.
+
+#### qc-trace
+- Develop qc-trace as a tool for observing changes and getting a sense of the history and flow of the codebook. It's a diagnostic tool, not a dashboard.
+
+### BibVik
+- Verifications:
+  - OCR
+    - Use a reproducible OCR method
+  - Translations to English
+  - Accuracy of reference capture
+  - De-duplication
+
+- Improvements
+  - Track paragraph number
+  - Track page number
+  - Track section titles
+  - Detect author affiliations for citing works
+  - Detect author affiliations for cited works
+  - No character limit for enriched mode
+  - Resolve Un-Paywall not running
+  - Make the command line logs more legible
+
+- Annotations
+  - Add sixth and more authors as independent columns
+
+- Analysis
+  - Smush primary and secondary topics/methods/sources
+  - Smush order of authors
+  - Compare whether findings are similar or different when smushing all authors
+  - Identify genders of single-author works
+
+- Relevant papers
+  - https://doi.org/10.1017/aaq.2021.64
+  - https://doi.org/10.1017/aaq.2023.36
+  - https://doi.org/10.1080/00934690.2023.2261083
+
+- Other ideas
+  - Compare Espen's annotations with an LLM-based iteration
+
+### Other
+- Update CITF-Postdoc website
+- Make a Quarto template based on my CV
+
+- York-RSCL
+  - x Emphasize community-driven initiatives over bibliometric research, alongside DORA stuff.
+  - x Emphasize BibVik's concern with equity and visibility, rather than just the methods.
+
+## This weekend
+- Reading for Shirin
+
+## Next week
+- Meet with Sadun regarding the marker paper
+- Revisions to the emails analysis paper
+- Documenting 30_Activities
+- Get in touch with new interviewee
+- Get in touch with Giancarlo Guizzardi
+- Get in touch with Chris Proctor
