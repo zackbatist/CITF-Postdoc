@@ -257,6 +257,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._refactor_history()
         elif self.path.startswith("/refactor/tree"):
             self._refactor_tree()
+        elif self.path == "/align/log":
+            self._align_log_get()
         elif self.path.startswith("/api/"):
             self._proxy("GET", b"")
         else:
@@ -277,6 +279,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._refactor_execute(body)
         elif self.path == "/refactor/move":
             self._refactor_move(body)
+        elif self.path == "/refactor/queue":
+            self._refactor_queue(body)
+        elif self.path == "/align/log":
+            self._align_log_post(body)
         elif self.path.startswith("/api/"):
             self._proxy("POST", body)
         else:
@@ -617,6 +623,56 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             print(f"[{ts}] saved {abs_path}  ({n} documented, {len(overrides)} moves)")
 
             self._json(200, {"ok": True})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
+
+    # ── GET /align/log ─────────────────────────────────────────────────────────
+    def _align_log_get(self):
+        log_path = SERVE_DIR / "align-log.json"
+        try:
+            if not log_path.exists():
+                self._json(200, {"entries": [], "ok": True})
+                return
+            with open(log_path) as f:
+                data = json.load(f)
+            self._json(200, {"entries": data.get("entries", []), "ok": True})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
+
+    # ── POST /align/log ─────────────────────────────────────────────────────────
+    def _align_log_post(self, body):
+        log_path = SERVE_DIR / "align-log.json"
+        try:
+            entry = json.loads(body)
+            data  = {"entries": []}
+            if log_path.exists():
+                with open(log_path) as f:
+                    data = json.load(f)
+            data.setdefault("entries", []).append(entry)
+            with open(log_path, "w") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+            self._json(200, {"ok": True})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
+
+    # ── POST /refactor/queue ────────────────────────────────────────────────────
+    # Pre-populates the refactor queue from qc-align suggestions.
+    # Stores pending ops in a sidecar file; qc-refactor reads on load.
+    def _refactor_queue(self, body):
+        queue_path = SERVE_DIR / "refactor-queue.json"
+        try:
+            payload = json.loads(body)
+            ops     = payload.get("ops", [])
+            data    = {"ops": []}
+            if queue_path.exists():
+                with open(queue_path) as f:
+                    data = json.load(f)
+            data["ops"].extend(ops)
+            with open(queue_path, "w") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+            ts_log = datetime.now().strftime("%H:%M:%S")
+            print(f"[{ts_log}] refactor/queue: {len(ops)} op(s) queued from qc-align")
+            self._json(200, {"ok": True, "queued": len(ops)})
         except Exception as e:
             self._json(500, {"error": str(e)})
 

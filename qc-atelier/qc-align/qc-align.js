@@ -1,13 +1,415 @@
-// qc-reflect.js
+// qc-align.js
 // Qualitative coding reflection tool.
-// Data injected by qc-reflect-filter.lua:
+// Data injected by qc-align-filter.lua:
 //   DOC_NAMES, ALL_CODES, CORPUS_INDEX, CODE_COLORS,
-//   CODEBOOK_TREE, COOC_DATA, REFLECT_CONFIG
+//   CODEBOOK_TREE, COOC_DATA, ALIGN_CONFIG
 
 (function () {
   'use strict';
 
   // ── State ──────────────────────────────────────────────────────────────────
+
+
+  // ── Hierarchy context builder ──────────────────────────────────────────────
+  // Walks up the tree from a code name, collecting scope + rationale at each level.
+  function buildHierarchyContext(codeName, docsData) {
+    var context = [];
+    var current = codeName;
+    var visited = new Set();
+    while (current && !visited.has(current)) {
+      visited.add(current);
+      var node = CODEBOOK_TREE.find(function(n) { return n.name === current; });
+      var doc  = (docsData && docsData[current]) || {};
+      if (node) {
+        context.unshift({
+          name:      current,
+          depth:     node.depth,
+          scope:     doc.scope     || '',
+          rationale: doc.rationale || '',
+        });
+        current = node.parent || null;
+      } else {
+        break;
+      }
+    }
+    return context;
+  }
+
+  function hierarchyContextText(codeName, docsData) {
+    var ctx = buildHierarchyContext(codeName, docsData);
+    if (ctx.length <= 1) return '';
+    return ctx.slice(0, -1).map(function(c) {
+      return '[' + c.name + ']\n'
+        + (c.scope     ? '  scope: '     + c.scope     + '\n' : '')
+        + (c.rationale ? '  rationale: ' + c.rationale + '\n' : '');
+    }).join('');
+  }
+
+  // ── Suggestion card helpers ────────────────────────────────────────────────
+  function makeSuggestionId() {
+    return 'sg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+  }
+
+  function setSuggestionStatus(reportId, suggId, status, note) {
+    var report = state.reports[reportId];
+    if (!report) return;
+    var sg = report.suggestions.find(function(s) { return s.id === suggId; });
+    if (!sg) return;
+    sg.status       = status;
+    sg.decision_note = note || '';
+    // Log to align-log
+    logAlignEntry({
+      mode:           report.mode,
+      suggestion_id:  suggId,
+      status:         status,
+      decision_note:  note || '',
+      refactor_op:    sg.refactor_op || null,
+      db_ops:         sg.db_ops      || null,
+      corpus_ops:     sg.corpus_ops  || null,
+    });
+    if (status === 'accepted' && sg.refactor_op) {
+      sendToRefactorQueue(sg.refactor_op);
+    }
+    render();
+  }
+
+  function logAlignEntry(entry) {
+    entry.ts = new Date().toISOString();
+    fetch(API + '/align/log', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(entry),
+    }).catch(function(e) { console.warn('[align/log]', e); });
+  }
+
+  function sendToRefactorQueue(refactorOp) {
+    fetch(API + '/refactor/queue', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ ops: [refactorOp] }),
+    }).catch(function(e) { console.warn('[refactor/queue]', e); });
+  }
+
+  // ── Prompt builders per audit mode ────────────────────────────────────────
+  function buildOverlapPrompt(codeA, codeB, docsData) {
+    var docA = docsData[codeA] || {};
+    var docB = docsData[codeB] || {};
+    var excerA = (CORPUS_INDEX[codeA] || {}).excerpts || [];
+    var excerB = (CORPUS_INDEX[codeB] || {}).excerpts || [];
+    var coocEntry = COOC_DATA.find(function(c) {
+      return (c.code_a === codeA && c.code_b === codeB) ||
+             (c.code_a === codeB && c.code_b === codeA);
+    });
+    var shared = coocEntry ? coocEntry.shared_docs : 0;
+    var hierA = hierarchyContextText(codeA, docsData);
+    var hierB = hierarchyContextText(codeB, docsData);
+
+    return [
+      'TASK: Assess whether two codes have genuinely distinct analytical boundaries or collapse in practice.',
+      '',
+      hierA ? 'HIERARCHY CONTEXT FOR ' + codeA + ':\n' + hierA : '',
+      '== CODE A: ' + codeA + ' ==',
+      'scope: '       + (docA.scope       || '(undocumented)'),
+      'rationale: '   + (docA.rationale   || '(undocumented)'),
+      'usage_notes: ' + (docA.usage_notes || '(undocumented)'),
+      'uses: '        + ((CORPUS_INDEX[codeA] || {}).total || 0),
+      'sample excerpts:',
+      excerA.slice(0, 5).map(function(e) { return '  [' + e.doc + ':' + e.line + '] ' + e.text; }).join('\n'),
+      '',
+      hierB ? 'HIERARCHY CONTEXT FOR ' + codeB + ':\n' + hierB : '',
+      '== CODE B: ' + codeB + ' ==',
+      'scope: '       + (docB.scope       || '(undocumented)'),
+      'rationale: '   + (docB.rationale   || '(undocumented)'),
+      'usage_notes: ' + (docB.usage_notes || '(undocumented)'),
+      'uses: '        + ((CORPUS_INDEX[codeB] || {}).total || 0),
+      'sample excerpts:',
+      excerB.slice(0, 5).map(function(e) { return '  [' + e.doc + ':' + e.line + '] ' + e.text; }).join('\n'),
+      '',
+      'CO-OCCURRENCE: these codes appear in ' + shared + ' shared documents.',
+      '',
+      'Respond with a JSON object:',
+      '{',
+      '  "overlap": true|false,',
+      '  "description": "one sentence summary",',
+      '  "rationale": "analytical justification referencing hierarchy context",',
+      '  "suggestion_type": "merge|rename|keep-separate",',
+      '  "target_name": "suggested merged name if merge",',
+      '  "evidence": [{"doc":"...","line":0,"text":"..."}]',
+      '}',
+    ].filter(Boolean).join('\n');
+  }
+
+  function buildBloatPrompt(parentCode, siblings, docsData) {
+    var parentDoc = docsData[parentCode] || {};
+    var hierCtx   = hierarchyContextText(parentCode, docsData);
+
+    var siblingsText = siblings.map(function(name) {
+      var doc   = docsData[name] || {};
+      var excrs = (CORPUS_INDEX[name] || {}).excerpts || [];
+      return [
+        '-- ' + name + ' (uses: ' + ((CORPUS_INDEX[name]||{}).total||0) + ')',
+        'scope: '     + (doc.scope     || '(undocumented)'),
+        'rationale: ' + (doc.rationale || '(undocumented)'),
+        'sample: '    + (excrs[0] ? excrs[0].text : '(none)'),
+      ].join('\n');
+    }).join('\n\n');
+
+    return [
+      'TASK: Assess whether the children of a parent code are genuinely distinct or whether some are redundant.',
+      '',
+      hierCtx ? 'HIERARCHY CONTEXT:\n' + hierCtx : '',
+      '== PARENT: ' + parentCode + ' ==',
+      'scope: '     + (parentDoc.scope     || '(undocumented)'),
+      'rationale: ' + (parentDoc.rationale || '(undocumented)'),
+      '',
+      '== CHILDREN (' + siblings.length + ') ==',
+      siblingsText,
+      '',
+      'Respond with a JSON object:',
+      '{',
+      '  "bloat_detected": true|false,',
+      '  "description": "one sentence summary",',
+      '  "rationale": "justification referencing parent scope",',
+      '  "suggestions": [{"type":"merge|delete|keep","codes":["A","B"],"target":"merged name","reason":"..."}]',
+      '}',
+    ].filter(Boolean).join('\n');
+  }
+
+  // ── makeReport / runReport ────────────────────────────────────────────────
+  var _reportCounter = 0;
+  function makeReport(codes) {
+    var id = 'report_' + (++_reportCounter);
+    state.reports[id] = {
+      id:          id,
+      mode:        state.auditMode,
+      codes:       codes,
+      status:      'pending',
+      suggestions: [],
+      error:       null,
+      ts:          new Date().toISOString(),
+    };
+    return id;
+  }
+
+  async function runReport(reportId) {
+    var report = state.reports[reportId];
+    if (!report) return;
+    report.status = 'running';
+    render();
+
+    try {
+      // Load docs for hierarchy context
+      var docsRes  = await fetch(API + '/docs/load?path=' + encodeURIComponent(ALIGN_CONFIG.scheme_path));
+      var docsData = {};
+      if (docsRes.ok) {
+        var docsJson = await docsRes.json();
+        docsData = docsJson.codes || {};
+      }
+
+      var suggestions = [];
+
+      if (report.mode === 'overlap') {
+        suggestions = await runOverlapAudit(report.codes, docsData);
+      } else if (report.mode === 'bloat') {
+        suggestions = await runBloatAudit(report.codes, docsData);
+      } else {
+        // Other modes — placeholder
+        suggestions = [{
+          id:          makeSuggestionId(),
+          mode:        report.mode,
+          codes:       report.codes.slice(0, 3),
+          type:        'pending',
+          description: report.mode + ' audit — full implementation coming',
+          rationale:   '',
+          evidence:    [],
+          status:      'pending',
+          decision_note: '',
+          refactor_op: null,
+        }];
+      }
+
+      report.suggestions = suggestions;
+      report.status = 'done';
+    } catch(e) {
+      report.status = 'error';
+      report.error  = String(e.message || e);
+    }
+    render();
+  }
+
+  async function runOverlapAudit(codes, docsData) {
+    // Find co-occurring pairs within scope
+    var codeSet = new Set(codes);
+    var pairs = COOC_DATA
+      .filter(function(c) { return codeSet.has(c.code_a) && codeSet.has(c.code_b); })
+      .slice(0, ALIGN_CONFIG.max_pairs || 40);
+
+    var suggestions = [];
+    for (var i = 0; i < Math.min(pairs.length, 10); i++) {
+      var pair = pairs[i];
+      var prompt = buildOverlapPrompt(pair.code_a, pair.code_b, docsData);
+      var result = await ollamaJSON(prompt);
+      if (!result) continue;
+      suggestions.push({
+        id:           makeSuggestionId(),
+        mode:         'overlap',
+        codes:        [pair.code_a, pair.code_b],
+        type:         result.suggestion_type || 'keep-separate',
+        description:  result.description || '',
+        rationale:    result.rationale   || '',
+        evidence:     result.evidence    || [],
+        status:       'pending',
+        decision_note: '',
+        refactor_op:  result.suggestion_type === 'merge' ? {
+          type:    'merge',
+          sources: [pair.code_a, pair.code_b],
+          target:  result.target_name || pair.code_b,
+        } : null,
+      });
+    }
+    return suggestions;
+  }
+
+  async function runBloatAudit(codes, docsData) {
+    // Group selected codes by parent
+    var codeSet  = new Set(codes);
+    var byParent = {};
+    CODEBOOK_TREE.forEach(function(node) {
+      if (!codeSet.has(node.name)) return;
+      var p = node.parent || '__root__';
+      if (!byParent[p]) byParent[p] = [];
+      byParent[p].push(node.name);
+    });
+
+    var suggestions = [];
+    for (var parent in byParent) {
+      var siblings = byParent[parent];
+      if (siblings.length < 2) continue;
+      var parentName = parent === '__root__' ? '' : parent;
+      var prompt     = buildBloatPrompt(parentName, siblings, docsData);
+      var result     = await ollamaJSON(prompt);
+      if (!result || !result.bloat_detected) continue;
+      (result.suggestions || []).forEach(function(sg) {
+        if (sg.type === 'keep') return;
+        suggestions.push({
+          id:           makeSuggestionId(),
+          mode:         'bloat',
+          codes:        sg.codes || siblings,
+          type:         sg.type  || 'merge',
+          description:  sg.reason || result.description || '',
+          rationale:    result.rationale || '',
+          evidence:     [],
+          status:       'pending',
+          decision_note: '',
+          refactor_op:  sg.type === 'merge' ? {
+            type:    'merge',
+            sources: sg.codes || [],
+            target:  sg.target || '',
+          } : null,
+        });
+      });
+    }
+    return suggestions;
+  }
+
+  // ── Suggestion card renderer ───────────────────────────────────────────────
+  function buildSuggestionCard(sg, reportId) {
+    var statusClass = {
+      pending:  '',
+      accepted: ' sg-accepted',
+      rejected: ' sg-rejected',
+      deferred: ' sg-deferred',
+    }[sg.status] || '';
+
+    var card = h('div', { className: 'sg-card' + statusClass });
+
+    var header = h('div', { className: 'sg-header' });
+    header.appendChild(h('span', { className: 'sg-badge sg-badge-' + sg.mode }, sg.mode));
+    header.appendChild(h('span', { className: 'sg-codes' }, sg.codes.join(' + ')));
+    if (sg.type && sg.type !== 'pending') {
+      header.appendChild(h('span', { className: 'sg-type' }, sg.type));
+    }
+    card.appendChild(header);
+
+    if (sg.description) card.appendChild(h('div', { className: 'sg-desc' }, sg.description));
+    if (sg.rationale)   card.appendChild(h('div', { className: 'sg-rationale' }, sg.rationale));
+
+    if (sg.evidence && sg.evidence.length > 0) {
+      var evWrap = h('div', { className: 'sg-evidence' });
+      sg.evidence.slice(0, 3).forEach(function(e) {
+        evWrap.appendChild(h('div', { className: 'sg-ev-item' },
+          h('span', { className: 'sg-ev-ref' }, '[' + e.doc + ':' + e.line + '] '),
+          h('span', { className: 'sg-ev-text' }, e.text)
+        ));
+      });
+      card.appendChild(evWrap);
+    }
+
+    if (sg.status === 'pending') {
+      var noteInput = h('input', {
+        type:        'text',
+        className:   'sg-note-input',
+        placeholder: 'Decision note (optional)…',
+      });
+      var actions = h('div', { className: 'sg-actions' });
+      var acceptBtn = h('button', { className: 'btn primary sg-btn', onClick: function() {
+        setSuggestionStatus(reportId, sg.id, 'accepted', noteInput.value);
+      }}, '✓ Accept');
+      var rejectBtn = h('button', { className: 'btn sg-btn', onClick: function() {
+        setSuggestionStatus(reportId, sg.id, 'rejected', noteInput.value);
+      }}, '✗ Reject');
+      var deferBtn = h('button', { className: 'btn sg-btn', onClick: function() {
+        setSuggestionStatus(reportId, sg.id, 'deferred', noteInput.value);
+      }}, '⏸ Defer');
+      actions.appendChild(acceptBtn);
+      actions.appendChild(rejectBtn);
+      actions.appendChild(deferBtn);
+      card.appendChild(noteInput);
+      card.appendChild(actions);
+    } else {
+      var statusRow = h('div', { className: 'sg-status-row' },
+        h('span', { className: 'sg-status-label' }, sg.status),
+        sg.decision_note ? h('span', { className: 'sg-decision-note' }, sg.decision_note) : null
+      );
+      card.appendChild(statusRow);
+    }
+
+    return card;
+  }
+
+  // ── ollamaJSON helper ──────────────────────────────────────────────────────
+  async function ollamaJSON(prompt) {
+    var model = ALIGN_CONFIG.ollama_model || 'qwen3:35b';
+    var fullPrompt = prompt + '\n\nRespond ONLY with valid JSON, no markdown, no explanation.';
+    try {
+      var res = await fetch(API + '/api/chat', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({
+          model:  model,
+          stream: false,
+          think:  false,
+          messages: [{ role: 'user', content: fullPrompt }],
+        }),
+      });
+      var data = await res.json();
+      var text = data.message && data.message.content ? data.message.content : '';
+      text = text.replace(/```json\n?|```\n?/g, '').trim();
+      return JSON.parse(text);
+    } catch(e) {
+      console.warn('[ollamaJSON]', e);
+      return null;
+    }
+  }
+
+  const AUDIT_MODES = [
+    { id: 'overlap',          label: 'Overlap',          model: 'qwen3:35b', desc: 'Codes that blur together in practice' },
+    { id: 'inconsistency',    label: 'Inconsistency',    model: 'qwen3:35b', desc: 'Codes applied against their documented intent' },
+    { id: 'bloat',            label: 'Bloat',            model: 'qwen3:35b', desc: 'Redundant sibling codes under the same parent' },
+    { id: 'restructure',      label: 'Restructure',      model: 'qwen3:35b', desc: 'Propose alternative tree organisations' },
+    { id: 'line-split',       label: 'Line splitting',   model: 'qwen3:8b',  desc: 'Detect topically composite lines' },
+    { id: 'code-propagation', label: 'Code propagation', model: 'qwen3:8b',  desc: 'Missing codes in adjacent conversational context' },
+  ];
 
   const state = {
     activeReportId: null,      // currently shown report key
@@ -94,14 +496,14 @@
   // ── Ollama query ───────────────────────────────────────────────────────────
 
   async function ollamaChat(messages) {
-    const res = await fetch(REFLECT_CONFIG.ollama_url + '/api/chat', {
+    const res = await fetch(ALIGN_CONFIG.ollama_url + '/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model:   REFLECT_CONFIG.ollama_model,
+        model:   ALIGN_CONFIG.ollama_model,
         messages,
         stream:  false,
-        options: { temperature: 0.2, num_ctx: REFLECT_CONFIG.num_ctx },
+        options: { temperature: 0.2, num_ctx: ALIGN_CONFIG.num_ctx },
       }),
     });
     if (!res.ok) {
@@ -126,16 +528,16 @@
   // ── Ollama connectivity check ──────────────────────────────────────────────
 
   async function checkOllama() {
-    const res = await fetch(REFLECT_CONFIG.ollama_url + '/api/tags');
+    const res = await fetch(ALIGN_CONFIG.ollama_url + '/api/tags');
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     const models = (data.models || []).map(m => m.name);
-    const base = REFLECT_CONFIG.ollama_model.split(':')[0];
+    const base = ALIGN_CONFIG.ollama_model.split(':')[0];
     if (!models.some(m => m.startsWith(base))) {
       throw new Error(
-        `Model "${REFLECT_CONFIG.ollama_model}" not found. ` +
+        `Model "${ALIGN_CONFIG.ollama_model}" not found. ` +
         `Available: ${models.join(', ') || 'none'}. ` +
-        `Run: ollama pull ${REFLECT_CONFIG.ollama_model}`
+        `Run: ollama pull ${ALIGN_CONFIG.ollama_model}`
       );
     }
   }
@@ -144,7 +546,7 @@
 
   function buildReportPrompt(codes) {
     // Use more excerpts — comprehensiveness is the goal
-    const MAX_EX = Math.min(20, Math.floor(REFLECT_CONFIG.num_ctx / (codes.length * 350)));
+    const MAX_EX = Math.min(20, Math.floor(ALIGN_CONFIG.num_ctx / (codes.length * 350)));
 
     // Tree context
     const nodeMap = {};
@@ -307,7 +709,7 @@ Return ONLY valid JSON in this exact structure (no markdown fences):
   // ── LLM-driven candidate ranking ─────────────────────────────────────────
   // Phase 1: one call per category group (within-category overlaps)
   // Phase 2: one cross-category call using top codes from each group
-  // Results merged, deduped, capped at REFLECT_CONFIG.max_pairs
+  // Results merged, deduped, capped at ALIGN_CONFIG.max_pairs
 
   function buildTreeContext(codes) {
     // Build a compact tree-context string for a set of codes
@@ -470,7 +872,7 @@ Only include codes from the list above. If no pairs have meaningful overlap, ret
       return b.shared_docs - a.shared_docs;
     });
 
-    const maxPairs = REFLECT_CONFIG.max_pairs || 40;
+    const maxPairs = ALIGN_CONFIG.max_pairs || 40;
     state.queue = [];
     for (const pair of allPairs.slice(0, maxPairs)) {
       const id = makeReport([pair.code_a, pair.code_b]);
@@ -595,7 +997,7 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
   // ── Save / load conversation logs via local server ────────────────────────
   // The companion qc-atelier-server.py handles POST /logs/save and GET /logs/list.
 
-  const LOG_API = 'http://localhost:' + (REFLECT_CONFIG.log_server_port || 8080);
+  const LOG_API = 'http://localhost:' + (ALIGN_CONFIG.log_server_port || 8080);
 
   async function saveLog(reportId) {
     const report = state.reports[reportId];
@@ -643,7 +1045,7 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
 
     const lines = [
       '#!/bin/bash',
-      `# Generated by qc-reflect`,
+      `# Generated by qc-align`,
       `# Report: ${report.codes.join(', ')}`,
       `# Date: ${new Date().toISOString()}`,
       '',
@@ -666,7 +1068,7 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
   // ── Render ─────────────────────────────────────────────────────────────────
 
   function render() {
-    const root = document.getElementById('qc-reflect-root');
+    const root = document.getElementById('qc-align-root');
     if (!root) return;
     root.innerHTML = '';
 
@@ -679,7 +1081,7 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
         `${DOC_NAMES.length} docs · ${ALL_CODES.length} codes`
       ),
       h('div', { className: 'top-bar-spacer' }),
-      h('span', { className: 'model-badge' }, REFLECT_CONFIG.ollama_model),
+      h('span', { className: 'model-badge' }, ALIGN_CONFIG.ollama_model),
     );
     shell.appendChild(tb);
 
@@ -705,79 +1107,159 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
   function buildLeftPanel() {
     const panel = h('div', { className: 'panel-left' });
 
-    const header = h('div', { className: 'panel-left-header' },
-      h('h2', {}, 'Overlap Candidates'),
-    );
+    // ── Audit mode selector ──────────────────────────────────────────────────
+    const modeSection = h('div', { className: 'audit-mode-section' });
+    modeSection.appendChild(h('div', { className: 'audit-section-label' }, 'Audit mode'));
+    for (const mode of AUDIT_MODES) {
+      const btn = h('button', {
+        className: 'audit-mode-btn' + (state.auditMode === mode.id ? ' active' : ''),
+        title: mode.desc,
+        onClick: () => { state.auditMode = mode.id; render(); },
+      }, mode.label);
+      modeSection.appendChild(btn);
+    }
+    panel.appendChild(modeSection);
 
-    const searchRow = h('div', { className: 'search-row' });
-    const searchInput = h('input', {
+    // ── Scope picker ─────────────────────────────────────────────────────────
+    const scopeSection = h('div', { className: 'audit-scope-section' });
+    scopeSection.appendChild(h('div', { className: 'audit-section-label' },
+      'Scope ',
+      h('span', { className: 'audit-scope-count' },
+        state.auditScope.length > 0 ? `(${state.auditScope.length} selected)` : '(all)'
+      )
+    ));
+
+    const scopeSearch = h('input', {
       type: 'text',
       className: 'search-input',
       placeholder: 'Filter codes…',
       value: state.leftSearch || '',
       onInput: e => { state.leftSearch = e.target.value; render(); },
     });
-    const customBtn = h('button', {
-      className: 'custom-btn',
-      onClick: () => { state.modalOpen = true; state.customSelectedCodes = []; render(); },
-    }, '+ Custom');
-    searchRow.appendChild(searchInput);
-    searchRow.appendChild(customBtn);
-    header.appendChild(searchRow);
-    panel.appendChild(header);
+    scopeSection.appendChild(scopeSearch);
 
-    const list = h('div', { className: 'candidate-list' });
+    const scopeList = h('div', { className: 'audit-scope-list' });
+    const q = (state.leftSearch || '').toLowerCase();
 
-    // Error state
+    function renderScopeNodes(nodes, parentName) {
+      for (const node of nodes) {
+        if (q && !node.name.toLowerCase().includes(q)) continue;
+        const isCollapsed = state.auditScopeCollapsed.has(node.name);
+        const hasChildren = CODEBOOK_TREE.some(n => n.parent === node.name);
+        const isSelected = state.auditScope.includes(node.name);
+
+        const row = h('div', {
+          className: 'audit-scope-row',
+          style: { paddingLeft: (node.depth * 14 + 4) + 'px' },
+        });
+
+        if (!q && hasChildren) {
+          const tog = h('button', {
+            className: 'scope-toggle',
+            onMouseDown: e => {
+              e.preventDefault();
+              if (isCollapsed) state.auditScopeCollapsed.delete(node.name);
+              else state.auditScopeCollapsed.add(node.name);
+              render();
+            },
+          }, isCollapsed ? '▶' : '▼');
+          row.appendChild(tog);
+        } else {
+          row.appendChild(h('span', { className: 'scope-toggle-placeholder' }));
+        }
+
+        const cb = h('input', { type: 'checkbox', checked: isSelected });
+        cb.addEventListener('change', () => {
+          if (cb.checked) {
+            if (!state.auditScope.includes(node.name)) state.auditScope.push(node.name);
+          } else {
+            state.auditScope = state.auditScope.filter(c => c !== node.name);
+          }
+          render();
+        });
+        row.appendChild(cb);
+        row.appendChild(h('span', { className: 'scope-label' }, node.name));
+        const cnt = (CORPUS_INDEX[node.name] || {}).total;
+        if (cnt) row.appendChild(h('span', { className: 'picker-count' }, String(cnt)));
+        scopeList.appendChild(row);
+
+        if (!q && !isCollapsed && hasChildren) {
+          const children = CODEBOOK_TREE.filter(n => n.parent === node.name);
+          renderScopeNodes(children, node.name);
+        }
+      }
+    }
+    const roots = CODEBOOK_TREE.filter(n => !n.parent);
+    renderScopeNodes(roots, null);
+    scopeSection.appendChild(scopeList);
+
+    const clearBtn = h('button', {
+      className: 'btn audit-scope-clear',
+      onClick: () => { state.auditScope = []; render(); },
+      disabled: state.auditScope.length === 0,
+    }, 'Clear selection');
+    scopeSection.appendChild(clearBtn);
+    panel.appendChild(scopeSection);
+
+    // ── Run button ────────────────────────────────────────────────────────────
+    const runBtn = h('button', {
+      className: 'btn primary audit-run-btn',
+      onClick: () => {
+        const codes = state.auditScope.length > 0
+          ? state.auditScope
+          : CODEBOOK_TREE.map(n => n.name);
+        const id = makeReport(codes);
+        state.activeReportId = id;
+        state.activeTab = 'report';
+        runReport(id);
+        render();
+      },
+    }, 'Run ' + (AUDIT_MODES.find(m => m.id === state.auditMode) || {}).label || 'audit');
+    panel.appendChild(runBtn);
+
+    // ── Session summary ───────────────────────────────────────────────────────
+    const reports = Object.values(state.reports);
+    if (reports.length > 0) {
+      const accepted = reports.reduce((n, r) => n + r.suggestions.filter(s => s.status === 'accepted').length, 0);
+      const rejected = reports.reduce((n, r) => n + r.suggestions.filter(s => s.status === 'rejected').length, 0);
+      const deferred = reports.reduce((n, r) => n + r.suggestions.filter(s => s.status === 'deferred').length, 0);
+      const summary = h('div', { className: 'audit-session-summary' },
+        h('div', { className: 'audit-section-label' }, 'Session'),
+        h('div', { className: 'audit-summary-row' },
+          h('span', { className: 'summary-accepted' }, `✓ ${accepted} accepted`),
+          h('span', { className: 'summary-rejected' }, `✗ ${rejected} rejected`),
+          h('span', { className: 'summary-deferred' }, `⏸ ${deferred} deferred`),
+        )
+      );
+      panel.appendChild(summary);
+    }
+
+    // ── Candidate list (existing overlap queue) ───────────────────────────────
+    const candidateSection = h('div', { className: 'candidate-section' });
     if (state.queuePhase === 'error') {
-      list.appendChild(h('div', { className: 'error-notice', style: { margin: '12px' } },
+      candidateSection.appendChild(h('div', { className: 'error-notice', style: { margin: '12px' } },
         state.queueError || 'Ollama error'
       ));
     }
-
-    // Filter queue
-    const q = state.leftSearch
-      ? state.queue.filter(id => {
-          const r = state.reports[id];
-          return r && r.codes.some(c => c.toLowerCase().includes(state.leftSearch.toLowerCase()));
-        })
-      : state.queue;
-
-    // Custom reports (not in queue)
     const customIds = Object.keys(state.reports).filter(id => !state.queue.includes(id));
-    const allIds = [...customIds, ...q];
-
+    const allIds = [...customIds, ...state.queue];
     for (const id of allIds) {
       const report = state.reports[id];
       if (!report) continue;
-      list.appendChild(buildCandidateItem(report));
+      candidateSection.appendChild(buildCandidateItem(report));
     }
-
     if (allIds.length === 0 && state.queuePhase === 'idle') {
-      list.appendChild(h('div', {
+      candidateSection.appendChild(h('div', {
         className: 'loading-bar',
         onClick: initQueue,
         style: { cursor: 'pointer' },
-      }, '▶ Click to start analysis'));
+      }, '▶ Click to start overlap analysis'));
     }
-
-    panel.appendChild(list);
-
-    // Status bar
-    const done  = state.queue.filter(id => state.reports[id]?.status === 'done').length;
-    const total = state.queue.length;
-    let statusText = '';
-    if (state.queuePhase === 'ranking') statusText = state.rankingStatus || 'Building queue…';
-    else if (state.queuePhase === 'running') statusText = `Analysing… ${done}/${total}`;
-    else if (state.queuePhase === 'done') statusText = `${done} reports ready`;
-    else if (state.queuePhase === 'idle') statusText = 'Click a pair to begin';
-
-    if (statusText) {
-      panel.appendChild(h('div', { className: 'queue-status-bar' }, statusText));
-    }
+    panel.appendChild(candidateSection);
 
     return panel;
   }
+
 
   function buildCandidateItem(report) {
     const isActive = report.id === state.activeReportId;
@@ -1081,7 +1563,7 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
           const url  = URL.createObjectURL(blob);
           const a    = document.createElement('a');
           a.href = url;
-          a.download = `qc-reflect-${report.codes[0]}-${Date.now()}.sh`;
+          a.download = `qc-align-${report.codes[0]}-${Date.now()}.sh`;
           a.click();
           URL.revokeObjectURL(url);
         },
@@ -1316,7 +1798,7 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
     initQueue();
   }
 
-  if (document.getElementById('qc-reflect-root')) {
+  if (document.getElementById('qc-align-root')) {
     boot();
   } else {
     document.addEventListener('DOMContentLoaded', boot);

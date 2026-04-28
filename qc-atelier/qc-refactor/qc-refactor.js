@@ -68,6 +68,34 @@ async function loadDocs() {
   } catch(e) {
     console.warn('Could not load codebook.json:', e);
   }
+  // Load any ops queued from qc-align
+  try {
+    var qres = await fetch(API + '/docs/load-json?path=' + encodeURIComponent(
+      SCHEME_PATH.replace(/codebook\.json$/, 'refactor-queue.json')
+    ));
+    if (qres.ok) {
+      var qdata = await qres.json();
+      var pendingOps = (qdata.ops || []);
+      if (pendingOps.length > 0) {
+        pendingOps.forEach(function(op) {
+          op.id = state.nextId++;
+          state.queue.push(op);
+        });
+        // Clear the queue file after loading
+        await fetch(API + '/docs/save', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            path: SCHEME_PATH.replace(/codebook\.json$/, 'refactor-queue.json'),
+            data: { ops: [] },
+          }),
+        });
+        console.log('[qc-refactor] Loaded ' + pendingOps.length + ' op(s) from qc-align');
+      }
+    }
+  } catch(e) {
+    // Queue file may not exist yet — ignore
+  }
 }
 
 async function refreshTree() {
@@ -755,6 +783,80 @@ function applyOpsToRuntimeTree(operations) {
   _runtimeTree.forEach(function(n) { n.depth = getDepth(n.name); });
 }
 
+// ── Queue conflict validation ─────────────────────────────────────────────────
+// Detects logical conflicts between staged operations.
+// Returns an array of conflict descriptions, empty if none.
+
+function validateQueueConflicts(proposedOp) {
+  var conflicts = [];
+  var ops = allOps();
+
+  // Build the effective name map after all queued ops
+  // (what each source code will be called after pending renames/merges)
+  var renamedTo = {};   // oldName -> newName
+  var mergedInto = {};  // oldName -> targetName
+  var deprecated = {}; // name -> true
+  var moved = {};       // name -> newParent
+
+  ops.forEach(function(op) {
+    if (op.type === 'rename') {
+      renamedTo[op.sources[0]] = op.target;
+    } else if (op.type === 'merge') {
+      op.sources.forEach(function(s) { mergedInto[s] = op.target; });
+    } else if (op.type === 'deprecate') {
+      deprecated[op.sources[0]] = true;
+    } else if (op.type === 'move') {
+      moved[op.sources[0]] = op.target;
+    }
+  });
+
+  function effectiveName(name) {
+    if (renamedTo[name]) return renamedTo[name];
+    if (mergedInto[name]) return mergedInto[name];
+    return name;
+  }
+
+  var prop = proposedOp;
+  var propSources = prop.sources || [];
+  var propTarget  = prop.target  || '';
+
+  propSources.forEach(function(src) {
+    // Source was already renamed
+    if (renamedTo[src]) {
+      conflicts.push(src + ' has already been renamed to ' + renamedTo[src] + ' in the queue.');
+    }
+    // Source was already merged away
+    if (mergedInto[src]) {
+      conflicts.push(src + ' has already been merged into ' + mergedInto[src] + ' in the queue.');
+    }
+    // Source is deprecated — structural ops on deprecated codes are suspicious
+    if (deprecated[src] && (prop.type === 'rename' || prop.type === 'merge' || prop.type === 'move')) {
+      conflicts.push(src + ' is queued for deprecation — applying a ' + prop.type + ' after deprecation may be unintentional.');
+    }
+  });
+
+  // Target of rename/merge conflicts with a pending rename source
+  if (propTarget && (prop.type === 'rename' || prop.type === 'merge')) {
+    if (renamedTo[propTarget]) {
+      conflicts.push('Target ' + propTarget + ' has already been renamed to ' + renamedTo[propTarget] + ' in the queue.');
+    }
+    if (mergedInto[propTarget]) {
+      conflicts.push('Target ' + propTarget + ' has already been merged into ' + mergedInto[propTarget] + ' in the queue.');
+    }
+  }
+
+  // Duplicate operation
+  ops.forEach(function(op) {
+    if (op.type === prop.type &&
+        JSON.stringify(op.sources.slice().sort()) === JSON.stringify(propSources.slice().sort()) &&
+        op.target === propTarget) {
+      conflicts.push('An identical operation is already in the queue.');
+    }
+  });
+
+  return conflicts;
+}
+
 // ── Add operation ─────────────────────────────────────────────────────────────
 
 function addOperation() {
@@ -803,6 +905,11 @@ function addOperation() {
   }
 
   if (op) {
+    var conflicts = validateQueueConflicts(op);
+    if (conflicts.length > 0) {
+      showFormError('⚠ Conflict: ' + conflicts[0]);
+      return;
+    }
     state.queue.push(op);
     state.expandedSegs = {};
     renderQueue();

@@ -1314,3 +1314,25 @@ This establishes `qc-shared.js` as the home for shared runtime JavaScript across
 **Refactor integration.** Accepted structural suggestions (Overlap, Bloat, Restructure) pre-populate the qc-refactor queue via `POST /refactor/queue`. No direct execution from qc-align. Rationale: structural changes to the code system should be reviewed in qc-refactor before execution, maintaining the principle that qc-refactor is the single point of structural execution.
 
 **Code propagation and direct SQLite writes.** This is the only place in qc-atelier where the database is written to directly rather than through the qc CLI. There is no `qc codes apply` CLI command. Mitigated by mandatory backup, dryrun preview, and session logging. This should be revisited if a programmatic apply command is added to qc upstream.
+
+---
+
+### 2026-04-24 — qc-align foundation; queue conflict validation; launcher update
+
+**qc-reflect renamed to qc-align.** All files, filter globals (`REFLECT_CONFIG` → `ALIGN_CONFIG`), root element IDs, and config sections renamed. The existing co-occurrence/overlap/chat machinery is retained as the foundation for the Overlap audit mode.
+
+**qc-align-filter.lua.** Rebuilt from qc-reflect-filter.lua applying current shared infrastructure standards: `qc-shared.lua` loaded via `dofile()` with `_get_project_root_early()` path resolution; shared CSS, shared JS, and nav bar injected; `ALIGN_CONFIG` global extended with `server_port`, `scheme_path`, `json_dir`, and per-mode model assignments. Old duplicated helper functions removed.
+
+**qc-align.js — audit palette and suggestion system.** Six audit modes defined: Overlap, Inconsistency, Bloat, Restructure, Line splitting, Code propagation. Left panel replaced with audit palette (mode selector buttons), scope picker (multi-select collapsible tree, same pattern as qc-refactor Move form), Run button, and session summary. Suggestion card system added with accept/reject/defer actions, decision note input, and status display. Accepted suggestions with a `refactor_op` field are sent to `/refactor/queue`. All decisions logged to `/align/log`.
+
+**Prompt strategy implemented for Overlap and Bloat.** Both prompts include a hierarchy context block (ancestry paths with scope + rationale at each level). Overlap prompt presents both codes with documentation, excerpts, and co-occurrence count. Bloat prompt presents the parent's documentation alongside all sibling codes. Both request structured JSON responses parsed by `ollamaJSON()`.
+
+**Queue conflict validation in qc-refactor.** `validateQueueConflicts()` runs before any operation is added to the queue. Detects: source code already renamed in queue, source code already merged away, target code already transformed, deprecated code being structurally modified, duplicate operation. Conflict shown as inline form error; staging blocked.
+
+**Server endpoints added:** `GET /align/log` and `POST /align/log` (append-only session log at `qc/align-log.json`); `POST /refactor/queue` (stores ops in `qc/refactor-queue.json` for qc-refactor to pick up on next load).
+
+**Refactor queue pre-population.** On init, qc-refactor reads `qc/refactor-queue.json` and loads any pending ops into the queue, then clears the file. This is the handoff mechanism from qc-align accepted suggestions to qc-refactor execution.
+
+**Launcher updated.** qc-align card added as active (links to `/qc-align.html`). qc-unfold added as inactive stub. qc-reflect card removed.
+
+**Remaining for qc-align:** Inconsistency, Restructure, Line splitting, and Code propagation audit modes; right panel suggestion display; dryrun + backup mechanism; `qc-align.qmd` creation.
