@@ -1,6 +1,6 @@
 ---
 title: "qc-atelier — Technical Documentation and Decision Log"
-date: "2026-04-19"
+date: "2026-04-24"
 format:
   html:
     toc: true
@@ -18,16 +18,20 @@ qc-atelier is a personal practitioner toolkit built on top of the `qc` CLI (`qua
 
 The toolkit is the primary active technical focus of this researcher's post-doctoral work. The code lives in `CITF-Postdoc` on GitHub (public). Data lives in `qc/`, `private/`, and `data/` as git submodules on a university-managed GitLab instance (private).
 
-**The four tools:**
+**The tools:**
 
 | Tool | Role | Status |
 |---|---|---|
 | qc-scheme | Passive — documents codes, manages snapshots and history | Active |
 | qc-refactor | Active — structural operations on the code system | Active |
 | qc-viz | Passive — visual corpus reader | Active |
-| qc-reflect | Active — LLM-assisted reflexive analysis | Deprioritised |
+| qc-align | Active — LLM-assisted code system audit and maintenance | In development |
+| qc-unfold | Active — LLM-assisted corpus meaning-making | Planned |
+| qc-trace | Passive — cross-tool audit timeline | Designed, not started |
 
-**The key distinction:** qc-scheme and qc-viz are passive/responsive — they read and display. qc-refactor is active — it executes structural changes. This separation is intentional and must be maintained.
+**The key distinction:** qc-scheme and qc-viz are passive/responsive — they read and display. qc-refactor is active — it executes structural changes. qc-align and qc-unfold are active — they use the LLM to suggest and execute changes. This separation is intentional and must be maintained.
+
+**The analytical axis:** qc-align operates on the *code system*, using the corpus as evidence. qc-unfold operates on the *corpus text*, using the code system as an analytical lens. They represent different phases: qc-align calibrates the instrument; qc-unfold uses it.
 
 **Technical environment:** Python 3.14 on macOS ARM, `.venv` virtual environment, GROBID 0.8.1 via Docker, Ollama with `qwen3:35b` (thinking mode disabled via `"think": false`). qc installed globally via pipx at `/Users/zackbatist/.local/bin/qc`.
 
@@ -53,7 +57,7 @@ The toolkit is the primary active technical focus of this researcher's post-doct
 | `qc/json/*.json` | Per-document coding exports: `[{code, document, line, text}]` |
 | `qc/corpus/*.txt` | Source interview transcripts |
 
-**Critical:** `qc/json/*.json` are render-time exports by qc-atelier, not qc's live data. `qualitative_coding.sqlite3` is qc's live source of truth. qc-atelier must never write to the SQLite database directly.
+**Critical:** `qc/json/*.json` are render-time exports by qc-atelier, not qc's live data. `qualitative_coding.sqlite3` is qc's live source of truth. qc-atelier must never write to the SQLite database directly, with one exception: qc-align code propagation (batch `CodedLine` inserts, always preceded by a SQLite backup and dryrun).
 
 **qc data model** (verified from source — `corpus.py`, `models.py`):
 
@@ -65,6 +69,7 @@ The database uses SQLAlchemy over SQLite. Key tables: `Code` (name as primary ke
 
 - `qc codes delete` — no command exists to remove a code and its corpus applications
 - `qc codes move` — no command exists to reassign a code's parent in the hierarchy
+- `qc codes apply` — no command exists to programmatically apply a code to a line
 
 ---
 
@@ -78,7 +83,7 @@ qc-scheme enriches the bare YAML code system with what `qc` cannot store: scope 
 
 **What it does:**
 
-- GUI editor for per-code documentation: scope, rationale, usage_notes, provenance, status, examples
+- GUI editor for per-code documentation: scope, rationale, usage_notes, provenance, status, pinned_examples
 - Per-code and document-level history (field edits + refactor events from qc-refactor, merged and sorted)
 - Snapshot system: named checkpoints and forks in `qc/snapshots/`
 - Cross-snapshot diffing (Fields and JSON views)
@@ -107,7 +112,7 @@ qc/qc-scheme.html                       POST /docs/save
 
 | Change | Re-render needed? |
 |---|---|
-| Codes added/removed/renamed in `codebook.yaml` | Yes |
+| Codes added/removed/renamed in `codebook.yaml` | No — tree refreshed from server at runtime |
 | Corpus `qc/json/` files updated | Yes (use counts stale) |
 | JS or CSS source files changed | Yes |
 | Documentation fields edited | No |
@@ -119,14 +124,15 @@ qc/qc-scheme.html                       POST /docs/save
 
 | Field | Purpose |
 |---|---|
+| `name` | Code name (mirrors key in `codes` object) |
+| `parent` | Parent code name (synced from `codebook.yaml`) |
 | `scope` | What this code captures; how to apply it |
 | `rationale` | Why this code exists; how it differs from siblings |
 | `usage_notes` | Edge cases, exclusions, common confusions |
 | `provenance` | Genealogy — created from, renamed from, merged with. Written by qc-refactor on execution. |
-| `examples` | Pinned canonical corpus excerpts with annotations |
+| `pinned_examples` | Pinned canonical corpus excerpts with annotations |
 | `status` | active / experimental / deprecated |
 | `_log` | Append-only per-field edit history (internal) |
-| `_baseline` | Snapshot of field values at first load (internal) |
 
 **`codebook.json` structure:**
 
@@ -135,20 +141,21 @@ qc/qc-scheme.html                       POST /docs/save
   "saved": "ISO timestamp",
   "codes": {
     "CodeName": {
+      "name": "CodeName",
+      "parent": "ParentCode",
       "scope": "...", "rationale": "...", "usage_notes": "...",
-      "provenance": "...", "status": "active|experimental|deprecated|""",
-      "examples": [{doc, line, note, text}],
-      "_log": [{ts, field, from, to}],
-      "_baseline": {scope, rationale, usage_notes, provenance, status}
+      "provenance": "...", "status": "active|experimental|deprecated|\"\"",
+      "pinned_examples": [{doc, line, note}],
+      "_log": [{ts, field, from, to}]
     }
   },
-  "tree": [...],
-  "overrides": {},
   "changelog": [
     {"ts": "ISO", "type": "open|save|refactor|bulk-status", "detail": "..."}
   ]
 }
 ```
+
+All 1157 codes have complete records with all fields present (empty string or empty array for undocumented fields). Migration runs automatically on `_docs_load` — strips `_baseline`, backfills `parent` from `codebook.yaml`, normalises field order.
 
 **Application state (key fields):**
 
@@ -166,13 +173,13 @@ state = {
 
 **UI reference:**
 
-*Sidebar* — full indented code tree. Click to select; Shift/Cmd-click for multi-select. Pip icons for export selection. Status indicators (deprecated → dimmed, experimental → italic). Use counts per node.
+*Sidebar* — full indented code tree, refreshed from server at runtime. Click to select; Shift/Cmd-click for multi-select. Pip icons for export selection. Status indicators (deprecated → dimmed, experimental → italic). Use counts per node.
 
-*Documentation tab* — editable fields: Scope, Rationale, Usage notes, Provenance, Status. Autosaves on blur or 2.5s inactivity. Debounced 800ms server save.
+*Documentation tab* — editable fields: Scope, Rationale, Usage notes, Provenance, Status. Autosaves on blur or 2.5s inactivity. Debounced 800ms server save. Parent field removed — structural moves belong to qc-refactor.
 
 *Examples tab* — corpus excerpts alongside pinned canonical examples. Pin/unpin controls.
 
-*History tab* — per-code field edit timeline. Click to inspect; click two to diff.
+*History tab* — per-code field edit timeline. Click to inspect; click two to diff. Uses earliest `_log` entry's `from` value as baseline (replaces removed `_baseline`).
 
 *Multi-selection toolbar* — bulk status change, comparison table, cards view.
 
@@ -180,7 +187,7 @@ state = {
 
 **Snapshot system:**
 
-Snapshots are named directories in `qc/snapshots/` containing `codebook.yaml` and `codebook.json` at the moment of creation. `lineage.json` maps each snapshot to its parent and note. `.working_parent` tracks the currently loaded snapshot.
+Snapshots are named directories in `qc/snapshots/` containing `codebook.yaml` and `codebook.json` at the moment of creation. `lineage.json` maps each snapshot to its parent and note. `.working_parent` tracks the currently loaded snapshot. Opening a snapshot fetches the snapshot's `codebook.yaml` from the server and rebuilds the tree at runtime — no re-render needed.
 
 ```
 No prior snapshot:
@@ -209,7 +216,7 @@ All exports generated client-side. Scope controlled by pip selection in sidebar.
 
 **Globals injected by Lua filter:**
 ```javascript
-CODEBOOK_TREE   // flat list of {name, parent, depth, prefix}
+CODEBOOK_TREE   // flat list of {name, parent, depth, prefix} — mutable at runtime
 CORPUS_COUNTS   // {codeName: {total, docs}}
 DOCS_DATA       // {codes: {}} — empty shell; live data loaded at runtime
 DOCS_CONFIG     // {server_port, scheme_path, json_dir}
@@ -219,7 +226,7 @@ DOCS_CONFIG     // {server_port, scheme_path, json_dir}
 ```
 qc-scheme.qmd
 qc-atelier/qc-scheme/
-  qc-scheme-filter.lua     ← pwd fallback for shared path resolution
+  qc-scheme-filter.lua
   qc-scheme.js
   qc-scheme.css
 qc/codebook.json           ← rich metadata sidecar (autosaved 800ms)
@@ -228,8 +235,7 @@ qc/.working_parent         ← ephemeral: last snapshot dir opened/created
 
 **Known limitations:**
 
-- Structural changes require re-render
-- Snapshot with different tree structure: docs load correctly but tree display reflects baked structure
+- Structural changes no longer require re-render — tree refreshed from server
 - `treeOverrides` retained in JS but UI controls removed — parent moves now through qc-refactor
 - jsPDF from CDN — PDF export requires network
 
@@ -241,11 +247,11 @@ qc/.working_parent         ← ephemeral: last snapshot dir opened/created
 
 **What it does:**
 
-- Stage rename, merge, move, and deprecate operations in a queue
+- Stage rename, merge, move, and deprecate operations in a unified queue
 - Preview the post-operation code tree and affected corpus segments before committing
-- Inspect the generated bash script
+- Inspect the generated bash script (rename/merge only; move/deprecate are server-side)
 - Execute the queue with a required session note
-- Create a named snapshot before execution
+- Snapshot creation and loading via Snapshots mode in the topbar
 - Write provenance notes and changelog entries back to `codebook.json`
 
 **Two-phase operation:**
@@ -266,9 +272,8 @@ Lua filter bakes:                        JS calls GET /docs/load
 qc/qc-refactor.html                           │
                                     ┌─────────┴──────────┐
                                     ▼                    ▼
-                               snapshot created    qc codes rename
-                               codebook.json       (subprocess)
-                               updated
+                               codebook.json        qc codes rename
+                               updated              (subprocess)
 ```
 
 **Operations:**
@@ -277,87 +282,36 @@ qc/qc-refactor.html                           │
 |---|---|---|
 | Rename | `qc codes rename A B` subprocess | Yes |
 | Merge | `qc codes rename A B C` subprocess | Yes |
-| Move | Direct `codebook.yaml` edit (server-side regex) | No |
+| Move | Direct `codebook.yaml` edit (server-side) | No |
 | Deprecate | `status: "deprecated"` in `codebook.json` | No |
 | Delete | Not implemented — no `qc codes delete` exists | — |
 
-**Provenance written on execution:**
+**Session note:** Required before execution. Written to the `refactor` changelog entry as `summary` and seeds the `provenance` field of affected codes. Not used as snapshot label — snapshots are created manually.
 
-- Rename: `"Renamed from OldCode (TIMESTAMP)"`
-- Merge: `"Merged from A, B (TIMESTAMP): session note"`
-- Move: `"Moved to NewParent (TIMESTAMP)"`
+**Orphan cleanup:** After successful rename/merge, server runs `qc codes stats -zu 0` to identify zero-use codes, intersects with operation sources, and strips confirmed orphans from `codebook.yaml` via `_do_remove`. This is a workaround for upstream issue #94 (`qc codebook --clean` not yet implemented).
 
-**UI reference:**
+**codebook.json sync:** On rename, the code key is updated and children reparented. On merge, source keys are removed and children reparented to target. On move, the `parent` field is updated directly.
 
-*Left panel* — op form (Rename / Merge / Move / Deprecate tabs), per-type queue lists, session note textarea, execute button.
+**Queue:** Unified — all op types in a single list with type badges. Operations can be edited after staging (edit button repopulates the form). Bulk move uses a multi-select checklist with collapsible tree branches.
 
-*Op form* — searchable hierarchical code picker with depth indentation and corpus counts. When a code is selected its existing docs are shown as editable textareas (edits held in `state.docsEdits`, written to `codebook.json` on execution). Merge: source docs read-only (they disappear), target pre-populated with attribution.
-
-*Queue list* — read-only record of staged operations. Remove button per item.
-
-*Session note* — persistent textarea. Required before execution. Shows live snapshot name preview as you type.
-
-*Execute button* — disabled until operations staged and note written. No modal.
-
-*Right panel — Preview (Tree diff / Corpus impact) / Script / Results / History.*
-
-*Tree diff* — post-operation accordion tree. Affected branches expanded. Changes annotated: `(was OldName)`, `(+N merged: A, B)`, `(moved)`, `(deprecated)`.
-
-*Corpus impact* — per-operation segment view, expandable excerpts. Move excluded (no corpus change).
-
-*Script* — generated bash script, copyable.
-
-*Results* — snapshot confirmation card, session note, per-operation ✓/✗ with stdout.
-
-*History* — `refactor` entries from `codebook.json` changelog, newest first: timestamp, pass/fail, note, snapshot name, operations.
-
-**Execution flow:**
-
-1. Pre-execution snapshot — creates `codebook_YYYYMMDD-HHMM_label` in `qc/snapshots/`, copies `codebook.yaml` and `codebook.json`, updates `lineage.json` and `.working_parent`
-2. Run operations — rename/merge via `qc codes rename` subprocess (`cwd=project_root`, `timeout=30s`); move via `POST /refactor/move`; deprecate via server setting status field
-3. Update `codebook.json` — apply `docs_edits` with `_log` entries, update `provenance`, append `refactor` event to `changelog`
-4. Return per-operation `{cmd, ok, output}` plus snapshot name
-
-**Session note and versioning:**
-
-The session note is required before execution. It becomes the snapshot label (sanitised, truncated to 30 chars), is written to the `refactor` changelog entry as `summary`, and seeds the `provenance` field of affected codes.
-
-**Globals baked at render time:**
-```javascript
-CODEBOOK_TREE    // {name, parent, depth, prefix}[]
-CORPUS_COUNTS    // {codeName: {total, docs}}
-CORPUS_DATA      // {codeName: [{document, line, text}]} — capped 30/code
-REFACTOR_CONFIG  // {server_port, scheme_path, json_dir}
-```
-
-**`/refactor/execute` payload:**
-```json
-{
-  "operations": [{"id": 1, "type": "rename", "sources": ["OldCode"], "target": "NewCode"}],
-  "summary": "session note text",
-  "script": "#!/bin/bash
-qc codes rename OldCode NewCode",
-  "scheme_path": "/abs/path/to/qc/codebook.json",
-  "docs_edits": {"CodeName": {"provenance": "updated text"}}
-}
-```
+**Snapshots mode:** Topbar toggle (Refactor | Snapshots). Full-panel snapshot UI with create zone (label, description, filename preview) and snapshot feed. Loading a snapshot copies `codebook.yaml` and `codebook.json` over working files and refreshes the runtime tree.
 
 **Key files:**
 ```
-qc-refactor.qmd                  ← filter under format: html: filters:, NOT top-level filters:
+qc-refactor.qmd
 qc-atelier/qc-refactor/
-  qc-refactor-filter.lua         ← skeleton HTML in [[...]] block; JS script at end of body
+  qc-refactor-filter.lua
   qc-refactor.js
   qc-refactor.css
 ```
 
 **Known limitations:**
 
-- Re-render required after execution — `CODEBOOK_TREE`, `CORPUS_DATA`, `CORPUS_COUNTS` stale until then
 - No delete operation — use deprecate instead
 - Move uses direct YAML edit — reliable for well-formed YAML but could fail on unusual formatting
 - Deprecate status is qc-atelier-only — qc itself is unaware; deprecated codes can still be applied
 - History tab requires server
+- Queue conflict validation not yet implemented
 
 ---
 
@@ -405,9 +359,71 @@ qc-atelier/qc-viz/
 
 ---
 
-### qc-reflect
+### qc-align
 
-**Status: Deprioritised.** LLM-assisted reflexive analysis using Ollama (`qwen3:35b`). Not yet updated to shared CSS tokens or shared Lua path resolution.
+**Role:** Active. LLM-assisted audit and maintenance of the code system. Replaces and substantially extends qc-reflect.
+
+**Purpose:** qc-align audits the code system against the corpus to identify and resolve redundancy, inconsistency, conceptual drift, corpus integrity issues, and coding gaps. It uses the LLM as an external auditor with full visibility of codebook documentation, corpus evidence, and tree structure. It is the primary tool for maintaining a lean, coherent, consistently-applied code system.
+
+**Position in the suite:**
+- Upstream inputs: qc-scheme (documentation), qc-refactor (structural history), corpus files, SQLite database
+- Downstream outputs: qc-refactor queue (structural suggestions), SQLite batch writes (code propagation), corpus file edits (line splitting)
+
+**Audit modes:**
+
+| Mode | Object | Primary signal | Output |
+|---|---|---|---|
+| Overlap | Code pairs | Co-occurrence + doc similarity | Merge/rename → refactor queue |
+| Inconsistency | Individual codes | Excerpt vs. documentation mismatch | Reassign/redefine suggestions |
+| Bloat | Sibling groups | Redundant children under same parent | Merge/delete → refactor queue |
+| Restructure | Branches or full tree | Structural coherence | Tree diff → refactor queue |
+| Line splitting | Corpus lines | Topically composite lines | File edits via `qc corpus update` |
+| Code propagation | Adjacent lines | Missing codes in conversational context | SQLite batch writes |
+
+Additional modes may be added in future iterations.
+
+**Prompt strategy:** Every prompt includes a hierarchy context block — ancestry paths with `scope` + `rationale` at each level — to ground LLM assessment in the intended analytical framework. Parent and grandparent documentation is always included alongside the codes under review.
+
+**Candidate selection:** User-driven. The scope picker is a multi-select tree where the user selects individual codes, sets, or branches.
+
+**Corpus format:** All corpus lines have a `Speaker: text` format. Line splitting always preserves the speaker prefix on each resulting line. Lines are never merged across speakers. Code propagation may propose codes across speaker boundaries based on conversational context.
+
+**Backup and snapshot policy:** Before any operation that modifies the database, corpus files, or codebook: SQLite backup to `qc/backups/` and codebook snapshot via `/snapshots/create`. Both recorded in the session log.
+
+**Dryrun mechanism:** All destructive operations show an exact preview before execution. No writes until explicit confirmation.
+
+**LLM model assignment:**
+- Reasoning-intensive modes (Overlap, Inconsistency, Bloat, Restructure): `qwen3:35b`
+- Generative modes (Line splitting, Code propagation): `qwen3:8b`
+- Configurable per-mode in `qc-atelier-config.yaml` under `align:`
+
+**Refactor integration:** Accepted structural suggestions pre-populate the qc-refactor queue via `POST /refactor/queue`. No direct execution from qc-align.
+
+**Code propagation and SQLite:** The only place in qc-atelier where the database is written to directly rather than through the qc CLI. No `qc codes apply` command exists upstream. Mitigated by mandatory backup, dryrun, and session logging. To be revisited if a programmatic apply command is added upstream.
+
+**Key files:**
+```
+qc-align.qmd
+qc-atelier/qc-align/
+  qc-align-filter.lua
+  qc-align.js
+  qc-align.css
+qc/qc-align.html
+qc/align-log.json
+qc/backups/
+```
+
+**Status:** In development. Spec complete as of 2026-04-24.
+
+---
+
+### qc-unfold
+
+**Role:** Active. LLM-assisted corpus meaning-making.
+
+**Purpose:** qc-unfold derives interpretive outputs from the corpus using the cleaned, coherent code system as an analytical lens. It is the later analytical phase — after the code system has been calibrated by qc-align, qc-unfold uses it to generate meaning. Planned features include mini-biographies and relationship maps for named individuals and organisations, multi-axis summaries (by document, by code branch, by individual, by group), figuration detection and classification, and cross-speaker thematic association.
+
+**Status:** Planned. Design pending completion of qc-align.
 
 ---
 
@@ -417,7 +433,7 @@ qc-atelier/qc-viz/
 
 Loaded via `dofile()` at the top of every active filter. Key functions: `read_yaml_file`, `meta_to_lua`, `S` (stringify Pandoc metadata), `N` (numericise), `read_text_file`, `get_json_files`, `read_json_file`, `to_json`, `parse_codebook_yaml`, `flatten_codebook`, `build_use_counts`.
 
-**Shared path resolution pattern** (applied to all three active filters):
+**Shared path resolution pattern** (applied to all active filters):
 
 ```lua
 local function _get_project_root_early()
@@ -435,7 +451,13 @@ The `dofile()` approach was chosen over Lua's `require()` because `dofile` takes
 
 ### qc-shared.css
 
-Shared CSS design tokens. Inlined before every tool's own CSS. Two qc-viz-specific tokens (`--viz-filter-warn-bg`, `--viz-filter-error-bg`) live in `qc-viz.css` rather than the shared file — they have no equivalent in the other tools.
+Shared CSS design tokens. Inlined before every tool's own CSS. Two qc-viz-specific tokens (`--viz-filter-warn-bg`, `--viz-filter-error-bg`) live in `qc-viz.css` rather than the shared file. Autocomplete dropdown styles added to qc-shared.css.
+
+### qc-shared.js
+
+Shared runtime JavaScript. Inlined before every tool's own JS by the Lua filter. Currently contains `qcAutocompleteInit(codeNames)` — the `@` code autocomplete system used by qc-scheme and qc-refactor.
+
+**`@` autocomplete:** Typing `@` in any text input or textarea opens a floating dropdown of matching code names. Filters by prefix match first, then substring. Arrow keys navigate, Enter/Tab selects, Escape dismisses. The `@query` is replaced in-place with the selected code name. Reinitialised after every tree refresh so the code list stays current.
 
 ### qc-atelier-server.py
 
@@ -443,11 +465,11 @@ Single Python HTTP server (stdlib only). Started from project root: `python3 qc-
 
 ### qc-atelier-config.yaml
 
-Unified config. `QC_ATELIER_CONFIG` env var overrides default path.
+Unified config. `QC_ATELIER_CONFIG` env var overrides default path. Key top-level sections: `directories`, `code_schema`, `server` (includes `qc_bin`, `port`), `ollama`, `candidates`, `viz`, `align`.
 
 ### qc/index.html
 
-Static launcher served at `/`. Cards for scheme, viz, refactor (active) and reflect (inactive stub).
+Static launcher served at `/`. Cards for scheme, viz, refactor (active), align (in development), reflect/unfold (planned stubs).
 
 ---
 
@@ -458,22 +480,36 @@ qc (CLI)
   ├── writes → qualitative_coding.sqlite3
   ├── writes → codebook.yaml
   └── reads  ← qc codes rename (from qc-refactor subprocess)
+               qc codes stats (from qc-refactor orphan cleanup)
+               qc corpus update (from qc-align line splitting)
 
-qc-atelier pre-render (qc-viz-pre-render.sh)
+qc-atelier pre-render (qc-pre-render.sh)
   └── qc codes find --json → qc/json/*.json
 
 qc-scheme
   ├── reads  → qc/codebook.json
+  ├── reads  → qc/codebook.yaml (runtime, via /snapshots/tree)
   └── writes → qc/codebook.json, qc/snapshots/
 
 qc-refactor
   ├── reads  → qc/codebook.json (runtime, inline doc display)
+  ├── reads  → qc/codebook.yaml (runtime, via /refactor/tree)
   ├── calls  → qc codes rename → sqlite3 + codebook.yaml
   ├── edits  → codebook.yaml directly (move operations)
   └── writes → qc/codebook.json (provenance, changelog), qc/snapshots/
 
 qc-viz
   └── reads  → qc/json/*.json, qc/corpus/*.txt (render time only)
+
+qc-align
+  ├── reads  → qualitative_coding.sqlite3 (via qc CLI for corpus update)
+  ├── reads  → qc/codebook.json (runtime)
+  ├── reads  → qc/corpus/*.txt (via /corpus/read)
+  ├── writes → qualitative_coding.sqlite3 (code propagation, batch write)
+  ├── writes → qc/corpus/*.txt (line splitting, via qc corpus update)
+  ├── writes → qc/align-log.json
+  ├── writes → qc/backups/*.sqlite3
+  └── calls  → POST /snapshots/create, POST /refactor/queue
 ```
 
 ---
@@ -487,15 +523,17 @@ project root/
 ├── qc-scheme.qmd
 ├── qc-viz.qmd
 ├── qc-refactor.qmd
-├── qc-reflect.qmd
+├── qc-align.qmd
 ├── qc-atelier/
 │   ├── shared/
 │   │   ├── qc-shared.lua
-│   │   └── qc-shared.css
+│   │   ├── qc-shared.css
+│   │   ├── qc-shared.js
+│   │   └── qc-pre-render.sh
 │   ├── qc-scheme/
 │   ├── qc-viz/
 │   ├── qc-refactor/
-│   └── qc-reflect/
+│   └── qc-align/
 └── qc/
     ├── codebook.yaml
     ├── codebook.json
@@ -503,8 +541,11 @@ project root/
     ├── qc-scheme.html
     ├── qc-viz.html
     ├── qc-refactor.html
+    ├── qc-align.html
+    ├── align-log.json
     ├── corpus/
     ├── json/
+    ├── backups/
     └── snapshots/
         ├── lineage.json
         └── codebook_YYYYMMDD-HHMM_label/
@@ -520,9 +561,9 @@ project root/
 
 | Endpoint | Description |
 |---|---|
-| `GET /docs/load?path=X` | Load `codebook.json` |
+| `GET /docs/load?path=X` | Load `codebook.json`; runs migration (strip `_baseline`, backfill `parent`, normalise schema) |
 | `POST /docs/save` | Save `codebook.json` |
-| `GET /docs/load-json?path=X` | Load any JSON by absolute path |
+| `GET /docs/load-json?path=X` | Load any JSON by absolute path; runs same migration |
 | `GET /docs/list-json?dir=X` | List JSON files in a directory |
 
 ### Snapshots
@@ -533,6 +574,8 @@ project root/
 | `GET /snapshots/lineage` | Return `lineage.json` |
 | `POST /snapshots/create` | Create snapshot or fork |
 | `GET /snapshots/read?dir=X` | Read snapshot without changing working state |
+| `POST /snapshots/load` | Copy snapshot files over working files; update `.working_parent` |
+| `GET /snapshots/tree?dir=X` | Parse snapshot's `codebook.yaml` into flat tree (or working tree if no dir) |
 
 ### Refactor
 
@@ -541,29 +584,47 @@ project root/
 | `POST /refactor/execute` | Execute staged operations |
 | `POST /refactor/move` | Move a code in `codebook.yaml` |
 | `GET /refactor/history?path=X` | Return all `refactor` changelog entries, newest first |
+| `GET /refactor/tree` | Parse working `codebook.yaml` into flat tree |
+| `POST /refactor/queue` | Pre-populate refactor queue from qc-align suggestions |
+
+### Align (planned)
+
+| Endpoint | Description |
+|---|---|
+| `GET /align/log` | Return session log |
+| `POST /align/log` | Append entry |
+| `POST /align/apply-codes` | Dryrun + batch write `CodedLine` records |
+| `GET /corpus/read?file=X` | Return raw corpus file text |
+| `POST /corpus/split` | Write split file, call `qc corpus update` |
+| `GET /db/backup` | Create timestamped SQLite backup |
 
 ### Other
 
 | Endpoint | Description |
 |---|---|
 | `GET /excerpts/fetch?code=X` | Up to 30 corpus excerpts for a code |
-| `POST /logs/save` | Save reflect log |
-| `GET /logs/list` | List reflect logs |
+| `POST /logs/save` | Save align/reflect log |
+| `GET /logs/list` | List logs |
 | `ANY /api/*` | Proxy to Ollama |
 
 ---
 
 ## Known limitations and pending work
 
-- Re-render required after qc-refactor execution or after coding in qc
 - `qc codes delete` does not exist — use deprecate instead
-- qc-reflect not updated to shared standards — deferred
+- qc-align implementation not yet started — spec complete as of 2026-04-24
+- qc-unfold design not yet started
+- qc-align requires `qc corpus update` CLI — same PATH/venv constraints as qc-refactor rename/merge
+- Code propagation in qc-align writes directly to SQLite — only batch write in qc-atelier that bypasses the qc CLI; mitigated by mandatory backup and dryrun
 - qc-trace (history/audit tool) — design sketched, not started
-- Parent reassignment removed from qc-scheme — now belongs to qc-refactor Move only
+- Replace `_do_remove` in qc-refactor with `qc codebook --clean` when upstream issue #94 resolved
+- Queue conflict validation in qc-refactor not yet implemented
 - qc-viz codebook tooltip integration deferred
 - jsPDF from CDN in qc-scheme and qc-viz — PDF export requires network
 - Visual alignment of qc-viz with other tools deferred
 - Several qc-viz config keys defined but not wired up: `display.sections.default_collapsed`, `display.code_tags.show_full_code`, `export` block, `ui` block
+- Snapshot load/save in qc-align not yet implemented
+- `@` autocomplete not yet wired into qc-align
 
 ---
 
@@ -1215,3 +1276,41 @@ New shared JavaScript module `qc-shared.js` added to `qc-atelier/shared/`. Conta
 Autocomplete dropdown CSS added to `qc-shared.css`.
 
 This establishes `qc-shared.js` as the home for shared runtime JavaScript across the suite, parallel to `qc-shared.lua` (render-time) and `qc-shared.css` (styles).
+
+---
+
+### 2026-04-24 — qc-reflect renamed to qc-align; qc-unfold defined
+
+**qc-reflect renamed to qc-align.** The original name did not clearly communicate the tool's function. The reframing clarified a fundamental distinction in the suite: qc-align operates on the *code system*, using the corpus as evidence; a separate tool (qc-unfold) operates on the *corpus text*, using the code system as an analytical lens. This axis — instrument calibration vs. instrument application — maps onto how qualitative research actually works and gives each tool a clear, non-overlapping mandate.
+
+**qc-unfold defined.** The synthesis and meaning-making functions originally sketched for qc-reflect (biographies, summaries, figuration detection) belong in a separate tool because they represent a later analytical phase. You would not derive meaning from the corpus using an inconsistent or bloated code system; qc-unfold is downstream of qc-align.
+
+**Naming process.** Extensive naming discussion led to: `qc-align` (code system maintenance — bringing the code system into alignment with itself and the corpus) and `qc-unfold` (corpus meaning-making — unfolding what the coded corpus contains). Both names may be revisited.
+
+---
+
+### 2026-04-24 — qc-align technical specification
+
+**Scope.** Six audit modes: Overlap, Inconsistency, Bloat, Restructure, Line splitting, Code propagation. Additional modes deferred to future iterations.
+
+**Sparse and Undocumented modes excluded.** Sparse codes are visible in qc-scheme via use counts in the sidebar — not an alignment problem. Undocumented codes are a qc-scheme workflow issue. Neither requires LLM analysis.
+
+**Hierarchy context in prompts.** All prompts include parent and grandparent documentation (scope + rationale) as a framing block. Rationale: a flat list of code names gives the LLM insufficient context to reason about analytical boundaries. The parent's documented scope defines what the category is supposed to carve out, which grounds assessment of whether children are doing their job and whether siblings are genuinely distinct.
+
+**Candidate selection is user-driven.** Auto-detection heuristics (co-occurrence threshold, minimum sibling count) were considered and rejected as arbitrary. The user selects the scope via a multi-select tree picker, which drives candidate construction for any mode.
+
+**Line splitting and code propagation are separate modes.** Both involve sequential reading of the corpus but touch different things: line splitting modifies corpus files (via `qc corpus update`); code propagation modifies the database (via SQLite batch write). Treating them as the same operation would blur the distinction between corpus integrity and coding completeness.
+
+**Line splitting is full-corpus, on-demand.** Scanning only lines with N+ codes was considered and rejected as arbitrary. The LLM determines whether a line is topically composite; the user triggers the scan explicitly when ready.
+
+**Speaker prefix constraint.** All corpus lines have a `Speaker: text` format. Line splitting always preserves the speaker prefix on each resulting line. Merging lines across speakers is never permitted. Code propagation may propose codes across speaker boundaries based on conversational context, but never merges transcript lines.
+
+**Backup and snapshot policy.** Every destructive operation (database write, corpus file edit, structural change) creates both a timestamped SQLite backup and a codebook snapshot before execution. Rationale: qc-align can substantially reshape the code system across multiple audit sessions; restore points must exist at every intervention, not just at named milestones.
+
+**Dryrun mechanism.** All destructive operations show an exact preview before execution. Rationale: the consequences of bulk code propagation or line splitting are significant and not easily reversible without the backup mechanism; users must see exactly what will change before confirming.
+
+**Model assignment.** Reasoning-intensive modes (Overlap, Inconsistency, Bloat, Restructure) use `qwen3:35b`. Generative modes (Line splitting, Code propagation) use `qwen3:8b`. Rationale: the reasoning modes require careful analytical judgment about code boundaries and relationships; the generative modes are primarily reading and segmentation tasks where a smaller model performs adequately at significantly lower latency.
+
+**Refactor integration.** Accepted structural suggestions (Overlap, Bloat, Restructure) pre-populate the qc-refactor queue via `POST /refactor/queue`. No direct execution from qc-align. Rationale: structural changes to the code system should be reviewed in qc-refactor before execution, maintaining the principle that qc-refactor is the single point of structural execution.
+
+**Code propagation and direct SQLite writes.** This is the only place in qc-atelier where the database is written to directly rather than through the qc CLI. There is no `qc codes apply` CLI command. Mitigated by mandatory backup, dryrun preview, and session logging. This should be revisited if a programmatic apply command is added to qc upstream.
