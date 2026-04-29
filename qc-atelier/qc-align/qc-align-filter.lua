@@ -56,8 +56,8 @@ local function load_config()
     },
     ollama = {
       url     = "http://localhost:11434",
-      model   = "qwen3:35b",
-      num_ctx = 32768,
+      model   = "qwen3.5:35b",
+      num_ctx = 49152,
     },
     candidates = {
       max_pairs             = 40,
@@ -68,12 +68,12 @@ local function load_config()
     server = { port = 8080 },
     align = {
       models = {
-        overlap          = "qwen3:35b",
-        inconsistency    = "qwen3:35b",
-        bloat            = "qwen3:35b",
-        restructure      = "qwen3:35b",
-        line_splitting   = "qwen3:8b",
-        code_propagation = "qwen3:8b",
+        overlap          = "qwen3.5:35b",
+        inconsistency    = "qwen3.5:35b",
+        bloat            = "qwen3.5:35b",
+        restructure      = "qwen3.5:35b",
+        line_splitting   = "qwen3.5:35b",
+        code_propagation = "qwen3.5:35b",
       }
     },
   }
@@ -103,6 +103,19 @@ local CSS_FILE        = project_path("qc-atelier/qc-align/qc-align.css")
 local SHARED_CSS_FILE = project_path("qc-atelier/shared/qc-shared.css")
 local SHARED_JS_FILE  = project_path("qc-atelier/shared/qc-shared.js")
 local JS_FILE         = project_path("qc-atelier/qc-align/qc-align.js")
+
+-- ── Codebook loader ───────────────────────────────────────────────────────────
+
+local function load_codebook_tree()
+  print("qc-align: reading codebook from " .. CODEBOOK_PATH)
+  local f = io.open(CODEBOOK_PATH, "r")
+  if not f then print("qc-align: WARNING could not open " .. CODEBOOK_PATH); return {} end
+  local text = f:read("*all"); f:close()
+  local raw_nodes = parse_codebook_yaml(text)
+  local nodes = flatten_codebook(raw_nodes, nil, 0)
+  print(string.format("qc-align: codebook tree — %d nodes", #nodes))
+  return nodes
+end
 
 -- ── Corpus loading ────────────────────────────────────────────────────────────
 
@@ -195,7 +208,7 @@ end
 
 local function generate_html()
   local json_files = get_json_files(JSON_DIR)
-  if #json_files == 0 then print("WARNING: No JSON files found in " .. json_dir) end
+  if #json_files == 0 then print("WARNING: No JSON files found in " .. JSON_DIR) end
 
   local excerpts, cooc, doc_order, by_doc_code = build_corpus_index(json_files)
   local cooc_summary  = build_cooc_summary(cooc, excerpts)

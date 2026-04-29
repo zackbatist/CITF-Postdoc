@@ -4,6 +4,12 @@
 //   DOC_NAMES, ALL_CODES, CORPUS_INDEX, CODE_COLORS,
 //   CODEBOOK_TREE, COOC_DATA, ALIGN_CONFIG
 
+window.onerror = function(msg, src, line, col, err) {
+  console.error('[GLOBAL ERROR]', msg, 'at', src + ':' + line + ':' + col);
+  if (err && err.stack) console.error(err.stack);
+  return false;
+};
+
 (function () {
   'use strict';
 
@@ -35,17 +41,7 @@
     return context;
   }
 
-  function hierarchyContextText(codeName, docsData) {
-    var ctx = buildHierarchyContext(codeName, docsData);
-    if (ctx.length <= 1) return '';
-    return ctx.slice(0, -1).map(function(c) {
-      return '[' + c.name + ']\n'
-        + (c.scope     ? '  scope: '     + c.scope     + '\n' : '')
-        + (c.rationale ? '  rationale: ' + c.rationale + '\n' : '');
-    }).join('');
-  }
 
-  // ── Suggestion card helpers ────────────────────────────────────────────────
   function makeSuggestionId() {
     return 'sg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
   }
@@ -75,7 +71,7 @@
 
   function logAlignEntry(entry) {
     entry.ts = new Date().toISOString();
-    fetch(API + '/align/log', {
+    fetch(LOG_API + '/align/log', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify(entry),
@@ -83,7 +79,7 @@
   }
 
   function sendToRefactorQueue(refactorOp) {
-    fetch(API + '/refactor/queue', {
+    fetch(LOG_API + '/refactor/queue', {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ ops: [refactorOp] }),
@@ -91,183 +87,396 @@
   }
 
   // ── Prompt builders per audit mode ────────────────────────────────────────
-  function buildOverlapPrompt(codeA, codeB, docsData) {
-    var docA = docsData[codeA] || {};
-    var docB = docsData[codeB] || {};
-    var excerA = (CORPUS_INDEX[codeA] || {}).excerpts || [];
-    var excerB = (CORPUS_INDEX[codeB] || {}).excerpts || [];
-    var coocEntry = COOC_DATA.find(function(c) {
+  // ── Active code filter ───────────────────────────────────────────────────
+  function isActiveCode(name, docsData) {
+    if (!name || !String(name).slice(0,2).match(/^[0-9]{2}$/)) return false;
+    var doc = docsData[name] || {};
+    return doc.status !== 'deprecated';
+  }
+
+  // ── System prompt (shared across all audit modes) ─────────────────────────
+  // Establishes the methodological context for the LLM.
+  var SYSTEM_PROMPT = [
+    'You are assisting with qualitative data analysis following constructivist grounded theory',
+    '(Charmaz) and Saldana\'s coding methods.',
+    '',
+    'KEY PRINCIPLES:',
+    '- Coding is iterative: initial/open coding produces many granular codes; focused coding',
+    '  selects those with enough analytic weight to anchor emerging categories.',
+    '- Multiple codes on the same passage is EXPECTED and CORRECT. Each code captures a',
+    '  different analytical dimension. Co-occurrence is not a problem to eliminate.',
+    '- Codes are researcher constructions grounded in data, not objective categories.',
+    '- Codes use gerunds (process coding) to capture action and practice.',
+    '- The goal is NOT to reduce the number of codes. The goal is to ensure each code is',
+    '  doing DISTINCT ANALYTICAL WORK that will contribute to theory-building.',
+    '- Constant comparison: every code is assessed relative to others and to the data.',
+    '',
+    'FOCUSED CODING asks: Does this code have enough analytic weight and conceptual clarity',
+    'to survive into focused coding and anchor an emerging category? If two codes co-occur,',
+    'the question is not "are they the same?" but "is each capturing a genuinely distinct',
+    'analytical dimension that will matter for theory-building?"',
+    '',
+    'SUGGESTION TYPES for focus audit:',
+    '- restructure-subcode: one code is a specific instance of another; the general one',
+    '  could become a focused code with the specific one nested under it.',
+    '- separate-dimension: these codes capture genuinely different analytical dimensions;',
+    '  keep both, but document the distinction more explicitly.',
+    '- candidate-category: this code has enough weight and recurrence to become a focused',
+    '  code / emerging category. Flag it for promotion.',
+    '- document-distinction: the codes are analytically valid but their distinction is',
+    '  underdocumented, causing inconsistent application.',
+    '- review-application: this code may be under- or over-applied relative to its scope.',
+  ].join('\n');
+
+  // ── Compact tree outline ──────────────────────────────────────────────────
+  function buildCompactTreeOutline(docsData) {
+    var lines = ['=== CODE SYSTEM OUTLINE (name | parent) ==='];
+    var byPrefix = {};
+    CODEBOOK_TREE.forEach(function(node) {
+      if (!isActiveCode(node.name, docsData)) return;
+      var p = node.prefix || 'other';
+      if (!byPrefix[p]) byPrefix[p] = [];
+      byPrefix[p].push(node);
+    });
+    Object.keys(byPrefix).sort().forEach(function(prefix) {
+      lines.push('');
+      lines.push('-- ' + prefix + ' --');
+      byPrefix[prefix].forEach(function(node) {
+        lines.push('  '.repeat(node.depth) + node.name +
+          (node.parent ? ' < ' + node.parent : ''));
+      });
+    });
+    return lines.join('\n');
+  }
+
+  // ── Docs for a specific set of codes ─────────────────────────────────────
+  function buildCodesDocs(codeNames, docsData) {
+    var lines = [];
+    codeNames.forEach(function(name) {
+      var node = CODEBOOK_TREE.find(function(n) { return n.name === name; });
+      var doc  = docsData[name] || {};
+      lines.push('');
+      lines.push(name + (node && node.parent ? ' [parent: ' + node.parent + ']' : '') +
+        ' (uses: ' + ((CORPUS_INDEX[name]||{}).total||0) + ')');
+      if (doc.scope)       lines.push('  scope: '       + doc.scope);
+      if (doc.rationale)   lines.push('  rationale: '   + doc.rationale);
+      if (doc.usage_notes) lines.push('  usage_notes: ' + doc.usage_notes);
+    });
+    return lines.join('\n');
+  }
+
+  // ── Focal code excerpts ───────────────────────────────────────────────────
+  function buildPairExcerpts(codeA, codeB) {
+    var exA  = ((CORPUS_INDEX[codeA] || {}).excerpts || []).slice(0, 4);
+    var exB  = ((CORPUS_INDEX[codeB] || {}).excerpts || []).slice(0, 4);
+    var cooc = COOC_DATA.find(function(c) {
       return (c.code_a === codeA && c.code_b === codeB) ||
              (c.code_a === codeB && c.code_b === codeA);
     });
-    var shared = coocEntry ? coocEntry.shared_docs : 0;
-    var hierA = hierarchyContextText(codeA, docsData);
-    var hierB = hierarchyContextText(codeB, docsData);
-
-    return [
-      'TASK: Assess whether two codes have genuinely distinct analytical boundaries or collapse in practice.',
-      '',
-      hierA ? 'HIERARCHY CONTEXT FOR ' + codeA + ':\n' + hierA : '',
-      '== CODE A: ' + codeA + ' ==',
-      'scope: '       + (docA.scope       || '(undocumented)'),
-      'rationale: '   + (docA.rationale   || '(undocumented)'),
-      'usage_notes: ' + (docA.usage_notes || '(undocumented)'),
-      'uses: '        + ((CORPUS_INDEX[codeA] || {}).total || 0),
-      'sample excerpts:',
-      excerA.slice(0, 5).map(function(e) { return '  [' + e.doc + ':' + e.line + '] ' + e.text; }).join('\n'),
-      '',
-      hierB ? 'HIERARCHY CONTEXT FOR ' + codeB + ':\n' + hierB : '',
-      '== CODE B: ' + codeB + ' ==',
-      'scope: '       + (docB.scope       || '(undocumented)'),
-      'rationale: '   + (docB.rationale   || '(undocumented)'),
-      'usage_notes: ' + (docB.usage_notes || '(undocumented)'),
-      'uses: '        + ((CORPUS_INDEX[codeB] || {}).total || 0),
-      'sample excerpts:',
-      excerB.slice(0, 5).map(function(e) { return '  [' + e.doc + ':' + e.line + '] ' + e.text; }).join('\n'),
-      '',
-      'CO-OCCURRENCE: these codes appear in ' + shared + ' shared documents.',
-      '',
-      'Respond with a JSON object:',
-      '{',
-      '  "overlap": true|false,',
-      '  "description": "one sentence summary",',
-      '  "rationale": "analytical justification referencing hierarchy context",',
-      '  "suggestion_type": "merge|rename|keep-separate",',
-      '  "target_name": "suggested merged name if merge",',
-      '  "evidence": [{"doc":"...","line":0,"text":"..."}]',
-      '}',
-    ].filter(Boolean).join('\n');
+    var lines = [
+      codeA + ' (uses: ' + ((CORPUS_INDEX[codeA]||{}).total||0) +
+        ', shared docs with ' + codeB + ': ' + (cooc ? cooc.shared_docs : 0) + ')',
+      'excerpts:',
+    ];
+    exA.forEach(function(e) {
+      lines.push('  [' + e.doc + ':' + e.line + '] ' + e.text.slice(0, 200));
+    });
+    lines.push('');
+    lines.push(codeB + ' (uses: ' + ((CORPUS_INDEX[codeB]||{}).total||0) + ')');
+    lines.push('excerpts:');
+    exB.forEach(function(e) {
+      lines.push('  [' + e.doc + ':' + e.line + '] ' + e.text.slice(0, 200));
+    });
+    return lines.join('\n');
   }
 
-  function buildBloatPrompt(parentCode, siblings, docsData) {
-    var parentDoc = docsData[parentCode] || {};
-    var hierCtx   = hierarchyContextText(parentCode, docsData);
-
-    var siblingsText = siblings.map(function(name) {
-      var doc   = docsData[name] || {};
-      var excrs = (CORPUS_INDEX[name] || {}).excerpts || [];
-      return [
-        '-- ' + name + ' (uses: ' + ((CORPUS_INDEX[name]||{}).total||0) + ')',
-        'scope: '     + (doc.scope     || '(undocumented)'),
-        'rationale: ' + (doc.rationale || '(undocumented)'),
-        'sample: '    + (excrs[0] ? excrs[0].text : '(none)'),
-      ].join('\n');
+  // ── Turn 1: discovery prompt ──────────────────────────────────────────────
+  function buildDiscoveryPrompt(pairs, docsData) {
+    var focalNames = [];
+    pairs.forEach(function(p) {
+      if (focalNames.indexOf(p.code_a) === -1) focalNames.push(p.code_a);
+      if (focalNames.indexOf(p.code_b) === -1) focalNames.push(p.code_b);
+    });
+    var pairsText = pairs.map(function(p, i) {
+      return '=== PAIR ' + (i+1) + ': ' + p.code_a + ' vs ' + p.code_b + ' ===\n' +
+        buildPairExcerpts(p.code_a, p.code_b);
     }).join('\n\n');
 
     return [
-      'TASK: Assess whether the children of a parent code are genuinely distinct or whether some are redundant.',
+      SYSTEM_PROMPT,
       '',
-      hierCtx ? 'HIERARCHY CONTEXT:\n' + hierCtx : '',
-      '== PARENT: ' + parentCode + ' ==',
-      'scope: '     + (parentDoc.scope     || '(undocumented)'),
-      'rationale: ' + (parentDoc.rationale || '(undocumented)'),
+      buildCompactTreeOutline(docsData),
       '',
-      '== CHILDREN (' + siblings.length + ') ==',
-      siblingsText,
+      '=== FOCAL CODE DOCUMENTATION ===',
+      buildCodesDocs(focalNames, docsData),
       '',
-      'Respond with a JSON object:',
+      '=== FOCAL PAIRS ===',
+      pairsText,
+      '',
+      'TASK (Turn 1 of 2 — Discovery):',
+      'Before making suggestions, identify which OTHER codes in the outline above are',
+      'relevant to understanding these pairs in focused coding terms. Consider:',
+      '- Codes that might be at the same analytical level as the focal codes',
+      '- Codes that might be more general categories that could subsume one of these',
+      '- Codes that capture related processes or dimensions in adjacent areas',
+      '',
+      'Respond with JSON only:',
       '{',
-      '  "bloat_detected": true|false,',
-      '  "description": "one sentence summary",',
-      '  "rationale": "justification referencing parent scope",',
-      '  "suggestions": [{"type":"merge|delete|keep","codes":["A","B"],"target":"merged name","reason":"..."}]',
+      '  "relevant_codes": ["code names from the outline worth examining"],',
+      '  "initial_observations": "one sentence per pair — what analytical relationship do you see?"',
       '}',
-    ].filter(Boolean).join('\n');
+    ].join('\n');
   }
 
-  // ── makeReport / runReport ────────────────────────────────────────────────
-  var _reportCounter = 0;
-  function makeReport(codes) {
-    var id = 'report_' + (++_reportCounter);
-    state.reports[id] = {
-      id:          id,
-      mode:        state.auditMode,
-      codes:       codes,
-      status:      'pending',
-      suggestions: [],
-      error:       null,
-      ts:          new Date().toISOString(),
-    };
-    return id;
+  // ── Turn 2: focused coding assessment prompt ──────────────────────────────
+  function buildAssessmentPrompt(pairs, docsData, relevantCodes) {
+    var focalNames = [];
+    pairs.forEach(function(p) {
+      if (focalNames.indexOf(p.code_a) === -1) focalNames.push(p.code_a);
+      if (focalNames.indexOf(p.code_b) === -1) focalNames.push(p.code_b);
+    });
+    var allNames = focalNames.slice();
+    (relevantCodes || []).forEach(function(name) {
+      if (allNames.indexOf(name) === -1 &&
+          CODEBOOK_TREE.some(function(n) { return n.name === name; })) {
+        allNames.push(name);
+      }
+    });
+    var pairsText = pairs.map(function(p, i) {
+      return '=== PAIR ' + (i+1) + ': ' + p.code_a + ' vs ' + p.code_b + ' ===\n' +
+        buildPairExcerpts(p.code_a, p.code_b);
+    }).join('\n\n');
+
+    return [
+      SYSTEM_PROMPT,
+      '',
+      '=== RELEVANT CODE DOCUMENTATION ===',
+      buildCodesDocs(allNames, docsData),
+      '',
+      '=== FOCAL PAIRS ===',
+      pairsText,
+      '',
+      'TASK (Turn 2 of 2 — Focused Coding Assessment):',
+      'For each pair, assess whether each code is doing distinct analytical work that',
+      'warrants its own focused code, or whether the relationship between them suggests',
+      'a restructuring that would strengthen the code system for theory-building.',
+      '',
+      'Remember: co-occurrence is NOT a problem. Multiple codes on the same passage is',
+      'expected. Ask whether each code captures a genuinely distinct analytical dimension.',
+      '',
+      'Respond with a JSON array — one object per pair, in order:',
+      '[{',
+      '  "suggestion": "restructure-subcode" | "separate-dimension" | "candidate-category" | "document-distinction" | "review-application",',
+      '  "target": "proposed parent code (for restructure-subcode only)",',
+      '  "child": "code to move under target (restructure-subcode only)",',
+      '  "related_codes": ["codes from the documentation above relevant to this assessment"],',
+      '  "reason": "one sentence — cite the documented scope/rationale of each code",',
+      '  "evidence_a": [{"doc":"...","line":0,"text":"..."}],',
+      '  "evidence_b": [{"doc":"...","line":0,"text":"..."}]',
+      '}]',
+    ].join('\n');
+  }
+
+  async function runFocusAudit(codes, docsData, report) {
+    var codeSet = new Set(codes);
+    var pairs = COOC_DATA.filter(function(c) {
+      return codeSet.has(c.code_a) && codeSet.has(c.code_b);
+    });
+    if (pairs.length === 0) {
+      var arr = Array.from(codeSet);
+      for (var i = 0; i < arr.length; i++)
+        for (var j = i + 1; j < arr.length; j++)
+          pairs.push({ code_a: arr[i], code_b: arr[j], shared_docs: 0 });
+    }
+    pairs = pairs.slice(0, state.testModel ? 3 : (ALIGN_CONFIG.max_pairs || 20));
+    if (pairs.length === 0) return [];
+
+    var discoveryPrompt  = buildDiscoveryPrompt(pairs, docsData);
+    var turn2placeholder = '(generated after Turn 1)';
+
+    // ── Prompt preview mode ──────────────────────────────────────────────────
+    if (state.showPrompt) {
+      state.promptPreview = { turn1: discoveryPrompt, turn2: turn2placeholder };
+      if (report) { report.status = 'done'; report.suggestions = []; }
+      render();
+      return [];
+    }
+
+    // ── Mock mode ────────────────────────────────────────────────────────────
+    if (state.testingMode) {
+      if (report) { report.progress = 'Mock mode — generating fake suggestions…'; render(); }
+      await new Promise(function(r) { setTimeout(r, 800); });
+      return pairs.slice(0, 3).map(function(pair) {
+        var types = ['restructure-subcode', 'separate-dimension', 'candidate-category', 'document-distinction', 'review-application'];
+        var type  = types[Math.floor(Math.random() * types.length)];
+        return {
+          id:            pair.code_a + '__' + pair.code_b + '__mock',
+          mode:          'focus',
+          codes:         [pair.code_a, pair.code_b],
+          type:          type,
+          reason:        '[MOCK] ' + pair.code_a + ' and ' + pair.code_b + ' require focused coding assessment.',
+          related_codes: codes.filter(function(c) { return c !== pair.code_a && c !== pair.code_b; }).slice(0, 2),
+          evidence_a:    ((CORPUS_INDEX[pair.code_a] || {}).excerpts || []).slice(0, 2).map(function(e) { return Object.assign({ code: pair.code_a }, e); }),
+          evidence_b:    ((CORPUS_INDEX[pair.code_b] || {}).excerpts || []).slice(0, 2).map(function(e) { return Object.assign({ code: pair.code_b }, e); }),
+          status:        'pending',
+          decision_note: '',
+          refactor_op:   type === 'restructure-subcode' ? { type: 'move', sources: [pair.code_b], target: pair.code_a } : null,
+        };
+      });
+    }
+
+    // ── Real LLM mode ────────────────────────────────────────────────────────
+    var model = state.testModel
+      ? 'qwen2.5:7b'
+      : (ALIGN_CONFIG.ollama_model || 'qwen3.5:35b');
+
+    if (report) { report.progress = 'Turn 1 of 2 — building prompt…'; render(); }
+    var estimatedTokens1 = Math.round(discoveryPrompt.length / 4);
+    if (report) {
+      report.progress = 'Turn 1 of 2 — discovery\\n' +
+        'Sending ' + pairs.length + ' pair(s) + full tree outline (~' + estimatedTokens1.toLocaleString() + ' tokens)\\n' +
+        'Asking model to identify relevant codes across the system…' +
+        (state.testModel ? '\\n[fast model: qwen2.5:7b]' : '');
+      render();
+    }
+    var discovery     = await ollamaJSONPrompt(discoveryPrompt, model);
+    var relevantCodes = (discovery && discovery.relevant_codes) ? discovery.relevant_codes : [];
+    console.log('[qc-align] Turn 1 identified', relevantCodes.length, 'relevant codes:', relevantCodes.slice(0,10));
+
+    var assessmentPrompt = buildAssessmentPrompt(pairs, docsData, relevantCodes);
+    // Update prompt preview for turn 2
+    if (state.promptPreview) state.promptPreview.turn2 = assessmentPrompt;
+
+    var estimatedTokens2 = Math.round(assessmentPrompt.length / 4);
+    if (report) {
+      report.progress = 'Turn 2 of 2 — assessment\\n' +
+        'Turn 1 identified ' + relevantCodes.length + ' relevant code(s)\\n' +
+        'Sending focal pairs + docs for ' + (relevantCodes.length + pairs.length * 2) + ' codes (~' + estimatedTokens2.toLocaleString() + ' tokens)\\n' +
+        'Generating suggestions…' +
+        (state.testModel ? '\\n[fast model: qwen2.5:7b]' : '');
+      render();
+    }
+    var results = await ollamaJSONPrompt(assessmentPrompt, model);
+    console.log('[qc-align] Turn 2 raw result:', JSON.stringify(results).slice(0, 500));
+
+    if (!Array.isArray(results)) {
+      if (results && results.suggestions) results = results.suggestions;
+      else if (results && typeof results === 'object') results = [results];
+      else return [];
+    }
+
+    return results.map(function(result, i) {
+      var pair = pairs[i] || pairs[0];
+      var sg   = result.suggestion || 'review-application';
+      var refactorOp = null;
+      if (sg === 'restructure-subcode') {
+        refactorOp = { type: 'move', sources: [result.child || pair.code_b], target: result.target || pair.code_a };
+      }
+      var evidenceA = (result.evidence_a || []).map(function(e) { return Object.assign({ code: pair.code_a }, e); });
+      var evidenceB = (result.evidence_b || []).map(function(e) { return Object.assign({ code: pair.code_b }, e); });
+      return {
+        id:            pair.code_a + '__' + pair.code_b,
+        mode:          'focus',
+        codes:         [pair.code_a, pair.code_b],
+        type:          sg,
+        reason:        result.reason        || '',
+        related_codes: result.related_codes || relevantCodes,
+        evidence_a:    evidenceA,
+        evidence_b:    evidenceB,
+        status:        'pending',
+        decision_note: '',
+        refactor_op:   refactorOp,
+      };
+    }).filter(function(s) { return s !== null; });
   }
 
   async function runReport(reportId) {
     var report = state.reports[reportId];
     if (!report) return;
-    report.status = 'running';
+    report.status    = 'running';
+    report.startedAt = Date.now();
+    report.progress  = 'Loading codebook documentation…';
     render();
-
     try {
-      // Load docs for hierarchy context
-      var docsRes  = await fetch(API + '/docs/load?path=' + encodeURIComponent(ALIGN_CONFIG.scheme_path));
-      var docsData = {};
-      if (docsRes.ok) {
-        var docsJson = await docsRes.json();
-        docsData = docsJson.codes || {};
+      // Cache docs across runs — fetch once per session
+      if (!state.docsData) {
+        var docsRes = await fetch(LOG_API + '/docs/load?path=' + encodeURIComponent(ALIGN_CONFIG.scheme_path || ''));
+        if (docsRes.ok) {
+          var docsJson = await docsRes.json();
+          state.docsData = docsJson.codes || {};
+        } else {
+          state.docsData = {};
+        }
       }
-
+      var docsData = state.docsData;
       var suggestions = [];
-
-      if (report.mode === 'overlap') {
-        suggestions = await runOverlapAudit(report.codes, docsData);
-      } else if (report.mode === 'bloat') {
-        suggestions = await runBloatAudit(report.codes, docsData);
+      if (report.mode === 'focus') {
+        suggestions = await runFocusAudit(report.codes, docsData, report);
+      } else if (report.mode === 'consistency') {
+        suggestions = await runConsistencyAudit(report.codes, docsData, report);
+      } else if (report.mode === 'restructure') {
+        suggestions = await runRestructureAudit(report.codes, docsData, report);
+      } else if (report.mode === 'corpus') {
+        suggestions = await runCorpusAudit(report.codes, docsData, report);
       } else {
-        // Other modes — placeholder
         suggestions = [{
-          id:          makeSuggestionId(),
-          mode:        report.mode,
-          codes:       report.codes.slice(0, 3),
-          type:        'pending',
-          description: report.mode + ' audit — full implementation coming',
-          rationale:   '',
-          evidence:    [],
-          status:      'pending',
+          id:            reportId + '__s0',
+          mode:          report.mode,
+          codes:         report.codes.slice(0, 3),
+          type:          'pending',
+          reason:        report.mode + ' audit — full implementation coming',
+          related_codes: [],
+          evidence_a:    [],
+          evidence_b:    [],
+          status:        'pending',
           decision_note: '',
-          refactor_op: null,
+          refactor_op:   null,
         }];
       }
-
       report.suggestions = suggestions;
-      report.status = 'done';
-    } catch(e) {
+      report.status      = 'done';
+      report.elapsedMs   = Date.now() - (report.startedAt || Date.now());
+      report.chat        = report.chat || [];
+      // Auto-save response for later replay
+      if (suggestions.length > 0 && !state.testingMode) {
+        fetch(LOG_API + '/align/responses/save', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({
+            ts:          new Date().toISOString(),
+            mode:        report.mode,
+            codes:       report.codes,
+            suggestions: suggestions,
+            elapsedMs:   report.elapsedMs,
+          }),
+        }).catch(function(e) { console.warn('[align/responses/save]', e); });
+      }
+    } catch(err) {
       report.status = 'error';
-      report.error  = String(e.message || e);
+      report.error  = err.message || String(err);
     }
     render();
   }
 
-  async function runOverlapAudit(codes, docsData) {
-    // Find co-occurring pairs within scope
-    var codeSet = new Set(codes);
-    var pairs = COOC_DATA
-      .filter(function(c) { return codeSet.has(c.code_a) && codeSet.has(c.code_b); })
-      .slice(0, ALIGN_CONFIG.max_pairs || 40);
+  async function runConsistencyAudit(codes, docsData, report) {
+    if (report) { report.progress = 'Consistency audit — coming soon'; render(); }
+    return [{ id: 'consistency_stub', mode: 'consistency', codes: codes.slice(0,2),
+      type: 'review-application', reason: 'Consistency audit not yet implemented.',
+      related_codes: [], evidence_a: [], evidence_b: [], status: 'pending', decision_note: '', refactor_op: null }];
+  }
 
-    var suggestions = [];
-    for (var i = 0; i < Math.min(pairs.length, 10); i++) {
-      var pair = pairs[i];
-      var prompt = buildOverlapPrompt(pair.code_a, pair.code_b, docsData);
-      var result = await ollamaJSON(prompt);
-      if (!result) continue;
-      suggestions.push({
-        id:           makeSuggestionId(),
-        mode:         'overlap',
-        codes:        [pair.code_a, pair.code_b],
-        type:         result.suggestion_type || 'keep-separate',
-        description:  result.description || '',
-        rationale:    result.rationale   || '',
-        evidence:     result.evidence    || [],
-        status:       'pending',
-        decision_note: '',
-        refactor_op:  result.suggestion_type === 'merge' ? {
-          type:    'merge',
-          sources: [pair.code_a, pair.code_b],
-          target:  result.target_name || pair.code_b,
-        } : null,
-      });
-    }
-    return suggestions;
+  async function runRestructureAudit(codes, docsData, report) {
+    if (report) { report.progress = 'Restructure audit — coming soon'; render(); }
+    return [{ id: 'restructure_stub', mode: 'restructure', codes: codes.slice(0,2),
+      type: 'restructure-subcode', reason: 'Restructure audit not yet implemented.',
+      related_codes: [], evidence_a: [], evidence_b: [], status: 'pending', decision_note: '', refactor_op: null }];
+  }
+
+  async function runCorpusAudit(codes, docsData, report) {
+    if (report) { report.progress = 'Corpus audit — coming soon'; render(); }
+    return [{ id: 'corpus_stub', mode: 'corpus', codes: codes.slice(0,2),
+      type: 'review-application', reason: 'Corpus audit not yet implemented.',
+      related_codes: [], evidence_a: [], evidence_b: [], status: 'pending', decision_note: '', refactor_op: null }];
   }
 
   async function runBloatAudit(codes, docsData) {
@@ -287,7 +496,7 @@
       if (siblings.length < 2) continue;
       var parentName = parent === '__root__' ? '' : parent;
       var prompt     = buildBloatPrompt(parentName, siblings, docsData);
-      var result     = await ollamaJSON(prompt);
+      var result     = await ollamaJSONPrompt(prompt);
       if (!result || !result.bloat_detected) continue;
       (result.suggestions || []).forEach(function(sg) {
         if (sg.type === 'keep') return;
@@ -378,37 +587,37 @@
   }
 
   // ── ollamaJSON helper ──────────────────────────────────────────────────────
-  async function ollamaJSON(prompt) {
-    var model = ALIGN_CONFIG.ollama_model || 'qwen3:35b';
+  async function ollamaJSONPrompt(prompt, model) {
+    var useModel  = model || ALIGN_CONFIG.ollama_model || 'qwen3.5:35b';
+    var ollamaUrl = (ALIGN_CONFIG.ollama_url || 'http://localhost:11434') + '/api/chat';
     var fullPrompt = prompt + '\n\nRespond ONLY with valid JSON, no markdown, no explanation.';
     try {
-      var res = await fetch(API + '/api/chat', {
+      var res = await fetch(ollamaUrl, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify({
-          model:  model,
-          stream: false,
-          think:  false,
+          model:   useModel,
+          stream:  false,
+          think:   false,
+          options: { temperature: 0, num_ctx: ALIGN_CONFIG.num_ctx || 49152 },
           messages: [{ role: 'user', content: fullPrompt }],
         }),
       });
       var data = await res.json();
-      var text = data.message && data.message.content ? data.message.content : '';
+      var text = (data.message && data.message.content) ? data.message.content : '';
       text = text.replace(/```json\n?|```\n?/g, '').trim();
       return JSON.parse(text);
     } catch(e) {
-      console.warn('[ollamaJSON]', e);
+      console.warn('[ollamaJSONPrompt]', e);
       return null;
     }
   }
 
   const AUDIT_MODES = [
-    { id: 'overlap',          label: 'Overlap',          model: 'qwen3:35b', desc: 'Codes that blur together in practice' },
-    { id: 'inconsistency',    label: 'Inconsistency',    model: 'qwen3:35b', desc: 'Codes applied against their documented intent' },
-    { id: 'bloat',            label: 'Bloat',            model: 'qwen3:35b', desc: 'Redundant sibling codes under the same parent' },
-    { id: 'restructure',      label: 'Restructure',      model: 'qwen3:35b', desc: 'Propose alternative tree organisations' },
-    { id: 'line-split',       label: 'Line splitting',   model: 'qwen3:8b',  desc: 'Detect topically composite lines' },
-    { id: 'code-propagation', label: 'Code propagation', model: 'qwen3:8b',  desc: 'Missing codes in adjacent conversational context' },
+    { id: 'focus',       label: 'Focus',       desc: 'Does each code have distinct analytical weight? Pairs or sibling groups.' },
+    { id: 'consistency', label: 'Consistency', desc: 'Is this code being applied in line with its documented scope?' },
+    { id: 'restructure', label: 'Restructure', desc: 'Propose alternative tree architectures for a branch or the whole system.' },
+    { id: 'corpus',      label: 'Corpus',      desc: 'Line splitting and code propagation — corpus integrity operations.' },
   ];
 
   const state = {
@@ -421,6 +630,19 @@
     modalOpen:  false,
     customSelectedCodes: [],
     customSearchQuery: '',
+    // Audit mode fields
+    auditMode:           'focus',
+    auditScope:          [],
+    auditScopeCollapsed: new Set(),
+    leftSearch:          '',
+    docsData:            null,
+    // Testing controls
+    testingMode:         false,
+    showPrompt:          false,
+    promptPreview:       null,
+    testModel:           false,
+    savedResponses:      null,   // list of saved response files
+    showResponsePicker:  false,  // show response file picker
   };
 
   // ── Report object factory ──────────────────────────────────────────────────
@@ -428,15 +650,20 @@
 
   function makeReport(codes) {
     const id = codes.slice().sort().join('|');
-    if (state.reports[id]) return id;
+    if (state.reports[id]) {
+      // Update mode if re-running with a different mode
+      state.reports[id].mode = state.auditMode;
+      return id;
+    }
     state.reports[id] = {
       id,
       codes,
-      status:      'pending',  // pending|running|done|error
+      mode:        state.auditMode,
+      status:      'pending',
       error:       null,
-      analysis:    null,       // { overview, how_applied, overlaps, suggestions }
-      suggestions: [],         // [{id, type, description, rationale, refs, commands, status}]
-      chat:        [],         // [{role:'user'|'model', content}]
+      analysis:    null,
+      suggestions: [],
+      chat:        [],
       chatRunning: false,
     };
     return id;
@@ -544,172 +771,6 @@
 
   // ── Build LLM prompts for a report ────────────────────────────────────────
 
-  function buildReportPrompt(codes) {
-    // Use more excerpts — comprehensiveness is the goal
-    const MAX_EX = Math.min(20, Math.floor(ALIGN_CONFIG.num_ctx / (codes.length * 350)));
-
-    // Tree context
-    const nodeMap = {};
-    const _tree = Array.isArray(CODEBOOK_TREE) ? CODEBOOK_TREE : Object.values(CODEBOOK_TREE);
-    for (const node of _tree) nodeMap[node.name] = node;
-
-    const sections = codes.map(code => {
-      const exs  = sampleExcerpts(code, MAX_EX);
-      const info = CORPUS_INDEX[code] || {};
-      const node = nodeMap[code];
-      const treeInfo = node
-        ? `Parent: ${node.parent || '(root)'}  |  Siblings: ${
-            node.parent && nodeMap[node.parent]
-              ? nodeMap[node.parent].children.filter(c => c !== code).slice(0,5).join(', ') || 'none'
-              : 'n/a'
-          }  |  Children: ${node.children.slice(0,5).join(', ') || 'none'}`
-        : '(not in codebook tree)';
-      const sharedDocs = codes.filter(c => c !== code).map(other => {
-        const shared = coocBetween(code, other);
-        return shared > 0 ? `${shared} shared docs with ${other}` : null;
-      }).filter(Boolean).join(', ');
-      const lines = exs.map((e, i) =>
-        `  [${i+1}] ${e.doc} line ${e.line}: ${e.text.slice(0, 400)}`
-      ).join('\n');
-      return `### Code: ${code}\nTree position: ${treeInfo}\nTotal uses: ${info.total || 0} across ${(info.docs||[]).length} documents\nCo-occurrence: ${sharedDocs || 'none recorded'}\nExcerpts:\n${lines}`;
-    }).join('\n\n');
-
-    // ── Nearby codebook context for new-code suggestions ──────────────────────
-    // Collect codes that share a parent or prefix with any code under review,
-    // excluding the codes under review themselves. This lets the LLM check
-    // whether a proposed new code already exists under a different name.
-    const reviewSet = new Set(codes);
-    const nearbySet = new Set();
-
-    for (const code of codes) {
-      const node = nodeMap[code];
-      if (!node) continue;
-
-      // Siblings (same parent)
-      if (node.parent && nodeMap[node.parent]) {
-        for (const sib of nodeMap[node.parent].children) {
-          if (!reviewSet.has(sib)) nearbySet.add(sib);
-        }
-      }
-      // Children
-      for (const child of (node.children || [])) {
-        if (!reviewSet.has(child)) nearbySet.add(child);
-      }
-      // Same-prefix codes (broader neighbourhood)
-      const prefix = code.match(/^(\d\d)_/)?.[1];
-      if (prefix) {
-        for (const n of _tree) {
-          if (n.prefix === prefix && !reviewSet.has(n.name)) nearbySet.add(n.name);
-        }
-      }
-    }
-
-    // Format nearby codes as a compact list with use counts
-    const nearbyLines = [...nearbySet]
-      .sort()
-      .map(name => {
-        const uses = CORPUS_INDEX[name]?.total || 0;
-        const n = nodeMap[name];
-        const parent = n?.parent || '';
-        return `  ${name}  (uses: ${uses}${parent ? ', under: ' + parent : ''})`;
-      })
-      .join('\n');
-
-    const nearbyContext = nearbySet.size > 0
-      ? `NEARBY CODEBOOK ENTRIES (existing codes in the same region of the codebook — consult these before suggesting new codes):
-${nearbyLines}`
-      : '';
-
-    const userMsg = `You are helping a qualitative researcher reflect on their coding practice.
-
-The researcher wants a comprehensive analysis of how these codes are being applied and whether there are problems to fix.
-
-CODES UNDER REVIEW: ${codes.join(', ')}
-
-CORPUS EXCERPTS (numbered [doc line: text]):
-${sections}
-
-${nearbyContext}
-
-Please produce a thorough analysis. For each code:
-- Describe how it is actually being applied in practice, with reference to specific excerpts (cite as [doc L##])
-- Note where its effective usage overlaps, blurs, or conflicts with the other codes under review — give concrete examples from the excerpts
-- Flag any excerpts that appear to be miscoded or ambiguous
-
-When suggesting new codes: first check the NEARBY CODEBOOK ENTRIES above. If a similar code already exists, suggest using or adapting it rather than creating a duplicate. If you do suggest a new code, explain why existing nearby codes are insufficient.
-
-Return ONLY valid JSON in this exact structure (no markdown fences):
-{
-  "overview": "2-3 sentence summary of the main findings and most important issues",
-  "how_applied": {
-    "CODE_NAME": "Comprehensive description of how this code is used in practice. Include: its effective scope, characteristic patterns in the excerpts (cite specific ones as [doc L##]), and where it blurs with or differs from the other codes under review."
-  },
-  "suggestions": [
-    {
-      "type": "reassign|add-code|merge|delete|rename",
-      "description": "What to do, clearly stated",
-      "rationale": "Why — reference specific excerpts or patterns as evidence. For add-code: explain why no existing nearby code covers this.",
-      "refs": [{"doc": "docname", "line": 123, "current_code": "old_code", "new_code": "new_code"}],
-      "commands": ["qc codes rename old new"]
-    }
-  ]
-}`;
-
-    return [
-      {
-        role: 'system',
-        content: 'You are a JSON API. Output ONLY valid JSON. No markdown fences, no explanation outside the JSON object. Start your response with { and end with }.',
-      },
-      { role: 'user', content: userMsg },
-    ];
-  }
-
-  // ── Run analysis for a single report ──────────────────────────────────────
-
-  async function runReport(reportId) {
-    const report = state.reports[reportId];
-    if (!report || report.status === 'done') return;
-
-    report.status = 'running';
-    render();
-
-    try {
-      const messages = buildReportPrompt(report.codes);
-      const result   = await ollamaJSON(messages);
-
-      // Normalise suggestions — assign stable IDs and initial status
-      const suggestions = (result.suggestions || []).map((s, i) => ({
-        ...s,
-        id:     `${reportId}__s${i}`,
-        status: 'pending',  // pending|accepted|rejected
-        refs:   s.refs || [],
-        commands: s.commands || [],
-      }));
-
-      report.analysis    = result;
-      report.suggestions = suggestions;
-      report.status      = 'done';
-
-      // Seed the chat with the overview so it's immediately useful
-      report.chat = [{
-        role: 'model',
-        content: result.overview || 'Analysis complete. Ask me anything about these codes.',
-      }];
-
-    } catch (err) {
-      report.status = 'error';
-      report.error  = err.message;
-    }
-
-    render();
-  }
-
-  // ── Initialise the auto-detected queue and kick off LLM passes ────────────
-
-  // ── LLM-driven candidate ranking ─────────────────────────────────────────
-  // Phase 1: one call per category group (within-category overlaps)
-  // Phase 2: one cross-category call using top codes from each group
-  // Results merged, deduped, capped at ALIGN_CONFIG.max_pairs
 
   function buildTreeContext(codes) {
     // Build a compact tree-context string for a set of codes
@@ -745,30 +806,30 @@ Return ONLY valid JSON in this exact structure (no markdown fences):
       },
       {
         role: 'user',
-        content: `You are helping a qualitative researcher identify potential problems in their coding scheme.
-
-The following codes are from the category: ${label}
-
-CODE NAMES WITH TREE POSITION AND USE COUNTS:
-${ctx}
-
-Identify pairs of codes that likely have thematic overlap, definitional ambiguity, or inconsistent application based on their names and positions in the hierarchy. Consider:
-- Codes with similar or overlapping names
-- Codes that are siblings in the tree but may be hard to distinguish
-- Codes where one might be a special case of another but is coded separately
-- Cross-category pairs if included — look for conceptual overlap across different facets
-
-Return a JSON array of objects. Include only pairs with genuine concern, up to 15 pairs:
-[
-  {
-    "code_a": "exact_code_name",
-    "code_b": "exact_code_name",
-    "concern": "one sentence explaining the likely overlap or ambiguity",
-    "severity": "high|medium|low"
-  }
-]
-
-Only include codes from the list above. If no pairs have meaningful overlap, return [].`,
+        content: ('You are helping a qualitative researcher identify potential problems in their coding scheme.\n' +
+      '\n' +
+      'The following codes are from the category: ${label}\n' +
+      '\n' +
+      'CODE NAMES WITH TREE POSITION AND USE COUNTS:\n' +
+      '${ctx}\n' +
+      '\n' +
+      'Identify pairs of codes that likely have thematic overlap, definitional ambiguity, or inconsistent application based on their names and positions in the hierarchy. Consider:\n' +
+      '- Codes with similar or overlapping names\n' +
+      '- Codes that are siblings in the tree but may be hard to distinguish\n' +
+      '- Codes where one might be a special case of another but is coded separately\n' +
+      '- Cross-category pairs if included — look for conceptual overlap across different facets\n' +
+      '\n' +
+      'Return a JSON array of objects. Include only pairs with genuine concern, up to 15 pairs:\n' +
+      '[\n' +
+      '  {\n' +
+      '    "code_a": "exact_code_name",\n' +
+      '    "code_b": "exact_code_name",\n' +
+      '    "concern": "one sentence explaining the likely overlap or ambiguity",\n' +
+      '    "severity": "high|medium|low"\n' +
+      '  }\n' +
+      ']\n' +
+      '\n' +
+      'Only include codes from the list above. If no pairs have meaningful overlap, return [].\n'),
       },
     ];
 
@@ -876,6 +937,7 @@ Only include codes from the list above. If no pairs have meaningful overlap, ret
     state.queue = [];
     for (const pair of allPairs.slice(0, maxPairs)) {
       const id = makeReport([pair.code_a, pair.code_b]);
+      if (!state.reports[id].mode) state.reports[id].mode = 'focus';
       // Attach ranking metadata to report for display
       state.reports[id].rankingConcern  = pair.concern;
       state.reports[id].rankingSeverity = pair.severity;
@@ -919,36 +981,36 @@ Only include codes from the list above. If no pairs have meaningful overlap, ret
 
       const systemMsg = {
         role: 'system',
-        content: `You are helping a qualitative researcher reflect on their coding practice.
-Codes under discussion: ${report.codes.join(', ')}
-
-CURRENT REPORT ANALYSIS:
-${currentAnalysis}
-
-CORPUS EXCERPTS FOR CONTEXT:
-${excerptContext}
-
-Engage thoughtfully with the researcher's questions and observations. Reference specific excerpts by [doc L##] when relevant. When the conversation leads to revised understanding of how codes are applied or new suggestions, also output an updated report JSON block at the END of your response using this exact format (the researcher's app will parse and apply it):
-
-<updated_analysis>
-{
-  "overview": "updated overview incorporating new insights",
-  "how_applied": {
-    "CODE_NAME": "updated description"
-  },
-  "new_suggestions": [
-    {
-      "type": "reassign|add-code|merge|delete|rename",
-      "description": "...",
-      "rationale": "...",
-      "refs": [],
-      "commands": []
-    }
-  ]
-}
-</updated_analysis>
-
-Only include <updated_analysis> when there are genuine revisions to make. Otherwise respond conversationally without it.`,
+        content: ('You are helping a qualitative researcher reflect on their coding practice.\n' +
+      'Codes under discussion: ${report.codes.join(\', \')}\n' +
+      '\n' +
+      'CURRENT REPORT ANALYSIS:\n' +
+      '${currentAnalysis}\n' +
+      '\n' +
+      'CORPUS EXCERPTS FOR CONTEXT:\n' +
+      '${excerptContext}\n' +
+      '\n' +
+      'Engage thoughtfully with the researcher\'s questions and observations. Reference specific excerpts by [doc L##] when relevant. When the conversation leads to revised understanding of how codes are applied or new suggestions, also output an updated report JSON block at the END of your response using this exact format (the researcher\'s app will parse and apply it):\n' +
+      '\n' +
+      '<updated_analysis>\n' +
+      '{\n' +
+      '  "overview": "updated overview incorporating new insights",\n' +
+      '  "how_applied": {\n' +
+      '    "CODE_NAME": "updated description"\n' +
+      '  },\n' +
+      '  "new_suggestions": [\n' +
+      '    {\n' +
+      '      "type": "reassign|add-code|merge|delete|rename",\n' +
+      '      "description": "...",\n' +
+      '      "rationale": "...",\n' +
+      '      "refs": [],\n' +
+      '      "commands": []\n' +
+      '    }\n' +
+      '  ]\n' +
+      '}\n' +
+      '</updated_analysis>\n' +
+      '\n' +
+      'Only include <updated_analysis> when there are genuine revisions to make. Otherwise respond conversationally without it.\n'),
       };
 
       const history = report.chat.map(m => ({
@@ -998,6 +1060,7 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
   // The companion qc-atelier-server.py handles POST /logs/save and GET /logs/list.
 
   const LOG_API = 'http://localhost:' + (ALIGN_CONFIG.log_server_port || 8080);
+  const API     = 'http://localhost:' + (ALIGN_CONFIG.server_port     || ALIGN_CONFIG.log_server_port || 8080);
 
   async function saveLog(reportId) {
     const report = state.reports[reportId];
@@ -1068,6 +1131,7 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
   // ── Render ─────────────────────────────────────────────────────────────────
 
   function render() {
+    try {
     const root = document.getElementById('qc-align-root');
     if (!root) return;
     root.innerHTML = '';
@@ -1076,12 +1140,22 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
 
     // Top bar
     const tb = h('div', { className: 'top-bar' },
-      h('h1', {}, 'QC Reflect'),
+      h('h1', {}, 'QC Align'),
       h('span', { className: 'subtitle' },
         `${DOC_NAMES.length} docs · ${ALL_CODES.length} codes`
       ),
       h('div', { className: 'top-bar-spacer' }),
-      h('span', { className: 'model-badge' }, ALIGN_CONFIG.ollama_model),
+      h('span', { className: 'model-badge' + (state.testModel ? ' model-badge-test' : '') },
+        state.testModel ? 'qwen2.5:7b (test)' : (ALIGN_CONFIG.ollama_model || 'unknown model')),
+      h('button', {
+        className: 'topbar-theme-btn',
+        title: 'Toggle light/dark mode',
+        onClick: function() {
+          var dark = document.body.classList.toggle('dark-mode');
+          document.body.classList.toggle('light-mode', !dark);
+          try { localStorage.setItem('qc.scheme.theme', dark ? 'dark' : 'light'); } catch(e) {}
+        },
+      }, '◑'),
     );
     shell.appendChild(tb);
 
@@ -1100,9 +1174,40 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
     if (state.modalOpen) {
       root.appendChild(buildModal());
     }
+    } catch(e) {
+      console.error('[render error]', e.message, e.stack);
+    }
   }
 
   // ── Left panel ─────────────────────────────────────────────────────────────
+
+  async function loadSavedResponses() {
+    try {
+      var res  = await fetch(LOG_API + '/align/responses');
+      var data = await res.json();
+      state.savedResponses = data.responses || [];
+    } catch(e) {
+      state.savedResponses = [];
+    }
+    render();
+  }
+
+  function loadResponseFile(filename, responseData) {
+    // Create a report from a saved response
+    var id = makeReport(responseData.codes || []);
+    var report = state.reports[id];
+    report.mode        = responseData.mode || 'focus';
+    report.suggestions = (responseData.suggestions || []).map(function(s) {
+      return Object.assign({ status: 'pending', decision_note: '' }, s);
+    });
+    report.status    = 'done';
+    report.elapsedMs = responseData.elapsedMs || 0;
+    report.chat      = [];
+    state.activeReportId    = id;
+    state.activeTab         = 'report';
+    state.showResponsePicker = false;
+    render();
+  }
 
   function buildLeftPanel() {
     const panel = h('div', { className: 'panel-left' });
@@ -1124,7 +1229,7 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
     const scopeSection = h('div', { className: 'audit-scope-section' });
     scopeSection.appendChild(h('div', { className: 'audit-section-label' },
       'Scope ',
-      h('span', { className: 'audit-scope-count' },
+      h('span', { className: 'audit-scope-count', id: 'audit-scope-count' },
         state.auditScope.length > 0 ? `(${state.auditScope.length} selected)` : '(all)'
       )
     ));
@@ -1134,14 +1239,18 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
       className: 'search-input',
       placeholder: 'Filter codes…',
       value: state.leftSearch || '',
-      onInput: e => { state.leftSearch = e.target.value; render(); },
+      onInput: e => {
+        state.leftSearch = e.target.value;
+        const sl = document.getElementById('audit-scope-list');
+        if (sl) { sl.innerHTML = ''; renderScopeNodes(CODEBOOK_TREE.filter(n => !n.parent), null, sl); }
+      },
     });
     scopeSection.appendChild(scopeSearch);
 
-    const scopeList = h('div', { className: 'audit-scope-list' });
-    const q = (state.leftSearch || '').toLowerCase();
+    const scopeList = h('div', { className: 'audit-scope-list', id: 'audit-scope-list' });
 
-    function renderScopeNodes(nodes, parentName) {
+    function renderScopeNodes(nodes, parentName, container) {
+      const q = (state.leftSearch || '').toLowerCase();
       for (const node of nodes) {
         if (q && !node.name.toLowerCase().includes(q)) continue;
         const isCollapsed = state.auditScopeCollapsed.has(node.name);
@@ -1160,7 +1269,9 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
               e.preventDefault();
               if (isCollapsed) state.auditScopeCollapsed.delete(node.name);
               else state.auditScopeCollapsed.add(node.name);
-              render();
+              // Re-render scope list in-place
+              const sl = document.getElementById('audit-scope-list');
+              if (sl) { sl.innerHTML = ''; renderScopeNodes(CODEBOOK_TREE.filter(n => !n.parent), null, sl); }
             },
           }, isCollapsed ? '▶' : '▼');
           row.appendChild(tog);
@@ -1175,38 +1286,56 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
           } else {
             state.auditScope = state.auditScope.filter(c => c !== node.name);
           }
-          render();
+          // Update count label only, no full render
+          updateScopeCount();
+          const clearBtn = document.getElementById('audit-scope-clear');
+          if (clearBtn) clearBtn.disabled = state.auditScope.length === 0;
         });
         row.appendChild(cb);
         row.appendChild(h('span', { className: 'scope-label' }, node.name));
         const cnt = (CORPUS_INDEX[node.name] || {}).total;
         if (cnt) row.appendChild(h('span', { className: 'picker-count' }, String(cnt)));
-        scopeList.appendChild(row);
+        container.appendChild(row);
 
         if (!q && !isCollapsed && hasChildren) {
           const children = CODEBOOK_TREE.filter(n => n.parent === node.name);
-          renderScopeNodes(children, node.name);
+          renderScopeNodes(children, node.name, container);
         }
       }
     }
-    const roots = CODEBOOK_TREE.filter(n => !n.parent);
-    renderScopeNodes(roots, null);
-    scopeSection.appendChild(scopeList);
 
-    const clearBtn = h('button', {
-      className: 'btn audit-scope-clear',
-      onClick: () => { state.auditScope = []; render(); },
-      disabled: state.auditScope.length === 0,
-    }, 'Clear selection');
-    scopeSection.appendChild(clearBtn);
+    function updateScopeCount() {
+      const el = document.getElementById('audit-scope-count');
+      if (el) el.textContent = state.auditScope.length > 0
+        ? '(' + state.auditScope.length + ' selected)'
+        : '(all)';
+    }
+
+    const roots = CODEBOOK_TREE.filter(n => !n.parent);
+    renderScopeNodes(roots, null, scopeList);
+    scopeSection.appendChild(scopeList);
     panel.appendChild(scopeSection);
 
-    // ── Run button ────────────────────────────────────────────────────────────
-    const runBtn = h('button', {
+    // ── Action row: Clear + Run ───────────────────────────────────────────────
+    const actionRow = h('div', { className: 'audit-action-row' });
+    actionRow.appendChild(h('button', {
+      className: 'btn audit-scope-clear',
+      id: 'audit-scope-clear',
+      onClick: () => {
+        state.auditScope = [];
+        updateScopeCount();
+        const sl = document.getElementById('audit-scope-list');
+        if (sl) { sl.innerHTML = ''; renderScopeNodes(CODEBOOK_TREE.filter(n => !n.parent), null, sl); }
+        const cb = document.getElementById('audit-scope-clear');
+        if (cb) cb.disabled = true;
+      },
+      disabled: state.auditScope.length === 0,
+    }, 'Clear'));
+    actionRow.appendChild(h('button', {
       className: 'btn primary audit-run-btn',
       onClick: () => {
         const codes = state.auditScope.length > 0
-          ? state.auditScope
+          ? state.auditScope.map(s => s.name || s)
           : CODEBOOK_TREE.map(n => n.name);
         const id = makeReport(codes);
         state.activeReportId = id;
@@ -1214,8 +1343,79 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
         runReport(id);
         render();
       },
-    }, 'Run ' + (AUDIT_MODES.find(m => m.id === state.auditMode) || {}).label || 'audit');
-    panel.appendChild(runBtn);
+    }, 'Run ' + ((AUDIT_MODES.find(m => m.id === state.auditMode) || {}).label || 'audit')));
+    panel.appendChild(actionRow);
+
+    // ── Testing controls ──────────────────────────────────────────────────────
+    var testBar = h('div', { className: 'test-bar' });
+
+    var mockBtn = h('button', {
+      className: 'test-btn' + (state.testingMode ? ' active' : ''),
+      title: 'Bypass LLM — use mock suggestions for UI testing',
+      onClick: function() { state.testingMode = !state.testingMode; render(); },
+    }, '🎭 Mock');
+
+    var promptBtn = h('button', {
+      className: 'test-btn' + (state.showPrompt ? ' active' : ''),
+      title: 'Show prompt preview without running LLM',
+      onClick: function() { state.showPrompt = !state.showPrompt; state.promptPreview = null; render(); },
+    }, '📋 Prompt');
+
+    var fastBtn = h('button', {
+      className: 'test-btn' + (state.testModel ? ' active' : ''),
+      title: 'Use qwen2.5:7b for fast testing (lower quality)',
+      onClick: function() { state.testModel = !state.testModel; render(); },
+    }, '⚡ Fast');
+
+    var loadBtn = h('button', {
+      className: 'test-btn' + (state.showResponsePicker ? ' active' : ''),
+      title: 'Load a saved response file',
+      onClick: function() {
+        state.showResponsePicker = !state.showResponsePicker;
+        if (state.showResponsePicker && !state.savedResponses) loadSavedResponses();
+        render();
+      },
+    }, '📂 Load');
+
+    testBar.appendChild(mockBtn);
+    testBar.appendChild(promptBtn);
+    testBar.appendChild(fastBtn);
+    testBar.appendChild(loadBtn);
+    panel.appendChild(testBar);
+
+    // ── Response picker ───────────────────────────────────────────────────────
+    if (state.showResponsePicker) {
+      var pickerWrap = h('div', { className: 'response-picker' });
+      if (!state.savedResponses) {
+        pickerWrap.appendChild(h('div', { className: 'scope-queue-empty' }, 'Loading…'));
+      } else if (state.savedResponses.length === 0) {
+        pickerWrap.appendChild(h('div', { className: 'scope-queue-empty' }, 'No saved responses yet.'));
+      } else {
+        state.savedResponses.forEach(function(entry) {
+          var row = h('div', { className: 'response-picker-row' });
+          var info = h('div', { className: 'response-picker-info' });
+          info.appendChild(h('span', { className: 'response-picker-mode' }, entry.mode));
+          info.appendChild(h('span', { className: 'response-picker-ts' }, entry.ts.slice(0, 16).replace('T', ' ')));
+          info.appendChild(h('span', { className: 'response-picker-codes' }, (entry.codes || []).length + ' codes · ' + entry.n_suggestions + ' suggestions'));
+          row.appendChild(info);
+          row.appendChild(h('button', {
+            className: 'btn-xs',
+            onClick: async function() {
+              try {
+                var res  = await fetch(LOG_API + '/docs/load-json?path=' +
+                  encodeURIComponent(ALIGN_CONFIG.scheme_path.replace('codebook.json', 'align-responses/' + entry.filename)));
+                var data = await res.json();
+                loadResponseFile(entry.filename, data);
+              } catch(e) {
+                console.warn('[loadResponse]', e);
+              }
+            },
+          }, 'Load'));
+          pickerWrap.appendChild(row);
+        });
+      }
+      panel.appendChild(pickerWrap);
+    }
 
     // ── Session summary ───────────────────────────────────────────────────────
     const reports = Object.values(state.reports);
@@ -1248,13 +1448,7 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
       if (!report) continue;
       candidateSection.appendChild(buildCandidateItem(report));
     }
-    if (allIds.length === 0 && state.queuePhase === 'idle') {
-      candidateSection.appendChild(h('div', {
-        className: 'loading-bar',
-        onClick: initQueue,
-        style: { cursor: 'pointer' },
-      }, '▶ Click to start overlap analysis'));
-    }
+
     panel.appendChild(candidateSection);
 
     return panel;
@@ -1275,7 +1469,7 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
     });
 
     const chips = h('div', { className: 'candidate-codes' });
-    for (const code of report.codes) chips.appendChild(codeChip(code));
+    for (const code of (report.codes || [])) chips.appendChild(codeChip(code));
     item.appendChild(chips);
 
     const meta = [];
@@ -1323,6 +1517,12 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
     }
 
     const report = state.reports[state.activeReportId];
+    if (!report) { panel.appendChild(buildEmptyState()); return panel; }
+
+    // Ensure required fields exist
+    report.suggestions = report.suggestions || [];
+    report.chat        = report.chat        || [];
+    report.codes       = report.codes       || [];
 
     // Tab bar
     const accepted = report.suggestions.filter(s => s.status === 'accepted').length;
@@ -1379,28 +1579,74 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
   function buildLoadingState(report) {
     const wrap = h('div', { className: 'empty-state' });
     wrap.appendChild(h('span', { className: 'spinner-inline' }));
-    wrap.appendChild(h('p', {}, 'Analysing ' + reportLabel(report.codes) + '…'));
+    const progressLines = (report.progress || 'Initialising…').split('\n');
+    const mainLine = progressLines[0];
+    wrap.appendChild(h('p', { className: 'loading-progress' }, mainLine));
+    progressLines.slice(1).forEach(function(line) {
+      if (line) wrap.appendChild(h('p', { className: 'loading-detail' }, line));
+    });
+    if (report.startedAt) {
+      const elapsed = Math.round((Date.now() - report.startedAt) / 1000);
+      const mins = Math.floor(elapsed / 60);
+      const secs = elapsed % 60;
+      const timeStr = mins > 0 ? mins + 'm ' + secs + 's' : secs + 's';
+      wrap.appendChild(h('p', { className: 'loading-elapsed' }, timeStr + ' elapsed'));
+    }
+    if (report.status === 'running') {
+      setTimeout(function() {
+        const el = document.getElementById('loading-state-' + report.id);
+        if (el && report.status === 'running') {
+          const newState = buildLoadingState(report);
+          newState.id = 'loading-state-' + report.id;
+          el.parentNode && el.parentNode.replaceChild(newState, el);
+        }
+      }, 1000);
+    }
+    wrap.id = 'loading-state-' + report.id;
     return wrap;
   }
 
   // ── Report tab ─────────────────────────────────────────────────────────────
 
   function buildReportTab(report) {
-    const { analysis, suggestions, codes } = report;
+    const analysis    = report.analysis    || null;
+    const suggestions = report.suggestions || [];
+    const codes       = report.codes       || [];
     const wrap = h('div', {});
 
     // Header
     const titleEl = h('div', { className: 'report-title' });
     for (const code of codes) titleEl.appendChild(codeChip(code));
-    const meta = h('div', { className: 'report-meta' },
-      `${codes.length} codes · ${suggestions.length} suggestions`
-    );
+    const meta = h('div', { className: 'report-meta' });
+    meta.appendChild(h('span', {}, `${codes.length} codes · ${suggestions.length} suggestions`));
+    if (report.elapsedMs) {
+      const secs = Math.round(report.elapsedMs / 1000);
+      const mins = Math.floor(secs / 60);
+      const timeStr = mins > 0 ? mins + 'm ' + (secs % 60) + 's' : secs + 's';
+      meta.appendChild(h('span', { className: 'report-elapsed' }, ' · ' + timeStr));
+    }
+    if (report.mode) {
+      meta.appendChild(h('span', { className: 'report-mode-badge' }, report.mode));
+    }
     wrap.appendChild(h('div', { className: 'report-header' }, titleEl, meta));
 
-    if (!analysis) return wrap;
+    if (!analysis && suggestions.length === 0) {
+      // Show prompt preview if available
+      if (state.promptPreview) {
+        var pvWrap = h('div', { className: 'prompt-preview' });
+        pvWrap.appendChild(h('div', { className: 'prompt-preview-label' }, 'Turn 1 — Discovery prompt'));
+        pvWrap.appendChild(h('pre', { className: 'prompt-preview-text' }, state.promptPreview.turn1));
+        if (state.promptPreview.turn2 && state.promptPreview.turn2 !== '(generated after Turn 1)') {
+          pvWrap.appendChild(h('div', { className: 'prompt-preview-label' }, 'Turn 2 — Assessment prompt'));
+          pvWrap.appendChild(h('pre', { className: 'prompt-preview-text' }, state.promptPreview.turn2));
+        }
+        wrap.appendChild(pvWrap);
+      }
+      return wrap;
+    }
 
     // Overview
-    if (analysis.overview) {
+    if (analysis && analysis.overview) {
       const sec = h('div', { className: 'section' },
         h('div', { className: 'section-title' }, 'Overview'),
         h('div', { className: 'analysis-text' }, analysis.overview),
@@ -1409,7 +1655,7 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
     }
 
     // How each code is applied
-    if (analysis.how_applied && Object.keys(analysis.how_applied).length > 0) {
+    if (analysis && analysis.how_applied && Object.keys(analysis.how_applied).length > 0) {
       const sec = h('div', { className: 'section' },
         h('div', { className: 'section-title' }, 'How Each Code Is Applied'),
       );
@@ -1437,64 +1683,120 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
   }
 
   function buildSuggestionCard(s, report) {
-    const card = h('div', { className: `suggestion-card ${s.status !== 'pending' ? s.status : ''}` });
+    const card = h('div', { className: 'suggestion-card' + (s.status !== 'pending' ? ' ' + s.status : '') });
 
-    // Header row
-    const typeEl = h('span', {
-      className: `suggestion-type stype-${s.type.replace(/[^a-z-]/g,'')}`
-    }, s.type);
+    // ── Header: suggestion type + codes ──────────────────────────────────────
+    const header = h('div', { className: 'suggestion-header' });
+    const TYPE_LABELS = {
+      'restructure-subcode':  '↳ restructure',
+      'separate-dimension':   '⊕ separate dimensions',
+      'candidate-category':   '★ candidate category',
+      'document-distinction': '✎ document distinction',
+      'review-application':   '⚑ review application',
+      'merge':                '⊃ merge',
+      'rename':               '✎ rename',
+    };
+    header.appendChild(h('span', {
+      className: 'suggestion-type stype-' + (s.type || '').replace(/[^a-z-]/g, ''),
+    }, TYPE_LABELS[s.type] || s.type || 'suggestion'));
 
-    const descEl = h('div', { className: 'suggestion-desc' }, s.description);
-    card.appendChild(h('div', { className: 'suggestion-header' }, typeEl, descEl));
+    const codesLabel = (s.codes || []).join(' + ');
+    header.appendChild(h('span', { className: 'suggestion-codes' }, codesLabel));
 
-    if (s.rationale) {
-      card.appendChild(h('div', { className: 'suggestion-rationale' }, s.rationale));
-    }
-
-    // Refs
-    if (s.refs && s.refs.length > 0) {
-      const refText = s.refs.map(r =>
-        `${r.doc} L${r.line}` + (r.current_code && r.new_code ? `: ${r.current_code} → ${r.new_code}` : '')
-      ).join('  ·  ');
-      card.appendChild(h('div', { className: 'suggestion-refs' }, refText));
-    }
-
-    // Commands
-    if (s.commands && s.commands.length > 0) {
-      card.appendChild(h('div', { className: 'suggestion-commands' },
-        s.commands.join('\n')
+    if (s.type === 'restructure-subcode' && s.refactor_op) {
+      header.appendChild(h('span', { className: 'suggestion-arrow' },
+        ' → move ' + (s.refactor_op.sources || []).join(', ') + ' under ' + s.refactor_op.target
       ));
+    } else if ((s.type === 'merge' || s.type === 'rename') && s.refactor_op && s.refactor_op.target) {
+      header.appendChild(h('span', { className: 'suggestion-arrow' }, ' → ' + s.refactor_op.target));
+    }
+    card.appendChild(header);
+
+    // ── Evidence: side-by-side excerpts ──────────────────────────────────────
+    const evA = s.evidence_a || [];
+    const evB = s.evidence_b || [];
+    if (evA.length > 0 || evB.length > 0) {
+      const evGrid = h('div', { className: 'sg-evidence-grid' });
+
+      const colA = h('div', { className: 'sg-ev-col' });
+      colA.appendChild(h('div', { className: 'sg-ev-col-label' }, s.codes && s.codes[0] || 'A'));
+      evA.slice(0, 3).forEach(function(e) {
+        colA.appendChild(h('div', { className: 'sg-ev-item' },
+          h('span', { className: 'sg-ev-ref' }, '[' + e.doc + ':' + e.line + '] '),
+          h('span', { className: 'sg-ev-text' }, e.text)
+        ));
+      });
+
+      const colB = h('div', { className: 'sg-ev-col' });
+      colB.appendChild(h('div', { className: 'sg-ev-col-label' }, s.codes && s.codes[1] || 'B'));
+      evB.slice(0, 3).forEach(function(e) {
+        colB.appendChild(h('div', { className: 'sg-ev-item' },
+          h('span', { className: 'sg-ev-ref' }, '[' + e.doc + ':' + e.line + '] '),
+          h('span', { className: 'sg-ev-text' }, e.text)
+        ));
+      });
+
+      evGrid.appendChild(colA);
+      evGrid.appendChild(colB);
+      card.appendChild(evGrid);
     }
 
-    // Actions
+    // ── Reason (minimal LLM text) ─────────────────────────────────────────────
+    if (s.reason) {
+      card.appendChild(h('div', { className: 'suggestion-rationale' }, s.reason));
+    }
+
+    // ── Related codes ─────────────────────────────────────────────────────────
+    if (s.related_codes && s.related_codes.length > 0) {
+      const relWrap = h('div', { className: 'sg-related' });
+      relWrap.appendChild(h('span', { className: 'sg-related-label' }, 'Also consider: '));
+      s.related_codes.forEach(function(rc) {
+        relWrap.appendChild(h('span', { className: 'sg-related-code' }, rc));
+      });
+      card.appendChild(relWrap);
+    }
+
+    // ── Actions ───────────────────────────────────────────────────────────────
     if (s.status === 'pending') {
+      const noteInput = h('input', {
+        type: 'text',
+        className: 'sg-note-input',
+        placeholder: 'Decision note (optional)…',
+      });
       const actions = h('div', { className: 'suggestion-actions' });
       actions.appendChild(h('button', {
         className: 'btn-accept',
-        onClick: () => {
-          s.status = 'accepted';
-          saveLog(report.id);
-          render();
+        onClick: function() {
+          setSuggestionStatus(report.id, s.id, 'accepted', noteInput.value);
         },
       }, '✓ Accept'));
       actions.appendChild(h('button', {
         className: 'btn-reject',
-        onClick: () => {
-          s.status = 'rejected';
-          saveLog(report.id);
-          render();
+        onClick: function() {
+          setSuggestionStatus(report.id, s.id, 'rejected', noteInput.value);
         },
       }, '✗ Reject'));
+      actions.appendChild(h('button', {
+        className: 'btn-defer',
+        onClick: function() {
+          setSuggestionStatus(report.id, s.id, 'deferred', noteInput.value);
+        },
+      }, '⏸ Defer'));
+      card.appendChild(noteInput);
       card.appendChild(actions);
     } else {
-      card.appendChild(h('button', {
+      const statusRow = h('div', { className: 'sg-status-row' });
+      statusRow.appendChild(h('span', { className: 'sg-status-label' }, s.status));
+      if (s.decision_note) statusRow.appendChild(h('span', { className: 'sg-decision-note' }, s.decision_note));
+      statusRow.appendChild(h('button', {
         className: 'btn-undo',
-        onClick: () => {
+        onClick: function() {
           s.status = 'pending';
-          saveLog(report.id);
+          s.decision_note = '';
           render();
         },
-      }, '↩ Undo'));
+      }, '↩'));
+      card.appendChild(statusRow);
     }
 
     return card;
@@ -1792,10 +2094,15 @@ Only include <updated_analysis> when there are genuine revisions to make. Otherw
   // ── Boot ───────────────────────────────────────────────────────────────────
 
   async function boot() {
+    // Restore theme from localStorage
+    try {
+      var saved = localStorage.getItem('qc.scheme.theme');
+      if (saved === 'dark') document.body.classList.add('dark-mode');
+      else document.body.classList.remove('dark-mode');
+    } catch(e) {}
     await loadLogs();
     render();
-    // Kick off the queue automatically
-    initQueue();
+    // initQueue disabled — use Run button in audit palette instead
   }
 
   if (document.getElementById('qc-align-root')) {

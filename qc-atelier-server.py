@@ -259,6 +259,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._refactor_tree()
         elif self.path == "/align/log":
             self._align_log_get()
+        elif self.path.startswith("/align/responses"):
+            self._align_responses_list()
         elif self.path.startswith("/api/"):
             self._proxy("GET", b"")
         else:
@@ -283,6 +285,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._refactor_queue(body)
         elif self.path == "/align/log":
             self._align_log_post(body)
+        elif self.path == "/align/responses/save":
+            self._align_responses_save(body)
         elif self.path.startswith("/api/"):
             self._proxy("POST", body)
         else:
@@ -623,6 +627,47 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             print(f"[{ts}] saved {abs_path}  ({n} documented, {len(overrides)} moves)")
 
             self._json(200, {"ok": True})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
+
+    # ── GET /align/responses ───────────────────────────────────────────────────
+    def _align_responses_list(self):
+        try:
+            responses_dir = SERVE_DIR / "align-responses"
+            responses_dir.mkdir(exist_ok=True)
+            files = sorted(responses_dir.glob("*.json"), reverse=True)
+            entries = []
+            for f in files:
+                try:
+                    data = json.loads(f.read_text())
+                    entries.append({
+                        "filename": f.name,
+                        "ts":       data.get("ts", ""),
+                        "mode":     data.get("mode", ""),
+                        "codes":    data.get("codes", []),
+                        "n_suggestions": len(data.get("suggestions", [])),
+                    })
+                except Exception:
+                    pass
+            self._json(200, {"ok": True, "responses": entries})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
+
+    # ── POST /align/responses/save ─────────────────────────────────────────────
+    def _align_responses_save(self, body):
+        try:
+            payload = json.loads(body)
+            responses_dir = SERVE_DIR / "align-responses"
+            responses_dir.mkdir(exist_ok=True)
+            ts       = datetime.now().strftime("%Y%m%d-%H%M%S")
+            mode     = payload.get("mode", "unknown")
+            filename = f"align_{mode}_{ts}.json"
+            filepath = responses_dir / filename
+            with open(filepath, "w") as f:
+                json.dump(payload, f, ensure_ascii=False, indent=2)
+            ts_log = datetime.now().strftime("%H:%M:%S")
+            print(f"[{ts_log}] align/responses/save: {filename}")
+            self._json(200, {"ok": True, "filename": filename})
         except Exception as e:
             self._json(500, {"error": str(e)})
 

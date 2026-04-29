@@ -1336,3 +1336,31 @@ This establishes `qc-shared.js` as the home for shared runtime JavaScript across
 **Launcher updated.** qc-align card added as active (links to `/qc-align.html`). qc-unfold added as inactive stub. qc-reflect card removed.
 
 **Remaining for qc-align:** Inconsistency, Restructure, Line splitting, and Code propagation audit modes; right panel suggestion display; dryrun + backup mechanism; `qc-align.qmd` creation.
+
+---
+
+### 2026-04-29 — qc-align: focused coding reframing, testing infrastructure, UI overhaul
+
+**Fundamental reframing.** The original overlap prompt asked "should these codes be merged?" — wrong framing for constructivist grounded theory. Co-occurrence is expected and correct in qualitative coding; multiple codes on the same passage capture different analytical dimensions. The correct question, following Charmaz and Saldaña, is: does each code have distinct analytical weight that will contribute to theory-building in focused coding? The prompt and suggestion types were rewritten accordingly.
+
+**Audit mode consolidation.** Six modes (Overlap, Inconsistency, Bloat, Restructure, Line splitting, Code propagation) consolidated to four: Focus (replaces Overlap + Bloat), Consistency, Restructure, Corpus (Line splitting + Code propagation). Sparse and Undocumented were already excluded. Focus and Bloat were asking the same question at different scopes — whether codes are doing distinct analytical work — and were merged. Consistency, Restructure, and Corpus remain stubs pending implementation.
+
+**Two-turn LLM strategy.** Sending full docs for all 934 codes in one prompt exceeded the context window on 32GB unified memory. The two-turn approach: Turn 1 sends a compact tree outline (names + parents only, ~5k tokens) + focal pair docs + excerpts, asks the LLM to identify which other codes are relevant. Turn 2 sends focal pairs + docs for identified codes only (~10-15k tokens), asks for the actual assessment. This gives the LLM genuine system-wide discovery capability without overloading the context window.
+
+**Model configuration.** `qwen3.5:35b` confirmed as the correct model (was incorrectly set to `qwen3:35b`). `num_ctx` set to 49152 — comfortable for two-turn prompts on 32GB. `qwen2.5:7b` used for fast testing.
+
+**Testing infrastructure.** Four controls added below the Run button:
+- Mock mode — bypasses LLM entirely, returns randomised fake suggestions for UI testing
+- Prompt preview — builds and displays Turn 1 prompt without sending to LLM
+- Fast mode — uses `qwen2.5:7b`, caps at 3 pairs
+- Load response — loads a previously saved response file
+
+Successful runs auto-save to `qc/align-responses/align_mode_TIMESTAMP.json`. Server endpoints `GET /align/responses` and `POST /align/responses/save` added.
+
+**Suggestion types.** Removed `merge` and `rename` from Focus mode (belong in qc-refactor after deliberate researcher decision). New types: `restructure-subcode`, `separate-dimension`, `candidate-category`, `document-distinction`, `review-application`.
+
+**Report design decision.** Current card-per-suggestion design rejected — treats suggestions as independent when the audit is holistic. Planned redesign: one report per code pair, structured as: (1) comparison table with LLM-synthesised analytical dimensions, (2) arguments for distinguishing, (3) arguments for restructuring, (4) coding inconsistencies with specific lines to recode, (5) bottom line. Actions (recode, rename, move, merge, document) queued internally within qc-align, not sent directly to qc-refactor.
+
+**UI fixes.** Title corrected to QC Align. LLM badge reflects actual model in use. Light/dark mode toggle added, synced with `qc.scheme.theme` localStorage. Clear + Run combined into single action row. Defer button no longer greyed out. Overlap analysis remnant removed from sidebar.
+
+**Bug fix.** Orphaned `runBloatAudit` fragment (escaped from function body during refactor) caused `ReferenceError: codes is not defined` on boot. Removed. Multiple unguarded accesses to `report.codes`, `report.suggestions`, `report.chat` also fixed.
