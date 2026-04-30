@@ -1364,3 +1364,75 @@ Successful runs auto-save to `qc/align-responses/align_mode_TIMESTAMP.json`. Ser
 **UI fixes.** Title corrected to QC Align. LLM badge reflects actual model in use. Light/dark mode toggle added, synced with `qc.scheme.theme` localStorage. Clear + Run combined into single action row. Defer button no longer greyed out. Overlap analysis remnant removed from sidebar.
 
 **Bug fix.** Orphaned `runBloatAudit` fragment (escaped from function body during refactor) caused `ReferenceError: codes is not defined` on boot. Removed. Multiple unguarded accesses to `report.codes`, `report.suggestions`, `report.chat` also fixed.
+
+---
+
+# 2026-04-30 — qc-reflect rebuild, qc-refactor fixes, GPU cluster
+
+## qc-reflect (complete rebuild from scratch)
+
+Previous qc-align work discarded entirely. qc-reflect rebuilt as a focused analytical tool for code system refinement per Charmaz/Saldaña focused coding methods.
+
+**Purpose:** Give the researcher feedback on their own coding practice — where application diverges from intent, where patterns are inconsistent, where the code system could be more comprehensive. Not about reducing codes but clarifying analytical distinctions.
+
+**Architecture:**
+- `qc-reflect-filter.lua` — bakes CODEBOOK_TREE, CORPUS_INDEX, COOC_DATA, ALL_CODES, DOC_NAMES, REFLECT_CONFIG into HTML
+- `qc-reflect.js` — full JS shell (tree picker, run, auto-detect, prior runs, report renderer)
+- `qc-reflect.css` — styles
+- Server: `POST /reflect/run` (saves JSON + QMD, calls quarto render, returns HTML path), `GET /reflect/reports`
+
+**UI structure:**
+- Left sidebar: full code tree for scope selection, auto-detect button, prior runs list (scrollable)
+- Right panel: report for current run, Generate table button, Open rendered button
+- Topbar: Mock / Prompt testing controls, model badge
+
+**Report structure (structured JSON, not prose):**
+```json
+{
+  "per_code": [{ "name", "summary", "misapplications": [{"doc","line","text","explanation"}] }],
+  "cross_code": {
+    "redundancies": [{"codes","explanation","passages"}],
+    "tensions": [{"codes","explanation","passages"}],
+    "new_codes": [{"name","rationale","scope","passages"}]
+  },
+  "bottom_line": { "assessment", "recommendations": [] }
+}
+```
+
+**Two LLM calls:**
+1. Auto-detect: compact tree + selected code docs → list of related codes to add to selection
+2. Report: full code docs + excerpts → structured JSON report
+
+**QMD output:** Proper Quarto document with callout blocks for misapplications (warning), new code suggestions (tip), tabset per code, collapsed methods note, synthesis table on demand. Rendered via `quarto render` on server, opened in new tab.
+
+**Citation format:** `[DocName:LineNum]` e.g. `[BMazer:125]`
+
+**Auto-detection signals:** co-occurrence, similar names, similar documentation, same branch, cross-branch occurrence.
+
+**Testing controls:** Mock mode (fake structured JSON), Prompt preview (show prompt without running), model badge.
+
+## qc-refactor fixes
+
+**Snapshots panel missing:** Filter had no `#snapshots-view`, `#snapshots-panel`, or `.qr-mode-btn` elements. Added Refactor/Snapshots toggle topbar and snapshots view to filter HTML.
+
+**Changes not reflected in qc-scheme:** After execute, codebook.yaml is updated but qc-scheme.html is a static baked file. Added "Re-render qc-scheme" button to results panel — triggers `POST /refactor/rerender` which calls `quarto render qc-scheme.qmd` on server.
+
+**Deprecate multi-select:** Replaced single-code input with same collapsible tree picker as Move. Each selected code gets its own queue item.
+
+**Server:** Added `/refactor/rerender` endpoint.
+
+## qc-scheme fixes
+
+**Return to HEAD:** Added always-visible context pill to topbar showing current state. When at HEAD: muted "HEAD" label. When snapshot open: snapshot name + "↩ HEAD" button that resets `openedSnapshotDir` and `openedDocsPath` and reloads tree from `/refactor/tree`.
+
+**Bug:** IIFE result not passed as h() argument (missing comma). Fixed.
+
+## GPU cluster setup
+
+Cluster: `132.216.183.78`, GPU 5 on port 11435, `ollama_gpu_5` container.
+SSH tunnel: `ssh -fN -L 11444:localhost:11435 zack@132.216.183.78`
+Config: `ollama.url: http://localhost:11444`, `model: qwen2.5:7b`, `num_ctx: 32768`
+
+Issue: `--restart always` causes container to restart without GPU binding after cluster reboot. Fix: relaunch manually with `docker rm -f ollama_gpu_5 && docker run -d --gpus "device=5" ...`. Script saved as `~/start_ollama.sh` on cluster.
+
+qwen3.5:35b available for production runs (23GB, fits in 24GB VRAM). Switch via config when ready.
