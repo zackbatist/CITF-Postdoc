@@ -261,6 +261,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._align_log_get()
         elif self.path.startswith("/align/responses"):
             self._align_responses_list()
+        elif self.path.startswith("/reflect/reports"):
+            self._reflect_reports_list()
         elif self.path.startswith("/api/"):
             self._proxy("GET", b"")
         else:
@@ -287,6 +289,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._align_log_post(body)
         elif self.path == "/align/responses/save":
             self._align_responses_save(body)
+        elif self.path == "/reflect/run":
+            self._reflect_run(body)
+        elif self.path == "/refactor/rerender":
+            self._refactor_rerender(body)
         elif self.path.startswith("/api/"):
             self._proxy("POST", body)
         else:
@@ -700,8 +706,134 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         except Exception as e:
             self._json(500, {"error": str(e)})
 
+
+
+    # ── POST /refactor/rerender ────────────────────────────────────────────────
+    # Calls quarto render on qc-scheme.qmd so changes from execute are visible.
+    def _refactor_rerender(self, body):
+        import subprocess, shutil
+        try:
+            payload     = json.loads(body)
+            scheme_path = Path(payload.get("scheme_path", ""))
+            # Find qmd file — look for qc-scheme.qmd in project root
+            project_root = str(SERVE_DIR)
+            qmd = Path(project_root) / "qc-scheme.qmd"
+            if not qmd.exists():
+                # Try parent directories
+                for parent in [SERVE_DIR.parent, SERVE_DIR.parent.parent]:
+                    candidate = parent / "qc-scheme.qmd"
+                    if candidate.exists():
+                        qmd = candidate
+                        project_root = str(parent)
+                        break
+            if not qmd.exists():
+                self._json(200, {"ok": False, "error": "qc-scheme.qmd not found"})
+                return
+            quarto_bin = shutil.which("quarto") or "quarto"
+            ts_log = datetime.now().strftime("%H:%M:%S")
+            print(f"[{ts_log}] refactor/rerender: quarto render {qmd}")
+            result = subprocess.run(
+                [quarto_bin, "render", str(qmd)],
+                capture_output=True, text=True, timeout=120,
+                cwd=project_root
+            )
+            if result.returncode == 0:
+                print(f"[{ts_log}] refactor/rerender: OK")
+                self._json(200, {"ok": True})
+            else:
+                print(f"[{ts_log}] refactor/rerender: FAILED — {result.stderr[:200]}")
+                self._json(200, {"ok": False, "error": result.stderr[:500]})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
+
+    # ── GET /reflect/reports ───────────────────────────────────────────────────
+    def _reflect_reports_list(self):
+        try:
+            reports_dir = SERVE_DIR / "reflect-reports"
+            reports_dir.mkdir(exist_ok=True)
+            files = sorted(reports_dir.glob("*.json"), reverse=True)
+            entries = []
+            for f in files:
+                try:
+                    data = json.loads(f.read_text())
+                    entries.append({
+                        "filename":  f.name,
+                        "ts":        data.get("ts", ""),
+                        "codes":     data.get("codes", []),
+                        "label":     data.get("label", ""),
+                    })
+                except Exception:
+                    pass
+            self._json(200, {"ok": True, "reports": entries})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
+
+    # ── POST /reflect/run ──────────────────────────────────────────────────────
+    # Body: { codes, label, report_md, report_json }
+    # Saves JSON + QMD, calls quarto render, returns rendered HTML path.
+    def _reflect_run(self, body):
+        import subprocess, shutil
+        try:
+            payload     = json.loads(body)
+            codes       = payload.get("codes", [])
+            label       = payload.get("label", "")
+            report_md   = payload.get("report_md", "")
+            report_json = payload.get("report_json", {})
+
+            reports_dir = SERVE_DIR / "reflect-reports"
+            reports_dir.mkdir(exist_ok=True)
+
+            ts       = datetime.now().strftime("%Y%m%d-%H%M%S")
+            slug     = label.lower().replace(" ", "-")[:30] if label else "run"
+            basename = f"reflect_{ts}_{slug}"
+
+            # Save JSON
+            json_path = reports_dir / f"{basename}.json"
+            with open(json_path, "w") as f:
+                json.dump({
+                    "ts":    datetime.now().isoformat(),
+                    "codes": codes,
+                    "label": label,
+                    **report_json,
+                }, f, ensure_ascii=False, indent=2)
+
+            # Save QMD
+            qmd_path = reports_dir / f"{basename}.qmd"
+            with open(qmd_path, "w") as f:
+                f.write(report_md)
+
+            ts_log = datetime.now().strftime("%H:%M:%S")
+            print(f"[{ts_log}] reflect/run: saved {basename}")
+
+            # Render with Quarto — output goes alongside the QMD
+            quarto_bin = shutil.which("quarto") or "quarto"
+            html_path  = qmd_path.with_suffix(".html")
+            try:
+                result = subprocess.run(
+                    [quarto_bin, "render", str(qmd_path)],
+                    capture_output=True, text=True, timeout=120,
+                    cwd=str(reports_dir)
+                )
+                if result.returncode != 0:
+                    print(f"[{ts_log}] reflect/run: quarto stderr: {result.stderr[:500]}")
+                    self._json(200, {
+                        "ok": True, "filename": basename,
+                        "rendered": False, "error": result.stderr[:500],
+                    })
+                    return
+                rel_path = html_path.relative_to(SERVE_DIR)
+                self._json(200, {
+                    "ok": True, "filename": basename,
+                    "rendered": True, "html_url": "/" + str(rel_path),
+                })
+            except subprocess.TimeoutExpired:
+                self._json(200, {"ok": True, "filename": basename, "rendered": False, "error": "quarto render timed out"})
+            except FileNotFoundError:
+                self._json(200, {"ok": True, "filename": basename, "rendered": False, "error": "quarto not found in PATH"})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
+
     # ── POST /refactor/queue ────────────────────────────────────────────────────
-    # Pre-populates the refactor queue from qc-align suggestions.
     # Stores pending ops in a sidecar file; qc-refactor reads on load.
     def _refactor_queue(self, body):
         queue_path = SERVE_DIR / "refactor-queue.json"

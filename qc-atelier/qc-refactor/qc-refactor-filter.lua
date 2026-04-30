@@ -148,6 +148,12 @@ local function generate_html()
   html[#html+1] = '</script>'
   html[#html+1] = [[
 <div id="qc-refactor-root">
+
+<div class="qr-topbar">
+  <button class="qr-mode-btn active" data-mode="refactor">Refactor</button>
+  <button class="qr-mode-btn" data-mode="snapshots">Snapshots</button>
+</div>
+
 <div class="app">
 
   <div class="queue-panel">
@@ -196,6 +202,13 @@ local function generate_html()
   </div>
 
 </div>
+
+<div id="snapshots-view" class="hidden">
+  <div class="snap-view-inner">
+    <div id="snapshots-panel"></div>
+  </div>
+</div>
+
 </div>]]
   html[#html+1] = '<script>' .. shared_js .. '</script>'
   html[#html+1] = '<script>' .. js .. '</script>'

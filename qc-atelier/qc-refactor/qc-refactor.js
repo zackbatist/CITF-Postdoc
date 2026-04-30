@@ -554,20 +554,89 @@ function renderOpForm() {
 
   if (type === 'deprecate') {
     form.innerHTML += [
-      '<div class="op-form-row"><label>Code to deprecate</label>',
-      codeInputHTML('deprecate-source', 'select code…', false),
+      '<div class="op-form-row"><label>Codes to deprecate</label>',
+      '<input class="picker-search" id="deprecate-multi-search" placeholder="Search codes…" autocomplete="off">',
+      '<div class="multi-picker-list" id="deprecate-multi-list"></div>',
       '</div>',
       '<p class="form-hint">Sets status to "deprecated" in codebook.json. No qc CLI command is run.</p>',
       '<div id="deprecate-panels"></div>',
     ].join('');
 
-    wireCodeInput('deprecate-source', function(name) {
-      var panels = document.getElementById('deprecate-panels');
-      if (panels) {
-        panels.innerHTML = codePanelHTML(name, 'deprecate-src-panel');
-        wireCodePanel('deprecate-src-panel');
+    if (!state.deprecateSelected) state.deprecateSelected = new Set();
+
+    function renderDeprecateList(query) {
+      var list = document.getElementById('deprecate-multi-list');
+      if (!list) return;
+      var nodes = getTree();
+      query = (query || '').toLowerCase();
+
+      function isVisible(node) {
+        if (query) return node.name.toLowerCase().indexOf(query) >= 0;
+        var cur = node.parent;
+        while (cur) {
+          if (state.pickerCollapsed.has(cur)) return false;
+          var p = nodes.find(function(n) { return n.name === cur; });
+          cur = p ? p.parent : null;
+        }
+        return true;
       }
-    }, false);
+
+      function hasChildren(name) {
+        return nodes.some(function(n) { return n.parent === name; });
+      }
+
+      var shown = nodes.filter(isVisible);
+
+      list.innerHTML = shown.map(function(node) {
+        var checked   = state.deprecateSelected.has(node.name) ? 'checked' : '';
+        var collapsed = state.pickerCollapsed.has(node.name);
+        var children  = hasChildren(node.name);
+        var toggleBtn = (!query && children)
+          ? '<button class="multi-picker-toggle" data-name="' + esc(node.name) + '" tabindex="-1">'
+            + (collapsed ? '▶' : '▼') + '</button>'
+          : '<span class="multi-picker-toggle-placeholder"></span>';
+        var cnt     = corpusCount(node.name);
+        var cntHtml = cnt > 0 ? '<span class="picker-count">' + cnt + '</span>' : '';
+        return '<label class="multi-picker-item" style="padding-left:' + (node.depth * 14 + 4) + 'px">'
+          + toggleBtn
+          + '<input type="checkbox" class="deprecate-picker-cb" data-name="' + esc(node.name) + '" ' + checked + '>'
+          + '<span class="picker-label">' + esc(node.name) + '</span>'
+          + cntHtml
+          + '</label>';
+      }).join('');
+
+      list.querySelectorAll('.multi-picker-toggle').forEach(function(btn) {
+        btn.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+          var name = btn.dataset.name;
+          if (state.pickerCollapsed.has(name)) state.pickerCollapsed.delete(name);
+          else state.pickerCollapsed.add(name);
+          renderDeprecateList(document.getElementById('deprecate-multi-search').value);
+        });
+      });
+
+      list.querySelectorAll('.deprecate-picker-cb').forEach(function(cb) {
+        cb.addEventListener('change', function() {
+          var name = cb.dataset.name;
+          if (cb.checked) {
+            state.deprecateSelected.add(name);
+            var panels = document.getElementById('deprecate-panels');
+            if (panels) {
+              panels.innerHTML = codePanelHTML(name, 'deprecate-src-panel');
+              wireCodePanel('deprecate-src-panel');
+            }
+          } else {
+            state.deprecateSelected.delete(name);
+          }
+        });
+      });
+    }
+
+    renderDeprecateList('');
+
+    document.getElementById('deprecate-multi-search').addEventListener('input', function() {
+      renderDeprecateList(this.value);
+    });
   }
 }
 
@@ -899,9 +968,19 @@ function addOperation() {
   }
 
   if (type === 'deprecate') {
-    var src = (document.getElementById('deprecate-source') || {}).value || '';
-    if (!src) { showFormError('Please select a code to deprecate.'); return; }
-    op = { id: state.nextId++, type: 'deprecate', sources: [src], target: src };
+    var srcs = Array.from(state.deprecateSelected || []);
+    if (srcs.length === 0) { showFormError('Please select at least one code to deprecate.'); return; }
+    // Add one queue item per selected code
+    srcs.forEach(function(src) {
+      var depOp = { id: state.nextId++, type: 'deprecate', sources: [src], target: src };
+      var conflicts = validateQueueConflicts(depOp);
+      if (conflicts.length === 0) state.queue.push(depOp);
+    });
+    state.deprecateSelected = new Set();
+    state.expandedSegs = {};
+    renderQueue();
+    renderForm(type);
+    return;
   }
 
   if (op) {
@@ -1353,7 +1432,13 @@ function renderResults() {
     ? '<div class="result-note">' + esc(state.sessionNote) + '</div>'
     : '';
 
-  panel.innerHTML = noteHtml + state.results.map(function(r) {
+  var allOk = state.results.every(function(r) { return r.ok; });
+  var rerenderBtn = allOk
+    ? '<button class="btn primary rerender-btn" id="btn-rerender" style="margin:12px 0 4px">Re-render qc-scheme</button>'
+      + '<p class="rerender-note">Bakes updated codebook.yaml into qc-scheme.html so changes are visible.</p>'
+    : '';
+
+  panel.innerHTML = noteHtml + rerenderBtn + state.results.map(function(r) {
     return '<div class="result-item ' + (r.ok ? 'ok' : 'err') + '">'
       + '<span class="result-icon">' + (r.ok ? '✓' : '✗') + '</span>'
       + '<div class="result-body">'
@@ -1361,6 +1446,24 @@ function renderResults() {
       + (r.output ? '<div class="result-out">' + esc(r.output) + '</div>' : '')
       + '</div></div>';
   }).join('');
+
+  var rerenderEl = document.getElementById('btn-rerender');
+  if (rerenderEl) {
+    rerenderEl.addEventListener('click', async function() {
+      rerenderEl.disabled = true;
+      rerenderEl.textContent = 'Rendering…';
+      try {
+        var res  = await fetch(API + '/refactor/rerender', { method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ scheme_path: SCHEME_PATH }) });
+        var data = await res.json();
+        rerenderEl.textContent = data.ok ? '✓ Done — reload qc-scheme' : '✗ Failed: ' + (data.error || '');
+        if (data.ok) rerenderEl.style.background = 'var(--green)';
+      } catch(e) {
+        rerenderEl.textContent = '✗ ' + e.message;
+      }
+    });
+  }
 }
 
 // ── Execute row ───────────────────────────────────────────────────────────────
@@ -1492,11 +1595,12 @@ async function executeQueue(summary) {
     // Refresh tree from server so pickers reflect changes without re-render
     await refreshTree();
 
-    state.queue        = [];
-    state.moveSelected = new Set();
-    state.docsEdits    = {};
-    state.expandedSegs = {};
-    state.panelTab     = 'results';
+    state.queue             = [];
+    state.moveSelected      = new Set();
+    state.deprecateSelected = new Set();
+    state.docsEdits         = {};
+    state.expandedSegs      = {};
+    state.panelTab          = 'results';
 
     // Reload docs data so edits are reflected
     await loadDocs();
@@ -1758,10 +1862,11 @@ function renderSnapshots() {
   document.getElementById('btn-add').addEventListener('click', addOperation);
 
   document.getElementById('btn-clear').addEventListener('click', function() {
-    state.queue        = [];
-    state.moveSelected = new Set();
-    state.docsEdits    = {};
-    state.expandedSegs = {};
+    state.queue             = [];
+    state.moveSelected      = new Set();
+    state.deprecateSelected = new Set();
+    state.docsEdits         = {};
+    state.expandedSegs      = {};
     render();
   });
 

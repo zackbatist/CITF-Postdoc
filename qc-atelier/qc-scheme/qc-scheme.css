@@ -96,7 +96,7 @@ body {
 .topbar-history-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
 /* Theme toggle */
-.topbar-theme-toggle {
+.topbar-theme-toggle { margin-left: auto;
   font-size: 14px; padding: 3px 8px; flex-shrink: 0; line-height: 1;
 }
 
@@ -1139,3 +1139,55 @@ body.dark-mode .startup-notice {
 .export-panel-fmts { flex-wrap: wrap; }
 .ep-export-btn:hover:not(:disabled) { background: var(--accent-dim); }
 
+
+/* ── Return to live button in snapshot badge ── */
+.btn-return-live {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: var(--radius);
+  color: #fff;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 600;
+  margin-left: 8px;
+  padding: 2px 8px;
+}
+.btn-return-live:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+/* ── Context pill (HEAD / snapshot) ── */
+.topbar-context-pill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.context-pill-label {
+  font-size: 11px;
+  font-family: var(--mono);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.context-pill-head {
+  background: var(--surface2);
+  color: var(--text-faint);
+}
+.context-pill-snapshot {
+  background: var(--surface2);
+  color: var(--text-faint);
+}
+.btn-return-head {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-faint);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 10px;
+  padding: 2px 8px;
+  margin-left: 6px;
+}
+.btn-return-head:hover { color: var(--text); }

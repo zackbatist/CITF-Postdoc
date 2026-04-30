@@ -75,9 +75,9 @@ server:
 
 # ── Ollama (qc-reflect) ───────────────────────────────────────────────────────
 ollama:
-  url: "http://localhost:11434"
-  model: "qwen3.5:35b"
-  num_ctx: 49152                                        # Context window tokens
+  url: http://localhost:11444
+  model: qwen2.5:7b
+  num_ctx: 32768
 
 # ── qc-reflect candidates ─────────────────────────────────────────────────────
 candidates:

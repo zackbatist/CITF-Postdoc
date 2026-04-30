@@ -1036,19 +1036,26 @@ function buildTopbar() {
       (movedCount?' · '+movedCount+' moved':'')+
       (multiN>1?' · '+multiN+' selected':'')
     ),
-    state.openedSnapshotDir ? (function() {
-      var label = state.openedSnapshotDir.replace(/^codebook_[0-9]{8}-[0-9]{4}-?/, '');
-      var el = h('span', {className:'topbar-snapshot-badge', title: state.openedSnapshotDir});
-      if (label) {
-        el.appendChild(h('strong', {}, label));
-        el.appendChild(document.createTextNode(' '));
-        el.appendChild(h('span', {className:'topbar-snapshot-dirname'}, state.openedSnapshotDir));
+    (function() {
+      var el = h('span', {className: 'topbar-context-pill'});
+      if (state.openedSnapshotDir) {
+        var label = state.openedSnapshotDir.replace(/^codebook_[0-9]{8}-[0-9]{4}-?/, '') || state.openedSnapshotDir;
+        el.appendChild(h('span', {className: 'context-pill-label context-pill-snapshot'}, '📷 ' + label));
+        var returnBtn = h('button', {className: 'btn-return-head'});
+        returnBtn.textContent = '↩ HEAD';
+        returnBtn.addEventListener('click', async function() {
+          state.openedSnapshotDir = '';
+          state.openedDocsPath    = DOCS_CONFIG ? DOCS_CONFIG.scheme_path : '';
+          if (state.snapshotsData) state.snapshotsData.active_dir = null;
+          await refreshTreeFromServer('');
+          render();
+        });
+        el.appendChild(returnBtn);
       } else {
-        el.appendChild(document.createTextNode(state.openedSnapshotDir));
+        el.appendChild(h('span', {className: 'context-pill-label context-pill-head'}, 'HEAD'));
       }
       return el;
-    })() : null,
-    h('div',{className:'topbar-space'}),
+    })(),
     h('button',{
       className:'btn topbar-theme-toggle',
       title: state.lightMode ? 'Switch to dark mode' : 'Switch to light mode',

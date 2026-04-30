@@ -1383,3 +1383,36 @@ body {
 
 .btn-xs { font-size: 10px; padding: 2px 8px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); cursor: pointer; flex-shrink: 0; }
 .btn-xs:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Mode topbar ── */
+.qr-topbar {
+  display: flex;
+  gap: 6px;
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+}
+.qr-mode-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-faint);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 12px;
+  padding: 4px 14px;
+}
+.qr-mode-btn:hover { color: var(--text); border-color: var(--accent); }
+.qr-mode-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ── Snapshots view ── */
+.snap-view-inner {
+  padding: 16px;
+  max-width: 700px;
+}
