@@ -94,14 +94,14 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-969ddfa49e00a70eb3423444dbc81f6c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-23466219e0373acee179e30ca3926690.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-a4be779811feba46f950dec9a8bbfcfc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-23466219e0373acee179e30ca3926690.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-24d53e599ccebd0c929ce112e888a600.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-62060af5809f81ebdb5424225cbf16f3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-24d53e599ccebd0c929ce112e888a600.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -129,8 +129,86 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<script>
+/*
+ * inline-code-interactions.html
+ *
+ * Loaded via _quarto.yml > format > html > include-in-header.
+ * Runs on DOMContentLoaded and does two things:
+ *
+ * 1. CODE BLOCK LANGUAGE BADGES
+ *    Quarto 1.8 places the language identifier on the inner <code> element
+ *    (e.g. class="sourceCode yaml") rather than on the outer div.sourceCode,
+ *    so CSS class selectors like div.sourceCode.yaml never match. This script
+ *    reads the language from the inner element, copies it as a class onto the
+ *    outer div (enabling the CSS accent colour rules in styles.css), and
+ *    prepends a visible <span class="code-lang-badge"> label inside the block.
+ *
+ * 2. COPYABLE INLINE CODE
+ *    Two inline code styles are available in .qmd files via Quarto span syntax:
+ *      [`text`]{.inline-code-light}  — pill shape, lighter visual weight
+ *      [`text`]{.inline-code-heavy}  — box shape, heavier visual weight
+ *    Both are styled in styles.css. This script makes them clickable: clicking
+ *    copies the element's text to the clipboard and briefly adds the .copied
+ *    class, which triggers the bounce animation defined in styles.css.
+ */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // 1. Code block language badges ───────────────────────────────────────────
+  //
+  // For each div.sourceCode, find the inner <code> element, extract the
+  // language class, add it to the outer div, then prepend a badge element.
+  // Styled by .code-lang-badge in styles.css.
+
+  document.querySelectorAll("div.sourceCode").forEach(function (div) {
+    var codeEl = div.querySelector("pre > code[class]");
+    if (!codeEl) return;
+
+    var lang = null;
+    codeEl.classList.forEach(function (cls) {
+      if (cls !== "sourceCode") lang = cls;
+    });
+    if (!lang) return;
+
+    div.classList.add(lang);
+
+    var badge = document.createElement("span");
+    badge.className = "code-lang-badge";
+    badge.textContent = lang;
+    div.insertBefore(badge, div.firstChild);
+  });
+
+  // 2. Copyable inline code ─────────────────────────────────────────────────
+  //
+  // Attach click handlers to both inline code styles. On click, copy the
+  // element's text content to the clipboard, then add .copied to trigger
+  // the CSS bounce animation. Remove .copied once the animation ends.
+
+  var selector = [
+    "code.inline-code-light", "span.inline-code-light",
+    "code.inline-code-heavy", "span.inline-code-heavy"
+  ].join(", ");
+
+  document.querySelectorAll(selector).forEach(function (el) {
+    el.addEventListener("click", function () {
+      var text = (el.querySelector("code") || el).innerText.trim();
+      navigator.clipboard.writeText(text).then(function () {
+        el.classList.add("copied");
+        el.addEventListener("animationend", function handler() {
+          el.classList.remove("copied");
+          el.removeEventListener("animationend", handler);
+        });
+      });
+    });
+  });
 
 
+});
+</script>
+
+
+<link rel="stylesheet" href="../assets/styles/styles.css">
 </head>
 
 <body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -328,13 +406,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Home</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../context.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Context</span></a>
+ <span class="menu-text">CITF-Postdoc</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -343,42 +415,47 @@ div.csl-indent {
  <span class="menu-text">Research Protocol</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Supplementary</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../case-selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Case Selection</span></a>
+  <a href="../theoretical-framework.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Theoretical Framework</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ethics-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ethics Protocol</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../interview-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interview Protocol</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../data-management.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Management</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../qda-protocol.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">QDA Protocol</span></a>
+ <span class="menu-text">Qualitaive Data Analysis Protocol</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../glossary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Glossary</span></a>
-  </div>
-</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../notes.html" class="sidebar-item-text sidebar-link">

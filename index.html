@@ -37,14 +37,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-969ddfa49e00a70eb3423444dbc81f6c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cd7b339b85e20d73b7d3deb32a33ad44.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-51be7156aeed155eb4ed2ca347458d07.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-cd7b339b85e20d73b7d3deb32a33ad44.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-1d9506dc72f88d6849645c8c58b99614.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-7603a3714fbba0a91e7d7db9528a73cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-1d9506dc72f88d6849645c8c58b99614.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -72,8 +72,86 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
+/*
+ * inline-code-interactions.html
+ *
+ * Loaded via _quarto.yml > format > html > include-in-header.
+ * Runs on DOMContentLoaded and does two things:
+ *
+ * 1. CODE BLOCK LANGUAGE BADGES
+ *    Quarto 1.8 places the language identifier on the inner <code> element
+ *    (e.g. class="sourceCode yaml") rather than on the outer div.sourceCode,
+ *    so CSS class selectors like div.sourceCode.yaml never match. This script
+ *    reads the language from the inner element, copies it as a class onto the
+ *    outer div (enabling the CSS accent colour rules in styles.css), and
+ *    prepends a visible <span class="code-lang-badge"> label inside the block.
+ *
+ * 2. COPYABLE INLINE CODE
+ *    Two inline code styles are available in .qmd files via Quarto span syntax:
+ *      [`text`]{.inline-code-light}  — pill shape, lighter visual weight
+ *      [`text`]{.inline-code-heavy}  — box shape, heavier visual weight
+ *    Both are styled in styles.css. This script makes them clickable: clicking
+ *    copies the element's text to the clipboard and briefly adds the .copied
+ *    class, which triggers the bounce animation defined in styles.css.
+ */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // 1. Code block language badges ───────────────────────────────────────────
+  //
+  // For each div.sourceCode, find the inner <code> element, extract the
+  // language class, add it to the outer div, then prepend a badge element.
+  // Styled by .code-lang-badge in styles.css.
+
+  document.querySelectorAll("div.sourceCode").forEach(function (div) {
+    var codeEl = div.querySelector("pre > code[class]");
+    if (!codeEl) return;
+
+    var lang = null;
+    codeEl.classList.forEach(function (cls) {
+      if (cls !== "sourceCode") lang = cls;
+    });
+    if (!lang) return;
+
+    div.classList.add(lang);
+
+    var badge = document.createElement("span");
+    badge.className = "code-lang-badge";
+    badge.textContent = lang;
+    div.insertBefore(badge, div.firstChild);
+  });
+
+  // 2. Copyable inline code ─────────────────────────────────────────────────
+  //
+  // Attach click handlers to both inline code styles. On click, copy the
+  // element's text content to the clipboard, then add .copied to trigger
+  // the CSS bounce animation. Remove .copied once the animation ends.
+
+  var selector = [
+    "code.inline-code-light", "span.inline-code-light",
+    "code.inline-code-heavy", "span.inline-code-heavy"
+  ].join(", ");
+
+  document.querySelectorAll(selector).forEach(function (el) {
+    el.addEventListener("click", function () {
+      var text = (el.querySelector("code") || el).innerText.trim();
+      navigator.clipboard.writeText(text).then(function () {
+        el.classList.add("copied");
+        el.addEventListener("animationend", function handler() {
+          el.classList.remove("copied");
+          el.removeEventListener("animationend", handler);
+        });
+      });
+    });
+  });
 
 
+});
+</script>
+
+
+<link rel="stylesheet" href="assets/styles/styles.css">
 </head>
 
 <body class="nav-sidebar docked fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -247,7 +325,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">CITF-Postdoc</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -271,13 +349,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Home</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./context.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Context</span></a>
+ <span class="menu-text">CITF-Postdoc</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -286,42 +358,47 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Research Protocol</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Supplementary</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./case-selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Case Selection</span></a>
+  <a href="./theoretical-framework.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Theoretical Framework</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ethics-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ethics Protocol</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./interview-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interview Protocol</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./data-management.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Management</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./qda-protocol.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">QDA Protocol</span></a>
+ <span class="menu-text">Qualitaive Data Analysis Protocol</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./glossary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Glossary</span></a>
-  </div>
-</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./notes.html" class="sidebar-item-text sidebar-link">
@@ -381,23 +458,11 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This website serves as a hub for my postdoctoral research at McGill University’s Covid-19 Immunity Task Force Databank.</p>
-<p>The project is concerned with articulating social, collaborative and discursive aspects of epidemiological data-sharing initiatives, and how they relate to, overlap with or conflict with technical, institutional and epistemic factors.</p>
-<p>This website hosts a series of preparatory protocols that structure the project, as well as notes about key concepts and reflections on the progress of work. Please keep in mind that this is a continually evolving site and its contents may change as the project goes on. All content is hosted and tracked at <a href="https://github.com/zackbatist/CITF-Postdoc">github.com/zackbatist/CITF-Postdoc</a>.</p>
-<p>Here’s an overview of what’s on this site:</p>
-<p><strong>Context:</strong> My motivations for doing this work and the circumstances that surround the establishment of the project.</p>
-<p><strong>Research Protocol:</strong> Outlines the project’s overall vision and contextualizes it in relation to specific objectives.</p>
-<p><strong>Case Selection:</strong> Articulates the parameters that inform how cases are selected.</p>
-<p><strong>Ethics Protocol:</strong> Specifies ethical considerations, including risks of harm and strategies for mitigating them.</p>
-<p><strong>Interview Protocol:</strong> The questions I will be asking research participants, including the rationale for asking them.</p>
-<p><strong>Data Management:</strong> Procedures that circumscribe collection, management and curation of research data.</p>
-<p><strong>QDA Protocol:</strong> The code system, memoing guidelines, and specific QDA procedures.</p>
-<p><strong>Glossary:</strong> A series of key terms and their definitions, with reference to the literature and expanded notes about their meanings.</p>
-<p><strong>Notes:</strong> Some semi-structured ideas that situate my work in relation to extant literature.</p>
-<p><strong>Blog:</strong> Weekly updates, reflections on key events, notes on new workflows, and general thoughts I wish to share.</p>
-<p><strong>GitHub:</strong> A link to the GitHub repository where this website’s files are hosted.</p>
-<p><strong>Bib:</strong> A continually-updated biblatex export of my zotero library.</p>
-<p><strong>RSS:</strong> RSS feed for the <a href="./posts.html">blog</a>.</p>
+<p>I am <a href="https://zackbatist.info">Zack Batist</a> — a postdoctoral researcher at McGill University, in the School of Global and Public Health’s Department of Epidemiology, Biostatistics and Occupational Health. I’m working with <a href="https://www.mcgill.ca/epi-biostat-occh/david-buckeridge">David Buckeridge</a>, who leads the <a href="https://databank.citf.mcgill.ca/">Covid-19 Immunity Task Force (CITF) Databank</a>, to investigate data sharing in epidemiological research — with an emphasis on the practical and situated experiences involved in data sharing.</p>
+<p>The CITF is a “data harmonization” initiative, which entails coordinating a systematic effort to align the information contained in datasets collected by distributed teams of epidemiologists. These efforts to integrate the records collected during various discrete studies are motivated by a desire to establish larger integrated datasets bearing greater statistical power and that facilitate comparison across cohorts. However, epidemiologists must reckon with the diversity of minor variations in data collection procedures, as well as ethico-legal concerns relating to the sharing of individual health records pertaining to human research subjects across numerous institutional and regional jurisdictions.</p>
+<p>As a scholar of scientific practice with a primary interest in data-sharing and the formation of information commons, data harmonization represents a fascinating mechanism through which scientists derive technical, administrative, social, and epistemic frameworks to enhance the value of their collective endeavours in response to disciplinary needs, warrants, desires, and expectations. This study therefore articulates the motivations for doing data harmonization, identifies how value is ascertained, and describes the strategies employed to achieve the desired goals — including perceived and actual challenges, setbacks, opportunities, realizations, and lessons learned.</p>
+<p>This relates to my previous work that (a) explores tensions that arise when attempting to establish information commons in archaeology, specifically relating to inability to cope with a superficial perception of data’s stability and an intuitive understanding of their situated nature; and that (b) investigates how the open science movement attempts (and fails) to reshape practices relating to data sharing, integration, and reuse. I continue in my approach that frames data-sharing — whether it occurs in relatively “closed” circumstances between close colleagues, or as mediated by open data platforms among strangers — as comprising a series of collaborative commitments that govern who may contribute to and obtain value from the information commons, and in what ways.</p>
+<p>The project draws from approximately ten semi-structured interviews with people who lead, support, and participate in the CITF Databank’s operations, analyzed using qualitative data analysis methods. This website documents the protocols and analytical frameworks that structure the project, as well as notes on key concepts and ongoing reflections. All content is hosted and tracked at <a href="https://github.com/zackbatist/CITF-Postdoc">github.com/zackbatist/CITF-Postdoc</a>.</p>
 
 
 
@@ -488,9 +553,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("^(?:http:|https:)\/\/zackbatist\.info\/
-^(?:http:|https:)\/\/github\.com\/zackbatist\/
-");
+        var filterRegex = new RegExp("https:\/\/zackbatist\.info\/CITF-Postdoc\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -504,8 +567,6 @@ ul.task-list li input[type="checkbox"] {
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
-            // default icon
-            link.classList.add("external");
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

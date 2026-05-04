@@ -40,14 +40,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-969ddfa49e00a70eb3423444dbc81f6c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-cd7b339b85e20d73b7d3deb32a33ad44.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-51be7156aeed155eb4ed2ca347458d07.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-cd7b339b85e20d73b7d3deb32a33ad44.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-1d9506dc72f88d6849645c8c58b99614.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-7603a3714fbba0a91e7d7db9528a73cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-1d9506dc72f88d6849645c8c58b99614.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -104,6 +104,83 @@ ul.task-list li input[type="checkbox"] {
     }
   })
   </script>
+<script>
+/*
+ * inline-code-interactions.html
+ *
+ * Loaded via _quarto.yml > format > html > include-in-header.
+ * Runs on DOMContentLoaded and does two things:
+ *
+ * 1. CODE BLOCK LANGUAGE BADGES
+ *    Quarto 1.8 places the language identifier on the inner <code> element
+ *    (e.g. class="sourceCode yaml") rather than on the outer div.sourceCode,
+ *    so CSS class selectors like div.sourceCode.yaml never match. This script
+ *    reads the language from the inner element, copies it as a class onto the
+ *    outer div (enabling the CSS accent colour rules in styles.css), and
+ *    prepends a visible <span class="code-lang-badge"> label inside the block.
+ *
+ * 2. COPYABLE INLINE CODE
+ *    Two inline code styles are available in .qmd files via Quarto span syntax:
+ *      [`text`]{.inline-code-light}  — pill shape, lighter visual weight
+ *      [`text`]{.inline-code-heavy}  — box shape, heavier visual weight
+ *    Both are styled in styles.css. This script makes them clickable: clicking
+ *    copies the element's text to the clipboard and briefly adds the .copied
+ *    class, which triggers the bounce animation defined in styles.css.
+ */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // 1. Code block language badges ───────────────────────────────────────────
+  //
+  // For each div.sourceCode, find the inner <code> element, extract the
+  // language class, add it to the outer div, then prepend a badge element.
+  // Styled by .code-lang-badge in styles.css.
+
+  document.querySelectorAll("div.sourceCode").forEach(function (div) {
+    var codeEl = div.querySelector("pre > code[class]");
+    if (!codeEl) return;
+
+    var lang = null;
+    codeEl.classList.forEach(function (cls) {
+      if (cls !== "sourceCode") lang = cls;
+    });
+    if (!lang) return;
+
+    div.classList.add(lang);
+
+    var badge = document.createElement("span");
+    badge.className = "code-lang-badge";
+    badge.textContent = lang;
+    div.insertBefore(badge, div.firstChild);
+  });
+
+  // 2. Copyable inline code ─────────────────────────────────────────────────
+  //
+  // Attach click handlers to both inline code styles. On click, copy the
+  // element's text content to the clipboard, then add .copied to trigger
+  // the CSS bounce animation. Remove .copied once the animation ends.
+
+  var selector = [
+    "code.inline-code-light", "span.inline-code-light",
+    "code.inline-code-heavy", "span.inline-code-heavy"
+  ].join(", ");
+
+  document.querySelectorAll(selector).forEach(function (el) {
+    el.addEventListener("click", function () {
+      var text = (el.querySelector("code") || el).innerText.trim();
+      navigator.clipboard.writeText(text).then(function () {
+        el.classList.add("copied");
+        el.addEventListener("animationend", function handler() {
+          el.classList.remove("copied");
+          el.removeEventListener("animationend", handler);
+        });
+      });
+    });
+  });
+
+
+});
+</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -135,6 +212,7 @@ window.Quarto = {
 };
 </script>
 
+<link rel="stylesheet" href="assets/styles/styles.css">
 </head>
 
 <body class="nav-sidebar docked fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -332,13 +410,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Home</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./context.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Context</span></a>
+ <span class="menu-text">CITF-Postdoc</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -347,42 +419,47 @@ window.Quarto = {
  <span class="menu-text">Research Protocol</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Supplementary</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./case-selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Case Selection</span></a>
+  <a href="./theoretical-framework.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Theoretical Framework</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ethics-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Ethics Protocol</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./interview-protocol.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Interview Protocol</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./data-management.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Management</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./qda-protocol.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">QDA Protocol</span></a>
+ <span class="menu-text">Qualitaive Data Analysis Protocol</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./glossary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Glossary</span></a>
-  </div>
-</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./notes.html" class="sidebar-item-text sidebar-link active">
@@ -469,9 +546,22 @@ Categories
 </thead>
 <tbody class="list">
 
-<tr data-index="0" data-listing-date-sort="1743048000000" data-listing-file-modified-sort="1747060006495" data-listing-date-modified-sort="1775534400000" data-listing-reading-time-sort="16" data-listing-word-count-sort="3001" data-listing-title-sort="Cataloguing" data-listing-filename-sort="cataloguing.qmd">
+<tr data-index="0" data-categories="Y2FzZXMlMkNicmFpbnN0b3JtaW5n" data-listing-date-sort="1736830800000" data-listing-file-modified-sort="1777921991983" data-listing-date-modified-sort="1777921991000" data-listing-reading-time-sort="3" data-listing-word-count-sort="590" data-listing-title-sort="Potential cases" data-listing-filename-sort="potential-cases.qmd">
 <td>
-<span class="listing-date-modified">Apr 7, 2026</span>
+<span class="listing-date-modified">May 4, 2026</span>
+</td>
+<td>
+<a href="./notes/potential-cases.html" class="title listing-title">Potential cases</a>
+</td>
+<td>
+<span class="listing-categories">cases, brainstorming</span>
+</td>
+
+</tr>
+
+<tr data-index="1" data-listing-date-sort="1743048000000" data-listing-file-modified-sort="1747060006495" data-listing-date-modified-sort="1777867200000" data-listing-reading-time-sort="16" data-listing-word-count-sort="3001" data-listing-title-sort="Cataloguing" data-listing-filename-sort="cataloguing.qmd">
+<td>
+<span class="listing-date-modified">May 4, 2026</span>
 </td>
 <td>
 <a href="./notes/cataloguing.html" class="title listing-title">Cataloguing</a>
@@ -482,9 +572,9 @@ Categories
 
 </tr>
 
-<tr data-index="1" data-categories="cmVhZGluZy1ub3Rlcw==" data-listing-date-sort="1743048000000" data-listing-file-modified-sort="1743525867582" data-listing-date-modified-sort="1775534400000" data-listing-reading-time-sort="3" data-listing-word-count-sort="443" data-listing-title-sort="Other research about harmonization" data-listing-filename-sort="critical-research-about-harmonization.qmd">
+<tr data-index="2" data-categories="cmVhZGluZy1ub3Rlcw==" data-listing-date-sort="1743048000000" data-listing-file-modified-sort="1743525867582" data-listing-date-modified-sort="1777867200000" data-listing-reading-time-sort="3" data-listing-word-count-sort="443" data-listing-title-sort="Other research about harmonization" data-listing-filename-sort="critical-research-about-harmonization.qmd">
 <td>
-<span class="listing-date-modified">Apr 7, 2026</span>
+<span class="listing-date-modified">May 4, 2026</span>
 </td>
 <td>
 <a href="./notes/critical-research-about-harmonization.html" class="title listing-title">Other research about harmonization</a>
@@ -495,7 +585,7 @@ Categories
 
 </tr>
 
-<tr data-index="2" data-categories="cmVhZGluZyUyQ2dlbmVyYWwlMjB0aG91Z2h0cw==" data-listing-date-sort="1744862400000" data-listing-file-modified-sort="1747059992863" data-listing-date-modified-sort="1747059992000" data-listing-reading-time-sort="3" data-listing-word-count-sort="438" data-listing-title-sort="QDA Software" data-listing-filename-sort="caqdas.qmd">
+<tr data-index="3" data-categories="cmVhZGluZyUyQ2dlbmVyYWwlMjB0aG91Z2h0cw==" data-listing-date-sort="1744862400000" data-listing-file-modified-sort="1747059992863" data-listing-date-modified-sort="1747059992000" data-listing-reading-time-sort="3" data-listing-word-count-sort="438" data-listing-title-sort="QDA Software" data-listing-filename-sort="caqdas.qmd">
 <td>
 <span class="listing-date-modified">May 12, 2025</span>
 </td>
@@ -508,7 +598,7 @@ Categories
 
 </tr>
 
-<tr data-index="3" data-categories="cmVhZGluZyUyQ2dlbmVyYWwlMjB0aG91Z2h0cw==" data-listing-date-sort="1736744400000" data-listing-file-modified-sort="1744924514447" data-listing-date-modified-sort="1744924514000" data-listing-reading-time-sort="93" data-listing-word-count-sort="18407" data-listing-title-sort="Methodology notes" data-listing-filename-sort="methodology-notes.qmd">
+<tr data-index="4" data-categories="cmVhZGluZyUyQ2dlbmVyYWwlMjB0aG91Z2h0cw==" data-listing-date-sort="1736744400000" data-listing-file-modified-sort="1744924514447" data-listing-date-modified-sort="1744924514000" data-listing-reading-time-sort="93" data-listing-word-count-sort="18407" data-listing-title-sort="Methodology notes" data-listing-filename-sort="methodology-notes.qmd">
 <td>
 <span class="listing-date-modified">Apr 17, 2025</span>
 </td>
@@ -521,7 +611,7 @@ Categories
 
 </tr>
 
-<tr data-index="4" data-categories="cmVhZGluZw==" data-listing-date-sort="1742875200000" data-listing-file-modified-sort="1744924055725" data-listing-date-modified-sort="1744924055000" data-listing-reading-time-sort="6" data-listing-word-count-sort="1089" data-listing-title-sort="Tricks of the Trade" data-listing-filename-sort="tricks-of-the-trade.qmd">
+<tr data-index="5" data-categories="cmVhZGluZw==" data-listing-date-sort="1742875200000" data-listing-file-modified-sort="1744924055725" data-listing-date-modified-sort="1744924055000" data-listing-reading-time-sort="6" data-listing-word-count-sort="1089" data-listing-title-sort="Tricks of the Trade" data-listing-filename-sort="tricks-of-the-trade.qmd">
 <td>
 <span class="listing-date-modified">Apr 17, 2025</span>
 </td>
@@ -534,7 +624,7 @@ Categories
 
 </tr>
 
-<tr data-index="5" data-categories="cmVhZGluZyUyQ2dlbmVyYWwlMjB0aG91Z2h0cw==" data-listing-date-sort="1744862400000" data-listing-file-modified-sort="1744920384589" data-listing-date-modified-sort="1744920384000" data-listing-reading-time-sort="3" data-listing-word-count-sort="567" data-listing-title-sort="Theory-building" data-listing-filename-sort="theory-building.qmd">
+<tr data-index="6" data-categories="cmVhZGluZyUyQ2dlbmVyYWwlMjB0aG91Z2h0cw==" data-listing-date-sort="1744862400000" data-listing-file-modified-sort="1744920384589" data-listing-date-modified-sort="1744920384000" data-listing-reading-time-sort="3" data-listing-word-count-sort="567" data-listing-title-sort="Theory-building" data-listing-filename-sort="theory-building.qmd">
 <td>
 <span class="listing-date-modified">Apr 17, 2025</span>
 </td>
@@ -547,7 +637,7 @@ Categories
 
 </tr>
 
-<tr data-index="6" data-categories="cmVhZGluZyUyQ2dlbmVyYWwlMjB0aG91Z2h0cw==" data-listing-date-sort="1744862400000" data-listing-file-modified-sort="1744920363923" data-listing-date-modified-sort="1744920363000" data-listing-reading-time-sort="5" data-listing-word-count-sort="960" data-listing-title-sort="Theoretical sampling" data-listing-filename-sort="theoretical-sampling.qmd">
+<tr data-index="7" data-categories="cmVhZGluZyUyQ2dlbmVyYWwlMjB0aG91Z2h0cw==" data-listing-date-sort="1744862400000" data-listing-file-modified-sort="1744920363923" data-listing-date-modified-sort="1744920363000" data-listing-reading-time-sort="5" data-listing-word-count-sort="960" data-listing-title-sort="Theoretical sampling" data-listing-filename-sort="theoretical-sampling.qmd">
 <td>
 <span class="listing-date-modified">Apr 17, 2025</span>
 </td>
@@ -560,7 +650,7 @@ Categories
 
 </tr>
 
-<tr data-index="7" data-categories="c2l0dWF0aW9uYWwlMjBhbmFseXNpcyUyQ1FEQSUyMG1ldGhvZHMlMkNyZWFkaW5n" data-listing-date-sort="1741150800000" data-listing-file-modified-sort="1742936565841" data-listing-date-modified-sort="1742936565000" data-listing-reading-time-sort="31" data-listing-word-count-sort="6074" data-listing-title-sort="Situational analysis" data-listing-filename-sort="situational-analysis.qmd">
+<tr data-index="8" data-categories="c2l0dWF0aW9uYWwlMjBhbmFseXNpcyUyQ1FEQSUyMG1ldGhvZHMlMkNyZWFkaW5n" data-listing-date-sort="1741150800000" data-listing-file-modified-sort="1742936565841" data-listing-date-modified-sort="1742936565000" data-listing-reading-time-sort="31" data-listing-word-count-sort="6074" data-listing-title-sort="Situational analysis" data-listing-filename-sort="situational-analysis.qmd">
 <td>
 <span class="listing-date-modified">Mar 25, 2025</span>
 </td>
@@ -573,7 +663,7 @@ Categories
 
 </tr>
 
-<tr data-index="8" data-categories="UURBJTIwbWV0aG9kcyUyQ2NvZGluZyUyQ3JlYWRpbmc=" data-listing-date-sort="1740459600000" data-listing-file-modified-sort="1742846858561" data-listing-date-modified-sort="1742846858000" data-listing-reading-time-sort="20" data-listing-word-count-sort="3909" data-listing-title-sort="Coding methods" data-listing-filename-sort="coding-methods.qmd">
+<tr data-index="9" data-categories="UURBJTIwbWV0aG9kcyUyQ2NvZGluZyUyQ3JlYWRpbmc=" data-listing-date-sort="1740459600000" data-listing-file-modified-sort="1742846858561" data-listing-date-modified-sort="1742846858000" data-listing-reading-time-sort="20" data-listing-word-count-sort="3909" data-listing-title-sort="Coding methods" data-listing-filename-sort="coding-methods.qmd">
 <td>
 <span class="listing-date-modified">Mar 24, 2025</span>
 </td>
@@ -586,7 +676,7 @@ Categories
 
 </tr>
 
-<tr data-index="9" data-categories="cmVhZGluZw==" data-listing-date-sort="1736226000000" data-listing-file-modified-sort="1742846858561" data-listing-date-modified-sort="1742846858000" data-listing-reading-time-sort="31" data-listing-word-count-sort="6139" data-listing-title-sort="Maelstrom reading notes" data-listing-filename-sort="maelstrom-readings.qmd">
+<tr data-index="10" data-categories="cmVhZGluZw==" data-listing-date-sort="1736226000000" data-listing-file-modified-sort="1742846858561" data-listing-date-modified-sort="1742846858000" data-listing-reading-time-sort="31" data-listing-word-count-sort="6139" data-listing-title-sort="Maelstrom reading notes" data-listing-filename-sort="maelstrom-readings.qmd">
 <td>
 <span class="listing-date-modified">Mar 24, 2025</span>
 </td>
@@ -595,19 +685,6 @@ Categories
 </td>
 <td>
 <span class="listing-categories">reading</span>
-</td>
-
-</tr>
-
-<tr data-index="10" data-categories="Y2FzZXMlMkNicmFpbnN0b3JtaW5n" data-listing-date-sort="1736830800000" data-listing-file-modified-sort="1742846858562" data-listing-date-modified-sort="1742846858000" data-listing-reading-time-sort="4" data-listing-word-count-sort="608" data-listing-title-sort="Potential cases" data-listing-filename-sort="potential-cases.qmd">
-<td>
-<span class="listing-date-modified">Mar 24, 2025</span>
-</td>
-<td>
-<a href="./notes/potential-cases.html" class="title listing-title">Potential cases</a>
-</td>
-<td>
-<span class="listing-categories">cases, brainstorming</span>
 </td>
 
 </tr>
@@ -702,9 +779,7 @@ Categories
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("^(?:http:|https:)\/\/zackbatist\.info\/
-^(?:http:|https:)\/\/github\.com\/zackbatist\/
-");
+        var filterRegex = new RegExp("https:\/\/zackbatist\.info\/CITF-Postdoc\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -718,8 +793,6 @@ Categories
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
-            // default icon
-            link.classList.add("external");
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {

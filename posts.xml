@@ -10,7 +10,601 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Fri, 03 Apr 2026 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 04 May 2026 19:33:50 GMT</lastBuildDate>
+<item>
+  <title>Technical specs for this website</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/tech-specs.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>I’m using this website as a way to help organize and share key documents and resources. The research protocols are in flux at this stage in the project’s development, and this will make it easier to distribute up-to-date drafts with partners, while simultaneously enhancing transparency.</p>
+<p>This post outlines the technical specifications for this website and outlines a roadmap for its further development. It will therefore be continually updated as the site evolves.</p>
+<section id="fundamentals" class="level2">
+<h2 class="anchored" data-anchor-id="fundamentals">Fundamentals</h2>
+<p>This website is based on <a href="https://quarto.org/">Quarto</a>, a platform for writing and publishing scientific and technical writing. I had used quarto before but without fully understanding it, and now I am starting to see its elegance.</p>
+<p>I had started off using Hugo, but there were too many limitations that Quarto was able to accomodate. You can find an older version of this post reflecting that setup here: <a href="https://github.com/zackbatist/CITF-Postdoc/commit/2346852df7224ca18eff65c0f34335cc6245a78a">#2346852</a>.</p>
+<p>The site is hosted on GitHub Pages. The repo is located at <a href="https://github.com/zackbatist/CITF-Postdoc">https://github.com/zackbatist/CITF-Postdoc</a>.</p>
+</section>
+<section id="generating-pdfs" class="level2">
+<h2 class="anchored" data-anchor-id="generating-pdfs">Generating PDFs</h2>
+<p>As an avid user, one thing I really like about Quarto is the ability to generate PDFs alongside html versions served over the web. I started tinkering with includes but I need to review how Quarto passes info from YAML frontmatter. It is not at all straightforward and I will need to experiment a bit more with this to get the hang of it.</p>
+</section>
+<section id="archiving-and-version-control" class="level2">
+<h2 class="anchored" data-anchor-id="archiving-and-version-control">Archiving and Version Control</h2>
+<p>Every change is tracked using git. I would also like to archive each research protocol in Zenodo once they reach a point of stability. This would ensure that they ca be aassigned DOIs and detailed metadata, which will make them easier to reference.</p>
+<p>However, I do not want to rely on Zenodo’s GitHub integration for two reasons: (1) I want this to be as platform-agnostic as possible, and (2) that system relies on GitHub’s release system which operates on the level of the whole repository rather than specific files.</p>
+<p>I might be able to write a custom CI workflow to archive specific files to Zenodo using their API. But, I want to be able to toggle this option, rather than have it occur for every single detected change. Maybe I can accomplish this by pushing the changes that I want to archive to a dedicated branch that the CI workflow is configured to operate on. Or it might be easier to simply do this manually, since I’m not sure I will be using it that often anyway.</p>
+</section>
+<section id="git-submodules" class="level2">
+<h2 class="anchored" data-anchor-id="git-submodules">Git Submodules</h2>
+<p>Since I’m dealing with potentially sensitive information, including recordings, transcripts and notes deriving from interviews that participants may opt to keep confidential, I need to isolate those files so they remain private and secure. To accomplish this, I will set up private git repos on the MCHI-administered GitLab instance and integrate them into my main project repository (hosted on GitHub, and hence less secure) as submodules. I will then configure my quarto rendering options to ignore any subdirectories deemed sensitive enough to not share publicly (which may not include everything in the submodule). I intend to follow <a href="https://www.taniarascia.com/git-submodules-private-content/">this guide written by Tania Rascia</a> to pull this off.</p>
+<p>Just as a quick reminder of the procedure for committing and syncing changes, based on my testing:</p>
+<ol type="1">
+<li>Make changes to files in the submodule.</li>
+<li>Commit and sync those changes to the remote submodule.</li>
+<li>Obtain a record of those changes from the remote submodule:
+<ul>
+<li><span class="inline-code-heavy"><code>git submodule update --remote</code></span></li>
+<li>This can be verified using <code>git status</code>; changes should be indicated as <code>(new commits)</code>.</li>
+</ul></li>
+<li>Commit the record of commits to the main repo’s remote.</li>
+</ol>
+</section>
+<section id="qc" class="level2">
+<h2 class="anchored" data-anchor-id="qc">qc</h2>
+<p>I’m using <a href="https://qualitative-coding.readthedocs.io/en/latest/index.html">qc</a>, a novel qualitative data analysis tool designed for computational thinking. It’s a command line tool that makes QDA compatible with <a href="https://plain-text.co/">textfile based social science workflows</a>, which more-or-less aligns with my overall approach. qc also plays nice with my plan to isolate potentially sensitive information on a private git submodule, and is loosely compatible with my strategy for posting memos and research outputs publicly via this website.</p>
+<p>I’m also communicating with its maintainer, Chris Proctor, who is an education researcher and computer scientist based at SUNY Buffalo. This is the perfect combination for this kind of work since he specializes in instilling computational literacies, he has the technical chops to actually develop this system, and most of all: qualitative data analysis is the bread and butter of education research, so he is developing from an informed perspective. I really like what I see so far, and I’m eager to collect data of my own so that I can maximize the full potential that this system affords. I will write another post about my experiences once I have more to report.</p>
+<section id="installing-qc" class="level3">
+<h3 class="anchored" data-anchor-id="installing-qc">Installing qc</h3>
+<p>I had a bit of a hard time installing qc using the recommended method (using <code>pipx install qualitative-coding</code>) due to NumPy and spaCy dependency issues, so I had to install from source. First I created a virtual environment:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">python3.12</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-m</span> venv qc</span>
+<span id="cb1-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">source</span> qc/bin/activate</span></code></pre></div></div>
+<p>I then downloaded the source code from the <a href="https://github.com/cproctor/qualitative-coding">GitHub repo</a> and installed it within the virtual environment:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">pip</span> install qualitative-coding-main.zip</span></code></pre></div></div>
+<p>Then <code>cd</code> into the directory and initialize a qc project:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">cd</span> qc</span>
+<span id="cb3-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">qc</span> init</span></code></pre></div></div>
+<p>I applied some custom settings because I’m using Codium instead of VSCode. These basically replace the editor that’s called up when I use the <code>code</code> command.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">codebook</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> codebook.yaml</span></span>
+<span id="cb4-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">corpus_dir</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> corpus</span></span>
+<span id="cb4-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">database</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> qualitative_coding.sqlite3</span></span>
+<span id="cb4-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">log_file</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> qualitative_coding.log</span></span>
+<span id="cb4-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">memos_dir</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> memos</span></span>
+<span id="cb4-6"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">qc_version</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.7.3</span></span>
+<span id="cb4-7"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">verbose</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">true</span></span>
+<span id="cb4-8"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">editor</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> codium</span></span>
+<span id="cb4-9"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">editors</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb4-10"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">codium</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span></span>
+<span id="cb4-11"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">name</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> Codium</span></span>
+<span id="cb4-12"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">code_command</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'codium "{corpus_file_path}" "{codes_file_path}" --wait'</span></span>
+<span id="cb4-13"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">memo_command</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">:</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;"> </span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></pre></div></div>
+<p>I also set <code>verbose: true</code> to help troubleshoot any issues that might come up and reduce my dependence on Chris.</p>
+<p>Regarding the submodule, there is a conflict with how the qc directory had to be generated. I needed to create the qc directory using <code>venv</code>, but I also had to create it by pulling it down from the GitLab server. So I had to create the virtual environment, exit the environment, rename the directory to a placeholder name, pull down the fresh submodule, commit and push the new submodule to the parent git repository, and then copy over all the contents from the placeholder directory into the submodule (and then commit changes and push). Not really a major issue, but a minor incompatibility in the workflow that’s worth noting.</p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>website</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/tech-specs.html</guid>
+  <pubDate>Mon, 04 May 2026 19:33:50 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W18)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W18.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Worked on qc-reflect</li>
+<li>Worked on the emails analysis paper</li>
+<li>Worked on the marker paper</li>
+<li>Documenting codes</li>
+</ul>
+<section id="meetings" class="level2">
+<h2 class="anchored" data-anchor-id="meetings">Meetings</h2>
+<ul>
+<li>x Sadun
+<ul>
+<li>Address changes made in the marker paper draft</li>
+</ul></li>
+<li>x Melissa
+<ul>
+<li>x Resolve comments I made in the draft</li>
+<li>x Brainstorm ideas for figures</li>
+<li>x Draft a conclusion</li>
+</ul></li>
+<li>x CITF
+<ul>
+<li>Revisions to the marker paper</li>
+<li>Revisions to the emails topic modelling paper</li>
+<li>Coding activities</li>
+<li>Working in qc-reflect</li>
+<li>Got access to the GPU cluster</li>
+</ul></li>
+</ul>
+</section>
+<section id="todo" class="level2">
+<h2 class="anchored" data-anchor-id="todo">TODO</h2>
+<ul>
+<li>Marker paper
+<ul>
+<li>List of published papers supplement</li>
+</ul></li>
+<li>Emails analysis
+<ul>
+<li>Implement Melissa’s revisions</li>
+<li>Resolve all remaining comments</li>
+<li>Put the code in the Quarto documents</li>
+<li>Share final draft with the whole team</li>
+<li>Submit final draft to the journal: https://link.springer.com/journal/12911</li>
+<li>Get network data and start playing around with it</li>
+</ul></li>
+<li>Postdoc main
+<ul>
+<li>Documenting 30_Activities</li>
+<li>Get in touch with new interviewee</li>
+<li>x Get in touch with Giancarlo Guizzardi</li>
+<li>Get in touch with Chris Proctor</li>
+</ul></li>
+</ul>
+<section id="qc-atelier" class="level3">
+<h3 class="anchored" data-anchor-id="qc-atelier">qc-atelier</h3>
+<section id="maintenance" class="level4">
+<h4 class="anchored" data-anchor-id="maintenance">Maintenance</h4>
+<ul>
+<li>Update the look and feel of qc-viz to be in line with the other utilities.</li>
+<li>Develop qc-trace as a tool for observing changes and getting a sense of the history and flow of the codebook. It’s a diagnostic tool, not a dashboard.</li>
+<li>Develop qc-align for line splitting and other similar tasks.</li>
+</ul>
+</section>
+</section>
+<section id="bibvik" class="level3">
+<h3 class="anchored" data-anchor-id="bibvik">BibVik</h3>
+<ul>
+<li>Verifications:
+<ul>
+<li>OCR
+<ul>
+<li>Use a reproducible OCR method</li>
+</ul></li>
+<li>Translations to English</li>
+<li>Accuracy of reference capture</li>
+<li>De-duplication</li>
+</ul></li>
+<li>Improvements
+<ul>
+<li>Track paragraph number</li>
+<li>Track page number</li>
+<li>Track section titles</li>
+<li>Detect author affiliations for citing works</li>
+<li>Detect author affiliations for cited works</li>
+<li>No character limit for enriched mode</li>
+<li>Resolve Un-Paywall not running</li>
+<li>Make the command line logs more legible</li>
+</ul></li>
+<li>Annotations
+<ul>
+<li>Add sixth and more authors as independent columns</li>
+</ul></li>
+<li>Analysis
+<ul>
+<li>Smush primary and secondary topics/methods/sources</li>
+<li>Smush order of authors</li>
+<li>Compare whether findings are similar or different when smushing all authors</li>
+<li>Identify genders of single-author works</li>
+</ul></li>
+<li>Relevant papers
+<ul>
+<li>https://doi.org/10.1017/aaq.2021.64</li>
+<li>https://doi.org/10.1017/aaq.2023.36</li>
+<li>https://doi.org/10.1080/00934690.2023.2261083</li>
+</ul></li>
+<li>Other ideas
+<ul>
+<li>Compare Espen’s annotations with an LLM-based iteration</li>
+</ul></li>
+</ul>
+</section>
+<section id="other" class="level3">
+<h3 class="anchored" data-anchor-id="other">Other</h3>
+<ul>
+<li><p>Update CITF-Postdoc website</p></li>
+<li><p>Make a Quarto template based on my CV</p></li>
+<li><p>York-RSCL</p>
+<ul>
+<li>x Emphasize community-driven initiatives over bibliometric research, alongside DORA stuff.</li>
+<li>x Emphasize BibVik’s concern with equity and visibility, rather than just the methods.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="this-weekend" class="level2">
+<h2 class="anchored" data-anchor-id="this-weekend">This weekend</h2>
+<ul>
+<li>Reading for Shirin</li>
+<li>York-RSCL</li>
+</ul>
+</section>
+<section id="next-week" class="level2">
+<h2 class="anchored" data-anchor-id="next-week">Next week</h2>
+<ul>
+<li>Code documentation</li>
+<li>Work on qc-reflect</li>
+<li>Marker paper revisions</li>
+<li>Emails analysis revisions</li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W18.html</guid>
+  <pubDate>Fri, 01 May 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W17)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W17.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="meetings" class="level2">
+<h2 class="anchored" data-anchor-id="meetings">Meetings</h2>
+<ul>
+<li>x David
+<ul>
+<li>Recap of Norway trip</li>
+<li>Progress update on code documentation:
+<ul>
+<li>Starting with low-hanging fruit
+<ul>
+<li>Removing orphaned codes</li>
+<li>Merging duplicates</li>
+<li>Moving top-level codes under their respective branches</li>
+</ul></li>
+<li>Started documenting organizations and roles</li>
+<li>Next is documenting activities</li>
+<li>Then thinking more carefully about taxonomy for more abstract codes, i.e.&nbsp;kinds of data, kinds of work, etc</li>
+<li>Also thinking ahead for LLM-assisted coding:
+<ul>
+<li>Asked a local model to identify definitive statements based on their grammar, as a starting point for identifying figurations, i.e.&nbsp;statements about how things are and ought to be done.</li>
+<li>Ability to break up long responses covering multiple topics along “natural” breaking points.</li>
+</ul></li>
+</ul></li>
+<li>CITF-emails
+<ul>
+<li>We now have a very solid draft, available at [URL]</li>
+<li>My turn to look for additional pathways to explore this dataset, and brainstorm alternative ways of visualizing the data</li>
+<li>I also need to write the conclusion</li>
+<li>Submit before June 1 for APC discount</li>
+<li>Three papers are now in that collection; seems like a grab-bag</li>
+</ul></li>
+<li>NOTE: Better journal for the emails paper: https://link.springer.com/journal/12911</li>
+<li>NOTE: Have not forgotten plan to look at data complexity as a meaningful factor</li>
+<li>NOTE: David approves of my submission to CRIHN</li>
+<li>NOTE: Regarding CITF-emails drafting, people will just annotate the PDF and I will implement changes manually</li>
+<li>NOTE: Next steps for the emails analysis paper
+<ul>
+<li>Zack to identify new strands of analysis</li>
+<li>Zack to write the conclusion</li>
+<li>Zack to brainstorm new figures</li>
+<li>Zack share with the team, and they give feedback</li>
+<li>Submit the paper by June 1</li>
+</ul></li>
+</ul></li>
+<li>x CITF
+<ul>
+<li>Making a lot of progress on cleaning up the code system for my interviews</li>
+<li>Working with Melissa on the emails analysis paper:
+<ul>
+<li>Share the link: https://zackbatist.info/CITF-emails/topic-modelling/</li>
+<li>Melissa overhauled the visuals and wrote up the findings and methods</li>
+<li>I’ve gone through it and made some minor corrections, and some suggestions for what to do next</li>
+<li>The goal is to have it submitted by June 1, which means distributing a draft to you and the other collaborators by early May</li>
+<li>Then we can move onto the next phase, which is a network analysis, and possibly also an analysis that accounts for the impact of data complexity</li>
+</ul></li>
+<li>Gave feedback on the marker paper:
+<ul>
+<li>I did a bit of restructuring, sorry if it was too intense</li>
+<li>I saw that Sadun went in and added subheadings that correspond with some of the changes</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="todo" class="level2">
+<h2 class="anchored" data-anchor-id="todo">TODO</h2>
+<ul>
+<li>Resolve marker paper feedback</li>
+<li>Review Melissa’s codebase</li>
+</ul>
+<section id="qc-atelier" class="level3">
+<h3 class="anchored" data-anchor-id="qc-atelier">qc-atelier</h3>
+<section id="maintenance" class="level4">
+<h4 class="anchored" data-anchor-id="maintenance">Maintenance</h4>
+<ul>
+<li>Update the look and feel of qc-viz to be in line with the other utilities.</li>
+<li>x Resolve missing export button on qc-scheme.</li>
+<li>x Clean up the entire codebase. Make everything streamlined, more elegant, more efficient, more professional. Find bugs and potential issues and propose a docket of resolutions.</li>
+<li>x BUG: Data entered into fields in qc-scheme is not read when switching over to qc-refactor, unless a snapshot is saved first. When that does happen, switching back to qc-scheme does not allow me to save another snapshot (the button us greyed out and says “Saving…”). It would probably be best to ensure that autosaves are kept as the version of record, and snapshots are merely kept in a way that resembles publishable archives or reports, rather than as working documents. This way, the forking concept could be dismissed entirely, and replaced with a workflow involved revising saved snapshot states. At the same time, the rationale behind each snapshot needs to be properly embedded in the yaml, json and md outputs, timestamps need to be preserved as a key and unchangeable aspect of the file name, and an optional descriptive name needs to be append-able to the timestamp component. So, similar to before, a directory would be called codebook_20260419-1952[-optional-key-phrase]. Implement feedback in the user interface when saves happen by flashing a notification indicating that a snapshot was created and giving its name, and include this event in the overarching qc-atelier log. Ordinary auto-saved should also be kept in the overarching log, but I suppose they can’t have summaries.</li>
+</ul>
+</section>
+<section id="qc-refactor" class="level4">
+<h4 class="anchored" data-anchor-id="qc-refactor">qc-refactor</h4>
+<ul>
+<li>x The script generation is nonsense, use the qc CLI.</li>
+<li>x Corpus impact is basically non-existent.</li>
+<li>x Need to include descriptions of each of the documentation fields.</li>
+<li>x Need to be able to edit things that have been added to the queue.</li>
+<li>Need ways to load specific snapshots and to save snapshots.</li>
+<li>I also want to implement some kind of autocomplete system. For instance, if I type “@” this will be a signal that I’m referring to a code and the autocomplete should activate. Do not keep the @ in the code’s name.</li>
+</ul>
+</section>
+<section id="qc-reflect" class="level4">
+<h4 class="anchored" data-anchor-id="qc-reflect">qc-reflect</h4>
+<ul>
+<li>Build qc-reflect following these specifications. It is intended as a tool to help me consolidate and expand the code system. It differs from the other tools in that it reads the corpus files and the specific codings to derive suggestions, and perhaps even enter dialog with the user, regarding how to handle overlaps and lacunae. It draws from the documentation generated from other aspects of qc-atelier (especially qc-scheme), which provides information regarding codes intended meanings and uses, which may not necessarily be reflected in how they are applied. This tool also relates to the outcomes of qc-refactor in that qc-refactor may be conceived as an initial tidying up phase, where some initial reflection is occurring, which is then passed into a more comprehensive toolchain that enables more in-depth consideration. Whereas qc-refactor squares things away, and qc-scheme reifies those new boundaries, qc-reflect prompts greater reflection on the nature of those boundaries and on their actual application.</li>
+<li>While I have engaged with the corpus relatively sporadically over the better part of the last year, and my engagement with the data has been rather inconsistent. On the other hand, the LLM that is the main engine of qc-reflect is able to see the whole corpus, code system, and application of the code system to the corpus from a structural perspective. qc-reflect is therefore meant to serve as a context-aware rubber duck; it should draw from knowledge of the method and theory underlying qualitative coding and analysis, ability to project and present the user with information regarding potential practical outcomes of specific decisions and actions, and its awareness of the actual data that forms the corpus.</li>
+<li>Some specific features should also include:
+<ul>
+<li>Ability to suggest points of interviews that could be split apart. It is very common for someone to talk at length about different topics in what is presented as one very long line. Since coding occurs line by line, a series of codes may in reality apply to different sections of the same line. The LLM should therefore assist with breaking those lines at appropriate boundaries, while preserving proper formatting and data integrity.</li>
+<li>The system should suggest codes that already exist, propose new codes that do not yet exist (along with documentation), and propose removing, re-naming or merging codes. All suggestions should account for the nested nature of the code system and the relationships between codes.</li>
+<li>Suggestions should not be merely technical, but theoretical, thematic and thoughtful.</li>
+</ul></li>
+<li>Perhaps as a separate utility, I would like to implement some synthesis and data optimization tools:
+<ul>
+<li>Draft mini biographies and relationships based on identification of people’s names throughout the corpus. Do something similar for organizations.</li>
+<li>Draw explicit associations between speaker names and coded individuals.</li>
+<li>Generate summaries along several axes (paragraph; corpus document; branch of the code system; individual or groups of codes; suggest additional axes).</li>
+<li>Identify figuration statements, and classify them as positive or negative, or according to some other scheme. Figuration statements should be easy to identify using a language model because they are typically one-off statements, usually in the form of a definitive statement or opinion.</li>
+<li>Proposing nested structures for the code system, along with rationales behind these suggestions.</li>
+</ul></li>
+<li>All decisions and actions should be summarized and logged. This is an exercise in transparent thinking, after all; a way of externally representing my thought processes.</li>
+<li>This should all be as efficient as possible while relying on local models. Suggest optimal models for these tasks and optimal ways of streamlining the ways data and contextual information are handled.</li>
+<li>Ensure that all of this folds in nicely with existing aspects of qc-atelier, including data structures, processes, concepts, nomenclature, design principles, user interface, and user experience.</li>
+<li>Develop and output a structured plan of action, and a concrete series of technical specifications, to guide this work.</li>
+<li>As work progresses, be sure to document all decisions and actions, as well as rationalizations behind them, in a granular log.</li>
+</ul>
+</section>
+<section id="qc-trace" class="level4">
+<h4 class="anchored" data-anchor-id="qc-trace">qc-trace</h4>
+<ul>
+<li>Develop qc-trace as a tool for observing changes and getting a sense of the history and flow of the codebook. It’s a diagnostic tool, not a dashboard.</li>
+</ul>
+</section>
+</section>
+<section id="bibvik" class="level3">
+<h3 class="anchored" data-anchor-id="bibvik">BibVik</h3>
+<ul>
+<li>Verifications:
+<ul>
+<li>OCR
+<ul>
+<li>Use a reproducible OCR method</li>
+</ul></li>
+<li>Translations to English</li>
+<li>Accuracy of reference capture</li>
+<li>De-duplication</li>
+</ul></li>
+<li>Improvements
+<ul>
+<li>Track paragraph number</li>
+<li>Track page number</li>
+<li>Track section titles</li>
+<li>Detect author affiliations for citing works</li>
+<li>Detect author affiliations for cited works</li>
+<li>No character limit for enriched mode</li>
+<li>Resolve Un-Paywall not running</li>
+<li>Make the command line logs more legible</li>
+</ul></li>
+<li>Annotations
+<ul>
+<li>Add sixth and more authors as independent columns</li>
+</ul></li>
+<li>Analysis
+<ul>
+<li>Smush primary and secondary topics/methods/sources</li>
+<li>Smush order of authors</li>
+<li>Compare whether findings are similar or different when smushing all authors</li>
+<li>Identify genders of single-author works</li>
+</ul></li>
+<li>Relevant papers
+<ul>
+<li>https://doi.org/10.1017/aaq.2021.64</li>
+<li>https://doi.org/10.1017/aaq.2023.36</li>
+<li>https://doi.org/10.1080/00934690.2023.2261083</li>
+</ul></li>
+<li>Other ideas
+<ul>
+<li>Compare Espen’s annotations with an LLM-based iteration</li>
+</ul></li>
+</ul>
+</section>
+<section id="other" class="level3">
+<h3 class="anchored" data-anchor-id="other">Other</h3>
+<ul>
+<li><p>Update CITF-Postdoc website</p></li>
+<li><p>Make a Quarto template based on my CV</p></li>
+<li><p>York-RSCL</p>
+<ul>
+<li>x Emphasize community-driven initiatives over bibliometric research, alongside DORA stuff.</li>
+<li>x Emphasize BibVik’s concern with equity and visibility, rather than just the methods.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="this-weekend" class="level2">
+<h2 class="anchored" data-anchor-id="this-weekend">This weekend</h2>
+<ul>
+<li>Reading for Shirin</li>
+</ul>
+</section>
+<section id="next-week" class="level2">
+<h2 class="anchored" data-anchor-id="next-week">Next week</h2>
+<ul>
+<li>Meet with Sadun regarding the marker paper</li>
+<li>Revisions to the emails analysis paper</li>
+<li>Documenting 30_Activities</li>
+<li>Get in touch with new interviewee</li>
+<li>Get in touch with Giancarlo Guizzardi</li>
+<li>Get in touch with Chris Proctor</li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W17.html</guid>
+  <pubDate>Fri, 24 Apr 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W15)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W15.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Finished bringing codes into qc</li>
+<li>Looked at the CITF-DB marker paper again (but minimal actual contributions this time)</li>
+</ul>
+<p>I’m on my way to Oslo for a workshop I’m co-organizing: <a href="https://zackbatist.info/BibVik/workshop.html">Citational Politics and Practices in Viking Age Archaeology and Beyond</a>. I’ll be off my main CITF work throughout next week.</p>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W15.html</guid>
+  <pubDate>Fri, 10 Apr 2026 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2026-W14)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W14.html</link>
@@ -393,105 +987,6 @@
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W46.html</guid>
   <pubDate>Fri, 14 Nov 2025 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W45)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W45.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Got the ball rolling on the emails analysis</li>
-<li>Progress update with David</li>
-<li>Qualitative coding</li>
-<li>Some work on qc-viz (slow debug mode, at my claude token limit)</li>
-<li>Followed up with prospective interviewees</li>
-<li>Participated in Global Health Night</li>
-<li>Before- and after-hours work on side projects</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W45.html</guid>
-  <pubDate>Fri, 07 Nov 2025 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W44)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W44.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Held a guest lecture for a colleague’s Digital Curation class.</li>
-<li>Led a meeting ti align the emails analysis, and developed a solid initial strategy to get the ball rolling.</li>
-<li>Invited additional interview participants.</li>
-<li>Worked on qc-viz, which is now nearly complete.</li>
-<li>Gave feedback for a friend’s job applications.</li>
-<li>Postdoc gala.</li>
-<li>Fall cleaning.</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W44.html</guid>
-  <pubDate>Fri, 31 Oct 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W43)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W43.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Finished transcribing the last interview and wrote reflexive memos about it too</li>
-<li>Worked on qc-viz (the lua filter)</li>
-<li>Developed the PG protocol</li>
-<li>Progress on my guest lecture for a Digital Curation class next week</li>
-<li>Side project stuff</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W43.html</guid>
-  <pubDate>Fri, 24 Oct 2025 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W42)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W42.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Held another interview.</li>
-<li>Worked on the PG protocol.</li>
-<li>Started vibe-coding a better interface for visual exploration of codings.</li>
-<li>Worked on my presentation for a guest lecture in a colleague’s class.</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W42.html</guid>
-  <pubDate>Fri, 17 Oct 2025 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

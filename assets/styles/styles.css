@@ -1,0 +1,255 @@
+/* ── Corpus display ─────────────────────────────────────────────────────── */
+
+.corpus-container {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    border: 1px solid var(--color-border, #ccc);
+}
+
+.corpus-header {
+    font-weight: bold;
+    padding: 8px;
+    background-color: var(--color-header-bg, #f0f0f0);
+    border-bottom: 1px solid var(--color-border, #ccc);
+    border-right: 1px solid var(--color-border, #ccc);
+}
+
+.corpus-row {
+    display: contents;
+}
+
+.corpus-text, .corpus-codes {
+    padding: 8px;
+    border-bottom: 1px solid var(--color-border-light, #eee);
+    overflow-x: auto;
+}
+
+.corpus-text pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0;
+}
+
+.corpus-codes {
+    border-left: 1px solid var(--color-border, #ccc);
+}
+
+.code-tag {
+    display: inline-block;
+    background-color: rgba(136, 135, 128, 0.15);
+    border: 0.5px solid rgba(136, 135, 128, 0.4);
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin: 2px;
+    font-size: 0.8em;
+}
+
+.uncoded-row .corpus-text {
+    background-color: var(--color-uncoded-bg, #f7f7f7);
+}
+
+/* ── Typography ──────────────────────────────────────────────────────────── */
+
+h2 {
+    border-bottom: 0.5px solid var(--bs-border-color, rgba(0,0,0,0.15));
+    padding-bottom: 0.35rem;
+    margin-bottom: 0.9rem;
+}
+
+/* ── Inline code — base (bare backtick, no class) ───────────────────────── */
+
+p code:not([class]),
+li code:not([class]),
+td code:not([class]) {
+    background: rgba(136, 135, 128, 0.13);
+    border: 0.5px solid rgba(136, 135, 128, 0.35);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 0.85em;
+    color: inherit;
+}
+
+/* ── Inline code — copyable styles ──────────────────────────────────────── */
+/*
+   Two visual styles, both copyable on click.
+   Usage: [`text`]{.inline-code-light} or [`text`]{.inline-code-heavy}
+   Quarto renders these as <span class="inline-code-light"><code>text</code></span>.
+   The inner <code> is stripped of all styling so only the outer span shows.
+*/
+
+@keyframes inline-copy-bounce {
+    0%   { border-color: rgba(136, 135, 128, 0.55); background: rgba(136, 135, 128, 0.22); }
+    40%  { border-color: rgba(136, 135, 128, 0.85); background: rgba(136, 135, 128, 0.32); }
+    70%  { border-color: rgba(136, 135, 128, 0.45); background: rgba(136, 135, 128, 0.16); }
+    100% { border-color: rgba(136, 135, 128, 0.55); background: rgba(136, 135, 128, 0.22); }
+}
+
+/* Light — pill shape */
+span.inline-code-light,
+code.inline-code-light {
+    display: inline-block;
+    background: rgba(136, 135, 128, 0.13);
+    border: 1.5px solid rgba(136, 135, 128, 0.55);
+    border-radius: 100px;
+    padding: 1px 8px;
+    font-family: var(--bs-font-monospace, monospace);
+    font-size: 0.85em;
+    color: inherit;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.1s, border-color 0.1s;
+}
+
+span.inline-code-light:hover,
+code.inline-code-light:hover {
+    background: rgba(136, 135, 128, 0.2);
+    border-color: rgba(136, 135, 128, 0.7);
+}
+
+span.inline-code-light.copied,
+code.inline-code-light.copied {
+    animation: inline-copy-bounce 0.4s ease-out;
+}
+
+/* Heavy — box shape, stronger visual weight */
+span.inline-code-heavy,
+code.inline-code-heavy {
+    display: inline-block;
+    background: rgba(136, 135, 128, 0.18);
+    border: 1.5px solid rgba(136, 135, 128, 0.7);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-family: var(--bs-font-monospace, monospace);
+    font-size: 0.85em;
+    color: inherit;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.1s, border-color 0.1s;
+}
+
+span.inline-code-heavy:hover,
+code.inline-code-heavy:hover {
+    background: rgba(136, 135, 128, 0.28);
+    border-color: rgba(136, 135, 128, 0.9);
+}
+
+span.inline-code-heavy.copied,
+code.inline-code-heavy.copied {
+    animation: inline-copy-bounce 0.4s ease-out;
+}
+
+/* Strip styling from inner <code> inside either span variant */
+span.inline-code-light > code,
+span.inline-code-heavy > code {
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    font-size: inherit;
+    pointer-events: none;
+}
+
+/* ── Code blocks — left accent + language badge ─────────────────────────── */
+
+div.sourceCode {
+    position: relative;
+    background: rgba(136, 135, 128, 0.08);
+    border-left: 3px solid rgba(136, 135, 128, 0.5);
+    border-radius: 0 6px 6px 0;
+    margin: 1.2rem 0;
+}
+
+/* Language badge — injected by inline-code-interactions.html */
+.code-lang-badge {
+    display: block;
+    font-family: var(--bs-font-sans-serif, sans-serif);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.45;
+    padding: 0.5rem 0 0.25rem 0.75rem;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Copy button — hide Quarto's icon, show plain text */
+button.code-copy-button {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.5rem;
+    font-size: 11px;
+    font-family: var(--bs-font-sans-serif, sans-serif);
+    background: rgba(136, 135, 128, 0.15);
+    border: 0.5px solid rgba(136, 135, 128, 0.4);
+    border-radius: 4px;
+    padding: 2px 8px;
+    color: inherit;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+button.code-copy-button:hover {
+    opacity: 1;
+    background: rgba(136, 135, 128, 0.25);
+}
+
+button.code-copy-button i,
+button.code-copy-button .bi {
+    display: none !important;
+}
+
+button.code-copy-button::after {
+    content: "copy";
+}
+
+/* Language-specific accents */
+div.sourceCode.bash,
+div.sourceCode.sh,
+div.sourceCode.shell {
+    border-left-color: #1D9E75;
+    background: rgba(29, 158, 117, 0.06);
+}
+
+div.sourceCode.yaml,
+div.sourceCode.yml {
+    border-left-color: #378ADD;
+    background: rgba(55, 138, 221, 0.06);
+}
+
+div.sourceCode.python,
+div.sourceCode.py {
+    border-left-color: #534AB7;
+    background: rgba(83, 74, 183, 0.06);
+}
+
+/* ── Margin notes ────────────────────────────────────────────────────────── */
+
+.column-margin, .margin-caption {
+    font-size: 0.8rem;
+    line-height: 1.65;
+    color: var(--bs-secondary-color, #6c757d);
+    border-left: 2px solid rgba(136, 135, 128, 0.35);
+    padding-left: 0.6rem;
+}
+
+.column-margin code:not([class]) {
+    font-size: 0.82em;
+}
+
+/* Hide Bootstrap tooltip triggered by copy button */
+.tooltip {
+    display: none !important;
+}
+
+.sidebar-item.active .sidebar-item-text {
+    font-weight: 500;
+}
+
+.sidebar-section .sidebar-section-item {
+    font-size: 0.72rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
