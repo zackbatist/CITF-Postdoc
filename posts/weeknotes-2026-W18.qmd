@@ -1,0 +1,102 @@
+---
+title: Week notes (2026-W18)
+date: 2026-05-01
+date-modified: today
+categories:
+  - week notes
+---
+
+- Worked on qc-reflect
+- Worked on the emails analysis paper
+- Worked on the marker paper
+- Documenting codes
+
+## Meetings
+- x Sadun
+  - Address changes made in the marker paper draft
+- x Melissa
+  - x Resolve comments I made in the draft
+  - x Brainstorm ideas for figures
+  - x Draft a conclusion
+- x CITF
+  - Revisions to the marker paper
+  - Revisions to the emails topic modelling paper
+  - Coding activities
+  - Working in qc-reflect
+  - Got access to the GPU cluster
+
+## TODO
+- Marker paper
+  - List of published papers supplement
+- Emails analysis
+  - Implement Melissa's revisions
+  - Resolve all remaining comments
+  - Put the code in the Quarto documents
+  - Share final draft with the whole team
+  - Submit final draft to the journal: https://link.springer.com/journal/12911
+  - Get network data and start playing around with it
+- Postdoc main
+  - Documenting 30_Activities
+  - Get in touch with new interviewee
+  - x Get in touch with Giancarlo Guizzardi
+  - Get in touch with Chris Proctor
+
+### qc-atelier
+#### Maintenance
+- Update the look and feel of qc-viz to be in line with the other utilities.
+- Develop qc-trace as a tool for observing changes and getting a sense of the history and flow of the codebook. It's a diagnostic tool, not a dashboard.
+- Develop qc-align for line splitting and other similar tasks.
+
+### BibVik
+- Verifications:
+  - OCR
+    - Use a reproducible OCR method
+  - Translations to English
+  - Accuracy of reference capture
+  - De-duplication
+
+- Improvements
+  - Track paragraph number
+  - Track page number
+  - Track section titles
+  - Detect author affiliations for citing works
+  - Detect author affiliations for cited works
+  - No character limit for enriched mode
+  - Resolve Un-Paywall not running
+  - Make the command line logs more legible
+
+- Annotations
+  - Add sixth and more authors as independent columns
+
+- Analysis
+  - Smush primary and secondary topics/methods/sources
+  - Smush order of authors
+  - Compare whether findings are similar or different when smushing all authors
+  - Identify genders of single-author works
+
+- Relevant papers
+  - https://doi.org/10.1017/aaq.2021.64
+  - https://doi.org/10.1017/aaq.2023.36
+  - https://doi.org/10.1080/00934690.2023.2261083
+
+- Other ideas
+  - Compare Espen's annotations with an LLM-based iteration
+
+### Other
+- Update CITF-Postdoc website
+- Make a Quarto template based on my CV
+
+- York-RSCL
+  - x Emphasize community-driven initiatives over bibliometric research, alongside DORA stuff.
+  - x Emphasize BibVik's concern with equity and visibility, rather than just the methods.
+
+## This weekend
+- Reading for Shirin
+- York-RSCL
+
+## Next week
+- Code documentation
+- Work on qc-reflect
+- Marker paper revisions
+- Emails analysis revisions
+
