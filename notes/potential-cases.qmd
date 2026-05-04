@@ -12,8 +12,6 @@ categories:
 Isabel Fortier came up with a shortlist based on consultations to help determine which Maelstrom partner projects may serve as potential cases.
 We then met on 2025-02-04, when, among other topics, we discussed the shortlist.
 
-See the [case selection protocol](../case-selection.qmd) for further details on the parameters that guide how cases are to be determined.
-
 ## Possible candidates
 ### CITF
 

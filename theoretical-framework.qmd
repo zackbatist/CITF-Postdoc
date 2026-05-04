@@ -1,0 +1,28 @@
+---
+title: "Theoretical Framework"
+bibliography: CITF-Postdoc.bib
+---
+
+This page elaborates the theoretical and methodological frameworks that inform this study, with particular attention to the grounded theory tradition and how this project positions itself within it. The overview of the study's broader approach — situated cognition, information commons, communities of practice — is described in the [research protocol](research-protocol.qmd).
+
+## Grounded Theory and Its Variants
+
+The study follows an abductive qualitative data analysis (QDA) methodology to construct theories founded upon empirical evidence, which relates to, but is distinct from, grounded theory. Grounded theory consists of a series of systematic yet flexible guidelines for deriving theory from data through continuous and reiterative engagement with evidence [@charmaz2014, 1]. The approach taken for this study draws from what @charmaz2014 [14-15] calls the "constellation of methods" associated with grounded theory that are helpful for making sense of qualitative data. However, it differs from grounded theory as it is traditionally conceived in that I came to the project with well-defined theoretical goals and did not make a concerted effort to allow the theory to emerge through the analytical process.
+
+Proponents of a more open-ended or improvised approach, as grounded theory was originally applied, argue that researchers should be free to generate theories in accordance with their own creative insights and their intimate engagements with the evidence. We can evaluate the quality of such work in terms of the dialogical commitments between researchers and their subjects, and between researchers and those who read their work [@glaser1967, 230-233]. Others view grounded theory more as a means of clarifying and articulating phenomena that lie below the surface of observable social experiences [@strauss1990; @kelle2005]. Proponents of this approach are very concerned with ensuring that concepts, themes and theories are truly represented in and limited by the data, and therefore prioritize adherence to systematic validation criteria to ensure the soundness of their claims.
+
+Two related views, known as constructivist grounded theory and situational analysis, most resemble the approach taken for this study [@charmaz2014; @clarke2018]. Both of these methodological frameworks recognize that it is impossible to initiate a project without already holding ideas regarding the phenomena of interest, and that the ways that one ascribes meanings to the data represent already established mindsets or conceptual frameworks. Moreover, they emphasize that knowledge outcomes are co-constituted through partnerships between researchers and study participants, and therefore encourage reflection on the researcher's standpoint as they pursue an abductive approach rooted in their own preconceptions [@mills2006].
+
+## Realist and Constructivist Viewpoints
+
+In constructing the arguments of this study and in carrying out the interviews that ground it, I rely upon both realist and constructivist viewpoints. In one sense, the study relies on documenting how people actually act, including the longer-term and collaborative implications that their actions may have on other work occurring throughout the continuum of practice. To accomplish this, I identify research activities from the perspective of an outside observer, and ascribe meanings to things — such as physical or conceptual tools, or objects that captivate subjects' interests — in ways that conform to my own perspective as an investigator of scientific research practices.
+
+On the other hand, a constructionist perspective enables me to consider how individual agents make components of information systems suit their needs to facilitate communication or interoperability among actors who hold different situated perspectives. By listening to participants' views about the systems with which they engage, including explanations as to why they act in the ways that they do, I am able to trace the assumptions and taken-for-granted behaviours that frame their perspectives. Moreover, these insights are useful for developing a better understanding of how participants identify with particular disciplinary communities and their perception of their roles within broader collective efforts.
+
+## Human Agency and the Social Order of Science
+
+Ultimately, this study is about the social order of scientific research — the frameworks, mindsets, and sets of values that humans adopt to carry out their work in specific ways. The study emphasizes the agency of human drivers — as opposed to tools and procedures — since humans are the ones who (a) identify problems that need to be resolved; (b) imagine, project, or predict potential outcomes of various kinds of actions that they may select to resolve the challenges; and (c) learn from prior experiences and change their behaviours accordingly.[^1] By highlighting how pragmatic actions are conducted in relation to broader social and discursive trends and tendencies, the study considers scholarly practices in terms of potential, certainty, and desire from the perspectives of practitioners themselves.
+
+[^1]: Human and non-human agents are considered on equal footing under the Actor-Network Theory (ANT) framework, which has become very popular since its origins in the late 1980s, but which may not be suitable for this approach. See [my extended note](https://zackbatist.info/notes/limits-of-ant) on this for further details.
+
+## References

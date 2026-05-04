@@ -1,10 +1,128 @@
 /*-- scss:defaults --*/
+
 // Base document colors
-$body-bg: #222529;
+$body-bg:    #222529;
+$body-color: #DDE6ED;
+$link-color: #9DB2BF;
+
+// Sidebar
 $sidebar-bg: #454b53;
-$body-color: #9DB2BF;
-$link-color: #DDE6ED;
-$text-color: #DDE6ED;
 
 // Code blocks
 $code-block-bg-alpha: -.8;
+
+/*-- scss:rules --*/
+
+// Sidebar background and active state
+.sidebar-navigation {
+    background-color: $sidebar-bg;
+}
+
+.sidebar-item.active > .sidebar-item-text {
+    color: #DDE6ED;
+    font-weight: 500;
+}
+
+.sidebar-section .sidebar-section-item {
+    color: rgba(157, 178, 191, 0.55) !important;
+}
+
+// Navbar and footer
+.navbar, .nav-footer {
+    background-color: $body-bg !important;
+    color: $body-color;
+}
+
+// Margin notes
+.column-margin, .margin-caption {
+    color: rgba(157, 178, 191, 0.8);
+    border-left-color: rgba(157, 178, 191, 0.25);
+}
+
+// Inline code — neutral, inherits body colour in dark mode
+p code:not([class]),
+li code:not([class]),
+td code:not([class]),
+code.inline-code-light,
+span.inline-code-light,
+code.inline-code-heavy, .inline-code-heavy > code {
+    background: rgba(157, 178, 191, 0.1);
+    border-color: rgba(157, 178, 191, 0.25);
+    color: $body-color;
+}
+
+// Nested code inside .tool span — no border in dark mode
+span.inline-code-light > code {
+    background: none;
+    border: none;
+    color: inherit;
+}
+
+// Code blocks — adjust accent colours for dark background
+div.sourceCode {
+    background: rgba(157, 178, 191, 0.06);
+    border-left-color: rgba(157, 178, 191, 0.4);
+}
+
+div.sourceCode.bash,
+div.sourceCode.sh,
+div.sourceCode.shell {
+    border-left-color: #5DCAA5;
+    background: rgba(93, 202, 165, 0.07);
+}
+
+div.sourceCode.yaml,
+div.sourceCode.yml {
+    border-left-color: #85B7EB;
+    background: rgba(133, 183, 235, 0.07);
+}
+
+div.sourceCode.python,
+div.sourceCode.py {
+    border-left-color: #AFA9EC;
+    background: rgba(175, 169, 236, 0.07);
+}
+
+// Copy button in dark mode
+.code-copy-button {
+    background: rgba(157, 178, 191, 0.12);
+    border-color: rgba(157, 178, 191, 0.25);
+    color: $body-color;
+}
+
+.code-copy-button:hover {
+    background: rgba(157, 178, 191, 0.22);
+}
+
+// h2 hairline rule in dark mode
+h2 {
+    border-bottom-color: rgba(157, 178, 191, 0.2);
+}
+
+// Corpus tags in dark mode
+.code-tag {
+    background-color: rgba(157, 178, 191, 0.12);
+    border-color: rgba(157, 178, 191, 0.25);
+    color: $body-color;
+}
+
+.corpus-container {
+    border-color: rgba(157, 178, 191, 0.2);
+}
+
+.corpus-header {
+    background-color: rgba(157, 178, 191, 0.08);
+    border-color: rgba(157, 178, 191, 0.2);
+}
+
+.corpus-text, .corpus-codes {
+    border-color: rgba(157, 178, 191, 0.12);
+}
+
+.corpus-codes {
+    border-left-color: rgba(157, 178, 191, 0.2);
+}
+
+.uncoded-row .corpus-text {
+    background-color: rgba(157, 178, 191, 0.04);
+}

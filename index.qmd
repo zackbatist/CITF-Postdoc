@@ -5,51 +5,12 @@ toc: false
 format-links: false
 ---
 
-This website serves as a hub for my postdoctoral research at McGill University's Covid-19 Immunity Task Force Databank.
+I am [Zack Batist](https://zackbatist.info) — a postdoctoral researcher at McGill University, in the School of Global and Public Health's Department of Epidemiology, Biostatistics and Occupational Health. I'm working with [David Buckeridge](https://www.mcgill.ca/epi-biostat-occh/david-buckeridge), who leads the [Covid-19 Immunity Task Force (CITF) Databank](https://databank.citf.mcgill.ca/), to investigate data sharing in epidemiological research — with an emphasis on the practical and situated experiences involved in data sharing.
 
-The project is concerned with articulating social, collaborative and discursive aspects of epidemiological data-sharing initiatives, and how they relate to, overlap with or conflict with technical, institutional and epistemic factors.
+The CITF is a "data harmonization" initiative, which entails coordinating a systematic effort to align the information contained in datasets collected by distributed teams of epidemiologists. These efforts to integrate the records collected during various discrete studies are motivated by a desire to establish larger integrated datasets bearing greater statistical power and that facilitate comparison across cohorts. However, epidemiologists must reckon with the diversity of minor variations in data collection procedures, as well as ethico-legal concerns relating to the sharing of individual health records pertaining to human research subjects across numerous institutional and regional jurisdictions.
 
-This website hosts a series of preparatory protocols that structure the project, as well as notes about key concepts and reflections on the progress of work.
-Please keep in mind that this is a continually evolving site and its contents may change as the project goes on.
-All content is hosted and tracked at [github.com/zackbatist/CITF-Postdoc](https://github.com/zackbatist/CITF-Postdoc).
+As a scholar of scientific practice with a primary interest in data-sharing and the formation of information commons, data harmonization represents a fascinating mechanism through which scientists derive technical, administrative, social, and epistemic frameworks to enhance the value of their collective endeavours in response to disciplinary needs, warrants, desires, and expectations. This study therefore articulates the motivations for doing data harmonization, identifies how value is ascertained, and describes the strategies employed to achieve the desired goals — including perceived and actual challenges, setbacks, opportunities, realizations, and lessons learned.
 
-Here's an overview of what's on this site:
+This relates to my previous work that (a) explores tensions that arise when attempting to establish information commons in archaeology, specifically relating to inability to cope with a superficial perception of data's stability and an intuitive understanding of their situated nature; and that (b) investigates how the open science movement attempts (and fails) to reshape practices relating to data sharing, integration, and reuse. I continue in my approach that frames data-sharing — whether it occurs in relatively "closed" circumstances between close colleagues, or as mediated by open data platforms among strangers — as comprising a series of collaborative commitments that govern who may contribute to and obtain value from the information commons, and in what ways.
 
-**Context:**
-My motivations for doing this work and the circumstances that surround the establishment of the project.
-
-**Research Protocol:**
-Outlines the project's overall vision and contextualizes it in relation to specific objectives.
-
-**Case Selection:**
-Articulates the parameters that inform how cases are selected.
-
-**Ethics Protocol:**
-Specifies ethical considerations, including risks of harm and strategies for mitigating them.
-
-**Interview Protocol:**
-The questions I will be asking research participants, including the rationale for asking them.
-
-**Data Management:**
-Procedures that circumscribe collection, management and curation of research data.
-
-**QDA Protocol:**
-The code system, memoing guidelines, and specific QDA procedures.
-
-**Glossary:**
-A series of key terms and their definitions, with reference to the literature and expanded notes about their meanings.
-
-**Notes:**
-Some semi-structured ideas that situate my work in relation to extant literature.
-
-**Blog:**
-Weekly updates, reflections on key events, notes on new workflows, and general thoughts I wish to share.
-
-**GitHub:**
-A link to the GitHub repository where this website's files are hosted.
-
-**Bib:**
-A continually-updated biblatex export of my zotero library.
-
-**RSS:**
-RSS feed for the [blog](posts.qmd).
+The project draws from approximately ten semi-structured interviews with people who lead, support, and participate in the CITF Databank's operations, analyzed using qualitative data analysis methods. This website documents the protocols and analytical frameworks that structure the project, as well as notes on key concepts and ongoing reflections. All content is hosted and tracked at [github.com/zackbatist/CITF-Postdoc](https://github.com/zackbatist/CITF-Postdoc).

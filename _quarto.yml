@@ -35,40 +35,32 @@ website:
     search: false
     collapse-level: 2
     contents:
-      - href: index.qmd
-        text: Home
-      - href: context.qmd
-        text: Context
-      - href: research-protocol.qmd
-        text: Research Protocol
-      - href: case-selection.qmd
-        text: Case Selection
-      - href: ethics-protocol.qmd
-        text: Ethics Protocol
-      - href: interview-protocol.qmd
-        text: Interview Protocol
-      - href: data-management.qmd
-        text: Data Management
-      - href: qda-protocol.qmd
-        text: QDA Protocol
-      - href: glossary.qmd
-        text: Glossary
-      - href: notes.qmd
-        text: Notes
-      - href: posts.qmd
-        text: Blog
-      - href: https://github.com/zackbatist/CITF-Postdoc
-        text: GitHub
-      - href: assets/resources/CITF-Postdoc.bib
-        text: Bib
-      - href: posts.xml
-        text: RSS
+      - index.qmd
+      - research-protocol.qmd
+      - section: "Supplementary"
+        contents:
+          - theoretical-framework.qmd
+          - ethics-protocol.qmd
+          - interview-protocol.qmd
+          - data-management.qmd
+          - qda-protocol.qmd
+      - notes.qmd
+      - posts.qmd
+      - text: GitHub
+        href: https://github.com/zackbatist/CITF-Postdoc
+      - text: Bib
+        href: assets/resources/CITF-Postdoc.bib
+      - text: RSS
+        href: posts.xml
 
 format:
   html:
     theme:
       light: cosmo
       dark: [cosmo, assets/styles/theme-dark.scss]
+    css: assets/styles/styles.css
+    highlight-style: github
+    include-in-header: assets/scripts/inline-code-interactions.html
     code-copy: true
     code-overflow: wrap
     toc: true

@@ -1,2 +1,15 @@
 bibliography: ../assets/resources/CITF-Postdoc.bib
 csl: ../assets/styles/chicago-author-date.csl
+citations-hover: true
+toc-depth: 3
+toc-expand: 3
+freeze: auto
+title-block-banner: false
+reference-location: margin
+link-external-icon: false
+format:
+  html:
+    grid:
+      content-mode: full
+      body-width: 1000px
+      sidebar-width: 200px

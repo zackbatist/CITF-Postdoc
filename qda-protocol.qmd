@@ -9,7 +9,7 @@ This document is still a work in progress.
 
 # Data Collection
 Most of the data subject to QDA comprise transcribed interviews.
-Interviewees are selected based on a [theoretical sampling strategy](case-selection.qmd#theoretical-sampling), which is responsive to prior analysis.
+Interviewees are selected based on a theoretical sampling strategy, which is responsive to prior analysis.
 Interview guides are informed by case files, which include detailed profiles of prospective interviewees, which gauge the value that they will bring to the research project as a whole.
 These guides are in turn informed by memos written during the coding process and in response to situational mapping excercises.
 

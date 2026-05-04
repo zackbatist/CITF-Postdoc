@@ -1,0 +1,77 @@
+<script>
+/*
+ * inline-code-interactions.html
+ *
+ * Loaded via _quarto.yml > format > html > include-in-header.
+ * Runs on DOMContentLoaded and does two things:
+ *
+ * 1. CODE BLOCK LANGUAGE BADGES
+ *    Quarto 1.8 places the language identifier on the inner <code> element
+ *    (e.g. class="sourceCode yaml") rather than on the outer div.sourceCode,
+ *    so CSS class selectors like div.sourceCode.yaml never match. This script
+ *    reads the language from the inner element, copies it as a class onto the
+ *    outer div (enabling the CSS accent colour rules in styles.css), and
+ *    prepends a visible <span class="code-lang-badge"> label inside the block.
+ *
+ * 2. COPYABLE INLINE CODE
+ *    Two inline code styles are available in .qmd files via Quarto span syntax:
+ *      [`text`]{.inline-code-light}  — pill shape, lighter visual weight
+ *      [`text`]{.inline-code-heavy}  — box shape, heavier visual weight
+ *    Both are styled in styles.css. This script makes them clickable: clicking
+ *    copies the element's text to the clipboard and briefly adds the .copied
+ *    class, which triggers the bounce animation defined in styles.css.
+ */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // 1. Code block language badges ───────────────────────────────────────────
+  //
+  // For each div.sourceCode, find the inner <code> element, extract the
+  // language class, add it to the outer div, then prepend a badge element.
+  // Styled by .code-lang-badge in styles.css.
+
+  document.querySelectorAll("div.sourceCode").forEach(function (div) {
+    var codeEl = div.querySelector("pre > code[class]");
+    if (!codeEl) return;
+
+    var lang = null;
+    codeEl.classList.forEach(function (cls) {
+      if (cls !== "sourceCode") lang = cls;
+    });
+    if (!lang) return;
+
+    div.classList.add(lang);
+
+    var badge = document.createElement("span");
+    badge.className = "code-lang-badge";
+    badge.textContent = lang;
+    div.insertBefore(badge, div.firstChild);
+  });
+
+  // 2. Copyable inline code ─────────────────────────────────────────────────
+  //
+  // Attach click handlers to both inline code styles. On click, copy the
+  // element's text content to the clipboard, then add .copied to trigger
+  // the CSS bounce animation. Remove .copied once the animation ends.
+
+  var selector = [
+    "code.inline-code-light", "span.inline-code-light",
+    "code.inline-code-heavy", "span.inline-code-heavy"
+  ].join(", ");
+
+  document.querySelectorAll(selector).forEach(function (el) {
+    el.addEventListener("click", function () {
+      var text = (el.querySelector("code") || el).innerText.trim();
+      navigator.clipboard.writeText(text).then(function () {
+        el.classList.add("copied");
+        el.addEventListener("animationend", function handler() {
+          el.classList.remove("copied");
+          el.removeEventListener("animationend", handler);
+        });
+      });
+    });
+  });
+
+
+});
+</script>

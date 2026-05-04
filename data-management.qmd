@@ -1,5 +1,5 @@
 ---
-title: Data Management Plan
+title: Data Management
 description: Overview of the data that this project generates and of data processing and storage procedures.
 ---
 
