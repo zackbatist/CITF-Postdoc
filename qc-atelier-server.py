@@ -261,8 +261,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._align_log_get()
         elif self.path.startswith("/align/responses"):
             self._align_responses_list()
-        elif self.path.startswith("/reflect/reports"):
-            self._reflect_reports_list()
         elif self.path.startswith("/api/"):
             self._proxy("GET", b"")
         else:
@@ -289,10 +287,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._align_log_post(body)
         elif self.path == "/align/responses/save":
             self._align_responses_save(body)
-        elif self.path == "/reflect/run":
-            self._reflect_run(body)
-        elif self.path == "/refactor/rerender":
-            self._refactor_rerender(body)
         elif self.path.startswith("/api/"):
             self._proxy("POST", body)
         else:
@@ -706,134 +700,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         except Exception as e:
             self._json(500, {"error": str(e)})
 
-
-
-    # ── POST /refactor/rerender ────────────────────────────────────────────────
-    # Calls quarto render on qc-scheme.qmd so changes from execute are visible.
-    def _refactor_rerender(self, body):
-        import subprocess, shutil
-        try:
-            payload     = json.loads(body)
-            scheme_path = Path(payload.get("scheme_path", ""))
-            # Find qmd file — look for qc-scheme.qmd in project root
-            project_root = str(SERVE_DIR)
-            qmd = Path(project_root) / "qc-scheme.qmd"
-            if not qmd.exists():
-                # Try parent directories
-                for parent in [SERVE_DIR.parent, SERVE_DIR.parent.parent]:
-                    candidate = parent / "qc-scheme.qmd"
-                    if candidate.exists():
-                        qmd = candidate
-                        project_root = str(parent)
-                        break
-            if not qmd.exists():
-                self._json(200, {"ok": False, "error": "qc-scheme.qmd not found"})
-                return
-            quarto_bin = shutil.which("quarto") or "quarto"
-            ts_log = datetime.now().strftime("%H:%M:%S")
-            print(f"[{ts_log}] refactor/rerender: quarto render {qmd}")
-            result = subprocess.run(
-                [quarto_bin, "render", str(qmd)],
-                capture_output=True, text=True, timeout=120,
-                cwd=project_root
-            )
-            if result.returncode == 0:
-                print(f"[{ts_log}] refactor/rerender: OK")
-                self._json(200, {"ok": True})
-            else:
-                print(f"[{ts_log}] refactor/rerender: FAILED — {result.stderr[:200]}")
-                self._json(200, {"ok": False, "error": result.stderr[:500]})
-        except Exception as e:
-            self._json(500, {"error": str(e)})
-
-    # ── GET /reflect/reports ───────────────────────────────────────────────────
-    def _reflect_reports_list(self):
-        try:
-            reports_dir = SERVE_DIR / "reflect-reports"
-            reports_dir.mkdir(exist_ok=True)
-            files = sorted(reports_dir.glob("*.json"), reverse=True)
-            entries = []
-            for f in files:
-                try:
-                    data = json.loads(f.read_text())
-                    entries.append({
-                        "filename":  f.name,
-                        "ts":        data.get("ts", ""),
-                        "codes":     data.get("codes", []),
-                        "label":     data.get("label", ""),
-                    })
-                except Exception:
-                    pass
-            self._json(200, {"ok": True, "reports": entries})
-        except Exception as e:
-            self._json(500, {"error": str(e)})
-
-    # ── POST /reflect/run ──────────────────────────────────────────────────────
-    # Body: { codes, label, report_md, report_json }
-    # Saves JSON + QMD, calls quarto render, returns rendered HTML path.
-    def _reflect_run(self, body):
-        import subprocess, shutil
-        try:
-            payload     = json.loads(body)
-            codes       = payload.get("codes", [])
-            label       = payload.get("label", "")
-            report_md   = payload.get("report_md", "")
-            report_json = payload.get("report_json", {})
-
-            reports_dir = SERVE_DIR / "reflect-reports"
-            reports_dir.mkdir(exist_ok=True)
-
-            ts       = datetime.now().strftime("%Y%m%d-%H%M%S")
-            slug     = label.lower().replace(" ", "-")[:30] if label else "run"
-            basename = f"reflect_{ts}_{slug}"
-
-            # Save JSON
-            json_path = reports_dir / f"{basename}.json"
-            with open(json_path, "w") as f:
-                json.dump({
-                    "ts":    datetime.now().isoformat(),
-                    "codes": codes,
-                    "label": label,
-                    **report_json,
-                }, f, ensure_ascii=False, indent=2)
-
-            # Save QMD
-            qmd_path = reports_dir / f"{basename}.qmd"
-            with open(qmd_path, "w") as f:
-                f.write(report_md)
-
-            ts_log = datetime.now().strftime("%H:%M:%S")
-            print(f"[{ts_log}] reflect/run: saved {basename}")
-
-            # Render with Quarto — output goes alongside the QMD
-            quarto_bin = shutil.which("quarto") or "quarto"
-            html_path  = qmd_path.with_suffix(".html")
-            try:
-                result = subprocess.run(
-                    [quarto_bin, "render", str(qmd_path)],
-                    capture_output=True, text=True, timeout=120,
-                    cwd=str(reports_dir)
-                )
-                if result.returncode != 0:
-                    print(f"[{ts_log}] reflect/run: quarto stderr: {result.stderr[:500]}")
-                    self._json(200, {
-                        "ok": True, "filename": basename,
-                        "rendered": False, "error": result.stderr[:500],
-                    })
-                    return
-                rel_path = html_path.relative_to(SERVE_DIR)
-                self._json(200, {
-                    "ok": True, "filename": basename,
-                    "rendered": True, "html_url": "/" + str(rel_path),
-                })
-            except subprocess.TimeoutExpired:
-                self._json(200, {"ok": True, "filename": basename, "rendered": False, "error": "quarto render timed out"})
-            except FileNotFoundError:
-                self._json(200, {"ok": True, "filename": basename, "rendered": False, "error": "quarto not found in PATH"})
-        except Exception as e:
-            self._json(500, {"error": str(e)})
-
     # ── POST /refactor/queue ────────────────────────────────────────────────────
+    # Pre-populates the refactor queue from qc-align suggestions.
     # Stores pending ops in a sidecar file; qc-refactor reads on load.
     def _refactor_queue(self, body):
         queue_path = SERVE_DIR / "refactor-queue.json"
@@ -957,6 +825,30 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         results.append({"cmd": f"deprecate {', '.join(sources)}", "ok": True, "output": ""})
                     except Exception as e:
                         results.append({"cmd": f"deprecate {', '.join(sources)}", "ok": False, "output": str(e)})
+
+                elif op_type == "stub":
+                    stub_name   = sources[0] if sources else ""
+                    stub_parent = target or ""
+                    try:
+                        # 1. Add to codebook.yaml under parent (or at top level)
+                        self._do_create_stub(stub_name, stub_parent, working_yaml)
+                        # 2. Add to codebook.json with status "stub"
+                        if working_docs.exists():
+                            with open(working_docs) as f:
+                                docs = json.load(f)
+                            if stub_name not in docs.setdefault("codes", {}):
+                                docs["codes"][stub_name] = {}
+                            docs["codes"][stub_name]["status"]  = "stub"
+                            docs["codes"][stub_name]["created"] = datetime.now().isoformat()[:10]
+                            if stub_parent:
+                                docs["codes"][stub_name]["parent"] = stub_parent
+                            with open(working_docs, "w") as f:
+                                json.dump(docs, f, ensure_ascii=False, indent=2)
+                        ts_log = datetime.now().strftime("%H:%M:%S")
+                        print(f"[{ts_log}] refactor/execute: created stub {stub_name}" + (f" under {stub_parent}" if stub_parent else ""))
+                        results.append({"cmd": f"create stub {stub_name}", "ok": True, "output": ""})
+                    except Exception as e:
+                        results.append({"cmd": f"create stub {stub_name}", "ok": False, "output": str(e)})
 
             # ── Update codebook.json — provenance, docs_edits, changelog ───────
             if working_docs.exists():
@@ -1223,6 +1115,57 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         ts_log = datetime.now().strftime("%H:%M:%S")
         print(f"[{ts_log}] refactor/move: {code} → {new_parent or '(top level)'}")
+
+    def _do_create_stub(self, stub_name: str, parent: str, yaml_path: Path):
+        """Insert a new stub node into codebook.yaml under parent (or at top level)."""
+        import re
+        with open(yaml_path) as f:
+            lines = f.readlines()
+
+        if parent:
+            # Find parent line
+            parent_pattern = re.compile(r'^(\s*)-\s+' + re.escape(parent) + r'\s*:?\s*$')
+            parent_line_idx = None
+            for i, line in enumerate(lines):
+                if parent_pattern.match(line):
+                    parent_line_idx = i
+                    break
+            if parent_line_idx is None:
+                raise ValueError(f"Parent not found in codebook.yaml: {parent}")
+
+            parent_indent = len(lines[parent_line_idx]) - len(lines[parent_line_idx].lstrip())
+            new_indent    = parent_indent + 2
+
+            # Ensure parent line ends with colon (has children)
+            if not lines[parent_line_idx].rstrip().endswith(':'):
+                lines[parent_line_idx] = lines[parent_line_idx].rstrip() + ':\n'
+
+            # Find insertion point: after all existing children of parent
+            insert_at = parent_line_idx + 1
+            while insert_at < len(lines):
+                line = lines[insert_at]
+                if line.strip() == '' or line.strip().startswith('#'):
+                    insert_at += 1
+                    continue
+                if len(line) - len(line.lstrip()) > parent_indent:
+                    insert_at += 1
+                else:
+                    break
+
+            new_line = ' ' * new_indent + '- ' + stub_name + ':\n'
+            lines.insert(insert_at, new_line)
+        else:
+            # Top level — append before trailing blank lines
+            insert_at = len(lines)
+            while insert_at > 0 and lines[insert_at-1].strip() == '':
+                insert_at -= 1
+            lines.insert(insert_at, '- ' + stub_name + ':\n')
+
+        with open(yaml_path, 'w') as f:
+            f.writelines(lines)
+
+        ts_log = datetime.now().strftime("%H:%M:%S")
+        print(f"[{ts_log}] refactor/stub: created {stub_name}" + (f" under {parent}" if parent else " (top level)"))
 
     # ── GET /refactor/tree ────────────────────────────────────────────────────
     # Returns the current codebook.yaml as a flat tree for runtime picker refresh.

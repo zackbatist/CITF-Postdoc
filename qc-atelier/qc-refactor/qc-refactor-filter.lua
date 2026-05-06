@@ -145,6 +145,14 @@ local function generate_html()
     scheme_path = SCHEME_JSON,
     json_dir    = JSON_DIR,
   }) .. ';'
+  
+  -- Export code colours and schema
+  local code_schema  = config.code_schema or {}
+  local colors_raw   = code_schema.colors or {}
+  local default_color = code_schema.default_color or "#757575"
+  html[#html+1] = 'const CODE_COLORS = ' .. to_json(colors_raw) .. ';'
+  html[#html+1] = 'const CODE_SCHEMA = ' .. to_json({default_color = default_color}) .. ';'
+
   html[#html+1] = '</script>'
   html[#html+1] = [[
 <div id="qc-refactor-root">
@@ -156,17 +164,22 @@ local function generate_html()
 
 <div class="app">
 
-  <div class="queue-panel">
+  <div class="op-panel">
     <div class="op-tabs">
       <button class="op-tab active" data-type="rename">Rename</button>
       <button class="op-tab" data-type="merge">Merge</button>
       <button class="op-tab" data-type="move">Move</button>
       <button class="op-tab" data-type="deprecate">Deprecate</button>
+      <button class="op-tab" data-type="stub">Create stub</button>
     </div>
     <div class="op-form" id="op-form"></div>
-    <div style="padding:8px 14px;border-bottom:1px solid var(--border-dim);flex-shrink:0">
+    <div class="op-add-row">
       <button class="btn primary" id="btn-add" style="width:100%">Add to queue</button>
     </div>
+  </div>
+
+  <div class="queue-panel">
+    <div class="queue-header">Staged operations</div>
     <div class="queue-list" id="queue-list"></div>
     <div class="session-note-area">
       <label class="session-note-label">Session note</label>
@@ -211,6 +224,8 @@ local function generate_html()
 
 </div>]]
   html[#html+1] = '<script>' .. shared_js .. '</script>'
+  
+
   html[#html+1] = '<script>' .. js .. '</script>'
   html[#html+1] = '</body></html>'
 

@@ -392,16 +392,9 @@ function renderOpForm() {
       '<div class="op-form-row"><label>New name</label>',
       '<input type="text" id="rename-target" placeholder="new name" class="code-input" style="readonly:false">',
       '</div>',
-      '<div id="rename-panels"></div>',
     ].join('');
 
-    wireCodeInput('rename-source', function(name) {
-      var panels = document.getElementById('rename-panels');
-      if (panels) {
-        panels.innerHTML = codePanelHTML(name, 'rename-src-panel');
-        wireCodePanel('rename-src-panel');
-      }
-    }, false);
+    wireCodeInput('rename-source', null, false);
 
     // Make rename-target editable (not readonly)
     var rt = document.getElementById('rename-target');
@@ -450,21 +443,21 @@ function renderOpForm() {
 
   if (type === 'move') {
     form.innerHTML += [
-      '<div class="op-form-row"><label>Codes to move</label>',
+      '<div class="op-form-row">',
+      '<label>Codes to move</label>',
       '<div class="multi-picker-wrap">',
-        '<input class="picker-search" id="move-multi-search" placeholder="Search codes…" autocomplete="off">',
+        '<input class="multi-picker-search" id="move-multi-search" placeholder="Search codes…" autocomplete="off">',
         '<div class="multi-picker-list" id="move-multi-list"></div>',
       '</div>',
       '</div>',
-      '<div class="op-form-row"><label>New parent <span class="label-hint">(leave empty for top level)</span></label>',
+      '<div class="op-form-row">',
+      '<label>New parent <span class="label-hint">(empty = top level)</span></label>',
       codeInputHTML('move-parent', 'select parent…', false),
-      '<button class="btn" style="margin-top:4px" id="move-clear-parent">Set to top level</button>',
       '</div>',
-      '<div id="move-panels"></div>',
     ].join('');
 
-    // Initialise multi-select state
     if (!state.moveSelected) state.moveSelected = new Set();
+
 
     function renderMultiList(query) {
       var list = document.getElementById('move-multi-list');
@@ -474,7 +467,6 @@ function renderOpForm() {
 
       function isVisible(node) {
         if (query) return node.name.toLowerCase().indexOf(query) >= 0;
-        // Check if any ancestor is collapsed
         var cur = node.parent;
         while (cur) {
           if (state.pickerCollapsed.has(cur)) return false;
@@ -503,12 +495,11 @@ function renderOpForm() {
         return '<label class="multi-picker-item" style="padding-left:' + (node.depth * 14 + 4) + 'px">'
           + toggleBtn
           + '<input type="checkbox" class="multi-picker-cb" data-name="' + esc(node.name) + '" ' + checked + '>'
-          + '<span class="picker-label">' + esc(node.name) + '</span>'
+          + '<span class="picker-color-dot" style="background:' + getCodeColor(node.name, {desaturate:!isStub(node.name)}) + '"></span>' + '<span class="picker-label' + (isStub(node.name) ? ' picker-stub-label' : '') + '">' + esc(node.name) + '</span>'
           + cntHtml
           + '</label>';
       }).join('');
 
-      // Wire collapse toggles
       list.querySelectorAll('.multi-picker-toggle').forEach(function(btn) {
         btn.addEventListener('mousedown', function(e) {
           e.preventDefault();
@@ -519,18 +510,11 @@ function renderOpForm() {
         });
       });
 
-      // Wire checkboxes
       list.querySelectorAll('.multi-picker-cb').forEach(function(cb) {
         cb.addEventListener('change', function() {
           var name = cb.dataset.name;
           if (cb.checked) {
             state.moveSelected.add(name);
-            // Show doc panel for most recently checked
-            var panels = document.getElementById('move-panels');
-            if (panels) {
-              panels.innerHTML = codePanelHTML(name, 'move-src-panel');
-              wireCodePanel('move-src-panel');
-            }
           } else {
             state.moveSelected.delete(name);
           }
@@ -540,103 +524,63 @@ function renderOpForm() {
 
     renderMultiList('');
 
+    // Attach vertical resize handle to picker list
+    (function() {
+      var list   = document.getElementById('move-multi-list');
+      var handle = document.createElement('div');
+      handle.className = 'picker-resize-handle';
+      list.parentNode.insertBefore(handle, list.nextSibling);
+
+      var startY = 0, startH = 0;
+      handle.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        startY = e.clientY;
+        startH = list.offsetHeight;
+        function onMove(ev) {
+          // Cap the effective mouse Y to keep bottom of list within viewport
+          var clampedY = Math.min(ev.clientY, window.innerHeight - 60);
+          var newH     = Math.max(80, startH + (clampedY - startY));
+          list.style.height = newH + 'px';
+        }
+        function onUp() {
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onUp);
+        }
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+      });
+    })();
+
     document.getElementById('move-multi-search').addEventListener('input', function() {
       renderMultiList(this.value);
     });
 
     wireCodeInput('move-parent', null, false);
-
-    document.getElementById('move-clear-parent').addEventListener('click', function() {
-      var inp = document.getElementById('move-parent');
-      if (inp) inp.value = '';
-    });
   }
 
   if (type === 'deprecate') {
     form.innerHTML += [
-      '<div class="op-form-row"><label>Codes to deprecate</label>',
-      '<input class="picker-search" id="deprecate-multi-search" placeholder="Search codes…" autocomplete="off">',
-      '<div class="multi-picker-list" id="deprecate-multi-list"></div>',
+      '<div class="op-form-row"><label>Code to deprecate</label>',
+      codeInputHTML('deprecate-source', 'select code…', false),
       '</div>',
       '<p class="form-hint">Sets status to "deprecated" in codebook.json. No qc CLI command is run.</p>',
-      '<div id="deprecate-panels"></div>',
     ].join('');
 
-    if (!state.deprecateSelected) state.deprecateSelected = new Set();
+    wireCodeInput('deprecate-source', null, false);
+  }
 
-    function renderDeprecateList(query) {
-      var list = document.getElementById('deprecate-multi-list');
-      if (!list) return;
-      var nodes = getTree();
-      query = (query || '').toLowerCase();
+  if (type === 'stub') {
+    form.innerHTML += [
+      '<div class="op-form-row"><label>Stub name</label>',
+      '<input class="op-input" id="stub-label" placeholder="e.g. Activities" autocomplete="off">',
+      '</div>',
+      '<div class="op-form-row"><label>Parent (optional)</label>',
+      codeInputHTML('stub-parent', 'none — top level', false),
+      '</div>',
+      '<p class="form-hint">Creates a new branch node in codebook.yaml with status "stub". Stubs classify codes beneath them and are never applied to corpus passages.</p>',
+    ].join('');
 
-      function isVisible(node) {
-        if (query) return node.name.toLowerCase().indexOf(query) >= 0;
-        var cur = node.parent;
-        while (cur) {
-          if (state.pickerCollapsed.has(cur)) return false;
-          var p = nodes.find(function(n) { return n.name === cur; });
-          cur = p ? p.parent : null;
-        }
-        return true;
-      }
-
-      function hasChildren(name) {
-        return nodes.some(function(n) { return n.parent === name; });
-      }
-
-      var shown = nodes.filter(isVisible);
-
-      list.innerHTML = shown.map(function(node) {
-        var checked   = state.deprecateSelected.has(node.name) ? 'checked' : '';
-        var collapsed = state.pickerCollapsed.has(node.name);
-        var children  = hasChildren(node.name);
-        var toggleBtn = (!query && children)
-          ? '<button class="multi-picker-toggle" data-name="' + esc(node.name) + '" tabindex="-1">'
-            + (collapsed ? '▶' : '▼') + '</button>'
-          : '<span class="multi-picker-toggle-placeholder"></span>';
-        var cnt     = corpusCount(node.name);
-        var cntHtml = cnt > 0 ? '<span class="picker-count">' + cnt + '</span>' : '';
-        return '<label class="multi-picker-item" style="padding-left:' + (node.depth * 14 + 4) + 'px">'
-          + toggleBtn
-          + '<input type="checkbox" class="deprecate-picker-cb" data-name="' + esc(node.name) + '" ' + checked + '>'
-          + '<span class="picker-label">' + esc(node.name) + '</span>'
-          + cntHtml
-          + '</label>';
-      }).join('');
-
-      list.querySelectorAll('.multi-picker-toggle').forEach(function(btn) {
-        btn.addEventListener('mousedown', function(e) {
-          e.preventDefault();
-          var name = btn.dataset.name;
-          if (state.pickerCollapsed.has(name)) state.pickerCollapsed.delete(name);
-          else state.pickerCollapsed.add(name);
-          renderDeprecateList(document.getElementById('deprecate-multi-search').value);
-        });
-      });
-
-      list.querySelectorAll('.deprecate-picker-cb').forEach(function(cb) {
-        cb.addEventListener('change', function() {
-          var name = cb.dataset.name;
-          if (cb.checked) {
-            state.deprecateSelected.add(name);
-            var panels = document.getElementById('deprecate-panels');
-            if (panels) {
-              panels.innerHTML = codePanelHTML(name, 'deprecate-src-panel');
-              wireCodePanel('deprecate-src-panel');
-            }
-          } else {
-            state.deprecateSelected.delete(name);
-          }
-        });
-      });
-    }
-
-    renderDeprecateList('');
-
-    document.getElementById('deprecate-multi-search').addEventListener('input', function() {
-      renderDeprecateList(this.value);
-    });
+    wireCodeInput('stub-parent', function() {}, false);
   }
 }
 
@@ -968,19 +912,20 @@ function addOperation() {
   }
 
   if (type === 'deprecate') {
-    var srcs = Array.from(state.deprecateSelected || []);
-    if (srcs.length === 0) { showFormError('Please select at least one code to deprecate.'); return; }
-    // Add one queue item per selected code
-    srcs.forEach(function(src) {
-      var depOp = { id: state.nextId++, type: 'deprecate', sources: [src], target: src };
-      var conflicts = validateQueueConflicts(depOp);
-      if (conflicts.length === 0) state.queue.push(depOp);
-    });
-    state.deprecateSelected = new Set();
-    state.expandedSegs = {};
-    renderQueue();
-    renderForm(type);
-    return;
+    var src = (document.getElementById('deprecate-source') || {}).value || '';
+    if (!src) { showFormError('Please select a code to deprecate.'); return; }
+    op = { id: state.nextId++, type: 'deprecate', sources: [src], target: src };
+  }
+
+  if (type === 'stub') {
+    var label  = ((document.getElementById('stub-label')  || {}).value || '').trim().replace(/\s+/g, '_');
+    var parent = ((document.getElementById('stub-parent') || {}).value || '').trim();
+    if (!label || !/^[A-Za-z][A-Za-z_]*$/.test(label)) { showFormError('Label must start with a letter and contain only letters and underscores.'); return; }
+    var stubName = label;
+    // Check not already in tree
+    var existingCodes = getTree().map(function(n) { return n.name; });
+    if (existingCodes.indexOf(stubName) >= 0) { showFormError(stubName + ' already exists.'); return; }
+    op = { id: state.nextId++, type: 'stub', sources: [stubName], target: parent || '' };
   }
 
   if (op) {
@@ -1020,6 +965,10 @@ function opDesc(op) {
   if (op.type === 'deprecate') {
     return srcs + '<span class="arrow"> → </span><em>deprecated</em>';
   }
+  if (op.type === 'stub') {
+    return '<em>create stub</em> ' + srcs
+      + (op.target ? '<span class="arrow"> under </span><span class="code-name">' + esc(op.target) + '</span>' : '<span class="arrow"> (top level)</span>');
+  }
   return '';
 }
 
@@ -1032,23 +981,59 @@ function renderQueue() {
     return;
   }
 
-  list.innerHTML = state.queue.map(function(op) {
-    var type = op.type;
-    return '<div class="queue-item" data-id="' + op.id + '">'
-      + '<span class="queue-item-badge badge-' + type + '">' + type + '</span>'
-      + '<div class="queue-item-body"><div class="queue-item-desc">' + opDesc(op) + '</div></div>'
-      + '<button class="queue-item-edit" data-id="' + op.id + '" data-type="' + type + '" title="Edit">✎</button>'
-      + '<button class="queue-item-remove" data-id="' + op.id + '" data-type="' + type + '" title="Remove">×</button>'
-      + '</div>';
-  }).join('');
+  if (!state.openDocPanel) state.openDocPanel = null;
 
-  list.querySelectorAll('.queue-item-edit').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var id = parseInt(btn.dataset.id);
-      var t  = btn.dataset.type;
-      var op = state.queue.find(function(o) { return o.id === id; });
-      if (!op) return;
+  list.innerHTML = '';
+
+  state.queue.forEach(function(op) {
+    var type    = op.type;
+    var isOpen  = state.openDocPanel === op.id;
+
+    // Primary codes to show doc for — first source, or target for merge
+    var docCode = op.sources && op.sources[0] ? op.sources[0] : (op.target || null);
+
+    var item = document.createElement('div');
+    item.className = 'queue-item';
+    item.dataset.id = op.id;
+
+    // Header row
+    var head = document.createElement('div');
+    head.className = 'queue-item-head';
+
+    var badge = document.createElement('span');
+    badge.className = 'queue-item-badge badge-' + type;
+    badge.textContent = type;
+    head.appendChild(badge);
+
+    var desc = document.createElement('div');
+    desc.className = 'queue-item-desc';
+    desc.innerHTML = opDesc(op);
+    head.appendChild(desc);
+
+    var actions = document.createElement('div');
+    actions.className = 'queue-item-actions';
+
+    if (docCode && op.type !== 'stub') {
+      var docBtn = document.createElement('button');
+      docBtn.className = 'queue-item-doc' + (isOpen ? ' active' : '');
+      docBtn.title = 'Documentation';
+      docBtn.textContent = '≡';
+      docBtn.addEventListener('click', function() {
+        state.openDocPanel = isOpen ? null : op.id;
+        renderQueue();
+      });
+      actions.appendChild(docBtn);
+    }
+
+    var editBtn = document.createElement('button');
+    editBtn.className = 'queue-item-edit';
+    editBtn.title = 'Edit';
+    editBtn.textContent = '✎';
+    editBtn.addEventListener('click', function() {
+      var id = op.id;
+      var t  = op.type;
       state.queue = state.queue.filter(function(o) { return o.id !== id; });
+      if (state.openDocPanel === id) state.openDocPanel = null;
       state.activeTab = t;
       document.querySelectorAll('.op-tab').forEach(function(tab) {
         tab.classList.toggle('active', tab.dataset.type === t);
@@ -1060,19 +1045,39 @@ function renderQueue() {
       renderScript();
       renderExecuteRow();
     });
-  });
+    actions.appendChild(editBtn);
 
-  list.querySelectorAll('.queue-item-remove').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var id = parseInt(btn.dataset.id);
+    var rmBtn = document.createElement('button');
+    rmBtn.className = 'queue-item-remove';
+    rmBtn.title = 'Remove';
+    rmBtn.textContent = '×';
+    rmBtn.addEventListener('click', function() {
+      var id = op.id;
       state.queue = state.queue.filter(function(o) { return o.id !== id; });
+      if (state.openDocPanel === id) state.openDocPanel = null;
       renderQueue();
       renderPreview();
       renderScript();
       renderExecuteRow();
     });
+    actions.appendChild(rmBtn);
+
+    head.appendChild(actions);
+    item.appendChild(head);
+
+    // Foldable doc panel
+    if (isOpen && docCode) {
+      var docWrap = document.createElement('div');
+      docWrap.className = 'queue-doc-panel';
+      docWrap.innerHTML = codePanelHTML(docCode, 'qdoc-' + op.id);
+      item.appendChild(docWrap);
+      setTimeout(function() { wireCodePanel('qdoc-' + op.id); }, 0);
+    }
+
+    list.appendChild(item);
   });
 }
+
 
 function allOps()   { return state.queue; }
 function totalOps() { return state.queue.length; }
@@ -1112,6 +1117,17 @@ function buildVirtualTree() {
     } else if (op.type === 'deprecate') {
       deprecated.add(op.sources[0]);
     }
+  });
+
+  // Add stub nodes to the virtual tree
+  state.queue.filter(function(op) { return op.type === 'stub'; }).forEach(function(op) {
+    vnodes.push({
+      name:   op.sources[0],
+      parent: op.target || null,
+      depth:  0,
+      uses:   0,
+      annot:  { type: 'new-stub' },
+    });
   });
 
   // Build virtual node list: start from baked tree, apply transformations
@@ -1390,12 +1406,12 @@ function renderScript() {
 
   if (!result.hasCliOps) {
     panel.innerHTML = '<div class="script-block">#!/bin/bash\n# qc-refactor — generated script\n</div>'
-      + '<div class="script-note script-note-prominent">No <code>qc</code> CLI commands are required for the queued operations. Move and deprecate are applied directly by the server on execute: move rewrites <code>codebook.yaml</code> hierarchy; deprecate sets the status field in <code>codebook.json</code>.</div>';
+      + '<div class="script-note script-note-prominent">No <code>qc</code> CLI commands are required for the queued operations. Move, deprecate, and stub creation are applied directly by the server on execute.</div>';
     return;
   }
 
   var serverSideTypes = allOps()
-    .filter(function(op) { return op.type === 'move' || op.type === 'deprecate'; })
+    .filter(function(op) { return op.type === 'move' || op.type === 'deprecate' || op.type === 'stub'; })
     .map(function(op) { return op.type; })
     .filter(function(t, i, arr) { return arr.indexOf(t) === i; });
 
@@ -1432,13 +1448,7 @@ function renderResults() {
     ? '<div class="result-note">' + esc(state.sessionNote) + '</div>'
     : '';
 
-  var allOk = state.results.every(function(r) { return r.ok; });
-  var rerenderBtn = allOk
-    ? '<button class="btn primary rerender-btn" id="btn-rerender" style="margin:12px 0 4px">Re-render qc-scheme</button>'
-      + '<p class="rerender-note">Bakes updated codebook.yaml into qc-scheme.html so changes are visible.</p>'
-    : '';
-
-  panel.innerHTML = noteHtml + rerenderBtn + state.results.map(function(r) {
+  panel.innerHTML = noteHtml + state.results.map(function(r) {
     return '<div class="result-item ' + (r.ok ? 'ok' : 'err') + '">'
       + '<span class="result-icon">' + (r.ok ? '✓' : '✗') + '</span>'
       + '<div class="result-body">'
@@ -1446,24 +1456,6 @@ function renderResults() {
       + (r.output ? '<div class="result-out">' + esc(r.output) + '</div>' : '')
       + '</div></div>';
   }).join('');
-
-  var rerenderEl = document.getElementById('btn-rerender');
-  if (rerenderEl) {
-    rerenderEl.addEventListener('click', async function() {
-      rerenderEl.disabled = true;
-      rerenderEl.textContent = 'Rendering…';
-      try {
-        var res  = await fetch(API + '/refactor/rerender', { method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ scheme_path: SCHEME_PATH }) });
-        var data = await res.json();
-        rerenderEl.textContent = data.ok ? '✓ Done — reload qc-scheme' : '✗ Failed: ' + (data.error || '');
-        if (data.ok) rerenderEl.style.background = 'var(--green)';
-      } catch(e) {
-        rerenderEl.textContent = '✗ ' + e.message;
-      }
-    });
-  }
 }
 
 // ── Execute row ───────────────────────────────────────────────────────────────
@@ -1595,12 +1587,11 @@ async function executeQueue(summary) {
     // Refresh tree from server so pickers reflect changes without re-render
     await refreshTree();
 
-    state.queue             = [];
-    state.moveSelected      = new Set();
-    state.deprecateSelected = new Set();
-    state.docsEdits         = {};
-    state.expandedSegs      = {};
-    state.panelTab          = 'results';
+    state.queue        = [];
+    state.moveSelected = new Set();
+    state.docsEdits    = {};
+    state.expandedSegs = {};
+    state.panelTab     = 'results';
 
     // Reload docs data so edits are reflected
     await loadDocs();
@@ -1862,11 +1853,10 @@ function renderSnapshots() {
   document.getElementById('btn-add').addEventListener('click', addOperation);
 
   document.getElementById('btn-clear').addEventListener('click', function() {
-    state.queue             = [];
-    state.moveSelected      = new Set();
-    state.deprecateSelected = new Set();
-    state.docsEdits         = {};
-    state.expandedSegs      = {};
+    state.queue        = [];
+    state.moveSelected = new Set();
+    state.docsEdits    = {};
+    state.expandedSegs = {};
     render();
   });
 

@@ -4,6 +4,11 @@
 (function () {
 'use strict';
 
+// Detect stubs: XX_Label pattern
+function isStub(name) {
+  return /^\d{2}_[A-Za-z][A-Za-z_]*$/.test(name || '');
+}
+
 const API = 'http://localhost:' + (DOCS_CONFIG.server_port || 8080);
 var treeArr = Array.isArray(CODEBOOK_TREE) ? CODEBOOK_TREE.slice() : Object.values(CODEBOOK_TREE);
 
@@ -1036,7 +1041,7 @@ function buildTopbar() {
       (movedCount?' · '+movedCount+' moved':'')+
       (multiN>1?' · '+multiN+' selected':'')
     ),
-    (function() {
+(function() {
       var el = h('span', {className: 'topbar-context-pill'});
       if (state.openedSnapshotDir) {
         var label = state.openedSnapshotDir.replace(/^codebook_[0-9]{8}-[0-9]{4}-?/, '') || state.openedSnapshotDir;
@@ -1056,6 +1061,7 @@ function buildTopbar() {
       }
       return el;
     })(),
+    h('div',{className:'topbar-space'}),
     h('button',{
       className:'btn topbar-theme-toggle',
       title: state.lightMode ? 'Switch to dark mode' : 'Switch to light mode',
@@ -1729,7 +1735,7 @@ function buildRow(node, overrideDepth) {
 
   // Pip: export selector + status ring
   var statusColor={active:'#10b981',experimental:'#f59e0b',deprecated:'#ef4444'}[nodeStatus]||'';
-  var innerFill=sel==='none'?'var(--text-faint)':'var(--accent)';
+  var innerFill=sel==='none'?'var(--text-faint)':getCodeColor(node.name,{desaturate:!isStub(node.name)});
   var innerOpacity=sel==='none'?0.2:sel==='some'?0.5:1;
   var pipWrap=h('span',{
     className:'tree-pip-wrap',
@@ -1739,7 +1745,10 @@ function buildRow(node, overrideDepth) {
   pipWrap.appendChild(makePipSvg(statusColor?3:4,innerFill,innerOpacity,statusColor?5.5:0,statusColor,sel==='none'?0.3:0.85));
   row.appendChild(pipWrap);
 
-  var nameSpan = h('span',{className:'tree-name',title:node.name},node.name);
+  var nameSpan = h('span',{className:'tree-name'+(isStub(node.name)?' tree-stub':''),title:node.name,
+      style:{color: isStub(node.name) ? getCodeColor(node.name) : '',
+             fontWeight: isStub(node.name) ? '600' : 'normal'}},
+      node.name);
   row.appendChild(nameSpan);
 
   // Subtle undoc indicator: faint dot after name when no documentation at all

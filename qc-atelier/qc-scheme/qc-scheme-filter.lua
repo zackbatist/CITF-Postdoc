@@ -122,7 +122,15 @@ local function generate_html()
   html[#html+1] = 'const CORPUS_COUNTS = ' .. to_json(use_counts) .. ';'
   html[#html+1] = 'const ALL_CODES = '     .. to_json({})         .. ';'
   html[#html+1] = 'const DOCS_DATA = {"codes":{}};'
-  html[#html+1] = 'const DOCS_CONFIG = '   .. to_json({
+  
+  -- Export code colours and schema
+  local code_schema  = config.code_schema or {}
+  local colors_raw   = code_schema.colors or {}
+  local default_color = code_schema.default_color or "#757575"
+  html[#html+1] = 'const CODE_COLORS = ' .. to_json(colors_raw) .. ';'
+  html[#html+1] = 'const CODE_SCHEMA = ' .. to_json({default_color = default_color}) .. ';'
+
+html[#html+1] = 'const DOCS_CONFIG = '   .. to_json({
     server_port        = N(config.server.port),
     scheme_path = SCHEME_JSON,
     json_dir           = JSON_DIR,
@@ -132,6 +140,8 @@ local function generate_html()
   html[#html+1] = '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>'
   html[#html+1] = '<div id="qc-scheme-root"></div>'
   html[#html+1] = '<script>' .. (shared_js or '') .. '</script>'
+  
+
   html[#html+1] = '<script>' .. js .. '</script>'
   html[#html+1] = '</body></html>'
 

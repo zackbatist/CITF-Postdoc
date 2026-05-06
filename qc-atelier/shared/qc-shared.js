@@ -2,7 +2,51 @@
 // Shared JavaScript utilities for the qc-atelier suite.
 // Inlined into each tool's HTML by the Lua filter.
 
-// ── @ Code autocomplete ───────────────────────────────────────────────────────
+// ── Code colour utilities ─────────────────────────────────────────────────────
+// CODE_COLORS and CODE_SCHEMA are injected by each filter from qc-atelier-config.yaml.
+
+function getCodePrefix(name) {
+  var m = (name || '').match(/^(\d{2})/);
+  return m ? m[1] : null;
+}
+
+function isStub(name) {
+  // Stubs: XX_Label — two-digit prefix, underscore, word-only label, no numeric suffix segment
+  return /^\d{2}_[A-Za-z][A-Za-z_]*$/.test(name || '');
+}
+
+function getCodeColor(name, opts) {
+  var prefix = getCodePrefix(name);
+  var color  = (prefix && typeof CODE_COLORS !== 'undefined' && CODE_COLORS[prefix])
+    ? CODE_COLORS[prefix]
+    : ((typeof CODE_SCHEMA !== 'undefined' && CODE_SCHEMA.default_color) || '#757575');
+  if (opts && opts.desaturate) color = desaturateHex(color, 0.45);
+  return color;
+}
+
+function desaturateHex(hex, amount) {
+  if (!hex || hex.length < 7) return hex;
+  var r = parseInt(hex.slice(1,3),16);
+  var g = parseInt(hex.slice(3,5),16);
+  var b = parseInt(hex.slice(5,7),16);
+  var grey = Math.round(0.299*r + 0.587*g + 0.114*b);
+  r = Math.round(r + (grey - r) * amount);
+  g = Math.round(g + (grey - g) * amount);
+  b = Math.round(b + (grey - b) * amount);
+  return '#' + [r,g,b].map(function(v){ return ('0'+Math.max(0,Math.min(255,v)).toString(16)).slice(-2); }).join('');
+}
+
+function codeDot(name, size) {
+  var stub  = isStub(name);
+  var color = getCodeColor(name, {desaturate: !stub});
+  var dot   = document.createElement('span');
+  var s     = size || 8;
+  dot.className = 'code-color-dot';
+  dot.style.cssText = 'display:inline-block;width:'+s+'px;height:'+s+'px;border-radius:50%;background:'+color+';flex-shrink:0;opacity:'+(stub?'1':'0.75');
+  return dot;
+}
+
+
 // Attaches to all text inputs and textareas on the page.
 // Type @ to trigger; continues capturing until a non-word character or Escape.
 // Filters code names by prefix match first, then substring match.

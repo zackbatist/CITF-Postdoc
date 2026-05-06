@@ -1191,3 +1191,38 @@ body.dark-mode .startup-notice {
   margin-left: 6px;
 }
 .btn-return-head:hover { color: var(--text); }
+
+/* ── Stub codes ── */
+.dtree-stub {
+  color: var(--text-faint) !important;
+  font-style: italic;
+}
+.dtree-stub::before {
+  content: '≡ ';
+  font-style: normal;
+  opacity: 0.5;
+}
+
+/* ── Stub codes ── */
+.tree-stub {
+  color: var(--text-faint) !important;
+  font-style: italic;
+}
+.tree-stub::before {
+  content: '≡ ';
+  font-style: normal;
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+/* ── Colour-coded tree nodes ── */
+.tree-label-wrap {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+.tree-stub {
+  font-weight: 600;
+  /* colour set inline */
+}

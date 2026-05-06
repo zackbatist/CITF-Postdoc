@@ -134,3 +134,10 @@ body.light-mode {}
   color: var(--accent);
   font-weight: 600;
 }
+
+/* ── Code colour dot (shared across tools) ── */
+.code-color-dot {
+  display: inline-block;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
