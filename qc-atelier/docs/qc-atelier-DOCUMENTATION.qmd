@@ -1436,3 +1436,27 @@ Config: `ollama.url: http://localhost:11444`, `model: qwen2.5:7b`, `num_ctx: 327
 Issue: `--restart always` causes container to restart without GPU binding after cluster reboot. Fix: relaunch manually with `docker rm -f ollama_gpu_5 && docker run -d --gpus "device=5" ...`. Script saved as `~/start_ollama.sh` on cluster.
 
 qwen3.5:35b available for production runs (23GB, fits in 24GB VRAM). Switch via config when ready.
+
+---
+
+### 2026-05-06 — qc-reflect: Quarto report overhaul, suggestion engine, stub operations, branch colour coding
+
+**Quarto report structure.** Rebuilt from scratch with a funnel structure: per-code tabset first (specific misapplications with remove checkboxes), then cross-code observations (redundancies and tensions), then suggested new codes (with editable scope, passage selection, and add-to-codebook), then bottom line (assessment, recommendations, pending changes summary, execute button). The execute section lists all queued changes and shows success/failure feedback after running, including removed count, added count, new codes, prerender status, and backup path.
+
+**OJS interactivity fixes.** Checkboxes rebuilt using the `viewof` reactive pattern — the original single-cell approach with inline `addEventListener` was causing double-add on re-render. Mutable-only OJS cells now return `html\`<span></span>\`` to suppress the `undefined` output that was appearing below every checkbox. Passage text uses DOM `createTextNode` and `appendChild` rather than single-quoted `innerHTML` strings to avoid apostrophe and quote escaping breaking OJS parsing. Code names marked up as chips with branch colours throughout the report. `buildQMD()` updated to match all of the above.
+
+**Suggest-driven launcher.** Inline report rendering removed — the Quarto HTML is the real output. The in-browser interface is now a launcher: select a grouping, inspect it, run the deep LLM analysis, open the report. Five suggestion methods run entirely in-browser on baked data: co-occurrence clustering (Jaccard similarity, top-quartile cutoff shown explicitly), tree proximity (sibling branch coverage), undercoded (z-score vs sibling mean, threshold z < −1 and sibling mean > 2), high-variance (CV > 1.0 across documents, grouped by branch proximity), LLM semantic (separate opt-in call using co-occurrence data and codebook structure). Groupings named and described by a small model via `naming_model` config key.
+
+**Visualisations.** Detail pane shows a D3 force/radial/grid network of the selected grouping plus 1-hop co-occurrence neighbours, with zoom, pan, and drag. Layout toggleable between force simulation, radial (suggestion codes in inner ring), and fixed grid. Method-specific charts: Jaccard heatmap matrix (co-occurrence), deviation bar chart with sibling mean line (undercoded/tree-proximity), per-document sparklines with area fill (high-variance), horizontal bar chart (other). Corpus overview treemap at rest, sized by use count, coloured by branch, with top co-occurring pairs listed below.
+
+**Filter updates.** Exports `DOC_CODE_MATRIX` (document → code list, needed for variance and undercoded methods) and `naming_model`. D3 7.9.0 loaded via cdnjs CDN.
+
+**Stub convention.** Stubs defined as codes matching `^\d{2}_[A-Za-z][A-Za-z_]*$` — two-digit prefix, word-only label, no numeric suffix segment. Marked `status: stub` in `codebook.json`. Create stub tab added to qc-refactor: name field and optional parent picker. Server-side `_do_create_stub()` inserts into `codebook.yaml` with correct indentation and updates `codebook.json`. No SQLite or corpus changes needed — stubs are never applied to coded lines. Stubs excluded from reflect suggestion candidates. JD transition strategy agreed: designate current `XX_Label` nodes as stubs, strip numeric middle segments from leaves, then evaluate whether branch prefixes are still needed.
+
+**Branch colour coding.** `isStub()`, `getCodeColor()`, `desaturateHex()`, `codeDot()` added to `qc-shared.js`, available to all tools. All filters export `CODE_COLORS` and `CODE_SCHEMA` from `code_schema.colors` in config, keyed by two-digit prefix. qc-scheme renders stubs bold in their full branch colour; leaf codes rendered in a desaturated version (45%); status pip carries branch colour rather than accent.
+
+**qc-refactor layout.** Split into three columns: op form (left, resizable), staged queue (middle), preview/script/results (right). Doc panels removed from op forms and moved into foldable sections on queue items, toggled via ≡ button, one open at a time. Sidebar widened to 380px; op tab padding reduced to fit all five tabs (Rename, Merge, Move, Deprecate, Create stub) on one row. Move picker list vertically resizable via JS drag handle constrained to viewport bottom.
+
+**Pending.** Stub rendering in qc-reflect suggestion engine (tabled). Colour coding in autocomplete dropdowns. JD prefix stripping workflow in qc-refactor.
+
+---
