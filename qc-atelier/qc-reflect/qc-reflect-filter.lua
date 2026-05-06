@@ -52,6 +52,7 @@ local function load_config()
     ollama = {
       url     = "http://localhost:11434",
       model   = "qwen3.5:35b",
+      naming_model = "qwen2.5:1.5b",
       num_ctx = 49152,
     },
     reflect = {
@@ -178,7 +179,7 @@ local function build_corpus_index(json_files)
   end
   table.sort(all_codes)
 
-  return corpus_index, cooc_list, all_codes, doc_order
+  return corpus_index, cooc_list, all_codes, doc_order, by_doc_code
 end
 
 -- ── Generate HTML ──────────────────────────────────────────────────────────────
@@ -189,9 +190,20 @@ local function generate_html()
     print("qc-reflect: WARNING no JSON files in " .. JSON_DIR)
   end
 
-  local tree                       = load_codebook_tree()
-  local use_counts                 = build_use_counts(json_files)
-  local corpus_index, cooc_list, all_codes, doc_order = build_corpus_index(json_files)
+  local tree                                            = load_codebook_tree()
+  local use_counts                                      = build_use_counts(json_files)
+  local corpus_index, cooc_list, all_codes, doc_order, by_doc_code = build_corpus_index(json_files)
+
+  -- Build doc-code matrix: doc -> [code, code, ...]
+  local doc_code_matrix = {}
+  for doc, codes in pairs(by_doc_code) do
+    local code_list = {}
+    for code, _ in pairs(codes) do
+      code_list[#code_list+1] = code
+    end
+    table.sort(code_list)
+    doc_code_matrix[doc] = code_list
+  end
 
   local shared_css = read_text_file(SHARED_CSS_FILE)
   local css        = read_text_file(CSS_FILE)
@@ -210,6 +222,7 @@ local function generate_html()
   html[#html+1] = '<meta name="viewport" content="width=device-width,initial-scale=1">'
   html[#html+1] = '<title>QC Reflect</title>'
   html[#html+1] = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">'
+  html[#html+1] = '<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>'
   html[#html+1] = '<style>' .. shared_css .. '\n' .. css .. '</style>'
   html[#html+1] = '</head><body>'
   html[#html+1] = '<nav class="qc-nav"><a class="qc-nav-brand" href="/">qc-atelier</a>'
@@ -218,21 +231,87 @@ local function generate_html()
     .. '<a href="/qc-refactor.html">refactor</a>'
     .. '<a href="/qc-reflect.html" class="active">reflect</a></nav>'
   html[#html+1] = '<script>'
-  html[#html+1] = 'const CODEBOOK_TREE  = ' .. to_json(tree)          .. ';'
-  html[#html+1] = 'const CORPUS_INDEX   = ' .. to_json(corpus_index)  .. ';'
-  html[#html+1] = 'const COOC_DATA      = ' .. to_json(cooc_list)     .. ';'
-  html[#html+1] = 'const ALL_CODES      = ' .. to_json(all_codes)     .. ';'
-  html[#html+1] = 'const DOC_NAMES      = ' .. to_json(doc_order)     .. ';'
-  html[#html+1] = 'const REFLECT_CONFIG = ' .. to_json({
-    ollama_url   = S(config.ollama.url),
-    ollama_model = S(config.ollama.model),
-    num_ctx      = N(config.ollama.num_ctx),
-    server_port  = N(config.server.port),
-    scheme_path  = SCHEME_JSON,
+  html[#html+1] = 'const CODEBOOK_TREE  = ' .. to_json(tree)             .. ';'
+  html[#html+1] = 'const CORPUS_INDEX   = ' .. to_json(corpus_index)     .. ';'
+  html[#html+1] = 'const COOC_DATA      = ' .. to_json(cooc_list)        .. ';'
+  html[#html+1] = 'const ALL_CODES      = ' .. to_json(all_codes)        .. ';'
+  html[#html+1] = 'const DOC_NAMES      = ' .. to_json(doc_order)        .. ';'
+  html[#html+1] = 'const DOC_CODE_MATRIX = ' .. to_json(doc_code_matrix) .. ';'
+  
+  -- Export code colours and schema
+  local code_schema  = config.code_schema or {}
+  local colors_raw   = code_schema.colors or {}
+  local default_color = code_schema.default_color or "#757575"
+  html[#html+1] = 'const CODE_COLORS = ' .. to_json(colors_raw) .. ';'
+  html[#html+1] = 'const CODE_SCHEMA = ' .. to_json({default_color = default_color}) .. ';'
+
+html[#html+1] = 'const REFLECT_CONFIG = ' .. to_json({
+    ollama_url    = S(config.ollama.url),
+    ollama_model  = S(config.ollama.model),
+    naming_model  = S(config.ollama.naming_model),
+    num_ctx       = N(config.ollama.num_ctx),
+    server_port   = N(config.server.port),
+    scheme_path   = SCHEME_JSON,
   }) .. ';'
   html[#html+1] = '</script>'
   html[#html+1] = '<script>' .. shared_js .. '</script>'
   html[#html+1] = '<div id="qc-reflect-root"></div>'
+  
+  html[#html+1] = '<script>// ── Code colour utilities ─────────────────────────────────────────────────────
+// CODE_COLORS is injected by the filter: {"10": "#2196F3", "30": "#9C27B0", ...}
+// CODE_SCHEMA.default_color is the fallback.
+
+function getCodePrefix(name) {
+  var m = (name || '').match(/^(\d{2})/);
+  return m ? m[1] : null;
+}
+
+function getCodeColor(name, opts) {
+  // opts: { desaturate: true } for children of stubs
+  var prefix  = getCodePrefix(name);
+  var color   = (prefix && CODE_COLORS && CODE_COLORS[prefix])
+    ? CODE_COLORS[prefix]
+    : ((CODE_SCHEMA && CODE_SCHEMA.default_color) || '#757575');
+  if (opts && opts.desaturate) color = desaturateHex(color, 0.35);
+  return color;
+}
+
+function desaturateHex(hex, amount) {
+  // amount: 0 = full colour, 1 = grey
+  var r = parseInt(hex.slice(1,3),16);
+  var g = parseInt(hex.slice(3,5),16);
+  var b = parseInt(hex.slice(5,7),16);
+  var grey = Math.round(0.299*r + 0.587*g + 0.114*b);
+  r = Math.round(r + (grey - r) * amount);
+  g = Math.round(g + (grey - g) * amount);
+  b = Math.round(b + (grey - b) * amount);
+  return '#' + [r,g,b].map(function(v){ return ('0'+v.toString(16)).slice(-2); }).join('');
+}
+
+function isStub(name) {
+  return /^\d{2}_[A-Za-z][A-Za-z_]*$/.test(name || '');
+}
+
+function codeDot(name, size) {
+  // Returns a colour dot element
+  var stub    = isStub(name);
+  var color   = getCodeColor(name, {desaturate: !stub});
+  var dot     = document.createElement('span');
+  var s       = size || 8;
+  dot.style.cssText = [
+    'display:inline-block',
+    'width:'+s+'px',
+    'height:'+s+'px',
+    'border-radius:50%',
+    'background:'+color,
+    'flex-shrink:0',
+    'margin-right:4px',
+    'opacity:'+(stub?'1':'0.7'),
+  ].join(';');
+  return dot;
+}
+</script>'
+
   html[#html+1] = '<script>' .. js .. '</script>'
   html[#html+1] = '</body></html>'
 
