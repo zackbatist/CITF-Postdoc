@@ -1,5 +1,0 @@
----
-title: "QC Reflect"
-filters:
-  - qc-atelier/qc-reflect/qc-reflect-filter.lua
----

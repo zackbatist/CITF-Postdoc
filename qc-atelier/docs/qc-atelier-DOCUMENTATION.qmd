@@ -1460,3 +1460,15 @@ qwen3.5:35b available for production runs (23GB, fits in 24GB VRAM). Switch via 
 **Pending.** Stub rendering in qc-reflect suggestion engine (tabled). Colour coding in autocomplete dropdowns. JD prefix stripping workflow in qc-refactor.
 
 ---
+
+### 2026-05-06 — project restructure: consolidate qc-atelier tooling
+
+- Move qc-atelier-config.yaml and qc-atelier-server.py from root into qc-atelier/
+- Move tool .qmd entry points into their respective tool directories
+- Update config path in all four filters and server; QC_ATELIER_CONFIG env var override still works
+- Exclude qc-atelier/ from Quarto website render in _quarto.yml — tool .qmds were previously rendered as website pages via *.qmd glob
+- Remove stray qualitative_coding.log from project root
+- Add .gitignore
+
+---
+
