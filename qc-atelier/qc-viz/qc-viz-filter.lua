@@ -20,7 +20,7 @@ local read_json_file      = shared.read_json_file
 
 -- Load configuration from YAML file or environment variables
 local function load_config()
-  local config_file = os.getenv("QC_ATELIER_CONFIG") or "qc-atelier-config.yaml"
+  local config_file = os.getenv("QC_ATELIER_CONFIG") or (_get_project_root_early() .. "/qc-atelier/qc-atelier-config.yaml")
   local verbose = os.getenv("QC_VERBOSE") == "true"
   
   -- Default configuration (flat structure used by the rest of this filter)

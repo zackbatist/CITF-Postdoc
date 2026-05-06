@@ -49,7 +49,7 @@ local function project_path(rel)
 end
 
 local function load_config()
-  local cfg_file = os.getenv("QC_ATELIER_CONFIG") or project_path("qc-atelier-config.yaml")
+  local cfg_file = os.getenv("QC_ATELIER_CONFIG") or project_path("qc-atelier/qc-atelier-config.yaml")
   local cfg = {
     directories = { json_dir = "qc/json", output_dir = "qc" },
     server = { port = 8080 },

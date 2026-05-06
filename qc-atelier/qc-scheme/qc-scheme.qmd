@@ -1,0 +1,11 @@
+---
+title: "QC Scheme"
+format:
+  html:
+    filters:
+      - qc-atelier/qc-scheme/qc-scheme-filter.lua
+execute:
+  enabled: false
+---
+
+Code documentation and scheme management.

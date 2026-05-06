@@ -4,6 +4,7 @@ project:
   render:
     - "*.qmd"
     - "!private/"
+    - "!qc-atelier/"
     - "!data/CITF.qmd"
     - "!data/CITF.html"
     - "!data/CITF_files/"

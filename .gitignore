@@ -9,8 +9,6 @@
 
 # Packages #
 ############
-# it's better to unpack these files and commit the raw source
-# git has its own built in compression methods
 *.7z
 *.dmg
 *.gz
@@ -40,30 +38,35 @@ Thumbs.db
 #####
 .Rproj.user
 .Rhistory
-.Rhistory
 .RData
 
 # LaTeX #
-######################
+#########
 *.aux
 *.fdb_latexmk
 *.fls
-*.log
 *.out
-*.gz
 
-# System Directories *
-######################
+# System / editor #
+###################
 .vscode/
 /.quarto/
 _site/
 _extensions/
 _freeze/
 _corpus_output/
-
-# Other #
-######################
 .gdsheet
 .hugo_build.lock
 /.luarc.json
 **/*.quarto_ipynb
+
+# Python / virtualenv (qc submodule artifacts) #
+#################################################
+pyvenv.cfg
+settings.yaml
+share/
+
+# Quarto build artifacts #
+##########################
+*_files/
+/*.html
