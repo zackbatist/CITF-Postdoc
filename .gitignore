@@ -70,3 +70,7 @@ share/
 ##########################
 *_files/
 /*.html
+
+# qc-atelier rendered outputs #
+################################
+qc-atelier/*.html

@@ -37,7 +37,8 @@ def load_config():
     config_path = os.environ.get("QC_ATELIER_CONFIG", "qc-atelier/qc-atelier-config.yaml")
     defaults = {
         "port":       8080,
-        "serve_dir":  "qc",
+        "serve_dir":  "qc-atelier",
+            "data_dir":   "qc",
         "logs_dir":   "qc/reflect-logs",
         "ollama_url": "http://localhost:11434",
         "qc_bin":     "",
@@ -61,7 +62,8 @@ def load_config():
 
         return {
             "port":       int(port_str),
-            "serve_dir":  output_dir,  # filters write HTML here; serve from same dir
+            "serve_dir":  "qc-atelier",
+            "data_dir":   "qc",  # filters write HTML here; serve from same dir
             "logs_dir":   logs_dir,
             "ollama_url": ollama_url.rstrip("/"),
             "qc_bin":     qc_bin,
@@ -72,9 +74,11 @@ def load_config():
 
 
 CONFIG       = load_config()
+PROJECT_ROOT = Path.cwd()
 SERVE_DIR    = Path(CONFIG["serve_dir"]).resolve()
+DATA_DIR     = Path(CONFIG.get("data_dir", "qc")).resolve()
 LOGS_DIR     = Path(CONFIG["logs_dir"]).resolve()
-SNAPSHOTS_DIR = (SERVE_DIR / "snapshots").resolve()
+SNAPSHOTS_DIR = (DATA_DIR / "snapshots").resolve()
 PORT         = CONFIG["port"]
 OLLAMA       = CONFIG["ollama_url"]
 
@@ -235,7 +239,18 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        if self.path == "/logs/list":
+        if self.path in ('/', '/index.html'):
+            index_path = PROJECT_ROOT / 'qc-atelier' / 'index.html'
+            if index_path.exists():
+                content = index_path.read_bytes()
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html; charset=utf-8')
+                self.send_header('Content-Length', str(len(content)))
+                self.end_headers()
+                self.wfile.write(content)
+            else:
+                self.send_error(404, 'index.html not found')
+        elif self.path == "/logs/list":
             self._logs_list()
         elif self.path == "/snapshots/list":
             self._snapshots_list()
@@ -526,7 +541,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     ts_log = datetime.now().strftime("%H:%M:%S")
                     print(f"[{ts_log}] load-json: detected snapshot dir = {active_dir}")
                     # Record this as the working parent for next snapshot/fork
-                    (SERVE_DIR / ".working_parent").write_text(dir_name)
+                    (DATA_DIR / ".working_parent").write_text(dir_name)
             except ValueError:
                 pass  # not inside SNAPSHOTS_DIR
 
@@ -951,7 +966,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             payload    = json.loads(body)
             code       = payload.get("code", "")
             new_parent = payload.get("new_parent", "")
-            yaml_path  = Path(payload.get("yaml_path", str(SERVE_DIR / "codebook.yaml")))
+            yaml_path  = Path(payload.get("yaml_path", str(DATA_DIR / "codebook.yaml")))
             self._do_move(code, new_parent, yaml_path)
             self._json(200, {"ok": True})
         except Exception as e:
@@ -1211,7 +1226,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         qs = self.path.split("?", 1)[1] if "?" in self.path else ""
         params = dict(p.split("=", 1) for p in qs.split("&") if "=" in p)
         import urllib.parse
-        scheme_path = Path(urllib.parse.unquote(params.get("path", str(SERVE_DIR / "codebook.json"))))
+        scheme_path = Path(urllib.parse.unquote(params.get("path", str(DATA_DIR / "codebook.json"))))
         try:
             if not scheme_path.exists():
                 self._json(200, {"entries": [], "ok": True})
@@ -1280,11 +1295,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             snap_yaml = snap_dir / "codebook.yaml"
             snap_json = snap_dir / "codebook.json"
             if snap_yaml.exists():
-                shutil.copy2(snap_yaml, SERVE_DIR / "codebook.yaml")
+                shutil.copy2(snap_yaml, DATA_DIR / "codebook.yaml")
             if snap_json.exists():
-                shutil.copy2(snap_json, SERVE_DIR / "codebook.json")
+                shutil.copy2(snap_json, DATA_DIR / "codebook.json")
             # Update working parent
-            (SERVE_DIR / ".working_parent").write_text(dir_name)
+            (DATA_DIR / ".working_parent").write_text(dir_name)
             ts_log = datetime.now().strftime("%H:%M:%S")
             print(f"[{ts_log}] snapshots/load: loaded {dir_name}")
             self._json(200, {"ok": True, "dir": dir_name})

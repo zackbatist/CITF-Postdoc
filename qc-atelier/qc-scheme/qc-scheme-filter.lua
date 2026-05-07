@@ -25,6 +25,7 @@ local to_json             = shared.to_json
 local parse_codebook_yaml = shared.parse_codebook_yaml
 local flatten_codebook    = shared.flatten_codebook
 local build_use_counts    = shared.build_use_counts
+local build_code_colors   = shared.build_code_colors
 
 -- ── Config ────────────────────────────────────────────────────────────────────
 
@@ -72,7 +73,7 @@ end
 local config = load_config()
 
 -- These paths are always relative to project root, never from shared config:
-local OUTPUT_PATH     = project_path("qc/qc-scheme.html")
+local OUTPUT_PATH     = project_path("qc-atelier/qc-scheme.html")
 local CODEBOOK_PATH   = project_path(S(config.directories.output_dir) .. "/codebook.yaml")
 local SCHEME_JSON = project_path(S(config.directories.output_dir) .. "/codebook.json")
 local JSON_DIR        = project_path(S(config.directories.json_dir))
@@ -116,7 +117,7 @@ local function generate_html()
   html[#html+1] = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">'
   html[#html+1] = '<style>' .. (shared_css or '') .. '\n' .. (css or '') .. '</style>'
   html[#html+1] = '</head><body>'
-  html[#html+1] = '<nav class="qc-nav"><a class="qc-nav-brand" href="/">qc-atelier</a><a href="/qc-scheme.html" class="active">scheme</a><a href="/qc-viz.html">viz</a><a href="/qc-refactor.html">refactor</a></nav>'
+  html[#html+1] = '<nav class="qc-nav"><a class="qc-nav-brand" href="/">qc-atelier</a><a href="/qc-viz.html">viz</a><a href="/qc-scheme.html" class="active">scheme</a><a href="/qc-refactor.html">refactor</a><a href="/qc-reflect.html">reflect</a><a href="/qc-align.html" class="inactive">align</a><a href="/qc-unfold.html" class="inactive">unfold</a><a href="/qc-trace.html" class="inactive">trace</a></nav>'
   html[#html+1] = '<script>'
   html[#html+1] = 'const CODEBOOK_TREE = ' .. to_json(tree)       .. ';'
   html[#html+1] = 'const CORPUS_COUNTS = ' .. to_json(use_counts) .. ';'
@@ -124,10 +125,11 @@ local function generate_html()
   html[#html+1] = 'const DOCS_DATA = {"codes":{}};'
   
   -- Export code colours and schema
-  local code_schema  = config.code_schema or {}
-  local colors_raw   = code_schema.colors or {}
+  local code_schema   = config.code_schema or {}
+  local palette       = code_schema.palette or {"#2196F3","#FF9800","#9C27B0","#4CAF50","#E91E63","#FFC107","#009688","#F44336","#00BCD4","#8BC34A"}
   local default_color = code_schema.default_color or "#757575"
-  html[#html+1] = 'const CODE_COLORS = ' .. to_json(colors_raw) .. ';'
+  local colors_derived = build_code_colors(tree, palette, default_color)
+  html[#html+1] = 'const CODE_COLORS = ' .. to_json(colors_derived) .. ';'
   html[#html+1] = 'const CODE_SCHEMA = ' .. to_json({default_color = default_color}) .. ';'
 
 html[#html+1] = 'const DOCS_CONFIG = '   .. to_json({

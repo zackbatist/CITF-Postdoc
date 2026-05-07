@@ -24,6 +24,7 @@ local to_json             = shared.to_json
 local parse_codebook_yaml = shared.parse_codebook_yaml
 local flatten_codebook    = shared.flatten_codebook
 local build_use_counts    = shared.build_use_counts
+local build_code_colors   = shared.build_code_colors
 
 -- ── Config ─────────────────────────────────────────────────────────────────────
 
@@ -77,7 +78,7 @@ local function load_config()
 end
 
 local config      = load_config()
-local OUTPUT_PATH = project_path(S(config.directories.output_dir) .. "/qc-reflect.html")
+local OUTPUT_PATH = project_path("qc-atelier/qc-reflect.html")
 local CODEBOOK_PATH   = project_path(S(config.directories.output_dir) .. "/codebook.yaml")
 local SCHEME_JSON     = project_path(S(config.directories.output_dir) .. "/codebook.json")
 local JSON_DIR        = project_path(S(config.directories.json_dir))
@@ -239,10 +240,11 @@ local function generate_html()
   html[#html+1] = 'const DOC_CODE_MATRIX = ' .. to_json(doc_code_matrix) .. ';'
   
   -- Export code colours and schema
-  local code_schema  = config.code_schema or {}
-  local colors_raw   = code_schema.colors or {}
+  local code_schema   = config.code_schema or {}
+  local palette       = code_schema.palette or {"#2196F3","#FF9800","#9C27B0","#4CAF50","#E91E63","#FFC107","#009688","#F44336","#00BCD4","#8BC34A"}
   local default_color = code_schema.default_color or "#757575"
-  html[#html+1] = 'const CODE_COLORS = ' .. to_json(colors_raw) .. ';'
+  local colors_derived = build_code_colors(tree, palette, default_color)
+  html[#html+1] = 'const CODE_COLORS = ' .. to_json(colors_derived) .. ';'
   html[#html+1] = 'const CODE_SCHEMA = ' .. to_json({default_color = default_color}) .. ';'
 
 html[#html+1] = 'const REFLECT_CONFIG = ' .. to_json({

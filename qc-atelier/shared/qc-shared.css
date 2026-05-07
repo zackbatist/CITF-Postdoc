@@ -141,3 +141,11 @@ body.light-mode {}
   border-radius: 50%;
   flex-shrink: 0;
 }
+
+/* ── Inactive nav items (planned tools) ── */
+.qc-nav a.inactive {
+  color: var(--text-faint);
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+}

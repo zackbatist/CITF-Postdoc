@@ -33,7 +33,7 @@ local function load_config()
       output_dir = "qc"
     },
     files = {
-      output_file = "qc-viz.html",
+      output_file = "qc-atelier/qc-viz.html",
       css_file = "qc-atelier/qc-viz/qc-viz.css",
       js_file = "qc-atelier/qc-viz/qc-viz.js",
       venv = "qc/bin/activate"
@@ -196,7 +196,19 @@ local SHARED_CSS_FILE = _get_project_root_early() .. "/qc-atelier/shared/qc-shar
 -- Derived paths - must come AFTER config loading
 local json_dir = pandoc.utils.stringify(config.directories.json_dir)
 local corpus_dir = pandoc.utils.stringify(config.directories.corpus_dir)
-local output_path = pandoc.utils.stringify(config.directories.output_dir) .. "/" .. pandoc.utils.stringify(config.files.output_file)
+local output_path = _get_project_root_early() .. "/qc-atelier/qc-viz.html"
+
+local CODEBOOK_JSON_PATH = _get_project_root_early() .. "/" .. config.directories.qc_dir .. "/codebook.json"
+local _codebook_docs = shared.read_json_file(CODEBOOK_JSON_PATH) or {}
+local _deprecated_codes = {}
+if _codebook_docs.codes then
+  for code, info in pairs(_codebook_docs.codes) do
+    if info.status == "deprecated" then
+      _deprecated_codes[code] = true
+    end
+  end
+end
+
 local codebook_path = pandoc.utils.stringify(config.codebook.path)
 
 if config.advanced.verbose then
@@ -362,6 +374,9 @@ local function matches_branch(code, branch_name, recursive)
 end
 
 local function should_include_code(code)
+  -- Exclude deprecated codes
+  if _deprecated_codes[code] then return false end
+
   -- Whitelist takes precedence
   if config.code_filters.whitelist.enabled then
     -- Check specific codes

@@ -217,4 +217,34 @@ function M.build_use_counts(json_files)
   return result
 end
 
+
+-- ── Code colour assignment ────────────────────────────────────────────────────
+-- Derives CODE_COLORS from the codebook tree and a palette.
+-- Assigns one palette colour per unique two-digit prefix, in sort order.
+-- Returns a table: {["10"] = "#2196F3", ["30"] = "#9C27B0", ...}
+
+function M.build_code_colors(nodes, palette, default_color)
+  palette      = palette      or {}
+  default_color = default_color or "#757575"
+
+  -- Collect unique two-digit prefixes in sort order
+  local seen    = {}
+  local prefixes = {}
+  for _, node in ipairs(nodes) do
+    local prefix = (node.name or ""):match("^(%d%d)_")
+    if prefix and not seen[prefix] then
+      seen[prefix] = true
+      prefixes[#prefixes + 1] = prefix
+    end
+  end
+  table.sort(prefixes)
+
+  -- Assign palette colours round-robin
+  local colors = {}
+  for i, prefix in ipairs(prefixes) do
+    colors[prefix] = palette[((i - 1) % #palette) + 1] or default_color
+  end
+  return colors
+end
+
 return M

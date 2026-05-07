@@ -1472,3 +1472,20 @@ qwen3.5:35b available for production runs (23GB, fits in 24GB VRAM). Switch via 
 
 ---
 
+### 2026-05-06 — nav, index, colour coding, config cleanup
+
+- Add reflect to nav in all four tools; add inactive placeholders for
+  qc-align, qc-unfold, qc-trace; reorder viz, scheme, refactor, reflect,
+  align, unfold, trace
+- Move index.html from qc/ to qc-atelier/; recast as two-column grid;
+  reflect promoted to active, align recast as corpus adjustment tool,
+  trace added as planned diagnostic tool for codebook history
+- build_code_colors() added to qc-shared.lua; colours derived from codebook
+  prefixes at render time using a palette; per-branch config entries removed
+- Blacklist removed from config; qc-viz now excludes deprecated codes by
+  reading codebook.json status at render time
+- Rendered HTMLs moved from qc/ to qc-atelier/; server split into SERVE_DIR
+  (qc-atelier/) for HTML and DATA_DIR (qc/) for codebook and corpus data
+
+---
+
