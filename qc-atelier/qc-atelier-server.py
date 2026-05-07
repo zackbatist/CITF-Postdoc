@@ -278,6 +278,21 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._align_responses_list()
         elif self.path.startswith("/api/"):
             self._proxy("GET", b"")
+        elif self.path.startswith("/reflect-reports/"):
+            # Serve reflect reports from DATA_DIR (qc submodule)
+            rel  = self.path[len("/reflect-reports/"):]
+            path = DATA_DIR / "reflect-reports" / rel
+            if path.exists() and path.is_file():
+                import mimetypes
+                mime, _ = mimetypes.guess_type(str(path))
+                content = path.read_bytes()
+                self.send_response(200)
+                self.send_header("Content-Type", mime or "application/octet-stream")
+                self.send_header("Content-Length", str(len(content)))
+                self.end_headers()
+                self.wfile.write(content)
+            else:
+                self.send_error(404, f"Not found: {path}")
         else:
             super().do_GET()
 

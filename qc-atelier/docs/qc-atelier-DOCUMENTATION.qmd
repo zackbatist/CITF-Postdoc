@@ -1489,3 +1489,15 @@ qwen3.5:35b available for production runs (23GB, fits in 24GB VRAM). Switch via 
 
 ---
 
+### 2026-05-06 — fix filter path resolution, server routing
+
+- All four filters updated to resolve project root by stripping two path
+  components from pwd — necessary because quarto cds to the qmd directory
+  before running filters, breaking the previous pwd-based fallback
+- viz filter updated to prepend project root to CSS, JS, corpus, and
+  codebook paths, which were resolving relative to the wrong directory
+- Server adds /reflect-reports/ route serving static files from DATA_DIR (qc/)
+- Server serves index.html from qc-atelier/ via dedicated root handler
+
+---
+

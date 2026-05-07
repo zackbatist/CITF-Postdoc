@@ -1,11 +1,11 @@
 ---
-title: "Qualitative Coding Visualization"
+title: "QC viz"
 format:
   html:
     filters:
-      - qc-atelier/qc-viz/qc-viz-filter.lua
+      - qc-viz-filter.lua
+execute:
+  enabled: false
 ---
 
-This document triggers the generation of the qualitative coding visualization.
-
-The HTML output is generated at `qc/qc-viz.html` and can be viewed directly in your browser.
+viz tool.

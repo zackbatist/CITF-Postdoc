@@ -4,10 +4,11 @@
 -- Load shared helpers from qc-shared.lua (sibling of this filter's directory)
 local function _get_project_root_early()
   local s = os.getenv("PANDOC_SCRIPT_FILE") or ""
-  local r = s:gsub("/qc-atelier/[^/]+/[^/]+$", "")
-  if r ~= "" and r ~= s then return r end
-  local h = io.popen("pwd"); local cwd = h:read("*l"); h:close()
-  return cwd or "."
+  local r = s:match("^(.*)/qc-atelier/[^/]+/[^/]+$")
+  if r and r ~= "" then return r end
+  local h = io.popen("pwd"); local cwd = h:read("*l"); h:close(); cwd = cwd or "."
+  -- quarto cds to qmd dir (qc-atelier/<tool>), so go up 2 levels
+  local parent = cwd:match("^(.+)/[^/]+/[^/]+$"); return parent or cwd
 end
 local _shared_path = _get_project_root_early() .. "/qc-atelier/shared/qc-shared.lua"
 local shared = dofile(_shared_path)
@@ -189,16 +190,16 @@ end
 local config = load_config()
 
 -- Store file paths at module level to ensure they're accessible
-local CSS_FILE        = pandoc.utils.stringify(config.files.css_file)
-local JS_FILE         = pandoc.utils.stringify(config.files.js_file)
+local CSS_FILE        = _get_project_root_early() .. "/" .. pandoc.utils.stringify(config.files.css_file)
+local JS_FILE         = _get_project_root_early() .. "/" .. pandoc.utils.stringify(config.files.js_file)
 local SHARED_CSS_FILE = _get_project_root_early() .. "/qc-atelier/shared/qc-shared.css"
 
 -- Derived paths - must come AFTER config loading
-local json_dir = pandoc.utils.stringify(config.directories.json_dir)
-local corpus_dir = pandoc.utils.stringify(config.directories.corpus_dir)
+local json_dir   = _get_project_root_early() .. "/" .. pandoc.utils.stringify(config.directories.json_dir)
+local corpus_dir = _get_project_root_early() .. "/" .. pandoc.utils.stringify(config.directories.corpus_dir)
 local output_path = _get_project_root_early() .. "/qc-atelier/qc-viz.html"
 
-local CODEBOOK_JSON_PATH = _get_project_root_early() .. "/" .. config.directories.qc_dir .. "/codebook.json"
+local CODEBOOK_JSON_PATH = _get_project_root_early() .. "/" .. pandoc.utils.stringify(config.directories.qc_dir) .. "/codebook.json"
 local _codebook_docs = shared.read_json_file(CODEBOOK_JSON_PATH) or {}
 local _deprecated_codes = {}
 if _codebook_docs.codes then

@@ -5,10 +5,11 @@
 -- Load shared helpers from qc-shared.lua (sibling of this filter's directory)
 local function _get_project_root_early()
   local s = os.getenv("PANDOC_SCRIPT_FILE") or ""
-  local r = s:gsub("/qc-atelier/[^/]+/[^/]+$", "")
-  if r ~= "" and r ~= s then return r end
-  local h = io.popen("pwd"); local cwd = h:read("*l"); h:close()
-  return cwd or "."
+  local r = s:match("^(.*)/qc-atelier/[^/]+/[^/]+$")
+  if r and r ~= "" then return r end
+  local h = io.popen("pwd"); local cwd = h:read("*l"); h:close(); cwd = cwd or "."
+  -- quarto cds to qmd dir (qc-atelier/<tool>), so go up 2 levels
+  local parent = cwd:match("^(.+)/[^/]+/[^/]+$"); return parent or cwd
 end
 local _shared_path = _get_project_root_early() .. "/qc-atelier/shared/qc-shared.lua"
 local shared = dofile(_shared_path)
@@ -32,14 +33,11 @@ local build_code_colors   = shared.build_code_colors
 -- Resolve the project root from this filter's own path.
 -- PANDOC_SCRIPT_FILE is set by Pandoc to the filter's absolute path.
 local function get_project_root()
-  local script = os.getenv("PANDOC_SCRIPT_FILE") or ""
-  -- filter is at <root>/qc-atelier/qc-scheme/qc-scheme-filter.lua
-  -- so go up 3 levels
-  local root = script:match("^(.*)/qc-atelier/qc-scheme/[^/]+$")
-  if root and root ~= "" then return root end
-  -- Fallback: use cwd
-  local h = io.popen("pwd"); local cwd = h:read("*l"); h:close()
-  return cwd or "."
+  local s = os.getenv("PANDOC_SCRIPT_FILE") or ""
+  local r = s:match("^(.*)/qc-atelier/[^/]+/[^/]+$")
+  if r and r ~= "" then return r end
+  local h = io.popen("pwd"); local cwd = h:read("*l"); h:close(); cwd = cwd or "."
+  local parent = cwd:match("^(.+)/[^/]+/[^/]+$"); return parent or cwd
 end
 
 local PROJECT_ROOT = get_project_root()

@@ -1,11 +1,11 @@
 ---
-title: "QC Refactor"
+title: "QC refactor"
 format:
   html:
     filters:
-      - qc-atelier/qc-refactor/qc-refactor-filter.lua
+      - qc-refactor-filter.lua
 execute:
   enabled: false
 ---
 
-Structural operations on the qc code system.
+refactor tool.
