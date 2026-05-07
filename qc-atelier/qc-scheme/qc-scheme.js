@@ -4,11 +4,6 @@
 (function () {
 'use strict';
 
-// Detect stubs: XX_Label pattern
-function isStub(name) {
-  return /^\d{2}_[A-Za-z][A-Za-z_]*$/.test(name || '');
-}
-
 const API = 'http://localhost:' + (DOCS_CONFIG.server_port || 8080);
 var treeArr = Array.isArray(CODEBOOK_TREE) ? CODEBOOK_TREE.slice() : Object.values(CODEBOOK_TREE);
 
@@ -322,7 +317,9 @@ async function refreshTreeFromServer(snapshotDir) {
       rebuildIndices();
       // Reinitialise autocomplete with updated code names
       if (window.qcAutocompleteInit) {
-        qcAutocompleteInit(treeArr.map(function(n) { return n.name; }));
+        var _codes = treeArr.map(function(n) { return n.name; });
+      window._rich_codes = _codes;
+      qcAutocompleteInit(_codes);
       }
       return true;
     }
@@ -333,10 +330,27 @@ async function refreshTreeFromServer(snapshotDir) {
 }
 
 function getChildren(name) {
-  var ch = _childrenIdx[name]; return ch ? ch.map(function(n){ return treeArr.find(function(x){return x.name===n;}); }).filter(Boolean) : [];
+  var ch = _childrenIdx[name];
+  if (!ch) return [];
+  var nodes = ch.map(function(n){ return treeArr.find(function(x){return x.name===n;}); }).filter(Boolean);
+  return nodes.sort(function(a, b) {
+    var da = getDoc(a.name); var db = getDoc(b.name);
+    var sa = da.status || ''; var sb = db.status || '';
+    var depA = sa === 'deprecated' ? 1 : 0;
+    var depB = sb === 'deprecated' ? 1 : 0;
+    if (depA !== depB) return depA - depB;
+    return a.name.localeCompare(b.name);
+  });
 }
 function getRoots() {
-  return treeArr.filter(function(n){ return !_parentIdx[n.name]; });
+  return treeArr.filter(function(n){ return !_parentIdx[n.name]; }).sort(function(a, b) {
+    var da = getDoc(a.name); var db = getDoc(b.name);
+    var sa = da.status || ''; var sb = db.status || '';
+    var depA = sa === 'deprecated' ? 1 : 0;
+    var depB = sb === 'deprecated' ? 1 : 0;
+    if (depA !== depB) return depA - depB;
+    return a.name.localeCompare(b.name);
+  });
 }
 function nodeParent(name) { return _parentIdx[name] !== undefined ? _parentIdx[name] : ''; }
 function nodeDepth(name)  { return _depthIdx[name]  !== undefined ? _depthIdx[name]  : 0;  }
@@ -1726,7 +1740,7 @@ function buildRow(node, overrideDepth) {
 
   var row=h('div',{
     className:rowClass,
-    onClick:function(e){ e.stopPropagation(); handleRowClick(node.name,e); },
+    onClick:function(e){ e.stopPropagation(); if(window.getSelection&&window.getSelection().toString()) return; handleRowClick(node.name,e); },
   });
 
   for(var i=0;i<depth;i++) row.appendChild(h('span',{className:'tree-indent'}));
@@ -1735,7 +1749,7 @@ function buildRow(node, overrideDepth) {
 
   // Pip: export selector + status ring
   var statusColor={active:'#10b981',experimental:'#f59e0b',deprecated:'#ef4444'}[nodeStatus]||'';
-  var innerFill=sel==='none'?'var(--text-faint)':getCodeColor(node.name,{desaturate:!isStub(node.name)});
+  var innerFill=sel==='none'?'var(--text-faint)':((typeof getCodeColor==='function')?getCodeColor(node.name,{desaturate:!((typeof isStub==='function')&&isStub(node.name))}):'var(--accent)');
   var innerOpacity=sel==='none'?0.2:sel==='some'?0.5:1;
   var pipWrap=h('span',{
     className:'tree-pip-wrap',
@@ -1745,17 +1759,27 @@ function buildRow(node, overrideDepth) {
   pipWrap.appendChild(makePipSvg(statusColor?3:4,innerFill,innerOpacity,statusColor?5.5:0,statusColor,sel==='none'?0.3:0.85));
   row.appendChild(pipWrap);
 
-  var nameSpan = h('span',{className:'tree-name'+(isStub(node.name)?' tree-stub':''),title:node.name,
-      style:{color: isStub(node.name) ? getCodeColor(node.name) : '',
-             fontWeight: isStub(node.name) ? '600' : 'normal'}},
-      node.name);
-  row.appendChild(nameSpan);
+  var _isStubNode = (typeof isStub === 'function') && isStub(node.name);
+  var _nodeColor  = (typeof getCodeColor === 'function') ? getCodeColor(node.name, {desaturate: !_isStubNode}) : '';
+  var nameWrap = document.createElement('span');
+  nameWrap.className = 'tree-name-wrap';
+  nameWrap.style.borderLeftColor = _nodeColor;
+  if (_isStubNode) {
+    var iconSpan = document.createElement('span');
+    iconSpan.className = 'tree-stub-icon';
+    iconSpan.textContent = '⊕';
+    nameWrap.appendChild(iconSpan);
+  }
+  var nameSpan = document.createElement('span');
+  nameSpan.className = 'tree-name' + (_isStubNode ? ' tree-stub' : '');
+  nameSpan.title = node.name;
+  nameSpan.textContent = node.name;
+  nameWrap.appendChild(nameSpan);
+  row.appendChild(nameWrap);
 
-  // Subtle undoc indicator: faint dot after name when no documentation at all
   var docMissing = !hasDoc(node.name);
   if (docMissing) {
     row.appendChild(h('span',{
-      className:'tree-undoc-dot',
       title:'No documentation yet',
     }));
   }
@@ -1847,7 +1871,19 @@ function buildEditor() {
   var clog = getDoc(code)._log || [];
   var editor=h('div',{className:'editor'});
   editor.appendChild(h('div',{className:'editor-header'},
-    h('div',{className:'editor-code-name'},code),
+    (function(){
+      var nameEl = document.createElement('div');
+      nameEl.className = 'editor-code-name';
+      if (typeof getCodeColor === 'function') {
+        var _stub = typeof isStub === 'function' && isStub(code);
+        var _color = getCodeColor(code, {desaturate: !_stub});
+        nameEl.style.borderLeft = '5px solid ' + _color;
+        nameEl.style.paddingLeft = '8px';
+        nameEl.style.fontWeight = _stub ? '600' : 'normal';
+      }
+      nameEl.textContent = code;
+      return nameEl;
+    })(),
     h('div',{className:'editor-code-meta'},
       'depth '+nodeDepth(code)+(effParent?' · under '+effParent:' · root')+
       (uses?' · '+uses+' uses':' · not in corpus')+
@@ -1928,7 +1964,7 @@ function buildMultiEditor(codes) {
   var keepStatusOpt=document.createElement('option'); keepStatusOpt.value='__keep__';
   keepStatusOpt.textContent=allSameStatus?(statuses[0]||'unset'):'(mixed)';
   statusSel.appendChild(keepStatusOpt);
-  ['','active','experimental','deprecated'].forEach(function(s){
+  ['','active','stub','experimental','deprecated'].forEach(function(s){
     var opt=document.createElement('option'); opt.value=s; opt.textContent='→ '+(s||'unset');
     statusSel.appendChild(opt);
   });
@@ -3586,7 +3622,16 @@ function buildDocTab(code) {
   var wrap=h('div',{});
 
   function textField(key,label,hint,placeholder,rows){
-    var ta=h('textarea',{placeholder:placeholder,rows:rows||3,value:doc[key]||'',
+    var richField = (typeof makeRichField === 'function') ? makeRichField({
+      value: doc[key] || '',
+      rows: rows || 3,
+      placeholder: placeholder,
+      onchange: function(v) {
+        setDoc(code, key, v);
+        scheduleHistCommit(code, key);
+      },
+    }) : null;
+    var ta = richField ? richField._ta : h('textarea',{placeholder:placeholder,rows:rows||3,value:doc[key]||'',
       onInput:function(e){
         setDoc(code,key,e.target.value);
         scheduleHistCommit(code, key);
@@ -3597,7 +3642,8 @@ function buildDocTab(code) {
     });
     var lbl=h('div',{className:'field-label'},label);
     if(hint) lbl.appendChild(h('span',{className:'field-hint'},hint));
-    return h('div',{className:'field'},lbl,ta);
+    var fieldEl = richField || ta;
+    return h('div',{className:'field'},lbl,fieldEl);
   }
 
   wrap.appendChild(textField('scope',      'Scope',       'What this code captures and where it ends',        'What does this code cover?',3));
@@ -3609,7 +3655,7 @@ function buildDocTab(code) {
     style:{background:'var(--surface)',border:'1px solid var(--border)',borderRadius:'var(--radius)',color:'var(--text)',padding:'5px 8px',fontFamily:'var(--sans)',fontSize:'12px',outline:'none',cursor:'pointer'},
     onChange:function(e){setDoc(code,'status',e.target.value);renderSidebar();},
   });
-  ['','active','experimental','deprecated'].forEach(function(s){
+  ['','active','stub','experimental','deprecated'].forEach(function(s){
     var opt=document.createElement('option'); opt.value=s; opt.textContent=s||'(unset)';
     if((doc.status||'')===s) opt.selected=true;
     statusSel.appendChild(opt);
@@ -3673,6 +3719,7 @@ function buildExamplesTab(code) {
 // ── Boot ──────────────────────────────────────────────────────────────────────
 
 function boot() {
+  if (typeof CODEBOOK_TREE !== "undefined") window._rich_codes = CODEBOOK_TREE.map(function(n){return n.name;});
   LS.migrate();
   initExportSelected();
   ensureEscListener();

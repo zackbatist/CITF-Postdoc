@@ -250,6 +250,17 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(content)
             else:
                 self.send_error(404, 'index.html not found')
+        elif self.path == '/favicon.ico':
+            fav_path = PROJECT_ROOT / 'assets' / 'resources' / 'favicon.ico'
+            if fav_path.exists():
+                content = fav_path.read_bytes()
+                self.send_response(200)
+                self.send_header('Content-Type', 'image/x-icon')
+                self.send_header('Content-Length', str(len(content)))
+                self.end_headers()
+                self.wfile.write(content)
+            else:
+                self.send_error(404, 'favicon not found')
         elif self.path == "/logs/list":
             self._logs_list()
         elif self.path == "/snapshots/list":
@@ -1201,7 +1212,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     # Returns the current codebook.yaml as a flat tree for runtime picker refresh.
 
     def _refactor_tree(self):
-        yaml_path = SERVE_DIR / "codebook.yaml"
+        yaml_path = DATA_DIR / "codebook.yaml"
         try:
             if not yaml_path.exists():
                 self._json(404, {"error": "codebook.yaml not found"})

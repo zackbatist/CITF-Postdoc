@@ -135,17 +135,69 @@ body.light-mode {}
   font-weight: 600;
 }
 
-/* ── Code colour dot (shared across tools) ── */
-.code-color-dot {
-  display: inline-block;
-  border-radius: 50%;
-  flex-shrink: 0;
+/* ── Code colour treatment — left border ── */
+/* Applied to chips, pills, and inline code references across tools */
+.code-chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 0.9em;
+  border-radius: 2px;
+  padding: 0 5px 0 0;
+  border-left: 4px solid var(--border);
+  background: var(--surface2);
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  margin: 0 2px;
+  vertical-align: baseline;
+  line-height: inherit;
 }
 
-/* ── Inactive nav items (planned tools) ── */
-.qc-nav a.inactive {
-  color: var(--text-faint);
+.code-chip.stub {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.code-chip.deprecated {
   opacity: 0.5;
-  cursor: default;
-  pointer-events: none;
+  text-decoration: line-through;
+}
+
+/* ── Rich text field ── */
+.rich-field-wrap {
+  position: relative;
+}
+.rich-field-rendered {
+  min-height: 60px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.7;
+  cursor: text;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.rich-field-rendered:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.rich-field-raw {
+  display: none;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.7;
+  resize: vertical;
+  outline: none;
 }

@@ -19,7 +19,22 @@ function getCodeColor(name, opts) {
   var prefix = getCodePrefix(name);
   var color  = (prefix && typeof CODE_COLORS !== 'undefined' && CODE_COLORS[prefix])
     ? CODE_COLORS[prefix]
-    : ((typeof CODE_SCHEMA !== 'undefined' && CODE_SCHEMA.default_color) || '#757575');
+    : null;
+
+  // If no direct colour, walk up CODEBOOK_TREE to find nearest ancestor with one
+  if (!color && typeof CODEBOOK_TREE !== 'undefined') {
+    var node = CODEBOOK_TREE.find(function(n) { return n.name === name; });
+    while (node && node.parent) {
+      var parentPrefix = getCodePrefix(node.parent);
+      if (parentPrefix && CODE_COLORS && CODE_COLORS[parentPrefix]) {
+        color = CODE_COLORS[parentPrefix];
+        break;
+      }
+      node = CODEBOOK_TREE.find(function(n) { return n.name === node.parent; });
+    }
+  }
+
+  if (!color) color = (typeof CODE_SCHEMA !== 'undefined' && CODE_SCHEMA.default_color) || '#757575';
   if (opts && opts.desaturate) color = desaturateHex(color, 0.45);
   return color;
 }
@@ -46,8 +61,22 @@ function codeDot(name, size) {
   return dot;
 }
 
+function codeChip(name, opts) {
+  opts = opts || {};
+  var stub   = isStub(name);
+  var color  = getCodeColor(name, {desaturate: !stub});
+  var chip   = document.createElement('span');
+  var status = opts.status || '';
+  chip.className = 'code-chip' + (stub ? ' stub' : '') + (status === 'deprecated' ? ' deprecated' : '');
+  chip.style.borderLeftColor = color;
+  chip.title = name;
+  var display = name;
+  if (opts.truncate && display.length > opts.truncate) display = display.slice(0, opts.truncate) + '…';
+  chip.textContent = display;
+  return chip;
+}
 
-// Attaches to all text inputs and textareas on the page.
+
 // Type @ to trigger; continues capturing until a non-word character or Escape.
 // Filters code names by prefix match first, then substring match.
 // Arrow keys navigate, Enter/Tab selects, Escape cancels.
@@ -84,7 +113,6 @@ function _onInput(e) {
   for (var i = pos - 1; i >= 0; i--) {
     var ch = val[i];
     if (ch === '@') { atPos = i; break; }
-    // Stop if we hit whitespace or a non-word char that isn't part of a code name
     if (/[\s,;()\[\]{}<>]/.test(ch)) break;
   }
 
@@ -94,6 +122,12 @@ function _onInput(e) {
   }
 
   var query = val.slice(atPos + 1, pos);
+
+  // In wrap mode, the @ was just inserted and query is empty — use wrap orig text
+  if (window._ac_wrap_mode && window._ac_wrap_mode.ta === el && query === '') {
+    return; // Let the keydown handler's _showDropdown call stand
+  }
+
   _showDropdown(el, atPos, query);
 }
 
@@ -131,11 +165,13 @@ function _onDocClick(e) {
 }
 
 function _filter(query) {
-  if (!query) return _ac_codes.slice(0, 30);
+  var codes = _ac_codes.length > 0 ? _ac_codes : (typeof ALL_CODES !== 'undefined' ? ALL_CODES : []);
+  if (window._rich_codes && window._rich_codes.length > 0) codes = window._rich_codes;
+  if (!query) return codes.slice(0, 30);
   var q = query.toLowerCase();
   var prefix = [], sub = [];
-  for (var i = 0; i < _ac_codes.length; i++) {
-    var name = _ac_codes[i];
+  for (var i = 0; i < codes.length; i++) {
+    var name = codes[i];
     var nl   = name.toLowerCase();
     if (nl.startsWith(q)) prefix.push(name);
     else if (nl.indexOf(q) >= 0) sub.push(name);
@@ -144,7 +180,6 @@ function _filter(query) {
 }
 
 function _showDropdown(el, atPos, query) {
-  // Reuse or create
   if (_ac_active && _ac_active.el === el) {
     _ac_active.atPos = atPos;
     _ac_active.query = query;
@@ -154,6 +189,7 @@ function _showDropdown(el, atPos, query) {
     dd.className = 'qc-ac-dropdown';
     document.body.appendChild(dd);
     _ac_active = { el: el, atPos: atPos, query: query, dropdown: dd, selectedIdx: 0 };
+    window._qcAcActive = true;
   }
 
   var matches = _filter(query);
@@ -165,11 +201,16 @@ function _showDropdown(el, atPos, query) {
   }
 
   dd.innerHTML = matches.map(function(name, i) {
-    var hl = _highlight(name, query);
-    return '<div class="qc-ac-item' + (i === 0 ? ' qc-ac-selected' : '') + '" data-idx="' + i + '">' + hl + '</div>';
+    var color = (typeof getCodeColor === 'function') ? getCodeColor(name, {desaturate: !(typeof isStub==='function'&&isStub(name))}) : '';
+    var hl    = _highlight(name, query);
+    var style = color ? 'border-left:4px solid '+color+';padding-left:6px;' : '';
+    return '<div class="qc-ac-item' + (i === 0 ? ' qc-ac-selected' : '') + '" data-idx="' + i + '" style="' + style + '">' + hl + '</div>';
   }).join('');
 
   _ac_active.selectedIdx = 0;
+
+  // Prevent blur from firing before click
+  dd.addEventListener('mousedown', function(e) { e.preventDefault(); });
 
   // Wire item clicks
   dd.querySelectorAll('.qc-ac-item').forEach(function(item) {
@@ -212,19 +253,26 @@ function _selectItem(idx) {
   if (!item) return;
 
   var el    = _ac_active.el;
-  var atPos = _ac_active.atPos;
   var val   = el.value;
-  var pos   = el.selectionStart;
+  var markup = '[' + item.textContent + ']{.code}';
 
-  // Replace @query with the code name
-  el.value = val.slice(0, atPos) + item.textContent + val.slice(pos);
-  var newPos = atPos + item.textContent.length;
-  el.setSelectionRange(newPos, newPos);
+  if (window._ac_wrap_mode && window._ac_wrap_mode.ta === el) {
+    var wm  = window._ac_wrap_mode;
+      el.value = val.slice(0, wm.start) + markup + val.slice(wm.end);
+    var newPos = wm.start + markup.length;
+    el.setSelectionRange(newPos, newPos);
+    window._ac_wrap_mode = null;
+  } else {
+    // Normal @ insertion — replace @query with markup
+    var atPos = _ac_active.atPos;
+    var pos   = el.selectionStart;
+    el.value = val.slice(0, atPos) + markup + val.slice(pos);
+    var newPos2 = atPos + markup.length;
+    el.setSelectionRange(newPos2, newPos2);
+  }
 
-  // Trigger change event so frameworks pick up the update
   el.dispatchEvent(new Event('input',  { bubbles: true }));
   el.dispatchEvent(new Event('change', { bubbles: true }));
-
   _dismiss();
   el.focus();
 }
@@ -232,24 +280,151 @@ function _selectItem(idx) {
 function _positionDropdown(el) {
   var dd   = _ac_active.dropdown;
   var rect = el.getBoundingClientRect();
-  var top  = rect.bottom + window.scrollY;
-  var left = rect.left   + window.scrollX;
+  var left = rect.left + window.scrollX;
 
+  // Position below by default, above if insufficient space below
   dd.style.position = 'absolute';
-  dd.style.top      = top  + 'px';
+  dd.style.top      = '0px'; // temp to measure
   dd.style.left     = left + 'px';
   dd.style.width    = Math.max(220, rect.width) + 'px';
   dd.style.zIndex   = '9999';
+  dd.style.visibility = 'hidden';
+
+  var ddH  = dd.offsetHeight || 200;
+  var top;
+  if (rect.bottom + ddH > window.innerHeight) {
+    top = rect.top + window.scrollY - ddH - 4;
+  } else {
+    top = rect.bottom + window.scrollY + 2;
+  }
+  dd.style.top        = top + 'px';
+  dd.style.visibility = 'visible';
 }
 
 function _dismiss() {
   if (_ac_active) {
     _ac_active.dropdown.remove();
     _ac_active = null;
+    window._qcAcActive = false;
   }
 }
 
 // Expose globally
 window.qcAutocompleteInit = qcAutocompleteInit;
+window._acShowDropdown = _showDropdown;
+window._acDismiss      = _dismiss;
+Object.defineProperty(window, '_ac_active', { get: function(){ return _ac_active; } });
 
 })();
+
+// ── Code markup ───────────────────────────────────────────────────────────────
+
+function parseCodeMarkup(text) {
+  var frag = document.createDocumentFragment();
+  var re   = /\[([^\]]+)\]\{\.code\}/g;
+  var last = 0, m;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+    frag.appendChild(codeChip(m[1], {truncate: 40}));
+    last = re.lastIndex;
+  }
+  if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+  return frag;
+}
+
+function makeRichField(opts) {
+  opts = opts || {};
+  var outer    = document.createElement('div');
+  outer.className = 'rich-field-wrap ' + (opts.className || '');
+
+  var rendered = document.createElement('div');
+  rendered.className = 'rich-field-rendered';
+  rendered.tabIndex  = 0;
+
+  var ta = document.createElement('textarea');
+  ta.className   = 'rich-field-raw';
+  ta.rows        = opts.rows || 3;
+  ta.value       = opts.value || '';
+  ta.placeholder = opts.placeholder || '';
+
+  function showRaw() {
+    rendered.style.display = 'none';
+    ta.style.display       = 'block';
+    ta.focus();
+  }
+
+  function showRendered() {
+    ta.style.display       = 'none';
+    rendered.style.display = 'block';
+    rendered.innerHTML     = '';
+    rendered.appendChild(parseCodeMarkup(ta.value));
+  }
+
+  outer.appendChild(rendered);
+  outer.appendChild(ta);
+  showRendered();
+
+  rendered.addEventListener('focus', showRaw);
+  rendered.addEventListener('click', showRaw);
+  ta.addEventListener('blur', function(e) {
+    setTimeout(function() {
+      if (ta.matches(':focus')) return;
+      if (window._qcAcActive || window._ac_wrap_mode) return;
+      showRendered();
+    }, 300);
+  });
+
+  // Also render when clicking outside the field entirely
+  document.addEventListener('mousedown', function(e) {
+    if (!outer.contains(e.target) && !document.querySelector('.qc-ac-dropdown')) {
+      if (ta.style.display !== 'none') {
+        showRendered();
+      }
+    }
+  });
+  ta.addEventListener('input',  function() { if (opts.onchange) opts.onchange(ta.value); });
+  ta.addEventListener('change', function() { if (opts.onchange) opts.onchange(ta.value); });
+
+  // @ key: wrap selection or let autocomplete handle
+  ta.addEventListener('keydown', function(e) {
+    if (e.key !== '@') return;
+    var selStart = ta.selectionStart;
+    var selEnd   = ta.selectionEnd;
+    var sel      = ta.value.slice(selStart, selEnd);
+    if (sel.length > 0) {
+      e.preventDefault();
+      // Store wrap positions before inserting @
+      window._ac_wrap_mode = { ta: ta, start: selStart, end: selEnd + 1 };
+      console.log("[ac] wrap_mode set:", window._ac_wrap_mode);
+      // Insert @ before selection to anchor autocomplete
+      ta.value = ta.value.slice(0, selStart) + '@' + ta.value.slice(selStart);
+      ta.setSelectionRange(selStart + 1, selStart + 1);
+          if (window._acShowDropdown) window._acShowDropdown(ta, selStart, sel);
+    }
+  });
+
+  // Override _selectItem via event — listen for custom ac:select event
+  ta.addEventListener('ac:select', function(e) {
+    var name   = e.detail.name;
+    var markup = '[' + name + ']{.code}';
+    var val    = ta.value;
+    if (_ac_wrap_mode && _ac_wrap_mode.ta === ta) {
+      var wm = _ac_wrap_mode;
+      ta.value = val.slice(0, wm.start) + markup + val.slice(wm.end);
+      ta.setSelectionRange(wm.start + markup.length, wm.start + markup.length);
+      _ac_wrap_mode = null;
+    } else {
+      // Normal insertion handled by autocomplete — just ensure markup format
+    }
+    if (opts.onchange) opts.onchange(ta.value);
+  });
+
+  outer.appendChild(rendered);
+  outer.appendChild(ta);
+  showRendered();
+
+  outer._ta     = ta;
+  outer._setVal = function(v) { ta.value = v; showRendered(); };
+  outer._getVal = function() { return ta.value; };
+  return outer;
+}

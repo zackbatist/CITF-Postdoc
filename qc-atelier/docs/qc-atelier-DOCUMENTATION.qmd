@@ -1501,3 +1501,32 @@ qwen3.5:35b available for production runs (23GB, fits in 24GB VRAM). Switch via 
 
 ---
 
+### 2026-05-07 — qc-scheme stubs and colour coding; server fixes
+
+STUBS
+- ⊕ icon for stubs in tree
+- stub added as selectable status in documentation dropdown
+- deprecated codes sorted to bottom at every tree level
+- documentation indicators removed
+
+COLOUR CODING
+- tree nodes: coloured left border, stubs full saturation, leaves
+  desaturated; right pane title same treatment
+- autocomplete dropdown items show branch colour as left border
+- getCodeColor() walks CODEBOOK_TREE for ancestor colour on nested stubs
+- codeChip() added to qc-shared.js for use across all tools
+- chip font size matches surrounding text (0.9em)
+
+RICH TEXT FIELDS
+- makeRichField() wraps documentation textareas: renders [name]{.code}
+  as coloured chips when unfocused, raw monospace when focused
+- @ inserts markup via autocomplete; select + @ wraps selection
+- field stays in edit mode while autocomplete open
+
+SERVER
+- refactor/tree 404 fixed: was reading codebook.yaml from SERVE_DIR
+  instead of DATA_DIR
+- favicon served from assets/resources/favicon.ico
+
+---
+

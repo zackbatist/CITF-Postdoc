@@ -1198,7 +1198,7 @@ body.dark-mode .startup-notice {
   font-style: italic;
 }
 .dtree-stub::before {
-  content: '≡ ';
+  content: '⊕ ';
   font-style: normal;
   opacity: 0.5;
 }
@@ -1209,7 +1209,7 @@ body.dark-mode .startup-notice {
   font-style: italic;
 }
 .tree-stub::before {
-  content: '≡ ';
+  content: '⊕ ';
   font-style: normal;
   font-size: 10px;
   opacity: 0.6;
@@ -1224,5 +1224,26 @@ body.dark-mode .startup-notice {
 }
 .tree-stub {
   font-weight: 600;
-  /* colour set inline */
+  /* colour set inline via JS */
+}
+
+/* ── Tree name left-border colour treatment ── */
+.tree-name-wrap {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  border-left: 5px solid transparent;
+  padding-left: 5px;
+  border-radius: 0 2px 2px 0;
+}
+.tree-stub-icon {
+  font-size: 10px;
+  margin-right: 4px;
+  opacity: 0.7;
+  flex-shrink: 0;
+  color: var(--text-faint);
+}
+.tree-name.tree-stub {
+  font-weight: 600;
 }
