@@ -152,6 +152,23 @@ function esc(s) {
     .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+// ── Code chip helper ─────────────────────────────────────────────────────────
+// Returns an HTML string chip with branch colour left border.
+// Used in innerHTML contexts. For DOM contexts use the shared codeChip().
+
+function chipHtml(name) {
+  var stub    = (typeof isStub === 'function') && isStub(name);
+  var color   = (typeof getCodeColor === 'function') ? getCodeColor(name, {desaturate: !stub}) : '#757575';
+  var node    = (typeof nodeByName === 'function') ? nodeByName(name) : null;
+  var isStubN = stub || (node && node.status === 'stub');
+  var isDep   = node && node.status === 'deprecated';
+  var cls     = 'code-chip' + (isStubN ? ' stub' : '') + (isDep ? ' deprecated' : '');
+  var icon    = isStubN ? '⊕ ' : '';
+  return '<span class="' + cls + '" style="border-left-color:' + color + '">' + icon + esc(name) + '</span>';
+}
+
+
+
 function shellQuote(s) { return "'" + String(s).replace(/'/g,"'\\''") + "'"; }
 function truncate(s, n) { s = String(s); return s.length > n ? s.slice(0,n) + '…' : s; }
 
@@ -392,9 +409,16 @@ function renderOpForm() {
       '<div class="op-form-row"><label>New name</label>',
       '<input type="text" id="rename-target" placeholder="new name" class="code-input" style="readonly:false">',
       '</div>',
+      '<div id="rename-panels"></div>',
     ].join('');
 
-    wireCodeInput('rename-source', null, false);
+    wireCodeInput('rename-source', function(name) {
+      var panels = document.getElementById('rename-panels');
+      if (panels) {
+        panels.innerHTML = codePanelHTML(name, 'rename-src-panel');
+        wireCodePanel('rename-src-panel');
+      }
+    }, false);
 
     // Make rename-target editable (not readonly)
     var rt = document.getElementById('rename-target');
@@ -445,6 +469,7 @@ function renderOpForm() {
     form.innerHTML += [
       '<div class="op-form-row">',
       '<label>Codes to move</label>',
+      '<div id="move-selected-chips" class="move-chips"></div>',
       '<div class="multi-picker-wrap">',
         '<input class="multi-picker-search" id="move-multi-search" placeholder="Search codes…" autocomplete="off">',
         '<div class="multi-picker-list" id="move-multi-list"></div>',
@@ -458,6 +483,27 @@ function renderOpForm() {
 
     if (!state.moveSelected) state.moveSelected = new Set();
 
+    function renderMoveChips() {
+      var chips = document.getElementById('move-selected-chips');
+      if (!chips) return;
+      chips.innerHTML = '';
+      Array.from(state.moveSelected).forEach(function(name) {
+        var chip = document.createElement('span');
+        chip.className = 'move-chip';
+        chip.title = name;
+        chip.textContent = name.length > 20 ? name.slice(0,20)+'…' : name;
+        var rm = document.createElement('button');
+        rm.className = 'move-chip-rm';
+        rm.textContent = '×';
+        rm.addEventListener('click', function() {
+          state.moveSelected.delete(name);
+          renderMoveChips();
+          renderMultiList(document.getElementById('move-multi-search').value);
+        });
+        chip.appendChild(rm);
+        chips.appendChild(chip);
+      });
+    }
 
     function renderMultiList(query) {
       var list = document.getElementById('move-multi-list');
@@ -513,43 +559,15 @@ function renderOpForm() {
       list.querySelectorAll('.multi-picker-cb').forEach(function(cb) {
         cb.addEventListener('change', function() {
           var name = cb.dataset.name;
-          if (cb.checked) {
-            state.moveSelected.add(name);
-          } else {
-            state.moveSelected.delete(name);
-          }
+          if (cb.checked) state.moveSelected.add(name);
+          else state.moveSelected.delete(name);
+          renderMoveChips();
         });
       });
     }
 
     renderMultiList('');
-
-    // Attach vertical resize handle to picker list
-    (function() {
-      var list   = document.getElementById('move-multi-list');
-      var handle = document.createElement('div');
-      handle.className = 'picker-resize-handle';
-      list.parentNode.insertBefore(handle, list.nextSibling);
-
-      var startY = 0, startH = 0;
-      handle.addEventListener('mousedown', function(e) {
-        e.preventDefault();
-        startY = e.clientY;
-        startH = list.offsetHeight;
-        function onMove(ev) {
-          // Cap the effective mouse Y to keep bottom of list within viewport
-          var clampedY = Math.min(ev.clientY, window.innerHeight - 60);
-          var newH     = Math.max(80, startH + (clampedY - startY));
-          list.style.height = newH + 'px';
-        }
-        function onUp() {
-          document.removeEventListener('mousemove', onMove);
-          document.removeEventListener('mouseup', onUp);
-        }
-        document.addEventListener('mousemove', onMove);
-        document.addEventListener('mouseup', onUp);
-      });
-    })();
+    renderMoveChips();
 
     document.getElementById('move-multi-search').addEventListener('input', function() {
       renderMultiList(this.value);
@@ -564,9 +582,16 @@ function renderOpForm() {
       codeInputHTML('deprecate-source', 'select code…', false),
       '</div>',
       '<p class="form-hint">Sets status to "deprecated" in codebook.json. No qc CLI command is run.</p>',
+      '<div id="deprecate-panels"></div>',
     ].join('');
 
-    wireCodeInput('deprecate-source', null, false);
+    wireCodeInput('deprecate-source', function(name) {
+      var panels = document.getElementById('deprecate-panels');
+      if (panels) {
+        panels.innerHTML = codePanelHTML(name, 'deprecate-src-panel');
+        wireCodePanel('deprecate-src-panel');
+      }
+    }, false);
   }
 
   if (type === 'stub') {
@@ -948,26 +973,24 @@ function addOperation() {
 // ── Queue rendering ───────────────────────────────────────────────────────────
 
 function opDesc(op) {
-  var srcs = op.sources.map(function(s) {
-    return '<span class="code-name">' + esc(s) + '</span>';
-  }).join('<span class="arrow">, </span>');
+  var srcs = op.sources.map(chipHtml).join('<span class="arrow">, </span>');
 
   if (op.type === 'rename') {
-    return srcs + '<span class="arrow"> → </span><span class="code-name">' + esc(op.target) + '</span>';
+    return srcs + '<span class="arrow"> → </span>' + chipHtml(op.target);
   }
   if (op.type === 'merge') {
-    return srcs + '<span class="arrow"> → </span><span class="code-name">' + esc(op.target) + '</span>';
+    return srcs + '<span class="arrow"> → </span>' + chipHtml(op.target);
   }
   if (op.type === 'move') {
     return srcs + '<span class="arrow"> → </span>'
-      + (op.target ? '<span class="code-name">' + esc(op.target) + '</span>' : '<em>(top level)</em>');
+      + (op.target ? chipHtml(op.target) : '<em>(top level)</em>');
   }
   if (op.type === 'deprecate') {
     return srcs + '<span class="arrow"> → </span><em>deprecated</em>';
   }
   if (op.type === 'stub') {
     return '<em>create stub</em> ' + srcs
-      + (op.target ? '<span class="arrow"> under </span><span class="code-name">' + esc(op.target) + '</span>' : '<span class="arrow"> (top level)</span>');
+      + (op.target ? '<span class="arrow"> under </span>' + chipHtml(op.target) : '<span class="arrow"> (top level)</span>');
   }
   return '';
 }
@@ -981,59 +1004,155 @@ function renderQueue() {
     return;
   }
 
-  if (!state.openDocPanel) state.openDocPanel = null;
-
+  // Build queue items as DOM elements for rich content
   list.innerHTML = '';
-
   state.queue.forEach(function(op) {
-    var type    = op.type;
-    var isOpen  = state.openDocPanel === op.id;
-
-    // Primary codes to show doc for — first source, or target for merge
-    var docCode = op.sources && op.sources[0] ? op.sources[0] : (op.target || null);
-
-    var item = document.createElement('div');
-    item.className = 'queue-item';
-    item.dataset.id = op.id;
+    var type   = op.type;
+    var itemEl = document.createElement('div');
+    itemEl.className = 'queue-item';
+    itemEl.dataset.id = op.id;
 
     // Header row
-    var head = document.createElement('div');
-    head.className = 'queue-item-head';
+    var hdr = document.createElement('div');
+    hdr.className = 'queue-item-header';
+    hdr.innerHTML = '<span class="queue-item-badge badge-' + type + '">' + type + '</span>'
+      + '<div class="queue-item-desc">' + opDesc(op) + '</div>';
 
-    var badge = document.createElement('span');
-    badge.className = 'queue-item-badge badge-' + type;
-    badge.textContent = type;
-    head.appendChild(badge);
-
-    var desc = document.createElement('div');
-    desc.className = 'queue-item-desc';
-    desc.innerHTML = opDesc(op);
-    head.appendChild(desc);
-
-    var actions = document.createElement('div');
-    actions.className = 'queue-item-actions';
-
-    if (docCode && op.type !== 'stub') {
-      var docBtn = document.createElement('button');
-      docBtn.className = 'queue-item-doc' + (isOpen ? ' active' : '');
-      docBtn.title = 'Documentation';
-      docBtn.textContent = '≡';
-      docBtn.addEventListener('click', function() {
-        state.openDocPanel = isOpen ? null : op.id;
-        renderQueue();
-      });
-      actions.appendChild(docBtn);
-    }
-
+    // Buttons
+    var btnWrap = document.createElement('div');
+    btnWrap.className = 'queue-item-btns';
+    var docBtn = document.createElement('button');
+    docBtn.className = 'queue-item-doc-btn';
+    docBtn.dataset.id = op.id;
+    docBtn.textContent = 'docs';
     var editBtn = document.createElement('button');
     editBtn.className = 'queue-item-edit';
+    editBtn.dataset.id = op.id;
+    editBtn.dataset.type = type;
     editBtn.title = 'Edit';
     editBtn.textContent = '✎';
-    editBtn.addEventListener('click', function() {
-      var id = op.id;
-      var t  = op.type;
+    var rmBtn = document.createElement('button');
+    rmBtn.className = 'queue-item-remove';
+    rmBtn.dataset.id = op.id;
+    rmBtn.dataset.type = type;
+    rmBtn.title = 'Remove';
+    rmBtn.textContent = '×';
+    btnWrap.appendChild(docBtn);
+    btnWrap.appendChild(editBtn);
+    btnWrap.appendChild(rmBtn);
+    hdr.appendChild(btnWrap);
+    itemEl.appendChild(hdr);
+
+    // Doc panel (hidden by default)
+    var docPanel = document.createElement('div');
+    docPanel.className = 'queue-item-doc-panel hidden';
+    docPanel.dataset.id = op.id;
+
+    // Determine which fields to show based on op type
+    var fieldsToShow = DOC_FIELDS;
+    var lockedStatus = null;
+    if (type === 'deprecate') lockedStatus = 'deprecated';
+
+    // For each source code, build doc fields
+    var codesForDoc = op.sources.slice();
+    if (op.type === 'rename' || op.type === 'merge') {
+      // Also show target if it exists
+      if (op.target && nodeByName(effectiveName(op.target))) codesForDoc.push(op.target);
+    }
+
+    codesForDoc.forEach(function(codeName) {
+      var codeSection = document.createElement('div');
+      codeSection.className = 'queue-doc-code-section';
+      var sectionHdr = document.createElement('div');
+      sectionHdr.className = 'queue-doc-code-hdr';
+      sectionHdr.innerHTML = chipHtml(codeName);
+      codeSection.appendChild(sectionHdr);
+
+      fieldsToShow.forEach(function(key) {
+        var label = DOC_FIELD_LABELS[key] || key;
+        var hint  = DOC_FIELD_HINTS[key]  || '';
+        var ph    = DOC_FIELD_PLACEHOLDERS[key] || '';
+        var curVal = (state.docsEdits[codeName] && state.docsEdits[codeName][key] !== undefined)
+          ? state.docsEdits[codeName][key]
+          : (getCodeDoc(codeName)[key] || '');
+
+        // Status field: locked for deprecate
+        if (key === 'status') {
+          if (lockedStatus) {
+            var lockEl = document.createElement('div');
+            lockEl.className = 'doc-field';
+            lockEl.innerHTML = '<div class="doc-field-label">' + esc(label) + '</div>'
+              + '<div class="doc-field-locked">deprecated (locked)</div>';
+            codeSection.appendChild(lockEl);
+          } else {
+            var statusWrap = document.createElement('div');
+            statusWrap.className = 'doc-field';
+            statusWrap.innerHTML = '<div class="doc-field-label">' + esc(label) + '</div>';
+            var sel = document.createElement('select');
+            sel.className = 'doc-field-select';
+            ['', 'active', 'stub', 'experimental', 'deprecated'].forEach(function(s) {
+              var opt = document.createElement('option');
+              opt.value = s; opt.textContent = s || '(unset)';
+              if ((curVal || '') === s) opt.selected = true;
+              sel.appendChild(opt);
+            });
+            sel.addEventListener('change', function() {
+              if (!state.docsEdits[codeName]) state.docsEdits[codeName] = {};
+              state.docsEdits[codeName][key] = sel.value;
+            });
+            statusWrap.appendChild(sel);
+            codeSection.appendChild(statusWrap);
+          }
+          return;
+        }
+
+        // Rich text fields
+        if (typeof makeRichField === 'function') {
+          var fieldWrap = document.createElement('div');
+          fieldWrap.className = 'doc-field';
+          var lbl = document.createElement('div');
+          lbl.className = 'doc-field-label';
+          lbl.textContent = label;
+          if (hint) {
+            var hintSpan = document.createElement('span');
+            hintSpan.className = 'doc-field-hint';
+            hintSpan.textContent = ' — ' + hint;
+            lbl.appendChild(hintSpan);
+          }
+          var rf = makeRichField({
+            value: curVal,
+            rows: 3,
+            placeholder: ph,
+            onchange: function(v) {
+              if (!state.docsEdits[codeName]) state.docsEdits[codeName] = {};
+              state.docsEdits[codeName][key] = v;
+            },
+          });
+          fieldWrap.appendChild(lbl);
+          fieldWrap.appendChild(rf);
+          codeSection.appendChild(fieldWrap);
+        } else {
+          var fieldWrap2 = document.createElement('div');
+          fieldWrap2.className = 'doc-field';
+          fieldWrap2.innerHTML = '<div class="doc-field-label">' + esc(label) + '</div>'
+            + '<textarea class="doc-field-ta" rows="3" placeholder="' + esc(ph) + '">' + esc(curVal) + '</textarea>';
+          codeSection.appendChild(fieldWrap2);
+        }
+      });
+      docPanel.appendChild(codeSection);
+    });
+
+    itemEl.appendChild(docPanel);
+    list.appendChild(itemEl);
+  });
+
+  list.querySelectorAll('.queue-item-edit').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var id = parseInt(btn.dataset.id);
+      var t  = btn.dataset.type;
+      var op = state.queue.find(function(o) { return o.id === id; });
+      if (!op) return;
       state.queue = state.queue.filter(function(o) { return o.id !== id; });
-      if (state.openDocPanel === id) state.openDocPanel = null;
       state.activeTab = t;
       document.querySelectorAll('.op-tab').forEach(function(tab) {
         tab.classList.toggle('active', tab.dataset.type === t);
@@ -1045,39 +1164,39 @@ function renderQueue() {
       renderScript();
       renderExecuteRow();
     });
-    actions.appendChild(editBtn);
+  });
 
-    var rmBtn = document.createElement('button');
-    rmBtn.className = 'queue-item-remove';
-    rmBtn.title = 'Remove';
-    rmBtn.textContent = '×';
-    rmBtn.addEventListener('click', function() {
-      var id = op.id;
+  list.querySelectorAll('.queue-item-doc-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var id = btn.dataset.id;
+      var panel = list.querySelector('.queue-item-doc-panel[data-id="' + id + '"]');
+      if (!panel) return;
+      var isOpen = !panel.classList.contains('hidden');
+      // Close all other panels first
+      list.querySelectorAll('.queue-item-doc-panel').forEach(function(p) {
+        p.classList.add('hidden');
+      });
+      list.querySelectorAll('.queue-item-doc-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      if (!isOpen) {
+        panel.classList.remove('hidden');
+        btn.classList.add('active');
+      }
+    });
+  });
+
+  list.querySelectorAll('.queue-item-remove').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var id = parseInt(btn.dataset.id);
       state.queue = state.queue.filter(function(o) { return o.id !== id; });
-      if (state.openDocPanel === id) state.openDocPanel = null;
       renderQueue();
       renderPreview();
       renderScript();
       renderExecuteRow();
     });
-    actions.appendChild(rmBtn);
-
-    head.appendChild(actions);
-    item.appendChild(head);
-
-    // Foldable doc panel
-    if (isOpen && docCode) {
-      var docWrap = document.createElement('div');
-      docWrap.className = 'queue-doc-panel';
-      docWrap.innerHTML = codePanelHTML(docCode, 'qdoc-' + op.id);
-      item.appendChild(docWrap);
-      setTimeout(function() { wireCodePanel('qdoc-' + op.id); }, 0);
-    }
-
-    list.appendChild(item);
   });
 }
-
 
 function allOps()   { return state.queue; }
 function totalOps() { return state.queue.length; }
@@ -1193,19 +1312,36 @@ function buildTreeAccordion(vnodes) {
     var cls = 'dtree-node';
     if (isAffected) cls += ' dtree-affected';
 
-    // Annotation
+    // Annotation with type badge and inline context
     var annotEl = '';
+    var typeBadge = '';
+    var contextEl = '';
     if (node.annot) {
-      if (node.annot.type === 'renamed') {
-        annotEl = '<span class="dtree-annot">(was ' + esc(node.annot.from) + ')</span>';
-      } else if (node.annot.type === 'merged') {
-        annotEl = '<span class="dtree-annot">(+' + node.annot.from.length + ' merged: '
-          + node.annot.from.map(esc).join(', ') + ')</span>';
-      } else if (node.annot.type === 'moved') {
-        annotEl = '<span class="dtree-annot">(moved)</span>';
-      } else if (node.annot.type === 'deprecated') {
-        annotEl = '<span class="dtree-annot dtree-deprecated">(deprecated)</span>';
+      var atype = node.annot.type;
+      typeBadge = '<span class="dtree-badge dtree-badge-' + atype + '">' + atype + '</span>';
+      if (atype === 'renamed') {
+        annotEl = '<span class="dtree-annot">was ' + chipHtml(node.annot.from) + '</span>';
+      } else if (atype === 'merged') {
+        annotEl = '<span class="dtree-annot">+' + node.annot.from.length + ' merged: '
+          + node.annot.from.map(chipHtml).join(', ') + '</span>';
+      } else if (atype === 'moved') {
+        // Show where it moved from
+        var origNode = (typeof CODEBOOK_TREE !== 'undefined') && CODEBOOK_TREE.find(function(n) { return n.name === (node.origName || node.name); });
+        var fromParent = origNode ? origNode.parent : '';
+        annotEl = '<span class="dtree-annot">moved from ' + (fromParent ? chipHtml(fromParent) : '<em>top level</em>') + '</span>';
+      } else if (atype === 'deprecated') {
+        annotEl = '<span class="dtree-annot dtree-deprecated">deprecated</span>';
         cls += ' dtree-deprecated-node';
+      }
+      // Inline context: show siblings under new/current parent
+      if (atype !== 'deprecated') {
+        var siblings = (childMap[node.parent] || []).filter(function(s) { return s.name !== node.name; }).slice(0, 3);
+        if (siblings.length > 0) {
+          contextEl = '<div class="dtree-context">siblings: '
+            + siblings.map(function(s) { return chipHtml(s.name); }).join(' ')
+            + (siblings.length < (childMap[node.parent] || []).length - 1 ? ' <span class="dtree-context-more">+' + ((childMap[node.parent] || []).length - 1 - siblings.length) + ' more</span>' : '')
+            + '</div>';
+        }
       }
     }
 
@@ -1216,12 +1352,19 @@ function buildTreeAccordion(vnodes) {
       ? '<span class="dtree-toggle" data-node="' + esc(node.name) + '">' + (expanded ? '▾' : '▸') + '</span>'
       : '<span class="dtree-toggle dtree-leaf"></span>';
 
+    var stubN = (typeof isStub === 'function') && isStub(node.name);
+    var nodeColor = (typeof getCodeColor === 'function') ? getCodeColor(node.name, {desaturate: !stubN}) : '';
+    var nameStyle = nodeColor ? 'border-left:4px solid ' + nodeColor + ';padding-left:5px;' : '';
+    var isDep = node.annot && node.annot.type === 'deprecated';
+
     html += '<div class="' + cls + '" data-depth="' + depth + '" style="padding-left:' + (depth * 16 + 4) + 'px">'
       + toggleEl
-      + '<span class="dtree-name' + (node.annot && node.annot.type === 'deprecated' ? ' dtree-name-deprecated' : '') + '">'
-      + esc(node.name) + '</span>'
+      + typeBadge
+      + '<span class="dtree-name' + (isDep ? ' dtree-name-deprecated' : '') + (stubN ? ' dtree-stub' : '') + '" style="' + nameStyle + '">'
+      + (stubN ? '⊕ ' : '') + esc(node.name) + '</span>'
       + cntEl + annotEl
-      + '</div>';
+      + '</div>'
+      + (contextEl ? '<div style="padding-left:' + (depth * 16 + 28) + 'px">' + contextEl + '</div>' : '');
 
     if (hasChildren) {
       html += '<div class="dtree-children" id="' + nodeId + '-children"'
@@ -1319,9 +1462,30 @@ function renderCorpusImpact() {
       if (exp && segs.length > 0) {
         block += '<div class="seg-list">'
           + segs.map(function(s) {
+              // Find co-occurring codes on same document+line
+              var coSegs = [];
+              var seen = new Set([codeName]);
+              if (typeof CORPUS_DATA !== 'undefined') {
+                Object.keys(CORPUS_DATA).forEach(function(otherCode) {
+                  if (seen.has(otherCode)) return;
+                  var otherSegs = CORPUS_DATA[otherCode] || [];
+                  for (var i = 0; i < otherSegs.length; i++) {
+                    if (otherSegs[i].document === s.document && otherSegs[i].line === s.line) {
+                      coSegs.push(otherCode);
+                      seen.add(otherCode);
+                      break;
+                    }
+                  }
+                });
+              }
+              var coChips = coSegs.map(chipHtml).join(' ');
               return '<div class="seg-item">'
-                + '<span class="seg-loc">' + esc(s.document) + ':' + s.line + '</span>'
-                + '<span class="seg-text">' + esc(truncate(s.text, SEG_TRUNCATE)) + '</span>'
+                + '<div class="seg-header">'
+                + '<span class="seg-loc">' + esc(s.document) + '</span>'
+                + '<span class="seg-line">line ' + s.line + '</span>'
+                + '</div>'
+                + '<div class="seg-text seg-line-highlight">' + esc(s.text) + '</div>'
+                + (coSegs.length > 0 ? '<div class="seg-co-codes">' + coChips + '</div>' : '')
                 + '</div>';
             }).join('')
           + '</div>';
@@ -1782,6 +1946,10 @@ function renderSnapshots() {
   // Load codebook docs and refresh tree from server
   await loadDocs();
   await refreshTree();
+  // Make code list available to makeRichField autocomplete
+  if (typeof CODEBOOK_TREE !== 'undefined') {
+    window._rich_codes = CODEBOOK_TREE.map(function(n) { return n.name; });
+  }
 
   // Op type tabs
   document.querySelectorAll('.op-tab').forEach(function(tab) {

@@ -252,9 +252,10 @@ function _selectItem(idx) {
   var item  = items[idx];
   if (!item) return;
 
-  var el    = _ac_active.el;
-  var val   = el.value;
-  var markup = '[' + item.textContent + ']{.code}';
+  var el     = _ac_active.el;
+  var val    = el.value;
+  var isRich = el.classList.contains('rich-field-raw');
+  var markup = isRich ? '[' + item.textContent + ']{.code}' : item.textContent;
 
   if (window._ac_wrap_mode && window._ac_wrap_mode.ta === el) {
     var wm  = window._ac_wrap_mode;

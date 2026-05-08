@@ -1530,3 +1530,14 @@ SERVER
 
 ---
 
+### 2026-05-07 — qc-refactor layout overhaul, chip rendering, doc panels, tree diff and corpus impact enhancements
+
+- Three-column layout: op form (left) | staged queue (middle) | preview/script/results (right)
+- chipHtml() added — all code references in queue items rendered as coloured left-border chips with ⊕ for stubs
+- Foldable doc panel per queue item with full documentation fields using makeRichField(); status locked for deprecate ops
+- Tree diff: colour-coded type badges per changed node, inline sibling context for moves/renames, coloured node names
+- Corpus impact: full line text with accent highlight, co-occurring codes as chips per excerpt
+- Filter exports CODE_COLORS and CODE_SCHEMA; path resolution fixed
+
+---
+

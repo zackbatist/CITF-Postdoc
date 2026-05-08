@@ -674,7 +674,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     # ── GET /align/responses ───────────────────────────────────────────────────
     def _align_responses_list(self):
         try:
-            responses_dir = SERVE_DIR / "align-responses"
+            responses_dir = DATA_DIR / "align-responses"
             responses_dir.mkdir(exist_ok=True)
             files = sorted(responses_dir.glob("*.json"), reverse=True)
             entries = []
@@ -698,7 +698,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def _align_responses_save(self, body):
         try:
             payload = json.loads(body)
-            responses_dir = SERVE_DIR / "align-responses"
+            responses_dir = DATA_DIR / "align-responses"
             responses_dir.mkdir(exist_ok=True)
             ts       = datetime.now().strftime("%Y%m%d-%H%M%S")
             mode     = payload.get("mode", "unknown")
@@ -745,7 +745,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     # Pre-populates the refactor queue from qc-align suggestions.
     # Stores pending ops in a sidecar file; qc-refactor reads on load.
     def _refactor_queue(self, body):
-        queue_path = SERVE_DIR / "refactor-queue.json"
+        queue_path = DATA_DIR / "refactor-queue.json"
         try:
             payload = json.loads(body)
             ops     = payload.get("ops", [])
@@ -774,9 +774,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             scheme_path = Path(payload.get("scheme_path", ""))
             docs_edits  = payload.get("docs_edits", {})
 
-            working_yaml = SERVE_DIR / "codebook.yaml"
-            working_docs = SERVE_DIR / "codebook.json"
-            project_root = str(SERVE_DIR)
+            working_yaml = DATA_DIR / "codebook.yaml"
+            working_docs = DATA_DIR / "codebook.json"
+            project_root = str(DATA_DIR)
             qc_bin       = CONFIG.get("qc_bin") or shutil.which("qc") or "qc"
 
             # Ensure pipx/local bin is on PATH for subprocess
@@ -1440,8 +1440,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             new_dir.mkdir(parents=True, exist_ok=True)
 
             # Always copy from the live working files in SERVE_DIR
-            working_yaml = SERVE_DIR / "codebook.yaml"
-            working_docs = SERVE_DIR / "codebook.json"
+            working_yaml = DATA_DIR / "codebook.yaml"
+            working_docs = DATA_DIR / "codebook.json"
 
             if working_yaml.exists():
                 shutil.copy2(working_yaml, new_dir / "codebook.yaml")

@@ -8,7 +8,6 @@ local function _get_project_root_early()
   local r = s:match("^(.*)/qc-atelier/[^/]+/[^/]+$")
   if r and r ~= "" then return r end
   local h = io.popen("pwd"); local cwd = h:read("*l"); h:close(); cwd = cwd or "."
-  -- quarto cds to qmd dir (qc-atelier/<tool>), so go up 2 levels
   local parent = cwd:match("^(.+)/[^/]+/[^/]+$"); return parent or cwd
 end
 local _shared_path = _get_project_root_early() .. "/qc-atelier/shared/qc-shared.lua"
@@ -73,7 +72,6 @@ local SCHEME_JSON     = project_path(S(config.directories.output_dir) .. "/codeb
 local JSON_DIR        = project_path(S(config.directories.json_dir))
 local CSS_FILE        = project_path("qc-atelier/qc-refactor/qc-refactor.css")
 local SHARED_CSS_FILE = project_path("qc-atelier/shared/qc-shared.css")
-local SHARED_JS_FILE  = project_path("qc-atelier/shared/qc-shared.js")
 local JS_FILE         = project_path("qc-atelier/qc-refactor/qc-refactor.js")
 
 -- ── Codebook loader ───────────────────────────────────────────────────────────
@@ -126,7 +124,6 @@ local function generate_html()
 
   local shared_css = read_text_file(SHARED_CSS_FILE)
   local css        = read_text_file(CSS_FILE)
-  local shared_js  = read_text_file(SHARED_JS_FILE)
   local js         = read_text_file(JS_FILE)
 
   local html = {}
@@ -137,59 +134,52 @@ local function generate_html()
   html[#html+1] = '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">'
   html[#html+1] = '<style>' .. shared_css .. '\n' .. css .. '</style>'
   html[#html+1] = '</head><body>'
-  html[#html+1] = '<nav class="qc-nav"><a class="qc-nav-brand" href="/">qc-atelier</a><a href="/qc-viz.html">viz</a><a href="/qc-scheme.html">scheme</a><a href="/qc-refactor.html" class="active">refactor</a><a href="/qc-reflect.html">reflect</a><a href="/qc-align.html" class="inactive">align</a><a href="/qc-unfold.html" class="inactive">unfold</a><a href="/qc-trace.html" class="inactive">trace</a></nav>'
+  html[#html+1] = '<nav class="qc-nav"><a class="qc-nav-brand" href="/">qc-atelier</a><a href="/qc-viz.html">vz</a><a href="/qc-scheme.html">scheme</a><a href="/qc-refactor.html" class="active">refactor</a><a href="/qc-reflect.html">reflect</a><a href="/qc-align.html" class="inactive">align</a><a href="/qc-unfold.html" class="inactive">unfold</a><a href="/qc-trace.html" class="inactive">trace</a></nav>'
   html[#html+1] = '<script>'
   html[#html+1] = 'const CODEBOOK_TREE = ' .. to_json(tree)       .. ';'
   html[#html+1] = 'const CORPUS_COUNTS = ' .. to_json(use_counts) .. ';'
   html[#html+1] = 'const CORPUS_DATA = '   .. to_json(corpus_data)  .. ';'
+  local palette       = (config.code_schema or {}).palette or {"#2196F3","#FF9800","#9C27B0","#4CAF50","#E91E63","#FFC107","#009688","#F44336","#00BCD4","#8BC34A"}
+  local default_color = ((config.code_schema or {}).default_color) or "#757575"
+  local colors_derived = build_code_colors(tree, palette, default_color)
+  html[#html+1] = 'const CODE_COLORS = ' .. to_json(colors_derived) .. ';'
+  html[#html+1] = 'const CODE_SCHEMA = ' .. to_json({default_color = default_color}) .. ';'
+  html[#html+1] = 'const CODEBOOK_DOCS = ' .. to_json({}) .. ';'
   html[#html+1] = 'const REFACTOR_CONFIG = ' .. to_json({
     server_port = N(config.server.port),
     scheme_path = SCHEME_JSON,
     json_dir    = JSON_DIR,
   }) .. ';'
-  
-  -- Export code colours and schema
-  local code_schema   = config.code_schema or {}
-  local palette       = code_schema.palette or {"#2196F3","#FF9800","#9C27B0","#4CAF50","#E91E63","#FFC107","#009688","#F44336","#00BCD4","#8BC34A"}
-  local default_color = code_schema.default_color or "#757575"
-  local colors_derived = build_code_colors(tree, palette, default_color)
-  html[#html+1] = 'const CODE_COLORS = ' .. to_json(colors_derived) .. ';'
-  html[#html+1] = 'const CODE_SCHEMA = ' .. to_json({default_color = default_color}) .. ';'
-
   html[#html+1] = '</script>'
   html[#html+1] = [[
 <div id="qc-refactor-root">
-
-<div class="qr-topbar">
-  <button class="qr-mode-btn active" data-mode="refactor">Refactor</button>
-  <button class="qr-mode-btn" data-mode="snapshots">Snapshots</button>
-</div>
-
 <div class="app">
 
   <div class="op-panel">
     <div class="op-tabs">
-      <button class="op-tab active" data-type="rename">Rename</button>
-      <button class="op-tab" data-type="merge">Merge</button>
-      <button class="op-tab" data-type="move">Move</button>
-      <button class="op-tab" data-type="deprecate">Deprecate</button>
-      <button class="op-tab" data-type="stub">Create stub</button>
+      <button class="op-tab active" data-type="rename">rn</button>
+      <button class="op-tab" data-type="merge">mg</button>
+      <button class="op-tab" data-type="move">mv</button>
+      <button class="op-tab" data-type="deprecate">dp</button>
+      <button class="op-tab" data-type="stub">⊕</button>
     </div>
     <div class="op-form" id="op-form"></div>
     <div class="op-add-row">
-      <button class="btn primary" id="btn-add" style="width:100%">Add to queue</button>
+      <button class="btn primary" id="btn-add">Add to queue</button>
     </div>
   </div>
 
   <div class="queue-panel">
-    <div class="queue-header">Staged operations</div>
+    <div class="queue-panel-header">
+      <span class="queue-panel-title">Staged operations</span>
+      <span class="queue-count" id="queue-count"></span>
+    </div>
     <div class="queue-list" id="queue-list"></div>
     <div class="session-note-area">
       <label class="session-note-label">Session note</label>
       <textarea id="session-note" class="session-note-textarea" placeholder="Describe what changed and why — written into the changelog and code provenance…"></textarea>
     </div>
     <div class="queue-footer">
-      <div class="queue-count" id="queue-count">Queue is empty</div>
       <div class="execute-row">
         <button class="btn" id="btn-clear" disabled>Clear all</button>
         <button class="btn primary" id="btn-execute" disabled style="flex:1">Execute</button>
@@ -218,17 +208,7 @@ local function generate_html()
   </div>
 
 </div>
-
-<div id="snapshots-view" class="hidden">
-  <div class="snap-view-inner">
-    <div id="snapshots-panel"></div>
-  </div>
-</div>
-
 </div>]]
-  html[#html+1] = '<script>' .. shared_js .. '</script>'
-  
-
   html[#html+1] = '<script>' .. js .. '</script>'
   html[#html+1] = '</body></html>'
 
