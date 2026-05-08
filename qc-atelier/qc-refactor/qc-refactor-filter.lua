@@ -72,6 +72,7 @@ local SCHEME_JSON     = project_path(S(config.directories.output_dir) .. "/codeb
 local JSON_DIR        = project_path(S(config.directories.json_dir))
 local CSS_FILE        = project_path("qc-atelier/qc-refactor/qc-refactor.css")
 local SHARED_CSS_FILE = project_path("qc-atelier/shared/qc-shared.css")
+local SHARED_JS_FILE  = project_path("qc-atelier/shared/qc-shared.js")
 local JS_FILE         = project_path("qc-atelier/qc-refactor/qc-refactor.js")
 
 -- ── Codebook loader ───────────────────────────────────────────────────────────
@@ -123,6 +124,7 @@ local function generate_html()
   local corpus_data  = build_corpus_data(json_files)
 
   local shared_css = read_text_file(SHARED_CSS_FILE)
+  local shared_js  = read_text_file(SHARED_JS_FILE)
   local css        = read_text_file(CSS_FILE)
   local js         = read_text_file(JS_FILE)
 
@@ -155,19 +157,22 @@ local function generate_html()
 <div id="qc-refactor-root">
 <div class="app">
 
+  <div class="op-panel-wrap">
   <div class="op-panel">
     <div class="op-tabs">
-      <button class="op-tab active" data-type="rename">rn</button>
-      <button class="op-tab" data-type="merge">mg</button>
-      <button class="op-tab" data-type="move">mv</button>
-      <button class="op-tab" data-type="deprecate">dp</button>
-      <button class="op-tab" data-type="stub">⊕</button>
+      <button class="op-tab active" data-type="rename">Rename</button>
+      <button class="op-tab" data-type="merge">Merge</button>
+      <button class="op-tab" data-type="move">Move</button>
+      <button class="op-tab" data-type="deprecate">Deprecate</button>
+      <button class="op-tab" data-type="stub">⊕ Stub</button>
     </div>
     <div class="op-form" id="op-form"></div>
-    <div class="op-add-row">
-      <button class="btn primary" id="btn-add">Add to queue</button>
-    </div>
   </div>
+  <div class="op-add-row">
+    <button class="btn primary" id="btn-add">Add to queue</button>
+  </div>
+  </div>
+  <div class="col-resize-handle" id="col-resize-1"></div>
 
   <div class="queue-panel">
     <div class="queue-panel-header">
@@ -186,7 +191,7 @@ local function generate_html()
       </div>
     </div>
   </div>
-
+  <div class="col-resize-handle" id="col-resize-2"></div>
   <div class="right-panel">
     <div class="panel-tabs">
       <button class="panel-tab active" data-tab="preview">Preview</button>
@@ -209,6 +214,7 @@ local function generate_html()
 
 </div>
 </div>]]
+  html[#html+1] = '<script>' .. shared_js .. '</script>'
   html[#html+1] = '<script>' .. js .. '</script>'
   html[#html+1] = '</body></html>'
 

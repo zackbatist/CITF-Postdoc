@@ -1541,3 +1541,32 @@ SERVER
 
 ---
 
+### 2026-05-08 — qc-refactor op form redesign, doc accordion, column resize
+
+Major overhaul of the op form. Move and Deprecate now use a shared
+multi-select picker (buildMultiPickerWithDocs) that fills the available
+vertical height. Clicking a code name focuses it for doc editing
+independently of the checkbox. Triangle toggle only folds/unfolds
+children. Picker search bar full width. Redundant section labels removed
+from Move and Deprecate.
+
+Documentation accordion opens below the picker on demand. A resize handle
+between the picker and docs redistributes space via CSS grid rows with no
+dead space. Full doc fields available for the focused code. Status field
+is editable and not locked, allowing codes to be annotated freely during
+any operation.
+
+Doc edits auto-queue as a separate docs entry type. buildNameResolutionMap()
+resolves renames and merges before writing doc edits at execute time, and
+warns if doc edits target a deleted code. Stub form has full inline doc
+fields and an editable status selector.
+
+Tree diff now shows colour-coded type badges and inline sibling context.
+Corpus impact shows full line text with co-occurring code chips. Column
+borders are draggable to resize op / queue / preview panels.
+
+Filter now injects qc-shared.js so isStub, getCodeColor, and codeChip
+are available in qc-refactor. CODE_COLORS derived from palette in config.
+
+---
+

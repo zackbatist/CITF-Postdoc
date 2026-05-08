@@ -30,14 +30,22 @@ body {
 }
 
 /* ── Three-column layout ── */
-.op-panel {
-  width: 300px;
-  min-width: 220px;
+.op-panel-wrap {
+  width: 340px;
+  min-width: 280px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   background: var(--surface);
   border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.op-panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
@@ -118,9 +126,8 @@ body {
 /* ── Op form ── */
 .op-form {
   padding: 12px 14px;
-  border-bottom: 1px solid var(--border-dim);
-  flex: 0 1 auto;
-  max-height: 55%;
+  flex: 1;
+  min-height: 0;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -1478,7 +1485,198 @@ body {
   background: var(--surface2);
 }
 
-/* ── Op tab abbreviations ── */
+/* ── Op tabs — no wrap ── */
 .op-tab {
-  padding: 7px 12px;
+  padding: 6px 8px;
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+/* ── Doc entry queue badge ── */
+.badge-docs {
+  background: rgba(99,102,241,0.12);
+  color: #4f46e5;
+  border: 1px solid rgba(99,102,241,0.2);
+}
+.queue-docs-fields {
+  font-size: 10px;
+  color: var(--text-faint);
+  margin-left: 4px;
+  font-style: italic;
+}
+
+/* ── Picker focus highlight ── */
+.multi-picker-item.picker-focused {
+  background: var(--surface2);
+  border-left: 2px solid var(--accent);
+}
+
+/* ── Picker triangle — larger hit area ── */
+.multi-picker-toggle-wrap {
+  width: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.multi-picker-toggle {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+}
+.multi-picker-toggle:hover {
+  background: var(--border-dim);
+  color: var(--text);
+}
+
+/* ── Picker name el ── */
+.picker-name-el {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.picker-name-el:hover span { opacity: 0.8; }
+
+/* ── Doc accordion ── */
+.picker-doc-accordion-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--text-faint);
+  border-top: 1px solid var(--border-dim);
+  background: var(--surface2);
+  user-select: none;
+}
+.picker-doc-accordion-hdr:hover { color: var(--text); }
+.picker-doc-accordion-label { font-weight: 500; }
+.picker-doc-accordion-arrow { font-size: 10px; }
+.picker-doc-accordion-body {
+  padding: 10px 12px;
+  border-top: 1px solid var(--border-dim);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  min-height: 0;
+}
+.picker-doc-accordion-body.hidden { display: none; }
+.picker-doc-code-hdr {
+  margin-bottom: 4px;
+}
+
+/* ── Stub form doc fields ── */
+.op-form-stub-docs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-dim);
+}
+
+/* ── Full-height picker row ── */
+.op-form-row-picker {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 0;
+}
+.op-form-row-picker > label {
+  flex-shrink: 0;
+  padding: 8px 14px 4px;
+}
+.picker-full-height {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.multi-picker-search {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid var(--border-dim);
+  border-radius: 0;
+  background: var(--surface2);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 12px;
+  padding: 6px 10px;
+  outline: none;
+  flex-shrink: 0;
+}
+.multi-picker-search:focus {
+  background: var(--bg);
+  border-bottom-color: var(--accent);
+}
+.multi-picker-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+/* ── Picker resize handle ── */
+.picker-resize-handle {
+  height: 16px;
+  cursor: ns-resize;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  position: relative;
+}
+.picker-resize-handle::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 5px;
+  border-radius: 3px;
+  background: var(--border);
+  transition: background 0.12s, height 0.1s;
+}
+.picker-resize-handle:hover::after {
+  background: var(--accent);
+  height: 6px;
+}
+
+/* ── Column resize handles ── */
+.col-resize-handle {
+  width: 1px;
+  cursor: col-resize;
+  flex-shrink: 0;
+  background: var(--border);
+  position: relative;
+  transition: background 0.1s;
+  margin: 0 -3px;
+  z-index: 10;
+  padding: 0 3px;
+  background-clip: content-box;
+}
+.col-resize-handle:hover,
+.col-resize-handle.dragging {
+  background-color: var(--accent);
+  background-clip: content-box;
 }

@@ -24,8 +24,9 @@ var DOC_FIELD_PLACEHOLDERS = {
 // ── State ─────────────────────────────────────────────────────────────────────
 
 var state = {
-  // Unified queue — all op types together
+  // Unified queue — all op types together (ops + doc entries)
   queue:       [],
+  docEdits:    {},   // {codeName: {field: value}} — current edits, auto-queued on blur
   activeTab:   'rename',       // which op tab is open
   previewTab:  'diff',         // diff | impact
   panelTab:    'preview',      // preview | script | results | history
@@ -44,6 +45,7 @@ var state = {
   // UI state
   expandedSegs: {},            // key → bool
   pickerOpen:     null,
+  focusedDocCode: null,   // code focused for doc editing in op form
   pickerCollapsed: new Set(),   // collapsed branch names in multi-select picker
 };
 
@@ -467,14 +469,7 @@ function renderOpForm() {
 
   if (type === 'move') {
     form.innerHTML += [
-      '<div class="op-form-row">',
-      '<label>Codes to move</label>',
-      '<div id="move-selected-chips" class="move-chips"></div>',
-      '<div class="multi-picker-wrap">',
-        '<input class="multi-picker-search" id="move-multi-search" placeholder="Search codes…" autocomplete="off">',
-        '<div class="multi-picker-list" id="move-multi-list"></div>',
-      '</div>',
-      '</div>',
+      '<div class="op-form-row op-form-row-picker"><div id="move-picker-container" class="picker-full-height"></div></div>',
       '<div class="op-form-row">',
       '<label>New parent <span class="label-hint">(empty = top level)</span></label>',
       codeInputHTML('move-parent', 'select parent…', false),
@@ -482,116 +477,18 @@ function renderOpForm() {
     ].join('');
 
     if (!state.moveSelected) state.moveSelected = new Set();
-
-    function renderMoveChips() {
-      var chips = document.getElementById('move-selected-chips');
-      if (!chips) return;
-      chips.innerHTML = '';
-      Array.from(state.moveSelected).forEach(function(name) {
-        var chip = document.createElement('span');
-        chip.className = 'move-chip';
-        chip.title = name;
-        chip.textContent = name.length > 20 ? name.slice(0,20)+'…' : name;
-        var rm = document.createElement('button');
-        rm.className = 'move-chip-rm';
-        rm.textContent = '×';
-        rm.addEventListener('click', function() {
-          state.moveSelected.delete(name);
-          renderMoveChips();
-          renderMultiList(document.getElementById('move-multi-search').value);
-        });
-        chip.appendChild(rm);
-        chips.appendChild(chip);
-      });
-    }
-
-    function renderMultiList(query) {
-      var list = document.getElementById('move-multi-list');
-      if (!list) return;
-      var nodes = getTree();
-      query = (query || '').toLowerCase();
-
-      function isVisible(node) {
-        if (query) return node.name.toLowerCase().indexOf(query) >= 0;
-        var cur = node.parent;
-        while (cur) {
-          if (state.pickerCollapsed.has(cur)) return false;
-          var p = nodes.find(function(n) { return n.name === cur; });
-          cur = p ? p.parent : null;
-        }
-        return true;
-      }
-
-      function hasChildren(name) {
-        return nodes.some(function(n) { return n.parent === name; });
-      }
-
-      var shown = nodes.filter(isVisible);
-
-      list.innerHTML = shown.map(function(node) {
-        var checked   = state.moveSelected.has(node.name) ? 'checked' : '';
-        var collapsed  = state.pickerCollapsed.has(node.name);
-        var children   = hasChildren(node.name);
-        var toggleBtn  = (!query && children)
-          ? '<button class="multi-picker-toggle" data-name="' + esc(node.name) + '" tabindex="-1">'
-            + (collapsed ? '▶' : '▼') + '</button>'
-          : '<span class="multi-picker-toggle-placeholder"></span>';
-        var cnt = corpusCount(node.name);
-        var cntHtml = cnt > 0 ? '<span class="picker-count">' + cnt + '</span>' : '';
-        return '<label class="multi-picker-item" style="padding-left:' + (node.depth * 14 + 4) + 'px">'
-          + toggleBtn
-          + '<input type="checkbox" class="multi-picker-cb" data-name="' + esc(node.name) + '" ' + checked + '>'
-          + '<span class="picker-color-dot" style="background:' + getCodeColor(node.name, {desaturate:!isStub(node.name)}) + '"></span>' + '<span class="picker-label' + (isStub(node.name) ? ' picker-stub-label' : '') + '">' + esc(node.name) + '</span>'
-          + cntHtml
-          + '</label>';
-      }).join('');
-
-      list.querySelectorAll('.multi-picker-toggle').forEach(function(btn) {
-        btn.addEventListener('mousedown', function(e) {
-          e.preventDefault();
-          var name = btn.dataset.name;
-          if (state.pickerCollapsed.has(name)) state.pickerCollapsed.delete(name);
-          else state.pickerCollapsed.add(name);
-          renderMultiList(document.getElementById('move-multi-search').value);
-        });
-      });
-
-      list.querySelectorAll('.multi-picker-cb').forEach(function(cb) {
-        cb.addEventListener('change', function() {
-          var name = cb.dataset.name;
-          if (cb.checked) state.moveSelected.add(name);
-          else state.moveSelected.delete(name);
-          renderMoveChips();
-        });
-      });
-    }
-
-    renderMultiList('');
-    renderMoveChips();
-
-    document.getElementById('move-multi-search').addEventListener('input', function() {
-      renderMultiList(this.value);
-    });
-
+    buildMultiPickerWithDocs('move-picker-container', state.moveSelected, function() {});
     wireCodeInput('move-parent', null, false);
   }
 
   if (type === 'deprecate') {
     form.innerHTML += [
-      '<div class="op-form-row"><label>Code to deprecate</label>',
-      codeInputHTML('deprecate-source', 'select code…', false),
-      '</div>',
+      '<div class="op-form-row op-form-row-picker"><div id="deprecate-picker-container" class="picker-full-height"></div></div>',
       '<p class="form-hint">Sets status to "deprecated" in codebook.json. No qc CLI command is run.</p>',
-      '<div id="deprecate-panels"></div>',
     ].join('');
 
-    wireCodeInput('deprecate-source', function(name) {
-      var panels = document.getElementById('deprecate-panels');
-      if (panels) {
-        panels.innerHTML = codePanelHTML(name, 'deprecate-src-panel');
-        wireCodePanel('deprecate-src-panel');
-      }
-    }, false);
+    if (!state.deprecateSelected) state.deprecateSelected = new Set();
+    buildMultiPickerWithDocs('deprecate-picker-container', state.deprecateSelected, function() {});
   }
 
   if (type === 'stub') {
@@ -602,12 +499,267 @@ function renderOpForm() {
       '<div class="op-form-row"><label>Parent (optional)</label>',
       codeInputHTML('stub-parent', 'none — top level', false),
       '</div>',
-      '<p class="form-hint">Creates a new branch node in codebook.yaml with status "stub". Stubs classify codes beneath them and are never applied to corpus passages.</p>',
+      '<div class="op-form-row"><label>Status</label>',
+      '<select class="doc-field-select" id="stub-status">',
+        '<option value="stub">stub</option>',
+        '<option value="active">active</option>',
+        '<option value="">unset</option>',
+      '</select>',
+      '</div>',
+      '<p class="form-hint">Creates a new branch node in codebook.yaml. Status can be set to stub, active, or left unset.</p>',
+      '<div class="op-form-stub-docs" id="stub-docs-fields"></div>',
     ].join('');
 
     wireCodeInput('stub-parent', function() {}, false);
+
+    // Build doc fields for the new stub inline
+    var stubDocsEl = document.getElementById('stub-docs-fields');
+    if (stubDocsEl && typeof makeRichField === 'function') {
+      var stubDocValues = state._stubDocDraft || {};
+      DOC_FIELDS.filter(function(k) { return k !== 'status'; }).forEach(function(key) {
+        var label = DOC_FIELD_LABELS[key] || key;
+        var ph    = DOC_FIELD_PLACEHOLDERS[key] || '';
+        var fieldWrap = document.createElement('div');
+        fieldWrap.className = 'op-form-row';
+        var lbl = document.createElement('label');
+        lbl.textContent = label;
+        fieldWrap.appendChild(lbl);
+        var rf = makeRichField({
+          value: stubDocValues[key] || '',
+          rows: 2, placeholder: ph,
+          onchange: function(v) {
+            if (!state._stubDocDraft) state._stubDocDraft = {};
+            state._stubDocDraft[key] = v;
+          },
+        });
+        fieldWrap.appendChild(rf);
+        stubDocsEl.appendChild(fieldWrap);
+      });
+    }
   }
 }
+
+// ── Shared multi-select picker with doc accordion ─────────────────────────────
+// Used by Move and Deprecate. selectedSet is a Set of selected code names.
+// onSelectionChange called when checkbox changes.
+
+function buildMultiPickerWithDocs(containerId, selectedSet, onSelectionChange) {
+  var container = document.getElementById(containerId);
+  if (!container) return;
+
+  // Search input
+  var searchInput = document.createElement('input');
+  searchInput.className = 'multi-picker-search';
+  searchInput.style.cssText = 'width:100%;box-sizing:border-box;';
+  searchInput.placeholder = 'Search codes…';
+  searchInput.autocomplete = 'off';
+
+  // List
+  var listEl = document.createElement('div');
+  listEl.className = 'multi-picker-list';
+  listEl.style.flex = '1';
+  listEl.style.minHeight = '0';
+
+  // No chips row — selection visible via checkboxes in picker
+
+  // Doc accordion
+  var accHdr = document.createElement('div');
+  accHdr.className = 'picker-doc-accordion-hdr';
+  accHdr.innerHTML = '<span class="picker-doc-accordion-label">Documentation</span><span class="picker-doc-accordion-arrow">▸</span>';
+  var accBody = document.createElement('div');
+  accBody.className = 'picker-doc-accordion-body hidden';
+
+  var accordionOpen = false;
+
+  // Resize handle between picker and doc section
+  var resizeHandle = document.createElement('div');
+  resizeHandle.className = 'picker-resize-handle';
+  resizeHandle.style.display = 'none';
+
+  var _dragStartY = null, _dragStartH = null;
+  resizeHandle.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    _dragStartY = e.clientY;
+    _dragStartH = listEl.getBoundingClientRect().height;
+    document.addEventListener('mousemove', _onDrag);
+    document.addEventListener('mouseup', _stopDrag);
+  });
+  function _onDrag(e) {
+    var delta = e.clientY - _dragStartY;
+    var newH = Math.max(60, _dragStartH + delta);
+    listEl.style.flex = 'none';
+    listEl.style.height = newH + 'px';
+    container.style.gridTemplateRows = newH + 'px auto auto 1fr';
+    accBody.style.maxHeight = '';
+  }
+  function _stopDrag() {
+    document.removeEventListener('mousemove', _onDrag);
+    document.removeEventListener('mouseup', _stopDrag);
+  }
+
+  accHdr.addEventListener('click', function() {
+    accordionOpen = !accordionOpen;
+    accBody.classList.toggle('hidden', !accordionOpen);
+    accHdr.querySelector('.picker-doc-accordion-arrow').textContent = accordionOpen ? '▾' : '▸';
+    resizeHandle.style.display = accordionOpen ? 'block' : 'none';
+    if (!accordionOpen) { listEl.style.flex = '1'; listEl.style.height = ''; }
+    if (accordionOpen && state.focusedDocCode) renderDocAccordionBody(accBody, state.focusedDocCode);
+  });
+
+  function renderDocAccordionBody(body, codeName) {
+    body.innerHTML = '';
+    var hdr = document.createElement('div');
+    hdr.className = 'picker-doc-code-hdr';
+    hdr.innerHTML = chipHtml(codeName);
+    body.appendChild(hdr);
+
+    DOC_FIELDS.forEach(function(key) {
+      var label = DOC_FIELD_LABELS[key] || key;
+      var ph    = DOC_FIELD_PLACEHOLDERS[key] || '';
+      var curVal = getDocFieldValue(codeName, key);
+
+      var fieldWrap = document.createElement('div');
+      fieldWrap.className = 'doc-field';
+      var lbl = document.createElement('div');
+      lbl.className = 'doc-field-label';
+      lbl.textContent = label;
+      fieldWrap.appendChild(lbl);
+
+      if (key === 'status') {
+        var sel = document.createElement('select');
+        sel.className = 'doc-field-select';
+        ['', 'active', 'stub', 'experimental', 'deprecated'].forEach(function(s) {
+          var opt = document.createElement('option');
+          opt.value = s; opt.textContent = s || '(unset)';
+          if (curVal === s) opt.selected = true;
+          sel.appendChild(opt);
+        });
+        sel.addEventListener('change', function() { onDocFieldChange(codeName, key, sel.value); });
+        fieldWrap.appendChild(sel);
+      } else if (typeof makeRichField === 'function') {
+        var rf = makeRichField({
+          value: curVal, rows: 2, placeholder: ph,
+          onchange: function(v) { onDocFieldChange(codeName, key, v); },
+        });
+        fieldWrap.appendChild(rf);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.className = 'doc-field-ta'; ta.rows = 2; ta.value = curVal; ta.placeholder = ph;
+        ta.addEventListener('change', function() { onDocFieldChange(codeName, key, ta.value); });
+        fieldWrap.appendChild(ta);
+      }
+      body.appendChild(fieldWrap);
+    });
+  }
+
+
+  function renderList(query) {
+    var nodes = getTree();
+    query = (query || '').toLowerCase();
+
+    function isVis(node) {
+      if (query) return node.name.toLowerCase().indexOf(query) >= 0;
+      var cur = node.parent;
+      while (cur) {
+        if (state.pickerCollapsed.has(cur)) return false;
+        var p = nodes.find(function(n) { return n.name === cur; });
+        cur = p ? p.parent : null;
+      }
+      return true;
+    }
+
+    function hasKids(name) {
+      return nodes.some(function(n) { return n.parent === name; });
+    }
+
+    var shown = nodes.filter(isVis);
+    listEl.innerHTML = '';
+
+    shown.forEach(function(node) {
+      var row = document.createElement('div');
+      row.className = 'multi-picker-item' + (state.focusedDocCode === node.name ? ' picker-focused' : '');
+      row.style.paddingLeft = (node.depth * 14 + 4) + 'px';
+
+      // Triangle — only for collapse/expand, larger hit area
+      var triangleWrap = document.createElement('span');
+      triangleWrap.className = 'multi-picker-toggle-wrap';
+      if (!query && hasKids(node.name)) {
+        var collapsed = state.pickerCollapsed.has(node.name);
+        triangleWrap.innerHTML = '<button class="multi-picker-toggle" data-name="' + esc(node.name) + '" tabindex="-1">'
+          + (collapsed ? '▶' : '▼') + '</button>';
+        triangleWrap.querySelector('.multi-picker-toggle').addEventListener('mousedown', function(e) {
+          e.stopPropagation();
+          e.preventDefault();
+          if (state.pickerCollapsed.has(node.name)) state.pickerCollapsed.delete(node.name);
+          else state.pickerCollapsed.add(node.name);
+          renderList(searchInput.value);
+        });
+      } else {
+        triangleWrap.innerHTML = '<span class="multi-picker-toggle-placeholder"></span>';
+      }
+
+      // Checkbox — independent of focus
+      var cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.className = 'multi-picker-cb';
+      cb.checked = selectedSet.has(node.name);
+      cb.addEventListener('change', function(e) {
+        e.stopPropagation();
+        if (cb.checked) selectedSet.add(node.name);
+        else selectedSet.delete(node.name);
+        renderChips();
+        onSelectionChange();
+      });
+
+      // Name — click focuses doc pane, does not toggle checkbox
+      var nameEl = document.createElement('span');
+      nameEl.className = 'picker-name-el';
+      var stub = isStub(node.name);
+      var color = getCodeColor(node.name, {desaturate: !stub});
+      nameEl.innerHTML = (stub ? '<span style="font-size:10px;margin-right:2px;opacity:0.8;">⊕</span>' : '')
+        + '<span style="border-left:3px solid ' + color + ';padding-left:4px;font-size:12px;color:var(--text);">' + esc(node.name) + '</span>';
+
+      nameEl.addEventListener('click', function(e) {
+        e.stopPropagation();
+        state.focusedDocCode = node.name;
+        // Update focus highlight
+        listEl.querySelectorAll('.multi-picker-item').forEach(function(r) {
+          r.classList.toggle('picker-focused', r.dataset.code === node.name);
+        });
+        row.classList.add('picker-focused');
+      if (accordionOpen) renderDocAccordionBody(accBody, node.name);
+      });
+      row.dataset.code = node.name;
+
+      var cnt = corpusCount(node.name);
+      var cntEl = document.createElement('span');
+      cntEl.className = 'picker-count';
+      if (cnt > 0) cntEl.textContent = cnt;
+
+      row.appendChild(triangleWrap);
+      row.appendChild(cb);
+      row.appendChild(nameEl);
+      row.appendChild(cntEl);
+      listEl.appendChild(row);
+    });
+  }
+
+  var wrap = document.createElement('div');
+  wrap.className = 'multi-picker-wrap';
+  wrap.style.cssText = 'display:flex;flex-direction:column;min-height:0;overflow:hidden;';
+  wrap.appendChild(searchInput);
+  wrap.appendChild(listEl);
+
+  container.style.cssText = 'display:grid;grid-template-rows:1fr auto auto auto;flex:1;min-height:0;overflow:hidden;';
+  container.appendChild(wrap);
+  container.appendChild(resizeHandle);
+  container.appendChild(accHdr);
+  container.appendChild(accBody);
+  resizeHandle.style.display = 'none';
+
+  searchInput.addEventListener('input', function() { renderList(this.value); });
+  renderList('');
+}
+
 
 function addMergeSourceRow() {
   var grid = document.getElementById('merge-grid');
@@ -937,20 +1089,42 @@ function addOperation() {
   }
 
   if (type === 'deprecate') {
-    var src = (document.getElementById('deprecate-source') || {}).value || '';
-    if (!src) { showFormError('Please select a code to deprecate.'); return; }
-    op = { id: state.nextId++, type: 'deprecate', sources: [src], target: src };
+    var srcs = Array.from(state.deprecateSelected || []);
+    if (srcs.length === 0) { showFormError('Please select at least one code to deprecate.'); return; }
+    srcs.forEach(function(src) {
+      state.queue.push({ id: state.nextId++, type: 'deprecate', sources: [src], target: src });
+    });
+    state.deprecateSelected = new Set();
+    state.expandedSegs = {};
+    renderQueue();
+    renderPreview();
+    renderScript();
+    renderExecuteRow();
+    renderOpForm();
+    return;
   }
 
   if (type === 'stub') {
     var label  = ((document.getElementById('stub-label')  || {}).value || '').trim().replace(/\s+/g, '_');
     var parent = ((document.getElementById('stub-parent') || {}).value || '').trim();
+    var status = ((document.getElementById('stub-status') || {}).value || 'stub');
     if (!label || !/^[A-Za-z][A-Za-z_]*$/.test(label)) { showFormError('Label must start with a letter and contain only letters and underscores.'); return; }
     var stubName = label;
-    // Check not already in tree
     var existingCodes = getTree().map(function(n) { return n.name; });
     if (existingCodes.indexOf(stubName) >= 0) { showFormError(stubName + ' already exists.'); return; }
-    op = { id: state.nextId++, type: 'stub', sources: [stubName], target: parent || '' };
+    op = { id: state.nextId++, type: 'stub', sources: [stubName], target: parent || '', status: status };
+    // If doc fields were filled in, queue a doc entry contingent on stub creation
+    var draft = state._stubDocDraft || {};
+    var hasDocs = Object.keys(draft).some(function(k) { return draft[k]; });
+    if (hasDocs) {
+      state.queue.push(op);
+      state.queue.push({ id: state.nextId++, type: 'docs', code: stubName, fields: Object.assign({status: status}, draft) });
+      state._stubDocDraft = {};
+      state.expandedSegs = {};
+      renderQueue(); renderPreview(); renderScript(); renderExecuteRow(); renderOpForm();
+      return;
+    }
+    state._stubDocDraft = {};
   }
 
   if (op) {
@@ -995,6 +1169,96 @@ function opDesc(op) {
   return '';
 }
 
+// ── Doc queue helpers ─────────────────────────────────────────────────────────
+
+// Returns the current stored value for a field (edited or original)
+function getDocFieldValue(codeName, key) {
+  if (state.docEdits[codeName] && state.docEdits[codeName][key] !== undefined)
+    return state.docEdits[codeName][key];
+  return getCodeDoc(codeName)[key] || '';
+}
+
+// Called when a doc field changes. Updates docEdits and auto-queues.
+function onDocFieldChange(codeName, key, value) {
+  if (!state.docEdits[codeName]) state.docEdits[codeName] = {};
+  state.docEdits[codeName][key] = value;
+  upsertDocQueueEntry(codeName);
+  renderQueue();
+  renderExecuteRow();
+}
+
+// Add or update a doc entry in the queue for a given code.
+// Only creates entry if at least one field differs from stored value.
+function upsertDocQueueEntry(codeName) {
+  var edits = state.docEdits[codeName] || {};
+  var stored = getCodeDoc(codeName);
+  var hasChange = Object.keys(edits).some(function(k) {
+    return edits[k] !== (stored[k] || '');
+  });
+
+  var existing = state.queue.findIndex(function(e) {
+    return e.type === 'docs' && e.code === codeName;
+  });
+
+  if (hasChange) {
+    var entry = { id: existing >= 0 ? state.queue[existing].id : state.nextId++, type: 'docs', code: codeName, fields: edits };
+    if (existing >= 0) state.queue[existing] = entry;
+    else state.queue.push(entry);
+  } else {
+    // No change — remove any existing doc entry
+    if (existing >= 0) state.queue.splice(existing, 1);
+  }
+}
+
+// Build the name resolution map for execution order.
+// Returns {originalName -> finalName} where finalName is null if deleted.
+function buildNameResolutionMap() {
+  var map = {};
+  state.queue.forEach(function(op) {
+    if (op.type === 'docs') return;
+    if (op.type === 'rename') {
+      map[op.sources[0]] = op.target;
+    } else if (op.type === 'merge') {
+      op.sources.forEach(function(s) { map[s] = op.target; });
+      // Sources other than target are deleted
+      op.sources.filter(function(s) { return s !== op.target; }).forEach(function(s) {
+        map[s] = null;
+      });
+    } else if (op.type === 'move' || op.type === 'deprecate') {
+      op.sources.forEach(function(s) { if (!map[s]) map[s] = s; });
+    } else if (op.type === 'stub') {
+      // New code — no mapping needed
+    }
+  });
+  return map;
+}
+
+// Build the doc entry list for execution, with resolved names.
+// Returns [{code, fields}] — filtered and renamed.
+function buildDocExecutionList() {
+  var nameMap = buildNameResolutionMap();
+  var docEntries = state.queue.filter(function(e) { return e.type === 'docs'; });
+  var result = [];
+  var warned = [];
+
+  docEntries.forEach(function(entry) {
+    var finalName = nameMap.hasOwnProperty(entry.code) ? nameMap[entry.code] : entry.code;
+    if (finalName === null) {
+      // Code gets deleted — warn
+      warned.push(entry.code);
+      return;
+    }
+    // Check if this code is a stub being created in this queue
+    var isNewStub = state.queue.some(function(op) {
+      return op.type === 'stub' && op.sources[0] === entry.code;
+    });
+    result.push({ code: finalName, fields: entry.fields, isNewStub: isNewStub });
+  });
+
+  return { entries: result, warned: warned };
+}
+
+
 function renderQueue() {
   var list = document.getElementById('queue-list');
   if (!list) return;
@@ -1011,6 +1275,28 @@ function renderQueue() {
     var itemEl = document.createElement('div');
     itemEl.className = 'queue-item';
     itemEl.dataset.id = op.id;
+
+    // Doc-only entry — compact display
+    if (type === 'docs') {
+      var editedKeys = Object.keys(op.fields || {}).filter(function(k) {
+        return op.fields[k] !== (getCodeDoc(op.code)[k] || '');
+      });
+      var hdr = document.createElement('div');
+      hdr.className = 'queue-item-header';
+      hdr.innerHTML = '<span class="queue-item-badge badge-docs">docs</span>'
+        + '<div class="queue-item-desc">' + chipHtml(op.code)
+        + '<span class="queue-docs-fields">' + editedKeys.map(function(k) {
+            return DOC_FIELD_LABELS[k] || k;
+          }).join(' · ') + '</span></div>';
+      var rmBtn2 = document.createElement('button');
+      rmBtn2.className = 'queue-item-remove';
+      rmBtn2.dataset.id = op.id;
+      rmBtn2.textContent = '×';
+      hdr.appendChild(rmBtn2);
+      itemEl.appendChild(hdr);
+      list.appendChild(itemEl);
+      return;
+    }
 
     // Header row
     var hdr = document.createElement('div');
@@ -1198,8 +1484,8 @@ function renderQueue() {
   });
 }
 
-function allOps()   { return state.queue; }
-function totalOps() { return state.queue.length; }
+function allOps()   { return state.queue.filter(function(e) { return e.type !== 'docs'; }); }
+function totalOps() { return allOps().length; }
 
 // ── Preview — tree diff ───────────────────────────────────────────────────────
 
@@ -1729,12 +2015,24 @@ function render() {
 async function executeQueue(summary) {
   state.sessionNote = summary;
 
+  // Resolve doc entries for execution
+  var docExec = buildDocExecutionList();
+  if (docExec.warned.length > 0) {
+    var warnMsg = 'The following codes have doc edits but will be deleted by a merge operation:\n'
+      + docExec.warned.join(', ') + '\nThese doc edits will be discarded. Continue?';
+    if (!confirm(warnMsg)) return;
+  }
+
+  // Separate structural ops from doc-only entries
+  var structuralOps = state.queue.filter(function(e) { return e.type !== 'docs'; });
+
   var payload = {
-    operations:  allOps(),
+    operations:  structuralOps,
     summary:     summary,
     script:      generateScript().script || '',
     scheme_path: SCHEME_PATH,
     docs_edits:  state.docsEdits,
+    doc_entries: docExec.entries,
   };
 
   try {
@@ -1942,6 +2240,36 @@ function renderSnapshots() {
 
 // ── DOMContentLoaded ──────────────────────────────────────────────────────────
 
+
+// ── Column resize ─────────────────────────────────────────────────────────────
+function wireColResize(handleId, leftSelector) {
+  var handle = document.getElementById(handleId);
+  if (!handle) return;
+  var leftEl = document.querySelector(leftSelector);
+  if (!leftEl) return;
+
+  var _startX, _startW;
+  handle.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    _startX = e.clientX;
+    _startW = leftEl.getBoundingClientRect().width;
+    handle.classList.add('dragging');
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+  function onMove(e) {
+    var delta = e.clientX - _startX;
+    var newW = Math.max(180, _startW + delta);
+    leftEl.style.width = newW + 'px';
+    leftEl.style.minWidth = newW + 'px';
+  }
+  function onUp() {
+    handle.classList.remove('dragging');
+    document.removeEventListener('mousemove', onMove);
+    document.removeEventListener('mouseup', onUp);
+  }
+}
+
 (async function() {
   // Load codebook docs and refresh tree from server
   await loadDocs();
@@ -1950,6 +2278,10 @@ function renderSnapshots() {
   if (typeof CODEBOOK_TREE !== 'undefined') {
     window._rich_codes = CODEBOOK_TREE.map(function(n) { return n.name; });
   }
+
+  // Column resize
+  wireColResize('col-resize-1', '.op-panel-wrap');
+  wireColResize('col-resize-2', '.queue-panel');
 
   // Op type tabs
   document.querySelectorAll('.op-tab').forEach(function(tab) {
