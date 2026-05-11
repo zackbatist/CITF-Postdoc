@@ -1,0 +1,12 @@
+---
+title: Week notes (2026-W19)
+date: 2026-05-08
+date-modified: today
+categories:
+  - week notes
+---
+
+- Work on qc-atelier
+- Documenting codes
+- Updated project website
+- Some networking and professional development activities
