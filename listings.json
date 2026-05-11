@@ -2,6 +2,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/weeknotes-2026-W19.html",
       "/posts/tech-specs.html",
       "/posts/weeknotes-2026-W18.html",
       "/posts/weeknotes-2026-W17.html",
@@ -73,9 +74,9 @@
   {
     "listing": "/notes.html",
     "items": [
-      "/notes/potential-cases.html",
       "/notes/cataloguing.html",
       "/notes/critical-research-about-harmonization.html",
+      "/notes/potential-cases.html",
       "/notes/caqdas.html",
       "/notes/methodology-notes.html",
       "/notes/tricks-of-the-trade.html",

@@ -10,7 +10,30 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Mon, 04 May 2026 19:33:50 GMT</lastBuildDate>
+<lastBuildDate>Fri, 08 May 2026 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2026-W19)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W19.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Work on qc-atelier</li>
+<li>Documenting codes</li>
+<li>Updated project website</li>
+<li>Some networking and professional development activities</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W19.html</guid>
+  <pubDate>Fri, 08 May 2026 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Technical specs for this website</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/tech-specs.html</link>
@@ -634,29 +657,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W47.html</guid>
   <pubDate>Fri, 21 Nov 2025 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W46)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W46.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Meetings and updates regarding the PG grant analysis</li>
-<li>Bringing codes over to qc</li>
-<li>Some more work on qc-viz, including a draft blog post</li>
-<li>Worked on a grant for a side-project over the weekend</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W46.html</guid>
-  <pubDate>Fri, 14 Nov 2025 05:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
