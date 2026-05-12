@@ -11,7 +11,14 @@ function getCodePrefix(name) {
 }
 
 function isStub(name) {
-  // Stubs: XX_Label — two-digit prefix, underscore, word-only label, no numeric suffix segment
+  // Check live docs if available (scheme loads docs from server)
+  if (typeof getDoc === 'function') {
+    var doc = getDoc(name);
+    if (doc && doc.status === 'stub') return true;
+  }
+  // Check STUB_CODES set exported from filter (status:stub in codebook.json)
+  if (typeof STUB_CODES !== 'undefined' && STUB_CODES.has(name)) return true;
+  // Fallback: name pattern XX_Label
   return /^\d{2}_[A-Za-z][A-Za-z_]*$/.test(name || '');
 }
 

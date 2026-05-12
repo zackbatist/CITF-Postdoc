@@ -201,10 +201,10 @@ function clCode(code, field, fromVal, toVal) {
 // or after HISTORY_DEBOUNCE ms of inactivity in the same field.
 
 var HISTORY_DEBOUNCE = 2500; // ms of inactivity before a history entry is written
-var _histCommitted = {};  // key: "code field" → last committed string value
-var _histTimers   = {};   // key: "code field" → debounce timer id
+var _histCommitted = {};  // key: "codefield" → last committed string value
+var _histTimers   = {};   // key: "codefield" → debounce timer id
 
-function histKey(code, field) { return code + ' ' + field; }
+function histKey(code, field) { return code + '' + field; }
 
 // Get the last committed value for a code+field (falls back to baseline or empty)
 function histCommitted(code, field) {
@@ -248,7 +248,7 @@ function flushAllHistCommits() {
     Object.keys(_histTimers).forEach(function(k) {
       clearTimeout(_histTimers[k]);
       delete _histTimers[k];
-      var parts = k.split(' ');
+      var parts = k.split('');
       var code = parts[0], field = parts[1];
       if (!state.docs.codes[code]) return;
       var current = String(state.docs.codes[code][field] || '');
@@ -318,9 +318,10 @@ async function refreshTreeFromServer(snapshotDir) {
       // Reinitialise autocomplete with updated code names
       if (window.qcAutocompleteInit) {
         var _codes = treeArr.map(function(n) { return n.name; });
-      window._rich_codes = _codes;
-      qcAutocompleteInit(_codes);
+        window._rich_codes = _codes;
+        qcAutocompleteInit(_codes);
       }
+      renderSidebar();
       return true;
     }
   } catch(e) {
@@ -3725,6 +3726,10 @@ function boot() {
   ensureEscListener();
   restorePersistedState();
   render();
+  // Refresh tree from server on boot so structural changes are live
+  refreshTreeFromServer(null);
+  // Poll for tree changes every 5 seconds
+  setInterval(function() { refreshTreeFromServer(null); }, 5000);
 
   // Determine which docs file to load
   var sess = LS.getJson('session');

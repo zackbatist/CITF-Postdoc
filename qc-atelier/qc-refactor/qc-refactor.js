@@ -106,14 +106,22 @@ async function refreshTree() {
     var data = await res.json();
     if (data.ok && data.tree) {
       _runtimeTree = data.tree;
-      // Reinitialise autocomplete with updated code names
       if (window.qcAutocompleteInit) {
         qcAutocompleteInit(_runtimeTree.map(function(n) { return n.name; }));
       }
+      window._rich_codes = _runtimeTree.map(function(n) { return n.name; });
     }
   } catch(e) {
     console.warn('Could not refresh tree:', e);
   }
+  // Also refresh stub codes from server
+  try {
+    var sres  = await fetch(API + '/codebook/stubs');
+    var sdata = await sres.json();
+    if (sdata.stubs) {
+      window.STUB_CODES = new Set(sdata.stubs);
+    }
+  } catch(e) {}
 }
 
 function getCodeDoc(name) {
@@ -270,10 +278,35 @@ function renderPicker() {
   picker.appendChild(list);
 
   var rect = anchor.getBoundingClientRect();
+  var pickerH = 400;
+  var pickerW = Math.min(Math.max(rect.width, 280), window.innerWidth - rect.left - 10);
+  var openUpward = rect.bottom + pickerH > window.innerHeight - 20;
   picker.style.position = 'fixed';
-  picker.style.top      = rect.bottom + 2 + 'px';
+  picker.style.top      = openUpward ? Math.max(10, rect.top - pickerH - 2) + 'px' : rect.bottom + 2 + 'px';
   picker.style.left     = rect.left + 'px';
-  picker.style.width    = Math.max(rect.width, 280) + 'px';
+  picker.style.width    = pickerW + 'px';
+  // Resize handle at bottom of picker
+  var pickerResizeHandle = document.createElement('div');
+  pickerResizeHandle.className = 'picker-resize-handle';
+  picker.appendChild(pickerResizeHandle);
+
+  var _pStartY, _pStartH;
+  pickerResizeHandle.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+    _pStartY = e.clientY;
+    _pStartH = picker.getBoundingClientRect().height;
+    document.addEventListener('mousemove', _pOnDrag);
+    document.addEventListener('mouseup', _pStopDrag);
+  });
+  function _pOnDrag(e) {
+    var newH = Math.max(120, _pStartH + (e.clientY - _pStartY));
+    picker.style.height = newH + 'px';
+  }
+  function _pStopDrag() {
+    document.removeEventListener('mousemove', _pOnDrag);
+    document.removeEventListener('mouseup', _pStopDrag);
+  }
+
   document.body.appendChild(picker);
 
   search.focus();
@@ -399,6 +432,8 @@ function renderOpForm() {
   var form = document.getElementById('op-form');
   closePicker();
   form.innerHTML = '';
+  // Always use latest tree
+  refreshTree();
 
   var type = state.activeTab;
   form.innerHTML = '<div id="op-form-error" class="op-form-error hidden"></div>';
@@ -470,15 +505,22 @@ function renderOpForm() {
   if (type === 'move') {
     form.innerHTML += [
       '<div class="op-form-row op-form-row-picker"><div id="move-picker-container" class="picker-full-height"></div></div>',
-      '<div class="op-form-row">',
-      '<label>New parent <span class="label-hint">(empty = top level)</span></label>',
-      codeInputHTML('move-parent', 'select parent…', false),
-      '</div>',
     ].join('');
 
     if (!state.moveSelected) state.moveSelected = new Set();
     buildMultiPickerWithDocs('move-picker-container', state.moveSelected, function() {});
-    wireCodeInput('move-parent', null, false);
+
+    // Parent row appended outside picker grid, pinned at bottom of form
+    var parentRow = document.createElement('div');
+    parentRow.className = 'op-form-row op-form-row-parent';
+    parentRow.style.cssText = 'flex-shrink:0;padding:10px 12px;border-top:1px solid var(--border-dim);';
+    parentRow.innerHTML = '<label>New parent <span class="label-hint">(empty = top level)</span></label>'
+      + codeInputHTML('move-parent', 'select parent…', false);
+    form.appendChild(parentRow);
+    // Refresh tree from server before wiring picker to get latest codes
+    refreshTree().then(function() {
+      wireCodeInput('move-parent', null, false);
+    });
   }
 
   if (type === 'deprecate') {
@@ -613,6 +655,23 @@ function buildMultiPickerWithDocs(containerId, selectedSet, onSelectionChange) {
     hdr.innerHTML = chipHtml(codeName);
     body.appendChild(hdr);
 
+    // For move form: show new parent field at top of accordion
+    if (state.activeTab === 'move') {
+      var parentWrap = document.createElement('div');
+      parentWrap.className = 'doc-field';
+      var parentLbl = document.createElement('div');
+      parentLbl.className = 'doc-field-label';
+      parentLbl.textContent = 'New parent';
+      var parentHint = document.createElement('span');
+      parentHint.className = 'doc-field-hint';
+      parentHint.textContent = ' — empty = top level';
+      parentLbl.appendChild(parentHint);
+      parentWrap.appendChild(parentLbl);
+      parentWrap.innerHTML += codeInputHTML('move-parent', 'select parent…', false);
+      body.appendChild(parentWrap);
+      refreshTree().then(function() { wireCodeInput('move-parent', null, false); });
+    }
+
     DOC_FIELDS.forEach(function(key) {
       var label = DOC_FIELD_LABELS[key] || key;
       var ph    = DOC_FIELD_PLACEHOLDERS[key] || '';
@@ -704,9 +763,38 @@ function buildMultiPickerWithDocs(containerId, selectedSet, onSelectionChange) {
       cb.checked = selectedSet.has(node.name);
       cb.addEventListener('change', function(e) {
         e.stopPropagation();
-        if (cb.checked) selectedSet.add(node.name);
-        else selectedSet.delete(node.name);
-        renderChips();
+        if (cb.checked) {
+          selectedSet.add(node.name);
+          // If stub, also select all descendants
+          if (isStub(node.name)) {
+            var allNodes = getTree();
+            function selectDescendants(parentName) {
+              allNodes.forEach(function(n) {
+                if (n.parent === parentName) {
+                  selectedSet.add(n.name);
+                  selectDescendants(n.name);
+                }
+              });
+            }
+            selectDescendants(node.name);
+          }
+        } else {
+          selectedSet.delete(node.name);
+          // If stub, also deselect all descendants
+          if (isStub(node.name)) {
+            var allNodes2 = getTree();
+            function deselectDescendants(parentName) {
+              allNodes2.forEach(function(n) {
+                if (n.parent === parentName) {
+                  selectedSet.delete(n.name);
+                  deselectDescendants(n.name);
+                }
+              });
+            }
+            deselectDescendants(node.name);
+          }
+        }
+        renderList(searchInput.value);
         onSelectionChange();
       });
 
@@ -958,6 +1046,14 @@ function applyOpsToRuntimeTree(operations) {
     }
 
     // deprecate: no tree structure change needed
+
+    if (op.type === 'stub' && sources.length === 1) {
+      var stubName = sources[0];
+      var stubParent = target || '';
+      if (!_runtimeTree.find(function(n) { return n.name === stubName; })) {
+        _runtimeTree.push({ name: stubName, parent: stubParent, depth: 0, prefix: stubName.slice(0, 2), status: op.status || 'stub' });
+      }
+    }
   });
 
   // Recompute depths
@@ -971,6 +1067,13 @@ function applyOpsToRuntimeTree(operations) {
     return depthCache[name];
   }
   _runtimeTree.forEach(function(n) { n.depth = getDepth(n.name); });
+
+  // Also update treeArr to match runtime tree for picker consistency
+  if (typeof treeArr !== "undefined") {
+    treeArr.length = 0;
+    _runtimeTree.forEach(function(n) { treeArr.push(n); });
+    rebuildIndices();
+  }
 }
 
 // ── Queue conflict validation ─────────────────────────────────────────────────
@@ -1076,7 +1179,19 @@ function addOperation() {
     var srcs   = Array.from(state.moveSelected || []);
     var parent = ((document.getElementById('move-parent') || {}).value || '').trim();
     if (srcs.length === 0) { showFormError('Please select at least one code to move.'); return; }
-    srcs.forEach(function(src) {
+    // Filter out codes that are descendants of other selected codes
+    // (they will move with their ancestor via _do_move block collection)
+    var srcsSet = new Set(srcs);
+    function isDescendantOfSelected(name) {
+      var node = nodeByName(name);
+      while (node && node.parent) {
+        if (srcsSet.has(node.parent)) return true;
+        node = nodeByName(node.parent);
+      }
+      return false;
+    }
+    var filteredSrcs = srcs.filter(function(s) { return !isDescendantOfSelected(s); });
+    filteredSrcs.forEach(function(src) {
       state.queue.push({ id: state.nextId++, type: 'move', sources: [src], target: parent });
     });
     // Keep selection visible — cleared after execute
@@ -1121,6 +1236,7 @@ function addOperation() {
       state.queue.push({ id: state.nextId++, type: 'docs', code: stubName, fields: Object.assign({status: status}, draft) });
       state._stubDocDraft = {};
       state.expandedSegs = {};
+      applyOpsToRuntimeTree(allOps());
       renderQueue(); renderPreview(); renderScript(); renderExecuteRow(); renderOpForm();
       return;
     }
@@ -1135,6 +1251,7 @@ function addOperation() {
     }
     state.queue.push(op);
     state.expandedSegs = {};
+    applyOpsToRuntimeTree(allOps());
     renderQueue();
     renderPreview();
     renderScript();
@@ -1180,6 +1297,9 @@ function getDocFieldValue(codeName, key) {
 
 // Called when a doc field changes. Updates docEdits and auto-queues.
 function onDocFieldChange(codeName, key, value) {
+  // Only queue if value actually differs from stored
+  var stored = getCodeDoc(codeName)[key] || '';
+  if (value === stored) return;
   if (!state.docEdits[codeName]) state.docEdits[codeName] = {};
   state.docEdits[codeName][key] = value;
   upsertDocQueueEntry(codeName);
@@ -1343,7 +1463,7 @@ function renderQueue() {
     var codesForDoc = op.sources.slice();
     if (op.type === 'rename' || op.type === 'merge') {
       // Also show target if it exists
-      if (op.target && nodeByName(effectiveName(op.target))) codesForDoc.push(op.target);
+      if (op.target && (typeof effectiveName === "function") && nodeByName(effectiveName(op.target))) codesForDoc.push(op.target);
     }
 
     codesForDoc.forEach(function(codeName) {

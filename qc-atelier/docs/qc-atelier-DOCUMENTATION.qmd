@@ -1570,3 +1570,32 @@ are available in qc-refactor. CODE_COLORS derived from palette in config.
 
 ---
 
+### 2026-05-11 — move parentage fix, reconcile, rename yaml sync, stub detection
+
+Major stability work. Root causes identified and fixed:
+
+**Move parentage** — when a stub was checked and its children
+auto-selected, each code got its own move op. _do_move moved the stub
+with its block, then each child was moved individually as a sibling. Fix:
+filter descendants from move sources at queue time — only the stub is
+queued, children come along via block collection.
+
+**Reconciliation** — _reconcile_parents was defined after the class and
+never in scope at the call site. Fixed by inlining the logic directly.
+Runs after every execute and every docs/save.
+
+**Rename yaml sync** — qc codes rename only updates the corpus. Server
+now also renames the node in codebook.yaml after a successful rename.
+
+**Stale name field** — server was writing a name field into every docs
+entry on save. Removed. All existing stale name fields purged from
+codebook.json.
+
+**Stub detection** — isStub() now checks getDoc().status first, enabling
+live detection of status changes without re-rendering.
+
+**Scheme live tree** — scheme polls /refactor/tree every 5s and updates
+the sidebar without a full render or page reload.
+
+---
+

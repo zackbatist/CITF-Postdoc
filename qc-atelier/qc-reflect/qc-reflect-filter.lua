@@ -248,6 +248,16 @@ local function generate_html()
   html[#html+1] = 'const CODE_COLORS = ' .. to_json(colors_derived) .. ';'
   html[#html+1] = 'const CODE_SCHEMA = ' .. to_json({default_color = default_color}) .. ';'
 
+  -- Export stub codes from codebook.json
+  local _docs_raw = read_json_file(project_path(S(config.directories.output_dir) .. "/codebook.json"))
+  local _stub_codes = {}
+  if _docs_raw and _docs_raw.codes then
+    for _name, _info in pairs(_docs_raw.codes) do
+      if _info.status == "stub" then _stub_codes[#_stub_codes+1] = _name end
+    end
+  end
+  html[#html+1] = 'const STUB_CODES = new Set(' .. to_json(_stub_codes) .. ');'
+
 html[#html+1] = 'const REFLECT_CONFIG = ' .. to_json({
     ollama_url    = S(config.ollama.url),
     ollama_model  = S(config.ollama.model),

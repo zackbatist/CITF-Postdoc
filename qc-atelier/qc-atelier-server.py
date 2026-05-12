@@ -283,6 +283,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._refactor_history()
         elif self.path.startswith("/refactor/tree"):
             self._refactor_tree()
+        elif self.path == "/codebook/stubs":
+            self._codebook_stubs()
         elif self.path == "/align/log":
             self._align_log_get()
         elif self.path.startswith("/align/responses"):
@@ -436,7 +438,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                             rec = codes.setdefault(code_name, {})
                             dirty = False
                             for field, default in [
-                                ("name",            code_name),
                                 ("parent",          yaml_parents[code_name]),
                                 ("scope",           ""),
                                 ("rationale",       ""),
@@ -450,8 +451,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                                     rec[field] = default
                                     dirty = True
                             # Always keep name and parent in sync with yaml
-                            if rec.get("name") != code_name:
-                                rec["name"] = code_name
                                 dirty = True
                             if rec.get("parent") != yaml_parents[code_name] and "parent" not in rec:
                                 rec["parent"] = yaml_parents[code_name]
@@ -590,7 +589,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         rec = codes.setdefault(code_name, {})
                         dirty = False
                         for field, default in [
-                            ("name",            code_name),
                             ("parent",          yaml_parents[code_name]),
                             ("scope",           ""),
                             ("rationale",       ""),
@@ -603,8 +601,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                             if field not in rec:
                                 rec[field] = default
                                 dirty = True
-                        if rec.get("name") != code_name:
-                            rec["name"] = code_name
                             dirty = True
                         if dirty:
                             changed = True
@@ -807,8 +803,31 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         ok  = r.returncode == 0
                         out = (r.stdout + r.stderr).strip()
                         results.append({"cmd": " ".join(cmd), "ok": ok, "output": out})
-                        if ok:
-                            # Verify which source codes are now orphans before removing
+                        if ok and op_type == "rename" and len(sources) == 1:
+                            # Rename the node in codebook.yaml directly
+                            try:
+                                with open(working_yaml) as fy:
+                                    yaml_text = fy.read()
+                                old_name = sources[0]
+                                # Replace the code name in yaml (as list item or as dict key)
+                                import re as _re
+                                # Match "- old_name:" (parent node) or "- old_name" (leaf)
+                                yaml_text = _re.sub(
+                                    r'(- )' + _re.escape(old_name) + r'(:|)',
+                                    lambda m: m.group(1) + target + m.group(2),
+                                    yaml_text
+                                )
+                                with open(working_yaml, 'w') as fy:
+                                    fy.write(yaml_text)
+                                ts_log = datetime.now().strftime("%H:%M:%S")
+                                print(f"[{ts_log}] refactor/execute: renamed {old_name} -> {target} in codebook.yaml")
+                            except Exception as ye:
+                                ts_log = datetime.now().strftime("%H:%M:%S")
+                                print(f"[{ts_log}] refactor/execute: WARNING — could not rename in yaml: {ye}")
+
+                        if ok and op_type == "merge":
+                            # Verify which source codes are now orphans before removing (merge only)
+                            # For rename, the yaml was already updated above — no removal needed
                             try:
                                 stats = subprocess.run(
                                     [qc_bin, "codes", "stats", "-zu", "0"],
@@ -847,11 +866,30 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
                 elif op_type == "move":
                     try:
-                        self._do_move(sources[0] if sources else "", target, working_yaml)
-                        results.append({"cmd": f"move {sources[0]} → {target or '(top level)'}", "ok": True, "output": ""})
+                        # If multiple sources, skip descendants — they move with their ancestor
+                        def is_descendant_of_any(name, candidates, yaml_path):
+                            try:
+                                with open(yaml_path) as f: yt = f.read()
+                                yp = {}; stack = []
+                                for line in yt.splitlines():
+                                    s = line.lstrip()
+                                    if not s or s.startswith('#') or not s.startswith('-'): continue
+                                    indent = len(line)-len(s); nm = s[1:].strip().rstrip(':')
+                                    while stack and stack[-1][0] >= indent: stack.pop()
+                                    yp[nm] = stack[-1][1] if stack else ''
+                                    stack.append((indent, nm))
+                                def ancestors(n):
+                                    p = yp.get(n, '')
+                                    return {p} | ancestors(p) if p else set()
+                                return bool(ancestors(name) & set(candidates))
+                            except: return False
+                        to_move = [s for s in sources if not is_descendant_of_any(s, [x for x in sources if x != s], working_yaml)]
+                        for src in to_move:
+                            # Reload yaml before each move so prior moves are visible
+                            self._do_move(src, target, working_yaml)
+                            results.append({"cmd": f"move {src} -> {target or '(top level)'}", "ok": True, "output": ""})
                     except Exception as e:
-                        results.append({"cmd": f"move {sources[0] if sources else '?'} → {target}", "ok": False, "output": str(e)})
-
+                        results.append({"cmd": f"move {sources} -> {target}", "ok": False, "output": str(e)})
                 elif op_type == "deprecate":
                     try:
                         if working_docs.exists():
@@ -913,6 +951,22 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                             log = codes[code_name].setdefault("_log", [])
                             log.append({"ts": ts_iso, "field": field, "from": old_val, "to": value})
 
+                    # Apply doc_entries (from picker doc accordion and stub form)
+                    for entry in payload.get("doc_entries", []):
+                        code_name = entry.get("code", "")
+                        fields    = entry.get("fields", {})
+                        if not code_name or not fields:
+                            continue
+                        if code_name not in codes:
+                            codes[code_name] = {}
+                        for field, value in fields.items():
+                            if value is None:
+                                continue
+                            old_val = codes[code_name].get(field, "")
+                            codes[code_name][field] = value
+                            log = codes[code_name].setdefault("_log", [])
+                            log.append({"ts": ts_iso, "field": field, "from": old_val, "to": value})
+
                     # Write provenance only for successful ops
                     for i, op in enumerate(operations):
                         r = result_by_idx.get(i, {})
@@ -927,6 +981,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                             if old_name in codes and old_name != target:
                                 codes[target] = codes.pop(old_name)
                             tgt = codes.setdefault(target, {})
+                            tgt.pop("name", None)  # remove stale name field
                             tgt["provenance"] = f"Renamed from {old_name} ({ts_iso[:10]})"
                             # Update parent refs
                             for c, cd in codes.items():
@@ -955,6 +1010,31 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     ok_all  = n_fail == 0
                     status  = "ok" if ok_all else ("partial" if n_ok > 0 else "failed")
 
+                    # Reconcile codebook.json parent refs against codebook.yaml tree
+                    try:
+                        with open(working_yaml) as fy:
+                            yaml_text = fy.read()
+                        yaml_parents = {}
+                        stack = []
+                        for line in yaml_text.splitlines():
+                            stripped = line.lstrip()
+                            if not stripped or stripped.startswith('#'): continue
+                            if not stripped.startswith('-'): continue
+                            indent = len(line) - len(line.lstrip())
+                            name = stripped[1:].strip().rstrip(':')
+                            while stack and stack[-1][0] >= indent:
+                                stack.pop()
+                            parent = stack[-1][1] if stack else ''
+                            yaml_parents[name] = parent
+                            stack.append((indent, name))
+                        # Update codebook.json parent fields to match yaml
+                        for code_name, yaml_parent in yaml_parents.items():
+                            if code_name in codes:
+                                if codes[code_name].get('parent', '') != yaml_parent:
+                                    codes[code_name]['parent'] = yaml_parent
+                    except Exception as e:
+                        print(f"[reconcile] Warning: {e}")
+
                     # Append refactor changelog entry — always, but with status
                     changelog = docs.setdefault("changelog", [])
                     changelog.append({
@@ -969,6 +1049,29 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     with open(working_docs, "w") as f:
                         json.dump(docs, f, ensure_ascii=False, indent=2)
 
+                    # Inline reconcile — sync codebook.json parents to yaml
+                    try:
+                        import json as _rj
+                        with open(working_yaml) as _fy: _yt = _fy.read()
+                        with open(working_docs) as _fj: _rd = _rj.load(_fj)
+                        _rc = _rd.get('codes', {})
+                        _yp = {}; _stk = []
+                        for _ln in _yt.splitlines():
+                            _s = _ln.lstrip()
+                            if not _s or _s.startswith('#') or not _s.startswith('-'): continue
+                            _ind = len(_ln)-len(_s); _nm = _s[1:].strip().rstrip(':')
+                            while _stk and _stk[-1][0] >= _ind: _stk.pop()
+                            _yp[_nm] = _stk[-1][1] if _stk else ''
+                            _stk.append((_ind, _nm))
+                        _chg = 0
+                        for _n, _p in _yp.items():
+                            if _n in _rc and _rc[_n].get('parent','') != _p:
+                                _rc[_n]['parent'] = _p; _chg += 1
+                        if _chg:
+                            with open(working_docs,'w') as _fj2: _rj.dump(_rd,_fj2,ensure_ascii=False,indent=2)
+                            print(f"[reconcile] Synced {_chg} parent refs")
+                    except Exception as _re:
+                        print(f"[reconcile] Warning: {_re}")
                     if not ok_all:
                         ts_log = datetime.now().strftime("%H:%M:%S")
                         print(f"[{ts_log}] refactor/execute: {n_fail} op(s) failed — {status}")
@@ -1075,23 +1178,34 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         if code_line_idx is None:
             raise ValueError(f"Code not found in codebook.yaml: {code}")
+        ts_log = datetime.now().strftime("%H:%M:%S")
+        print(f"[{ts_log}] _do_move: moving '{code}' to parent '{new_parent}', found at line {code_line_idx}")
 
         # Collect the code's block: its line plus any indented children
+        # Include blank lines that are between children
         code_indent = len(lines[code_line_idx]) - len(lines[code_line_idx].lstrip())
         block = [lines[code_line_idx]]
         j = code_line_idx + 1
+        # Track trailing blanks separately so we don't include trailing blank lines
+        pending_blanks = []
         while j < len(lines):
             line = lines[j]
             if line.strip() == '' or line.strip().startswith('#'):
+                pending_blanks.append(line)
                 j += 1
                 continue
             line_indent = len(line) - len(line.lstrip())
             if line_indent > code_indent:
+                block.extend(pending_blanks)
+                pending_blanks = []
                 block.append(line)
                 j += 1
             else:
                 break
+        # Don't include trailing blanks in block
 
+        ts_log2 = datetime.now().strftime("%H:%M:%S")
+        print(f"[{ts_log2}] _do_move: block size={len(block)} lines (includes children)")
         # Remove the block from its current position
         del lines[code_line_idx:code_line_idx + len(block)]
 
@@ -1207,6 +1321,21 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
         ts_log = datetime.now().strftime("%H:%M:%S")
         print(f"[{ts_log}] refactor/stub: created {stub_name}" + (f" under {parent}" if parent else " (top level)"))
+
+    # ── GET /codebook/stubs ───────────────────────────────────────────────────────
+    def _codebook_stubs(self):
+        """Returns list of code names with status:stub from codebook.json."""
+        try:
+            json_path = DATA_DIR / "codebook.json"
+            if not json_path.exists():
+                self._json(200, {"stubs": []})
+                return
+            with open(json_path) as f:
+                data = json.load(f)
+            stubs = [k for k, v in data.get("codes", {}).items() if v.get("status") == "stub"]
+            self._json(200, {"stubs": stubs})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
 
     # ── GET /refactor/tree ────────────────────────────────────────────────────
     # Returns the current codebook.yaml as a flat tree for runtime picker refresh.
@@ -1574,3 +1703,5 @@ if __name__ == "__main__":
         sys.exit(1)
     except KeyboardInterrupt:
         print("\n[qc-server] Stopped.")
+
+# Auto-reconcile on startup

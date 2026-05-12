@@ -130,6 +130,18 @@ local function generate_html()
   html[#html+1] = 'const CODE_COLORS = ' .. to_json(colors_derived) .. ';'
   html[#html+1] = 'const CODE_SCHEMA = ' .. to_json({default_color = default_color}) .. ';'
 
+  -- Export stub codes from codebook.json status field
+  local stub_codes = {}
+  local docs_raw = read_json_file(SCHEME_JSON)
+  if docs_raw and docs_raw.codes then
+    for name, info in pairs(docs_raw.codes) do
+      if info.status == "stub" then
+        stub_codes[#stub_codes+1] = name
+      end
+    end
+  end
+  html[#html+1] = 'const STUB_CODES = new Set(' .. to_json(stub_codes) .. ');'
+
 html[#html+1] = 'const DOCS_CONFIG = '   .. to_json({
     server_port        = N(config.server.port),
     scheme_path = SCHEME_JSON,

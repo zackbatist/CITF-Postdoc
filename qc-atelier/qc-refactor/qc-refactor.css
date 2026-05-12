@@ -125,13 +125,12 @@ body {
 
 /* ── Op form ── */
 .op-form {
-  padding: 12px 14px;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
+  overflow: visible;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
 }
 
 .op-form label {
@@ -157,7 +156,7 @@ body {
 .op-form select:focus,
 .op-form input[type="text"]:focus { border-color: var(--accent); }
 
-.op-form-row { display: flex; flex-direction: column; gap: 3px; }
+.op-form-row { display: flex; flex-direction: column; gap: 3px; flex-shrink: 0; }
 
 /* ── Multi-select picker (move form) ── */
 .multi-picker-wrap {
@@ -641,16 +640,19 @@ body {
 
 /* ── Tree picker dropdown ────────────────────────────────────────────────────── */
 .tree-picker {
-  position: absolute;
-  z-index: 200;
+  position: fixed;
+  z-index: 1000;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: 0 4px 16px rgba(0,0,0,0.18);
   display: flex;
   flex-direction: column;
-  max-height: 320px;
+  height: 400px;
+  min-height: 120px;
+  max-height: 80vh;
   overflow: hidden;
+  resize: vertical;
 }
 
 .picker-search {
@@ -1679,4 +1681,12 @@ body {
 .col-resize-handle.dragging {
   background-color: var(--accent);
   background-clip: content-box;
+}
+
+/* ── New parent row in move form ── */
+.op-form-row-parent {
+  padding: 10px 12px;
+  border-top: 1px solid var(--border-dim);
+  background: var(--surface);
+  min-height: 80px;
 }
