@@ -3719,15 +3719,16 @@ function buildExamplesTab(code) {
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 
-function boot() {
+async function boot() {
   if (typeof CODEBOOK_TREE !== "undefined") window._rich_codes = CODEBOOK_TREE.map(function(n){return n.name;});
   LS.migrate();
   initExportSelected();
   ensureEscListener();
   restorePersistedState();
+  // Await tree refresh before first render so treeArr reflects current yaml,
+  // not the snapshot baked at render time. Prevents ghost rows on load.
+  await refreshTreeFromServer(null);
   render();
-  // Refresh tree from server on boot so structural changes are live
-  refreshTreeFromServer(null);
   // Poll for tree changes every 5 seconds
   setInterval(function() { refreshTreeFromServer(null); }, 5000);
 

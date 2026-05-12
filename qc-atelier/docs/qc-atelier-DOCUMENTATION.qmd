@@ -1718,3 +1718,32 @@ The yaml after the last execute had `59_Change` at the wrong level — patched m
 7. "Coding / Workflow help" — fuzzy-concrete GitHub Pages (unrelated)
 8. Sessions 1–6 in memory (qc-atelier dev sessions, compacted)
 9. **This session** — qc-refactor overhaul, server move/rename fixes, scheme live tree
+
+---
+
+### 2026-05-12 — scheme row list sourced from yaml
+
+qc-scheme's code list (left-panel rows) was built by iterating codebook.json
+keys directly. This caused ghost entries — renamed or deleted codes that still
+had json entries — to appear as rows alongside live codes.
+
+Fix: scheme now builds its row list from _runtimeTree, which is populated by
+the existing /refactor/tree poll (every 5s, yaml-derived). Documentation fields
+are still read from codebook.json, keyed on names that exist in the tree.
+Ghost keys in json are ignored; codes in yaml with no json entry get empty doc
+stubs. The row list and the refactor picker now share the same source of truth.
+
+---
+
+### 2026-05-12 — scheme boot awaits tree refresh before render
+
+boot() called render() before refreshTreeFromServer() resolved,
+so the initial sidebar was built from the baked CODEBOOK_TREE
+snapshot rather than current yaml. Any structural change made
+between the last render and page open (rename, move, reconcile)
+would show stale codes until the first 5s poll fired.
+
+Fix: boot() is now async and awaits refreshTreeFromServer(null)
+before render(). treeArr reflects current yaml on first paint.
+
+---
