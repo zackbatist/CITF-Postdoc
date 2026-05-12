@@ -428,12 +428,12 @@ function clearFormError() {
 
 var _mergeRowCount = 0;
 
-function renderOpForm() {
+async function renderOpForm() {
   var form = document.getElementById('op-form');
   closePicker();
   form.innerHTML = '';
-  // Always use latest tree
-  refreshTree();
+  // Always use latest tree — await so pickers reflect current yaml
+  await refreshTree();
 
   var type = state.activeTab;
   form.innerHTML = '<div id="op-form-error" class="op-form-error hidden"></div>';

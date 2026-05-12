@@ -663,6 +663,14 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                          ("scope","rationale","usage_notes","provenance","status"))])
             print(f"[{ts}] saved {abs_path}  ({n} documented, {len(overrides)} moves)")
 
+            # Reconcile after every docs/save
+            yaml_path = abs_path.parent / "codebook.yaml"
+            if yaml_path.exists():
+                try:
+                    self._reconcile(yaml_path, abs_path)
+                except Exception as re:
+                    print(f"[reconcile] Warning in docs/save: {re}")
+
             self._json(200, {"ok": True})
         except Exception as e:
             self._json(500, {"error": str(e)})
@@ -1010,30 +1018,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     ok_all  = n_fail == 0
                     status  = "ok" if ok_all else ("partial" if n_ok > 0 else "failed")
 
-                    # Reconcile codebook.json parent refs against codebook.yaml tree
-                    try:
-                        with open(working_yaml) as fy:
-                            yaml_text = fy.read()
-                        yaml_parents = {}
-                        stack = []
-                        for line in yaml_text.splitlines():
-                            stripped = line.lstrip()
-                            if not stripped or stripped.startswith('#'): continue
-                            if not stripped.startswith('-'): continue
-                            indent = len(line) - len(line.lstrip())
-                            name = stripped[1:].strip().rstrip(':')
-                            while stack and stack[-1][0] >= indent:
-                                stack.pop()
-                            parent = stack[-1][1] if stack else ''
-                            yaml_parents[name] = parent
-                            stack.append((indent, name))
-                        # Update codebook.json parent fields to match yaml
-                        for code_name, yaml_parent in yaml_parents.items():
-                            if code_name in codes:
-                                if codes[code_name].get('parent', '') != yaml_parent:
-                                    codes[code_name]['parent'] = yaml_parent
-                    except Exception as e:
-                        print(f"[reconcile] Warning: {e}")
+                    # Reconcile will run after the file is written (below)
 
                     # Append refactor changelog entry — always, but with status
                     changelog = docs.setdefault("changelog", [])
@@ -1049,27 +1034,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     with open(working_docs, "w") as f:
                         json.dump(docs, f, ensure_ascii=False, indent=2)
 
-                    # Inline reconcile — sync codebook.json parents to yaml
+                    # Single reconcile: syncs parents and removes ghosts
                     try:
-                        import json as _rj
-                        with open(working_yaml) as _fy: _yt = _fy.read()
-                        with open(working_docs) as _fj: _rd = _rj.load(_fj)
-                        _rc = _rd.get('codes', {})
-                        _yp = {}; _stk = []
-                        for _ln in _yt.splitlines():
-                            _s = _ln.lstrip()
-                            if not _s or _s.startswith('#') or not _s.startswith('-'): continue
-                            _ind = len(_ln)-len(_s); _nm = _s[1:].strip().rstrip(':')
-                            while _stk and _stk[-1][0] >= _ind: _stk.pop()
-                            _yp[_nm] = _stk[-1][1] if _stk else ''
-                            _stk.append((_ind, _nm))
-                        _chg = 0
-                        for _n, _p in _yp.items():
-                            if _n in _rc and _rc[_n].get('parent','') != _p:
-                                _rc[_n]['parent'] = _p; _chg += 1
-                        if _chg:
-                            with open(working_docs,'w') as _fj2: _rj.dump(_rd,_fj2,ensure_ascii=False,indent=2)
-                            print(f"[reconcile] Synced {_chg} parent refs")
+                        self._reconcile(working_yaml, working_docs)
                     except Exception as _re:
                         print(f"[reconcile] Warning: {_re}")
                     if not ok_all:
@@ -1101,6 +1068,62 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         except Exception as e:
             import traceback; traceback.print_exc()
             self._json(500, {"ok": False, "error": str(e)})
+
+    def _reconcile(self, yaml_path, json_path):
+        """Sync codebook.json against codebook.yaml.
+
+        Two passes:
+        1. Parent sync — update every json code's parent field to match yaml structure.
+        2. Ghost cleanup — remove json code entries whose name does not appear in yaml.
+
+        Returns (parent_changes, ghosts_removed) counts.
+        Writes json_path only if changes were made.
+        """
+        with open(yaml_path) as f:
+            yaml_text = f.read()
+        with open(json_path) as f:
+            docs = json.load(f)
+
+        # Build yaml name->parent map
+        yaml_parents = {}
+        stack = []
+        for line in yaml_text.splitlines():
+            s = line.lstrip()
+            if not s or s.startswith('#') or not s.startswith('-'):
+                continue
+            indent = len(line) - len(s)
+            name = s[1:].strip().rstrip(':')
+            while stack and stack[-1][0] >= indent:
+                stack.pop()
+            yaml_parents[name] = stack[-1][1] if stack else ''
+            stack.append((indent, name))
+
+        yaml_names = set(yaml_parents.keys())
+        codes = docs.get('codes', {})
+        parent_changes = 0
+        ghosts_removed = 0
+
+        # Pass 1: parent sync
+        for name, yaml_parent in yaml_parents.items():
+            if name in codes:
+                if codes[name].get('parent', '') != yaml_parent:
+                    codes[name]['parent'] = yaml_parent
+                    parent_changes += 1
+
+        # Pass 2: ghost cleanup — remove json entries not in yaml
+        ghost_keys = [k for k in list(codes.keys()) if k not in yaml_names]
+        for k in ghost_keys:
+            codes.pop(k)
+            ghosts_removed += 1
+
+        if parent_changes or ghosts_removed:
+            docs['codes'] = codes
+            with open(json_path, 'w') as f:
+                json.dump(docs, f, ensure_ascii=False, indent=2)
+            ts = datetime.now().strftime('%H:%M:%S')
+            print(f'[{ts}] [reconcile] parent_changes={parent_changes} ghosts_removed={ghosts_removed}')
+
+        return parent_changes, ghosts_removed
 
     def _do_remove(self, code, yaml_path):
         """Remove a code from codebook.yaml, re-parenting its children to its parent."""
@@ -1693,6 +1716,16 @@ if __name__ == "__main__":
             PORT = int(sys.argv[1])
         except ValueError:
             pass
+    # Reconcile codebook.json against codebook.yaml on startup
+    yaml_path = DATA_DIR / "codebook.yaml"
+    json_path = DATA_DIR / "codebook.json"
+    if yaml_path.exists() and json_path.exists():
+        try:
+            class _R(Handler):
+                def __init__(self): pass
+            _R()._reconcile(yaml_path, json_path)
+        except Exception as _e:
+            print(f"[reconcile] Startup warning: {_e}")
     try:
         with http.server.ThreadingHTTPServer(("", PORT), Handler) as httpd:
             print(f"[qc-server] Listening on port {PORT} — Ctrl-C to stop\n")
@@ -1703,5 +1736,3 @@ if __name__ == "__main__":
         sys.exit(1)
     except KeyboardInterrupt:
         print("\n[qc-server] Stopped.")
-
-# Auto-reconcile on startup
