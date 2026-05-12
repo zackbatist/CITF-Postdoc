@@ -1599,3 +1599,122 @@ the sidebar without a full render or page reload.
 
 ---
 
+## qc-atelier Dev Session 7 — Handoff
+
+**Date:** 2026-05-11/12
+**Transcript:** `/mnt/transcripts/2026-05-11-19-24-44-qc-atelier-dev-session-6.txt` (compacted from session 6; this session has no transcript yet)
+
+---
+
+### Project context
+
+Single-researcher qualitative coding toolkit. Python 3.14, macOS ARM. Server: `python3 qc-atelier/qc-atelier-server.py` from project root. Public GitHub: CITF-Postdoc. Data in `qc/` submodule on university GitLab.
+
+---
+
+### What was done this session
+
+**qc-refactor major overhaul:**
+- Three-column layout: op form (left) | staged queue (middle) | preview/script/results (right)
+- Move and Deprecate use shared multi-select picker (`buildMultiPickerWithDocs`) with full vertical height, click-to-focus for doc editing, independent checkboxes
+- Triangle toggle only folds/unfolds; larger hit area
+- Documentation accordion in picker — opens on demand, resizable drag handle between picker and docs
+- Column resize handles on panel borders
+- Op tabs: Rename / Merge / Move / Deprecate / ⊕ Stub (full names)
+- Add to queue pinned at bottom of op column
+- Stub form has full inline doc fields and editable status
+- Checking a stub auto-checks all descendants; unchecking reverses
+
+**Doc queue system:**
+- Doc edits auto-queue as separate `docs` type entries, silent on blur
+- `buildNameResolutionMap()` resolves renames/merges before writing docs at execute
+- Warns if doc edit targets a code deleted by merge
+- `allOps()` excludes doc entries; `doc_entries` sent separately in execute payload
+
+**Queue items:**
+- `chipHtml()` renders all code references as coloured left-border chips with ⊕ for stubs
+
+**Tree diff / corpus impact:**
+- Colour-coded type badges (renamed/merged/moved/deprecated), inline sibling context
+- Full line text with accent highlight, co-occurring codes as chips
+
+**Server fixes:**
+- `qc codes rename` no longer enough — server now also renames the node in `codebook.yaml` directly after a successful rename
+- Stale `name` field removed from all docs entries and from the save handler
+- Move handler filters descendants so only ancestor is moved (children come with block)
+- Reconciliation inlined at execute call site — no separate function, syncs `codebook.json` parents to yaml after every execute and every docs/save
+- `/codebook/stubs` endpoint added
+
+**qc-scheme:**
+- `isStub()` now checks `getDoc(name).status` first (live), then `STUB_CODES`, then name pattern
+- All filters export `STUB_CODES` from `status:stub` in codebook.json
+- `refreshTreeFromServer()` called on boot and every 5s — tree updates live without re-rendering
+- Scroll position preserved around editor swap
+- `getChildren`/`getRoots` sort wrapped in try-catch to prevent silent failures
+
+**qc-shared.js:**
+- `isStub()` updated with three-tier check
+- `makeRichField()` and `parseCodeMarkup()` support `[name]{.code}` markup syntax in all doc fields — renders as coloured left-border chips when unfocused, raw monospace when focused. `@` triggers autocomplete; select text + `@` wraps selection. Available in qc-scheme and qc-refactor doc accordion.
+
+**qc-refactor.js — doc field constants:**
+The following constants drive all doc field rendering in the op form accordion and queue doc panels:
+```javascript
+DOC_FIELDS           // ['scope','rationale','usage_notes','provenance','status']
+DOC_FIELD_LABELS     // {scope: 'Scope', rationale: 'Rationale', ...}
+DOC_FIELD_HINTS      // {scope: 'What this code captures...', ...}
+DOC_FIELD_PLACEHOLDERS // per-field placeholder strings
+```
+These must remain in sync with `codebook.json` field names.
+
+**Data fixes:**
+- `codebook.json`: all stale `name` fields removed, duplicate `10_People` entry removed, parent refs synced
+- `codebook.yaml`: `10_People` → `Individuals` fixed; `59_Change` children correctly nested under `Periods`
+
+---
+
+### Open issues
+
+**Move parentage still broken in some cases.** The core bug: when a stub is checked and its children auto-select, each gets its own move op. `_do_move` moves the stub with its block (correct), then each child is moved individually as a sibling (wrong). The JS fix (filter descendants from move sources at queue-add time) was applied this session but **not yet tested** — Zack ran out of patience before verifying.
+
+The yaml after the last execute had `59_Change` at the wrong level — patched manually in outputs. The server-side descendant filter in the move handler was also updated but may still have edge cases.
+
+**Scheme parent mismatch error** — was caused by yaml/json divergence from moves. Should be resolved once reconcile works reliably and the JS descendant filter is confirmed working.
+
+**New parent picker** — opens at 400px, positions upward near viewport bottom, no horizontal overflow. Not explicitly confirmed working after last set of changes.
+
+**Scheme scroll-to-top on row click** — fixed via `window.scrollY` preserve around editor swap in `handleRowClick`. `renderSidebar()` correctly saves and restores `tree.scrollTop` independently. The `_treeScrollTop` variable from outer `render()` scope was removed from `renderSidebar` to avoid undefined reference.
+
+**`refactor-queue.json` 404 in server logs** — harmless. Every refactor page load attempts `GET /docs/load-json?path=.../qc/refactor-queue.json` for a persistent queue feature that was designed but never implemented. Can be ignored.
+
+**`refreshTreeFromServer` polling inefficiency** — scheme polls `/refactor/tree` every 5s and calls `renderSidebar()` on every response regardless of whether the tree changed. No hash/etag check. Acceptable for now but wasteful; a next session could add a content hash comparison before re-rendering.
+
+---
+
+### Key file locations
+
+| File | Path |
+|---|---|
+| `qc-shared.js` | `qc-atelier/shared/qc-shared.js` |
+| `qc-shared.css` | `qc-atelier/shared/qc-shared.css` |
+| `qc-scheme.js` | `qc-atelier/qc-scheme/qc-scheme.js` |
+| `qc-scheme-filter.lua` | `qc-atelier/qc-scheme/qc-scheme-filter.lua` |
+| `qc-refactor.js` | `qc-atelier/qc-refactor/qc-refactor.js` |
+| `qc-refactor.css` | `qc-atelier/qc-refactor/qc-refactor.css` |
+| `qc-refactor-filter.lua` | `qc-atelier/qc-refactor/qc-refactor-filter.lua` |
+| `qc-atelier-server.py` | `qc-atelier/qc-atelier-server.py` |
+| `codebook.json` | `qc/codebook.json` |
+| `codebook.yaml` | `qc/codebook.yaml` |
+
+---
+
+### Prior conversation titles (chronological)
+
+1. "Qualitative data visualization system" — early qc-viz build
+2. "Qualitative coding consistency and deduplication system" — qc-reflect origin
+3. "Continuing previous discussion" — qc-viz continuation
+4. "qc-viz technical architecture and ecosystem documentation" — March 2026
+5. "qc-viz filtering interface not updating after changes" — April 2026
+6. "Unifying qualitative coding tools into shared ecosystem" — April 2026
+7. "Coding / Workflow help" — fuzzy-concrete GitHub Pages (unrelated)
+8. Sessions 1–6 in memory (qc-atelier dev sessions, compacted)
+9. **This session** — qc-refactor overhaul, server move/rename fixes, scheme live tree
