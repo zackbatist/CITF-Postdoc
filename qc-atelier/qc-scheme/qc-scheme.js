@@ -564,9 +564,8 @@ async function loadDocs() {
         setTimeout(function() { banner.remove(); }, 8000);
       }, 500);
     }
-    clDoc('open', DOCS_CONFIG.scheme_path.replace(/.*\//, ''));
     state.openedDocsPath = DOCS_CONFIG.scheme_path;
-    state.saveStatus = 'saved';
+    state.saveStatus = 'saved';  // loading is not a change
     // Refresh tree from working codebook.yaml
     await refreshTreeFromServer(null);
     render();
@@ -611,14 +610,12 @@ async function importJson(path) {
     Object.assign(state.treeOverrides, data.overrides || {});
     rebuildIndices();
 
-    // Restore document changelog and append open event
+    // Restore document changelog (open event not appended — loading is not an edit)
     if (Array.isArray(data.changelog)) state.changelog = data.changelog;
-    var fname = path.trim().replace(/.*\//, '');
-    clDoc('open', fname);
 
     var codeN = Object.keys(state.docs.codes).length;
     var moveN  = Object.keys(state.treeOverrides).length;
-    state.saveStatus   = 'unsaved';
+    state.saveStatus   = 'saved';  // loading is not a change; suppress auto-save
     state.importStatus = 'ok';
     state.importMsg    = 'Loaded ' + codeN + ' codes' + (moveN ? ' · ' + moveN + ' moves' : '');
     // Track which file and snapshot dir is now open
@@ -628,7 +625,6 @@ async function importJson(path) {
       state.snapshotsData.active_dir = data.active_dir;
     }
     state.importOpen   = false;
-    scheduleSave();
     // Refresh tree from the snapshot's codebook.yaml
     await refreshTreeFromServer(state.openedSnapshotDir || null);
     render();

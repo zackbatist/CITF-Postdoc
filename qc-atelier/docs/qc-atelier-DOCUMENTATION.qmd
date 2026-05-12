@@ -1747,3 +1747,18 @@ Fix: boot() is now async and awaits refreshTreeFromServer(null)
 before render(). treeArr reflects current yaml on first paint.
 
 ---
+
+### 2026-05-12 — scheme no longer writes codebook.json on open
+
+Every time qc-scheme opened, clDoc('open', ...) appended an open
+event to state.changelog and scheduleSave() fired, writing
+codebook.json even with no user edits. This made the file appear
+dirty in git on every session open.
+
+Fix: removed clDoc('open') and scheduleSave() from both the
+boot-time load and the import load handler. saveStatus is set to
+'saved' immediately after loading, not 'unsaved'. The changelog
+now only records structural moves and snapshot saves.
+
+---
+
