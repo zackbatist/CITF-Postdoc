@@ -423,43 +423,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 changed = False
 
                 # ── Migration: strip _baseline from all code entries ────────
+                # Runs only when _baseline fields are actually present;
+                # once all files are clean this branch never fires.
                 for code_data in codes.values():
                     if "_baseline" in code_data:
                         del code_data["_baseline"]
                         changed = True
-
-                # ── Migration: ensure all codes have full records ────────────
-                yaml_path = json_path.parent / "codebook.yaml"
-                if yaml_path.exists():
-                    try:
-                        yaml_tree    = self._parse_codebook_flat(yaml_path.read_text())
-                        yaml_parents = {n["name"]: n["parent"] for n in yaml_tree}
-                        for code_name in yaml_parents:
-                            rec = codes.setdefault(code_name, {})
-                            dirty = False
-                            for field, default in [
-                                ("parent",          yaml_parents[code_name]),
-                                ("scope",           ""),
-                                ("rationale",       ""),
-                                ("usage_notes",     ""),
-                                ("provenance",      ""),
-                                ("status",          ""),
-                                ("pinned_examples", []),
-                                ("_log",            []),
-                            ]:
-                                if field not in rec:
-                                    rec[field] = default
-                                    dirty = True
-                            # Always keep name and parent in sync with yaml
-                                dirty = True
-                            if rec.get("parent") != yaml_parents[code_name] and "parent" not in rec:
-                                rec["parent"] = yaml_parents[code_name]
-                                dirty = True
-                            if dirty:
-                                changed = True
-                    except Exception as e:
-                        ts_log = datetime.now().strftime("%H:%M:%S")
-                        print(f"[{ts_log}] docs/load: WARNING — could not normalize records: {e}")
 
                 # ── Sync check: compare parents in codebook.yaml vs codebook.json ──
                 yaml_path = json_path.parent / "codebook.yaml"
@@ -579,34 +548,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     del code_data["_baseline"]
                     changed = True
 
-            # ── Migration: ensure all codes have full records ────────────────
-            sibling_yaml = target.parent / "codebook.yaml"
-            if sibling_yaml.exists():
-                try:
-                    yaml_tree    = self._parse_codebook_flat(sibling_yaml.read_text())
-                    yaml_parents = {n["name"]: n["parent"] for n in yaml_tree}
-                    for code_name in yaml_parents:
-                        rec = codes.setdefault(code_name, {})
-                        dirty = False
-                        for field, default in [
-                            ("parent",          yaml_parents[code_name]),
-                            ("scope",           ""),
-                            ("rationale",       ""),
-                            ("usage_notes",     ""),
-                            ("provenance",      ""),
-                            ("status",          ""),
-                            ("pinned_examples", []),
-                            ("_log",            []),
-                        ]:
-                            if field not in rec:
-                                rec[field] = default
-                                dirty = True
-                            dirty = True
-                        if dirty:
-                            changed = True
-                except Exception as e:
-                    ts_log = datetime.now().strftime("%H:%M:%S")
-                    print(f"[{ts_log}] load-json: WARNING — could not normalize records: {e}")
+
 
             if changed:
                 data["codes"] = codes
