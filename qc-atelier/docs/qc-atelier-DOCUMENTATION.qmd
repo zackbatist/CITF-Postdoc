@@ -1762,3 +1762,26 @@ now only records structural moves and snapshot saves.
 
 ---
 
+### 2026-05-13 — server rename and load fixes
+
+**yaml rename order** (`refactor/execute`): `qc codes rename` calls
+`update_codebook()` which writes the yaml, inserting the new code name
+as a top-level ghost if it is not already present. Fixed by running the
+server-side yaml rename before `qc codes rename` so the new name is
+already in the yaml when `update_codebook()` runs.
+
+**yaml rename method**: replaced regex `re.sub` with line-by-line exact
+match. Iterates lines, finds the first line whose stripped content
+exactly equals the old name as a list item, replaces it in place
+preserving indentation. Handles both leaf (`- name`) and parent
+(`- name:`) forms.
+
+**unconditional dirty flag** (`docs/load`, `load-json`): migration block
+inside the field normalisation loop set `dirty = True` unconditionally
+on every iteration regardless of whether any field was missing. Caused
+`codebook.json` to be rewritten on every page load. Removed the full
+normalisation block; left only the `_baseline` stripping which is
+conditional and becomes a no-op once all files are clean.
+
+---
+

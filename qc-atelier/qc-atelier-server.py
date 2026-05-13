@@ -743,6 +743,37 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 target  = op.get("target", "")
 
                 if op_type in ("rename", "merge"):
+                    # For rename: update yaml BEFORE running qc codes rename,
+                    # so that update_codebook() finds the new name already present
+                    # and does not insert it as a new top-level ghost entry.
+                    if op_type == "rename" and len(sources) == 1:
+                        try:
+                            with open(working_yaml) as fy:
+                                yaml_text = fy.read()
+                            old_name = sources[0]
+                            new_lines = []
+                            replaced = False
+                            for _ln in yaml_text.splitlines(keepends=True):
+                                if not replaced:
+                                    _s = _ln.lstrip()
+                                    if _s.startswith("- "):
+                                        _entry = _s[2:].rstrip().rstrip(":")
+                                        if _entry == old_name:
+                                            _is_key = _s[2:].rstrip().endswith(":")
+                                            _ind = _ln[:len(_ln)-len(_ln.lstrip())]
+                                            _suffix = ":\n" if _is_key else "\n"
+                                            _ln = _ind + "- " + target + _suffix
+                                            replaced = True
+                                new_lines.append(_ln)
+                            yaml_text = "".join(new_lines)
+                            with open(working_yaml, 'w') as fy:
+                                fy.write(yaml_text)
+                            ts_log = datetime.now().strftime("%H:%M:%S")
+                            print(f"[{ts_log}] refactor/execute: renamed {old_name} -> {target} in codebook.yaml")
+                        except Exception as ye:
+                            ts_log = datetime.now().strftime("%H:%M:%S")
+                            print(f"[{ts_log}] refactor/execute: WARNING — could not rename in yaml: {ye}")
+
                     cmd = [qc_bin, "codes", "rename"] + sources + ([target] if target else [])
                     try:
                         r = subprocess.run(
@@ -753,27 +784,6 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                         ok  = r.returncode == 0
                         out = (r.stdout + r.stderr).strip()
                         results.append({"cmd": " ".join(cmd), "ok": ok, "output": out})
-                        if ok and op_type == "rename" and len(sources) == 1:
-                            # Rename the node in codebook.yaml directly
-                            try:
-                                with open(working_yaml) as fy:
-                                    yaml_text = fy.read()
-                                old_name = sources[0]
-                                # Replace the code name in yaml (as list item or as dict key)
-                                import re as _re
-                                # Match "- old_name:" (parent node) or "- old_name" (leaf)
-                                yaml_text = _re.sub(
-                                    r'(- )' + _re.escape(old_name) + r'(:|)',
-                                    lambda m: m.group(1) + target + m.group(2),
-                                    yaml_text
-                                )
-                                with open(working_yaml, 'w') as fy:
-                                    fy.write(yaml_text)
-                                ts_log = datetime.now().strftime("%H:%M:%S")
-                                print(f"[{ts_log}] refactor/execute: renamed {old_name} -> {target} in codebook.yaml")
-                            except Exception as ye:
-                                ts_log = datetime.now().strftime("%H:%M:%S")
-                                print(f"[{ts_log}] refactor/execute: WARNING — could not rename in yaml: {ye}")
 
                         if ok and op_type == "merge":
                             # Verify which source codes are now orphans before removing (merge only)
