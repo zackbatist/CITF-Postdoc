@@ -1801,6 +1801,23 @@ async function boot() {
   } catch(e) {}
   state.lightMode = !qcInitTheme();
   render();
+  // Snapshot pill and theme toggle in nav bar
+  (function() {
+    var nav = document.querySelector('.qc-nav');
+    if (!nav) return;
+    var _pill = qcSnapshotPill(nav, 'http://localhost:' + (REFLECT_CONFIG.server_port || 8080));
+    _pill.style.marginLeft = 'auto';
+    var btn = document.createElement('button');
+    btn.className = 'qc-theme-toggle';
+    btn.title = 'Toggle light/dark mode';
+    btn.textContent = qcIsDarkMode() ? '☀️  Light' : '☾  Dark';
+    btn.addEventListener('click', function() {
+      state.lightMode = !qcToggleTheme();
+      btn.textContent = qcIsDarkMode() ? '☀️  Light' : '☾  Dark';
+      render();
+    });
+    nav.appendChild(btn);
+  })();
 }
 
 if (document.getElementById('qc-reflect-root')) { boot(); }

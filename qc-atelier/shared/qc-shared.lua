@@ -255,7 +255,7 @@ end
 
 function M.build_nav(active)
   local links = {
-    { key = 'vz',       label = 'vz',      href = '/qc-viz.html' },
+    { key = 'vz',       label = 'viz',     href = '/qc-viz.html' },
     { key = 'scheme',   label = 'scheme',   href = '/qc-scheme.html' },
     { key = 'refactor', label = 'refactor', href = '/qc-refactor.html' },
     { key = 'reflect',  label = 'reflect',  href = '/qc-reflect.html' },

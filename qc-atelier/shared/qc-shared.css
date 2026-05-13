@@ -201,3 +201,50 @@ body.light-mode {}
   resize: vertical;
   outline: none;
 }
+/* ── Theme toggle button ─────────────────────────────────────────────────────
+   Appended to .qc-nav in tools that don't have a topbar (refactor, viz, reflect).
+   Uses margin-left:auto to push to the right of the nav. */
+.qc-nav .qc-theme-toggle {
+  margin-left: auto;
+  font-size: 11px;
+  padding: 2px 8px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-faint);
+  cursor: pointer;
+  font-family: var(--mono);
+  transition: color 0.12s, border-color 0.12s;
+}
+.qc-nav .qc-theme-toggle:hover {
+  color: var(--text);
+  border-color: var(--border);
+}
+
+/* ── Snapshot context pill ───────────────────────────────────────────────────
+   Shown in the nav/topbar of all tools to indicate current snapshot context.
+   Injected via qcSnapshotPill() from qc-shared.js. */
+.qc-snapshot-pill {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+.qc-snapshot-pill-label {
+  font-size: 10px;
+  font-family: var(--mono);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.qc-snapshot-pill-label.is-head {
+  background: var(--surface2);
+  color: var(--text-faint);
+}
+.qc-snapshot-pill-label.is-snapshot {
+  background: rgba(var(--accent-rgb, 59,91,219), 0.1);
+  color: var(--accent);
+  border: 1px solid var(--accent-dim);
+}

@@ -1914,3 +1914,28 @@ tokens, dark mode, reset, and nav styling.
 
 ---
 
+### 2026-05-13 — Nav controls: dark mode and snapshot pill across all tools
+
+qc-viz was missing qc-shared.js entirely — dark mode functions were
+undefined. Added SHARED_JS_FILE to qc-viz-filter.lua and inlined it
+before the tool JS.
+
+nav label "vz" corrected to "viz" in M.build_nav.
+
+reflect.css dark-first token overrides restored as body defaults
+(removing :root had broken reflect's appearance since shared.css
+is light-first).
+
+Theme toggle button standardised to scheme's style ("☀ Light" /
+"☾ Dark") across refactor, viz, reflect. Inline styles removed;
+.qc-theme-toggle styled in qc-shared.css.
+
+qcSnapshotPill(containerEl, apiBase) added to qc-shared.js. Fetches
+/snapshots/list and shows active_dir stripped of timestamp prefix,
+or "HEAD". CSS in qc-shared.css. Appended to the nav bar in
+refactor, reflect, and viz — positioned right via margin-left:auto
+on the pill, theme toggle follows. Scheme keeps its existing
+topbar pill which has richer functionality (↩ HEAD button).
+
+---
+

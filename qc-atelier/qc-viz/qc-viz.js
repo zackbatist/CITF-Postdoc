@@ -814,6 +814,24 @@
   window.qcVizUpdateAllFilters = updateAllFilters;
   
   document.addEventListener('DOMContentLoaded', function() {
+    // Apply theme on boot
+    qcInitTheme();
+    // Snapshot pill and theme toggle appended to nav
+    (function() {
+      var nav = document.querySelector('.qc-nav');
+      if (!nav) return;
+      var _pill = qcSnapshotPill(nav, 'http://localhost:8080');
+      _pill.style.marginLeft = 'auto';
+      var btn = document.createElement('button');
+      btn.className = 'qc-theme-toggle';
+      btn.title = 'Toggle light/dark mode';
+      btn.textContent = qcIsDarkMode() ? '☀  Light' : '☾  Dark';
+      btn.addEventListener('click', function() {
+        qcToggleTheme();
+        btn.textContent = qcIsDarkMode() ? '☀  Light' : '☾  Dark';
+      });
+      nav.appendChild(btn);
+    })();
     loadState();
     initializeFilters();
     initializeCollapsibles();

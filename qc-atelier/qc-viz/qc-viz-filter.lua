@@ -194,6 +194,7 @@ local config = load_config()
 local CSS_FILE        = _get_project_root_early() .. "/" .. pandoc.utils.stringify(config.files.css_file)
 local JS_FILE         = _get_project_root_early() .. "/" .. pandoc.utils.stringify(config.files.js_file)
 local SHARED_CSS_FILE = _get_project_root_early() .. "/qc-atelier/shared/qc-shared.css"
+local SHARED_JS_FILE  = _get_project_root_early() .. "/qc-atelier/shared/qc-shared.js" 
 
 -- Derived paths - must come AFTER config loading
 local json_dir   = _get_project_root_early() .. "/" .. pandoc.utils.stringify(config.directories.json_dir)
@@ -645,7 +646,9 @@ local function generate_html()
   html = html .. '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>\n'
   
   -- JavaScript
+  local shared_js  = read_text_file(SHARED_JS_FILE)
   local js_content = read_text_file(JS_FILE)
+  html = html .. "<script>\n" .. shared_js  .. "\n</script>\n"
   html = html .. "<script>\n" .. js_content .. "\n</script>\n"
   
   -- Container start

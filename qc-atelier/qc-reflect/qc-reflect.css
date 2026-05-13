@@ -3,6 +3,36 @@
    Do not redeclare :root, body, body.dark-mode, or .qc-nav here.
    reflect is dark-first: body.dark-mode is applied on boot by default via qcInitTheme(). */
 
+/* ── Reflect dark-first defaults ─────────────────────────────────────────────
+   Reflect is dark by default. These override shared.css light tokens on body.
+   body.dark-mode (set by qcInitTheme) is redundant but harmless.
+   body.light-mode would need to restore shared light tokens — not yet implemented. */
+body {
+  --bg:         #0f1117;
+  --surface:    #1a1d27;
+  --surface2:   #222536;
+  --border:     #2e3148;
+  --border-dim: #232640;
+  --text:       #e2e4ef;
+  --text-dim:   #7b7f99;
+  --text-faint: #444766;
+  --accent:     #7c6af7;
+  --accent2:    #5b4fd4;
+  --green:      #34d399;
+  --yellow:     #fbbf24;
+  --red:        #f87171;
+  --blue:       #60a5fa;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.6;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 /* ── Shell ── */
 #qc-reflect-root {
   flex: 1;
