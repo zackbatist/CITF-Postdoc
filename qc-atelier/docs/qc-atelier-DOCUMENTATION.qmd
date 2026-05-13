@@ -1889,3 +1889,28 @@ The yaml after the last execute had `59_Change` at the wrong level — patched m
 7. "Coding / Workflow help" — fuzzy-concrete GitHub Pages (unrelated)
 8. Sessions 1–6 in memory (qc-atelier dev sessions, compacted)
 9. **This session** — qc-refactor overhaul, server move/rename fixes, scheme live tree
+
+---
+
+### 2026-05-13 — Shared dark mode, navbar, and CSS token unification
+
+**Dark mode** (`qc-shared.js`): added `qcInitTheme()`, `qcToggleTheme()`,
+`qcIsDarkMode()`. Standard across all tools: `body.dark-mode` class (light
+is default), `qca.theme` localStorage key, falls back to
+`prefers-color-scheme`. Replaces scheme's inline `persistTheme()` /
+`LS.set('theme')` and reflect's `body.light` / `qc.theme` implementations.
+
+**Navbar** (`qc-shared.lua`): added `M.build_nav(active)`. Standard link
+order: vz, scheme, refactor, reflect, align, unfold, trace. Inactive tools
+get `class="inactive"`. All four Lua filters now call `build_nav()` instead
+of inlining nav HTML. Reflect had wrong link order and was missing
+align/unfold/trace — both fixed.
+
+**CSS** (`qc-scheme.css`, `qc-reflect.css`): removed duplicate `:root` and
+`body.dark-mode` blocks from scheme (identical to shared, redundant) and
+`:root`, body reset, `body.light`, and `.qc-nav` from reflect (conflicted
+with shared). `qc-shared.css` is now the single source of truth for design
+tokens, dark mode, reset, and nav styling.
+
+---
+

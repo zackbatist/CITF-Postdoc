@@ -26,6 +26,7 @@ local parse_codebook_yaml = shared.parse_codebook_yaml
 local flatten_codebook    = shared.flatten_codebook
 local build_use_counts    = shared.build_use_counts
 local build_code_colors   = shared.build_code_colors
+local build_nav           = shared.build_nav
 
 -- ── Config ─────────────────────────────────────────────────────────────────────
 
@@ -227,11 +228,7 @@ local function generate_html()
   html[#html+1] = '<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>'
   html[#html+1] = '<style>' .. shared_css .. '\n' .. css .. '</style>'
   html[#html+1] = '</head><body>'
-  html[#html+1] = '<nav class="qc-nav"><a class="qc-nav-brand" href="/">qc-atelier</a>'
-    .. '<a href="/qc-scheme.html">scheme</a>'
-    .. '<a href="/qc-viz.html">viz</a>'
-    .. '<a href="/qc-refactor.html">refactor</a>'
-    .. '<a href="/qc-reflect.html" class="active">reflect</a></nav>'
+  html[#html+1] = build_nav('reflect')
   html[#html+1] = '<script>'
   html[#html+1] = 'const CODEBOOK_TREE  = ' .. to_json(tree)             .. ';'
   html[#html+1] = 'const CORPUS_INDEX   = ' .. to_json(corpus_index)     .. ';'

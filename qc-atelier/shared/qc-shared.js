@@ -436,3 +436,26 @@ function makeRichField(opts) {
   outer._getVal = function() { return ta.value; };
   return outer;
 }
+// ── Theme (dark/light mode) ───────────────────────────────────────────────────
+// Shared theme management for the qc-atelier suite.
+// Standard: body.dark-mode class (light is default), localStorage key 'qca.theme'.
+// All tools call qcInitTheme() on boot and qcToggleTheme() on toggle.
+
+function qcInitTheme() {
+  var saved;
+  try { saved = localStorage.getItem('qca.theme'); } catch(e) {}
+  var dark = (saved === 'dark') || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.body.classList.toggle('dark-mode', dark);
+  return dark;
+}
+
+function qcToggleTheme() {
+  var isDark = document.body.classList.toggle('dark-mode');
+  try { localStorage.setItem('qca.theme', isDark ? 'dark' : 'light'); } catch(e) {}
+  return isDark;
+}
+
+function qcIsDarkMode() {
+  return document.body.classList.contains('dark-mode');
+}
+

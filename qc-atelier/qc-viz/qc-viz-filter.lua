@@ -18,6 +18,7 @@ local meta_to_lua         = shared.meta_to_lua
 local read_text_file      = shared.read_text_file
 local get_json_files      = shared.get_json_files
 local read_json_file      = shared.read_json_file
+local build_nav           = shared.build_nav
 
 -- Load configuration from YAML file or environment variables
 local function load_config()
@@ -841,7 +842,7 @@ function Pandoc(doc)
     output_file:write('  <title>Qualitative Coding Visualization</title>\n')
     output_file:write('</head>\n')
     output_file:write('<body>\n')
-    output_file:write('<nav class="qc-nav"><a class="qc-nav-brand" href="/">qc-atelier</a><a href="/qc-scheme.html">scheme</a><a href="/qc-viz.html" class="active">viz</a><a href="/qc-refactor.html">refactor</a></nav>\n')
+    output_file:write(build_nav('vz') .. '\n')
     output_file:write(html_content)
     output_file:write('</body>\n')
     output_file:write('</html>\n')

@@ -1121,8 +1121,7 @@ function render() {
     var root = document.getElementById('qc-reflect-root');
     if (!root) return;
     root.innerHTML = '';
-    if (state.lightMode) document.body.classList.add('light');
-    else document.body.classList.remove('light');
+    document.body.classList.toggle('dark-mode', !state.lightMode);
     root.appendChild(buildShell());
   } catch(e) { console.error('[render]', e.message, e.stack); }
 }
@@ -1158,11 +1157,10 @@ function buildLeft() {
   strip.appendChild(h('button', {
     className: 'theme-btn', title: 'Toggle light/dark',
     onClick: function() {
-      state.lightMode = !state.lightMode;
-      try { localStorage.setItem('qc.theme', state.lightMode ? 'light' : 'dark'); } catch(e) {}
+      state.lightMode = !qcToggleTheme();
       render();
     }
-  }, state.lightMode ? '☾' : '☀'));
+  }, qcIsDarkMode() ? '☀' : '☾'));
   col.appendChild(strip);
 
   // Suggest button row
@@ -1798,9 +1796,10 @@ function codeUses(name) { return (CORPUS_INDEX[name]||{}).total||0; }
 
 async function boot() {
   try {
-    var saved = localStorage.getItem('qc.theme');
-    if (saved==='light') state.lightMode=true;
+    // Theme: use shared qcInitTheme() — reads qca.theme from localStorage
+    // reflect defaults to dark; qcInitTheme applies body.dark-mode class
   } catch(e) {}
+  state.lightMode = !qcInitTheme();
   render();
 }
 

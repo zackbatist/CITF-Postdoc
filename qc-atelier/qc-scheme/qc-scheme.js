@@ -66,7 +66,7 @@ var LS = {
   migrate: function() {
     // One-time migration from qccd.* to qc.scheme.*
     try {
-      ['theme','sidebarWidth','session'].forEach(function(k) {
+      ['sidebarWidth','session'].forEach(function(k) { // 'theme' migrated to qca.theme (suite-wide)
         var old = localStorage.getItem('qccd.'+k);
         if (old !== null && localStorage.getItem('qc.scheme.'+k) === null) {
           localStorage.setItem('qc.scheme.'+k, old);
@@ -79,7 +79,8 @@ var LS = {
 
 // Persist theme whenever it changes
 function persistTheme() {
-  LS.set('theme', state.lightMode ? 'light' : 'dark');
+  // Use shared qca.theme key (suite-wide, not tool-namespaced)
+  try { localStorage.setItem('qca.theme', state.lightMode ? 'light' : 'dark'); } catch(e) {}
 }
 
 // Persist sidebar width
@@ -128,12 +129,8 @@ function scheduleSessionSave() {
 
 function restorePersistedState() {
   // Theme
-  var savedTheme = LS.get('theme');
-  if (savedTheme) {
-    state.lightMode = (savedTheme === 'light');
-  }
-  // Apply theme class immediately
-  document.body.classList.toggle('dark-mode', !state.lightMode);
+  // Theme: use shared qcInitTheme() — reads qca.theme from localStorage
+  state.lightMode = !qcInitTheme();
 
   // Sidebar width — applied after render via a brief delay
   var savedWidth = LS.get('sidebarWidth');
@@ -1077,9 +1074,7 @@ function buildTopbar() {
       className:'btn topbar-theme-toggle',
       title: state.lightMode ? 'Switch to dark mode' : 'Switch to light mode',
       onClick:function(){
-        state.lightMode = !state.lightMode;
-        document.body.classList.toggle('dark-mode', !state.lightMode);
-        persistTheme();
+        state.lightMode = !qcToggleTheme();
         renderTopbar();
       },
     }, state.lightMode ? '☀  Light' : '☾  Dark'),

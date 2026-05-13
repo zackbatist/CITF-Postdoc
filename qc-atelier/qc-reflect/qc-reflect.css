@@ -1,65 +1,7 @@
-/* qc-reflect.css */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --bg:         #0f1117;
-  --surface:    #1a1d27;
-  --surface2:   #222536;
-  --border:     #2e3148;
-  --border-dim: #232640;
-  --text:       #e2e4ef;
-  --text-dim:   #7b7f99;
-  --text-faint: #444766;
-  --accent:     #7c6af7;
-  --accent2:    #5b4fd4;
-  --green:      #34d399;
-  --yellow:     #fbbf24;
-  --red:        #f87171;
-  --blue:       #60a5fa;
-  --mono:       'IBM Plex Mono', monospace;
-  --sans:       -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  --radius:     6px;
-}
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 13px;
-  line-height: 1.6;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-body.light {
-  --bg:         #f5f6fa;
-  --surface:    #ffffff;
-  --surface2:   #eef0f8;
-  --border:     #d0d3e8;
-  --border-dim: #e2e4f0;
-  --text:       #1a1d2e;
-  --text-dim:   #4a4e6a;
-  --text-faint: #8a8ea8;
-}
-
-/* ── Nav ── */
-.qc-nav {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 0 20px;
-  height: 38px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  font-size: 12px;
-  flex-shrink: 0;
-}
-.qc-nav a { color: var(--text-faint); text-decoration: none; }
-.qc-nav a:hover { color: var(--text-dim); }
-.qc-nav a.active { color: var(--accent); font-weight: 600; }
-.qc-nav-brand { font-family: var(--mono); font-size: 11px; color: var(--text-faint) !important; margin-right: 6px; }
+/* qc-reflect.css
+   Tokens, reset, dark mode, and nav come from qc-shared.css, inlined before this file.
+   Do not redeclare :root, body, body.dark-mode, or .qc-nav here.
+   reflect is dark-first: body.dark-mode is applied on boot by default via qcInitTheme(). */
 
 /* ── Shell ── */
 #qc-reflect-root {

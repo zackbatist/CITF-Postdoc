@@ -247,4 +247,32 @@ function M.build_code_colors(nodes, palette, default_color)
   return colors
 end
 
+
+-- ── Navigation bar HTML ───────────────────────────────────────────────────────
+-- Generates the shared .qc-nav element for all tools.
+-- active: tool key string ('vz', 'scheme', 'refactor', 'reflect', 'align', 'unfold', 'trace')
+-- Standard link order: vz, scheme, refactor, reflect, align, unfold, trace
+
+function M.build_nav(active)
+  local links = {
+    { key = 'vz',       label = 'vz',      href = '/qc-viz.html' },
+    { key = 'scheme',   label = 'scheme',   href = '/qc-scheme.html' },
+    { key = 'refactor', label = 'refactor', href = '/qc-refactor.html' },
+    { key = 'reflect',  label = 'reflect',  href = '/qc-reflect.html' },
+    { key = 'align',    label = 'align',    href = '/qc-align.html',   inactive = true },
+    { key = 'unfold',   label = 'unfold',   href = '/qc-unfold.html',  inactive = true },
+    { key = 'trace',    label = 'trace',    href = '/qc-trace.html',   inactive = true },
+  }
+  local parts = { '<nav class="qc-nav"><a class="qc-nav-brand" href="/">qc-atelier</a>' }
+  for _, link in ipairs(links) do
+    local cls = ''
+    if link.key == active then cls = ' class="active"'
+    elseif link.inactive   then cls = ' class="inactive"'
+    end
+    parts[#parts+1] = '<a href="' .. link.href .. '"' .. cls .. '>' .. link.label .. '</a>'
+  end
+  parts[#parts+1] = '</nav>'
+  return table.concat(parts, '')
+end
+
 return M
