@@ -616,7 +616,7 @@ project root/
 - qc-unfold design not yet started
 - qc-align requires `qc corpus update` CLI — same PATH/venv constraints as qc-refactor rename/merge
 - Code propagation in qc-align writes directly to SQLite — only batch write in qc-atelier that bypasses the qc CLI; mitigated by mandatory backup and dryrun
-- qc-trace (history/audit tool) — design sketched, not started
+- qc-trace (history/audit tool) — design sketched, not started; unified activity log (`qcLog`) is its prerequisite
 - Replace `_do_remove` in qc-refactor with `qc codebook --clean` when upstream issue #94 resolved
 - Queue conflict validation in qc-refactor not yet implemented
 - qc-viz codebook tooltip integration deferred
@@ -625,6 +625,9 @@ project root/
 - Several qc-viz config keys defined but not wired up: `display.sections.default_collapsed`, `display.code_tags.show_full_code`, `export` block, `ui` block
 - Snapshot load/save in qc-align not yet implemented
 - `@` autocomplete not yet wired into qc-align
+- `refactor-queue.json` 404 on every refactor page load — harmless, persistent queue feature never implemented
+- `refreshTreeFromServer` polls every 5s with no content-hash check — re-renders sidebar on every response regardless of change
+- Shared utility consistency — see planned session below: dark mode, navbar, loadDocs, initTree, snapshots, unified activity log are implemented inconsistently across tools
 
 ---
 
@@ -1126,7 +1129,7 @@ These functions had been accidentally removed during dead code cleanup. They are
 
 ### Deferred / planned
 
-**qc-trace** — proposed unified history/audit tool. Cross-tool timeline interleaving qc-scheme edits, qc-refactor sessions, and qc CLI operations (from `qualitative_coding.log`), snapshot lineage graph, codebook state at any historical point. Name chosen: `qc-trace`. Design sketched, implementation not started.
+**qc-trace** — proposed unified history/audit tool. Cross-tool timeline interleaving qc-scheme edits, qc-refactor sessions, and qc CLI operations (from `qualitative_coding.log`), snapshot lineage graph, codebook state at any historical point. Name chosen: `qc-trace`. Design sketched, implementation not started. Requires the unified activity log (`qcLog`) as a prerequisite.
 
 **qc-reflect reintegration** — CSS tokens and Lua path resolution not yet applied. Deferred until the tool is actively used analytically.
 
@@ -1139,6 +1142,52 @@ These functions had been accidentally removed during dead code cleanup. They are
 **qc-viz visual alignment** — shared CSS tokens provide a baseline. Full UI structural alignment deferred as an open design question.
 
 **Code quality sweep** — take stock of the full codebase: identify anything that is unclear, redundant, inconsistent, inefficient, or fragile across all four tools and shared infrastructure. Produce a docket of specific actions to resolve problems, streamline the system, and bring everything to a professional standard.
+
+**Planned session — shared utility consistency** — audit confirmed the following inconsistencies across tools. Each item is a concrete action:
+
+*CSS and theming:*
+
+- `qc-scheme.css` duplicates the entire `:root` and `body.dark-mode` blocks from `qc-shared.css` verbatim. Delete from scheme; shared version already identical.
+- `qc-reflect.css` has its own `:root` with dark values as defaults (reflect is dark-first), its own body reset, and its own `.qc-nav` rules — all conflicting with shared. Decide: does reflect adopt shared's light-first defaults with dark-mode override, or does it keep its own token set? This is a design decision before the session starts.
+- `qc-viz.css` correctly adds only viz-specific tokens to `:root` without redeclaring shared vars. This is the correct pattern for all tools.
+- `qc-refactor.css` has no `:root` and no body reset — fully delegates to shared. Correct pattern.
+
+*Dark mode:*
+
+- `qc-scheme`: uses `body.dark-mode` class, no localStorage key (theme not persisted across page loads).
+- `qc-reflect`: uses `body.light` class (inverted — dark is default), persists to `localStorage['qc.theme']`.
+- `qc-refactor`, `qc-viz`: no dark mode at all.
+- **Standardise on:** `body.dark-mode` class (light is default, matches shared.css), localStorage key `qca.theme`, shared `qcToggleTheme()` function in `qc-shared.js` that all tools call.
+
+*Navbar:*
+
+- `qc-shared.css` defines `.qc-nav` correctly.
+- `qc-reflect.css` redefines `.qc-nav` with different gap (20px vs 0), height (38px vs 36px), and padding (0 20px vs 0 14px). Remove from reflect; adopt shared version.
+- Navbar HTML is duplicated in each Lua filter. Move to a shared Lua function `M.build_nav(active_tool)` in `qc-shared.lua`. Standard link order: `vz, scheme, refactor, reflect, align, unfold, trace`.
+- `qc-reflect-filter.lua` has wrong link order (scheme, viz, refactor, reflect) and missing align/unfold/trace links.
+
+*Shared JS utilities — coverage gaps:*
+
+| Utility | scheme | refactor | reflect | viz |
+|---|---|---|---|---|
+| `makeRichField` | ✓ | ✓ | ✗ | ✗ |
+| `codeChip` | ✗ | ✓ | ✗ | ✗ |
+| `isStub` | ✓ | ✓ | ✓ | ✗ |
+| `getCodeColor` | ✓ | ✓ | ✗ | ✗ |
+| `qcAutocompleteInit` | ✓ | ✓ | ✗ | ✗ |
+| `loadDocs` | own impl | own impl | own impl | n/a |
+| `refreshTree` / `initTree` | own impl | own impl | n/a | n/a |
+| Dark mode toggle | own impl | ✗ | own impl (inverted) | ✗ |
+| Snapshots (client) | own impl | own impl | ✗ | ✗ |
+| Activity logging | `clDoc` only | ✗ | ✗ | ✗ |
+
+Actions per utility:
+- `loadDocs`: extract common fetch-and-normalise logic to `qcLoadDocs(path)` in shared. All three tools call it.
+- `initTree(apiBase, onUpdate)`: extract from scheme's `refreshTreeFromServer` and refactor's `refreshTree` — same concept, different names and signatures. Shared version sets up poll and fires callback on change.
+- Snapshots: extract `/snapshots/list`, `/snapshots/create` fetch logic to `qcSnapshotsList()` and `qcSnapshotCreate(label, note)` in shared. Scheme and refactor call them.
+- Activity logging: add `qcLog(tool, type, detail)` to shared JS. Appends to `/log/append` server endpoint. Replaces `clDoc` in scheme; refactor writes execute events; reflect writes LLM query events. Output file `qc-atelier.log.json` is the data source for qc-trace.
+
+*Session prerequisites:* all four JS files, all four CSS files, all four Lua filters, qc-shared.js, qc-shared.css, qc-shared.lua, and the server (for the `/log/append` endpoint) in context simultaneously.
 
 ### 2026-04-22 — qc-pre-render.sh YAML parsing fix
 
@@ -1599,6 +1648,128 @@ the sidebar without a full render or page reload.
 
 ---
 
+### 2026-05-12 — Session 8: server fixes, rename bug, shared utility audit
+
+#### Server: remove unconditional dirty flag in docs/load and load-json
+
+Migration blocks inside the field normalisation loop set `dirty = True` unconditionally on every iteration regardless of whether any field was missing. Caused `codebook.json` to be rewritten on every page load. Removed the full normalisation block; left only the `_baseline` stripping which is conditional and becomes a no-op once all files are clean. `_reconcile` handles parent sync.
+
+Commit: `fix(server): remove unconditional dirty flag in docs/load and load-json`
+
+#### Server: yaml rename order fix
+
+`qc codes rename` calls `update_codebook()` which writes the yaml, inserting the new code name as a new top-level entry if it is not already present in the yaml at that point. Fix: server-side yaml rename now runs before `qc codes rename`, so the new name is already in the yaml when `update_codebook()` runs and no ghost entry is added.
+
+The yaml rename itself was also changed from a regex sub to a line-by-line exact match: iterates lines, finds the first line whose stripped content exactly equals the old name as a list item (`- name` or `- name:`), replaces it in place preserving indentation.
+
+Commit: `fix(server): yaml rename before qc codes rename to prevent ghost entries`
+Commit: `fix(server): yaml rename — line-by-line exact match replaces regex sub`
+
+#### scheme: boot awaits tree refresh before render
+
+`boot()` called `render()` before `refreshTreeFromServer()` resolved, so the initial sidebar was built from the baked `CODEBOOK_TREE` snapshot. Any structural change between the last render and page open showed stale codes until the first 5s poll. Fixed by making `boot()` async and awaiting `refreshTreeFromServer(null)` before `render()`.
+
+Commit: `fix(scheme): await refreshTreeFromServer before first render on boot`
+
+#### scheme: suppress auto-save and changelog write on file open
+
+Every time qc-scheme opened, `clDoc('open', ...)` appended an open event to `state.changelog` and `scheduleSave()` fired, writing `codebook.json` even with no user edits. `clDoc('open')` removed from both the boot-time load and the import load handler. `saveStatus` set to `'saved'` immediately after loading. The changelog now only records structural moves and snapshot saves.
+
+Commit: `fix(scheme): suppress auto-save and changelog write on file open`
+
+#### Tests: move parentage, inline reconcile, rename yaml sync — all confirmed passing
+
+- Move: `Individual_projects` with 3 children queued as one item, executed correctly, yaml nested correctly, reconcile fired.
+- Rename: `00_04_Fluff → fluffz → 00_04_Fluff` round-trip confirmed clean after yaml rename order fix. No ghost entries.
+- Reconcile: fires after every execute, logs `parent_changes=N ghosts_removed=N`.
+
+#### Shared utility consistency audit
+
+Full audit of all four tools against shared utilities. Findings written into the Deferred/planned section above as a concrete planned session with per-utility action items.
+
+---
+
+## qc-atelier Dev Session 8 — Handoff
+
+**Date:** 2026-05-13
+**Transcript:** `/mnt/transcripts/2026-05-13-qc-atelier-dev-session-8.txt` (this session)
+
+---
+
+### Standing architectural rules
+
+These rules are standing constraints for all future development sessions. Claude should apply them without being asked.
+
+1. **Lifecycle logic goes in shared first.** Before adding any function involving data loading, tree state, save state, or server communication to a tool JS file, check whether it belongs in `qc-shared.js`. If it does, add it there and have the tool call it.
+
+2. **Shared CSS is the single source of truth for design tokens.** Tool CSS files add tool-specific rules only. They do not redeclare `:root` variables, body resets, or `.qc-nav` rules that already exist in `qc-shared.css`.
+
+3. **Dark mode:** `body.dark-mode` class (light is default). localStorage key `qca.theme`. All tools use `qcToggleTheme()` from shared.
+
+4. **Navbar HTML:** generated by `M.build_nav(active_tool)` in `qc-shared.lua`. Standard link order: `vz, scheme, refactor, reflect, align, unfold, trace`.
+
+5. **yaml rename runs before `qc codes rename`.** The server must update `codebook.yaml` before calling the qc CLI, so `update_codebook()` finds the new name already present and does not insert a ghost entry.
+
+6. **No file writes on page open.** Loading docs sets `saveStatus = 'saved'`. No changelog event, no `scheduleSave()`.
+
+7. **Unified activity log.** All significant actions across all tools write to `qcLog(tool, type, detail)` in shared. This is the data source for qc-trace. `clDoc` in scheme is a legacy implementation to be replaced.
+
+8. **Reconcile is a safety net, not load-bearing.** `_reconcile` runs after every execute and docs/save. It should find nothing to do in the normal case. If it reports changes on every run, something upstream is creating divergence.
+
+---
+
+### Project context
+
+Single-researcher qualitative coding toolkit. Python 3.14, macOS ARM. Server: `python3 qc-atelier/qc-atelier-server.py` from project root. Public GitHub: CITF-Postdoc. Data in `qc/` submodule on university GitLab.
+
+---
+
+### What was done this session
+
+- Verified move parentage fix (confirmed working)
+- Verified rename yaml sync fix (confirmed working after order fix)
+- Verified reconcile fires correctly after execute
+- Fixed unconditional dirty flag in `docs/load` and `load-json` — codebook.json no longer written on every page load
+- Fixed yaml rename order — server renames yaml before calling `qc codes rename`
+- Fixed yaml rename method — line-by-line exact match instead of regex
+- Fixed scheme boot — awaits tree refresh before first render
+- Fixed scheme open event — no auto-save or changelog write on load
+- Audited all four tools against shared utilities — findings documented as planned session
+- Updated documentation with session log, standing rules, known limitations, and planned session spec
+
+---
+
+### Open issues
+
+- `refactor-queue.json` 404 — harmless, persistent queue never implemented
+- `refreshTreeFromServer` re-renders on every poll response with no content-hash check
+- Shared utility consistency — planned session documented above
+- qc-trace prerequisite: `qcLog` unified activity log not yet implemented
+- qc-align, qc-unfold — not started
+
+---
+
+### Key file locations
+
+| File | Path |
+|---|---|
+| `qc-shared.js` | `qc-atelier/shared/qc-shared.js` |
+| `qc-shared.css` | `qc-atelier/shared/qc-shared.css` |
+| `qc-shared.lua` | `qc-atelier/shared/qc-shared.lua` |
+| `qc-scheme.js` | `qc-atelier/qc-scheme/qc-scheme.js` |
+| `qc-scheme-filter.lua` | `qc-atelier/qc-scheme/qc-scheme-filter.lua` |
+| `qc-refactor.js` | `qc-atelier/qc-refactor/qc-refactor.js` |
+| `qc-refactor-filter.lua` | `qc-atelier/qc-refactor/qc-refactor-filter.lua` |
+| `qc-reflect.js` | `qc-atelier/qc-reflect/qc-reflect.js` |
+| `qc-reflect-filter.lua` | `qc-atelier/qc-reflect/qc-reflect-filter.lua` |
+| `qc-viz.js` | `qc-atelier/qc-viz/qc-viz.js` |
+| `qc-viz-filter.lua` | `qc-atelier/qc-viz/qc-viz-filter.lua` |
+| `qc-atelier-server.py` | `qc-atelier/qc-atelier-server.py` |
+| `codebook.json` | `qc/codebook.json` |
+| `codebook.yaml` | `qc/codebook.yaml` |
+
+---
+
 ## qc-atelier Dev Session 7 — Handoff
 
 **Date:** 2026-05-11/12
@@ -1718,70 +1889,3 @@ The yaml after the last execute had `59_Change` at the wrong level — patched m
 7. "Coding / Workflow help" — fuzzy-concrete GitHub Pages (unrelated)
 8. Sessions 1–6 in memory (qc-atelier dev sessions, compacted)
 9. **This session** — qc-refactor overhaul, server move/rename fixes, scheme live tree
-
----
-
-### 2026-05-12 — scheme row list sourced from yaml
-
-qc-scheme's code list (left-panel rows) was built by iterating codebook.json
-keys directly. This caused ghost entries — renamed or deleted codes that still
-had json entries — to appear as rows alongside live codes.
-
-Fix: scheme now builds its row list from _runtimeTree, which is populated by
-the existing /refactor/tree poll (every 5s, yaml-derived). Documentation fields
-are still read from codebook.json, keyed on names that exist in the tree.
-Ghost keys in json are ignored; codes in yaml with no json entry get empty doc
-stubs. The row list and the refactor picker now share the same source of truth.
-
----
-
-### 2026-05-12 — scheme boot awaits tree refresh before render
-
-boot() called render() before refreshTreeFromServer() resolved,
-so the initial sidebar was built from the baked CODEBOOK_TREE
-snapshot rather than current yaml. Any structural change made
-between the last render and page open (rename, move, reconcile)
-would show stale codes until the first 5s poll fired.
-
-Fix: boot() is now async and awaits refreshTreeFromServer(null)
-before render(). treeArr reflects current yaml on first paint.
-
----
-
-### 2026-05-12 — scheme no longer writes codebook.json on open
-
-Every time qc-scheme opened, clDoc('open', ...) appended an open
-event to state.changelog and scheduleSave() fired, writing
-codebook.json even with no user edits. This made the file appear
-dirty in git on every session open.
-
-Fix: removed clDoc('open') and scheduleSave() from both the
-boot-time load and the import load handler. saveStatus is set to
-'saved' immediately after loading, not 'unsaved'. The changelog
-now only records structural moves and snapshot saves.
-
----
-
-### 2026-05-13 — server rename and load fixes
-
-**yaml rename order** (`refactor/execute`): `qc codes rename` calls
-`update_codebook()` which writes the yaml, inserting the new code name
-as a top-level ghost if it is not already present. Fixed by running the
-server-side yaml rename before `qc codes rename` so the new name is
-already in the yaml when `update_codebook()` runs.
-
-**yaml rename method**: replaced regex `re.sub` with line-by-line exact
-match. Iterates lines, finds the first line whose stripped content
-exactly equals the old name as a list item, replaces it in place
-preserving indentation. Handles both leaf (`- name`) and parent
-(`- name:`) forms.
-
-**unconditional dirty flag** (`docs/load`, `load-json`): migration block
-inside the field normalisation loop set `dirty = True` unconditionally
-on every iteration regardless of whether any field was missing. Caused
-`codebook.json` to be rewritten on every page load. Removed the full
-normalisation block; left only the `_baseline` stripping which is
-conditional and becomes a no-op once all files are clean.
-
----
-
