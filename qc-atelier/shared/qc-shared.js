@@ -412,3 +412,111 @@ function qcSnapshotPill(containerEl, apiBase) {
 
   return pill;
 }
+// ── Unified nav right-side initialisation ─────────────────────────────────────
+// Call after DOM ready: qcInitNav(navEl, opts)
+// opts: {
+//   apiBase:    string   — server base URL (default 'http://localhost:8080')
+//   stat:       string   — left-of-separator stat text, e.g. '1194 codes · 312 documented'
+//   getStat:    fn       — optional function returning current stat string (for live updates)
+//   getSave:    fn       — optional function returning save status string ('saved'|'unsaved'|'saving'|'error')
+//   onOpen:     fn       — callback for Open button click (omit to hide button)
+//   onTheme:    fn       — callback after theme toggle (optional, for tools that need to re-render)
+// }
+// Returns { updateStat, updateSave, updateSnapshot } for live updates.
+
+function qcInitNav(navEl, opts) {
+  opts = opts || {};
+  var apiBase = opts.apiBase || 'http://localhost:8080';
+
+  // Apply theme on boot
+  qcInitTheme();
+
+  // Separator
+  var sep = document.createElement('span');
+  sep.className = 'qc-nav-sep';
+  navEl.appendChild(sep);
+
+  // Stat slot (optional)
+  var statEl = null;
+  if (opts.stat || opts.getStat) {
+    statEl = document.createElement('span');
+    statEl.className = 'qc-nav-stat';
+    statEl.textContent = opts.getStat ? opts.getStat() : (opts.stat || '');
+    navEl.appendChild(statEl);
+  }
+
+  // Spacer — pushes right-side content to the right
+  var space = document.createElement('span');
+  space.className = 'qc-nav-space';
+  navEl.appendChild(space);
+
+  // Snapshot pill
+  var snapEl = document.createElement('span');
+  snapEl.className = 'qc-nav-snapshot';
+  snapEl.textContent = 'HEAD';
+  navEl.appendChild(snapEl);
+  fetch(apiBase + '/snapshots/list')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var active = data && data.active_dir;
+      if (active) {
+        var display = active.replace(/^codebook_\d{8}-\d{4}-?/, '') || active;
+        snapEl.textContent = display;
+        snapEl.classList.add('is-snapshot');
+      }
+    })
+    .catch(function() {});
+
+  // Save status (optional)
+  var saveEl = null;
+  if (opts.getSave) {
+    saveEl = document.createElement('span');
+    saveEl.className = 'qc-nav-save';
+    var _sv = opts.getSave();
+    saveEl.textContent = {saved:'Saved', unsaved:'Unsaved', saving:'Saving\u2026', error:'Error'}[_sv] || '';
+    saveEl.className = 'qc-nav-save ss-' + (_sv || 'saved');
+    navEl.appendChild(saveEl);
+  }
+
+  // Open button (optional)
+  if (opts.onOpen) {
+    var openBtn = document.createElement('button');
+    openBtn.className = 'qc-nav-btn';
+    openBtn.textContent = 'Open';
+    openBtn.addEventListener('click', opts.onOpen);
+    navEl.appendChild(openBtn);
+  }
+
+  // Theme toggle
+  var themeBtn = document.createElement('button');
+  themeBtn.className = 'qc-nav-btn';
+  themeBtn.textContent = qcIsDarkMode() ? 'Light' : 'Dark';
+  themeBtn.addEventListener('click', function() {
+    qcToggleTheme();
+    themeBtn.textContent = qcIsDarkMode() ? 'Light' : 'Dark';
+    if (opts.onTheme) opts.onTheme();
+  });
+  navEl.appendChild(themeBtn);
+
+  return {
+    updateStat: function(text) {
+      if (statEl) statEl.textContent = text;
+    },
+    updateSave: function(status) {
+      if (saveEl) {
+        saveEl.textContent = {saved:'Saved', unsaved:'Unsaved', saving:'Saving\u2026', error:'Error'}[status] || '';
+        saveEl.className = 'qc-nav-save ss-' + (status || 'saved');
+      }
+    },
+    updateSnapshot: function(dir) {
+      if (dir) {
+        var display = dir.replace(/^codebook_\d{8}-\d{4}-?/, '') || dir;
+        snapEl.textContent = display;
+        snapEl.classList.add('is-snapshot');
+      } else {
+        snapEl.textContent = 'HEAD';
+        snapEl.classList.remove('is-snapshot');
+      }
+    }
+  };
+}

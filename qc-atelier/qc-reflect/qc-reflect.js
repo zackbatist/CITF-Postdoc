@@ -1795,29 +1795,14 @@ function buildRunning() {
 function codeUses(name) { return (CORPUS_INDEX[name]||{}).total||0; }
 
 async function boot() {
-  try {
-    // Theme: use shared qcInitTheme() — reads qca.theme from localStorage
-    // reflect defaults to dark; qcInitTheme applies body.dark-mode class
-  } catch(e) {}
   state.lightMode = !qcInitTheme();
   render();
-  // Snapshot pill and theme toggle in nav bar
-  (function() {
-    var nav = document.querySelector('.qc-nav');
-    if (!nav) return;
-    var _pill = qcSnapshotPill(nav, 'http://localhost:' + (REFLECT_CONFIG.server_port || 8080));
-    _pill.style.marginLeft = 'auto';
-    var btn = document.createElement('button');
-    btn.className = 'qc-theme-toggle';
-    btn.title = 'Toggle light/dark mode';
-    btn.textContent = qcIsDarkMode() ? '☀️  Light' : '☾  Dark';
-    btn.addEventListener('click', function() {
-      state.lightMode = !qcToggleTheme();
-      btn.textContent = qcIsDarkMode() ? '☀️  Light' : '☾  Dark';
-      render();
-    });
-    nav.appendChild(btn);
-  })();
+  // Initialise shared nav right side
+  var _nav = document.querySelector('.qc-nav');
+  if (_nav) qcInitNav(_nav, {
+    apiBase: 'http://localhost:' + (REFLECT_CONFIG.server_port || 8080),
+    onTheme: function() { state.lightMode = !qcIsDarkMode(); render(); }
+  });
 }
 
 if (document.getElementById('qc-reflect-root')) { boot(); }

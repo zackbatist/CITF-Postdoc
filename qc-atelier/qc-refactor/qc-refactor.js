@@ -2391,8 +2391,6 @@ function wireColResize(handleId, leftSelector) {
 }
 
 (async function() {
-  // Apply theme on boot
-  qcInitTheme();
   // Load codebook docs and refresh tree from server
   await loadDocs();
   await refreshTree();
@@ -2400,25 +2398,9 @@ function wireColResize(handleId, leftSelector) {
   if (typeof CODEBOOK_TREE !== 'undefined') {
     window._rich_codes = CODEBOOK_TREE.map(function(n) { return n.name; });
   }
-
-  // Theme toggle button — appended to nav
-  (function() {
-    var nav = document.querySelector('.qc-nav');
-    if (!nav) return;
-    // Snapshot pill (pushes to right via margin-left:auto on first right-side element)
-    var _pill = qcSnapshotPill(nav, 'http://localhost:' + REFACTOR_CONFIG.server_port);
-    _pill.style.marginLeft = 'auto';
-    // Theme toggle
-    var btn = document.createElement('button');
-    btn.className = 'qc-theme-toggle';
-    btn.title = 'Toggle light/dark mode';
-    btn.textContent = qcIsDarkMode() ? '☀️  Light' : '☾  Dark';
-    btn.addEventListener('click', function() {
-      qcToggleTheme();
-      btn.textContent = qcIsDarkMode() ? '☀️  Light' : '☾  Dark';
-    });
-    nav.appendChild(btn);
-  })();
+  // Initialise shared nav right side
+  var _nav = document.querySelector('.qc-nav');
+  if (_nav) qcInitNav(_nav, { apiBase: 'http://localhost:' + REFACTOR_CONFIG.server_port });
 
   // Column resize
   wireColResize('col-resize-1', '.op-panel-wrap');

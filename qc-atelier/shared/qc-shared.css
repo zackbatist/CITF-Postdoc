@@ -59,12 +59,21 @@ body.light-mode {}
 /* ── Base reset ───────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── Body base ─────────────────────────────────────────────────────────────── */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 /* ── Shared navigation bar ────────────────────────────────────────────────── */
 .qc-nav {
   display: flex;
   align-items: center;
   gap: 0;
-  height: 36px;
+  height: 42px;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   padding: 0 14px;
@@ -87,7 +96,7 @@ body.light-mode {}
   color: var(--text-dim);
   text-decoration: none;
   padding: 0 10px;
-  height: 36px;
+  height: 42px;
   display: flex;
   align-items: center;
   border-bottom: 2px solid transparent;
@@ -201,50 +210,70 @@ body.light-mode {}
   resize: vertical;
   outline: none;
 }
-/* ── Theme toggle button ─────────────────────────────────────────────────────
-   Appended to .qc-nav in tools that don't have a topbar (refactor, viz, reflect).
-   Uses margin-left:auto to push to the right of the nav. */
-.qc-nav .qc-theme-toggle {
-  margin-left: auto;
+/* ── Nav right-side slot primitives ─────────────────────────────────────────
+   Layout only. Each tool populates its own slots via qcInitNav(). */
+
+/* Vertical separator between tool links and right-side content */
+.qc-nav-sep {
+  width: 1px; height: 18px;
+  background: var(--border);
+  margin: 0 10px;
+  flex-shrink: 0;
+}
+
+/* Stat slot: code count, queue count, etc. Tool-specific text. */
+.qc-nav-stat {
   font-size: 11px;
-  padding: 2px 8px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Pushes everything after it to the right */
+.qc-nav-space { flex: 1; }
+
+/* Generic nav button: snapshot pill, theme toggle, Open, etc. */
+.qc-nav-btn {
   background: none;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  color: var(--text-faint);
+  color: var(--text-dim);
   cursor: pointer;
   font-family: var(--mono);
+  font-size: 11px;
+  padding: 3px 10px;
+  flex-shrink: 0;
+  white-space: nowrap;
   transition: color 0.12s, border-color 0.12s;
 }
-.qc-nav .qc-theme-toggle:hover {
-  color: var(--text);
-  border-color: var(--border);
-}
+.qc-nav-btn:hover { color: var(--text); border-color: var(--text-dim); }
+.qc-nav-btn.active { color: var(--accent); border-color: var(--accent); }
 
-/* ── Snapshot context pill ───────────────────────────────────────────────────
-   Shown in the nav/topbar of all tools to indicate current snapshot context.
-   Injected via qcSnapshotPill() from qc-shared.js. */
-.qc-snapshot-pill {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+/* Save status indicator */
+.qc-nav-save {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text-faint);
   flex-shrink: 0;
-  margin-left: 12px;
+  padding: 0 2px;
 }
-.qc-snapshot-pill-label {
+.qc-nav-save.ss-unsaved { color: var(--yellow); }
+.qc-nav-save.ss-saving  { color: var(--text-faint); }
+.qc-nav-save.ss-error   { color: var(--red); }
+
+/* Snapshot context pill */
+.qc-nav-snapshot {
   font-size: 10px;
   font-family: var(--mono);
   padding: 2px 8px;
   border-radius: 10px;
   font-weight: 600;
   white-space: nowrap;
-}
-.qc-snapshot-pill-label.is-head {
+  flex-shrink: 0;
   background: var(--surface2);
   color: var(--text-faint);
 }
-.qc-snapshot-pill-label.is-snapshot {
-  background: rgba(var(--accent-rgb, 59,91,219), 0.1);
+.qc-nav-snapshot.is-snapshot {
   color: var(--accent);
   border: 1px solid var(--accent-dim);
 }

@@ -1939,3 +1939,36 @@ topbar pill which has richer functionality (↩ HEAD button).
 
 ---
 
+```
+### 2026-05-14 — Unified nav bar via qcInitNav
+
+**Problem:** scheme had two bars (nav + topbar); refactor, reflect, and viz
+had ad-hoc JS appending elements to the nav inconsistently. No shared
+structure for the right side of the nav.
+
+**Solution:** `qcInitNav(navEl, opts)` added to `qc-shared.js`. Builds the
+right side of the nav identically across all tools:
+
+  separator → stat slot → spacer → snapshot pill → save status → Open → theme toggle
+
+Each slot is optional and driven by opts callbacks. Returns
+`{ updateStat, updateSave, updateSnapshot }` for live updates without
+full re-renders.
+
+**scheme:** `buildTopbar()` replaced by `buildModeBar()` — mode tabs only,
+no stat bar. `renderTopbar()` now calls `_navHandle.update*()` methods.
+`qcInitNav` wired in boot with `getStat`, `getSave`, `onOpen`, `onTheme`
+callbacks. Old `.topbar`, `.topbar-brand`, `.topbar-sep`, `.topbar-stat`,
+`.topbar-space`, `.topbar-theme-toggle` CSS removed from `qc-scheme.css`.
+
+**refactor, reflect, viz:** ad-hoc nav injection blocks replaced with single
+`qcInitNav()` call.
+
+**shared.css:** body base added (`background: var(--bg); color: var(--text)`).
+Nav height 36px → 42px. Old toggle/pill CSS replaced with slot primitives:
+`.qc-nav-sep`, `.qc-nav-stat`, `.qc-nav-space`, `.qc-nav-btn`,
+`.qc-nav-save`, `.qc-nav-snapshot`.
+```
+
+---
+

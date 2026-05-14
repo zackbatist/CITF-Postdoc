@@ -16,16 +16,7 @@ body {
 .app { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
 
 /* ── Top bar ── */
-.topbar {
-  display: flex; align-items: center; gap: 10px;
-  padding: 0 14px; height: 42px;
-  background: var(--surface); border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-.topbar-brand { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--accent); letter-spacing: 0.05em; flex-shrink: 0; }
-.topbar-sep   { width: 1px; height: 18px; background: var(--border); flex-shrink: 0; }
-.topbar-stat  { font-family: var(--mono); font-size: 11px; color: var(--text-dim); white-space: nowrap; }
-.topbar-space { flex: 1; }
+/* .topbar, .topbar-brand, .topbar-sep, .topbar-stat, .topbar-space — removed; content now in shared nav via qcInitNav */
 
 /* History tab — inline in topbar */
 .topbar-history-tab {
@@ -39,10 +30,7 @@ body {
 .topbar-history-tab:hover  { color: var(--text); }
 .topbar-history-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-/* Theme toggle */
-.topbar-theme-toggle { margin-left: auto;
-  font-size: 14px; padding: 3px 8px; flex-shrink: 0; line-height: 1;
-}
+/* .topbar-theme-toggle — removed; theme toggle now in shared nav via qcInitNav */
 
 .btn {
   padding: 5px 12px; border-radius: var(--radius);
@@ -69,7 +57,7 @@ body.light-mode .btn.primary:hover { color: #fff; }
 .ss-error   { color: #ef4444; font-weight: 600; }
 
 /* ── Topbar wrap (for dropdown panels) ── */
-.topbar-wrap { display: flex; flex-direction: column; flex-shrink: 0; }
+.modebar-wrap { display: flex; flex-direction: column; flex-shrink: 0; }
 
 /* ── Full-width inline file bar ── */
 .fp-bar {

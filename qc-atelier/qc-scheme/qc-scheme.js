@@ -9,6 +9,7 @@ var treeArr = Array.isArray(CODEBOOK_TREE) ? CODEBOOK_TREE.slice() : Object.valu
 
 // ── State ─────────────────────────────────────────────────────────────────────
 
+var _navHandle = null; // handle returned by qcInitNav, for live updates
 var state = {
   docs:           { codes: (Array.isArray(DOCS_DATA.codes) ? {} : (DOCS_DATA.codes || {})) },
   selected:       null,
@@ -951,7 +952,7 @@ function render() {
   var root=document.getElementById('qc-scheme-root'); if(!root) return;
   root.innerHTML='';
   var app=h('div',{className:'app'});
-  app.appendChild(buildTopbar());
+  app.appendChild(buildModeBar());
   if (state.appMode === 'history') {
     app.appendChild(buildRecordMain());
   } else {
@@ -977,9 +978,22 @@ function render() {
 }
 
 function renderTopbar() {
-  var tb=document.querySelector('.topbar-wrap,.topbar');
-  if(!tb){render();return;}
-  tb.parentNode.replaceChild(buildTopbar(),tb);
+  // Update nav slots in place — no full re-render needed
+  if (_navHandle) {
+    var docCount = treeArr.filter(function(n){return hasDoc(n.name);}).length;
+    var movedCount = Object.keys(state.treeOverrides).length;
+    var multiN = state.multiSelected.size;
+    _navHandle.updateStat(
+      treeArr.length + ' codes · ' + docCount + ' documented' +
+      (movedCount ? ' · ' + movedCount + ' moved' : '') +
+      (multiN > 1 ? ' · ' + multiN + ' selected' : '')
+    );
+    _navHandle.updateSave(state.saveStatus);
+    _navHandle.updateSnapshot(state.openedSnapshotDir || null);
+  }
+  // Re-render mode bar (Open panel may have changed)
+  var mb = document.querySelector('.modebar');
+  if (mb) mb.parentNode.replaceChild(buildModeBar(), mb);
 }
 
 function renderMainPanel() {
@@ -1001,14 +1015,7 @@ function renderMainPanel() {
 }
 
 function refreshSaveIndicator() {
-  // Update the topbar status label in-place if possible
-  var lbl = document.querySelector('.topbar-save-status');
-  if (lbl) {
-    var labels = {saved:'Saved', unsaved:'Unsaved', saving:'Saving…', error:'Save error'};
-    lbl.textContent = labels[state.saveStatus]||'';
-    lbl.className = 'topbar-save-status ss-'+state.saveStatus;
-  }
-  // Also keep the download button pulsing (export panel)
+  if (_navHandle) _navHandle.updateSave(state.saveStatus);
   var btn = document.querySelector('.ep-download-btn');
   if (!btn) return;
   btn.classList.toggle('ep-unsaved', state.saveStatus === 'unsaved' || state.saveStatus === 'saving');
@@ -1031,70 +1038,10 @@ function renderExportPanel() {
   old.parentNode.replaceChild(buildExportPanel(),old);
 }
 
-// ── Topbar ────────────────────────────────────────────────────────────────────
+// ── Mode bar (Codebook / History tabs, replaces old topbar second row) ────────
 
-function buildTopbar() {
-  var docCount   = treeArr.filter(function(n){return hasDoc(n.name);}).length;
-  var movedCount = Object.keys(state.treeOverrides).length;
-  var multiN     = state.multiSelected.size;
-
-  var saveLabel = {saved:'Saved', unsaved:'Unsaved', saving:'Saving…', error:'Save error'}[state.saveStatus]||'';
-  var saveCls   = 'topbar-save-status ss-'+state.saveStatus;
-
-  var bar = h('div',{className:'topbar'},
-    h('span',{className:'topbar-brand'},'qc-scheme'),
-    h('div',{className:'topbar-sep'}),
-    h('span',{className:'topbar-stat'},
-      treeArr.length+' codes · '+docCount+' documented'+
-      (movedCount?' · '+movedCount+' moved':'')+
-      (multiN>1?' · '+multiN+' selected':'')
-    ),
-(function() {
-      var el = h('span', {className: 'topbar-context-pill'});
-      if (state.openedSnapshotDir) {
-        var label = state.openedSnapshotDir.replace(/^codebook_[0-9]{8}-[0-9]{4}-?/, '') || state.openedSnapshotDir;
-        el.appendChild(h('span', {className: 'context-pill-label context-pill-snapshot'}, '📷 ' + label));
-        var returnBtn = h('button', {className: 'btn-return-head'});
-        returnBtn.textContent = '↩ HEAD';
-        returnBtn.addEventListener('click', async function() {
-          state.openedSnapshotDir = '';
-          state.openedDocsPath    = DOCS_CONFIG ? DOCS_CONFIG.scheme_path : '';
-          if (state.snapshotsData) state.snapshotsData.active_dir = null;
-          await refreshTreeFromServer('');
-          render();
-        });
-        el.appendChild(returnBtn);
-      } else {
-        el.appendChild(h('span', {className: 'context-pill-label context-pill-head'}, 'HEAD'));
-      }
-      return el;
-    })(),
-    h('div',{className:'topbar-space'}),
-    h('button',{
-      className:'btn topbar-theme-toggle',
-      title: state.lightMode ? 'Switch to dark mode' : 'Switch to light mode',
-      onClick:function(){
-        state.lightMode = !qcToggleTheme();
-        renderTopbar();
-      },
-    }, state.lightMode ? '☀  Light' : '☾  Dark'),
-    multiN>1 ? h('button',{className:'btn',onClick:clearMulti},'Esc  Clear') : null,
-    h('span',{className:saveCls}, saveLabel),
-    h('button',{
-      className:'btn'+(state.importOpen?' active':''),
-      title:'Open a documentation file',
-      onClick:function(){
-        var opening = !state.importOpen;
-        state.importOpen   = opening;
-        state.importStatus = '';
-        state.importMsg    = '';
-        renderTopbar();
-      },
-    },'Open')
-  );
-
-  // Mode tabs row below the topbar
-  var tabsRow = h('div',{className:'topbar-tabs'});
+function buildModeBar() {
+  var tabsRow = h('div',{className:'modebar topbar-tabs'});
   [['codebook','Codebook'],['history','History']].forEach(function(pair){
     tabsRow.appendChild(h('button',{
       className:'topbar-mode-tab'+(state.appMode===pair[0]?' active':''),
@@ -1109,9 +1056,7 @@ function buildTopbar() {
       },
     }, pair[1]));
   });
-
-  var wrap = h('div',{className:'topbar-wrap'});
-  wrap.appendChild(bar);
+  var wrap = h('div',{className:'modebar-wrap'});
   wrap.appendChild(tabsRow);
   if (state.importOpen) wrap.appendChild(buildOpenPanel());
   return wrap;
@@ -3720,6 +3665,33 @@ async function boot() {
   // not the snapshot baked at render time. Prevents ghost rows on load.
   await refreshTreeFromServer(null);
   render();
+  // Initialise shared nav right side
+  var _nav = document.querySelector('.qc-nav');
+  if (_nav) {
+    var docCount = treeArr.filter(function(n){return hasDoc(n.name);}).length;
+    _navHandle = qcInitNav(_nav, {
+      apiBase: API,
+      getStat: function() {
+        var dc = treeArr.filter(function(n){return hasDoc(n.name);}).length;
+        var mc = Object.keys(state.treeOverrides).length;
+        var ms = state.multiSelected.size;
+        return treeArr.length + ' codes · ' + dc + ' documented' +
+          (mc ? ' · ' + mc + ' moved' : '') +
+          (ms > 1 ? ' · ' + ms + ' selected' : '');
+      },
+      getSave: function() { return state.saveStatus; },
+      onOpen: function() {
+        state.importOpen   = !state.importOpen;
+        state.importStatus = '';
+        state.importMsg    = '';
+        renderTopbar();
+      },
+      onTheme: function() {
+        state.lightMode = !qcIsDarkMode();
+        renderTopbar();
+      }
+    });
+  }
   // Poll for tree changes every 5 seconds
   setInterval(function() { refreshTreeFromServer(null); }, 5000);
 
