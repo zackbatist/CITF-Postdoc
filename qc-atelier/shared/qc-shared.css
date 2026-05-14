@@ -244,6 +244,7 @@ body {
   padding: 3px 10px;
   flex-shrink: 0;
   white-space: nowrap;
+  margin-left: 6px;
   transition: color 0.12s, border-color 0.12s;
 }
 .qc-nav-btn:hover { color: var(--text); border-color: var(--text-dim); }
@@ -270,6 +271,7 @@ body {
   font-weight: 600;
   white-space: nowrap;
   flex-shrink: 0;
+  margin-left: 6px;
   background: var(--surface2);
   color: var(--text-faint);
 }
