@@ -1,13 +1,12 @@
 /* qc-reflect.css
-   Tokens, reset, dark mode, and nav come from qc-shared.css, inlined before this file.
-   Do not redeclare :root, body, body.dark-mode, or .qc-nav here.
-   reflect is dark-first: body.dark-mode is applied on boot by default via qcInitTheme(). */
+   Tokens, reset, body base, dark mode, and nav come from qc-shared.css.
+   Reflect uses its own dark colour palette (purple accent vs blue).
+   Dark values live under body.dark-mode, not :root, so light mode works. */
 
-/* ── Reflect dark-first defaults ─────────────────────────────────────────────
-   Reflect is dark by default. These override shared.css light tokens on body.
-   body.dark-mode (set by qcInitTheme) is redundant but harmless.
-   body.light-mode would need to restore shared light tokens — not yet implemented. */
-body {
+/* ── Reflect dark mode token overrides ──────────────────────────────────────
+   Applied on top of shared dark-mode when body.dark-mode is set.
+   Reflect uses a purple accent rather than shared blue. */
+body.dark-mode {
   --bg:         #0f1117;
   --surface:    #1a1d27;
   --surface2:   #222536;
@@ -22,11 +21,10 @@ body {
   --yellow:     #fbbf24;
   --red:        #f87171;
   --blue:       #60a5fa;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 13px;
-  line-height: 1.6;
+}
+
+/* Reflect layout — full-height flex column */
+body {
   height: 100vh;
   overflow: hidden;
   display: flex;

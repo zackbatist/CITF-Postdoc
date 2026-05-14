@@ -73,7 +73,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0;
-  height: 42px;
+  height: 36px;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   padding: 0 14px;
@@ -96,7 +96,7 @@ body {
   color: var(--text-dim);
   text-decoration: none;
   padding: 0 10px;
-  height: 42px;
+  height: 36px;
   display: flex;
   align-items: center;
   border-bottom: 2px solid transparent;
