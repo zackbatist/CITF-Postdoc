@@ -2424,3 +2424,14 @@ body {
 
 ---
 
+### 2026-05-14 — scheme Open button toggle fix
+
+renderTopbar was selecting '.modebar' (the tabs row div inside the
+wrap) and replacing it with the full buildModeBar() output which
+is a '.modebar-wrap'. Each click nested another wrap inside the
+previous one, duplicating the open panel. Fixed by selecting
+'.modebar-wrap' instead, so replaceChild swaps the entire mode bar
+correctly.
+
+---
+

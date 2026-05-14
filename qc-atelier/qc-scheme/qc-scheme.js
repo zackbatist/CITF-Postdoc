@@ -992,7 +992,7 @@ function renderTopbar() {
     _navHandle.updateSnapshot(state.openedSnapshotDir || null);
   }
   // Re-render mode bar (Open panel may have changed)
-  var mb = document.querySelector('.modebar');
+  var mb = document.querySelector('.modebar-wrap');
   if (mb) mb.parentNode.replaceChild(buildModeBar(), mb);
 }
 
