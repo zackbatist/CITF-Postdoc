@@ -32,25 +32,25 @@
 
 /* ── Dark mode ────────────────────────────────────────────────────────────── */
 body.dark-mode {
-  --bg:           #111318;
-  --surface:      #181c24;
-  --surface2:     #1f2430;
-  --border:       #2d3348;
-  --border-dim:   #222736;
-  --text:         #dde1ec;
-  --text-dim:     #8a95b0;
-  --text-faint:   #636e8a;
-  --accent:       #748ffc;
-  --accent-dim:   #5c7cfa;
-  --green:        #40c97b;
-  --yellow:       #fcc419;
-  --red:          #ff6b6b;
-  --diff-add-bg:  rgba(64,201,123,0.10);
-  --diff-add-txt: #1a7a4a;
-  --diff-del-bg:  rgba(255,107,107,0.10);
-  --diff-del-txt: #9b2a2a;
-  --diff-unch-bg: #181c24;
-  --undoc-dot:    rgba(255,107,107,0.4);
+  --bg:           #1e2027;
+  --surface:      #262930;
+  --surface2:     #2e3138;
+  --border:       #3c4048;
+  --border-dim:   #343840;
+  --text:         #d8dce8;
+  --text-dim:     #8e96aa;
+  --text-faint:   #636878;
+  --accent:       #5b7fdb;
+  --accent-dim:   #4a6cc7;
+  --green:        #3dba72;
+  --yellow:       #e8b84a;
+  --red:          #d95f5f;
+  --diff-add-bg:  rgba(61,186,114,0.10);
+  --diff-add-txt: #1a6b42;
+  --diff-del-bg:  rgba(217,95,95,0.10);
+  --diff-del-txt: #8b2020;
+  --diff-unch-bg: #1e2027;
+  --undoc-dot:    rgba(217,95,95,0.4);
 }
 
 /* Light mode class is a no-op — light is the default (:root). */

@@ -3,25 +3,7 @@
    Reflect uses its own dark colour palette (purple accent vs blue).
    Dark values live under body.dark-mode, not :root, so light mode works. */
 
-/* ── Reflect dark mode token overrides ──────────────────────────────────────
-   Applied on top of shared dark-mode when body.dark-mode is set.
-   Reflect uses a purple accent rather than shared blue. */
-body.dark-mode {
-  --bg:         #0f1117;
-  --surface:    #1a1d27;
-  --surface2:   #222536;
-  --border:     #2e3148;
-  --border-dim: #232640;
-  --text:       #e2e4ef;
-  --text-dim:   #7b7f99;
-  --text-faint: #444766;
-  --accent:     #7c6af7;
-  --accent2:    #5b4fd4;
-  --green:      #34d399;
-  --yellow:     #fbbf24;
-  --red:        #f87171;
-  --blue:       #60a5fa;
-}
+/* Dark mode tokens from qc-shared.css — no reflect-specific overrides */
 
 /* Reflect layout — full-height flex column */
 body {

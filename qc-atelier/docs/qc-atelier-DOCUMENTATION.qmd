@@ -2435,3 +2435,15 @@ correctly.
 
 ---
 
+### 2026-05-14 — dark mode colour revision
+
+Dark mode tokens in qc-shared.css were too extreme and too purple.
+Backgrounds lightened (#111318 → #1e2027, surfaces proportionally).
+Text brightened (--text-dim #8a95b0 → #adb5c8, --text-faint
+#636e8a → #7c8498). Accent de-purpled (#748ffc → #5b7fdb).
+Reflect's body.dark-mode override block removed — reflect now uses
+shared tokens like all other tools, consistent with shared
+infrastructure principle.
+
+---
+
