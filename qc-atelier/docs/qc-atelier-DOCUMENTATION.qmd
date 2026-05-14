@@ -2447,3 +2447,13 @@ infrastructure principle.
 
 ---
 
+### 2026-05-14 — refactor queue persistence
+
+Added saveQueue() — writes state.queue (excluding doc entries) to
+refactor-queue.json via /docs/save after every mutation: add to
+queue, clear, and execute. Queue is loaded on boot from the same
+file. Removed the clear-after-load behaviour — queue now persists
+for the user across page reloads, not just as a one-shot handoff
+from qc-align.
+
+---

@@ -83,21 +83,22 @@ async function loadDocs() {
           op.id = state.nextId++;
           state.queue.push(op);
         });
-        // Clear the queue file after loading
-        await fetch(API + '/docs/save', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            path: SCHEME_PATH.replace(/codebook\.json$/, 'refactor-queue.json'),
-            data: { ops: [] },
-          }),
-        });
-        console.log('[qc-refactor] Loaded ' + pendingOps.length + ' op(s) from qc-align');
+        console.log('[qc-refactor] Loaded ' + pendingOps.length + ' op(s) from queue');
       }
     }
   } catch(e) {
     // Queue file may not exist yet — ignore
   }
+}
+
+function saveQueue() {
+  var queuePath = SCHEME_PATH.replace(/codebook\.json$/, 'refactor-queue.json');
+  var ops = state.queue.filter(function(op) { return op.type !== 'docs'; });
+  fetch(API + '/docs/save', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ path: queuePath, data: { ops: ops } }),
+  }).catch(function(e) { console.warn('[qc-refactor] Could not save queue:', e); });
 }
 
 async function refreshTree() {
@@ -2174,6 +2175,7 @@ async function executeQueue(summary) {
     state.docsEdits    = {};
     state.expandedSegs = {};
     state.panelTab     = 'results';
+    saveQueue();
 
     // Reload docs data so edits are reflected
     await loadDocs();
@@ -2474,13 +2476,17 @@ function wireColResize(handleId, leftSelector) {
     });
   });
 
-  document.getElementById('btn-add').addEventListener('click', addOperation);
+  document.getElementById('btn-add').addEventListener('click', function() {
+    addOperation();
+    saveQueue();
+  });
 
   document.getElementById('btn-clear').addEventListener('click', function() {
     state.queue        = [];
     state.moveSelected = new Set();
     state.docsEdits    = {};
     state.expandedSegs = {};
+    saveQueue();
     render();
   });
 
