@@ -2477,3 +2477,25 @@ deleted manually before persistence worked correctly.
 
 ---
 
+### 2026-05-15 — Generic state persistence via /state/:key
+
+Replaced the refactor-specific /refactor/queue GET/POST endpoints
+with a generic /state/:key mechanism that any tool can use.
+
+Server: GET /state/:key reads DATA_DIR/<key>.json and returns
+{ok, data}. POST /state/:key writes the data field of the payload
+to DATA_DIR/<key>.json.
+
+qc-shared.js: qcStateSave(key, data, apiBase) and
+qcStateLoad(key, apiBase) wrap the endpoints. qcStateLoad returns
+the data field directly so callers receive their payload unchanged.
+
+refactor.js: saveQueue() now calls qcStateSave('refactor-queue',
+{ops}, API). loadDocs() calls qcStateLoad('refactor-queue', API)
+and reads qdata.ops. Queue persistence behaviour unchanged.
+
+/refactor/queue endpoints removed — no qc-align dependency exists
+yet to maintain compatibility with.
+
+---
+

@@ -72,17 +72,14 @@ async function loadDocs() {
   }
   // Load persisted queue
   try {
-    var qres = await fetch(API + '/refactor/queue');
-    if (qres.ok) {
-      var qdata = await qres.json();
-      var pendingOps = (qdata.ops || []);
-      if (pendingOps.length > 0) {
-        pendingOps.forEach(function(op) {
-          op.id = state.nextId++;
-          state.queue.push(op);
-        });
-        console.log('[qc-refactor] Loaded ' + pendingOps.length + ' op(s) from queue');
-      }
+    var qdata = await qcStateLoad('refactor-queue', API);
+    var pendingOps = (qdata && qdata.ops) || [];
+    if (pendingOps.length > 0) {
+      pendingOps.forEach(function(op) {
+        op.id = state.nextId++;
+        state.queue.push(op);
+      });
+      console.log('[qc-refactor] Loaded ' + pendingOps.length + ' op(s) from queue');
     }
   } catch(e) {
     // Queue file may not exist yet — ignore
@@ -91,11 +88,7 @@ async function loadDocs() {
 
 function saveQueue() {
   var ops = state.queue.filter(function(op) { return op.type !== 'docs'; });
-  fetch(API + '/refactor/queue', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ops: ops }),
-  }).catch(function(e) { console.warn('[qc-refactor] Could not save queue:', e); });
+  qcStateSave('refactor-queue', { ops: ops }, API);
 }
 
 async function refreshTree() {
@@ -2397,6 +2390,10 @@ function wireColResize(handleId, leftSelector) {
   if (typeof CODEBOOK_TREE !== 'undefined') {
     window._rich_codes = CODEBOOK_TREE.map(function(n) { return n.name; });
   }
+
+  // Initialise shared nav right side
+  var _nav = document.querySelector('.qc-nav');
+  if (_nav) qcInitNav(_nav, { apiBase: 'http://localhost:' + (REFACTOR_CONFIG ? REFACTOR_CONFIG.server_port : 8080) });
 
   // Initialise shared nav right side
   var _nav = document.querySelector('.qc-nav');

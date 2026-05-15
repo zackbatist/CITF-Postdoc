@@ -520,3 +520,25 @@ function qcInitNav(navEl, opts) {
     }
   };
 }
+
+// ── Generic state persistence ─────────────────────────────────────────────────
+// All tools use these to persist arbitrary state to the server.
+// Data is stored in DATA_DIR/<key>.json via GET/POST /state/<key>.
+// apiBase: server base URL (e.g. 'http://localhost:8080')
+
+function qcStateSave(key, data, apiBase) {
+  var base = apiBase || 'http://localhost:8080';
+  fetch(base + '/state/' + encodeURIComponent(key), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ data: data }),
+  }).catch(function(e) { console.warn('[qcStateSave] ' + key + ':', e); });
+}
+
+function qcStateLoad(key, apiBase) {
+  var base = apiBase || 'http://localhost:8080';
+  return fetch(base + '/state/' + encodeURIComponent(key))
+    .then(function(r) { return r.json(); })
+    .then(function(d) { return d.data; })
+    .catch(function() { return null; });
+}

@@ -275,8 +275,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._docs_list_json()
         elif self.path.startswith("/docs/load-json"):
             self._docs_load_json()
-        elif self.path == "/refactor/queue":
-            self._refactor_queue_get()
+        elif self.path.startswith("/state/"):
+            self._state_get()
         elif self.path.startswith("/docs/load"):
             self._docs_load()
         elif self.path.startswith("/excerpts/fetch"):
@@ -326,8 +326,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._refactor_execute(body)
         elif self.path == "/refactor/move":
             self._refactor_move(body)
-        elif self.path == "/refactor/queue":
-            self._refactor_queue(body)
+        elif self.path.startswith("/state/"):
+            self._state_save(body)
         elif self.path == "/align/log":
             self._align_log_post(body)
         elif self.path == "/align/responses/save":
@@ -689,40 +689,46 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         except Exception as e:
             self._json(500, {"error": str(e)})
 
-    # ── GET /refactor/queue ─────────────────────────────────────────────────────
-    # Returns current pending ops from refactor-queue.json.
-    def _refactor_queue_get(self):
-        queue_path = DATA_DIR / "refactor-queue.json"
+    # ── GET /state/<key> ────────────────────────────────────────────────────────
+    # Generic key-value state persistence for all tools.
+    # Reads DATA_DIR/<key>.json and returns its contents.
+    def _state_get(self):
+        key = self.path.split("/state/", 1)[1].strip("/")
+        if not key or "/" in key or ".." in key:
+            self._json(400, {"error": "invalid key"})
+            return
+        state_path = DATA_DIR / (key + ".json")
         try:
-            if not queue_path.exists():
-                self._json(200, {"ok": True, "ops": []})
+            if not state_path.exists():
+                self._json(200, {"ok": True, "data": None})
                 return
-            with open(queue_path) as f:
+            with open(state_path) as f:
                 data = json.load(f)
-            self._json(200, {"ok": True, "ops": data.get("ops", [])})
+            self._json(200, {"ok": True, "data": data})
         except Exception as e:
             self._json(500, {"error": str(e)})
 
-    # ── POST /refactor/queue ────────────────────────────────────────────────────
-    # Pre-populates the refactor queue from qc-align suggestions.
-    # Stores pending ops in a sidecar file; qc-refactor reads on load.
-    def _refactor_queue(self, body):
-        queue_path = DATA_DIR / "refactor-queue.json"
+    # ── POST /state/<key> ────────────────────────────────────────────────────────
+    # Generic key-value state persistence for all tools.
+    # Writes DATA_DIR/<key>.json with the provided data payload.
+    def _state_save(self, body):
+        key = self.path.split("/state/", 1)[1].strip("/")
+        if not key or "/" in key or ".." in key:
+            self._json(400, {"error": "invalid key"})
+            return
+        state_path = DATA_DIR / (key + ".json")
         try:
             payload = json.loads(body)
-            ops     = payload.get("ops", [])
-            data    = {"ops": []}
-            if queue_path.exists():
-                with open(queue_path) as f:
-                    data = json.load(f)
-            data["ops"].extend(ops)
-            with open(queue_path, "w") as f:
+            data = payload.get("data", payload)
+            with open(state_path, "w") as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
             ts_log = datetime.now().strftime("%H:%M:%S")
-            print(f"[{ts_log}] refactor/queue: {len(ops)} op(s) queued from qc-align")
-            self._json(200, {"ok": True, "queued": len(ops)})
+            print(f"[{ts_log}] state/save: {key}")
+            self._json(200, {"ok": True})
         except Exception as e:
             self._json(500, {"error": str(e)})
+
+
 
     # ── POST /refactor/execute ─────────────────────────────────────────────────
     # Body: { operations, summary, script, scheme_path, docs_edits }
