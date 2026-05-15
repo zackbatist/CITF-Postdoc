@@ -275,6 +275,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._docs_list_json()
         elif self.path.startswith("/docs/load-json"):
             self._docs_load_json()
+        elif self.path == "/refactor/queue":
+            self._refactor_queue_get()
         elif self.path.startswith("/docs/load"):
             self._docs_load()
         elif self.path.startswith("/excerpts/fetch"):
@@ -684,6 +686,20 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             with open(log_path, "w") as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
             self._json(200, {"ok": True})
+        except Exception as e:
+            self._json(500, {"error": str(e)})
+
+    # ── GET /refactor/queue ─────────────────────────────────────────────────────
+    # Returns current pending ops from refactor-queue.json.
+    def _refactor_queue_get(self):
+        queue_path = DATA_DIR / "refactor-queue.json"
+        try:
+            if not queue_path.exists():
+                self._json(200, {"ok": True, "ops": []})
+                return
+            with open(queue_path) as f:
+                data = json.load(f)
+            self._json(200, {"ok": True, "ops": data.get("ops", [])})
         except Exception as e:
             self._json(500, {"error": str(e)})
 

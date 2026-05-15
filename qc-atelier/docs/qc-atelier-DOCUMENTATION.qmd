@@ -2457,3 +2457,23 @@ for the user across page reloads, not just as a one-shot handoff
 from qc-align.
 
 ---
+
+### 2026-05-15 — refactor queue persistence
+
+Queue now persists across page reloads via refactor-queue.json.
+
+saveQueue() added to refactor.js — calls POST /refactor/queue after
+every mutation (add, clear, execute). The existing POST /refactor/queue
+endpoint writes raw {ops: [...]} to refactor-queue.json without the
+docs envelope that /docs/save adds.
+
+Added GET /refactor/queue to server — reads refactor-queue.json and
+returns {ok, ops}. loadDocs() now uses this endpoint instead of
+/docs/load-json, which was wrapping the file in a codebook docs
+envelope and losing the ops array.
+
+Old refactor-queue.json from the failed /docs/save attempt had to be
+deleted manually before persistence worked correctly.
+
+---
+

@@ -70,11 +70,9 @@ async function loadDocs() {
   } catch(e) {
     console.warn('Could not load codebook.json:', e);
   }
-  // Load any ops queued from qc-align
+  // Load persisted queue
   try {
-    var qres = await fetch(API + '/docs/load-json?path=' + encodeURIComponent(
-      SCHEME_PATH.replace(/codebook\.json$/, 'refactor-queue.json')
-    ));
+    var qres = await fetch(API + '/refactor/queue');
     if (qres.ok) {
       var qdata = await qres.json();
       var pendingOps = (qdata.ops || []);
@@ -92,12 +90,11 @@ async function loadDocs() {
 }
 
 function saveQueue() {
-  var queuePath = SCHEME_PATH.replace(/codebook\.json$/, 'refactor-queue.json');
   var ops = state.queue.filter(function(op) { return op.type !== 'docs'; });
-  fetch(API + '/docs/save', {
+  fetch(API + '/refactor/queue', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ path: queuePath, data: { ops: ops } }),
+    body: JSON.stringify({ ops: ops }),
   }).catch(function(e) { console.warn('[qc-refactor] Could not save queue:', e); });
 }
 
