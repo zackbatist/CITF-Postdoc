@@ -2499,3 +2499,47 @@ yet to maintain compatibility with.
 
 ---
 
+### 2026-05-15 — Shared nav unification, dark mode fixes, queue persistence
+
+**qc-shared.js restored**: complete file with colour utilities, autocomplete,
+makeRichField, theme functions (qcInitTheme, qcToggleTheme, qcIsDarkMode),
+and snapshot pill. Previous commit had only qcSnapshotPill.
+
+**qcInitNav(navEl, opts)**: shared function that builds the nav right side
+consistently across all tools — separator, stat slot, spacer, snapshot pill,
+save status, Open button, theme toggle. Returns {updateStat, updateSave,
+updateSnapshot} for live updates. Called once in each tool's boot.
+
+**scheme topbar removed**: buildModeBar() replaces buildTopbar() — mode tabs
+only, no stat bar. renderTopbar() now calls _navHandle.update*() methods.
+qcInitNav wired in boot with getStat, getSave, onOpen, onTheme callbacks.
+Old .topbar, .topbar-brand, .topbar-sep, .topbar-stat CSS removed.
+
+**reflect dark mode**: tokens moved from :root to body.dark-mode. Previously
+:root overrode shared light tokens globally, making light toggle ineffective.
+reflect body.dark-mode override subsequently removed entirely — reflect now
+uses shared tokens like all other tools.
+
+**Dark mode lightened**: bg #111318 → #1e2027, surfaces proportionally.
+text-dim #8a95b0 → #adb5c8, text-faint #636e8a → #7c8498.
+Accent de-purpled: #748ffc → #5b7fdb.
+
+**Generic state persistence**: GET/POST /state/:key added to server —
+reads/writes DATA_DIR/<key>.json with arbitrary JSON. qcStateSave(key, data,
+apiBase) and qcStateLoad(key, apiBase) added to qc-shared.js. Replaces the
+refactor-specific /refactor/queue endpoints.
+
+**Queue persistence**: saveQueue() calls qcStateSave('refactor-queue', {ops})
+after every mutation — add, individual remove, clear, execute. Queue survives
+page reloads.
+
+**Queue item doc panel**: .queue-item changed from display:flex to display:block
+so doc panel appears below the item header rather than beside it.
+
+**Edit button**: handler made async; now awaits renderOpForm() before calling
+repopulateForm(op). Previously repopulateForm ran before the async refreshTree
+completed, wiping the repopulated values.
+
+**File corruption**: qc-refactor.js and qc-refactor.css were overwritten with
+reflect content during session due to output path error. Both restored from
+git (2cb8893^) and session changes re-applied.

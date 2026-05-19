@@ -279,9 +279,7 @@ body {
 }
 
 .queue-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  display: block;
   padding: 8px 14px;
   border-bottom: 1px solid var(--border-dim);
   cursor: default;

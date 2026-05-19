@@ -1544,17 +1544,18 @@ function renderQueue() {
   });
 
   list.querySelectorAll('.queue-item-edit').forEach(function(btn) {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', async function() {
       var id = parseInt(btn.dataset.id);
       var t  = btn.dataset.type;
       var op = state.queue.find(function(o) { return o.id === id; });
       if (!op) return;
       state.queue = state.queue.filter(function(o) { return o.id !== id; });
+      saveQueue();
       state.activeTab = t;
       document.querySelectorAll('.op-tab').forEach(function(tab) {
         tab.classList.toggle('active', tab.dataset.type === t);
       });
-      renderOpForm();
+      await renderOpForm();
       repopulateForm(op);
       renderQueue();
       renderPreview();
