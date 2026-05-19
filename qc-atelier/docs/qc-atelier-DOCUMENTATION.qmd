@@ -2555,3 +2555,34 @@ st_mtime in milliseconds) in the response. refreshTreeFromServer
 stores the last seen mtime in _lastTreeMtime and returns early if
 mtime is unchanged and no snapshot dir is active. Re-render only
 fires when the file has actually been modified.
+
+### 2026-05-19 — AI-assisted documentation via qc-autodoc.py
+
+**qc-autodoc.py** added to qc-atelier/. Batch documentation script that reads
+corpus JSON files (qc/json/*.json), indexes segments per code, and sends them
+to a local LM Studio instance (OpenAI-compatible API at localhost:1234) to
+generate draft documentation for undocumented codes.
+
+Processing logic: skips codes with non-unset status, any existing
+documentation, legacy branch membership (OLDER OPEN CODING STRUCTURE), or
+no corpus segments. Derives code list from codebook.json tree array.
+Uses codebook.setdefault("codes", {}) to ensure writes link to the
+codebook dict. Saves codebook.json after re-render to prevent Quarto
+from overwriting newly written entries.
+
+Server management: detects whether qc-atelier-server.py is running,
+stops it before writing, restarts after processing. Re-renders
+qc-scheme.qmd automatically if any codes were processed, then saves
+again to preserve the new entries.
+
+**ai_summary field** added to codebook.json schema and scheme.js.
+Displayed read-only with an AI badge in the documentation form.
+Scope is written as a generalizable conceptual definition; ai_summary
+holds the segment-grounded account of how the code manifests in practice.
+Updated in: hasDoc, importJson, DOC_FIELDS, DOC_FIELDS_ORDER,
+FIELD_LABELS, getDocData, markdown export, CSV export, panel display,
+snapshot diff fields, and form rendering.
+
+Prompt: temperature 0.15, thinking disabled via chat_template_kwargs.
+Four output fields: scope, rationale, usage_notes, ai_summary.
+Tested with qwen/qwen3.6-35b-a3b via LM Studio on M2 Mac.

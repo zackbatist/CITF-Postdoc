@@ -487,7 +487,7 @@ function setDoc(code, field, value) {
 
 function hasDoc(code) {
   var d = state.docs.codes && state.docs.codes[code];
-  return !!(d && (d.scope||d.rationale||d.usage_notes||d.provenance||(d.examples&&d.examples.length)));
+  return !!(d && (d.scope||d.rationale||d.usage_notes||d.provenance||d.ai_summary||(d.examples&&d.examples.length)));
 }
 
 // ── Export selection ──────────────────────────────────────────────────────────
@@ -594,6 +594,7 @@ async function importJson(path) {
         rationale:   c.rationale   || '',
         usage_notes: c.usage_notes || '',
         provenance:  c.provenance  || '',
+        ai_summary:  c.ai_summary  || '',
         examples:    c.examples    || [],
         _log:        Array.isArray(c._log) ? c._log : [],
         _baseline:   c._baseline || {
@@ -602,6 +603,7 @@ async function importJson(path) {
           rationale:   c.rationale   || '',
           usage_notes: c.usage_notes || '',
           provenance:  c.provenance  || '',
+          ai_summary:  c.ai_summary  || '',
           parent:      ovParent !== undefined ? ovParent : (c.parent || ''),
         },
       };
@@ -659,7 +661,7 @@ async function fetchExcerpts(code) {
 // Full YAML export — complete documentation fields, hierarchical structure
 function buildFullYaml(codes) {
   var cs = {}; codes.forEach(function(n){ cs[n.name] = true; });
-  var DOC_FIELDS = ['status','scope','rationale','usage_notes','provenance'];
+  var DOC_FIELDS = ['status','scope','rationale','usage_notes','provenance','ai_summary'];
   var lines = ['# codebook-full.yaml — full documentation export from qc-scheme', ''];
 
   function yamlStr(s) {
@@ -708,6 +710,7 @@ function buildDocsJson() {
       rationale:   d.rationale     || null,
       usage_notes: d.usage_notes   || null,
       provenance:  d.provenance    || null,
+      ai_summary:  d.ai_summary    || null,
       examples:    (d.examples||[]).filter(function(e){return e.doc;}).map(function(e){
         return {doc:e.doc, line:e.line||null, note:e.note||null};
       }),
@@ -734,6 +737,7 @@ function buildMd(codes, isQmd) {
     if(d.rationale)   lines.push('**Rationale**','',d.rationale,'');
     if(d.usage_notes) lines.push('**Usage notes**','',d.usage_notes,'');
     if(d.provenance)  lines.push('**History**','',d.provenance,'');
+    if(d.ai_summary)  lines.push('**AI summary**','',d.ai_summary,'');
     if(d.status)      lines.push('**Status:** '+d.status,'');
     var exs=(d.examples||[]).filter(function(e){return e.doc;});
     if(exs.length){lines.push('**Examples**','');exs.forEach(function(e){lines.push('- `'+e.doc+'` L'+e.line+(e.note?' — '+e.note:''));});lines.push('');}
@@ -745,10 +749,10 @@ function buildMd(codes, isQmd) {
 
 function buildCsv(codes) {
   function q(s){return '"'+String(s||'').replace(/"/g,'""')+'"';}
-  var rows=[['code','parent','depth','uses','status','scope','rationale','usage_notes','provenance'].map(q).join(',')];
+  var rows=[['code','parent','depth','uses','status','scope','rationale','usage_notes','provenance','ai_summary'].map(q).join(',')];
   codes.forEach(function(n){
     var d=getDoc(n.name);
-    rows.push([n.name,nodeParent(n.name)||'',nodeDepth(n.name),getUses(n.name),d.status||'',d.scope||'',d.rationale||'',d.usage_notes||'',d.provenance||''].map(q).join(','));
+    rows.push([n.name,nodeParent(n.name)||'',nodeDepth(n.name),getUses(n.name),d.status||'',d.scope||'',d.rationale||'',d.usage_notes||'',d.provenance||'',d.ai_summary||''].map(q).join(','));
   });
   return rows.join('\n');
 }
@@ -769,6 +773,7 @@ function buildHtml(codes) {
       '<h'+hn+'>'+esc(name)+statusHtml+(u?' <small>'+u+' uses</small>':'')+' </h'+hn+'>'+
       fld('Scope',d.scope)+fld('Rationale',d.rationale)+
       fld('Usage notes',d.usage_notes)+fld('History',d.provenance)+
+      fld('AI summary',d.ai_summary)+
       (exs.length?'<div class="fld"><span class="lbl">Examples</span><ul>'+exs.map(function(e){return'<li><code>'+esc(e.doc)+'</code> L'+e.line+(e.note?' — '+esc(e.note):'')+'</li>';}).join('')+'</ul></div>':'')+
       '</section>'
     );
@@ -818,6 +823,7 @@ function buildPdf(codes) {
         d.rationale    ? d.rationale.slice(0,120)    : '—',
         d.usage_notes  ? d.usage_notes.slice(0,120)  : '—',
         d.provenance   ? d.provenance.slice(0,80)    : '—',
+        d.ai_summary   ? d.ai_summary.slice(0,120)   : '—',
       ]);
     }
     (_childrenIdx[name]||[]).forEach(function(c){ walk(c, depth+1); });
@@ -1945,6 +1951,7 @@ var FIELDS=[
   {key:'rationale',  label:'Rationale'},
   {key:'usage_notes',label:'Usage notes'},
   {key:'provenance', label:'History'},
+  {key:'ai_summary', label:'AI summary'},
 ];
 
 var TABLE_COLS = [
@@ -1954,6 +1961,7 @@ var TABLE_COLS = [
   {key:'rationale',   label:'Rationale'},
   {key:'usage_notes', label:'Usage notes'},
   {key:'provenance',  label:'History'},
+  {key:'ai_summary',  label:'AI summary'},
 ];
 
 function buildMultiBody(codes) {
@@ -2090,9 +2098,9 @@ function buildCardsView(codes) {
 
 var FIELD_LABELS = {
   status:'Status', scope:'Scope', rationale:'Rationale',
-  usage_notes:'Usage notes', provenance:'History', parent:'Parent',
+  usage_notes:'Usage notes', provenance:'History', ai_summary:'AI summary', parent:'Parent',
 };
-var DOC_FIELDS_ORDER = ['status','parent','scope','rationale','usage_notes','provenance'];
+var DOC_FIELDS_ORDER = ['status','parent','scope','rationale','usage_notes','provenance','ai_summary'];
 
 // Selection colours — A = teal, B = amber
 var SEL_A_BG  = 'rgba(20,184,166,0.13)';  // teal tint
@@ -3591,6 +3599,21 @@ function buildDocTab(code) {
   wrap.appendChild(textField('rationale',  'Rationale',   'Why this code exists; when to apply vs. siblings', 'When to use this? How does it differ from nearby codes?',3));
   wrap.appendChild(textField('usage_notes','Usage notes', 'Edge cases, what to exclude, common confusions',   'What are the tricky cases? What should NOT be coded here?',3));
   wrap.appendChild(textField('provenance', 'History',     'When created, split from, merged with',            'e.g. Split from X in Oct 2025…',2));
+  // AI summary — read-only, only shown when present
+  if ((doc.ai_summary||'').trim()) {
+    var aiDiv = h('div',{className:'field'});
+    var aiLabel = h('div',{className:'field-label', style:{display:'flex',alignItems:'center',gap:'6px'}},
+      'AI summary',
+      h('span',{style:{fontSize:'10px',padding:'1px 5px',borderRadius:'3px',background:'var(--yellow,#b45309)',color:'#fff',fontWeight:'600'}},'AI')
+    );
+    var aiText = h('div',{
+      className:'field-ro',
+      style:{fontSize:'12px',lineHeight:'1.6',color:'var(--text-dim)',fontStyle:'italic',padding:'6px 0',whiteSpace:'pre-wrap'}
+    }, doc.ai_summary);
+    aiDiv.appendChild(aiLabel);
+    aiDiv.appendChild(aiText);
+    wrap.appendChild(aiDiv);
+  }
 
   var statusSel=h('select',{
     style:{background:'var(--surface)',border:'1px solid var(--border)',borderRadius:'var(--radius)',color:'var(--text)',padding:'5px 8px',fontFamily:'var(--sans)',fontSize:'12px',outline:'none',cursor:'pointer'},
