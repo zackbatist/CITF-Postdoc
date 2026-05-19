@@ -30,8 +30,8 @@ from pathlib import Path
 CODEBOOK_JSON = Path("qc/codebook.json")
 CODEBOOK_YAML = Path("qc/codebook.yaml")
 CORPUS_DIR    = Path("qc/json")
-LM_STUDIO_URL = "http://localhost:1234/v1/chat/completions"
-MODEL         = "qwen3-3.6b"       # adjust to match your LM Studio model name exactly
+LM_STUDIO_URL = "http://localhost:11434/v1/chat/completions"
+MODEL         = "qwen2.5:7b"       # adjust to match your LM Studio model name exactly
 MAX_SEGMENTS  = 20                 # max segments to send per code
 MAX_CHARS     = 8000               # max total segment chars to send (context limit guard)
 TEMPERATURE   = 0.15
@@ -247,12 +247,6 @@ def main():
     if dry_run:
         print("[mode] DRY RUN — no LM Studio calls, no writes.")
 
-    # Stop server if running
-    was_running = server_is_running()
-    if was_running and not dry_run:
-        print("[server] Stopping server...")
-        stop_server()
-
     # Load data
     codebook   = load_codebook_json()
     legacy     = load_legacy_codes()
@@ -308,8 +302,6 @@ def main():
 
     if not to_process:
         print("[done] Nothing to process.")
-        if was_running:
-            start_server()
         return
 
     if limit:
@@ -350,11 +342,8 @@ def main():
     print(f"\n[done] Processed: {processed}, failed: {failed}.")
 
     if processed > 0:
-        rerender_scheme()
         save_codebook_json(codebook)
-
-    if was_running:
-        start_server()
+        print(f"[saved] codebook.json updated. Re-render scheme and restart server manually.")
 
     print(f"Codes with status 'experimental' are ready for review in qc-scheme.")
 

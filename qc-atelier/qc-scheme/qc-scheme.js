@@ -3604,7 +3604,8 @@ function buildDocTab(code) {
     var aiDiv = h('div',{className:'field'});
     var aiLabel = h('div',{className:'field-label', style:{display:'flex',alignItems:'center',gap:'6px'}},
       'AI summary',
-      h('span',{style:{fontSize:'10px',padding:'1px 5px',borderRadius:'3px',background:'var(--yellow,#b45309)',color:'#fff',fontWeight:'600'}},'AI')
+      h('span',{style:{fontSize:'10px',color:'var(--text-faint)',fontStyle:'normal'}},
+        '— qwen/qwen3.6-35b-a3b · temp 0.15 · thinking off')
     );
     var aiText = h('div',{
       className:'field-ro',

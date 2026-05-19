@@ -2586,3 +2586,24 @@ snapshot diff fields, and form rendering.
 Prompt: temperature 0.15, thinking disabled via chat_template_kwargs.
 Four output fields: scope, rationale, usage_notes, ai_summary.
 Tested with qwen/qwen3.6-35b-a3b via LM Studio on M2 Mac.
+
+### 2026-05-19 — qc-autodoc.py fixes and cluster setup
+
+Server management removed from qc-autodoc.py — stop/restart and re-render
+are now handled manually to avoid race conditions with codebook.json writes.
+
+Write bug fixed: codebook.get("codes", {}) replaced with
+codebook.setdefault("codes", {}) to ensure mutations link to the
+codebook dict and persist on save.
+
+Prompt updated: scope now explicitly instructed as a generalizable
+conceptual definition, not a summary of segments. ai_summary handles
+the segment-grounded account of how the code manifests in practice.
+
+Scheme.js: orange AI badge replaced with plain text model/parameter
+attribution — qwen/qwen3.6-35b-a3b · temp 0.15 · thinking off.
+
+Endpoint switched to Ollama-compatible /v1/chat/completions.
+Cluster: buckeridge-rtx6000, GPU 5, port 11434, Docker container
+ollama_zack. Model: qwen2.5:7b Q4_K_M. SSH tunnel:
+ssh -L 11434:localhost:11434 zack@<cluster>. Timeout increased to 300s.
