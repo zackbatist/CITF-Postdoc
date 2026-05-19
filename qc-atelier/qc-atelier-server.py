@@ -1346,7 +1346,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             with open(yaml_path) as f:
                 text = f.read()
             nodes = self._parse_codebook_flat(text)
-            self._json(200, {"tree": nodes, "ok": True})
+            mtime = int(yaml_path.stat().st_mtime * 1000)
+            self._json(200, {"tree": nodes, "ok": True, "mtime": mtime})
         except Exception as e:
             self._json(500, {"error": str(e)})
 

@@ -2543,3 +2543,15 @@ completed, wiping the repopulated values.
 **File corruption**: qc-refactor.js and qc-refactor.css were overwritten with
 reflect content during session due to output path error. Both restored from
 git (2cb8893^) and session changes re-applied.
+
+### 2026-05-15 — refreshTreeFromServer polling optimisation
+
+Previously the 5-second poll always re-rendered the sidebar regardless
+of whether codebook.yaml had changed. On a busy session this caused
+constant unnecessary re-renders.
+
+Fix: _refactor_tree in server now includes mtime (codebook.yaml
+st_mtime in milliseconds) in the response. refreshTreeFromServer
+stores the last seen mtime in _lastTreeMtime and returns early if
+mtime is unchanged and no snapshot dir is active. Re-render only
+fires when the file has actually been modified.

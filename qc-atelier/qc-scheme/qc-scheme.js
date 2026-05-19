@@ -10,6 +10,7 @@ var treeArr = Array.isArray(CODEBOOK_TREE) ? CODEBOOK_TREE.slice() : Object.valu
 // ── State ─────────────────────────────────────────────────────────────────────
 
 var _navHandle = null; // handle returned by qcInitNav, for live updates
+var _lastTreeMtime = null; // mtime of last known codebook.yaml, for poll deduplication
 var state = {
   docs:           { codes: (Array.isArray(DOCS_DATA.codes) ? {} : (DOCS_DATA.codes || {})) },
   selected:       null,
@@ -305,6 +306,9 @@ async function refreshTreeFromServer(snapshotDir) {
     var res  = await fetch(url);
     var data = await res.json();
     if (data.ok && data.tree && data.tree.length > 0) {
+      // Skip re-render if codebook.yaml hasn't changed since last poll
+      if (data.mtime && data.mtime === _lastTreeMtime && snapshotDir === null) return true;
+      _lastTreeMtime = data.mtime || null;
       treeArr.length = 0;
       data.tree.forEach(function(n) { treeArr.push(n); });
       treeArr.forEach(function(n) {
