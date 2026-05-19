@@ -1,0 +1,16 @@
+---
+title: Week notes (2026-W20)
+date: 2026-05-15
+date-modified: today
+categories:
+  - week notes
+---
+
+- Implementing some of the feedback on the emails analysis paper
+- qc-atelier development
+- Documenting and refactoring the code system
+- Participated in the Dzau lecture
+
+- Worked on the INKE-2026 presentation
+- Started revamping work on BibVik over the weekend
+- Enjoying the long weekend :)
