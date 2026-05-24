@@ -1,0 +1,16 @@
+---
+title: Week notes (2026-W21)
+date: 2026-05-22
+date-modified: today
+categories:
+  - week notes
+---
+
+- Resolved some feedback to the emails analysis paper
+- Worked on code tree documentation and refinement
+- Setting up and refining workflow for accessing the GPU cluster
+
+- Off work hours:
+  - Drafting an application for the Gerda Henkel research scholarship
+  - Drafting a proposal to pursue a MSCA (pending discussion with involved parties)
+  - Work on the pipeline for developing the BibVik citation graph
