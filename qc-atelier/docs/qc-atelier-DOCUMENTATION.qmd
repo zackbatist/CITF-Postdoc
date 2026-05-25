@@ -2607,3 +2607,12 @@ Endpoint switched to Ollama-compatible /v1/chat/completions.
 Cluster: buckeridge-rtx6000, GPU 5, port 11434, Docker container
 ollama_zack. Model: qwen2.5:7b Q4_K_M. SSH tunnel:
 ssh -L 11434:localhost:11434 zack@<cluster>. Timeout increased to 300s.
+
+### 2026-05-21 — Auto pre-render after refactor execute
+
+Added post-execute hook to _refactor_execute in qc-atelier-server.py.
+After all operations succeed, the server spawns qc-pre-render.sh in the
+background via Popen. This regenerates qc/json/*.json files so that
+corpus use counts in scheme reflect any renames or merges without
+manual intervention. Re-rendering scheme is still required to pick up
+the updated counts, but the JSON files will be ready when it runs.

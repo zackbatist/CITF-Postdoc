@@ -589,9 +589,21 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             abs_path = docs_path.resolve()  # path is already .json; resolve to absolute
             abs_path.parent.mkdir(parents=True, exist_ok=True)
 
+            # Merge with existing codes on disk — never delete keys not in POST body
+            existing_codes = {}
+            if abs_path.exists():
+                try:
+                    with open(abs_path) as ef:
+                        existing = json.load(ef)
+                    existing_codes = existing.get("codes", {})
+                except Exception:
+                    pass
+            merged_codes = dict(data.get("codes", {}))
+            merged_codes.update(existing_codes)  # disk always wins
+
             json_payload = {
                 "saved":     datetime.now().isoformat(),
-                "codes":     data.get("codes", {}),
+                "codes":     merged_codes,
                 "tree":      tree,
                 "overrides": overrides,
             }
@@ -1022,6 +1034,20 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     print(f"[{ts_log}] refactor/execute: WARNING — could not update codebook.json: {e}")
 
             all_ok = all(r.get("ok") is not False for r in results)
+
+            # Regenerate corpus JSON files after successful execution
+            if all_ok:
+                try:
+                    import subprocess as _sp
+                    prerender = DATA_DIR.parent / "qc-atelier" / "shared" / "qc-pre-render.sh"
+                    if prerender.exists():
+                        _sp.Popen(["bash", str(prerender)], cwd=str(DATA_DIR.parent),
+                                  stdout=_sp.DEVNULL, stderr=_sp.DEVNULL)
+                        ts_log = datetime.now().strftime("%H:%M:%S")
+                        print(f"[{ts_log}] refactor/execute: triggered pre-render script")
+                except Exception as _pre_err:
+                    print(f"[refactor/execute] WARNING — could not trigger pre-render: {_pre_err}")
+
             self._json(200, {"ok": all_ok, "results": results})
 
         except Exception as e:
