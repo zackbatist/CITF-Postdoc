@@ -43,19 +43,19 @@ TEMPERATURE     = 0.15
 TIMEOUT         = 120
 ENABLE_THINKING = False
 
-SYSTEM_PROMPT = """You are a qualitative research methodologist reviewing corpus coding in an interview-based study.
+SYSTEM_PROMPT = """You are a qualitative research methodologist reviewing corpus coding in an interview-based study about data sharing practices in Canadian COVID-19 research infrastructure.
 
-For each segment, assess whether it is a genuine application of the given code based on the code's definition.
+In qualitative coding, a segment does not need to be primarily or exclusively about a code's subject to be validly coded. A segment is a valid application if the code's subject is mentioned, referenced, or meaningfully implicated — even briefly or in passing. Only flag a segment as bad if the code subject is genuinely absent or the coding is clearly mistaken.
 
 Respond with JSON only — no preamble, no markdown fences:
 {
   "verdict": "good" | "weak" | "bad",
-  "reason": "one sentence explanation"
+  "reason": "one sentence explanation citing specific evidence from the segment"
 }
 
-good = segment clearly fits the code definition
-weak = loosely related but fit is questionable
-bad  = segment does not fit; likely a miscoding"""
+good = the code subject is present or meaningfully implicated in the segment
+weak = the connection is indirect or tenuous
+bad  = the code subject is genuinely absent; this is a clear miscoding"""
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -167,9 +167,13 @@ def review_code(code_name, codes, corpus, dry_run):
             app["verdict"] = "dry-run"
             app["reason"]  = ""
         else:
+            doc_block = (
+                code_doc if code_doc != "(no documentation available)"
+                else f"(no documentation available — assess based on the code name '{code_name}' alone)"
+            )
             prompt = (
                 f"Code: {code_name}\n"
-                f"Code definition:\n{code_doc}\n\n"
+                f"Code definition:\n{doc_block}\n\n"
                 f"Segment (from {app['document']}, line {app['line']}):\n"
                 f"{app['text'].strip()}"
             )
@@ -188,7 +192,7 @@ def review_code(code_name, codes, corpus, dry_run):
 
     return {"code": code_name, "doc": code_doc, "results": results}
 
-def op_review(code_names, codes, dry_run):
+def op_review(code_names, codes, dry_run, label=None):
     corpus  = load_corpus_files()
     all_out = []
 
@@ -206,17 +210,18 @@ def op_review(code_names, codes, dry_run):
         print("[code-review] No corpus applications found.")
         return
 
-    # One HTML + JSON per code
-    for report in all_out:
-        code_name = report["code"]
-        json_path = Path(f"qc/code-review-{code_name}.json")
-        html_path = Path(f"qc/code-review-{code_name}.html")
-        with open(json_path, "w") as f:
-            json.dump(report, f, indent=2, ensure_ascii=False)
-        html_path.write_text(build_html(report, codes), encoding="utf-8")
-        print(f"  {code_name}: {json_path.name}, {html_path.name}")
+    slug = label or (all_out[0]["code"] if len(all_out) == 1 else "report")
+    json_path = Path(f"qc/code-review-{slug}.json")
+    html_path = Path(f"qc/code-review-{slug}.html")
 
-    print(f"\n[code-review] Done. {len(all_out)} report(s) written.")
+    combined = {"label": slug, "codes": all_out}
+    with open(json_path, "w") as f:
+        json.dump(combined, f, indent=2, ensure_ascii=False)
+    html_path.write_text(build_html_combined(combined, codes), encoding="utf-8")
+
+    total_segs = sum(len(r["results"]) for r in all_out)
+    print(f"\n[code-review] Done. {len(all_out)} code(s), {total_segs} segment(s) -> {html_path.name}")
+
 
 # ── Apply ─────────────────────────────────────────────────────────────────────
 
@@ -224,28 +229,39 @@ def op_apply(report_path, dry_run):
     with open(report_path) as f:
         report = json.load(f)
 
-    code_name = report["code"]
-    recodes   = [(r["document"], r["line"], r["recode_to"])
-                 for r in report["results"] if r.get("recode_to")]
+    # Support both single-code {"code":..., "results":[...]}
+    # and combined {"label":..., "codes":[{code, results}, ...]}
+    if "codes" in report:
+        code_reports = report["codes"]
+    else:
+        code_reports = [report]
 
-    if not recodes:
+    # Build recode map: {(code_name, document, line) -> new_code}
+    all_recodes = []
+    for cr in code_reports:
+        code_name = cr["code"]
+        for r in cr["results"]:
+            if r.get("recode_to"):
+                all_recodes.append((code_name, r["document"], r["line"], r["recode_to"]))
+
+    if not all_recodes:
         print("[apply] No recode decisions in report.")
         return
 
-    print(f"[apply] {len(recodes)} recode(s) for '{code_name}':")
-    for doc, line, new_code in recodes:
-        print(f"  {doc} line {line}  ->  {new_code}")
+    print(f"[apply] {len(all_recodes)} recode(s):")
+    for code_name, doc, line, new_code in all_recodes:
+        print(f"  {doc} line {line}  {code_name} -> {new_code}")
 
     if dry_run:
         print("[dry-run] No files written.")
         return
 
-    if not confirm(f"\nApply {len(recodes)} recode(s)?"):
+    if not confirm(f"\nApply {len(all_recodes)} recode(s)?"):
         print("[aborted]")
         return
 
-    recode_map = {(r["document"], str(r["line"])): r["recode_to"]
-                  for r in report["results"] if r.get("recode_to")}
+    recode_map = {(cr["code"], r["document"], str(r["line"])): r["recode_to"]
+                  for cr in code_reports for r in cr["results"] if r.get("recode_to")}
 
     corpus   = load_corpus_files()
     modified = 0
@@ -254,8 +270,8 @@ def op_apply(report_path, dry_run):
         new_entries = []
         for entry in entries:
             new_entry = dict(entry)
-            key = (entry.get("document", ""), str(entry.get("line", "")))
-            if entry.get("code") == code_name and key in recode_map:
+            key = (entry.get("code", ""), entry.get("document", ""), str(entry.get("line", "")))
+            if key in recode_map:
                 new_entry["code"] = recode_map[key]
                 changed = True
             new_entries.append(new_entry)
@@ -265,6 +281,167 @@ def op_apply(report_path, dry_run):
 
     print(f"[apply] Updated {modified} corpus file(s).")
     print("[done]")
+
+# ── HTML (combined) ───────────────────────────────────────────────────────────
+
+def build_html_combined(combined, codes):
+    label      = combined["label"]
+    code_reports = combined["codes"]
+    all_codes  = sorted(codes.keys())
+    data_json  = json.dumps(code_reports, ensure_ascii=False)
+    codes_json = json.dumps(all_codes, ensure_ascii=False)
+
+    total = sum(len(r["results"]) for r in code_reports)
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>qc-code-review: {label}</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{{--bg:#0f1117;--surface:#1a1d27;--border:#2d3148;--text:#e2e4ed;--dim:#6b7280;
+      --green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--accent:#6366f1;}}
+*{{box-sizing:border-box;margin:0;padding:0;}}
+body{{font-family:"IBM Plex Sans",system-ui,sans-serif;background:var(--bg);color:var(--text);padding:24px;max-width:960px;margin:0 auto;}}
+h1{{font-size:1.2rem;margin-bottom:6px;font-weight:600;}}
+.label{{font-family:"IBM Plex Mono",monospace;color:var(--accent);}}
+.toolbar{{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}}
+input[type=search],select{{padding:6px 10px;border:1px solid var(--border);border-radius:4px;
+  font-size:0.83rem;background:var(--surface);color:var(--text);}}
+.summary{{font-size:0.82rem;color:var(--dim);margin-left:auto;}}
+.save-btn{{padding:5px 14px;background:var(--accent);color:#fff;border:none;border-radius:4px;
+           font-size:0.82rem;cursor:pointer;margin-left:8px;}}
+.save-btn:hover{{opacity:0.85;}}
+.code-section{{margin-bottom:24px;}}
+.code-heading{{font-family:"IBM Plex Mono",monospace;font-size:0.9rem;color:var(--accent);
+               margin-bottom:4px;padding-bottom:4px;border-bottom:1px solid var(--border);}}
+.doc-block{{font-size:0.8rem;color:var(--dim);white-space:pre-wrap;margin-bottom:10px;line-height:1.5;}}
+.cards{{display:flex;flex-direction:column;gap:8px;}}
+.card{{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:12px 16px;}}
+.card.good{{border-left:3px solid var(--green);}}
+.card.weak{{border-left:3px solid var(--yellow);}}
+.card.bad{{border-left:3px solid var(--red);}}
+.card.hidden{{display:none;}}
+.card-meta{{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:0.78rem;color:var(--dim);}}
+.badge{{padding:1px 7px;border-radius:3px;font-size:0.7rem;font-weight:600;text-transform:uppercase;}}
+.badge.good{{background:#14532d;color:var(--green);}}
+.badge.weak{{background:#451a03;color:var(--yellow);}}
+.badge.bad{{background:#450a0a;color:var(--red);}}
+.badge.error{{background:#1e1b4b;color:var(--dim);}}
+.reason{{font-size:0.8rem;color:var(--dim);font-style:italic;margin-bottom:8px;}}
+.seg-text{{font-size:0.84rem;line-height:1.65;border-left:3px solid var(--border);padding-left:10px;margin-bottom:10px;}}
+.recode-row{{display:flex;align-items:center;gap:8px;font-size:0.8rem;}}
+.recode-row label{{color:var(--dim);white-space:nowrap;}}
+.recode-input{{padding:3px 8px;border:1px solid var(--border);border-radius:3px;
+               font-family:"IBM Plex Mono",monospace;font-size:0.76rem;width:280px;
+               background:var(--bg);color:var(--text);}}
+.recode-input:focus{{outline:none;border-color:var(--accent);}}
+</style>
+</head>
+<body>
+<h1>qc-code-review: <span class="label">{label}</span></h1>
+<div class="toolbar">
+  <input type="search" id="search" placeholder="Search text or document\u2026">
+  <select id="filter">
+    <option value="all">All</option>
+    <option value="good">Good</option>
+    <option value="weak">Weak</option>
+    <option value="bad">Bad</option>
+    <option value="error">Error</option>
+  </select>
+  <span class="summary" id="summary"></span>
+  <button class="save-btn" onclick="saveJSON()">Save decisions</button>
+</div>
+<div id="sections"></div>
+<datalist id="codes-list"></datalist>
+<script>
+const LABEL     = {json.dumps(label)};
+const ALL_CODES = {codes_json};
+const DATA      = {data_json}.map(cr => ({{
+  ...cr,
+  results: cr.results.map(r => ({{...r, recode_to: r.recode_to || null}}))
+}}));
+
+const dl = document.getElementById("codes-list");
+ALL_CODES.forEach(c => {{ const o = document.createElement("option"); o.value = c; dl.appendChild(o); }});
+
+function render() {{
+  const q      = document.getElementById("search").value.toLowerCase();
+  const filter = document.getElementById("filter").value;
+  const secs   = document.getElementById("sections");
+  secs.innerHTML = "";
+  let shown = 0, total = 0;
+
+  DATA.forEach((cr) => {{
+    const sec = document.createElement("div");
+    sec.className = "code-section";
+
+    const hdr = document.createElement("div");
+    hdr.className = "code-heading";
+    hdr.textContent = cr.code;
+    sec.appendChild(hdr);
+
+    if (cr.doc) {{
+      const doc = document.createElement("div");
+      doc.className = "doc-block";
+      doc.textContent = cr.doc;
+      sec.appendChild(doc);
+    }}
+
+    const cards = document.createElement("div");
+    cards.className = "cards";
+    let secShown = 0;
+
+    cr.results.forEach((r, i) => {{
+      total++;
+      const matchQ = !q || (r.text||"").toLowerCase().includes(q) || (r.document||"").toLowerCase().includes(q);
+      const matchF = filter === "all" || r.verdict === filter;
+      if (!matchQ || !matchF) return;
+      shown++; secShown++;
+
+      const card = document.createElement("div");
+      card.className = "card " + (r.verdict || "error");
+      card.innerHTML = `
+        <div class="card-meta">
+          <span class="badge ${{r.verdict}}">${{r.verdict}}</span>
+          <span>${{r.document}} — line ${{r.line}}</span>
+        </div>
+        <div class="reason">${{r.reason || ""}}</div>
+        <div class="seg-text">${{(r.text||"").trim()}}</div>
+        <div class="recode-row">
+          <label>Recode to:</label>
+          <input class="recode-input" list="codes-list"
+                 placeholder="leave blank to keep as ${{cr.code}}"
+                 value="${{r.recode_to || ""}}"
+                 oninput="DATA.find(x=>x.code===cr.code).results[${{i}}].recode_to = this.value.trim() || null">
+        </div>`;
+      cards.appendChild(card);
+    }});
+
+    if (secShown > 0) sec.appendChild(cards);
+    if (secShown > 0 || !q) secs.appendChild(sec);
+  }});
+
+  document.getElementById("summary").textContent = `${{shown}} of ${{total}} segments`;
+}}
+
+function saveJSON() {{
+  const blob = new Blob([JSON.stringify({{label: LABEL, codes: DATA}}, null, 2)],
+                        {{type: "application/json"}});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "code-review-" + LABEL + ".json";
+  a.click();
+}}
+
+document.getElementById("search").addEventListener("input", render);
+document.getElementById("filter").addEventListener("change", render);
+render();
+</script>
+</body>
+</html>"""
+
 
 # ── HTML ──────────────────────────────────────────────────────────────────────
 
@@ -434,15 +611,18 @@ def main():
         if only_code not in codes:
             print(f"[warn] '{only_code}' not found in codebook.json.")
         code_names = [only_code]
+        label = only_code
     elif only_branch:
         code_names = get_descendants(only_branch, tree)
         if not code_names:
             print(f"[error] Branch '{only_branch}' not found or has no descendants.")
             sys.exit(1)
+        label = only_branch
     else:
         code_names = [n["name"] for n in tree if n.get("parent")]
+        label = "all"
 
-    op_review(code_names, codes, dry_run)
+    op_review(code_names, codes, dry_run, label=label)
 
 if __name__ == "__main__":
     main()

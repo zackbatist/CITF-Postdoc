@@ -2761,3 +2761,21 @@ Fixed --branch: replaced top_parent traversal with get_descendants,
 which finds all codes nested under the named node at any depth.
 Previously only top-level branch names worked; now any node in the
 tree can be passed as --branch.
+
+### 2026-05-28 — qc-code-review.py
+
+Changed output from one file per code to one combined HTML and JSON
+per run, named after the scope: --code CODE produces
+qc/code-review-CODE.html, --branch BRANCH produces
+qc/code-review-BRANCH.html, no-scope produces qc/code-review-all.html.
+HTML groups segments by code with heading and documentation block.
+--apply updated to handle both single-code and combined formats.
+
+Fixed --branch to use descendant traversal (get_descendants) instead
+of top_parent branch map, so any node in the tree can be passed as
+--branch, not just top-level nodes.
+
+Updated system prompt to include research context and clarify that
+brief mentions are valid codings; reason must cite specific evidence
+from the segment. Per-segment prompt falls back to code name alone
+when no documentation is available.
