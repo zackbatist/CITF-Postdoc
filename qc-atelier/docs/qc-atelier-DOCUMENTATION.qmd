@@ -2660,3 +2660,22 @@ After all operations succeed, spawns qc-pre-render.sh in background.
 Regenerates qc/json/*.json so corpus use counts in scheme stay current
 after renames and merges. Re-rendering scheme still required to pick up
 updated counts.
+
+### 2026-05-21 — qc-maintain.py
+
+Added qc-atelier/qc-maintain.py for structural codebook maintenance.
+
+--delete CODE_NAME: finds the target code in codebook.json tree, builds
+the full subtree of descendants, shows affected codes with status and
+scope preview, reports corpus application counts, prompts for confirmation,
+then removes from codebook.yaml, codebook.json, and qc/json/*.json.
+
+--strip-prefixes: builds a rename map by stripping leading numeric
+prefixes (e.g. 41_01_) from all code names. Checks for conflicts —
+two codes producing the same post-strip name — and aborts with a report
+if any are found. On confirmation, updates codebook.yaml (regex line
+replacement), codebook.json (keys, parent references, tree nodes), and
+all corpus JSON files. Resolving conflicts in refactor before running is
+required.
+
+--dry-run: shows full preview of all changes without writing any files.
