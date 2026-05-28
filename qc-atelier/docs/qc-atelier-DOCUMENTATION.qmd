@@ -2779,3 +2779,26 @@ Updated system prompt to include research context and clarify that
 brief mentions are valid codings; reason must cite specific evidence
 from the segment. Per-segment prompt falls back to code name alone
 when no documentation is available.
+
+### 2026-05-28 — qc-autodoc.py
+
+Added --external mode: generates documentation for undocumented codes
+using Wikidata lookup and LLM general knowledge rather than corpus
+segments, avoiding the circularity of corpus-based autodoc.
+
+For each undocumented code, builds tree context from parent,
+grandparent, and siblings. Queries Wikidata search API for candidates,
+passes candidates and tree context to LLM to pick the best match given
+the code's position in the codebook. If a match is found, uses the
+Wikidata description to seed LLM documentation generation. If no
+match, falls back to LLM general knowledge with tree context only.
+
+Writes scope, rationale, usage_notes, and provenance (Wikidata URL or
+"LLM general knowledge") to codebook.json. Sets status to
+experimental. Interrupt-safe: saves per-code.
+
+--dry-run in external mode fetches Wikidata results and generates
+documentation via LLM but prints to terminal without writing.
+
+Added --branch NAME to scope processing to a named branch and all
+its descendants, following the same traversal as qc-code-review.py.

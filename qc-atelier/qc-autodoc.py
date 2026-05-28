@@ -1,18 +1,29 @@
 #!/usr/bin/env python3
-"""qc-autodoc.py — Generate draft documentation for undocumented codes via LM Studio.
+"""qc-autodoc.py — Generate draft documentation for undocumented codes.
+
+Two modes:
+  (default)    Corpus-based: uses tagged corpus segments to infer documentation.
+  --external   External-based: uses Wikidata lookup + LLM general knowledge.
+               Does not require corpus segments; good for technical terms,
+               tools, and concepts with well-known external definitions.
 
 Usage (from project root):
-    python3 qc-atelier/qc-autodoc.py [--dry-run] [--limit N] [--code CODE_NAME]
+    python3 qc-atelier/qc-autodoc.py [options]
 
 Options:
-    --dry-run       List codes that would be processed; do not call LM Studio or write anything.
-    --limit N       Process at most N codes (useful for testing).
+    --external      Use Wikidata + LLM instead of corpus segments.
+    --dry-run       Corpus mode: list codes only, no LM calls, no writes.
+                    External mode: fetch and print results but do not write.
+    --limit N       Process at most N codes.
     --code NAME     Process only the named code (exact match).
+    --branch NAME   Process only codes under the named branch (external mode).
+    --model NAME    Override model name.
 
 Output:
-    Writes scope, rationale, usage_notes to qc/codebook.json in place.
+    Writes scope, rationale, usage_notes, provenance to qc/codebook.json.
     Sets status to 'experimental' for each processed code.
-    Skips codes that are: deprecated, non-unset status, already documented, or in the legacy branch.
+    External mode writes Wikidata URL or 'LLM general knowledge' to provenance.
+    Skips codes that are: deprecated, non-unset/experimental status, already documented.
 """
 
 import json
@@ -234,28 +245,40 @@ def rerender_scheme():
         print(f"[render] Error: {e}")
 
 def main():
-    dry_run    = "--dry-run" in sys.argv
-    limit      = None
-    only_code  = None
+    dry_run     = "--dry-run" in sys.argv
+    external    = "--external" in sys.argv
+    limit       = None
+    only_code   = None
+    only_branch = None
 
     for i, arg in enumerate(sys.argv[1:], 1):
-        if arg == "--limit" and i < len(sys.argv) - 1:
+        if arg == "--limit"  and i < len(sys.argv) - 1:
             limit = int(sys.argv[i + 1])
-        if arg == "--code" and i < len(sys.argv) - 1:
+        if arg == "--code"   and i < len(sys.argv) - 1:
             only_code = sys.argv[i + 1]
+        if arg == "--branch" and i < len(sys.argv) - 1:
+            only_branch = sys.argv[i + 1]
 
     if dry_run:
-        print("[mode] DRY RUN — no LM Studio calls, no writes.")
+        print("[mode] DRY RUN — no writes.")
 
-    # Stop server if running
+    # Stop server if running (corpus mode only — external doesn't need it)
     was_running = server_is_running()
-    if was_running and not dry_run:
+    if was_running and not dry_run and not external:
         print("[server] Stopping server...")
         stop_server()
 
     # Load data
     codebook   = load_codebook_json()
     legacy     = load_legacy_codes()
+
+    if external:
+        tree = codebook.get("tree", [])
+        op_external(only_code, only_branch, limit, dry_run, codebook, tree)
+        if was_running:
+            start_server()
+        return
+
     corpus     = build_corpus_index()
 
     codes_entry = codebook.setdefault("codes", {})
@@ -367,3 +390,308 @@ def main():
 
 if __name__ == "__main__":
     main()
+# ── External documentation (Wikidata + LLM fallback) ──────────────────────────
+
+WIKIDATA_SEARCH_URL = "https://www.wikidata.org/w/api.php"
+WIKIDATA_ENTITY_URL = "https://www.wikidata.org/wiki/Special:EntityData/{}.json"
+
+EXTERNAL_SYSTEM_PROMPT = """You are a qualitative research assistant helping document a codebook used in interview-based research about data sharing practices in Canadian COVID-19 research infrastructure.
+
+Your task is to write concise, precise documentation for a single code based on its meaning as a concept, tool, role, or practice — not based on corpus evidence.
+
+Respond with JSON only — no preamble, no markdown fences, no explanation:
+{
+  "scope": "...",
+  "rationale": "...",
+  "usage_notes": "..."
+}"""
+
+WIKIDATA_PICK_PROMPT = """I am documenting a qualitative research codebook. The code "{code}" appears under: {tree_context}.
+
+Here are Wikidata search results for "{code}":
+{candidates}
+
+Which candidate best matches the intended meaning of this code given its position in the codebook?
+Respond with JSON only: {{"qid": "Q...", "reason": "one sentence"}}
+If none match, respond: {{"qid": null, "reason": "one sentence"}}"""
+
+EXTERNAL_DOC_PROMPT_WIKIDATA = """I am documenting a qualitative research codebook used in interview-based research about data sharing practices in Canadian COVID-19 research infrastructure.
+
+The code "{code}" appears under: {tree_context}.
+
+Wikidata description: {wikidata_description}
+Wikidata URL: {wikidata_url}
+
+Write documentation for this code as it would be used in this research context:
+- scope: what this code captures; what counts as an instance of it (1-3 sentences)
+- rationale: why this code exists; when to apply it vs. similar codes (1-3 sentences)
+- usage_notes: edge cases, what to exclude, common confusions (1-3 sentences)
+
+Respond with JSON only containing keys: scope, rationale, usage_notes"""
+
+EXTERNAL_DOC_PROMPT_LLM = """I am documenting a qualitative research codebook used in interview-based research about data sharing practices in Canadian COVID-19 research infrastructure.
+
+The code "{code}" appears under: {tree_context}.
+
+Using your general knowledge of what "{code}" means, write documentation for this code as it would be used in this research context:
+- scope: what this code captures; what counts as an instance of it (1-3 sentences)
+- rationale: why this code exists; when to apply it vs. similar codes (1-3 sentences)
+- usage_notes: edge cases, what to exclude, common confusions (1-3 sentences)
+
+Respond with JSON only containing keys: scope, rationale, usage_notes"""
+
+
+def build_tree_context(code_name, tree):
+    """Build a human-readable tree context string: parent > grandparent > siblings."""
+    parent_map  = {n["name"]: n.get("parent", "") for n in tree}
+    children_map = {}
+    for n in tree:
+        p = n.get("parent", "")
+        if p:
+            children_map.setdefault(p, []).append(n["name"])
+
+    parent = parent_map.get(code_name, "")
+    grandparent = parent_map.get(parent, "") if parent else ""
+    siblings = [s for s in children_map.get(parent, []) if s != code_name][:5]
+
+    parts = []
+    if grandparent:
+        parts.append(grandparent)
+    if parent:
+        parts.append(parent)
+    ctx = " > ".join(parts) if parts else "(top level)"
+    if siblings:
+        ctx += f"; siblings: {', '.join(siblings)}"
+    return ctx
+
+
+def wikidata_search(query, limit=5):
+    """Search Wikidata and return list of {qid, label, description}."""
+    import urllib.parse
+    params = urllib.parse.urlencode({
+        "action":   "wbsearchentities",
+        "search":   query,
+        "language": "en",
+        "limit":    limit,
+        "format":   "json",
+    })
+    url = WIKIDATA_SEARCH_URL + "?" + params
+    req = urllib.request.Request(url, headers={"User-Agent": "qc-autodoc/1.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read())
+        results = []
+        for item in data.get("search", []):
+            results.append({
+                "qid":         item.get("id", ""),
+                "label":       item.get("label", ""),
+                "description": item.get("description", ""),
+                "url":         f"https://www.wikidata.org/wiki/{item.get('id','')}",
+            })
+        return results
+    except Exception as e:
+        print(f"  [warn] Wikidata search failed: {e}")
+        return []
+
+
+def pick_wikidata_candidate(code_name, tree_context, candidates):
+    """Use LLM to pick the best Wikidata candidate given tree context."""
+    if not candidates:
+        return None, "no candidates"
+    candidate_text = "\n".join(
+        f"  {c['qid']}: {c['label']} — {c['description']}" for c in candidates
+    )
+    prompt = WIKIDATA_PICK_PROMPT.format(
+        code=code_name,
+        tree_context=tree_context,
+        candidates=candidate_text,
+    )
+    payload = {
+        "model":       MODEL,
+        "temperature": TEMPERATURE,
+        "messages":    [{"role": "user", "content": prompt}],
+        "chat_template_kwargs": {"enable_thinking": False},
+    }
+    data = json.dumps(payload).encode("utf-8")
+    req  = urllib.request.Request(
+        LM_STUDIO_URL, data=data,
+        headers={"Content-Type": "application/json"}, method="POST"
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            result = json.loads(resp.read())
+        content = result["choices"][0]["message"]["content"].strip()
+        if content.startswith("```"):
+            content = "\n".join(content.split("\n")[1:])
+        if content.endswith("```"):
+            content = "\n".join(content.split("\n")[:-1])
+        content = content.strip()
+        start = content.find("{"); end = content.rfind("}") + 1
+        if start >= 0 and end > start:
+            content = content[start:end]
+        parsed = json.loads(content)
+        qid    = parsed.get("qid")
+        reason = parsed.get("reason", "")
+        if qid:
+            match = next((c for c in candidates if c["qid"] == qid), None)
+            return match, reason
+        return None, reason
+    except Exception as e:
+        print(f"  [warn] LLM candidate pick failed: {e}")
+        return None, str(e)
+
+
+def call_llm_external(code_name, tree_context, wikidata_match):
+    """Generate documentation from Wikidata match or LLM general knowledge."""
+    if wikidata_match:
+        prompt = EXTERNAL_DOC_PROMPT_WIKIDATA.format(
+            code=code_name,
+            tree_context=tree_context,
+            wikidata_description=f"{wikidata_match['label']}: {wikidata_match['description']}",
+            wikidata_url=wikidata_match["url"],
+        )
+        source = wikidata_match["url"]
+    else:
+        prompt = EXTERNAL_DOC_PROMPT_LLM.format(
+            code=code_name,
+            tree_context=tree_context,
+        )
+        source = "LLM general knowledge"
+
+    payload = {
+        "model":       MODEL,
+        "temperature": TEMPERATURE,
+        "messages": [
+            {"role": "system", "content": EXTERNAL_SYSTEM_PROMPT},
+            {"role": "user",   "content": prompt},
+        ],
+        "chat_template_kwargs": {"enable_thinking": False},
+    }
+    data = json.dumps(payload).encode("utf-8")
+    req  = urllib.request.Request(
+        LM_STUDIO_URL, data=data,
+        headers={"Content-Type": "application/json"}, method="POST"
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            result = json.loads(resp.read())
+        content = result["choices"][0]["message"]["content"].strip()
+        if content.startswith("```"):
+            content = "\n".join(content.split("\n")[1:])
+        if content.endswith("```"):
+            content = "\n".join(content.split("\n")[:-1])
+        content = content.strip()
+        start = content.find("{"); end = content.rfind("}") + 1
+        if start >= 0 and end > start:
+            content = content[start:end]
+        return json.loads(content), source
+    except Exception as e:
+        print(f"  [error] LLM doc generation failed: {e}")
+        return None, source
+
+
+def op_external(only_code, only_branch, limit, dry_run, codebook, tree):
+    """Generate documentation for undocumented codes using Wikidata + LLM."""
+    codes_entry = codebook.setdefault("codes", {})
+    parent_map  = {n["name"]: n.get("parent", "") for n in tree}
+
+    # Build candidate list
+    if only_code:
+        candidates = [only_code]
+    elif only_branch:
+        # All descendants of the named branch
+        children_map = {}
+        for n in tree:
+            p = n.get("parent", "")
+            if p:
+                children_map.setdefault(p, []).append(n["name"])
+        def get_desc(name):
+            result = []
+            queue = [name]
+            while queue:
+                cur = queue.pop()
+                for child in children_map.get(cur, []):
+                    result.append(child)
+                    queue.append(child)
+            return result
+        candidates = get_desc(only_branch)
+    else:
+        candidates = [n["name"] for n in tree if n.get("parent")]
+
+    # Filter to undocumented only
+    to_process = []
+    for code_name in candidates:
+        entry  = codes_entry.get(code_name, {})
+        status = (entry.get("status") or "").strip().lower()
+        if status == "deprecated":
+            continue
+        if status not in ("", "unset", "experimental"):
+            continue
+        if is_documented(entry):
+            continue
+        to_process.append(code_name)
+
+    if limit:
+        to_process = to_process[:limit]
+
+    print(f"\n[external] {len(to_process)} undocumented code(s) to process.\n")
+
+    processed = 0
+    failed    = 0
+
+    try:
+        for i, code_name in enumerate(to_process, 1):
+            tree_context = build_tree_context(code_name, tree)
+            print(f"[{i}/{len(to_process)}] {code_name}")
+            print(f"  context: {tree_context}")
+
+            # Wikidata search
+            wd_results = wikidata_search(code_name)
+            if wd_results:
+                print(f"  wikidata: {len(wd_results)} candidate(s)")
+                match, pick_reason = pick_wikidata_candidate(code_name, tree_context, wd_results)
+                if match:
+                    print(f"  picked: {match['qid']} — {match['label']}: {match['description']}")
+                    print(f"  reason: {pick_reason}")
+                else:
+                    print(f"  no match: {pick_reason} — falling back to LLM")
+            else:
+                match = None
+
+            # Generate documentation
+            doc, source = call_llm_external(code_name, tree_context, match)
+
+            if doc and isinstance(doc, dict):
+                scope       = doc.get("scope",       "").strip()
+                rationale   = doc.get("rationale",   "").strip()
+                usage_notes = doc.get("usage_notes", "").strip()
+                provenance  = f"Auto-documented from: {source}"
+
+                print(f"  scope:       {scope[:80]}...")
+                print(f"  rationale:   {rationale[:80]}...")
+                print(f"  usage_notes: {usage_notes[:80]}...")
+                print(f"  provenance:  {provenance}")
+
+                if not dry_run:
+                    entry = codes_entry.setdefault(code_name, {})
+                    entry["scope"]       = scope
+                    entry["rationale"]   = rationale
+                    entry["usage_notes"] = usage_notes
+                    entry["provenance"]  = provenance
+                    entry["status"]      = "experimental"
+                    save_codebook_json(codebook)
+                else:
+                    print(f"  [dry-run] not written")
+
+                processed += 1
+            else:
+                print(f"  [warn] No valid response — skipping.")
+                failed += 1
+
+            if i < len(to_process):
+                time.sleep(0.3)
+
+    except KeyboardInterrupt:
+        print(f"\n[interrupted] Progress saved up to this point.")
+
+    print(f"\n[external] Done. Processed: {processed}, failed: {failed}.")
