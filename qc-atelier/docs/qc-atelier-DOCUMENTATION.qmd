@@ -2738,3 +2738,19 @@ LLM: Ollama on localhost:11434, default model qwen3:35b, think: false.
 Run via SSH tunnel to GPU cluster before invoking:
 ssh -L 11434:localhost:11434 zack@<cluster> then
 bash ~/launch_ollama.sh 9 qwen3:35b.
+
+### 2026-05-28 — qc-code-review.py
+
+Added --branch BRANCH: reviews all codes under a named top-level
+branch using the same top_parent traversal as qc-analyze.py.
+
+Added no-scope mode (no --code or --branch): reviews all codes in
+the codebook that have a parent, skipping top-level branch headers.
+
+Rewrote LLM call to match qc-analyze.py conventions: system/user
+message split, chat_template_kwargs for thinking control, JSON
+boundary extraction via rfind.
+
+Output changed to one HTML and one JSON file per code at
+qc/code-review-CODE.html and qc/code-review-CODE.json rather than
+a single combined report.

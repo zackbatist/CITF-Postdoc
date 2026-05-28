@@ -1,46 +1,61 @@
 #!/usr/bin/env python3
-"""qc-code-review.py — Review corpus applications of a code for fit.
+"""qc-code-review.py — Review corpus applications for fit against code definitions.
 
-For a given code, loads all corpus applications, retrieves the code's
-documentation from codebook.json, and uses an LLM to assess whether each
-application genuinely fits the code definition. Outputs an HTML report with
-flagged segments for review. Decisions saved as JSON can be applied back to
-the corpus with --apply.
+For each code in scope, loads all corpus applications from qc/json/*.json,
+retrieves the code's documentation from codebook.json, and uses an LLM to
+assess whether each application fits the code definition. Outputs an HTML
+report with verdicts and reasons per segment. Decisions saved from the HTML
+report can be applied back to the corpus with --apply.
 
 Usage (from project root):
-    python3 qc-atelier/qc-code-review.py --code CODE_NAME [options]
+    python3 qc-atelier/qc-code-review.py [--code CODE | --branch BRANCH] [options]
     python3 qc-atelier/qc-code-review.py --apply REPORT_JSON [--dry-run]
 
 Options:
-    --code CODE_NAME     Code to review
-    --model MODEL        LLM model (default: qwen3:35b)
-    --no-thinking        Disable thinking mode (default: thinking off)
-    --dry-run            Preview without writing anything
-    --apply REPORT_JSON  Apply recode decisions from a saved report JSON
-    --out PATH           Output path for HTML report (default: qc/code-review-CODE.html)
+    --code CODE        Review a single code
+    --branch BRANCH    Review all codes under a named top-level branch
+    (neither)          Review all codes in the codebook
+    --model NAME       Override model (default: qwen3:35b)
+    --thinking         Enable thinking mode
+    --no-thinking      Disable thinking mode (default)
+    --dry-run          Preview without writing anything
+    --apply JSON       Apply recode decisions from a saved report JSON
 
-Files read:
-    qc/codebook.json     — code documentation
-    qc/json/*.json       — corpus segment exports
-
-Files written:
-    qc/code-review-CODE.html   — interactive HTML review report
-    qc/code-review-CODE.json   — machine-readable decisions (for --apply)
-    qc/json/*.json             — corpus files (only with --apply)
+Output:
+    qc/code-review-CODE.html   — interactive HTML report
+    qc/code-review-CODE.json   — decisions file for --apply
 """
 
 import json
 import sys
-import urllib.request as _ur
+import urllib.request
 from pathlib import Path
 from collections import defaultdict
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-CODEBOOK_JSON = Path("qc/codebook.json")
-CORPUS_DIR    = Path("qc/json")
-LLM_URL       = "http://localhost:11434/v1/chat/completions"
-DEFAULT_MODEL = "qwen3:35b"
+CODEBOOK_JSON   = Path("qc/codebook.json")
+CORPUS_DIR      = Path("qc/json")
+LLM_URL         = "http://localhost:11434/v1/chat/completions"  # cluster tunnel
+# LLM_URL       = "http://localhost:1234/v1/chat/completions"   # LM Studio local
+MODEL           = "qwen3:35b"
+TEMPERATURE     = 0.15
+TIMEOUT         = 120
+ENABLE_THINKING = False
+
+SYSTEM_PROMPT = """You are a qualitative research methodologist reviewing corpus coding in an interview-based study.
+
+For each segment, assess whether it is a genuine application of the given code based on the code's definition.
+
+Respond with JSON only — no preamble, no markdown fences:
+{
+  "verdict": "good" | "weak" | "bad",
+  "reason": "one sentence explanation"
+}
+
+good = segment clearly fits the code definition
+weak = loosely related but fit is questionable
+bad  = segment does not fit; likely a miscoding"""
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -48,8 +63,8 @@ def load_codebook():
     if not CODEBOOK_JSON.exists():
         print(f"[error] {CODEBOOK_JSON} not found. Run from project root.")
         sys.exit(1)
-    with open(CODEBOOK_JSON) as f:
-        return json.load(f)
+    d = json.load(open(CODEBOOK_JSON))
+    return d.get("codes", {}), d.get("tree", [])
 
 def load_corpus_files():
     if not CORPUS_DIR.exists():
@@ -57,8 +72,7 @@ def load_corpus_files():
     result = {}
     for jf in sorted(CORPUS_DIR.glob("*.json")):
         try:
-            with open(jf) as f:
-                result[jf] = json.load(f)
+            result[jf] = json.load(open(jf))
         except Exception as e:
             print(f"[warn] Could not read {jf.name}: {e}", file=sys.stderr)
     return result
@@ -70,138 +84,146 @@ def save_corpus_file(path, data):
 def confirm(prompt):
     return input(prompt + " [y/n] ").strip().lower() == "y"
 
-def get_code_doc(codebook, code_name):
-    entry = codebook.get("codes", {}).get(code_name, {})
+def get_code_doc(codes, code_name):
+    entry = codes.get(code_name, {})
     parts = []
-    for field in ("scope", "rationale", "usage_notes"):
-        val = entry.get(field, "").strip()
+    for field, label in (("scope", "Scope"), ("rationale", "Rationale"), ("usage_notes", "Usage notes")):
+        val = (entry.get(field) or "").strip()
         if val:
-            labels = {"scope": "Scope", "rationale": "Rationale", "usage_notes": "Usage notes"}
-            parts.append(f"{labels[field]}: {val}")
+            parts.append(f"{label}: {val}")
     return "\n".join(parts) if parts else "(no documentation available)"
 
-def llm_call(messages, model, thinking):
+def build_branch_map(codes, tree):
+    parent_map = {n["name"]: n.get("parent", "") for n in tree}
+
+    def top_parent(name):
+        visited = set()
+        while name in parent_map and parent_map[name]:
+            if name in visited:
+                break
+            visited.add(name)
+            name = parent_map[name]
+        return name
+
+    branches = defaultdict(list)
+    for n in tree:
+        code_name = n["name"]
+        if n.get("parent"):
+            branch = top_parent(code_name)
+            branches[branch].append(code_name)
+    return branches
+
+def call_llm(prompt):
     payload = {
-        "model":    model,
-        "messages": messages,
-        "stream":   False,
-        "options":  {"think": thinking},
+        "model":       MODEL,
+        "temperature": TEMPERATURE,
+        "messages": [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user",   "content": prompt},
+        ],
+        "chat_template_kwargs": {"enable_thinking": ENABLE_THINKING},
     }
     data = json.dumps(payload).encode("utf-8")
-    req  = _ur.Request(LLM_URL, data=data,
-                       headers={"Content-Type": "application/json"}, method="POST")
+    req  = urllib.request.Request(
+        LLM_URL, data=data,
+        headers={"Content-Type": "application/json"}, method="POST"
+    )
     try:
-        with _ur.urlopen(req, timeout=120) as resp:
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
             result = json.loads(resp.read())
-        return result["choices"][0]["message"]["content"].strip()
+        content = result["choices"][0]["message"]["content"].strip()
+        if content.startswith("```"):
+            content = "\n".join(content.split("\n")[1:])
+        if content.endswith("```"):
+            content = "\n".join(content.split("\n")[:-1])
+        content = content.strip()
+        start = content.find("{")
+        end   = content.rfind("}") + 1
+        if start >= 0 and end > start:
+            content = content[start:end]
+        return json.loads(content)
     except Exception as e:
-        print(f"[error] LLM call failed: {e}", file=sys.stderr)
+        print(f"  [error] {e}", file=sys.stderr)
         return None
 
-def assess_application(code_name, code_doc, segment_text, document, line, model, thinking):
-    prompt = f"""You are reviewing corpus coding in a qualitative research project.
+# ── Review ────────────────────────────────────────────────────────────────────
 
-Code: {code_name}
-Code definition:
-{code_doc}
-
-Segment (from {document}, line {line}):
-{segment_text.strip()}
-
-Is this a good application of the code "{code_name}" to this segment?
-
-Respond with ONLY a JSON object, no preamble, no markdown:
-{{
-  "verdict": "good" | "weak" | "bad",
-  "reason": "one sentence explanation"
-}}
-
-good = segment clearly fits the code definition
-weak = loosely related but fit is questionable
-bad  = segment does not fit; likely a miscoding"""
-
-    response = llm_call([{"role": "user", "content": prompt}], model, thinking)
-    if not response:
-        return {"verdict": "error", "reason": "LLM call failed"}
-    try:
-        clean = response.strip().lstrip("```json").lstrip("```").rstrip("```").strip()
-        return json.loads(clean)
-    except Exception:
-        return {"verdict": "error", "reason": f"Could not parse: {response[:120]}"}
-
-# ── Review operation ──────────────────────────────────────────────────────────
-
-def op_review(code_name, model, thinking, dry_run, out_path):
-    codebook = load_codebook()
-    corpus   = load_corpus_files()
-
-    code_doc = get_code_doc(codebook, code_name)
-    print(f"\n[code-review] Code: {code_name}")
-    print(f"[code-review] Documentation:\n{code_doc}\n")
-
+def review_code(code_name, codes, corpus, dry_run):
+    code_doc = get_code_doc(codes, code_name)
     applications = []
     for jf, entries in corpus.items():
         for entry in entries:
             if entry.get("code") == code_name:
                 applications.append({
-                    "file":     jf,
                     "document": entry.get("document", jf.name),
                     "line":     entry.get("line", "?"),
                     "text":     entry.get("text", ""),
+                    "recode_to": None,
                 })
 
     if not applications:
-        print(f"[code-review] No corpus applications found for '{code_name}'.")
-        return
+        return None
 
-    print(f"[code-review] {len(applications)} application(s) found. Assessing...\n")
+    print(f"  {code_name}: {len(applications)} application(s)...", end=" ", flush=True)
 
     results = []
-    for i, app in enumerate(applications):
-        print(f"  [{i+1}/{len(applications)}] {app['document']} line {app['line']}...", end=" ", flush=True)
+    for app in applications:
         if dry_run:
-            assessment = {"verdict": "dry-run", "reason": "dry run"}
+            app["verdict"] = "dry-run"
+            app["reason"]  = ""
         else:
-            assessment = assess_application(
-                code_name, code_doc,
-                app["text"], app["document"], app["line"],
-                model, thinking
+            prompt = (
+                f"Code: {code_name}\n"
+                f"Code definition:\n{code_doc}\n\n"
+                f"Segment (from {app['document']}, line {app['line']}):\n"
+                f"{app['text'].strip()}"
             )
-        app["verdict"]   = assessment.get("verdict", "error")
-        app["reason"]    = assessment.get("reason", "")
-        app["recode_to"] = None
+            result = call_llm(prompt)
+            if result:
+                app["verdict"] = result.get("verdict", "error")
+                app["reason"]  = result.get("reason", "")
+            else:
+                app["verdict"] = "error"
+                app["reason"]  = "LLM call failed"
         results.append(app)
-        print(app["verdict"])
 
     counts = defaultdict(int)
     for r in results: counts[r["verdict"]] += 1
-    print(f"\n[code-review] Summary: {dict(counts)}")
+    print(dict(counts))
+
+    return {"code": code_name, "doc": code_doc, "results": results}
+
+def op_review(code_names, codes, dry_run):
+    corpus  = load_corpus_files()
+    all_out = []
+
+    print(f"\n[code-review] Reviewing {len(code_names)} code(s)...\n")
+    for code_name in code_names:
+        report = review_code(code_name, codes, corpus, dry_run)
+        if report:
+            all_out.append(report)
 
     if dry_run:
-        print("[dry-run] No files written.")
+        print("\n[dry-run] No files written.")
         return
 
-    out_stem = out_path or Path(f"qc/code-review-{code_name}")
-    json_path = out_stem.with_suffix(".json") if out_path else Path(f"qc/code-review-{code_name}.json")
-    html_path = out_stem.with_suffix(".html") if out_path else Path(f"qc/code-review-{code_name}.html")
+    if not all_out:
+        print("[code-review] No corpus applications found.")
+        return
 
-    report = {
-        "code":    code_name,
-        "doc":     code_doc,
-        "results": [
-            {k: v for k, v in r.items() if k != "file"}
-            for r in results
-        ],
-    }
+    # One HTML + JSON per code
+    for report in all_out:
+        code_name = report["code"]
+        json_path = Path(f"qc/code-review-{code_name}.json")
+        html_path = Path(f"qc/code-review-{code_name}.html")
+        with open(json_path, "w") as f:
+            json.dump(report, f, indent=2, ensure_ascii=False)
+        html_path.write_text(build_html(report, codes), encoding="utf-8")
+        print(f"  {code_name}: {json_path.name}, {html_path.name}")
 
-    with open(json_path, "w") as f:
-        json.dump(report, f, indent=2, ensure_ascii=False)
-    print(f"[code-review] JSON: {json_path}")
+    print(f"\n[code-review] Done. {len(all_out)} report(s) written.")
 
-    html_path.write_text(build_html(report, codebook), encoding="utf-8")
-    print(f"[code-review] HTML: {html_path}")
-
-# ── Apply operation ───────────────────────────────────────────────────────────
+# ── Apply ─────────────────────────────────────────────────────────────────────
 
 def op_apply(report_path, dry_run):
     with open(report_path) as f:
@@ -215,9 +237,9 @@ def op_apply(report_path, dry_run):
         print("[apply] No recode decisions in report.")
         return
 
-    print(f"[apply] {len(recodes)} recode(s):")
+    print(f"[apply] {len(recodes)} recode(s) for '{code_name}':")
     for doc, line, new_code in recodes:
-        print(f"  {doc} line {line}  {code_name} -> {new_code}")
+        print(f"  {doc} line {line}  ->  {new_code}")
 
     if dry_run:
         print("[dry-run] No files written.")
@@ -251,11 +273,11 @@ def op_apply(report_path, dry_run):
 
 # ── HTML ──────────────────────────────────────────────────────────────────────
 
-def build_html(report, codebook):
+def build_html(report, codes):
     code_name  = report["code"]
     code_doc   = report["doc"]
     results    = report["results"]
-    all_codes  = sorted(codebook.get("codes", {}).keys())
+    all_codes  = sorted(codes.keys())
     data_json  = json.dumps(results, ensure_ascii=False)
     codes_json = json.dumps(all_codes, ensure_ascii=False)
 
@@ -296,7 +318,7 @@ input[type=search],select{{padding:6px 10px;border:1px solid var(--border);borde
 .badge.error{{background:#1e1b4b;color:var(--dim);}}
 .reason{{font-size:0.8rem;color:var(--dim);font-style:italic;margin-bottom:8px;}}
 .seg-text{{font-size:0.84rem;line-height:1.65;border-left:3px solid var(--border);
-           padding-left:10px;margin-bottom:10px;color:var(--text);}}
+           padding-left:10px;margin-bottom:10px;}}
 .recode-row{{display:flex;align-items:center;gap:8px;font-size:0.8rem;}}
 .recode-row label{{color:var(--dim);white-space:nowrap;}}
 .recode-input{{padding:3px 8px;border:1px solid var(--border);border-radius:3px;
@@ -311,7 +333,7 @@ input[type=search],select{{padding:6px 10px;border:1px solid var(--border);borde
 <div class="toolbar">
   <input type="search" id="search" placeholder="Search text or document…">
   <select id="filter">
-    <option value="all">All verdicts</option>
+    <option value="all">All</option>
     <option value="good">Good</option>
     <option value="weak">Weak</option>
     <option value="bad">Bad</option>
@@ -326,7 +348,6 @@ input[type=search],select{{padding:6px 10px;border:1px solid var(--border);borde
 const CODE_NAME = {json.dumps(code_name)};
 const ALL_CODES = {codes_json};
 const state = {data_json}.map(r => ({{...r, recode_to: r.recode_to || null}}));
-
 const dl = document.getElementById("codes-list");
 ALL_CODES.forEach(c => {{ const o = document.createElement("option"); o.value = c; dl.appendChild(o); }});
 
@@ -336,16 +357,10 @@ function render() {{
   const cards  = document.getElementById("cards");
   cards.innerHTML = "";
   let shown = 0;
-
   state.forEach((r, i) => {{
     const matchQ = !q || (r.text||"").toLowerCase().includes(q) || (r.document||"").toLowerCase().includes(q);
     const matchF = filter === "all" || r.verdict === filter;
-    if (!matchQ || !matchF) {{
-      const ghost = document.createElement("div");
-      ghost.className = "card hidden";
-      cards.appendChild(ghost);
-      return;
-    }}
+    if (!matchQ || !matchF) return;
     shown++;
     const card = document.createElement("div");
     card.className = "card " + (r.verdict || "error");
@@ -365,7 +380,6 @@ function render() {{
       </div>`;
     cards.appendChild(card);
   }});
-
   document.getElementById("summary").textContent = `${{shown}} of ${{state.length}} segments`;
 }}
 
@@ -388,21 +402,23 @@ render();
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    args     = sys.argv[1:]
-    dry_run  = "--dry-run" in args
-    thinking = "--no-thinking" not in args  # off by default per conventions
+    args        = sys.argv[1:]
+    dry_run     = "--dry-run" in args
+    only_code   = None
+    only_branch = None
+    model       = None
+    thinking    = None
 
-    model = DEFAULT_MODEL
-    if "--model" in args:
-        idx = args.index("--model")
-        if idx + 1 < len(args):
-            model = args[idx + 1]
+    for i, arg in enumerate(args):
+        if arg == "--code"   and i + 1 < len(args): only_code   = args[i + 1]
+        if arg == "--branch" and i + 1 < len(args): only_branch = args[i + 1]
+        if arg == "--model"  and i + 1 < len(args): model       = args[i + 1]
+        if arg == "--thinking":    thinking = True
+        if arg == "--no-thinking": thinking = False
 
-    out_path = None
-    if "--out" in args:
-        idx = args.index("--out")
-        if idx + 1 < len(args):
-            out_path = Path(args[idx + 1])
+    global MODEL, ENABLE_THINKING
+    if model:    MODEL           = model
+    if thinking is not None: ENABLE_THINKING = thinking
 
     if "--apply" in args:
         idx = args.index("--apply")
@@ -414,20 +430,25 @@ def main():
         op_apply(args[idx + 1], dry_run)
         return
 
-    code_name = None
-    if "--code" in args:
-        idx = args.index("--code")
-        if idx + 1 < len(args):
-            code_name = args[idx + 1]
-
-    if not code_name:
-        print(__doc__)
-        sys.exit(0)
-
     if dry_run:
         print("[mode] DRY RUN — no files will be written.")
 
-    op_review(code_name, model, thinking, dry_run, out_path)
+    codes, tree = load_codebook()
+
+    if only_code:
+        if only_code not in codes:
+            print(f"[warn] '{only_code}' not found in codebook.json.")
+        code_names = [only_code]
+    elif only_branch:
+        branches = build_branch_map(codes, tree)
+        if only_branch not in branches:
+            print(f"[error] Branch '{only_branch}' not found.")
+            sys.exit(1)
+        code_names = branches[only_branch]
+    else:
+        code_names = [n["name"] for n in tree if n.get("parent")]
+
+    op_review(code_names, codes, dry_run)
 
 if __name__ == "__main__":
     main()
