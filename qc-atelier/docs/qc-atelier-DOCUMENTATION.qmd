@@ -2712,3 +2712,29 @@ HTML review tool: 5 candidate chips with similarity %, same-name
 create chip, write-in text input, parent selector with typable search
 and keyboard navigation, skip/clear buttons, summary bar, filter by
 status, execute downloads updated JSON.
+
+### 2026-05-28 — qc-code-review.py
+
+Added qc-atelier/qc-code-review.py for LLM-assisted review of corpus
+applications of a given code.
+
+--code CODE_NAME: loads all corpus applications from qc/json/*.json,
+retrieves code documentation (scope, rationale, usage_notes) from
+qc/codebook.json, calls LLM per segment to assess fit against the code
+definition, outputs verdict (good/weak/bad) and one-sentence reason.
+
+--apply REPORT_JSON: reads recode decisions saved from the HTML report,
+rewrites affected entries in qc/json/*.json with the new code name,
+prompts for confirmation before writing.
+
+--dry-run: previews without writing.
+
+HTML report: dark-themed interactive viewer, filterable by verdict,
+searchable by text or document name, recode field per segment with full
+codebook autocomplete via datalist, save-decisions button downloads
+updated JSON for use with --apply.
+
+LLM: Ollama on localhost:11434, default model qwen3:35b, think: false.
+Run via SSH tunnel to GPU cluster before invoking:
+ssh -L 11434:localhost:11434 zack@<cluster> then
+bash ~/launch_ollama.sh 9 qwen3:35b.
