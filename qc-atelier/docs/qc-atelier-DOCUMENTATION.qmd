@@ -2679,3 +2679,36 @@ all corpus JSON files. Resolving conflicts in refactor before running is
 required.
 
 --dry-run: shows full preview of all changes without writing any files.
+
+### 2026-05-21 — qc-maintain.py
+
+Added qc-atelier/qc-maintain.py for structural codebook maintenance.
+
+--delete CODE_NAME: builds full subtree of descendants, shows affected
+codes with status and scope preview, reports corpus application counts,
+prompts for confirmation, removes from codebook.yaml, codebook.json,
+and qc/json/*.json.
+
+--strip-prefixes: builds rename map by stripping numeric prefixes
+(e.g. 41_01_) from all code names. Detects conflicts — two codes
+producing the same post-strip name — and aborts with report. On
+confirmation updates codebook.yaml, codebook.json (keys, parent
+refs, tree nodes), and corpus JSON files.
+
+--match-legacy: reads legacy branch codes from tree, embeds them and
+all current codes using nomic-embed-text (configurable endpoint for
+LM Studio or Ollama cluster), computes cosine similarity, saves top-5
+matches per code to qc/legacy-match-report.json, generates
+qc/legacy-match.html review tool with full tree embedded for parent
+selection.
+
+--apply-legacy: reads approved mappings from legacy-match-report.json.
+Map action: renames legacy code to current code in corpus files.
+Create action: adds new code to codebook.yaml and codebook.json under
+specified parent, renames legacy code to new code in corpus files.
+Skip action: ignored.
+
+HTML review tool: 5 candidate chips with similarity %, same-name
+create chip, write-in text input, parent selector with typable search
+and keyboard navigation, skip/clear buttons, summary bar, filter by
+status, execute downloads updated JSON.
