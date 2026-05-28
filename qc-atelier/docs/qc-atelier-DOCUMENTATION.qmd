@@ -2754,3 +2754,10 @@ boundary extraction via rfind.
 Output changed to one HTML and one JSON file per code at
 qc/code-review-CODE.html and qc/code-review-CODE.json rather than
 a single combined report.
+
+### 2026-05-28 — qc-code-review.py
+
+Fixed --branch: replaced top_parent traversal with get_descendants,
+which finds all codes nested under the named node at any depth.
+Previously only top-level branch names worked; now any node in the
+tree can be passed as --branch.

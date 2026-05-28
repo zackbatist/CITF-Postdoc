@@ -93,25 +93,20 @@ def get_code_doc(codes, code_name):
             parts.append(f"{label}: {val}")
     return "\n".join(parts) if parts else "(no documentation available)"
 
-def build_branch_map(codes, tree):
-    parent_map = {n["name"]: n.get("parent", "") for n in tree}
-
-    def top_parent(name):
-        visited = set()
-        while name in parent_map and parent_map[name]:
-            if name in visited:
-                break
-            visited.add(name)
-            name = parent_map[name]
-        return name
-
-    branches = defaultdict(list)
+def get_descendants(branch_name, tree):
+    """Return all descendant code names under branch_name."""
+    children_map = defaultdict(list)
     for n in tree:
-        code_name = n["name"]
         if n.get("parent"):
-            branch = top_parent(code_name)
-            branches[branch].append(code_name)
-    return branches
+            children_map[n["parent"]].append(n["name"])
+    result = []
+    queue = [branch_name]
+    while queue:
+        current = queue.pop()
+        for child in children_map.get(current, []):
+            result.append(child)
+            queue.append(child)
+    return result
 
 def call_llm(prompt):
     payload = {
@@ -440,11 +435,10 @@ def main():
             print(f"[warn] '{only_code}' not found in codebook.json.")
         code_names = [only_code]
     elif only_branch:
-        branches = build_branch_map(codes, tree)
-        if only_branch not in branches:
-            print(f"[error] Branch '{only_branch}' not found.")
+        code_names = get_descendants(only_branch, tree)
+        if not code_names:
+            print(f"[error] Branch '{only_branch}' not found or has no descendants.")
             sys.exit(1)
-        code_names = branches[only_branch]
     else:
         code_names = [n["name"] for n in tree if n.get("parent")]
 
