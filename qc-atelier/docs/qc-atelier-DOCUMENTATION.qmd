@@ -2802,3 +2802,12 @@ documentation via LLM but prints to terminal without writing.
 
 Added --branch NAME to scope processing to a named branch and all
 its descendants, following the same traversal as qc-code-review.py.
+
+### 2026-05-28 — qc-autodoc.py
+
+Fixed --external mode: strip numeric prefixes from code names before
+Wikidata search (e.g. 53_38_Postgres -> Postgres). Increased Wikidata
+rate limit delay from 0.5s to 1.5s to avoid 429 errors. Tightened
+Wikidata candidate pick prompt to reject candidates inconsistent with
+the code's tree context, falling back to LLM general knowledge when
+no clearly matching candidate is found.
