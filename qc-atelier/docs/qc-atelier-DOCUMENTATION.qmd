@@ -2616,3 +2616,47 @@ background via Popen. This regenerates qc/json/*.json files so that
 corpus use counts in scheme reflect any renames or merges without
 manual intervention. Re-rendering scheme is still required to pick up
 the updated counts, but the JSON files will be ready when it runs.
+
+### 2026-05-19 — qc-autodoc.py and qc-analyze.py
+
+**qc-autodoc.py** added to qc-atelier/. Batch documentation script that
+reads corpus JSON files (qc/json/*.json), indexes segments per code, and
+sends them to an Ollama-compatible endpoint to generate draft documentation.
+
+Processing logic: skips codes with non-unset status, any existing
+documentation, legacy branch codes, or no corpus segments. Derives code
+list from codebook.json tree array. Uses codebook.setdefault("codes", {})
+to ensure writes link correctly. Saves after every code for interrupt
+safety. Server stops before run, restarts after.
+
+Four output fields: scope (generalizable conceptual definition), rationale
+(when to apply vs. similar codes), usage_notes (edge cases and exclusions),
+ai_summary (segment-grounded account of how code manifests in practice).
+ai_summary displayed read-only in scheme with model/parameter attribution.
+
+Tested with qwen2.5:7b and qwen3:32b on GPU cluster (buckeridge-rtx6000,
+GPU 9) via SSH tunnel. Cluster setup: Docker container ollama_zack,
+models stored in ~/models (SSHFS-mounted network storage). Model loaded
+into VRAM at startup; inference on GPU despite network model storage.
+
+**qc-analyze.py** added to qc-atelier/. Codebook analysis script with
+four modes: within (redundancy within branches), across (overlap between
+branch pairs), structure (structural extension proposals), cluster
+(semantic clustering via embeddings). Chunked for context window limits.
+Saves incrementally. Flags: --model, --thinking, --no-thinking, --branch.
+
+Cluster mode: embeds all documented codes using nomic-embed-text, runs
+k-means with silhouette-optimized k (range 5-20), names each cluster via
+LLM. Provides whole-system structural view without context window constraints.
+
+**Report generation**: separate Python scripts parse qc/analysis-report-*.md
+files and generate interactive HTML (filterable tables, decision dropdown,
+notes textarea, CSV export) and printable HTML (letter landscape).
+
+### 2026-05-21 — Auto pre-render after refactor execute
+
+Added post-execute hook to _refactor_execute in qc-atelier-server.py.
+After all operations succeed, spawns qc-pre-render.sh in background.
+Regenerates qc/json/*.json so corpus use counts in scheme stay current
+after renames and merges. Re-rendering scheme still required to pick up
+updated counts.

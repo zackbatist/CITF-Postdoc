@@ -247,6 +247,12 @@ def main():
     if dry_run:
         print("[mode] DRY RUN — no LM Studio calls, no writes.")
 
+    # Stop server if running
+    was_running = server_is_running()
+    if was_running and not dry_run:
+        print("[server] Stopping server...")
+        stop_server()
+
     # Load data
     codebook   = load_codebook_json()
     legacy     = load_legacy_codes()
@@ -298,10 +304,14 @@ def main():
         for name in to_process:
             n = len(corpus.get(name, []))
             print(f"  {name}  ({n} segments)")
-        return  # No server stop/start for dry runs
+        if was_running:
+            start_server()
+        return  # No LM calls for dry runs
 
     if not to_process:
         print("[done] Nothing to process.")
+        if was_running:
+            start_server()
         return
 
     if limit:
@@ -312,38 +322,46 @@ def main():
     processed = 0
     failed    = 0
 
-    for i, code_name in enumerate(to_process, 1):
-        segments      = corpus[code_name]
-        segments_text = format_segments(segments)
-        n_segs        = min(len(segments), MAX_SEGMENTS)
-        print(f"\n[{i}/{len(to_process)}] {code_name}  ({n_segs} segments)")
+    try:
+        for i, code_name in enumerate(to_process, 1):
+            segments      = corpus[code_name]
+            segments_text = format_segments(segments)
+            n_segs        = min(len(segments), MAX_SEGMENTS)
+            print(f"\n[{i}/{len(to_process)}] {code_name}  ({n_segs} segments)")
 
-        result = call_lm_studio(code_name, segments_text)
+            result = call_lm_studio(code_name, segments_text)
 
-        if result and isinstance(result, dict):
-            entry = codes_entry.setdefault(code_name, {})
-            entry["scope"]       = result.get("scope",       "").strip()
-            entry["rationale"]   = result.get("rationale",   "").strip()
-            entry["usage_notes"] = result.get("usage_notes", "").strip()
-            entry["ai_summary"]  = result.get("ai_summary",  "").strip()
-            entry["status"]      = "experimental"
-            print(f"  scope:       {entry['scope'][:80]}...")
-            print(f"  rationale:   {entry['rationale'][:80]}...")
-            print(f"  usage_notes: {entry['usage_notes'][:80]}...")
-            processed += 1
-        else:
-            print(f"  [warn] Skipping {code_name} — no valid response.")
-            failed += 1
+            if result and isinstance(result, dict):
+                entry = codes_entry.setdefault(code_name, {})
+                entry["scope"]       = result.get("scope",       "").strip()
+                entry["rationale"]   = result.get("rationale",   "").strip()
+                entry["usage_notes"] = result.get("usage_notes", "").strip()
+                entry["ai_summary"]  = result.get("ai_summary",  "").strip()
+                entry["status"]      = "experimental"
+                save_codebook_json(codebook)
+                print(f"  scope:       {entry['scope'][:80]}...")
+                print(f"  rationale:   {entry['rationale'][:80]}...")
+                print(f"  usage_notes: {entry['usage_notes'][:80]}...")
+                processed += 1
+            else:
+                print(f"  [warn] Skipping {code_name} — no valid response.")
+                failed += 1
 
-        # Brief pause between calls to avoid overwhelming LM Studio
-        if i < len(to_process):
-            time.sleep(0.5)
+            # Brief pause between calls to avoid overwhelming LM Studio
+            if i < len(to_process):
+                time.sleep(0.5)
+
+    except KeyboardInterrupt:
+        print(f"\n[interrupted] Progress saved up to this point.")
 
     print(f"\n[done] Processed: {processed}, failed: {failed}.")
 
     if processed > 0:
         save_codebook_json(codebook)
-        print(f"[saved] codebook.json updated. Re-render scheme and restart server manually.")
+        print(f"[saved] codebook.json updated. Re-render scheme manually after verifying.")
+
+    if was_running:
+        start_server()
 
     print(f"Codes with status 'experimental' are ready for review in qc-scheme.")
 
