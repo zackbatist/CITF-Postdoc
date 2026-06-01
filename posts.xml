@@ -10,7 +10,87 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Fri, 08 May 2026 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 29 May 2026 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2026-W22)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W22.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Further work on refactoring the code system</li>
+<li>Completed another draft of the topic modelling paper</li>
+<li>Some work on my INKE presentation</li>
+<li>First BibVik meeting in a while</li>
+<li>Submitted a grant application to the Gerda Henkel Foundation</li>
+<li>Meeting regarding another MSCA bid</li>
+<li>Met with Shirin regarding the positive mentorship paper</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W22.html</guid>
+  <pubDate>Fri, 29 May 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W21)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W21.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li><p>Resolved some feedback to the emails analysis paper</p></li>
+<li><p>Worked on code tree documentation and refinement</p></li>
+<li><p>Setting up and refining workflow for accessing the GPU cluster</p></li>
+<li><p>Off work hours:</p>
+<ul>
+<li>Drafting an application for the Gerda Henkel research scholarship</li>
+<li>Drafting a proposal to pursue a MSCA (pending discussion with involved parties)</li>
+<li>Work on the pipeline for developing the BibVik citation graph</li>
+</ul></li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W21.html</guid>
+  <pubDate>Fri, 22 May 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W20)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W20.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li><p>Implementing some of the feedback on the emails analysis paper</p></li>
+<li><p>qc-atelier development</p></li>
+<li><p>Documenting and refactoring the code system</p></li>
+<li><p>Participated in the Dzau lecture</p></li>
+<li><p>Worked on the INKE-2026 presentation</p></li>
+<li><p>Started revamping work on BibVik over the weekend</p></li>
+<li><p>Enjoying the long weekend :)</p></li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W20.html</guid>
+  <pubDate>Fri, 15 May 2026 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2026-W19)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W19.html</link>
@@ -582,81 +662,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W03.html</guid>
   <pubDate>Fri, 16 Jan 2026 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W02)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W02.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Finished coding another interview</li>
-<li>Scheduled and started prepping for a couple more interviews</li>
-<li>Some work on the manuscript for the emails analysis paper</li>
-<li>Did a peer review over the weekend</li>
-<li>Back-to-work socializing :)</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W02.html</guid>
-  <pubDate>Fri, 09 Jan 2026 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W48)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W48.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Finished hand-coding another interview.</li>
-<li>Scheduled another one, to take place in a few weeks.</li>
-<li>Packaged up qc-viz and refined the readme.</li>
-</ul>
-<p>I’ll be away the next couple weeks. I may continue to give and receive updates from team members, but I’ll mainly be working on side-projects. My next post will probably be 2025-W51.</p>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W48.html</guid>
-  <pubDate>Fri, 28 Nov 2025 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2025-W47)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W47.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Meetings to re-align on the PG study.</li>
-<li>Held another interview.</li>
-<li>Re-organized some older codes, and began re-visiting older interviews.</li>
-<li>Work on qc-viz has been slow.</li>
-</ul>
-<p><a href=""></a></p>
-<ul>
-<li>Submitting a grant over the weekend / after hours.</li>
-<li>Weekend after-hours work on presentations for side-projects.</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2025-W47.html</guid>
-  <pubDate>Fri, 21 Nov 2025 05:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
