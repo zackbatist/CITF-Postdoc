@@ -1,0 +1,15 @@
+---
+title: Week notes (2026-W22)
+date: 2026-05-29
+date-modified: today
+categories:
+  - week notes
+---
+
+- Further work on refactoring the code system
+- Completed another draft of the topic modelling paper
+- Some work on my INKE presentation
+- First BibVik meeting in a while
+- Submitted a grant application to the Gerda Henkel Foundation
+- Meeting regarding another MSCA bid
+- Met with Shirin regarding the positive mentorship paper
