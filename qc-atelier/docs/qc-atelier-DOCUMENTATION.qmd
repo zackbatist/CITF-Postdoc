@@ -2843,3 +2843,18 @@ making LLM calls or writing anything.
 Unified LLM call into single call_llm() helper. Per-code save
 preserved (interrupt-safe). Server stop/restart retained for
 --from-corpus mode only.
+
+### 2026-06-01 — qc-atelier-server.py
+
+Added safety check to _reconcile ghost cleanup: if yaml has fewer
+than 50% of the codes currently in codebook.json, skip the ghost
+cleanup and log a warning rather than silently deleting entries.
+Prevents mass deletion of documentation when _reconcile runs against
+a transitional or partially-written yaml state.
+
+Root cause of data loss on 2026-05-28: qc-autodoc.py stopped the
+server, wrote docs to codebook.json, restarted the server. _reconcile
+ran after the restart against a yaml that had fewer codes than the
+json (due to the legacy branch deletion earlier that session),
+stripping 1000+ code entries from codebook.json. Documentation was
+recovered from Dropbox version history (2026-05-28 11:03am snapshot).

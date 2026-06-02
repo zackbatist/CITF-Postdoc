@@ -1111,10 +1111,16 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                     parent_changes += 1
 
         # Pass 2: ghost cleanup — remove json entries not in yaml
+        # Safety check: if yaml has fewer than 50% of json codes, skip ghost cleanup
+        # to avoid mass deletion from a bad or transitional yaml state
         ghost_keys = [k for k in list(codes.keys()) if k not in yaml_names]
-        for k in ghost_keys:
-            codes.pop(k)
-            ghosts_removed += 1
+        if ghost_keys and len(yaml_names) < len(codes) * 0.5:
+            ts = datetime.now().strftime('%H:%M:%S')
+            print(f'[{ts}] [reconcile] WARNING — skipping ghost cleanup: yaml has {len(yaml_names)} codes but json has {len(codes)}; would delete {len(ghost_keys)} entries')
+        else:
+            for k in ghost_keys:
+                codes.pop(k)
+                ghosts_removed += 1
 
         if parent_changes or ghosts_removed:
             docs['codes'] = codes
