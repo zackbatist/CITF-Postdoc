@@ -2858,3 +2858,12 @@ ran after the restart against a yaml that had fewer codes than the
 json (due to the legacy branch deletion earlier that session),
 stripping 1000+ code entries from codebook.json. Documentation was
 recovered from Dropbox version history (2026-05-28 11:03am snapshot).
+
+### 2026-06-01 — qc/codebook.json
+
+Restored documentation from Dropbox version history (2026-05-28
+11:03am). Merged with current codebook.yaml structure (1154 codes
+as of 2026-06-01) to preserve all structural changes made since
+May 28. 942 codes documented. 2 codes added since May 28
+(Documenting, Strategies) retained with whatever documentation
+they had.
