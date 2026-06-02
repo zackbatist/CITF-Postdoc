@@ -2811,3 +2811,35 @@ rate limit delay from 0.5s to 1.5s to avoid 429 errors. Tightened
 Wikidata candidate pick prompt to reject candidates inconsistent with
 the code's tree context, falling back to LLM general knowledge when
 no clearly matching candidate is found.
+
+### 2026-06-01 — qc-autodoc.py
+
+Rewrote qc-autodoc.py with explicit evidence source flags replacing
+the implicit default/--external distinction.
+
+--from-corpus: uses tagged corpus segments as evidence, with tree
+context (parent, grandparent, siblings) added to the prompt.
+
+--from-tree: uses code name and tree position only; no corpus segments,
+no external lookup. Useful for codes with no corpus applications or
+where external lookup is not appropriate.
+
+--from-external: Wikidata lookup + LLM fallback, unchanged from prior
+implementation.
+
+--revise: processes already-documented codes, passing current
+documentation to the LLM as context for improvement.
+
+--revise-fresh: processes already-documented codes, ignoring existing
+documentation and starting from scratch.
+
+--branch NAME: scope processing to all descendants of a named node,
+available in all modes. --code NAME for single code. No scope flag
+processes all codes.
+
+--dry-run: in all modes, prints codes that would be processed without
+making LLM calls or writing anything.
+
+Unified LLM call into single call_llm() helper. Per-code save
+preserved (interrupt-safe). Server stop/restart retained for
+--from-corpus mode only.
