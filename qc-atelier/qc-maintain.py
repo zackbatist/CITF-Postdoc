@@ -24,12 +24,17 @@ Options:
                          to apply approved mappings.
     --apply-legacy       Apply approved mappings from qc/legacy-match-report.json,
                          renaming legacy codes in corpus files to their matched codes.
+    --purge-excluded     Delete all codes whose only corpus applications are in excluded
+                         documents (qc/corpus/exclude/). Queries SQLite directly to find
+                         codes with no active corpus applications, then removes them from
+                         codebook.yaml and codebook.json. Does not modify SQLite or corpus
+                         JSON files. Prompts for confirmation before writing.
     --dry-run            Show what would change without writing anything.
 
 Files modified:
     qc/codebook.yaml     — code hierarchy
     qc/codebook.json     — documentation and status
-    qc/json/*.json       — corpus segment files (code name references)
+    qc/json/*.json       — corpus segment files (code name references, --delete only)
 
 Safety:
     - Always prompts for confirmation before writing
@@ -40,6 +45,7 @@ Safety:
 
 import json
 import re
+import sqlite3
 import sys
 from pathlib import Path
 from collections import defaultdict
@@ -50,6 +56,8 @@ CODEBOOK_YAML = Path("qc/codebook.yaml")
 CODEBOOK_JSON = Path("qc/codebook.json")
 CORPUS_DIR    = Path("qc/json")
 MATCH_REPORT  = Path("qc/legacy-match-report.json")
+CORPUS_EXCLUDE = Path("qc/corpus/exclude")
+SQLITE_DB     = Path("qc/qualitative_coding.sqlite3")
 
 EMBED_URL     = "http://localhost:1234/v1/embeddings"   # LM Studio
 EMBED_MODEL   = "text-embedding-nomic-embed-text-v1.5"  # LM Studio name
@@ -783,6 +791,105 @@ def op_apply_legacy(dry_run):
     print(f"[apply-legacy] Updated {modified} corpus file(s).")
     print("[done] Legacy codes remapped. You can now run --delete 'OLDER OPEN CODING STRUCTURE'.")
 
+def op_purge_excluded(dry_run):
+    """Delete codes whose only corpus applications are in excluded documents."""
+    if not SQLITE_DB.exists():
+        print(f"[error] SQLite database not found: {SQLITE_DB}")
+        sys.exit(1)
+    if not CORPUS_EXCLUDE.exists():
+        print(f"[error] Exclude directory not found: {CORPUS_EXCLUDE}")
+        sys.exit(1)
+
+    excluded_docs = set(f.stem for f in CORPUS_EXCLUDE.glob("*.txt"))
+    if not excluded_docs:
+        print("[purge-excluded] No excluded documents found.")
+        return
+
+    print(f"[purge-excluded] Excluded documents: {excluded_docs}")
+
+    conn = sqlite3.connect(str(SQLITE_DB))
+    like_conditions = " OR ".join(f"di.document_id LIKE '%{doc}%'" for doc in excluded_docs)
+
+    excluded_codes = set(r[0] for r in conn.execute(f"""
+        SELECT DISTINCT cl.code_id
+        FROM coded_line cl
+        JOIN coded_line_location_association clla ON cl.id = clla.coded_line_id
+        JOIN location l ON clla.location_id = l.id
+        JOIN document_index di ON l.document_index_id = di.id
+        WHERE {like_conditions}
+    """).fetchall())
+
+    other_codes = set(r[0] for r in conn.execute(f"""
+        SELECT DISTINCT cl.code_id
+        FROM coded_line cl
+        JOIN coded_line_location_association clla ON cl.id = clla.coded_line_id
+        JOIN location l ON clla.location_id = l.id
+        JOIN document_index di ON l.document_index_id = di.id
+        WHERE NOT ({like_conditions})
+    """).fetchall())
+
+    to_delete = sorted(excluded_codes - other_codes)
+
+    if not to_delete:
+        print("[purge-excluded] No codes to delete.")
+        return
+
+    print(f"[purge-excluded] {len(to_delete)} code(s) to delete:")
+    for c in to_delete:
+        print(f"  {c}")
+
+    if dry_run:
+        print("[dry-run] No files written.")
+        return
+
+    if not confirm(f"\nDelete {len(to_delete)} code(s) from codebook.yaml and codebook.json?"):
+        print("[aborted]")
+        return
+
+    # Remove from codebook.yaml
+    yaml_text = load_yaml()
+    to_delete_set = set(to_delete)
+    new_lines = []
+    skip_indent = None
+
+    for line in yaml_text.splitlines(keepends=True):
+        stripped = line.lstrip()
+        if not stripped or stripped.startswith('#'):
+            if skip_indent is None:
+                new_lines.append(line)
+            continue
+        indent = len(line) - len(line.lstrip())
+        if skip_indent is not None:
+            if indent <= skip_indent:
+                skip_indent = None
+            else:
+                continue
+        if stripped.startswith('- '):
+            name = stripped[2:].rstrip().rstrip(':')
+            if name in to_delete_set:
+                skip_indent = indent
+                continue
+        new_lines.append(line)
+
+    save_yaml("".join(new_lines))
+    print(f"[purge-excluded] Updated codebook.yaml.")
+
+    # Remove from codebook.json
+    codebook = load_codebook()
+    codes = codebook.get("codes", {})
+    removed = 0
+    for name in to_delete:
+        if name in codes:
+            del codes[name]
+            removed += 1
+    tree = codebook.get("tree", [])
+    codebook["tree"] = [n for n in tree if n.get("name") not in to_delete_set]
+    codebook["codes"] = codes
+    save_codebook(codebook)
+    print(f"[purge-excluded] Updated codebook.json — removed {removed} documented entries.")
+    print(f"[done] Purged {len(to_delete)} codes. Run pre-render and re-render scheme/refactor.")
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
@@ -797,8 +904,9 @@ def main():
     if dry_run:
         print("[mode] DRY RUN — no files will be written.")
 
-    match_legacy = "--match-legacy" in sys.argv
-    apply_legacy  = "--apply-legacy" in sys.argv
+    match_legacy    = "--match-legacy"    in sys.argv
+    apply_legacy    = "--apply-legacy"    in sys.argv
+    purge_excluded  = "--purge-excluded"  in sys.argv
 
     if delete:
         op_delete(delete, dry_run)
@@ -808,6 +916,8 @@ def main():
         op_match_legacy(dry_run)
     elif apply_legacy:
         op_apply_legacy(dry_run)
+    elif purge_excluded:
+        op_purge_excluded(dry_run)
     else:
         print(__doc__)
         sys.exit(0)

@@ -2867,3 +2867,12 @@ as of 2026-06-01) to preserve all structural changes made since
 May 28. 942 codes documented. 2 codes added since May 28
 (Documenting, Strategies) retained with whatever documentation
 they had.
+
+### 2026-06-08 — qc-maintain.py
+
+Added --purge-excluded: queries SQLite to find all codes whose only
+corpus applications are in excluded documents (qc/corpus/exclude/).
+Removes matching codes from codebook.yaml (including descendants) and
+codebook.json. Does not modify SQLite or corpus JSON files. Prompts
+for confirmation before writing. --dry-run prints the list without
+writing.
