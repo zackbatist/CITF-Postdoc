@@ -2876,3 +2876,18 @@ Removes matching codes from codebook.yaml (including descendants) and
 codebook.json. Does not modify SQLite or corpus JSON files. Prompts
 for confirmation before writing. --dry-run prints the list without
 writing.
+
+### 2026-06-08 — qc-maintain.py
+
+Fixed --strip-prefixes: now calls qc codes rename for each code
+instead of writing to corpus JSON files directly, so SQLite is
+updated correctly and pre-render regenerates consistent corpus JSON.
+Removed direct corpus JSON updates since they would be overwritten
+by the next pre-render. Added guard against codes that would produce
+an empty name after stripping — these are skipped and reported.
+
+Added --purge-excluded: queries SQLite to find all codes whose only
+corpus applications are in excluded documents (qc/corpus/exclude/).
+Removes matching codes from codebook.yaml and codebook.json. Does
+not modify SQLite or corpus JSON files. Prompts for confirmation
+before writing. --dry-run prints the list without writing.

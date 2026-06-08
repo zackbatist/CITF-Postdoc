@@ -45,7 +45,9 @@ Safety:
 
 import json
 import re
+import shutil
 import sqlite3
+import subprocess
 import sys
 from pathlib import Path
 from collections import defaultdict
@@ -58,6 +60,20 @@ CORPUS_DIR    = Path("qc/json")
 MATCH_REPORT  = Path("qc/legacy-match-report.json")
 CORPUS_EXCLUDE = Path("qc/corpus/exclude")
 SQLITE_DB     = Path("qc/qualitative_coding.sqlite3")
+CONFIG_FILE   = Path("qc-atelier-config.yaml")
+
+def _get_qc_bin():
+    """Read qc_bin from config, fall back to shutil.which."""
+    try:
+        for line in CONFIG_FILE.read_text().splitlines():
+            line = line.strip()
+            if line.startswith("qc_bin:"):
+                val = line.split(":", 1)[1].strip().strip("'\"")
+                if val:
+                    return val
+    except Exception:
+        pass
+    return shutil.which("qc") or "qc"
 
 EMBED_URL     = "http://localhost:1234/v1/embeddings"   # LM Studio
 EMBED_MODEL   = "text-embedding-nomic-embed-text-v1.5"  # LM Studio name
@@ -229,21 +245,27 @@ def op_strip_prefixes(dry_run):
     all_names = [n["name"] for n in tree]
 
     # Build rename map: old_name -> new_name
+    # Guard: skip codes where stripping produces an empty name
     rename_map = {}
+    skipped_empty = []
     for name in all_names:
         new_name = strip_prefix(name)
-        if new_name != name:
+        if not new_name:
+            skipped_empty.append(name)
+        elif new_name != name:
             rename_map[name] = new_name
+
+    if skipped_empty:
+        print(f"[strip-prefixes] Skipping {len(skipped_empty)} code(s) that would produce empty names:")
+        for name in skipped_empty:
+            print(f"  {name}")
 
     if not rename_map:
         print("[strip-prefixes] No prefixes to strip.")
         return
 
-    # Check for conflicts: two different codes mapping to the same new name
-    new_names = list(rename_map.values())
-    # Also include names that don't change
+    # Check for conflicts
     unchanged = [n for n in all_names if n not in rename_map]
-    all_new_names = new_names + unchanged
     seen = defaultdict(list)
     for old, new in rename_map.items():
         seen[new].append(old)
@@ -260,78 +282,68 @@ def op_strip_prefixes(dry_run):
 
     print(f"\n[strip-prefixes] {len(rename_map)} code(s) will be renamed:")
     for old, new in sorted(rename_map.items())[:20]:
-        print(f"  {old}  →  {new}")
+        print(f"  {old}  ->  {new}")
     if len(rename_map) > 20:
         print(f"  ... and {len(rename_map)-20} more")
-
-    # Count corpus applications affected
-    corpus = load_corpus_files()
-    corpus_hits = sum(
-        1 for entries in corpus.values()
-        for entry in entries
-        if entry.get("code") in rename_map
-    )
-    print(f"\n[strip-prefixes] {corpus_hits} corpus application(s) will be updated.")
 
     if dry_run:
         print("\n[dry-run] No changes written.")
         return
 
-    if not confirm(f"\nRename {len(rename_map)} code(s) and update {corpus_hits} corpus applications?"):
+    if not confirm(f"\nRename {len(rename_map)} code(s) via qc CLI + update codebook.yaml and codebook.json?"):
         print("[aborted]")
         return
 
-    # 1. Update codebook.yaml — rename all occurrences
-    yaml_text = load_yaml()
-    for old, new in rename_map.items():
-        # Match as a yaml list item: "- old_name" or "- old_name:"
-        yaml_text = re.sub(
-            r"^(\s*-\s+)" + re.escape(old) + r"(\s*:?\s*)$",
-            r"\g<1>" + new + r"\2",
-            yaml_text,
-            flags=re.MULTILINE
-        )
-    save_yaml(yaml_text)
-    print(f"[strip-prefixes] Updated {CODEBOOK_YAML}")
+    qc_bin = _get_qc_bin()
+    print(f"[strip-prefixes] Using qc: {qc_bin}")
 
-    # 2. Update codebook.json — rename keys, parent references, tree names
+    # 1. Call qc codes rename for each code (updates SQLite + codebook.yaml)
+    failed = []
+    for i, (old, new) in enumerate(rename_map.items(), 1):
+        print(f"  [{i}/{len(rename_map)}] {old}  ->  {new}...", end=" ", flush=True)
+        try:
+            r = subprocess.run(
+                [qc_bin, "codes", "rename", old, new],
+                capture_output=True, text=True, timeout=30
+            )
+            if r.returncode == 0:
+                print("ok")
+            else:
+                print(f"failed: {r.stderr.strip()}")
+                failed.append(old)
+        except Exception as e:
+            print(f"error: {e}")
+            failed.append(old)
+
+    if failed:
+        print(f"\n[warn] {len(failed)} rename(s) failed: {failed}")
+
+    successful = {old: new for old, new in rename_map.items() if old not in failed}
+
+    # 2. Update codebook.json — rename keys, parent refs, tree
+    # (codebook.yaml already updated by qc codes rename)
+    codebook = load_codebook()
     codes = codebook.get("codes", {})
     new_codes = {}
     for name, doc in codes.items():
-        new_name = rename_map.get(name, name)
+        new_name = successful.get(name, name)
         new_doc = dict(doc)
-        if "parent" in new_doc and new_doc["parent"] in rename_map:
-            new_doc["parent"] = rename_map[new_doc["parent"]]
+        if "parent" in new_doc and new_doc["parent"] in successful:
+            new_doc["parent"] = successful[new_doc["parent"]]
         new_codes[new_name] = new_doc
     codebook["codes"] = new_codes
 
     new_tree = []
-    for node in tree:
+    for node in codebook.get("tree", []):
         new_node = dict(node)
-        new_node["name"] = rename_map.get(node["name"], node["name"])
-        if node.get("parent") in rename_map:
-            new_node["parent"] = rename_map[node["parent"]]
+        new_node["name"] = successful.get(node["name"], node["name"])
+        if node.get("parent") in successful:
+            new_node["parent"] = successful[node["parent"]]
         new_tree.append(new_node)
     codebook["tree"] = new_tree
     save_codebook(codebook)
     print(f"[strip-prefixes] Updated {CODEBOOK_JSON}")
-
-    # 3. Update corpus JSON files
-    modified = 0
-    for jf, entries in corpus.items():
-        changed = False
-        new_entries = []
-        for entry in entries:
-            new_entry = dict(entry)
-            if entry.get("code") in rename_map:
-                new_entry["code"] = rename_map[entry["code"]]
-                changed = True
-            new_entries.append(new_entry)
-        if changed:
-            save_corpus_file(jf, new_entries)
-            modified += 1
-    print(f"[strip-prefixes] Updated {modified} corpus file(s)")
-    print(f"[done] Renamed {len(rename_map)} code(s).")
+    print(f"[done] Renamed {len(successful)} code(s). Run pre-render to regenerate corpus JSON from SQLite.")
 
 # ── Legacy matching ──────────────────────────────────────────────────────────
 
