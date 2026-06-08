@@ -1,0 +1,11 @@
+---
+title: Week notes (2026-W23)
+date: 2026-06-05
+date-modified: today
+categories:
+  - week notes
+---
+
+- Code refactoring / axial coding
+- Participated in the INKE gathering
+- Very briefly, some more work for BibVik
