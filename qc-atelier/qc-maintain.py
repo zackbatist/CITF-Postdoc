@@ -346,13 +346,26 @@ def op_strip_prefixes(dry_run):
     qc_bin = _get_qc_bin()
     print(f"[strip-prefixes] Using qc: {qc_bin}")
 
-    # 1. Call qc codes rename for each code (updates SQLite + codebook.yaml)
+    # 1. Update codebook.yaml in-place FIRST (preserves tree structure)
+    # Must be done before qc codes rename, which would flatten the yaml
+    yaml_text = load_yaml()
+    for old_name, new_name in rename_map.items():
+        yaml_text = re.sub(
+            r'^' + '(' + r'\s*-\s+' + ')' + re.escape(old_name) + r'(' + r'\s*:?\s*' + r')$',
+            lambda m, n=new_name: m.group(1) + n + m.group(2),
+            yaml_text,
+            flags=re.MULTILINE
+        )
+    save_yaml(yaml_text)
+    print(f"[strip-prefixes] Updated {CODEBOOK_YAML} (in-place, tree structure preserved)")
+
+    # 2. Call qc codes rename for each code (updates SQLite only — yaml already done)
     failed = []
-    for i, (old, new) in enumerate(rename_map.items(), 1):
-        print(f"  [{i}/{len(rename_map)}] {old}  ->  {new}...", end=" ", flush=True)
+    for i, (old_name, new_name) in enumerate(rename_map.items(), 1):
+        print(f"  [{i}/{len(rename_map)}] {old_name}  ->  {new_name}...", end=" ", flush=True)
         try:
             r = subprocess.run(
-                [qc_bin, "codes", "rename", old, new],
+                [qc_bin, "codes", "rename", old_name, new_name],
                 capture_output=True, text=True, timeout=30,
                 cwd=str(Path("qc").resolve())
             )
@@ -360,40 +373,40 @@ def op_strip_prefixes(dry_run):
                 print("ok")
             else:
                 print(f"failed: {r.stderr.strip()}")
-                failed.append(old)
+                failed.append(old_name)
         except Exception as e:
             print(f"error: {e}")
-            failed.append(old)
+            failed.append(old_name)
 
     if failed:
-        print(f"\n[warn] {len(failed)} rename(s) failed: {failed}")
+        print(f"\n[warn] {len(failed)} SQLite rename(s) failed: {failed}")
+        print(f"  codebook.yaml was updated for all codes. SQLite may be out of sync for failed codes.")
 
-    successful = {old: new for old, new in rename_map.items() if old not in failed}
+    successful = {o: n for o, n in rename_map.items() if o not in failed}
 
-    # 2. Update codebook.json — rename keys, parent refs, tree
-    # (codebook.yaml already updated by qc codes rename)
+    # 3. Update codebook.json — rename keys, parent refs, tree
     codebook = load_codebook()
     codes = codebook.get("codes", {})
     new_codes = {}
     for name, doc in codes.items():
-        new_name = successful.get(name, name)
+        new_name = rename_map.get(name, name)
         new_doc = dict(doc)
-        if "parent" in new_doc and new_doc["parent"] in successful:
-            new_doc["parent"] = successful[new_doc["parent"]]
+        if "parent" in new_doc and new_doc["parent"] in rename_map:
+            new_doc["parent"] = rename_map[new_doc["parent"]]
         new_codes[new_name] = new_doc
     codebook["codes"] = new_codes
 
     new_tree = []
     for node in codebook.get("tree", []):
         new_node = dict(node)
-        new_node["name"] = successful.get(node["name"], node["name"])
-        if node.get("parent") in successful:
-            new_node["parent"] = successful[node["parent"]]
+        new_node["name"] = rename_map.get(node["name"], node["name"])
+        if node.get("parent") in rename_map:
+            new_node["parent"] = rename_map[node["parent"]]
         new_tree.append(new_node)
     codebook["tree"] = new_tree
     save_codebook(codebook)
     print(f"[strip-prefixes] Updated {CODEBOOK_JSON}")
-    print(f"[done] Renamed {len(successful)} code(s). Run pre-render to regenerate corpus JSON from SQLite.")
+    print(f"[done] Renamed {len(rename_map)} code(s) in yaml/json, {len(successful)} in SQLite. Run pre-render.")
 
 def op_resolve_collisions(dry_run):
     """Find suffixed sibling codes (_2, _3 etc.) and offer to merge them into their base."""

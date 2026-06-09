@@ -2938,3 +2938,18 @@ qc codes rename requires settings.yaml in the working directory, so
 cwd is now set to Path("qc").resolve() (absolute path) on both calls.
 Previously all renames failed with "Settings file settings.yaml not
 found." since subprocess ran from the project root.
+
+### 2026-06-09 — qc-maintain.py
+
+Fixed --strip-prefixes: update codebook.yaml in-place before calling
+qc codes rename, so tree structure is preserved. Previously qc codes
+rename called update_codebook which rewrote codebook.yaml via
+yaml.dump, flattening all codes to the top level. Now the yaml is
+updated with in-place regex substitution first, preserving indentation
+and hierarchy. qc codes rename is then called for SQLite only.
+codebook.json uses the full rename_map (not just successful SQLite
+renames) so it always matches the yaml.
+
+This bug caused complete loss of codebook.yaml tree structure on
+2026-06-09, requiring manual recovery from Dropbox backups and
+custom merge scripts to reconcile yaml, json, and SQLite.
