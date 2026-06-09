@@ -2891,3 +2891,17 @@ corpus applications are in excluded documents (qc/corpus/exclude/).
 Removes matching codes from codebook.yaml and codebook.json. Does
 not modify SQLite or corpus JSON files. Prompts for confirmation
 before writing. --dry-run prints the list without writing.
+
+### 2026-06-08 — qc-maintain.py
+
+Fixed _get_qc_bin to read qc_bin from nested server: block in
+qc-atelier-config.yaml instead of searching at top level.
+
+Fixed --purge-excluded: now collects all descendants of deleted codes
+before removing from codebook.json, preventing orphaned child entries.
+
+Fixed --strip-prefixes collision handling: instead of aborting on
+naming conflicts, suffixes are appended (_2, _3, etc.) to resolve
+collisions. Codes that already exist without a prefix take priority
+for the clean name. All collision groups are reported in output for
+manual review and merging in refactor.

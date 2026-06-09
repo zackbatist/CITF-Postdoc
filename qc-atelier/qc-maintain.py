@@ -63,14 +63,21 @@ SQLITE_DB     = Path("qc/qualitative_coding.sqlite3")
 CONFIG_FILE   = Path("qc-atelier-config.yaml")
 
 def _get_qc_bin():
-    """Read qc_bin from config, fall back to shutil.which."""
+    """Read qc_bin from config (nested under server:), fall back to shutil.which."""
     try:
-        for line in CONFIG_FILE.read_text().splitlines():
-            line = line.strip()
-            if line.startswith("qc_bin:"):
-                val = line.split(":", 1)[1].strip().strip("'\"")
-                if val:
-                    return val
+        in_server = False
+        for raw_line in CONFIG_FILE.read_text().splitlines():
+            stripped = raw_line.strip()
+            if stripped.startswith("server:"):
+                in_server = True
+                continue
+            if in_server:
+                if stripped.startswith("qc_bin:"):
+                    val = stripped.split(":", 1)[1].strip().strip("'\"")
+                    if val:
+                        return val
+                elif stripped and not raw_line.startswith(" ") and not raw_line.startswith("\t"):
+                    in_server = False
     except Exception:
         pass
     return shutil.which("qc") or "qc"
@@ -264,21 +271,51 @@ def op_strip_prefixes(dry_run):
         print("[strip-prefixes] No prefixes to strip.")
         return
 
-    # Check for conflicts
-    unchanged = [n for n in all_names if n not in rename_map]
-    seen = defaultdict(list)
-    for old, new in rename_map.items():
+    # Detect and resolve collisions with suffix
+    # A collision occurs when two codes strip to the same name, including
+    # codes that already exist without a prefix (unchanged names).
+    unchanged_set = set(n for n in all_names if n not in rename_map)
+    seen = defaultdict(list)  # stripped_name -> [original_names]
+    for old, new in sorted(rename_map.items()):  # sort for deterministic suffix assignment
         seen[new].append(old)
-    for name in unchanged:
+    for name in sorted(unchanged_set):
         seen[name].append(name)
 
-    conflicts = {new: olds for new, olds in seen.items() if len(olds) > 1}
-    if conflicts:
-        print(f"\n[error] {len(conflicts)} naming conflict(s) detected — cannot strip prefixes:")
-        for new, olds in sorted(conflicts.items()):
-            print(f"  '{new}' would be produced by: {', '.join(olds)}")
-        print("\nResolve these conflicts in refactor before stripping prefixes.")
-        sys.exit(1)
+    collisions = {}  # original_name -> final_name (with suffix)
+    collision_groups = {}  # stripped_name -> list of originals
+    all_names_set = set(all_names)
+    for stripped, originals in seen.items():
+        if len(originals) > 1:
+            collision_groups[stripped] = originals
+            unchanged_in_group = [o for o in originals if o in unchanged_set]
+            if unchanged_in_group:
+                priority = sorted(unchanged_in_group)[0]
+                others = sorted(o for o in originals if o != priority)
+            else:
+                priority = sorted(originals)[0]
+                others = sorted(originals)[1:]
+            counter = 2
+            for old in others:
+                candidate = f"{stripped}_{counter}"
+                while candidate in all_names_set or candidate in collisions.values():
+                    counter += 1
+                    candidate = f"{stripped}_{counter}"
+                collisions[old] = candidate
+                all_names_set.add(candidate)
+                counter += 1
+
+    # Apply collision suffixes to rename_map
+    for old, suffixed in collisions.items():
+        rename_map[old] = suffixed
+
+    if collision_groups:
+        print(f"\n[strip-prefixes] {len(collision_groups)} collision(s) resolved with suffixes:")
+        for stripped, originals in sorted(collision_groups.items()):
+            for old in originals:
+                final = rename_map.get(old, old)
+                marker = " (suffixed)" if old in collisions else " (clean name)"
+                print(f"  {old}  ->  {final}{marker}")
+        print(f"  Review these and merge manually in refactor as needed.")
 
     print(f"\n[strip-prefixes] {len(rename_map)} code(s) will be renamed:")
     for old, new in sorted(rename_map.items())[:20]:
@@ -886,20 +923,40 @@ def op_purge_excluded(dry_run):
     save_yaml("".join(new_lines))
     print(f"[purge-excluded] Updated codebook.yaml.")
 
-    # Remove from codebook.json
+    # Expand to_delete_set to include all descendants in codebook.json
     codebook = load_codebook()
+    tree = codebook.get("tree", [])
+    children_map = {}
+    for n in tree:
+        p = n.get("parent", "")
+        if p:
+            children_map.setdefault(p, []).append(n["name"])
+
+    def collect_descendants(names):
+        result = set(names)
+        queue = list(names)
+        while queue:
+            cur = queue.pop()
+            for child in children_map.get(cur, []):
+                if child not in result:
+                    result.add(child)
+                    queue.append(child)
+        return result
+
+    full_delete_set = collect_descendants(to_delete_set)
+
     codes = codebook.get("codes", {})
     removed = 0
-    for name in to_delete:
+    for name in list(full_delete_set):
         if name in codes:
             del codes[name]
             removed += 1
-    tree = codebook.get("tree", [])
-    codebook["tree"] = [n for n in tree if n.get("name") not in to_delete_set]
+    codebook["tree"] = [n for n in tree if n.get("name") not in full_delete_set]
     codebook["codes"] = codes
     save_codebook(codebook)
-    print(f"[purge-excluded] Updated codebook.json — removed {removed} documented entries.")
-    print(f"[done] Purged {len(to_delete)} codes. Run pre-render and re-render scheme/refactor.")
+    extra = len(full_delete_set) - len(to_delete_set)
+    print(f"[purge-excluded] Updated codebook.json — removed {removed} entries ({extra} descendant(s) included).")
+    print(f"[done] Purged {len(full_delete_set)} codes. Run pre-render and re-render scheme/refactor.")
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
