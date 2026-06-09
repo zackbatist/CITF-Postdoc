@@ -2930,3 +2930,11 @@ suffixed sibling codes directly from the live codebook tree instead of
 reading qc/strip-prefixes-collisions.json. Any code matching name_N
 that has a sibling name under the same parent is a merge candidate.
 Removed JSON write from --strip-prefixes --dry-run accordingly.
+
+### 2026-06-09 — qc-maintain.py
+
+Fixed --strip-prefixes and --resolve-collisions subprocess calls:
+qc codes rename requires settings.yaml in the working directory, so
+cwd is now set to Path("qc").resolve() (absolute path) on both calls.
+Previously all renames failed with "Settings file settings.yaml not
+found." since subprocess ran from the project root.

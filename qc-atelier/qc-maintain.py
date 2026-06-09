@@ -353,7 +353,8 @@ def op_strip_prefixes(dry_run):
         try:
             r = subprocess.run(
                 [qc_bin, "codes", "rename", old, new],
-                capture_output=True, text=True, timeout=30
+                capture_output=True, text=True, timeout=30,
+                cwd=str(Path("qc").resolve())
             )
             if r.returncode == 0:
                 print("ok")
@@ -473,7 +474,8 @@ def op_resolve_collisions(dry_run):
         try:
             r = subprocess.run(
                 [qc_bin, "codes", "rename", pair["src"], pair["target"]],
-                capture_output=True, text=True, timeout=30
+                capture_output=True, text=True, timeout=30,
+                cwd=str(Path("qc").resolve())
             )
             if r.returncode == 0:
                 print("ok")
