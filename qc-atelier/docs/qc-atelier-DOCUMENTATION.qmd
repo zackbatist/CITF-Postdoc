@@ -2953,3 +2953,16 @@ renames) so it always matches the yaml.
 This bug caused complete loss of codebook.yaml tree structure on
 2026-06-09, requiring manual recovery from Dropbox backups and
 custom merge scripts to reconcile yaml, json, and SQLite.
+
+### 2026-06-09 — qc-maintain.py
+
+Fixed --purge-excluded to also delete codes from SQLite, making the
+purge permanent. Previously codes were only removed from codebook.yaml
+and codebook.json, so any subsequent qc codes rename call would
+trigger update_codebook which re-added purged codes from SQLite back
+to the top level of codebook.yaml.
+
+Now deletes all coded_line entries and code entries from SQLite for
+purged codes. Takes an automatic timestamped SQLite backup to
+qc/backups/ before writing. Confirmation prompt updated to reflect
+that SQLite is now also modified.

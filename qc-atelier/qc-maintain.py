@@ -346,20 +346,20 @@ def op_strip_prefixes(dry_run):
     qc_bin = _get_qc_bin()
     print(f"[strip-prefixes] Using qc: {qc_bin}")
 
-    # 1. Update codebook.yaml in-place FIRST (preserves tree structure)
-    # Must be done before qc codes rename, which would flatten the yaml
-    yaml_text = load_yaml()
+    # 1. Build correct yaml in memory BEFORE any qc calls
+    # qc codes rename will flatten the yaml — we save ours last to overwrite it
+    original_yaml = load_yaml()
+    correct_yaml = original_yaml
     for old_name, new_name in rename_map.items():
-        yaml_text = re.sub(
-            r'^' + '(' + r'\s*-\s+' + ')' + re.escape(old_name) + r'(' + r'\s*:?\s*' + r')$',
+        correct_yaml = re.sub(
+            r'^(\s*-\s+)' + re.escape(old_name) + r'(\s*:?\s*)$',
             lambda m, n=new_name: m.group(1) + n + m.group(2),
-            yaml_text,
+            correct_yaml,
             flags=re.MULTILINE
         )
-    save_yaml(yaml_text)
-    print(f"[strip-prefixes] Updated {CODEBOOK_YAML} (in-place, tree structure preserved)")
 
-    # 2. Call qc codes rename for each code (updates SQLite only — yaml already done)
+    # 2. Call qc codes rename for each code (updates SQLite)
+    # yaml will be flattened by qc — we fix it after
     failed = []
     for i, (old_name, new_name) in enumerate(rename_map.items(), 1):
         print(f"  [{i}/{len(rename_map)}] {old_name}  ->  {new_name}...", end=" ", flush=True)
@@ -380,11 +380,15 @@ def op_strip_prefixes(dry_run):
 
     if failed:
         print(f"\n[warn] {len(failed)} SQLite rename(s) failed: {failed}")
-        print(f"  codebook.yaml was updated for all codes. SQLite may be out of sync for failed codes.")
+        print(f"  SQLite may be out of sync for failed codes.")
+
+    # 3. Overwrite yaml with our correct in-place version (undoes qc's flattening)
+    save_yaml(correct_yaml)
+    print(f"[strip-prefixes] Updated {CODEBOOK_YAML} (in-place, tree structure preserved)")
 
     successful = {o: n for o, n in rename_map.items() if o not in failed}
 
-    # 3. Update codebook.json — rename keys, parent refs, tree
+    # 4. Update codebook.json — rename keys, parent refs, tree
     codebook = load_codebook()
     codes = codebook.get("codes", {})
     new_codes = {}
@@ -1038,9 +1042,16 @@ def op_purge_excluded(dry_run):
         print("[dry-run] No files written.")
         return
 
-    if not confirm(f"\nDelete {len(to_delete)} code(s) from codebook.yaml and codebook.json?"):
+    if not confirm(f"\nDelete {len(to_delete)} code(s) from codebook.yaml, codebook.json, and SQLite?"):
         print("[aborted]")
         return
+
+    # Backup SQLite before modifying
+    import shutil, time as _time
+    backup_path = SQLITE_DB.parent / "backups" / f"qualitative_coding_{_time.strftime('%Y%m%d-%H%M%S')}_pre-purge.sqlite3"
+    backup_path.parent.mkdir(exist_ok=True)
+    shutil.copy2(str(SQLITE_DB), str(backup_path))
+    print(f"[purge-excluded] SQLite backup: {backup_path.name}")
 
     # Remove from codebook.yaml
     yaml_text = load_yaml()
@@ -1103,7 +1114,21 @@ def op_purge_excluded(dry_run):
     save_codebook(codebook)
     extra = len(full_delete_set) - len(to_delete_set)
     print(f"[purge-excluded] Updated codebook.json — removed {removed} entries ({extra} descendant(s) included).")
-    print(f"[done] Purged {len(full_delete_set)} codes. Run pre-render and re-render scheme/refactor.")
+
+    # Remove from SQLite — delete coded_line entries and code entries
+    # This prevents update_codebook from re-adding them on next qc codes rename
+    cl_deleted = 0
+    code_deleted = 0
+    for code_name in full_delete_set:
+        # Delete coded_line entries
+        conn.execute("DELETE FROM coded_line WHERE code_id = ?", (code_name,))
+        cl_deleted += conn.execute("SELECT changes()").fetchone()[0]
+        # Delete code entry
+        conn.execute("DELETE FROM code WHERE name = ?", (code_name,))
+        code_deleted += conn.execute("SELECT changes()").fetchone()[0]
+    conn.commit()
+    print(f"[purge-excluded] Removed {code_deleted} code(s) and {cl_deleted} coding(s) from SQLite.")
+    print(f"[done] Purged {len(full_delete_set)} codes permanently.")
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
