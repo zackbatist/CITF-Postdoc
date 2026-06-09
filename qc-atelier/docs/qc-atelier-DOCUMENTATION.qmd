@@ -2922,3 +2922,11 @@ then merges via qc codes rename. Updates codebook.json after merging.
 
 --strip-prefixes --dry-run now writes qc/strip-prefixes-collisions.json
 when collisions are detected.
+
+### 2026-06-08 — qc-maintain.py
+
+Removed JSON file dependency from --resolve-collisions: now discovers
+suffixed sibling codes directly from the live codebook tree instead of
+reading qc/strip-prefixes-collisions.json. Any code matching name_N
+that has a sibling name under the same parent is a merge candidate.
+Removed JSON write from --strip-prefixes --dry-run accordingly.

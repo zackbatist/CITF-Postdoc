@@ -335,20 +335,7 @@ def op_strip_prefixes(dry_run):
 
     if dry_run:
         if collision_groups:
-            report = []
-            for (stripped, parent), originals in sorted(collision_groups.items()):
-                report.append({
-                    "stripped": stripped,
-                    "parent": parent or "",
-                    "codes": originals,
-                    "suffixed": [o for o in originals if o in collisions],
-                    "clean": [o for o in originals if o not in collisions],
-                })
-            report_path = Path("qc/strip-prefixes-collisions.json")
-            with open(report_path, "w") as f:
-                json.dump(report, f, indent=2, ensure_ascii=False)
-            print(f"\n[dry-run] Collision report written to {report_path}")
-            print(f"  Run --resolve-collisions to interactively merge collisions.")
+            print(f"\n  Run --resolve-collisions after stripping to interactively merge these.")
         print("\n[dry-run] No changes written.")
         return
 
@@ -408,37 +395,43 @@ def op_strip_prefixes(dry_run):
     print(f"[done] Renamed {len(successful)} code(s). Run pre-render to regenerate corpus JSON from SQLite.")
 
 def op_resolve_collisions(dry_run):
-    report_path = Path("qc/strip-prefixes-collisions.json")
-    if not report_path.exists():
-        print(f"[error] No collision report found at {report_path}")
-        print("  Run --strip-prefixes --dry-run first.")
-        sys.exit(1)
+    """Find suffixed sibling codes (_2, _3 etc.) and offer to merge them into their base."""
+    import re as _re
 
-    with open(report_path) as f:
-        report = json.load(f)
+    codebook = load_codebook()
+    tree = codebook.get("tree", [])
 
-    if not report:
-        print("[resolve-collisions] No collisions to resolve.")
-        return
+    # Build sibling map: parent -> [child_names]
+    parent_map = {n["name"]: n.get("parent", "") for n in tree}
+    children_map = defaultdict(list)
+    for n in tree:
+        p = n.get("parent", "")
+        children_map[p].append(n["name"])
 
-    # Build numbered list of mergeable pairs
-    # Each pair: suffixed code -> clean code (merge suffixed into clean)
+    # Find codes ending in _2, _3 etc. that have a sibling without the suffix
+    suffix_pattern = _re.compile(r"^(.+)_(\d+)$")
     pairs = []
-    for group in report:
-        clean_codes = group["clean"]
-        suffixed_codes = group["suffixed"]
-        target = clean_codes[0] if clean_codes else None
-        for src in suffixed_codes:
-            if target:
-                pairs.append({"src": src, "target": target, "parent": group["parent"], "stripped": group["stripped"]})
+    seen_pairs = set()
+    for name in sorted(n["name"] for n in tree):
+        m = suffix_pattern.match(name)
+        if not m:
+            continue
+        base = m.group(1)
+        parent = parent_map.get(name, "")
+        siblings = children_map.get(parent, [])
+        if base in siblings:
+            key = (name, base)
+            if key not in seen_pairs:
+                seen_pairs.add(key)
+                pairs.append({"src": name, "target": base, "parent": parent or "(top level)"})
 
     if not pairs:
-        print("[resolve-collisions] No suffixed codes to merge.")
+        print("[resolve-collisions] No suffixed collision codes found in codebook.")
         return
 
-    print(f"\n[resolve-collisions] {len(pairs)} mergeable pair(s):")
+    print(f"\n[resolve-collisions] {len(pairs)} suffixed code(s) that can be merged:")
     for i, pair in enumerate(pairs, 1):
-        print(f"  {i}. merge '{pair['src']}' into '{pair['target']}' (parent: {pair['parent'] or 'top level'})")
+        print(f"  {i}. merge '{pair['src']}' into '{pair['target']}' (parent: {pair['parent']})")
 
     if dry_run:
         print("\n[dry-run] No changes written.")
@@ -463,7 +456,6 @@ def op_resolve_collisions(dry_run):
         print("[aborted]")
         return
 
-    # Confirmation
     print(f"\n[resolve-collisions] Selected {len(selected)} merge(s):")
     for i in selected:
         pair = pairs[i]
@@ -495,11 +487,9 @@ def op_resolve_collisions(dry_run):
     if failed:
         print(f"\n[warn] {len(failed)} merge(s) failed: {failed}")
 
-    merged = [pairs[i]["src"] for i in selected if pairs[i]["src"] not in failed]
+    successful_map = {pairs[i]["src"]: pairs[i]["target"] for i in selected if pairs[i]["src"] not in failed}
 
-    # Update codebook.json
-    if merged:
-        successful_map = {pairs[i]["src"]: pairs[i]["target"] for i in selected if pairs[i]["src"] not in failed}
+    if successful_map:
         codebook = load_codebook()
         codes = codebook.get("codes", {})
         new_codes = {}
@@ -521,7 +511,7 @@ def op_resolve_collisions(dry_run):
         save_codebook(codebook)
         print(f"\n[resolve-collisions] Updated codebook.json.")
 
-    print(f"[done] Merged {len(merged)} code(s). Run pre-render to regenerate corpus JSON from SQLite.")
+    print(f"[done] Merged {len(successful_map)} code(s). Run pre-render to regenerate corpus JSON from SQLite.")
 
 
 # ── Legacy matching ──────────────────────────────────────────────────────────
