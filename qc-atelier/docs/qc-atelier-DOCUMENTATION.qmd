@@ -2966,3 +2966,14 @@ Now deletes all coded_line entries and code entries from SQLite for
 purged codes. Takes an automatic timestamped SQLite backup to
 qc/backups/ before writing. Confirmation prompt updated to reflect
 that SQLite is now also modified.
+
+### 2026-06-10 (continued) — qc-overview.py
+
+New script generating self-contained HTML analytical overview for team
+presentation. Reads live codebook and corpus data. Produces annotated
+passages with inline colored highlights (striped at overlaps), cross-branch
+intersection commentary, and branch summaries — all as LLM-generated
+bullet prose. qwen3:32b for passages; qwen2.5:7b for summaries and
+filtering. Checkpoint/resume via qc/overview-checkpoint.json. Known
+remaining issue: qwen2.5:7b produces Chinese text in intro — fix in
+place (English-only instruction) but not yet regenerated from cache.
