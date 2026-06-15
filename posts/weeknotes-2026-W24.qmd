@@ -1,0 +1,9 @@
+---
+title: Week notes (2026-W24)
+date: 2026-06-12
+date-modified: today
+categories:
+  - week notes
+---
+
+- Axial coding, reorganizing the code system, and other maintenance tasks
