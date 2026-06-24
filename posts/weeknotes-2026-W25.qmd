@@ -1,0 +1,10 @@
+---
+title: Week notes (2026-W25)
+date: 2026-06-19
+date-modified: today
+categories:
+  - week notes
+---
+
+- Axial coding
+- Initiating some work on network analysis paper
