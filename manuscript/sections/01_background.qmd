@@ -1,0 +1,28 @@
+# Background
+
+Data harmonization entails coordinating a systematic effort to align the information contained in datasets collected by distributed teams of epidemiologists. These efforts to integrate the records collected during various discrete studies are motivated by a desire to establish larger integrated datasets bearing greater statistical power and that facilitate comparison across cohorts.
+
+[Something about major firms and software stacks, the general growth of this domain. Make reference to Isabel Fortier's work.]
+
+However, epidemiologists must reckon with the diversity of minor variations in data collection procedures, as well as ethico-legal concerns relating to the sharing of individual health records pertaining to human research subjects across numerous institutional and regional jurisdictions.
+[Reference some of the work cited in my collaboration with Alex Bernier.]
+
+Overall, harmonization requires significant coordination, planning, and governance work. It's more than just a technical data alignment.
+[More detail on this here.]
+
+These concerns were especially acute during the wake of the Covid-19 pandemic.
+[More detail on this here.]
+
+[The main take-away from the background is that there was an initial severe under-estimation of the practical challenges involved in harmonization, especially in the realm of goal-setting and establishing common expectations; this study documents some of those challenges.]
+
+This study investigates the social, technical, administrative, and epistemic factors that scaffold data-sharing initiatives in epidemiological research. It articulates the motivations for doing data harmonization, identifies how value is ascertained, and describes the strategies employed to achieve the desired goals — including perceived and actual challenges, setbacks, opportunities, realizations, and lessons learned.
+
+It takes to heart the notions that data are media that facilitate communication across different research contexts, that data are created with specific intent, and that data are bounded by the social, practical, and material circumstances of their creation. In light of these facts, the study approaches data-sharing as a means of reconciling the varied circumstances of datasets' creation — both among themselves, and in relation to contexts of reuse. It therefore frames data-sharing as efforts to foster a series of collaborative ties beyond a project's original intended scope.
+
+The project addresses the following research questions:
+
+- What are the objectives of data-sharing initiatives, how were they established, and what progress has been made to achieve them?
+- What strategies do data-sharing initiatives employ to ensure they are able to meet their objectives, and how effective are they?
+- What values underlie these strategies, and can they be linked with effective outcomes, such as the production of harmonized datasets and research deriving therefrom?
+
+The intent is to ascertain what actions specific strategies entail, the circumstances in which each is adopted, the value that they bring, and the trade-offs involved. In other words, the study articulates the collaborative experiences that underlie data-sharing activities as a series of converging situated perspectives.

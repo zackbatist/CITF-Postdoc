@@ -1,0 +1,44 @@
+::: {.content-visible when-format="html"}
+# Back Matter {.hide}
+:::
+
+## List of Abbreviations {.appendix}
+
+CIHR
+: Canadian Institutes of Health Research;
+
+CITF
+: COVID-19 Immunity Task Force
+
+DSA
+: Data Sharing Agreement
+
+FAIR
+: Findable, Accessible, Interoperable, Reusable
+
+LLM
+: Large Language Model
+
+MCHI
+: McGill Clinical and Health Informatics
+
+## Ethics Approval and Consent to Participate {.appendix}
+
+## Consent for Publication {.appendix}
+
+## Availability of Data and Materials {.appendix}
+
+## Competing Interests {.appendix}
+
+The authors declare no competing interests.
+
+## Funding {.appendix}
+
+This work was supported by the Canadian Institutes of Health Research (CIHR) operating grant held by David Buckeridge (2024--2027), which supports completion of the CITF Databank and related governance research.
+Zachary Batist is supported as a Postdoctoral Researcher within this grant.
+
+## Author Contributions {.appendix}
+
+## Acknowledgements {.appendix}
+
+## Authors' Bios {.appendix}

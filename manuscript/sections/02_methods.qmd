@@ -1,0 +1,16 @@
+# Methods
+
+## Study Site
+
+The project examines the CITF Databank as an in-depth case study. The CITF was established in April 2020 to catalyze, support, fund and harmonize knowledge on SARS-CoV-2 immunity for federal, provincial, and territorial decision-makers. The Databank centralizes research data from CITF-funded studies, assembling an integrated dataset of over 165,000 individual participant health records from research studies performed across Canada, including a harmonized dataset for a subset of 40 studies. The Databank was led by a core team within the CITF Secretariat, supported by dedicated personnel within the Office of Sponsored Research at McGill and experts in data governance and data harmonization. Its pan-Canadian scope, involving data sharing across multiple universities, research institutes, and governmental agencies in the context of a global public health emergency, makes it a uniquely rich setting for examining how large-scale health data sharing governance is coordinated in practice.
+
+## Data
+
+The study draws from approximately ten semi-structured interviews with individuals who lead, support, or participate in the CITF Databank's operations, including professional researchers, research trainees, and administrative and technical support staff. Interviews are oriented by the study's goal to document processes of reconciling different stakeholders' interests as they converge in the formation of a common data resource. Specifically, interviews focus on participants' motives, the challenges they experience, how they envision success and failure, their perceptions of their own roles and the roles of other team members and stakeholders, the values that inform their decisions, how the technological apparatus they set up enables them to realize their goals and values, and ways in which they believe the work could be improved.
+
+Semi-structured interviews were held either in person or via video conference. They following a broad pattern of inquiry that traces (1) participants' goals and perspectives; (2) their project's missions, purposes, and motivations; and (3) the practices, procedures, and relationships that enable them to operationalize their personal and collective goals. Questions were tailored to each individual so that they could address responses in general terms and in relation to their own specific experiences.
+
+Transcripts were generated using a locally-hosted Whisper model with diarization capabilities using noScribe [@droge2026] and then manually edited to correct errors - primarily mis-spellings of proper names and acronyms, speaker label reassignments, and minor issues with accent interpretation. All data are collected and curated in full compliance with the McGill University's research ethics board.
+
+## Methods
+
