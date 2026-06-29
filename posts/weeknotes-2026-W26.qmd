@@ -1,0 +1,12 @@
+---
+title: Week notes (2026-W26)
+date: 2026-06-26
+date-modified: today
+categories:
+  - week notes
+---
+
+- Axial coding
+- Planning for AI for PH Workshop
+
+It has been a slow and unmotivated week.
