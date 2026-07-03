@@ -1,2 +1,4 @@
 
 # Results
+
+{{< include /qc/excerpts/edited/Personal_challenges.qmd >}}
