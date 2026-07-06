@@ -1,0 +1,11 @@
+---
+title: Week notes (2026-W27)
+date: 2026-07-03
+date-modified: today
+categories:
+  - week notes
+---
+
+- Some more axial coding
+- Started a manuscript file with rudimentary background and methods sections
+- Started in-depth analysis of interview texts, with help from [this script I made](https://github.com/zackbatist/CITF-Postdoc/blob/main/assets/scripts/generate-excerpts.lua) to extract excerpts into markdown format
