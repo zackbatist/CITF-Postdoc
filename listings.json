@@ -2,6 +2,7 @@
   {
     "listing": "/posts.html",
     "items": [
+      "/posts/tech-specs.html",
       "/posts/weeknotes-2026-W27.html",
       "/posts/weeknotes-2026-W26.html",
       "/posts/weeknotes-2026-W25.html",
@@ -11,7 +12,6 @@
       "/posts/weeknotes-2026-W21.html",
       "/posts/weeknotes-2026-W20.html",
       "/posts/weeknotes-2026-W19.html",
-      "/posts/tech-specs.html",
       "/posts/weeknotes-2026-W18.html",
       "/posts/weeknotes-2026-W17.html",
       "/posts/weeknotes-2026-W15.html",
@@ -82,17 +82,17 @@
   {
     "listing": "/notes.html",
     "items": [
-      "/notes/cataloguing.html",
-      "/notes/critical-research-about-harmonization.html",
-      "/notes/potential-cases.html",
       "/notes/caqdas.html",
-      "/notes/methodology-notes.html",
-      "/notes/tricks-of-the-trade.html",
-      "/notes/theory-building.html",
-      "/notes/theoretical-sampling.html",
-      "/notes/situational-analysis.html",
       "/notes/coding-methods.html",
-      "/notes/maelstrom-readings.html"
+      "/notes/maelstrom-readings.html",
+      "/notes/methodology-notes.html",
+      "/notes/potential-cases.html",
+      "/notes/situational-analysis.html",
+      "/notes/theoretical-sampling.html",
+      "/notes/theory-building.html",
+      "/notes/tricks-of-the-trade.html",
+      "/notes/cataloguing.html",
+      "/notes/critical-research-about-harmonization.html"
     ]
   }
 ]
