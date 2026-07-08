@@ -55,7 +55,7 @@ website:
       - text: RSS
         href: posts.xml
   drafts:
-    - data/memos/
+    - /data/memos/
 
 format:
   html:
