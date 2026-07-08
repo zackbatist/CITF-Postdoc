@@ -28,26 +28,26 @@ filters:
 format:
   html:
     number-sections: false
-  pdf:
-    documentclass: article
-    geometry:
-      - top = 1in
-      - bottom = 1in
-      - left = 1in
-      - right = 1in
-    colorlinks: true
-    toc: false
-    include-in-header:
-      text: |
-        \usepackage{orcidlink}
-        \usepackage{marvosym}
-    template-partials:
-      - ../assets/styles/title.tex
-format-links: 
-  - pdf
-  - text: GitHub
-    icon: github
-    href: https://github.com/zackbatist/CITF-Postdoc
+#   pdf:
+#     documentclass: article
+#     geometry:
+#       - top = 1in
+#       - bottom = 1in
+#       - left = 1in
+#       - right = 1in
+#     colorlinks: true
+#     toc: false
+#     include-in-header:
+#       text: |
+#         \usepackage{orcidlink}
+#         \usepackage{marvosym}
+#     template-partials:
+#       - ../assets/styles/title.tex
+# format-links: 
+#   - pdf
+#   - text: GitHub
+#     icon: github
+#     href: https://github.com/zackbatist/CITF-Postdoc
 ---
 
 ```{css, echo = FALSE}

@@ -1,18 +1,2 @@
 
 # Results
-
-## Challenges
-{{< include /qc/excerpts/edited/Personal_challenges.qmd >}}
-
-## Facilitators
-{{< include /qc/excerpts/edited/Process_faciliatators.qmd >}}
-{{< include /qc/excerpts/edited/Social_facilitators.qmd >}}
-{{< include /qc/excerpts/edited/Personal_attitudes.qmd >}}
-{{< include /qc/excerpts/edited/Goal_setting.qmd >}}
-{{< include /qc/excerpts/edited/Coercion.qmd >}}
-
-## Outcomes
-{{< include /qc/excerpts/edited/Process_outcomes.qmd >}}
-{{< include /qc/excerpts/edited/Documentary_outcomes.qmd >}}
-{{< include /qc/excerpts/edited/Epistemic_outcomes.qmd >}}
-

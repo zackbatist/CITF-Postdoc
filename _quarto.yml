@@ -10,8 +10,9 @@ project:
     - "!data/CITF_files/"
     - "!data/*.excalidraw.png"
     - "!data/interviews/"
-    - "!data/memos/"
+    # - "!data/memos/"
     - "!qc/"
+    # - "!manuscript/"
   preview:
     port: 7777
     browser: false
@@ -53,6 +54,8 @@ website:
         href: assets/resources/CITF-Postdoc.bib
       - text: RSS
         href: posts.xml
+  drafts:
+    - data/memos/
 
 format:
   html:
