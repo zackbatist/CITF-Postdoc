@@ -55,7 +55,8 @@ website:
       - text: RSS
         href: posts.xml
   drafts:
-    - /data/memos/
+    - data/
+  draft-mode: gone
 
 format:
   html:
