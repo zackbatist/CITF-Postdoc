@@ -54,9 +54,6 @@ website:
         href: assets/resources/CITF-Postdoc.bib
       - text: RSS
         href: posts.xml
-  drafts:
-    - data/
-  draft-mode: gone
 
 format:
   html:
