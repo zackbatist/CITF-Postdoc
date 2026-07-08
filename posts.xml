@@ -10,7 +10,114 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Fri, 29 May 2026 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 03 Jul 2026 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2026-W27)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W27.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Some more axial coding</li>
+<li>Started a manuscript file with rudimentary background and methods sections</li>
+<li>Started in-depth analysis of interview texts, with help from <a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/assets/scripts/generate-excerpts.lua">this script I made</a> to extract excerpts into markdown format</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W27.html</guid>
+  <pubDate>Fri, 03 Jul 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W26)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W26.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Axial coding</li>
+<li>Planning for AI for PH Workshop</li>
+</ul>
+<p>It has been a slow and unmotivated week.</p>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W26.html</guid>
+  <pubDate>Fri, 26 Jun 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W25)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W25.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Axial coding</li>
+<li>Initiating some work on network analysis paper</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W25.html</guid>
+  <pubDate>Fri, 19 Jun 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W24)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W24.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Axial coding, reorganizing the code system, and other maintenance tasks</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W24.html</guid>
+  <pubDate>Fri, 12 Jun 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W23)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W23.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Code refactoring / axial coding</li>
+<li>Participated in the INKE gathering</li>
+<li>Very briefly, some more work for BibVik</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W23.html</guid>
+  <pubDate>Fri, 05 Jun 2026 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2026-W22)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W22.html</link>
@@ -540,128 +647,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W08.html</guid>
   <pubDate>Fri, 20 Feb 2026 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W07)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W07.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Finalized the abstract for CRDCN</li>
-<li>Worked on the CIHR-PG proposal</li>
-<li>A bit of coding</li>
-<li>Planning for the BibVik workshop</li>
-<li>Got news of a grant rejection :(</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W07.html</guid>
-  <pubDate>Fri, 13 Feb 2026 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W06)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W06.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Submitted CIHR-PG registration</li>
-<li>CIHR-PG logistical planning</li>
-<li>Updated the publication strategy for the emails analysis paper</li>
-<li>Made some minor suggestions for the marker paper</li>
-<li>Coding interview transcripts</li>
-<li>Finalized date and some other logistics for the BibVik workshop</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W06.html</guid>
-  <pubDate>Fri, 06 Feb 2026 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W05)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W05.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Lots of work on the CIHR Project Grant registration</li>
-<li>Research on conference/publication venues for the emails analysis paper</li>
-<li>Did another interview</li>
-<li>Started another side-project about positive mentorship and scientific community-building, drawing from the history of radiology</li>
-<li>Progress made on planning the BibVik workshop</li>
-<li>Finished and published summary post about the maintainathon</li>
-<li>Submitted an abstract for the 2026 INKE gathering</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W05.html</guid>
-  <pubDate>Fri, 30 Jan 2026 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W04)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W04.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Synthesized CIHR-PG feedback and began formulating a response</li>
-<li>Meeting to touch base on the emails analysis paper</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W04.html</guid>
-  <pubDate>Fri, 23 Jan 2026 05:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W03)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W03.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Worked on the draft of the emails analysis paper</li>
-<li>Coordinated plans for further work on the emails analysis paper</li>
-<li>Held another interview and began summarizing its contents</li>
-<li>Renewed the ethics protocol</li>
-<li>Received feedback on the (unsuccessful) project grant and started devising a strategy for the next round</li>
-<li>BibVik meeting, including workshop coordination</li>
-<li>Digital Archaeology Maintainathon throughout the week</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W03.html</guid>
-  <pubDate>Fri, 16 Jan 2026 05:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

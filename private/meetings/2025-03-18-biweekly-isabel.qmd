@@ -1,0 +1,57 @@
+---
+title: Bi-weekly update with Isabel (March 18, 2025)
+date: 2025-03-18
+categories: 
+  - meetings
+---
+
+## Updates
+- Working on the interview guides and case files
+- Settled on a methodological framework
+- Working on situational maps to "unlock" data collection pathways
+- Sent Julie a formal request for an interview
+
+## Questions / concerns
+- Identify any other relevant people who were a part of ReACH
+- About the overall goal (infrastructure or scientific), especially given the name of the network
+- About the degree to which the R package development is based on or rooted in ReACH
+
+## Meeting notes
+Today's meeting focused on nailing down what ReACH really entails.
+The overlap between ReACH and Maelstrom really bothered me and made me sense that I was misunderstanding something.
+This was due to lack of concern with DOHaD in the name of the project, the extreme overlap of the teams, and an encounter with a DOHaD researchers in the lunchroom who was barely involved in ReACH and knew very little about it.
+
+But now the overall goals of ReACH have been clarified for me by Isabel.
+ReACH is concerned with refining the harmonization method, making it more cost-effective and efficient.
+While DOHaD is a topic of special interest to Isabel, Julie and others, it essentially serves as a test case to demonstrate the refined harmonization method.
+
+We went into greater depth concerning the practical implementation of data harmonization, including the use of the spreadsheets to (a) document the decisions behind equivalency associations, and (b) to generate scripts that can be integrated with the R package.
+She compared this with use of SASS or Stata, where the decisions to integrate data are not documented.
+Moreover, in those situations, if you want to change or revisit an equivalency, you have to return to the beginning and start from scratch,
+With the Maelstrom method, you can just regenerate the script and re-run it more easily.
+
+We also went over the teams and the organizational structure of work:
+
+- Cataloguing team: technical, entering info into the catalogue; team is shrinking due to less amount of studies and data to catalogue as work winds down, greater focus on maintenance; led by Carla Ordonese, who is now away on pregnancy leave, and Rita is substituting during her absence.
+- Harmonizing team: technical, data cleaning, harmonization, data wrangling; each has a single coordinator for each project (someone named Samuel for CAPACITY, Rita for CITF).
+- Scientific: developing methods, new ideas; Tina and Rita.
+- IT: developing the R package and the OBIBA software; Guillaume works on the R package, while, someone named Ramen assists Yanik Marcon (described as the "owner" of OBIBA), who previously worked at Maelstrom but is now situated in France.
+
+Regarding the R package, Isabel told me that she was the one who created it with Tina.
+Guillaume was described as a technician, someone who writes the code, but who was less involved in designing or conceiving the software, and who is not at all involved in writing it up for publication or communicating it to the scientific community.
+
+Things got a bit muddled in the end when I asked about the distinctions between scientific and infrastructural projects.
+I get the sense that I was drawing a false or lopsided dichotomy, and I need to think about it some more.
+
+Very briefly at the end I also expressed, and even just realized, that my work is focusing more on embeddedness of harmonization mindsets and toolsets in "ordinary" (I didn't use that work at the time) epidemiological research.
+She dind't respond much because we had to end the meeting but her expression seemed positive.
+I also made it clear that this was in part deriving from a sense of feasibility, and suitability for the methodolofical framework that I have selected.
+
+## Actions items
+- Follow-up with Julue Bergeron
+- Reconsider who I need to ask to participate for an interview
+  - Guillaume?
+  - Tina?
+  - Rita?
+  - DOHaD researchers?
+

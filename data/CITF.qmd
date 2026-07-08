@@ -1,0 +1,173 @@
+---
+title: CITF
+subtitle: Covid-19 Immunity Task Force
+bibliography: ../assets/CITF-Postdoc.bib
+csl: ../assets/chicago-author-date.csl
+citations-hover: true
+title-block-banner: false
+format:
+  html:
+    grid: 
+      body-width: 1600px
+---
+
+The study draws from semi-structured interviews with 10-15 individuals from a single case: the Covid-19 Immunity Task Force (CITF) Databank.
+The CITF was an initiative whose mandate was to catalyze, support, fund and harmonize knowledge on SARS-CoV-2 immunity for federal, provincial, and territorial decision-makers in their efforts to protect Canadians and minimize the impact of the COVID-19 pandemic.
+The CITF Databank provides continued support to the research community by centralizing research data provided by CITF-funded studies and by making the data accessible for extended research.
+
+The CITF supports studies that generate reliable first estimates of SARS-CoV-2 immunity in Canada, that establish the advantages and limitations of immunity testing and related technologies, and that generate practical insights into the optimum ways of using and interpreting these tests.
+
+Some similar initiatives:
+
+- The [ORCHESTRA](https://orchestra-cohort.eu/) cohort is a similar initiative in Europe, which has also engaged in data harmonization activities [@rinaldi2022].
+- [CORD-19](https://github.com/allenai/cord19): A resource of scientific papers on Covid-19 and related historical coronavirus research. CORD-19 is designed to facilitate the development of text mining and information retrieval systems over its rich collection of metadata and structured full text papers [@wang2020].
+- [COVID-19 Canada Open Data Working Group](https://opencovid.ca/).
+- See also @lin2022, @cheng2024 and @cameron2025 for overviews of some challenges involved in harmonizing Covid-19 data, without any direct reference to CITF of ORCHESTRA.
+
+# Value
+The CITF is a great case to investigate the social, technical, administrative and epistemic factors that scaffold data-sharing initiatives in scientific research.
+It's a solid venue for articulating the social, collaborative and discursive aspects of epidemiological data-sharing, and how they relate to, overlap with or conflict with technical, institutional and epistemic factors.
+Specifically, as a community-led initiative, the CITF Databank presents an opportunity to investigate how epidemiologists balance the values deriving from their own epistemic culture with the challenges of coordinating collective efforts.
+It has established an explicit governance structure, which provides me with terms and concepts to examine through a critical lens.
+It comprises people working in a multitude of roles, many of whom are locally available.
+And it is a venue where multiple relevant epistemic conflicts, tensions challenges manifest themselves, which are rich sources from which a qualitative researcher may ascertain competing and complementary value regimes.
+
+Some of these include tensions arising from pressures to share data openly, scarcity of time and resources, collective governance and management of resources, establishing common ways of working, using Maelstrom as both a partner and as a service, and debates concerning the potential value of AI.
+
+Moreover, the case provides adequate breadth of perspective, which is of significant concern when following the constructivist grounded theory and situational analysis methodological frameworks.
+
+# Situational Map
+![Map of people, identities and concepts for the CITF.](CITF.excalidraw.png)
+
+# People
+The case provides access to many prospective interview targets who I may speak to to gain insights from multiple perspectives.
+Here are some notes on some of the people who are part of the project and who David and others recommended I speak with, including notes on the value they might provide to my research.
+
+**Universal opening questions:**
+
+- In your own words, what is the CITF, and what is/was your role in it?
+
+[]()
+
+- What (activities) does this role entail?
+- How did you find yourself in this role?
+- Can you tell me about any prior experiences doing similar work that may have prepared you for this role?
+- In what ways is this role different from those prior experiences?
+
+
+**For anyone with a regular role and defined duties, i.e. probably not leaders or founders:**
+
+- What are some significant challenges you regularly face, and can you share a specific example of one of those experiences?
+- How did you resolve that experience?
+
+[]()
+
+- Can you think of any exceptional challenges that you don't know how to approach?
+- How did they get resolved, or if they haven't, why haven't they been resolved yet?
+
+_These questions leave the kind of solution open ended, and then I can classify her responses in terms of social, technical or administrative means of resolution._
+
+
+## David Buckeridge
+As the leader of the project, David oversees all operations.
+He is aware of all the moving parts and has a bird's eye view of everything that's going on.
+He is also intuitively aware of many administrative challenges, and could tell me about successes and failures on that front.
+
+He is also very aware of the people aspect of this project, in addition to the data aspect.
+However it's clear that the former is more apparent as the primary challenge that must be contended with.
+
+He also mentioned (in a meeting 2025-04-09) that the initiative underwent several phases, and that each phase seemed to be conditioned by specific objectives (which were probably labelled as such in hindsight) and which did not really think ahead to the next phase or future phases.
+These memories will be very useful to record.
+
+I would also like to reach back to understand the circumstances of the databank's creation --- the true circumstances, not the rehearsed story.
+And I want to know about the origins of his relationships with Maelstrom personnel.
+And what about Tim Evans, who was apparently very involved earlier on, but who is now retired?
+He seems like an "administrative juggernaut", a term that just popped in my mind for whatever reason.
+
+## Tanya Murphy
+Tanya seems like an obvious person to interview, but I can't yet put my finger on what I will ask her about.
+She is involved in so many things, but I'm not sure to what depth or extent.
+
+My first impression is that she is very involved in working with external actors, especially those who lead the source studies and those who want to re-use the data.
+She seems to be very involved in translating the conversations they engage with into and from tangible data structures.
+So in a way, it's more like coordinating the ingestion of data, turning casual commitments into concrete reality, and then following up to fill in the gaps that are missed during initial work.
+It's an iterative process that hones deep familiarity with the people, projects, data structures and work processes --- and with how all of these factors change over time.
+
+## Sadun Khezri
+Sadun has a more technical role, and works closely with Tanya.
+He is relatively new to the CITF, and as far as I can tell he is not working as closely with partner projects.
+I suspect they work so closely because he is implementing many of the relationships that Tanya is fostering and planning to concretize in the database.
+
+## Aklil Noza
+I do not think that Aklil is a priority interview target.
+
+## Tim Evans
+Original leader, got the ball rolling alongside David Naylor and Cate Hankins.
+Originally approached Sammy Suissa to take the lead on the databank, who turned it down.
+Then asked David Buckeridge for advise on who else to ask, and realized that David's mandate and skillset are perfectly aligned with the task.
+
+- What prompted you to initiate the CITF?
+- Have you led or been a part of any similar initiatives before?
+- What did you draw from those experiences?
+
+- How did you identify initial relevant stakeholders?
+- How did you anticipate the project's needs?
+- Did you place emphasis on certain things that you then realized weren't as important?
+- Were there things you wish you would have emphasized more?
+
+- In your opinion, what makes the CITF unique, or unlike other similar initiatives?
+- Is this uniqueness entirely based on the special circumstances of the project's origins, or can it also be attributed to other factors, i.e. special workflows, relationship-building initiatives, scale, leadership and governance qualities, specific priorities or non-priorities, etc?
+
+## Cate Hankins and/or David Naylor
+Served as co-chairs, co-founders along with Tim Evans.
+Cate Hankins is a public health physician, very principled and willing to speak to authority (rooted in criticizing Quebec's response to the HIV epidemic).
+Tim Evans recruited her as a Professor of Practice, which is a non-tenured position that draws value from real-world experience.
+Cate Hankins may be useful to talk to to fill in some blanks or further triangulate based on responses by others (especially Tim Evans) regarding the projects' origins.
+David Naylor is a major leader at UofT, very involved in big picture initiatives.
+
+## Olivia Oxlade
+PhD in Epidemiology.
+Worked with Dick Menzies on TB research.
+Serves as administrative lead for the secretariat.
+Was the main point of connection between the secretariat and the work that the databank was doing.
+Worked on McGill data sharing agreements.
+
+## Bruce Mazer
+Similar role as Olivia Oxlade, but more in terms of strategy than management.
+Not sure if he's a priority target, seems a bit less hands-on.
+
+## Stephen Lucas
+Former Deputy Minister of Health Canada, and current CEO of Mitacs.
+Has sung praise for CITF, but I'm not sure if he had a role in its creation or funding.
+
+## Student data workers
+### Annabelle
+A first year MSc-PhD student.
+Involved in putting the data to work, is rather junior and may lack adequate context for an interview about the organization of the CITF.
+However she may provide a very pragmatic perspective.
+
+### Mandy and/or Edie
+Responsible for data cleaning.
+
+### Hanna Swail and/or Ahmed Ahmed
+Former students, were doing lots of data work, their names came up in relation to Mandy, Edie and Sadun.
+Could probably get in touch with them if they're local, but I think I could get similar insights from others.
+
+### Dave Stephens and/or Jane Heffernan
+Co-hosted a competition among math modellers to make use of the data sometime between 2022-2023.
+Apparently they faced some challenges making sense of the data, especially the harmonized dataset, and had to approach the project's originators directly.
+There were mathematicians who specialized on modelling cells within the body ("within host"), and like Annabelle lacked sufficient context to make proper use of the data.
+
+## Members of the task force
+Members of the task force, who are representatives of subgroups who helped focus the project around certain key variables.
+
+### Jim Kellner
+A pediatrician, possibly based in Calgary.
+
+### Caroline Quach-Thanh
+An infectious disease doctor based at the Sainte-Justine Hospital.
+Apparently she was somewhat contrarian about the need to openly share data, and her position was supported by David Naylor.
+
+
+# References
+

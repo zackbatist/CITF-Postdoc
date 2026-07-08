@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2025-05-29">
+<meta name="description" content="Overview of takes on data sharing with regards to Covid-19 research. Top 20 papers from google scholar.">
+
+<title>Covid-19 and data sharing – CITF-Postdoc</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../assets/resources/favicon.ico" rel="icon">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-969ddfa49e00a70eb3423444dbc81f6c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-065a5179aebd64318d7ea99d77b64a9e.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-24d53e599ccebd0c929ce112e888a600.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-62060af5809f81ebdb5424225cbf16f3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-24d53e599ccebd0c929ce112e888a600.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+/*
+ * inline-code-interactions.html
+ *
+ * Loaded via _quarto.yml > format > html > include-in-header.
+ * Runs on DOMContentLoaded and does two things:
+ *
+ * 1. CODE BLOCK LANGUAGE BADGES
+ *    Quarto 1.8 places the language identifier on the inner <code> element
+ *    (e.g. class="sourceCode yaml") rather than on the outer div.sourceCode,
+ *    so CSS class selectors like div.sourceCode.yaml never match. This script
+ *    reads the language from the inner element, copies it as a class onto the
+ *    outer div (enabling the CSS accent colour rules in styles.css), and
+ *    prepends a visible <span class="code-lang-badge"> label inside the block.
+ *
+ * 2. COPYABLE INLINE CODE
+ *    Two inline code styles are available in .qmd files via Quarto span syntax:
+ *      [`text`]{.inline-code-light}  — pill shape, lighter visual weight
+ *      [`text`]{.inline-code-heavy}  — box shape, heavier visual weight
+ *    Both are styled in styles.css. This script makes them clickable: clicking
+ *    copies the element's text to the clipboard and briefly adds the .copied
+ *    class, which triggers the bounce animation defined in styles.css.
+ */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // 1. Code block language badges ───────────────────────────────────────────
+  //
+  // For each div.sourceCode, find the inner <code> element, extract the
+  // language class, add it to the outer div, then prepend a badge element.
+  // Styled by .code-lang-badge in styles.css.
+
+  document.querySelectorAll("div.sourceCode").forEach(function (div) {
+    var codeEl = div.querySelector("pre > code[class]");
+    if (!codeEl) return;
+
+    var lang = null;
+    codeEl.classList.forEach(function (cls) {
+      if (cls !== "sourceCode") lang = cls;
+    });
+    if (!lang) return;
+
+    div.classList.add(lang);
+
+    var badge = document.createElement("span");
+    badge.className = "code-lang-badge";
+    badge.textContent = lang;
+    div.insertBefore(badge, div.firstChild);
+  });
+
+  // 2. Copyable inline code ─────────────────────────────────────────────────
+  //
+  // Attach click handlers to both inline code styles. On click, copy the
+  // element's text content to the clipboard, then add .copied to trigger
+  // the CSS bounce animation. Remove .copied once the animation ends.
+
+  var selector = [
+    "code.inline-code-light", "span.inline-code-light",
+    "code.inline-code-heavy", "span.inline-code-heavy"
+  ].join(", ");
+
+  document.querySelectorAll(selector).forEach(function (el) {
+    el.addEventListener("click", function () {
+      var text = (el.querySelector("code") || el).innerText.trim();
+      navigator.clipboard.writeText(text).then(function () {
+        el.classList.add("copied");
+        el.addEventListener("animationend", function handler() {
+          el.classList.remove("copied");
+          el.removeEventListener("animationend", handler);
+        });
+      });
+    });
+  });
+
+
+});
+</script>
+
+
+<link rel="stylesheet" href="../../assets/styles/styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Covid-19 and data sharing</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../assets/resources/logo.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../../assets/resources/logo.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">CITF-Postdoc</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../research-protocol.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Research Protocol</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Supplementary</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../theoretical-framework.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Theoretical Framework</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../ethics-protocol.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Ethics Protocol</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../interview-protocol.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interview Protocol</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-management.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Data Management</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../qda-protocol.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Qualitaive Data Analysis Protocol</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../notes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notes</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../posts.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Blog</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://github.com/zackbatist/CITF-Postdoc" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">GitHub</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../assets/resources/CITF-Postdoc.bib" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bib</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../posts.xml" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RSS</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Covid-19 and data sharing</h1>
+</div>
+
+<div>
+  <div class="description">
+    Overview of takes on data sharing with regards to Covid-19 research. Top 20 papers from google scholar.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 29, 2025</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">July 8, 2026</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><span class="citation" data-cites="cosgriff2020">@cosgriff2020</span>: A very brief, exasperated statement of disbelief in the fact that there are no systems in place to pool and share healthcare data. Cited Medical Information Mart for Intensive Care (MIMIC) as an example of how to properly share intensive care data, without going into details. Explicitly states that the system is valuable for clinicians and computer scientists to develop predictive models; why are these communities specified? Seems almost like an admonition of the academic research community, in favour of clinical perspectives.</p>
+<p>Although they call for robust data-sharing initiatives, they do mention the success of word-of-mouth and anecdotal information sharing:</p>
+<blockquote class="blockquote">
+<p>In the first few weeks of the pandemic, knowledge about the disease and its treatment was generated from sharing of anecdotal observations and small case series. Although health-care professionals use modern technology to communicate, never before has the failure to build robust data-sharing systems for large-scale near real-time analysis in health care been more obvious.</p>
+</blockquote>
+<hr>
+<p><span class="citation" data-cites="rios2020">@rios2020</span>: Pits open access against open data. Naive vision of what open data will afford. Assumes an “overall belief” in the value and virtue of open data, and depicts inaction as a series of practical and logistical barriers, or selfish scientists holding back progress.</p>
+<hr>
+<p><span class="citation" data-cites="gao2020">@gao2020</span>: A survey of Covid-19 data sharing in the US. Breaks down several kinds of data, or domains in which data are generated. More of a technical survey of tools and protocols that support data capture and sharing, includin laboratory information management systems (LIMS) and electronic health records (EHR) systems and networks. Identifies common UI elements on data sharing websites, which are pretty standard (search boxes, clean UI, ability to filter data, etc). Touch on some challenges: lack of informed consent, lack of consistency, use of additional third-party and often commercial data sources (i.e.&nbsp;maps data). Also touch on researchers’ ignorance of best ways to organize data, of copyright and licensing conditions, or where data are actually located, etc, as well as apprehensions relating to collaborative commitments</p>
+<blockquote class="blockquote">
+<p>The most crucial elements in overcoming these data sharing challenges are collaboration and communication between the parties (individuals or enterprises) while being diplo matic about each party’s wants and needs and employing a liaison if necessary.</p>
+</blockquote>
+<p>Proposes a large-scale and centralized system for sharing data within each domain, for each country in a data sharing network. Also refers to large-scale mobile phone tracking as a key factor in successfully managing the pandemic, particularly in China, Korea and Singapore.</p>
+<hr>
+<p><span class="citation" data-cites="fegan2021">@fegan2021</span>: A response to <span class="citation" data-cites="cosgriff2020">@cosgriff2020</span>, outlining the work being done by the COVID-19 Clinical Research Coalition. Highlights calls for data sharing by the Wellcome Trust and the Bill and Melinda Gates Foundation, and draws attention to persistent challenges, specifically the challenges of obtaining broad consent, lack of data management capacity, and potential to exasperate inequities across research centres. Reports on their initiative to provide researchers with practical advice and tooling, including recommended language for obtaining broad consent and guidance for establishing data sharing agreements. I generally get the sense that these are the sober people in the room, aware of their surroundings and doing what they can to balance potential benefits with responsibilities to stakeholders at greater risk of harm.</p>
+<hr>
+<p><span class="citation" data-cites="maxwell2003">@maxwell2003</span>: A survey of data sharing initiatives that specifically focuses on their adherence to FAIR principles and practices. A qualitative evaluation, similar to the work I’m doing with Alex Bernier. There is a section looking at harmonization:, which found greater emphasis on prospective rather than retrospective harmonization. However I wonder whether this is biased by the sample, which seems more oriented by clinical data sources.</p>
+<p>The findings accounting for tendencies for adherence to FAIR are also notable:</p>
+<blockquote class="blockquote">
+<p>Platforms that met all of the criteria for FAIRness were large, government-funded platforms that pre-existed COVID-19. The five registries that met all four criteria for FAIRness collected clinical data only, harmonised this data prospectively, and had data access committees (DACs) in place to oversee the use of data. Registries that met none of the criteria for FAIRness were generally COVID-19- specific resources that are still accepting data and might develop in terms of infrastructure and governance for COVID-19 data collection and sharing in the future. The application of a community-developed standard for participant-level data or metadata was the most commonly missed component of FAIRness, only four (36%) of 11 platforms and eight (18%) of 44 registries that collected participant-level clinical data had adopted a community developed data capture or exchange standard.</p>
+</blockquote>
+<p>Basically, doing open data for the sake of it is not successful. When more thought goes into it, when it’s based on informed and professional standards, it is more successful. In other words, it’s more work than it seems, and having some prior institutional knowledge goes a long way.</p>
+<p>Also, very little community engagement, i.e.&nbsp;no return on investment for those who contributed data.</p>
+<p>I need to return to this paper later. The discussion is very rich, and I am not currently in the headspace to read it closely.</p>
+<hr>
+<p><span class="citation" data-cites="foraker2021">@foraker2021</span>:* Presents a series of “lessons learned” from failured to implement the CDC’s prior data sharing protocols that emerged from the Ebola and Zika outbreaks. Distinguishes between short-term and long-term approaches, and describes challenges pertaining to each. Short term challenges include:</p>
+<ul>
+<li>Inadequate tech and data infrastructure</li>
+<li>Duplication of data requests and inconsistent technical requirements
+<ul>
+<li>“To overcome these barriers, we engaged in a process of co-design with the various public health departments to identify shared, com mon data elements and actionable data transfer formats or transac tional standards, so as to simplify and systematize these requests.”</li>
+</ul></li>
+<li>Insufficient coordination of efforts by responsible entities or authorities</li>
+</ul>
+<p>They propose some recommendations for long-term improvement:</p>
+<ul>
+<li>Identify and fill technology gaps
+<ul>
+<li>“Given the urgency of the need for this infrastructure, we focused initially on repurposing existing technologies and platforms to enable rapid data sharing and data col lection, followed by quick iterations and continuous improvements on the use of these technologies. As we progress, and move toward the ideal state as shown in Figure 2, we would prefer to switch to existing or updated technologies that may be superior yet may take longer to implement.”</li>
+</ul></li>
+<li>Pursue collaborative design of data sharing requirements and transmission mechanisms
+<ul>
+<li>“Data sharing efforts can involve transactional electronic data exchange, manual abstraction and reporting, platform data aggrega tion, and extract, transform, and load functions that are often auto mated processes to populate shared repositories or data marts. Of note, as data transmission activities mature over the course of this pandemic, processes can evolve from manual abstraction to that of automated queries and transmission via secure file transfer protocols, HL7 feeds, or fast health care interoperability resources approaches. The mechanism of data transmission must adapt as standards-based data workflows become more routine.”</li>
+<li>“The unglamorous work of assessing and adjudicating data elements must be conducted before the data are entered into a data mart or other organized data management system. As these data are originating from fragmented systems, data cleaning and quality assurance activities will be invalu able to detect inconsistent or incomplete data before these data are relied upon for insights. Data definitions, even that of patients with a COVID-19 positive test, can vary widely across data sources and dis crepancies must be addressed early. Data feeds from collaborating entities must be transformed into analyzable datasets to meet the needs at local, regional, and national levels as shown in Figure 1.”</li>
+</ul></li>
+<li>Facilitate cross-domain discussions involving legal and research compliance
+<ul>
+<li>“Early in the pandemic, data elements were needed to determine the availability of COVID-19 testing, the number of patients currently in the hospital and intensive care units, supply chain needs, and distribution of cases by geography. As our region reached its peak, our efforts partially shifted to simulate the post-COVID-19 era, determining the potential impacts of relaxing social distancing restrictions and predicting the next hotspot or cluster of new cases.”</li>
+</ul></li>
+<li>Establish or participate in multi-institutional convening or coordinating activities
+<ul>
+<li>Create and sustain datasharing communities of practice comprised of organizations with complementary needs, expertise, and capabilities.</li>
+<li>Share best practices and resources across entities.</li>
+</ul></li>
+</ul>
+<p>This is a very important article. It is notable that it emphasizes collaborative, practical and administrative factors, and the importance of fostering long-term planning before the pandemic hits, establishing a culture of cooperation to counter the chaos that ensued early during the pandemic.</p>
+<p>One notable aspect is its emphasis on providing longer term technology support. The recognition that epidemiologists were pulling together scrappy research infrastructure is reflexted in the case of CITF, but I wonder if this is something that can really be avoided. I also wonder if the building up of a tech stack is part of the legitimizing process, setting down stakes to build a village and claim the land — very public, very dramatic, how roots are settled and people make a nest for themselves. Removing the dramatic and performative aspect of this may not be desirable.</p>
+<hr>
+<p><span class="citation" data-cites="tacconelli2022">@tacconelli2022</span>: Overview of challenges experienced in European Covid-19 data sharing initiatives. Relates to prior work from the Zika and Ebola outbreaks. Specific challenges they emphasize are lack of consensus on what standards to implement and lack of data science literacy in the health sector.</p>
+<p>They call out sime limitations of harmonization, specfically the lack of documentation about decisions, which is something that my research directly responds to:</p>
+<blockquote class="blockquote">
+<p>Initiatives such as Maelstrom Research have provided data har monisation guidelines that ensure data quality, reproducibility and transparency of the process Unfortunately, the process of harmonising and integrating data from existing projects is often poorly documented. Human resources and economic efforts should be made available to support the development and implementation of international standards and protocols for harmonisation.</p>
+</blockquote>
+<p>They go over the objectives and operational contexts for a few European initiatives, namely ReCoDID, ORCHESTRA, unCoVer and SYNCHROS.</p>
+<p>They then present centralized and federated approaches as distinct approaches that may be taken, presenting benefits and challenges for each. They do not mention the challenges that Julie Bergeron experienced with regards to DataShield — it’s a farily superficial overview.</p>
+<p>They then go on to briefly propose some changes to the way funding calls are made. They propose adding requirements to funding calls to facilitate harmonization and integration, namely required language and consent conditions in informed consent documents, and requirements for adhering to data standards. Seems to draw from open science mandates in funding calls, particularly from the Gates Foundation and Wellcome Trust.</p>
+<p>Seems like a simple call for people to make it easier to share a reuse data. Doesn’t rock the boat at all, but is begging for more food to feed the data science beast (their earlier emphasis on data science literacy is quite telling).</p>
+<p>Their halfhearted reflection on centralized versus decentralized approaches is also very superficial, refusing to acknowledge key practical challenges. It’s also notable how they basically negate their whole argument for the benefits of federated analysis with a tepid statement acknowledging that centralized approaches may be better.</p>
+<hr>
+<p><span class="citation" data-cites="tan2022">@tan2022</span>: Presenting a blockchain-based approach. Given how popular bitcoin and blockchain was during the pandemic, it is not surprising that this came up as a highly cited paper. Not gonna give it much more attention.</p>
+<hr>
+<p><span class="citation" data-cites="lucas-dominguez2021">@lucas-dominguez2021</span>: Analysis of gold and green open access publishing of papers relating to Covid-19. Published in a scientometrics journal by historians of science. A fairly standard quantitative scientometric approach, tracking change over time (for the first five months of the pandemic), a network of international collaborations, and analysis of the kinds of supplementary materials associated with papers.</p>
+<blockquote class="blockquote">
+<p>The analysis of supplementary material showed that the most frequent types of file were mainly PDF and DOC, which were found in 42.75% and 32.56% of the articles, respectively (Table 2). These files were mostly figures and tables related to DNA, RNA, protein sequence analysis and molecular signalling pathways; other frequently observed documents are checklists, clinical protocols and informed consents.</p>
+</blockquote>
+<hr>
+<p><span class="citation" data-cites="watsom2022">@watsom2022</span>: A “news feature” scaremongering over fraudulent preprints. Conflates pre-review and post-review preprints. There is a section about flaws in the peer review model, and a sense of nihilism in the who academic enterprise. Also a section on unreliable meta-analyses, using one example of a meta-analysis on ivermectin. Safe to ignore this paper in the future, or to use it as a counter-example.</p>
+<hr>
+<p><span class="citation" data-cites="dron2021">@dron2021</span>:</p>
+<hr>
+<ul>
+<li>The <a href="https://orchestra-cohort.eu/">ORCHESTRA</a> cohort is a similar initiative in Europe, which has also engaged in data harmonization activities <span class="citation" data-cites="rinaldi2022">[@rinaldi2022]</span>.</li>
+<li><a href="https://github.com/allenai/cord19">CORD-19</a>: A resource of scientific papers on Covid-19 and related historical coronavirus research. CORD-19 is designed to facilitate the development of text mining and information retrieval systems over its rich collection of metadata and structured full text papers <span class="citation" data-cites="wang2020">[@wang2020]</span>.</li>
+<li><a href="https://opencovid.ca/">COVID-19 Canada Open Data Working Group</a>.</li>
+<li>See also <span class="citation" data-cites="lin2022">@lin2022</span>, <span class="citation" data-cites="cheng2024">@cheng2024</span> and <span class="citation" data-cites="cameron2025">@cameron2025</span> for overviews of some challenges involved in harmonizing Covid-19 data, without any direct reference to CITF of ORCHESTRA.</li>
+</ul>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/zackbatist\.info\/CITF-Postdoc\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://creativecommons.org/publicdomain/zero/1.0/">
+<p>CC0</p>
+</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions"><ul><li><a href="https://github.com/zackbatist/CITF-Postdoc/blob/main/data/memos/Covid19-data-sharing.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>This page is built with ❤️ and <a href="https://quarto.org/">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
