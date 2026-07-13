@@ -1,0 +1,10 @@
+---
+title: Week notes (2026-W28)
+date: 2026-07-10
+date-modified: today
+categories:
+  - week notes
+---
+
+- Progress on analysis
+- Working on a proposal for the 2nd Canadian Open Science Conference [data challenge](https://carn-recar.ca/2nd-canadian-open-science-conference-call-for-proposal-canadian-metaresearch-data-challenge/): https://zackbatist.info/CMDC/
