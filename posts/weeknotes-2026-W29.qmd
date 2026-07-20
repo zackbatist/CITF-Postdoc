@@ -1,0 +1,10 @@
+---
+title: Week notes (2026-W29)
+date: 2026-07-17
+date-modified: today
+categories:
+  - week notes
+---
+
+- Analyzing excerpts
+- Grant app (GRIOS)
