@@ -1,0 +1,10 @@
+---
+title: Week notes (2026-W30)
+date: 2026-07-24
+date-modified: today
+categories:
+  - week notes
+---
+
+- Received notice of a successful grant to continue with the [emails analysis](https://zackbatist.info/CITF-emails/)!
+- Volunteered for the AI4PH workshop and symposium
