@@ -1,0 +1,11 @@
+---
+title: Week notes (2026-W31)
+date: 2026-07-31
+date-modified: today
+categories:
+  - week notes
+---
+
+- Analytic memos
+- Revised CITF-emails work plan
+- Working on CITF-emails REB
