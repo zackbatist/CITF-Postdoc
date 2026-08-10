@@ -1,0 +1,11 @@
+---
+title: Week notes (2026-W32)
+date: 2026-08-07
+date-modified: today
+categories:
+  - week notes
+---
+
+- Analytic memos
+- REB application
+- Revisions to research protocol
