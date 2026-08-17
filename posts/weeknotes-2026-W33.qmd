@@ -1,0 +1,13 @@
+---
+title: Week notes (2026-W33)
+date: 2026-08-14
+date-modified: today
+categories:
+  - week notes
+---
+
+- Worked on the CITF-emails research protocol
+- Worked on the CITF-emails REB
+- Some after-hours BibVik work
+- CMDC rejection
+- Submitted app for TU/e TT job in metascience
