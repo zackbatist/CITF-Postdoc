@@ -10,7 +10,31 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Fri, 07 Aug 2026 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 14 Aug 2026 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2026-W33)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W33.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Worked on the CITF-emails research protocol</li>
+<li>Worked on the CITF-emails REB</li>
+<li>Some after-hours BibVik work</li>
+<li>CMDC rejection</li>
+<li>Submitted app for TU/e TT job in metascience</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W33.html</guid>
+  <pubDate>Fri, 14 Aug 2026 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2026-W32)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W32.html</link>
@@ -613,29 +637,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W14.html</guid>
   <pubDate>Fri, 03 Apr 2026 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W13)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W13.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Some additional work on the emails analysis</li>
-<li>Coding interviews</li>
-<li>Status update meetings</li>
-<li>Work on qc-atelier</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W13.html</guid>
-  <pubDate>Fri, 27 Mar 2026 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
