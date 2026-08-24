@@ -1,0 +1,12 @@
+---
+title: Week notes (2026-W34)
+date: 2026-08-21
+date-modified: today
+categories:
+  - week notes
+---
+
+- Analytic memos
+- Working on emails analysis REB
+- Working on questionnaire
+- Some late-night work on BibVik
