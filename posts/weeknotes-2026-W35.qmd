@@ -1,0 +1,14 @@
+---
+title: Week notes (2026-W35)
+date: 2026-08-28
+date-modified: today
+categories:
+  - week notes
+---
+
+- Worked on analytic memos
+- Submitted the CITF-emails REB
+- Finalized the CITF-emails questionnaire
+- Started work expanding the email corpus
+- Some after-hours BibVik data cleaning and pipeline expansion
+- Running and biking over the weekend :)
