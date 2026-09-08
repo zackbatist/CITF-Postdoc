@@ -1,0 +1,11 @@
+---
+title: Week notes (2026-W36)
+date: 2026-09-04
+date-modified: today
+categories:
+  - week notes
+---
+
+- Analytic memos
+- Retrieved all emails from another mailbox
+- Received pre-review feedback on REB, began revisions
