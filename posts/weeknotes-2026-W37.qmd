@@ -1,0 +1,11 @@
+---
+title: Week notes (2026-W37)
+date: 2026-09-11
+date-modified: today
+categories:
+  - week notes
+---
+
+- Analytical memo on kinds of agency
+- Revised and resubmitted REB application
+- Some Mila activities
