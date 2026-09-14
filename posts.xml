@@ -10,7 +10,99 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Fri, 14 Aug 2026 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 11 Sep 2026 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2026-W37)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W37.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Analytical memo on kinds of agency</li>
+<li>Revised and resubmitted REB application</li>
+<li>Some Mila activities</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W37.html</guid>
+  <pubDate>Fri, 11 Sep 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W36)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W36.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Analytic memos</li>
+<li>Retrieved all emails from another mailbox</li>
+<li>Received pre-review feedback on REB, began revisions</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W36.html</guid>
+  <pubDate>Fri, 04 Sep 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W35)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W35.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Worked on analytic memos</li>
+<li>Submitted the CITF-emails REB</li>
+<li>Finalized the CITF-emails questionnaire</li>
+<li>Started work expanding the email corpus</li>
+<li>Some after-hours BibVik data cleaning and pipeline expansion</li>
+<li>Running and biking over the weekend :)</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W35.html</guid>
+  <pubDate>Fri, 28 Aug 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W34)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W34.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Analytic memos</li>
+<li>Working on emails analysis REB</li>
+<li>Working on questionnaire</li>
+<li>Some late-night work on BibVik</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W34.html</guid>
+  <pubDate>Fri, 21 Aug 2026 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2026-W33)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W33.html</link>
@@ -548,95 +640,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W19.html</guid>
   <pubDate>Fri, 08 May 2026 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W18)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W18.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Worked on qc-reflect</li>
-<li>Worked on the emails analysis paper</li>
-<li>Worked on the marker paper</li>
-<li>Documenting codes</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W18.html</guid>
-  <pubDate>Fri, 01 May 2026 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W17)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W17.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Documenting and cleaning the code system</li>
-<li>Working on emails analysis papers</li>
-<li>Gave feedback on marker paper</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W17.html</guid>
-  <pubDate>Fri, 24 Apr 2026 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W15)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W15.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Finished bringing codes into qc</li>
-<li>Looked at the CITF-DB marker paper again (but minimal actual contributions this time)</li>
-</ul>
-<p>I’m on my way to Oslo for a workshop I’m co-organizing: <a href="https://zackbatist.info/BibVik/workshop.html">Citational Politics and Practices in Viking Age Archaeology and Beyond</a>. I’ll be off my main CITF work throughout next week.</p>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W15.html</guid>
-  <pubDate>Fri, 10 Apr 2026 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W14)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W14.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Coding interviews</li>
-<li>Worked on qc-atelier</li>
-<li>Meetings and feedback regarding emails analysis</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W14.html</guid>
-  <pubDate>Fri, 03 Apr 2026 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
