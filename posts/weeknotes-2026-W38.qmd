@@ -1,0 +1,12 @@
+---
+title: Week notes (2026-W38)
+date: 2026-09-18
+date-modified: today
+categories:
+  - week notes
+---
+
+- Continuing analytic memo on kinds of agency
+- Inquired about using additional email data
+- Met with a prospective collaborator to discuss error correction and potential shift to a supervised method for email annotation
+- Participated in a reading group about AI in qualitative analysis
