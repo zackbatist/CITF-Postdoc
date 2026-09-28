@@ -1,0 +1,12 @@
+---
+title: Week notes (2026-W39)
+date: 2026-09-25
+date-modified: today
+categories:
+  - week notes
+---
+
+- Continuing with analytic memos, focusing on kinds of agency
+- Worked through a shift to a supervised or semi-supervised approach to the emails topic modelling
+- Audited two guest lectures during the Health Informatics class, which were primers on AI-related topics
+- Various Mila welcome week activities (art fest, town hall, orientation)
