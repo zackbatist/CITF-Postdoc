@@ -1,0 +1,15 @@
+---
+title: Week notes (2026-W40)
+date: 2026-10-02
+date-modified: today
+categories:
+  - week notes
+---
+
+- Attended Mila's Community of Practice on Digital Health
+- Followed-up regarding access to additional email inboxes
+- Started a more structured approach to deriving a taxonomy for manually coding emails
+- Touched-up the email annotation tool to reflect updated methodological decisions (One code per passage, no arbitrary primary/secondary, no "action" articulation)
+- Led a discussion for Mila's Human-Centred AI reading group: https://zackbatist.info/ai-peer-review/
+- Continuing analytic memos on kinds of agency
+- Gave some brief feedback on the CITF marker paper
