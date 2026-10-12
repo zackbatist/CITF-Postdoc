@@ -1,0 +1,15 @@
+---
+title: Week notes (2026-W41)
+date: 2026-10-09
+date-modified: today
+categories:
+  - week notes
+---
+
+- Continued with analytic memos
+- Further developed the scoping review methodology
+  - Experimented with and settled on query terms
+  - Looked into use of ASySD and ASReview for de-duplication and screening
+  - Read up and consolidated information about AI-assisted reviewing techniques
+- Attended the Ethical Data Initiative Stakeholder Forum
+- Attended the Mila Tea Talk on scientific discovery
