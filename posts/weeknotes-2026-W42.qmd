@@ -1,0 +1,13 @@
+---
+title: Week notes (2026-W42)
+date: 2026-10-16
+date-modified: today
+categories:
+  - week notes
+---
+
+- Developing queries for the scoping review
+- Looked into venues for publishing a protocol for the scoping review
+  - (We'll probably go with JMIR)
+- Brainstorming the strategy for the spring 2027 CIHR project grant cycle
+- Participated in the HCAI reading group
