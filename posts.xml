@@ -10,7 +10,160 @@
 <atom:link href="https://zackbatist.info/CITF-Postdoc/posts.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.8.25</generator>
-<lastBuildDate>Fri, 11 Sep 2026 04:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 23 Oct 2026 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Week notes (2026-W43)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W43.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Consulted with Ian about his continued guidance</li>
+<li>Planning session with Melissa for CITF-emails and RDS-Review</li>
+<li>Some brainstorming for the CIHR-PG Spring 2027 competition</li>
+<li>Finishing annotating kinds-of-agency</li>
+<li>Started synthesizing the analytic memos</li>
+<li>Started working on my lecture for INFS649</li>
+<li>Participated in the Mila Tea Talk and the Critical Science Reading Group</li>
+<li>Some BibVik and SSLA work, after hours</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W43.html</guid>
+  <pubDate>Fri, 23 Oct 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W42)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W42.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Developing queries for the scoping review</li>
+<li>Looked into venues for publishing a protocol for the scoping review
+<ul>
+<li>(We’ll probably go with JMIR)</li>
+</ul></li>
+<li>Brainstorming the strategy for the spring 2027 CIHR project grant cycle</li>
+<li>Participated in the HCAI reading group</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W42.html</guid>
+  <pubDate>Fri, 16 Oct 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W41)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W41.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Continued with analytic memos</li>
+<li>Further developed the scoping review methodology
+<ul>
+<li>Experimented with and settled on query terms</li>
+<li>Looked into use of ASySD and ASReview for de-duplication and screening</li>
+<li>Read up and consolidated information about AI-assisted reviewing techniques</li>
+</ul></li>
+<li>Attended the Ethical Data Initiative Stakeholder Forum</li>
+<li>Attended the Mila Tea Talk on scientific discovery</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W41.html</guid>
+  <pubDate>Fri, 09 Oct 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W40)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W40.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Attended Mila’s Community of Practice on Digital Health</li>
+<li>Followed-up regarding access to additional email inboxes</li>
+<li>Started a more structured approach to deriving a taxonomy for manually coding emails</li>
+<li>Touched-up the email annotation tool to reflect updated methodological decisions (One code per passage, no arbitrary primary/secondary, no “action” articulation)</li>
+<li>Led a discussion for Mila’s Human-Centred AI reading group: https://zackbatist.info/ai-peer-review/</li>
+<li>Continuing analytic memos on kinds of agency</li>
+<li>Gave some brief feedback on the CITF marker paper</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W40.html</guid>
+  <pubDate>Fri, 02 Oct 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W39)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W39.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Continuing with analytic memos, focusing on kinds of agency</li>
+<li>Worked through a shift to a supervised or semi-supervised approach to the emails topic modelling</li>
+<li>Audited two guest lectures during the Health Informatics class, which were primers on AI-related topics</li>
+<li>Various Mila welcome week activities (art fest, town hall, orientation)</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W39.html</guid>
+  <pubDate>Fri, 25 Sep 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Week notes (2026-W38)</title>
+  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W38.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<ul>
+<li>Continuing analytic memo on kinds of agency</li>
+<li>Inquired about using additional email data</li>
+<li>Met with a prospective collaborator to discuss error correction and potential shift to a supervised method for email annotation</li>
+<li>Participated in a reading group about AI in qualitative analysis</li>
+</ul>
+
+
+
+ ]]></description>
+  <category>week notes</category>
+  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W38.html</guid>
+  <pubDate>Fri, 18 Sep 2026 04:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Week notes (2026-W37)</title>
   <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W37.html</link>
@@ -495,151 +648,6 @@ font-style: inherit;">'codium "{memo_file_path}" --wait'</span></span></code></p
   <category>week notes</category>
   <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W25.html</guid>
   <pubDate>Fri, 19 Jun 2026 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W24)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W24.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Axial coding, reorganizing the code system, and other maintenance tasks</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W24.html</guid>
-  <pubDate>Fri, 12 Jun 2026 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W23)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W23.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Code refactoring / axial coding</li>
-<li>Participated in the INKE gathering</li>
-<li>Very briefly, some more work for BibVik</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W23.html</guid>
-  <pubDate>Fri, 05 Jun 2026 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W22)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W22.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Further work on refactoring the code system</li>
-<li>Completed another draft of the topic modelling paper</li>
-<li>Some work on my INKE presentation</li>
-<li>First BibVik meeting in a while</li>
-<li>Submitted a grant application to the Gerda Henkel Foundation</li>
-<li>Meeting regarding another MSCA bid</li>
-<li>Met with Shirin regarding the positive mentorship paper</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W22.html</guid>
-  <pubDate>Fri, 29 May 2026 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W21)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W21.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li><p>Resolved some feedback to the emails analysis paper</p></li>
-<li><p>Worked on code tree documentation and refinement</p></li>
-<li><p>Setting up and refining workflow for accessing the GPU cluster</p></li>
-<li><p>Off work hours:</p>
-<ul>
-<li>Drafting an application for the Gerda Henkel research scholarship</li>
-<li>Drafting a proposal to pursue a MSCA (pending discussion with involved parties)</li>
-<li>Work on the pipeline for developing the BibVik citation graph</li>
-</ul></li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W21.html</guid>
-  <pubDate>Fri, 22 May 2026 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W20)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W20.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li><p>Implementing some of the feedback on the emails analysis paper</p></li>
-<li><p>qc-atelier development</p></li>
-<li><p>Documenting and refactoring the code system</p></li>
-<li><p>Participated in the Dzau lecture</p></li>
-<li><p>Worked on the INKE-2026 presentation</p></li>
-<li><p>Started revamping work on BibVik over the weekend</p></li>
-<li><p>Enjoying the long weekend :)</p></li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W20.html</guid>
-  <pubDate>Fri, 15 May 2026 04:00:00 GMT</pubDate>
-</item>
-<item>
-  <title>Week notes (2026-W19)</title>
-  <link>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W19.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<ul>
-<li>Work on qc-atelier</li>
-<li>Documenting codes</li>
-<li>Updated project website</li>
-<li>Some networking and professional development activities</li>
-</ul>
-
-
-
- ]]></description>
-  <category>week notes</category>
-  <guid>https://zackbatist.info/CITF-Postdoc/posts/weeknotes-2026-W19.html</guid>
-  <pubDate>Fri, 08 May 2026 04:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
