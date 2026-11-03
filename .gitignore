@@ -60,6 +60,7 @@ _corpus_output/
 .hugo_build.lock
 /.luarc.json
 **/*.quarto_ipynb
+site_libs/
 
 # Python / virtualenv (qc submodule artifacts) #
 #################################################
