@@ -1,0 +1,13 @@
+---
+title: Week notes (2026-W45)
+date: 2026-11-06
+date-modified: today
+categories:
+  - week notes
+---
+
+- Participated in the Symposium on Model Accountability, Sustainability and Healthcare (SMASH)
+- Worked on the synthesis for my main postdoc paper
+- Looked into the use of DocuScope for the emails analysis, especially for rhetorical tagging
+- Received some additional feedback on the protocol for RDS-Review
+- Put some additional thought into my upcoming grant application
