@@ -1,0 +1,15 @@
+---
+title: Week notes (2026-W46)
+date: 2026-11-13
+date-modified: today
+categories:
+  - week notes
+---
+
+- Investigated the use of DocuScope
+- Tested and started implementing email zoning techniques
+- Wrote up strategy docs for future work on emails analysis
+- Started re-organizing the citf-emails repo
+- More significant revisions to the RDS-Review JMIR protocol
+- HCAI session
+- Work on my guest lecture for the digital curation course at McGill
