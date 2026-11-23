@@ -1,0 +1,75 @@
+---
+title: Week notes (2026-W47)
+date: 2026-11-20
+date-modified: today
+categories:
+  - week notes
+---
+
+- Gave a guest lecture for the Digital Curation course at McGill
+- Significant progress on the RDS query development, protocol, and related docs
+- Polished the citf-emails work plan
+- Working on the metascience conference abstract
+- working on the metascience conference panel
+- Initiated work on an AAAI paper about qc-atelier
+- Other tasks relating to BibVik, SSLA
+
+## Meetings
+- x INFS649
+- x CITF weekly meeting
+  - RDS query development
+  - RDS protocol
+  - emails restructuring plan
+  - looking into models to classify rhetoric, function and action
+  - housekeeping for both RDS and emails
+  - brainstorming for the metascience conference paper
+  - putting together a panel for the metascience conference
+- Melissa
+
+## TODO
+### Emails analysis
+- x Meeting with David and Ian
+- study-design
+- rhetorical-groups
+- Metascience conference abstract
+
+### Postdoc main manuscript
+- Discussion section
+
+### RDS-Review
+- Search development
+- Integrate feedback from Melissa
+- Obtain PRESS certification from a Gen Gore
+- JMIR manuscript draft
+
+### BibVik
+- Restructure the repo
+- Tidy up docs and readme
+- Restructure the analysis document
+- x Integrate correspondence analysis
+- Analysis
+  - Language by geography
+  - Distinguish between the two Norwegian languages
+  - Expand the most cited to include citations outside the network, using Google Scholar, and try to draw meaningful comparisons and the basis for solid interpretable outcomes
+- Write
+- Workshop on Open Citations & Open Scholarly Metadata 2027
+  - https://workshop-oc.github.io/
+
+### Other
+- x INFS649
+- Metascience panel
+
+#### DigiArchMaintainathon
+- Redesign website
+  - Update prior guides
+- Research Software Catalyst Fund
+  - https://researchsoftwarecatalyst.fund/apply/
+- Links
+  - https://cran.r-project.org/web/views/PackageDevelopment.html / https://github.com/cran-task-views/PackageDevelopment/
+
+## This weekend
+
+## Next week
+- BibVik
+- x Reschedule meeting with Ian
+- SSLA Catalyst grant
